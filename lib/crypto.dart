@@ -6,7 +6,6 @@
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
-
 import 'package:convert/convert.dart';
 import 'package:pinenacl/ed25519.dart' as ed25519;
 import 'package:asn1lib/asn1lib.dart' as asn1lib;
@@ -18,6 +17,7 @@ import 'package:uniris_lib_dart/key_pair.dart';
 import 'package:uniris_lib_dart/secret.dart';
 import 'package:uniris_lib_dart/utils.dart';
 import 'package:crypto/crypto.dart' as crypto;
+import 'package:flutter_sodium/flutter_sodium.dart' as sodium;
 
 Uint8List hash(content, {String algo = "sha256"}) {
   if (!(content is Uint8List) && !(content is String)) {
@@ -224,7 +224,7 @@ bool verify(sig, data, publicKey) {
     if (isHex(sig)) {
       sig = hexToUint8List(sig);
     } else {
-      throw "'signature' must be a Uint8List";
+      throw "'signature' must be an hexadecimal string";
     }
   }
 
@@ -240,7 +240,7 @@ bool verify(sig, data, publicKey) {
     if (isHex(publicKey)) {
       publicKey = hexToUint8List(publicKey);
     } else {
-      throw "'publicKey' must be a Uint8List";
+      throw "'publicKey' must be an hexadecimal string";
     }
   }
 
@@ -327,7 +327,14 @@ Uint8List ecEncrypt(data, publicKey) {
 
   switch (curveBuf[0]) {
     case 0:
-
+      try {
+        Uint8List curve25519Pub =
+            sodium.Sodium.cryptoSignEd25519PkToCurve25519(pubBuf);
+        return sodium.Sodium.cryptoBoxSeal(data, curve25519Pub);
+      } catch (e) {
+        print(e);
+      }
+      return Uint8List(0);
     case 1:
 
     case 2:
@@ -370,7 +377,7 @@ Secret deriveSecret(sharedKey) {
 * @param {String | Uint8List} data Data to encrypt
 * @param {String | Uint8List} key Symmetric key
 */
-Uint8List aesEncrypt(data, key) {
+Future<Uint8List> aesEncrypt(data, key) async {
   if (!(data is Uint8List) && !(data is String)) {
     throw "'data' must be a string or Uint8List";
   }
@@ -395,18 +402,22 @@ Uint8List aesEncrypt(data, key) {
     }
   }
 
+  Uint8List aad = Uint8List.fromList(
+      List<int>.generate(16, (i) => Random.secure().nextInt(256)));
   Uint8List iv = Uint8List.fromList(
       List<int>.generate(12, (i) => Random.secure().nextInt(256)));
 
-  final gcm = GCMBlockCipher(AESFastEngine())
-    ..init(true, ParametersWithIV(KeyParameter(key), iv));
-  final cipherText = Uint8List(data.length);
+  var encrypter = GCMBlockCipher(AESFastEngine());
+  var params = AEADParameters(KeyParameter(key), 16 * 8, iv, aad);
+  encrypter.init(true, params);
+  var cipherText = encrypter.process(data);
 
-  var offset = 0;
-  while (offset < data.length) {
-    offset += gcm.processBlock(data, offset, cipherText, offset);
-  }
-  return cipherText;
+  Uint8List result = concatUint8List([
+    encrypter.nonce,
+    encrypter.aad!,
+    Uint8List.fromList(cipherText.sublist(0, 5))
+  ]);
+  return result;
 }
 
 Uint8List aesDecrypt(cipherText, key) {
@@ -439,7 +450,7 @@ Uint8List aesDecrypt(cipherText, key) {
   Uint8List encrypted = cipherText.sublist(28, cipherText.length);
 
   final gcm = GCMBlockCipher(AESFastEngine())
-    ..init(false, ParametersWithIV(KeyParameter(key), iv));
+    ..init(false, AEADParameters(KeyParameter(key), 8 * 16, iv, tag));
 
   final paddedPlainText = Uint8List(encrypted.length);
 
@@ -447,6 +458,7 @@ Uint8List aesDecrypt(cipherText, key) {
   while (offset < encrypted.length) {
     offset += gcm.processBlock(encrypted, offset, paddedPlainText, offset);
   }
+
   return paddedPlainText;
 }
 
