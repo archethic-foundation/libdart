@@ -2,10 +2,8 @@
 //
 //     final transactionBuilder = transactionBuilderFromJson(jsonString);
 
-import 'dart:convert';
-
-import 'dart:typed_data';
-
+import 'dart:convert' show json, utf8, jsonEncode;
+import 'dart:typed_data' show Uint8List;
 import 'package:uniris_lib_dart/key_pair.dart';
 import 'package:uniris_lib_dart/utils.dart';
 import 'package:uniris_lib_dart/crypto.dart' as crypto;

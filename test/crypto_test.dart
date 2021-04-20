@@ -71,17 +71,17 @@ void main() {
           'should sign a message with an ed25519 key and create valid signature',
           () {
         KeyPair keypair = crypto.deriveKeyPair("seed", 0, curve: "ed25519");
-        var sig = crypto.sign("hello", keypair.privateKey);
+        Uint8List sig = crypto.sign("hello", keypair.privateKey);
         expect(crypto.verify(sig, "hello", keypair.publicKey), true);
       });
       test('should sign a message with an P256 key', () {
         KeyPair keypair = crypto.deriveKeyPair("seed", 0, curve: "P256");
-        var sig = crypto.sign("hello", keypair.privateKey);
+        Uint8List sig = crypto.sign("hello", keypair.privateKey);
         expect(crypto.verify(sig, "hello", keypair.publicKey), true);
       });
       test('should sign a message with an secp256k1 key', () {
         KeyPair keypair = crypto.deriveKeyPair("seed", 0, curve: "secp256k1");
-        var sig = crypto.sign("hello", keypair.privateKey);
+        Uint8List sig = crypto.sign("hello", keypair.privateKey);
         expect(crypto.verify(sig, "hello", keypair.publicKey), true);
       });
     });
@@ -146,6 +146,17 @@ void main() {
         Uint8List ephemeralPubKey = ciphertext.sublist(0, 65);
         Uint8List tag = ciphertext.sublist(65, 65 + 16);
         Uint8List encrypted = ciphertext.sublist(65 + 16, ciphertext.length);
+      });
+
+      test('should encrypt a data using a secp256k1 public key', () {
+        KeyPair keypair = crypto.deriveKeyPair("seed", 0, curve: "secp256k1");
+        Uint8List ciphertext = crypto.ecEncrypt("hello", keypair.publicKey);
+
+        Uint8List ephemeralPubKey = ciphertext.sublist(0, 65);
+        Uint8List tag = ciphertext.sublist(65, 65 + 16);
+        Uint8List encrypted = ciphertext.sublist(65 + 16, ciphertext.length);
+
+        
       });
     });
 

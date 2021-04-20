@@ -3,21 +3,18 @@
 * @param {String | Uint8List} content Data to hash (string or buffer)
 * @param {String} algo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
 */
-import 'dart:convert';
-import 'dart:math';
-import 'dart:typed_data';
-import 'package:convert/convert.dart';
+import 'dart:convert' show utf8;
+import 'dart:math' show Random;
+import 'dart:typed_data' show Uint8List;
+import 'package:convert/convert.dart' show hex;
 import 'package:pinenacl/ed25519.dart' as ed25519;
-import 'package:asn1lib/asn1lib.dart' as asn1lib;
-import 'package:pointycastle/ecc/curves/prime256v1.dart';
-import 'package:pointycastle/ecc/curves/secp256k1.dart';
-import 'package:pointycastle/export.dart';
-import 'package:pointycastle/pointycastle.dart';
+import 'package:asn1lib/asn1lib.dart' as asn1lib show ASN1Sequence, ASN1Integer;
+import 'package:pointycastle/export.dart' show Digest, ECCurve_prime256v1, AEADParameters, AESFastEngine, KeyParameter, GCMBlockCipher, PublicKeyParameter, ECPublicKey, ECPrivateKey, ECCurve_secp256k1, HMac, PrivateKeyParameter, ECDSASigner, ECSignature, ECDomainParameters, SHA256Digest;
 import 'package:uniris_lib_dart/key_pair.dart';
 import 'package:uniris_lib_dart/secret.dart';
 import 'package:uniris_lib_dart/utils.dart';
-import 'package:crypto/crypto.dart' as crypto;
-import 'package:flutter_sodium/flutter_sodium.dart' as sodium;
+import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
+import 'package:flutter_sodium/flutter_sodium.dart' as sodium show Sodium;
 
 Uint8List hash(content, {String algo = "sha256"}) {
   if (!(content is Uint8List) && !(content is String)) {
@@ -262,9 +259,7 @@ bool verify(sig, data, publicKey) {
 
       BigInt r = decodeBigInt(sig.sublist(0, 32));
       BigInt s = decodeBigInt(sig.sublist(32, 64));
-      ECPoint? Q = curve.curve.decodePoint(pubBuf);
-      final digest = SHA256Digest();
-      final signer = ECDSASigner(digest, HMac(digest, 64));
+      final signer = ECDSASigner(null, HMac(sha256, 64));
       signer.init(
           false,
           new PublicKeyParameter(
@@ -279,8 +274,7 @@ bool verify(sig, data, publicKey) {
 
       BigInt r = decodeBigInt(sig.sublist(0, 32));
       BigInt s = decodeBigInt(sig.sublist(32, 64));
-      final digest = SHA256Digest();
-      final signer = ECDSASigner(digest, HMac(digest, 64));
+      final signer = ECDSASigner(null, HMac(sha256, 64));
       signer.init(
           false,
           new PublicKeyParameter(
