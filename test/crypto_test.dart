@@ -1,4 +1,4 @@
-library test.crypto;
+library test.crypto_test;
 
 import 'dart:convert';
 import 'dart:math';

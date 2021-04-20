@@ -1,4 +1,4 @@
-library test.utils;
+library test.transaction_builder_test;
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -62,10 +62,10 @@ void main() {
             10.03);
         expect(tx.data!.ledger!.uco!.transfers!.length, 1);
         expect(
-            tx.data!.ledger!.uco!.transfers![0]['to'],
+            tx.data!.ledger!.uco!.transfers![0].to,
             hexToUint8List(
                 "00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646"));
-        expect(tx.data!.ledger!.uco!.transfers![0]['amount'], 10.03);
+        expect(tx.data!.ledger!.uco!.transfers![0].amount, 10.03);
       });
     });
     group('addNFTTransfer', () {
@@ -76,12 +76,12 @@ void main() {
             "00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646");
         expect(tx.data!.ledger!.nft!.transfers!.length, 1);
         expect(
-            tx.data!.ledger!.nft!.transfers![0]['to'],
+            tx.data!.ledger!.nft!.transfers![0].to,
             hexToUint8List(
                 "00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646"));
-        expect(tx.data!.ledger!.nft!.transfers![0]['amount'], 10.03);
+        expect(tx.data!.ledger!.nft!.transfers![0].amount, 10.03);
         expect(
-            tx.data!.ledger!.nft!.transfers![0]['nftAddress'],
+            tx.data!.ledger!.nft!.transfers![0].nft,
             hexToUint8List(
                 "00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646"));
       });
@@ -123,9 +123,9 @@ void main() {
         Uint8List expectedBinary = concatUint8List([
           tx.address!,
           Uint8List.fromList([2]),
-          encodeInt32(tx.timestamp!),
+          encodeBigInt(BigInt.from(tx.timestamp!)),
           //Code size
-          encodeInt32(347),
+          encodeInt32(232),
           Uint8List.fromList(utf8.encode(
               'condition inherit: next_transaction.uco_transfered == 0.020' +
                   '  actions triggered by: transaction do' +
@@ -169,7 +169,8 @@ void main() {
           hexToUint8List(
               "00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88")
         ]);
-
+        print("payload       : " + payload.toString());
+        print("expectedBinary: " + expectedBinary.toString());
         expect(payload, expectedBinary);
       });
     });
@@ -232,9 +233,9 @@ void main() {
         Uint8List expectedBinary = concatUint8List([
           tx.address!,
           Uint8List.fromList([2]),
-          encodeInt32(tx.timestamp!),
+          encodeBigInt(BigInt.from(tx.timestamp!)),
           //Code size
-          encodeInt32(347),
+          encodeInt32(232),
           Uint8List.fromList(utf8.encode(
               'condition inherit: next_transaction.uco_transfered == 0.020' +
                   '  actions triggered by: transaction do' +
@@ -315,24 +316,25 @@ void main() {
             .build("seed", 0)
             .originSign(originKeypair.privateKey);
 
-        TransactionBuilder parsedTx = tx;
+        var parsedTx = json.decode(tx.toJSON());
+
         Uint8List previousSig = crypto.sign(
             tx.previousSignaturePayload(), transactionKeyPair.privateKey);
         Uint8List originSig =
             crypto.sign(tx.originSignaturePayload(), originKeypair.privateKey);
 
-        expect(parsedTx.address,
+        expect(parsedTx['address'],
             uint8ListToHex(crypto.hash(nextTransactionKeyPair.publicKey)));
-        expect(parsedTx.type, "transfer");
-        expect(parsedTx.previousPublicKey,
+        expect(parsedTx['type'], "transfer");
+        expect(parsedTx['previousPublicKey'],
             uint8ListToHex(transactionKeyPair.publicKey));
-        expect(parsedTx.previousSignature, uint8ListToHex(previousSig));
-        expect(parsedTx.originSignature, uint8ListToHex(originSig));
+        expect(parsedTx['previousSignature'], uint8ListToHex(previousSig));
+        expect(parsedTx['originSignature'], uint8ListToHex(originSig));
         expect(
-            parsedTx.data!.keys!.authorizedKeys![
+            parsedTx['data']['keys']['authorizedKeys'][
                 "00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646"],
             "00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88");
-        expect(parsedTx.data!.ledger!.uco!.transfers![0], {
+        expect(parsedTx['data']['ledger']['uco']['transfers'][0], {
           'to':
               "00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646",
           'amount': 0.2193

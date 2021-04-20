@@ -1,4 +1,4 @@
-library test.utils;
+library test.utils_test;
 
 import 'dart:typed_data';
 

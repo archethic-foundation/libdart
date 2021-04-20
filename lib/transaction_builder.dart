@@ -184,7 +184,10 @@ class TransactionBuilder {
         throw "'to' must be an hexadecimal string";
       }
     }
-    this.data!.ledger!.uco!.transfers!.add({'to': to, 'amount': amount});
+    UcoTransfer ucoTransfer = new UcoTransfer();
+    ucoTransfer.to = to;
+    ucoTransfer.amount = amount;
+    this.data!.ledger!.uco!.transfers!.add(ucoTransfer);
     return this;
   }
 
@@ -218,12 +221,11 @@ class TransactionBuilder {
         throw "'nftAddress' must be an hexadecimal string";
       }
     }
-    this
-        .data!
-        .ledger!
-        .nft!
-        .transfers!
-        .add({'to': to, 'amount': amount, 'nftAddress': nftAddress});
+    NftTransfer nftTransfer = new NftTransfer();
+    nftTransfer.to = to;
+    nftTransfer.amount = amount;
+    nftTransfer.nft = nftAddress;
+    this.data!.ledger!.nft!.transfers!.add(nftTransfer);
     return this;
   }
 
@@ -243,7 +245,7 @@ class TransactionBuilder {
         throw "'to' must be an hexadecimal string";
       }
     }
-    this.data!.recipients = [to];
+    this.data!.recipients!.add(to);
     return this;
   }
 
@@ -262,7 +264,7 @@ class TransactionBuilder {
 
     this.address = address;
     this.previousPublicKey = keypair.publicKey;
-    this.timestamp = new DateTime.now().millisecond;
+    this.timestamp = new DateTime.now().millisecondsSinceEpoch;
     this.previousSignature =
         crypto.sign(this.previousSignaturePayload(), keypair.privateKey);
 
@@ -295,12 +297,12 @@ class TransactionBuilder {
    * Generate the payload for the previous signature by encoding address, timestamp, type and data
    */
   Uint8List previousSignaturePayload() {
-    Uint8List bufTimestamp = encodeInt32(this.timestamp!);
+    Uint8List bufTimestamp = encodeBigInt(BigInt.from(this.timestamp!));
     Uint8List bufCodeSize = encodeInt32(this.data!.code!.length);
     Uint8List bufContentSize = encodeInt32(this.data!.content!.length);
     Uint8List bufSecretSize = encodeInt32(this.data!.keys!.secret!.length);
 
-    Uint8List? authorizedKeysBuffers;
+    Uint8List? authorizedKeysBuffers = new Uint8List(0);
     this.data!.keys!.authorizedKeys!.forEach((publicKey, authorizedKey) {
       authorizedKeysBuffers = concatUint8List([
         hexToUint8List(publicKey),
@@ -308,16 +310,22 @@ class TransactionBuilder {
       ]);
     });
 
-    Uint8List? ucoTransfersBuffers = concatUint8List([
-      this.data!.ledger!.uco!.transfers![0][0],
-      encodeFloat64(this.data!.ledger!.uco!.transfers![0][1])
-    ]);
+    Uint8List? ucoTransfersBuffers = new Uint8List(0);
+    if (this.data!.ledger!.uco!.transfers!.length > 0) {
+      ucoTransfersBuffers = concatUint8List([
+        this.data!.ledger!.uco!.transfers![0].to!,
+        encodeFloat64(this.data!.ledger!.uco!.transfers![0].amount!)
+      ]);
+    }
 
-    Uint8List? nftTransfersBuffers;
-    this.data!.ledger!.nft!.transfers!.map((transfer) {
-      nftTransfersBuffers = concatUint8List(
-          [transfer.nft, transfer.to, encodeFloat64(transfer.amount)]);
-    });
+    Uint8List? nftTransfersBuffers = new Uint8List(0);
+    if (this.data!.ledger!.nft!.transfers!.length > 0) {
+      nftTransfersBuffers = concatUint8List([
+        this.data!.ledger!.nft!.transfers![0].nft!,
+        this.data!.ledger!.nft!.transfers![0].to!,
+        encodeFloat64(this.data!.ledger!.nft!.transfers![0].amount!)
+      ]);
+    }
 
     return concatUint8List([
       this.address!,
@@ -332,9 +340,9 @@ class TransactionBuilder {
       Uint8List.fromList([this.data!.keys!.authorizedKeys!.length]),
       authorizedKeysBuffers!,
       Uint8List.fromList([this.data!.ledger!.uco!.transfers!.length]),
-      ucoTransfersBuffers!,
+      ucoTransfersBuffers,
       Uint8List.fromList([this.data!.ledger!.nft!.transfers!.length]),
-      nftTransfersBuffers!,
+      nftTransfersBuffers,
       Uint8List.fromList([this.data!.recipients!.length]),
       concatUint8List(this.data!.recipients!)
     ]);
@@ -348,6 +356,53 @@ class TransactionBuilder {
       Uint8List.fromList([this.previousSignature!.length]),
       this.previousSignature!,
     ]);
+  }
+
+  /*
+  * Convert the transaction in JSON
+  */
+  toJSON() {
+    String toto = jsonEncode({
+      'address': uint8ListToHex(this.address!),
+      'type': this.type,
+      'timestamp': this.timestamp,
+      'data': {
+        'content': uint8ListToHex(this.data!.content!),
+        'code': utf8.decode(this.data!.code!),
+        'keys': {
+          'secret': uint8ListToHex(this.data!.keys!.secret!),
+          'authorizedKeys': hexAuthorizedKeys(this.data!.keys!.authorizedKeys!)
+        },
+        'ledger': {
+          'uco': {
+            'transfers':
+                List<dynamic>.from(this.data!.ledger!.uco!.transfers!.map((x) {
+              return {
+                'to': uint8ListToHex(x.to!),
+                'amount': x.amount,
+              };
+            }))
+          },
+          'nft': {
+            'transfers':
+                List<dynamic>.from(this.data!.ledger!.nft!.transfers!.map((x) {
+              return {
+                'to': uint8ListToHex(x.to!),
+                'amount': x.amount,
+                'nft': uint8ListToHex(x.nft!)
+              };
+            }))
+          },
+        },
+        'recipients': List<dynamic>.from(this.data!.recipients!.map((x) => x)),
+      },
+      'previousPublicKey': uint8ListToHex(this.previousPublicKey!),
+      'previousSignature': uint8ListToHex(this.previousSignature!),
+      'originSignature': this.originSignature == null
+          ? this.originSignature
+          : uint8ListToHex(this.originSignature!)
+    });
+    return toto;
   }
 }
 
@@ -430,14 +485,39 @@ class Nft {
     this.transfers,
   });
 
-  List<dynamic>? transfers;
+  List<NftTransfer>? transfers;
 
   factory Nft.fromJson(Map<String, dynamic> json) => Nft(
-        transfers: List<dynamic>.from(json["transfers"].map((x) => x)),
+        transfers: List<NftTransfer>.from(
+            json["transfers"].map((x) => NftTransfer.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "transfers": List<dynamic>.from(transfers!.map((x) => x)),
+        "transfers": List<dynamic>.from(transfers!.map((x) => x.toJson())),
+      };
+}
+
+class NftTransfer {
+  NftTransfer({
+    this.to,
+    this.amount,
+    this.nft,
+  });
+
+  Uint8List? to;
+  double? amount;
+  Uint8List? nft;
+
+  factory NftTransfer.fromJson(Map<String, dynamic> json) => NftTransfer(
+        to: json["to"],
+        amount: json["amount"].toDouble(),
+        nft: json["nft"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "to": to,
+        "amount": amount,
+        "nft": nft,
       };
 }
 
@@ -446,13 +526,44 @@ class Uco {
     this.transfers,
   });
 
-  List<dynamic>? transfers;
+  List<UcoTransfer>? transfers;
 
   factory Uco.fromJson(Map<String, dynamic> json) => Uco(
-        transfers: List<dynamic>.from(json["transfers"].map((x) => x)),
+        transfers: List<UcoTransfer>.from(
+            json["transfers"].map((x) => UcoTransfer.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "transfers": List<dynamic>.from(transfers!.map((x) => x)),
+        "transfers": List<dynamic>.from(transfers!.map((x) => x.toJson())),
       };
+}
+
+class UcoTransfer {
+  UcoTransfer({
+    this.to,
+    this.amount,
+  });
+
+  Uint8List? to;
+  double? amount;
+
+  factory UcoTransfer.fromJson(Map<String, dynamic> json) => UcoTransfer(
+        to: json["to"],
+        amount: json["amount"].toDouble(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "to": to,
+        "amount": amount,
+      };
+}
+
+Map<dynamic, dynamic> hexAuthorizedKeys(Map<dynamic, dynamic> authorizedKeys) {
+  Map<dynamic, dynamic> authorizedKeysHex = {};
+  for (String publicKey in authorizedKeys.keys) {
+    authorizedKeysHex.putIfAbsent(
+        publicKey, () => uint8ListToHex(authorizedKeys[publicKey]));
+  }
+
+  return authorizedKeysHex;
 }
