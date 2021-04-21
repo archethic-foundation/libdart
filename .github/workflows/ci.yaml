@@ -12,13 +12,11 @@ jobs:
   workflow:
     runs-on: ubuntu-latest
     steps:
+      - name: Set up build environment
+        run: |
+          apt-get update && apt-get install -y build-essential
+
       - uses: actions/checkout@v2
-
-      - name: Update packages list
-        run: sudo apt-get update
-
-      - name: Install dependencies
-        run: sudo apt-get install -y build-essential libtool autoconf automake
 
       - name: configure
         run: ./configure --disable-debug --prefix=$PWD/.libsodium-build
