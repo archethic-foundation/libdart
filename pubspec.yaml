@@ -3,7 +3,7 @@ description: Uniris dart library for Flutter
 author: redDwarf <rddwarf03@gmail.com>
 homepage: https://github.com/redDwarf03/uniris_lib_dart
 
-version: 1.0.0+1
+version: 0.0.1+1
 
 environment:
   sdk: '>=2.12.0 <3.0.0'

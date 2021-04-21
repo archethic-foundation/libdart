@@ -371,7 +371,7 @@ Secret deriveSecret(sharedKey) {
 * @param {String | Uint8List} data Data to encrypt
 * @param {String | Uint8List} key Symmetric key
 */
-Future<Uint8List> aesEncrypt(data, key) async {
+Uint8List aesEncrypt(data, key) {
   if (!(data is Uint8List) && !(data is String)) {
     throw "'data' must be a string or Uint8List";
   }
@@ -439,6 +439,8 @@ Uint8List aesDecrypt(cipherText, key) {
     }
   }
 
+  // TODO
+  /*
   Uint8List iv = cipherText.sublist(0, 12);
   Uint8List tag = cipherText.sublist(12, 12 + 16);
   Uint8List encrypted = cipherText.sublist(28, cipherText.length);
@@ -452,8 +454,8 @@ Uint8List aesDecrypt(cipherText, key) {
   while (offset < encrypted.length) {
     offset += gcm.processBlock(encrypted, offset, paddedPlainText, offset);
   }
-
-  return paddedPlainText;
+  */
+  return Uint8List(0);
 }
 
 Uint8List derivePrivateKey(String seed, int index) {
