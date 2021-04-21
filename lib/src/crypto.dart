@@ -27,9 +27,9 @@ import 'package:pointycastle/export.dart'
         ECSignature,
         ECDomainParameters,
         SHA256Digest;
-import 'package:uniris_lib_dart/key_pair.dart';
-import 'package:uniris_lib_dart/secret.dart';
-import 'package:uniris_lib_dart/utils.dart';
+import 'package:uniris_lib_dart/src/key_pair.dart';
+import 'package:uniris_lib_dart/src/secret.dart';
+import 'package:uniris_lib_dart/src/utils.dart';
 import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
 import 'package:flutter_sodium/flutter_sodium.dart' as sodium show Sodium;
 

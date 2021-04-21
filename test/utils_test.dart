@@ -3,7 +3,7 @@ library test.utils_test;
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:uniris_lib_dart/utils.dart';
+import 'package:uniris_lib_dart/src/utils.dart';
 import 'package:pointycastle/src/utils.dart' as pcUtils;
 
 void main() {

@@ -2,7 +2,7 @@ name: uniris_lib_dart
 description: Uniris dart library for Flutter based on Official Uniris Javascript library for Node and Browser
 homepage: https://github.com/redDwarf03/uniris_lib_dart
 
-version: 0.0.2+2
+version: 0.0.3+3
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
