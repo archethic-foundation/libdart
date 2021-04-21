@@ -1,7 +1,4 @@
-[![CI](https://github.com/redDwarf03/uniris_lib_dart/actions/workflows/ci.yaml/badge.svg)](https://github.com/redDwarf03/uniris_lib_dart/actions/workflows/ci.yaml)
-
-
-[![Pub](https://img.shields.io/pub/v/uniris_lib_dart.svg)](https://pub.dartlang.org/packages/uniris_lib_dart)
+[![CI](https://github.com/redDwarf03/uniris_lib_dart/actions/workflows/ci.yaml/badge.svg)](https://github.com/redDwarf03/uniris_lib_dart/actions/workflows/ci.yaml) [![Pub](https://img.shields.io/pub/v/uniris_lib_dart.svg)](https://pub.dartlang.org/packages/uniris_lib_dart)
 
 # uniris_lib_dart
 
@@ -55,17 +52,127 @@ It supports the Uniris Cryptography rules which are:
   ### Cryptographic functions
 
   #### deriveKeyPair(seed, index, curve)
-
   It creates a new keypair into hexadecimal format
 
   - `seed` is hexadecimal encoding representing the transaction chain seed to be able to derive and generate the keys
   - `index` is the number of transactions in the chain, to generate the actual and the next public key (see below the cryptography section)
-  - `curve` is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1")
+  - `curve` (optional, "ed25519" by default) is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1")
 
   ```dart
   import 'package:uniris_lib_dart/crypto.dart' as crypto;
   import 'package:uniris_lib_dart/key_pair.dart';
+  import 'package:uniris_lib_dart/utils.dart';
 
   KeyPair keypair = crypto.deriveKeyPair("mysuperpassphraseorseed", 0);
-  // keypair.publicKey => 00a6e144cdd34c608f88cc5a92d0962e7cfe9843b0bb62fefbdb60eb41814b7c92
+  // uint8ListToHex(keypair.publicKey) => 00a6e144cdd34c608f88cc5a92d0962e7cfe9843b0bb62fefbdb60eb41814b7c92
   ```
+
+
+  #### ecEncrypt(data, publicKey)
+  Perform an ECIES encryption using a public key and a data
+  
+  - `data` Data to encrypt
+  - `publicKey` Public key to derive a shared secret and for whom the content must be encrypted
+  
+  ```dart
+  import 'package:uniris_lib_dart/crypto.dart' as crypto;
+  import 'package:uniris_lib_dart/key_pair.dart';
+  import 'package:uniris_lib_dart/utils.dart';
+
+  Uint8List cipher = crypto.ecEncrypt("dataToEncrypt" "00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646");
+  ```
+
+  #### aesEncrypt(data, publicKey)
+  Don't available for the moment... soon...
+  
+  ### TransactionBuilding
+  
+  `new TransactionBuilder(type)` creates a new instance of the transaction builder
+  
+  `type` is the string defining the type of transaction to generate ("keychain", "identity", "transfer", "hosting", "code_proposal", "code_approval", "nft")
+  
+  The transaction builder instance contains the following methods:
+  
+  #### setCode(code)
+  Add the code in the `data.code` section of the transaction
+  `code` is a string defining the smart contract
+  
+  #### setContent(content)
+  Add the content in the `data.content` section of the transaction
+  `content` is a string defining the smart contract
+  
+  #### setSecret(secret)
+  Add the secret in the `data.keys.secret` section of the transaction
+  `secret` is the hexadecimal encoding or Uint8List representing the encrypted secret
+  
+  #### addAuthorizedKey(publicKey, encryptedSecretKey)
+  Add an authorized public key to decrypt the secret to the `data.keys.authorizedKeys` section of the transaction
+  - `publicKey` is the hexadecimal encoding or Uint8List representing the public key
+  - `encryptedSecretKey` is the hexadecimal encoding or Uint8List representing the secret key encrypted with the public key (see `ecEncrypt`)
+  
+  #### addUCOTransfer(to, amount)
+  Add a UCO transfer to the `data.ledger.uco.transfers` section of the transaction
+  - `to` is hexadecimal encoding or Uint8List representing the transaction address (recipient) to receive the funds
+  - `amount` is the number of uco to send (double)
+
+  #### addNFTTransfer(to, amount, nft_address)
+  Add a NFT transfer to the `data.ledger.nft.transfers` section of the transaction
+  - `to` is hexadecimal encoding or Uint8List representing the transaction address (recipient) to receive the funds
+  - `amount` is the number of uco to send (double)
+  - `nft_address` is hexadecimal encoding or Uint8List representing the NFT address to spend
+
+  #### addRecipient(to)
+  Add a recipient (for non UCO transfers, ie. smart contract interaction) to the `data.recipient` section of the transaction
+  - `to` is hexadecimal encoding or Uint8List representing the transaction address (recipient)
+  
+  #### build(seed, index, curve, hashAlgo)
+  Generate `address`, `timestamp`, `previousPublicKey`, `previousSignature`, `originSignature` of the transaction and 
+  serialize it using a custom binary protocol.
+  
+  - `seed` is hexadecimal encoding or Uint8List representing the transaction chain seed to be able to derive and generate the keys
+  - `index` is the number of transactions in the chain, to generate the actual and the next public key (see below the cryptography section)
+  - `curve` is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1")
+  - `hashAlgo` is the hash algorithm to use to generate the address (can be "sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
+  
+  ```dart
+  import 'package:uniris_lib_dart/transaction_builder.dart';
+
+  var tx = new TransactionBuilder("transfer")
+    .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
+    .build("mysuperpassphraseorseed", 0) 
+  ```
+
+  #### originSign(privateKey)
+  Sign the transaction with an origin device private key
+
+   - `privateKey` is hexadecimal encoding or Uint8List representing the private key to generate the origin signature to able to perform the ProofOfWork and authorize the transaction
+
+  ```dart
+  import 'package:uniris_lib_dart/transaction_builder.dart';
+
+  var tx = new TransactionBuilder("transfer")
+    .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
+    .build("mysuperpassphraseorseed", 0) 
+    .originSign(originPrivateKey)
+
+  ```
+
+  #### toJSON()
+  Export the transaction generated into JSON
+
+   ```dart
+  import 'package:uniris_lib_dart/transaction_builder.dart';
+
+  var tx = new TransactionBuilder("transfer")
+    .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
+    .build("mysuperpassphraseorseed", 0) 
+    .toJSON()
+  ```
+  
+
+## Running the tests
+
+```bash
+flutter test
+```
+
