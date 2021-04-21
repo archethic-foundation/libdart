@@ -26,11 +26,6 @@ jobs:
       - name: install libsodium
         run: cp libsodium-stable/src/libsodium/.libs/libsodium.so ./lib/
 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: build-linux-x64
-          path: .libsodium-build/lib/libsodium.so
-
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
