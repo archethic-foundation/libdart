@@ -1,5 +1,8 @@
 [![CI](https://github.com/redDwarf03/uniris_lib_dart/actions/workflows/ci.yaml/badge.svg)](https://github.com/redDwarf03/uniris_lib_dart/actions/workflows/ci.yaml)
 
+
+[![Pub](https://img.shields.io/pub/v/uniris_lib_dart.svg)](https://pub.dartlang.org/packages/uniris_lib_dart)
+
 # uniris_lib_dart
 
 Uniris dart library for Flutter based on [Official Uniris Javascript library for Node and Browser](https://github.com/UNIRIS/uniris-libjs)
@@ -47,4 +50,22 @@ It supports the Uniris Cryptography rules which are:
                          (256 bytes) Master entropy
 
     ```  
-   
+## API
+
+  ### Cryptographic functions
+
+  #### deriveKeyPair(seed, index, curve)
+
+  It creates a new keypair into hexadecimal format
+
+  - `seed` is hexadecimal encoding representing the transaction chain seed to be able to derive and generate the keys
+  - `index` is the number of transactions in the chain, to generate the actual and the next public key (see below the cryptography section)
+  - `curve` is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1")
+
+  ```dart
+  import 'package:uniris_lib_dart/crypto.dart' as crypto;
+  import 'package:uniris_lib_dart/key_pair.dart';
+
+  KeyPair keypair = crypto.deriveKeyPair("mysuperpassphraseorseed", 0);
+  // keypair.publicKey => 00a6e144cdd34c608f88cc5a92d0962e7cfe9843b0bb62fefbdb60eb41814b7c92
+  ```
