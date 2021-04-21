@@ -26,9 +26,12 @@ dynamic getTransactionIndex(String address, String endpoint) async {
     'Accept': 'application/json',
   };
 
-  http.Response responseHttp = await http.post(
-      Uri.parse(endpoint + "/api"),
-      body: json.encode("{query: 'query {lastTransaction(address: "+address+") {chainLength}}'").toString(),
+  http.Response responseHttp = await http.post(Uri.parse(endpoint + "/api"),
+      body: json
+          .encode("{query: 'query {lastTransaction(address: " +
+              address +
+              ") {chainLength}}'")
+          .toString(),
       headers: requestHeaders);
 
   return json.decode(responseHttp.body);
@@ -40,9 +43,10 @@ dynamic getStorageNoncePublicKey(String endpoint) async {
     'Accept': 'application/json',
   };
 
-  http.Response responseHttp = await http.post(
-      Uri.parse(endpoint + "/api"),
-      body: json.encode("{query: 'query {sharedSecrets{storageNoncePublicKey}}'").toString(),
+  http.Response responseHttp = await http.post(Uri.parse(endpoint + "/api"),
+      body: json
+          .encode("{query: 'query {sharedSecrets{storageNoncePublicKey}}'")
+          .toString(),
       headers: requestHeaders);
 
   return json.decode(responseHttp.body);

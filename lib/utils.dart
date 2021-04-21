@@ -80,4 +80,3 @@ Uint8List encodeFloat64(double number) {
   byteConvert.setFloat64(0, number);
   return byteConvert.buffer.asUint8List();
 }
-

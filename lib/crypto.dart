@@ -9,7 +9,24 @@ import 'dart:typed_data' show Uint8List;
 import 'package:convert/convert.dart' show hex;
 import 'package:pinenacl/ed25519.dart' as ed25519;
 import 'package:asn1lib/asn1lib.dart' as asn1lib show ASN1Sequence, ASN1Integer;
-import 'package:pointycastle/export.dart' show Digest, ECCurve_prime256v1, AEADParameters, AESFastEngine, KeyParameter, GCMBlockCipher, PublicKeyParameter, ECPublicKey, ECPrivateKey, ECCurve_secp256k1, HMac, PrivateKeyParameter, ECDSASigner, ECSignature, ECDomainParameters, SHA256Digest;
+import 'package:pointycastle/export.dart'
+    show
+        Digest,
+        ECCurve_prime256v1,
+        AEADParameters,
+        AESFastEngine,
+        KeyParameter,
+        GCMBlockCipher,
+        PublicKeyParameter,
+        ECPublicKey,
+        ECPrivateKey,
+        ECCurve_secp256k1,
+        HMac,
+        PrivateKeyParameter,
+        ECDSASigner,
+        ECSignature,
+        ECDomainParameters,
+        SHA256Digest;
 import 'package:uniris_lib_dart/key_pair.dart';
 import 'package:uniris_lib_dart/secret.dart';
 import 'package:uniris_lib_dart/utils.dart';
