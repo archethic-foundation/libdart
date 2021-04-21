@@ -12,14 +12,11 @@ jobs:
   workflow:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up build environment
-        run: |
-          apt-get update
-
       - uses: actions/checkout@v2
 
+
       - name: configure
-        run: ./configure --disable-debug --prefix=$PWD/.libsodium-build
+        run: curl -O https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
       
       - name: make
         run: make
