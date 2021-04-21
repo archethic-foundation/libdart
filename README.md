@@ -1,3 +1,5 @@
+[![CI](https://github.com/redDwarf03/uniris_lib_dart/actions/workflows/ci.yaml/badge.svg)](https://github.com/redDwarf03/uniris_lib_dart/actions/workflows/ci.yaml)
+
 # uniris_lib_dart
 
 Uniris dart library for Flutter based on [Official Uniris Javascript library for Node and Browser](https://github.com/UNIRIS/uniris-libjs)
