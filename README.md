@@ -169,6 +169,18 @@ It supports the Uniris Cryptography rules which are:
     .toJSON()
   ```
   
+  ### Remote Endpoint calls
+  #### sendTransaction(tx, endpoint)
+  Dispatch the transaction to a node by serializing a GraphQL request
+  Don't available for the moment... soon...
+
+  #### getTransactionIndex(address, endpoint)
+  Query a node to find the length of the chain to retrieve the transaction index
+  Don't available for the moment... soon...
+
+  #### getStorageNoncePublicKey(endpoint)
+  Query a node to find the public key of the shared storage node key
+  Don't available for the moment... soon...
 
 ## Running the tests
 
