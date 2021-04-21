@@ -24,7 +24,7 @@ jobs:
         run: cd libsodium-stable && ./configure && make
 
       - name: install libsodium
-        run: cp libsodium-stable/src/libsodium/.libs/libsodium.so ./lib/
+        run: sudo make install
 
       - uses: actions/setup-java@v1
         with:
