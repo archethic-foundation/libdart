@@ -14,22 +14,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-
-      - name: configure
+      - name: configure libsodium
         run: curl -O https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
-      
-      - name: make
-        run: make
-      
-      - name: make check
-        run: make check
-      
-      - name: make install
-        run: make install
-      
-      - name: strip
-        run: strip --strip-all .libsodium-build/lib/libsodium.so
-      
+
+      - name: extract libsodium
+        run: tar -xvzf LATEST.tar.gz
+
+      - name: configure and make libsodium
+        run: cd libsodium-stable && ./configure && make
+
+      - name: install libsodium
+        run: cp libsodium-stable/src/libsodium/.libs/libsodium.so ./lib/
+
       - uses: actions/upload-artifact@v1
         with:
           name: build-linux-x64
