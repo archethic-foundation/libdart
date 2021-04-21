@@ -1,7 +1,7 @@
 Changelog
 =========
 
-#### Version 0.0.2+2 (2021-04-21) 
+#### Version 0.0.3+3 (2021-04-21) 
 * Dartdoc
 * Change project structure
 
