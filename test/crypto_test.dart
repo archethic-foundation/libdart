@@ -7,7 +7,7 @@ import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pointycastle/export.dart';
 import 'package:uniris_lib_dart/src/crypto.dart' as crypto;
-import 'package:uniris_lib_dart/src/key_pair.dart';
+import 'package:uniris_lib_dart/src/model/key_pair.dart';
 import 'package:uniris_lib_dart/src/utils.dart';
 import 'package:flutter_sodium/flutter_sodium.dart' as sodium;
 

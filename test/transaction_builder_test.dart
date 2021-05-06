@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:uniris_lib_dart/src/key_pair.dart';
+import 'package:uniris_lib_dart/src/model/key_pair.dart';
 import 'package:uniris_lib_dart/src/transaction_builder.dart';
 import 'package:uniris_lib_dart/src/utils.dart';
 import 'package:uniris_lib_dart/src/crypto.dart' as crypto;

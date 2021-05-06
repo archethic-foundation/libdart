@@ -4,7 +4,7 @@
 
 import 'dart:convert' show json, utf8, jsonEncode;
 import 'dart:typed_data' show Uint8List;
-import 'package:uniris_lib_dart/src/key_pair.dart';
+import 'package:uniris_lib_dart/src/model/key_pair.dart';
 import 'package:uniris_lib_dart/src/utils.dart';
 import 'package:uniris_lib_dart/src/crypto.dart' as crypto;
 
@@ -360,7 +360,7 @@ class TransactionBuilder {
   * Convert the transaction in JSON
   */
   toJSON() {
-    String toto = jsonEncode({
+    String _json = jsonEncode({
       'address': uint8ListToHex(this.address!),
       'type': this.type,
       'timestamp': this.timestamp,
@@ -400,7 +400,7 @@ class TransactionBuilder {
           ? this.originSignature
           : uint8ListToHex(this.originSignature!)
     });
-    return toto;
+    return _json;
   }
 }
 
