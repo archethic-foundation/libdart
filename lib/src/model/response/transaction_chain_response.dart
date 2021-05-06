@@ -19,13 +19,13 @@ class TransactionChainResponse {
     String? address;
     double? timestamp;
     String? type;
-    Data? data;
+    TransactionChainResponseData? data;
 
     factory TransactionChainResponse.fromJson(Map<String, dynamic> json) => TransactionChainResponse(
         address: json["address"],
         timestamp: json["timestamp"].toDouble(),
         type: json["type"],
-        data: Data.fromJson(json["data"]),
+        data: TransactionChainResponseData.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -36,15 +36,15 @@ class TransactionChainResponse {
     };
 }
 
-class Data {
-    Data({
+class TransactionChainResponseData {
+    TransactionChainResponseData({
         this.ledger,
     });
 
-    Ledger? ledger;
+    TransactionChainResponseLedger? ledger;
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
-        ledger: Ledger.fromJson(json["ledger"]),
+    factory TransactionChainResponseData.fromJson(Map<String, dynamic> json) => TransactionChainResponseData(
+        ledger: TransactionChainResponseLedger.fromJson(json["ledger"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -52,18 +52,18 @@ class Data {
     };
 }
 
-class Ledger {
-    Ledger({
+class TransactionChainResponseLedger {
+    TransactionChainResponseLedger({
         this.uco,
         this.nft,
     });
 
-    Uco? uco;
-    Nft? nft;
+    TransactionChainResponseUco? uco;
+    TransactionChainResponseNft? nft;
 
-    factory Ledger.fromJson(Map<String, dynamic> json) => Ledger(
-        uco: Uco.fromJson(json["uco"]),
-        nft: Nft.fromJson(json["nft"]),
+    factory TransactionChainResponseLedger.fromJson(Map<String, dynamic> json) => TransactionChainResponseLedger(
+        uco: TransactionChainResponseUco.fromJson(json["uco"]),
+        nft: TransactionChainResponseNft.fromJson(json["nft"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -72,15 +72,15 @@ class Ledger {
     };
 }
 
-class Nft {
-    Nft({
+class TransactionChainResponseNft {
+    TransactionChainResponseNft({
         this.transfers,
     });
 
-    NftTransfers? transfers;
+    TransactionChainResponseNftTransfers? transfers;
 
-    factory Nft.fromJson(Map<String, dynamic> json) => Nft(
-        transfers: NftTransfers.fromJson(json["transfers"]),
+    factory TransactionChainResponseNft.fromJson(Map<String, dynamic> json) => TransactionChainResponseNft(
+        transfers: TransactionChainResponseNftTransfers.fromJson(json["transfers"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -88,8 +88,8 @@ class Nft {
     };
 }
 
-class NftTransfers {
-    NftTransfers({
+class TransactionChainResponseNftTransfers {
+    TransactionChainResponseNftTransfers({
         this.amount,
         this.to,
         this.nft,
@@ -99,7 +99,7 @@ class NftTransfers {
     String? to;
     String? nft;
 
-    factory NftTransfers.fromJson(Map<String, dynamic> json) => NftTransfers(
+    factory TransactionChainResponseNftTransfers.fromJson(Map<String, dynamic> json) => TransactionChainResponseNftTransfers(
         amount: json["amount"].toDouble(),
         to: json["to"],
         nft: json["nft"],
@@ -112,15 +112,15 @@ class NftTransfers {
     };
 }
 
-class Uco {
-    Uco({
+class TransactionChainResponseUco {
+    TransactionChainResponseUco({
         this.transfers,
     });
 
-    UcoTransfers? transfers;
+    TransactionChainResponseUcoTransfers? transfers;
 
-    factory Uco.fromJson(Map<String, dynamic> json) => Uco(
-        transfers: UcoTransfers.fromJson(json["transfers"]),
+    factory TransactionChainResponseUco.fromJson(Map<String, dynamic> json) => TransactionChainResponseUco(
+        transfers: TransactionChainResponseUcoTransfers.fromJson(json["transfers"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -128,8 +128,8 @@ class Uco {
     };
 }
 
-class UcoTransfers {
-    UcoTransfers({
+class TransactionChainResponseUcoTransfers {
+    TransactionChainResponseUcoTransfers({
         this.amount,
         this.to,
     });
@@ -137,7 +137,7 @@ class UcoTransfers {
     double? amount;
     String? to;
 
-    factory UcoTransfers.fromJson(Map<String, dynamic> json) => UcoTransfers(
+    factory TransactionChainResponseUcoTransfers.fromJson(Map<String, dynamic> json) => TransactionChainResponseUcoTransfers(
         amount: json["amount"].toDouble(),
         to: json["to"],
     );
