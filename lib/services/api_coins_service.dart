@@ -43,6 +43,10 @@ import 'package:uniris_lib_dart/model/response/simple_price_response_usd.dart';
 import 'package:uniris_lib_dart/model/response/simple_price_response_zar.dart';
 
 class ApiCoinsService {
+
+  /*
+   * Get Uniris Coin info
+  */
   Future<CoinsResponse> getCoinsResponse() async {
     CoinsResponse? coinsResponse;
     HttpClient httpClient = new HttpClient();
@@ -61,6 +65,11 @@ class ApiCoinsService {
     return coinsResponse!;
   }
 
+  /*
+   * Get Uniris Coin infos (Prices, Marketcaps, Total Volumes)
+   * @param {String} currency
+   * @param {int} nbDays
+  */
   Future<CoinsPriceResponse> getCoinsChart(String currency, int nbDays) async {
     CoinsPriceResponse? coinsPriceResponse;
     HttpClient httpClient = new HttpClient();
@@ -82,6 +91,10 @@ class ApiCoinsService {
     return coinsPriceResponse!;
   }
 
+  /*
+   * Get Uniris Coin infos (BTC Price, Local Currency Price)
+   * @param {String} currency
+  */
   Future<SimplePriceResponse> getSimplePrice(String currency) async {
     //print("getSimplePrice");
     SimplePriceResponse simplePriceResponse = new SimplePriceResponse();

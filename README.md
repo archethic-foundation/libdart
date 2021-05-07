@@ -185,6 +185,17 @@ It supports the Uniris Cryptography rules which are:
 
   *Don't available for the moment... soon...*
 
+  ### Coingecko functions
+  #### getCoinsResponse()
+  Get all Uniris Coin infos with http request https://api.coingecko.com/api/v3/coins/uniris
+
+  #### getCoinsChart(currency, nbDays)
+  Get Uniris Coin infos (Prices, Marketcaps, Total Volumes) for a period with http request https://api.coingecko.com/api/v3/coins/uniris/market_chart?vs_currency=currency&days=nbDays
+
+  #### getSimplePrice(currency)
+  Get Uniris Coin infos (BTC Price, Local Currency Price) with https://api.coingecko.com/api/v3/simple/price?ids=uniris&vs_currencies=currency
+
+
 ## Running the tests
 
 ```bash
