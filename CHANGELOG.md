@@ -3,6 +3,7 @@ Changelog
 
 #### Version 0.0.4+4 (2021-05-04) 
 * Add api requests (fetchBalance, getTransactionContent, getTransactions)
+* Add coingecko api
 * Organize packages
 
 #### Version 0.0.3+3 (2021-04-21) 

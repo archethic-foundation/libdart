@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http show Response, post;
-import 'package:uniris_lib_dart/src/model/response/balance_response.dart';
-import 'package:uniris_lib_dart/src/model/response/transaction_chain_response.dart';
-import 'package:uniris_lib_dart/src/model/response/transaction_response.dart';
+import 'package:uniris_lib_dart/model/response/balance_response.dart';
+import 'package:uniris_lib_dart/model/response/transaction_chain_response.dart';
+import 'package:uniris_lib_dart/model/response/transaction_response.dart';
 
 /*
  * Send a transaction to the network
