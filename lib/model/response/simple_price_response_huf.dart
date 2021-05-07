@@ -2,42 +2,43 @@
 //
 //     final simplePriceHufResponse = simplePriceHufResponseFromJson(jsonString);
 
-
-
 import 'dart:convert';
 
-SimplePriceHufResponse simplePriceHufResponseFromJson(String str) => SimplePriceHufResponse.fromJson(json.decode(str));
+SimplePriceHufResponse simplePriceHufResponseFromJson(String str) =>
+    SimplePriceHufResponse.fromJson(json.decode(str));
 
-String simplePriceHufResponseToJson(SimplePriceHufResponse data) => json.encode(data.toJson());
+String simplePriceHufResponseToJson(SimplePriceHufResponse data) =>
+    json.encode(data.toJson());
 
 class SimplePriceHufResponse {
-    SimplePriceHufResponse({
-        this.uniris,
-    });
+  SimplePriceHufResponse({
+    this.uniris,
+  });
 
-    Uniris? uniris;
+  Uniris? uniris;
 
-    factory SimplePriceHufResponse.fromJson(Map<String, dynamic> json) => SimplePriceHufResponse(
+  factory SimplePriceHufResponse.fromJson(Map<String, dynamic> json) =>
+      SimplePriceHufResponse(
         uniris: Uniris.fromJson(json['uniris']),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         'uniris': uniris!.toJson(),
-    };
+      };
 }
 
 class Uniris {
-    Uniris({
-        this.huf,
-    });
+  Uniris({
+    this.huf,
+  });
 
-    double? huf;
+  double? huf;
 
-    factory Uniris.fromJson(Map<String, dynamic> json) => Uniris(
+  factory Uniris.fromJson(Map<String, dynamic> json) => Uniris(
         huf: json["huf"].toDouble(),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "huf": huf,
-    };
+      };
 }

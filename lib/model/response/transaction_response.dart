@@ -34,7 +34,8 @@ class TransactionResponseData {
 
   String? content;
 
-  factory TransactionResponseData.fromJson(Map<String, dynamic> json) => TransactionResponseData(
+  factory TransactionResponseData.fromJson(Map<String, dynamic> json) =>
+      TransactionResponseData(
         content: json["content"],
       );
 

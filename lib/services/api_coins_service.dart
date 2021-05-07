@@ -43,7 +43,6 @@ import 'package:uniris_lib_dart/model/response/simple_price_response_usd.dart';
 import 'package:uniris_lib_dart/model/response/simple_price_response_zar.dart';
 
 class ApiCoinsService {
-
   Future<CoinsResponse> getCoinsResponse() async {
     CoinsResponse? coinsResponse;
     HttpClient httpClient = new HttpClient();
@@ -56,8 +55,7 @@ class ApiCoinsService {
         String reply = await response.transform(utf8.decoder).join();
         coinsResponse = coinsResponseFromJson(reply);
       }
-    } catch (e, s) {
-    } finally {
+    } catch (e, s) {} finally {
       httpClient.close();
     }
     return coinsResponse!;
@@ -78,15 +76,14 @@ class ApiCoinsService {
         String reply = await response.transform(utf8.decoder).join();
         coinsPriceResponse = coinsPriceResponseFromJson(reply);
       }
-    } catch (e, s) {
-    } finally {
+    } catch (e, s) {} finally {
       httpClient.close();
     }
     return coinsPriceResponse!;
   }
 
   Future<SimplePriceResponse> getSimplePrice(String currency) async {
-      //print("getSimplePrice");
+    //print("getSimplePrice");
     SimplePriceResponse simplePriceResponse = new SimplePriceResponse();
     simplePriceResponse.currency = currency;
 
@@ -330,7 +327,6 @@ class ApiCoinsService {
             break;
         }
       }
-    
     } catch (e) {} finally {
       httpClient.close();
     }

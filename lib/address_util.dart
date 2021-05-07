@@ -27,4 +27,3 @@ Future<String> lastAddress(String seed, String endpoint) async {
   String lastAddress = deriveAddress(seed, index);
   return lastAddress;
 }
-

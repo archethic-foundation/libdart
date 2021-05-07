@@ -2,42 +2,43 @@
 //
 //     final simplePriceNokResponse = simplePriceNokResponseFromJson(jsonString);
 
-
-
 import 'dart:convert';
 
-SimplePriceNokResponse simplePriceNokResponseFromJson(String str) => SimplePriceNokResponse.fromJson(json.decode(str));
+SimplePriceNokResponse simplePriceNokResponseFromJson(String str) =>
+    SimplePriceNokResponse.fromJson(json.decode(str));
 
-String simplePriceNokResponseToJson(SimplePriceNokResponse data) => json.encode(data.toJson());
+String simplePriceNokResponseToJson(SimplePriceNokResponse data) =>
+    json.encode(data.toJson());
 
 class SimplePriceNokResponse {
-    SimplePriceNokResponse({
-        this.uniris,
-    });
+  SimplePriceNokResponse({
+    this.uniris,
+  });
 
-    Uniris? uniris;
+  Uniris? uniris;
 
-    factory SimplePriceNokResponse.fromJson(Map<String, dynamic> json) => SimplePriceNokResponse(
+  factory SimplePriceNokResponse.fromJson(Map<String, dynamic> json) =>
+      SimplePriceNokResponse(
         uniris: Uniris.fromJson(json['uniris']),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         'uniris': uniris!.toJson(),
-    };
+      };
 }
 
 class Uniris {
-    Uniris({
-        this.nok,
-    });
+  Uniris({
+    this.nok,
+  });
 
-    double? nok;
+  double? nok;
 
-    factory Uniris.fromJson(Map<String, dynamic> json) => Uniris(
+  factory Uniris.fromJson(Map<String, dynamic> json) => Uniris(
         nok: json["nok"].toDouble(),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "nok": nok,
-    };
+      };
 }
