@@ -2,7 +2,7 @@
 //
 //     final simplePriceBtcResponse = simplePriceBtcResponseFromJson(jsonString);
 
-// @dart=2.9
+
 
 import 'dart:convert';
 
@@ -15,14 +15,14 @@ class SimplePriceBtcResponse {
         this.uniris,
     });
 
-    Uniris uniris;
+    Uniris? uniris;
 
     factory SimplePriceBtcResponse.fromJson(Map<String, dynamic> json) => SimplePriceBtcResponse(
         uniris: Uniris.fromJson(json['uniris']),
     );
 
     Map<String, dynamic> toJson() => {
-        'uniris': uniris.toJson(),
+        'uniris': uniris!.toJson(),
     };
 }
 
@@ -31,7 +31,7 @@ class Uniris {
         this.btc,
     });
 
-    double btc;
+    double? btc;
 
     factory Uniris.fromJson(Map<String, dynamic> json) => Uniris(
         btc: json["btc"].toDouble(),

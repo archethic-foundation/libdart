@@ -2,7 +2,7 @@
 //
 //     final simplePriceBrlResponse = simplePriceBrlResponseFromJson(jsonString);
 
-// @dart=2.9
+
 
 import 'dart:convert';
 
@@ -15,14 +15,14 @@ class SimplePriceBrlResponse {
         this.uniris,
     });
 
-    Uniris uniris;
+    Uniris? uniris;
 
     factory SimplePriceBrlResponse.fromJson(Map<String, dynamic> json) => SimplePriceBrlResponse(
         uniris: Uniris.fromJson(json['uniris']),
     );
 
     Map<String, dynamic> toJson() => {
-        'uniris': uniris.toJson(),
+        'uniris': uniris!.toJson(),
     };
 }
 
@@ -31,7 +31,7 @@ class Uniris {
         this.brl,
     });
 
-    double brl;
+    double? brl;
 
     factory Uniris.fromJson(Map<String, dynamic> json) => Uniris(
         brl: json["brl"].toDouble(),
