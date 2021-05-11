@@ -530,7 +530,7 @@ class MarketData {
     double? priceChangePercentage30D;
     double? priceChangePercentage60D;
     double? priceChangePercentage200D;
-    int? priceChangePercentage1Y;
+    double? priceChangePercentage1Y;
     int? marketCapChange24H;
     int? marketCapChangePercentage24H;
     Map<String, double>? priceChange24HInCurrency;
@@ -541,7 +541,7 @@ class MarketData {
     Map<String, double>? priceChangePercentage30DInCurrency;
     Map<String, double>? priceChangePercentage60DInCurrency;
     Map<String, double>? priceChangePercentage200DInCurrency;
-    FullyDilutedValuation? priceChangePercentage1YInCurrency;
+    Map<String, double>? priceChangePercentage1YInCurrency;
     Map<String, double>? marketCapChange24HInCurrency;
     Map<String, double>? marketCapChangePercentage24HInCurrency;
     int? totalSupply;
@@ -585,7 +585,7 @@ class MarketData {
         priceChangePercentage30DInCurrency: Map.from(json["price_change_percentage_30d_in_currency"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         priceChangePercentage60DInCurrency: Map.from(json["price_change_percentage_60d_in_currency"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         priceChangePercentage200DInCurrency: Map.from(json["price_change_percentage_200d_in_currency"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
-        priceChangePercentage1YInCurrency: FullyDilutedValuation.fromJson(json["price_change_percentage_1y_in_currency"]),
+        priceChangePercentage1YInCurrency: Map.from(json["price_change_percentage_1y_in_currency"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         marketCapChange24HInCurrency: Map.from(json["market_cap_change_24h_in_currency"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         marketCapChangePercentage24HInCurrency: Map.from(json["market_cap_change_percentage_24h_in_currency"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         totalSupply: json["total_supply"],
@@ -630,7 +630,7 @@ class MarketData {
         "price_change_percentage_30d_in_currency": Map.from(priceChangePercentage30DInCurrency!).map((k, v) => MapEntry<String, dynamic>(k, v)),
         "price_change_percentage_60d_in_currency": Map.from(priceChangePercentage60DInCurrency!).map((k, v) => MapEntry<String, dynamic>(k, v)),
         "price_change_percentage_200d_in_currency": Map.from(priceChangePercentage200DInCurrency!).map((k, v) => MapEntry<String, dynamic>(k, v)),
-        "price_change_percentage_1y_in_currency": priceChangePercentage1YInCurrency!.toJson(),
+        "price_change_percentage_1y_in_currency": Map.from(priceChangePercentage1YInCurrency!).map((k, v) => MapEntry<String, dynamic>(k, v)),
         "market_cap_change_24h_in_currency": Map.from(marketCapChange24HInCurrency!).map((k, v) => MapEntry<String, dynamic>(k, v)),
         "market_cap_change_percentage_24h_in_currency": Map.from(marketCapChangePercentage24HInCurrency!).map((k, v) => MapEntry<String, dynamic>(k, v)),
         "total_supply": totalSupply,
