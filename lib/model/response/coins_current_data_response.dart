@@ -102,10 +102,10 @@ class CoinsCurrentDataResponse {
         marketCapRank: json["market_cap_rank"],
         coingeckoRank: json["coingecko_rank"],
         coingeckoScore: json["coingecko_score"].toDouble(),
-        developerScore: json["developer_score"],
+        developerScore: json["developer_score"].toDouble(),
         communityScore: json["community_score"].toDouble(),
         liquidityScore: json["liquidity_score"].toDouble(),
-        publicInterestScore: json["public_interest_score"],
+        publicInterestScore: json["public_interest_score"].toDouble(),
         marketData: MarketData.fromJson(json["market_data"]),
         communityData: CommunityData.fromJson(json["community_data"]),
         developerData: DeveloperData.fromJson(json["developer_data"]),
@@ -531,8 +531,8 @@ class MarketData {
     double? priceChangePercentage60D;
     double? priceChangePercentage200D;
     double? priceChangePercentage1Y;
-    int? marketCapChange24H;
-    int? marketCapChangePercentage24H;
+    double? marketCapChange24H;
+    double? marketCapChangePercentage24H;
     Map<String, double>? priceChange24HInCurrency;
     Map<String, double>? priceChangePercentage1HInCurrency;
     Map<String, double>? priceChangePercentage24HInCurrency;
@@ -574,9 +574,9 @@ class MarketData {
         priceChangePercentage30D: json["price_change_percentage_30d"].toDouble(),
         priceChangePercentage60D: json["price_change_percentage_60d"].toDouble(),
         priceChangePercentage200D: json["price_change_percentage_200d"].toDouble(),
-        priceChangePercentage1Y: json["price_change_percentage_1y"],
-        marketCapChange24H: json["market_cap_change_24h"],
-        marketCapChangePercentage24H: json["market_cap_change_percentage_24h"],
+        priceChangePercentage1Y: json["price_change_percentage_1y"].toDouble(),
+        marketCapChange24H: json["market_cap_change_24h"].toDouble(),
+        marketCapChangePercentage24H: json["market_cap_change_percentage_24h"].toDouble(),
         priceChange24HInCurrency: Map.from(json["price_change_24h_in_currency"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         priceChangePercentage1HInCurrency: Map.from(json["price_change_percentage_1h_in_currency"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         priceChangePercentage24HInCurrency: Map.from(json["price_change_percentage_24h_in_currency"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
