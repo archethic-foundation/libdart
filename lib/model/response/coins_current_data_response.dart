@@ -67,7 +67,7 @@ class CoinsCurrentDataResponse {
     dynamic? marketCapRank;
     int? coingeckoRank;
     double? coingeckoScore;
-    int? developerScore;
+    double? developerScore;
     double? communityScore;
     double? liquidityScore;
     int? publicInterestScore;
