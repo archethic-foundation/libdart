@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http show Response, post;
 import 'package:uniris_lib_dart/model/response/balance_response.dart';
 import 'package:uniris_lib_dart/model/response/transaction_chain_response.dart';
 import 'package:uniris_lib_dart/model/response/transaction_response.dart';
+import 'package:uniris_lib_dart/services/absinthe_socket.dart';
 
 /*
  * Send a transaction to the network
@@ -159,4 +160,27 @@ Future<TransactionChainResponse> getTransactions(
   }
   _completer.complete(transactionChainResponse!);
   return _completer.future;
+}
+
+
+void notifyAddressReplication(String address, String endpoint) {
+  AbsintheSocket _socket = AbsintheSocket("ws://"+endpoint+"/socket");
+  // TODO: in progress
+  /*Observer _categoryObserver = Observer(
+        onError: reject,
+        onResult: resolve,
+        onStart: print("open"));
+
+  Notifier notifier = _socket.send(GqlRequest(operation: "subscription { acknowledgeStorage(address: "+address+") { address } }"));
+  notifier.observe(_categoryObserver);
+
+   
+    return new Promise((resolve, reject) => {
+        withAbsintheSocket.observe(absintheSocket, notifier, {
+            onAbort: console.log("abort"),
+            onError: reject,
+            onStart: console.log("open"),
+            onResult: resolve
+        })
+    })*/
 }

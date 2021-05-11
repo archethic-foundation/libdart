@@ -195,6 +195,8 @@ It supports the Uniris Cryptography rules which are:
   #### getSimplePrice(currency)
   Get Uniris Coin infos (BTC Price, Local Currency Price) with https://api.coingecko.com/api/v3/simple/price?ids=uniris&vs_currencies=currency
 
+  #### getCoinsCurrentData()
+  Get Uniris Coin infos (name, price, market, ... including exchange tickers) with https://api.coingecko.com/api/v3/coins/uniris
 
 ## Running the tests
 

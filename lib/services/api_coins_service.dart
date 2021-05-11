@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:uniris_lib_dart/model/response/coins_current_data_response.dart';
 import 'package:uniris_lib_dart/model/response/coins_price_response.dart';
 import 'package:uniris_lib_dart/model/response/coins_response.dart';
 import 'package:uniris_lib_dart/model/response/simple_price_response.dart';
@@ -43,7 +44,6 @@ import 'package:uniris_lib_dart/model/response/simple_price_response_usd.dart';
 import 'package:uniris_lib_dart/model/response/simple_price_response_zar.dart';
 
 class ApiCoinsService {
-
   /*
    * Get Uniris Coin info
   */
@@ -59,7 +59,7 @@ class ApiCoinsService {
         String reply = await response.transform(utf8.decoder).join();
         coinsResponse = coinsResponseFromJson(reply);
       }
-    } catch (e, s) {} finally {
+    } catch (e) {} finally {
       httpClient.close();
     }
     return coinsResponse!;
@@ -85,7 +85,7 @@ class ApiCoinsService {
         String reply = await response.transform(utf8.decoder).join();
         coinsPriceResponse = coinsPriceResponseFromJson(reply);
       }
-    } catch (e, s) {} finally {
+    } catch (e) {} finally {
       httpClient.close();
     }
     return coinsPriceResponse!;
@@ -344,5 +344,26 @@ class ApiCoinsService {
       httpClient.close();
     }
     return simplePriceResponse;
+  }
+
+  /*
+   * Get Uniris Coin infos (name, price, market, ... including exchange tickers)
+  */
+  Future<CoinsCurrentDataResponse> getCoinsCurrentData() async {
+    CoinsCurrentDataResponse? coinsCurrentDataResponse;
+    HttpClient httpClient = new HttpClient();
+    try {
+      HttpClientRequest request = await httpClient
+          .getUrl(Uri.parse("https://api.coingecko.com/api/v3/coins/uniris"));
+      request.headers.set('content-type', 'application/json');
+      HttpClientResponse response = await request.close();
+      if (response.statusCode == 200) {
+        String reply = await response.transform(utf8.decoder).join();
+        coinsCurrentDataResponse = coinsCurrentDataResponseFromJson(reply);
+      }
+    } catch (e) {} finally {
+      httpClient.close();
+    }
+    return coinsCurrentDataResponse!;
   }
 }
