@@ -361,7 +361,9 @@ class ApiCoinsService {
         String reply = await response.transform(utf8.decoder).join();
         coinsCurrentDataResponse = coinsCurrentDataResponseFromJson(reply);
       }
-    } catch (e) {} finally {
+    } catch (e) {
+      print(e);
+    } finally {
       httpClient.close();
     }
     return coinsCurrentDataResponse!;
