@@ -70,7 +70,7 @@ class CoinsCurrentDataResponse {
     double? developerScore;
     double? communityScore;
     double? liquidityScore;
-    int? publicInterestScore;
+    double? publicInterestScore;
     MarketData? marketData;
     CommunityData? communityData;
     DeveloperData? developerData;
