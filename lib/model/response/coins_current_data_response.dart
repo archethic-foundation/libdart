@@ -546,7 +546,7 @@ class MarketData {
     Map<String, double>? marketCapChangePercentage24HInCurrency;
     double? totalSupply;
     dynamic? maxSupply;
-    int? circulatingSupply;
+    double? circulatingSupply;
     DateTime? lastUpdated;
 
     factory MarketData.fromJson(Map<String, dynamic> json) => MarketData(
@@ -590,7 +590,7 @@ class MarketData {
         marketCapChangePercentage24HInCurrency: Map.from(json["market_cap_change_percentage_24h_in_currency"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         totalSupply: json["total_supply"].toDouble(),
         maxSupply: json["max_supply"],
-        circulatingSupply: json["circulating_supply"],
+        circulatingSupply: json["circulating_supply"].toDouble(),
         lastUpdated: DateTime.parse(json["last_updated"]),
     );
 
