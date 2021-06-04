@@ -18,15 +18,13 @@ void main() {
 
   group('hexToUint8List', () {
     test('should convert an hexadecimal to Uint8List', () {
-      expect(hexToUint8List('025381ef'),
-          Uint8List.fromList([2, 83, 129, 239]));
+      expect(hexToUint8List('025381ef'), Uint8List.fromList([2, 83, 129, 239]));
     });
   });
 
   group('uint8ListToHex', () {
     test('should convert a Uint8List to hex', () {
-      expect(uint8ListToHex(Uint8List.fromList([2, 83, 129, 239])),
-          '025381ef');
+      expect(uint8ListToHex(Uint8List.fromList([2, 83, 129, 239])), '025381ef');
     });
   });
 
@@ -43,8 +41,8 @@ void main() {
 
   group('encodeInt32', () {
     test('should encode an integer', () {
-      expect(encodeInt32(212323839823),
-          Uint8List.fromList([111, 124, 175, 79]));
+      expect(
+          encodeInt32(212323839823), Uint8List.fromList([111, 124, 175, 79]));
     });
   });
 

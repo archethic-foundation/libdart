@@ -19,7 +19,7 @@ class SimplePriceMyrResponse {
       SimplePriceMyrResponse(
         uniris: Uniris.fromJson(json['uniris']),
       );
-  
+
   Uniris? uniris;
 
   Map<String, dynamic> toJson() => {

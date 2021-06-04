@@ -6,7 +6,6 @@ import 'package:phoenix_wings/phoenix_wings.dart';
 
 /// An Absinthe Socket
 class AbsintheSocket {
-
   AbsintheSocket(this.endpoint, {this.socketOptions}) {
     socketOptions ??= AbsintheSocketOptions();
     subscriptionHandler = NotifierPushHandler(
@@ -22,7 +21,7 @@ class AbsintheSocket {
             params: socketOptions.params..addAll({'vsn': '2.0.0'})));
     _connect();
   }
-  
+
   String endpoint;
   AbsintheSocketOptions socketOptions = AbsintheSocketOptions();
   PhoenixSocket _phoenixSocket;

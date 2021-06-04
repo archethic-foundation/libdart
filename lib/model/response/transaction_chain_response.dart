@@ -25,7 +25,7 @@ class TransactionChainResponse {
         type: json['type'],
         data: TransactionChainResponseData.fromJson(json['data']),
       );
-  
+
   String? address;
   double? timestamp;
   String? type;
@@ -113,7 +113,7 @@ class TransactionChainResponseNftTransfers {
   double? amount;
   String? to;
   String? nft;
-  
+
   Map<String, dynamic> toJson() => {
         'amount': amount,
         'to': to,

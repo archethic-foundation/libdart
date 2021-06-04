@@ -420,7 +420,8 @@ Uint8List aesEncrypt(data, key) {
       List<int>.generate(12, (int i) => Random.secure().nextInt(256)));
 
   final GCMBlockCipher encrypter = GCMBlockCipher(AESFastEngine());
-  final AEADParameters<KeyParameter> params = AEADParameters(KeyParameter(key), 16 * 8, iv, aad);
+  final AEADParameters<KeyParameter> params =
+      AEADParameters(KeyParameter(key), 16 * 8, iv, aad);
   encrypter.init(true, params);
   final Uint8List cipherText = encrypter.process(data);
 
@@ -481,7 +482,8 @@ Uint8List derivePrivateKey(String seed, int index) {
   crypto.Hmac hmac = crypto.Hmac(crypto.sha512, Uint8List(0));
   crypto.Digest digest = hmac.convert(utf8.encode(seed));
   final Uint8List masterKey = Uint8List.fromList(digest.bytes.sublist(0, 32));
-  final Uint8List masterEntropy = Uint8List.fromList(digest.bytes.sublist(32, 64));
+  final Uint8List masterEntropy =
+      Uint8List.fromList(digest.bytes.sublist(32, 64));
 
   //Derive the final seed
   hmac = crypto.Hmac(crypto.sha512, masterEntropy);

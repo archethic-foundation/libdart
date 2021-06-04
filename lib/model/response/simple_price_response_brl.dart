@@ -37,7 +37,7 @@ class Uniris {
       );
 
   double? brl;
-  
+
   Map<String, dynamic> toJson() => {
         'brl': brl,
       };

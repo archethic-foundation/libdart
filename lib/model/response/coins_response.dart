@@ -80,7 +80,6 @@ class CoinsResponse {
             List<Ticker>.from(json['tickers'].map((x) => Ticker.fromJson(x))),
       );
 
-
   String? id;
   String? symbol;
   String? name;
@@ -526,8 +525,7 @@ class MarketData {
         marketCap: Map.from(json['market_cap'])
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         marketCapRank: json['market_cap_rank'],
-        fullyDilutedValuation:
-            FullyDilutedValuation.fromJson(),
+        fullyDilutedValuation: FullyDilutedValuation.fromJson(),
         totalVolume: Map.from(json['total_volume'])
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         high24H: Map.from(json['high_24h'])
@@ -701,8 +699,7 @@ class MarketData {
 class FullyDilutedValuation {
   FullyDilutedValuation();
 
-  factory FullyDilutedValuation.fromJson() =>
-      FullyDilutedValuation();
+  factory FullyDilutedValuation.fromJson() => FullyDilutedValuation();
 
   Map<String, dynamic> toJson() => {};
 }
@@ -828,7 +825,7 @@ class Market {
   String? name;
   String? identifier;
   bool? hasTradingIncentive;
-  
+
   Map<String, dynamic> toJson() => {
         'name': name,
         'identifier': identifier,

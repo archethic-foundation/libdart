@@ -18,8 +18,8 @@ void main() {
 
     group('setCode', () {
       test('should insert the code into the transaction data', () {
-        final TransactionBuilder tx = TransactionBuilder('transfer')
-            .setCode('my smart contract code');
+        final TransactionBuilder tx =
+            TransactionBuilder('transfer').setCode('my smart contract code');
         expect(utf8.decode(tx.data!.code!), 'my smart contract code');
       });
     });

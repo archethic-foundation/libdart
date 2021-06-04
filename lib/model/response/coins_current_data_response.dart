@@ -547,8 +547,7 @@ class MarketData {
         marketCap: Map.from(json['market_cap'])
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         marketCapRank: json['market_cap_rank'],
-        fullyDilutedValuation:
-            FullyDilutedValuation.fromJson(),
+        fullyDilutedValuation: FullyDilutedValuation.fromJson(),
         totalVolume: Map.from(json['total_volume'])
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         high24H: Map.from(json['high_24h'])
@@ -813,11 +812,9 @@ class Ticker {
         isAnomaly: json['is_anomaly'],
         isStale: json['is_stale'],
         tradeUrl: json['trade_url'],
-        tokenInfoUrl:
-            json['token_info_url'],
+        tokenInfoUrl: json['token_info_url'],
         coinId: json['coin_id'],
-        targetCoinId:
-            json['target_coin_id'],
+        targetCoinId: json['target_coin_id'],
       );
 
   String? base;
@@ -879,7 +876,7 @@ class Market {
   String? name;
   String? identifier;
   bool? hasTradingIncentive;
-  
+
   Map<String, dynamic> toJson() => {
         'name': name,
         'identifier': identifier,

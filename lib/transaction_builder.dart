@@ -58,7 +58,7 @@ class TransactionBuilder {
       this.timestamp,
       this.originSignature,
       this.data});
-      
+
   String? type;
   Uint8List? address;
   Uint8List? previousPublicKey;
@@ -156,9 +156,7 @@ class TransactionBuilder {
         throw "'encryptedSecretKey' must be an hexadecimal string";
       }
     }
-    data!
-        .keys!
-        .authorizedKeys!
+    data!.keys!.authorizedKeys!
         .putIfAbsent(uint8ListToHex(publicKey), () => encryptedSecretKey);
 
     return this;
@@ -256,8 +254,10 @@ class TransactionBuilder {
   TransactionBuilder build(seed, int index,
       {String curve = 'ed25519', String hashAlgo = 'sha256'}) {
     final KeyPair keypair = crypto.deriveKeyPair(seed, index, curve: curve);
-    final KeyPair nextKeypair = crypto.deriveKeyPair(seed, index + 1, curve: curve);
-    final Uint8List address = crypto.hash(nextKeypair.publicKey, algo: hashAlgo);
+    final KeyPair nextKeypair =
+        crypto.deriveKeyPair(seed, index + 1, curve: curve);
+    final Uint8List address =
+        crypto.hash(nextKeypair.publicKey, algo: hashAlgo);
 
     this.address = address;
     previousPublicKey = keypair.publicKey;
@@ -285,8 +285,7 @@ class TransactionBuilder {
       }
     }
 
-    originSignature =
-        crypto.sign(originSignaturePayload(), privateKey);
+    originSignature = crypto.sign(originSignaturePayload(), privateKey);
     return this;
   }
 
@@ -301,10 +300,8 @@ class TransactionBuilder {
 
     Uint8List? authorizedKeysBuffers = Uint8List(0);
     data!.keys!.authorizedKeys!.forEach((publicKey, authorizedKey) {
-      authorizedKeysBuffers = concatUint8List([
-        hexToUint8List(publicKey),
-        data!.keys!.authorizedKeys![publicKey]
-      ]);
+      authorizedKeysBuffers = concatUint8List(
+          [hexToUint8List(publicKey), data!.keys!.authorizedKeys![publicKey]]);
     });
 
     Uint8List? ucoTransfersBuffers = Uint8List(0);
@@ -492,7 +489,6 @@ class Nft {
       };
 
   List<NftTransfer>? transfers;
-
 }
 
 class NftTransfer {

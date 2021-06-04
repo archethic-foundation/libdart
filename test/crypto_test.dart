@@ -52,7 +52,8 @@ void main() {
             '010488f546d68919bf9caf0eb172586a42824c67c07bc29d31cba27839a21f194cee88b59bd36a55870ec0b26a2cd39c84ec2efbce7329e573c5fd7109260f0d84e8');
       });
       test('should generate an EC keypair using secp256k1 curve', () {
-        final KeyPair keypair = crypto.deriveKeyPair('seed', 0, curve: 'secp256k1');
+        final KeyPair keypair =
+            crypto.deriveKeyPair('seed', 0, curve: 'secp256k1');
         expect(uint8ListToHex(keypair.publicKey),
             '0204350d90092eeaaba2607ee2d307ce4e2130b5d9d567e20764b742c7133b0e1ad9af1d1e5d4a2e831bde9cbecd14864f5dd3e08bdf6621f36600ff3beeb0fdda8d');
       });
@@ -68,7 +69,8 @@ void main() {
       test(
           'should sign a message with an ed25519 key and create valid signature',
           () {
-        final KeyPair keypair = crypto.deriveKeyPair('seed', 0, curve: 'ed25519');
+        final KeyPair keypair =
+            crypto.deriveKeyPair('seed', 0, curve: 'ed25519');
         final Uint8List sig = crypto.sign('hello', keypair.privateKey);
         expect(crypto.verify(sig, 'hello', keypair.publicKey), true);
       });
@@ -92,7 +94,8 @@ void main() {
 
     group('ecEncrypt', () {
       test('should encrypt a data using a ed25519 public key', () {
-        final KeyPair keypair = crypto.deriveKeyPair('seed', 0, curve: 'ed25519');
+        final KeyPair keypair =
+            crypto.deriveKeyPair('seed', 0, curve: 'ed25519');
         final Uint8List secret = Uint8List.fromList([
           10,
           35,
@@ -127,7 +130,8 @@ void main() {
           253,
           200
         ]);
-        final Uint8List ciphertext = crypto.ecEncrypt(secret, keypair.publicKey);
+        final Uint8List ciphertext =
+            crypto.ecEncrypt(secret, keypair.publicKey);
         expect(ciphertext.length, 80);
 
         final Uint8List pvBuf = keypair.privateKey.sublist(1, 33);
@@ -135,8 +139,9 @@ void main() {
 
         final Uint8List curve25519Pub =
             sodium.Sodium.cryptoSignEd25519PkToCurve25519(pubBuf);
-        final Uint8List curve25519Pv = sodium.Sodium.cryptoSignEd25519SkToCurve25519(
-            concatUint8List([pvBuf, pubBuf]));
+        final Uint8List curve25519Pv =
+            sodium.Sodium.cryptoSignEd25519SkToCurve25519(
+                concatUint8List([pvBuf, pubBuf]));
         expect(
             sodium.Sodium.cryptoBoxSealOpen(
                 ciphertext, curve25519Pub, curve25519Pv),

@@ -37,7 +37,7 @@ class Uniris {
       );
 
   double? btc;
-  
+
   Map<String, dynamic> toJson() => {
         'btc': btc,
       };

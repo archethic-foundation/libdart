@@ -21,7 +21,7 @@ class SimplePriceSekResponse {
       );
 
   Uniris? uniris;
-  
+
   Map<String, dynamic> toJson() => {
         'uniris': uniris!.toJson(),
       };

@@ -21,7 +21,7 @@ class SimplePriceNzdResponse {
       );
 
   Uniris? uniris;
-  
+
   Map<String, dynamic> toJson() => {
         'uniris': uniris!.toJson(),
       };

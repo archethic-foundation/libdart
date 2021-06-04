@@ -31,7 +31,8 @@ dynamic getTransactionIndex(String address, String endpoint) async {
     'Accept': 'application/json',
   };
 
-  final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
+  final http.Response responseHttp = await http.post(
+      Uri.parse(endpoint + '/api'),
       body: json.encode("{query: 'query {lastTransaction(address: " +
           address +
           ") {chainLength}}'"),
@@ -46,7 +47,8 @@ dynamic getStorageNoncePublicKey(String endpoint) async {
     'Accept': 'application/json',
   };
 
-  final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
+  final http.Response responseHttp = await http.post(
+      Uri.parse(endpoint + '/api'),
       body:
           json.encode("{query: 'query {sharedSecrets{storageNoncePublicKey}}'"),
       headers: requestHeaders);
@@ -72,8 +74,8 @@ Future<BalanceResponse> fetchBalance(String address, String endpoint) async {
       '} ' +
       '}');
 
-  final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
-      body: _json, headers: requestHeaders);
+  final http.Response responseHttp = await http
+      .post(Uri.parse(endpoint + '/api'), body: _json, headers: requestHeaders);
 
   final Completer<BalanceResponse> _completer = Completer<BalanceResponse>();
   BalanceResponse? balanceResponse;
@@ -101,8 +103,8 @@ Future<TransactionResponse> getTransactionContent(
       ' } ' +
       ' } ');
 
-  final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
-      body: _json, headers: requestHeaders);
+  final http.Response responseHttp = await http
+      .post(Uri.parse(endpoint + '/api'), body: _json, headers: requestHeaders);
 
   final Completer<TransactionResponse> _completer =
       Completer<TransactionResponse>();
@@ -148,8 +150,8 @@ Future<TransactionChainResponse> getTransactions(
       ' }' +
       '}');
 
-  final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
-      body: _json, headers: requestHeaders);
+  final http.Response responseHttp = await http
+      .post(Uri.parse(endpoint + '/api'), body: _json, headers: requestHeaders);
 
   final Completer<TransactionChainResponse> _completer =
       Completer<TransactionChainResponse>();
@@ -162,9 +164,8 @@ Future<TransactionChainResponse> getTransactions(
   return _completer.future;
 }
 
-
 void notifyAddressReplication(String address, String endpoint) {
-  final AbsintheSocket _socket = AbsintheSocket('ws://'+endpoint+'/socket');
+  final AbsintheSocket _socket = AbsintheSocket('ws://' + endpoint + '/socket');
   // TODO: in progress
   /*Observer _categoryObserver = Observer(
         onError: reject,
