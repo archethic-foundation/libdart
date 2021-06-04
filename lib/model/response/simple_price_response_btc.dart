@@ -15,12 +15,12 @@ class SimplePriceBtcResponse {
     this.uniris,
   });
 
-  Uniris? uniris;
-
   factory SimplePriceBtcResponse.fromJson(Map<String, dynamic> json) =>
       SimplePriceBtcResponse(
         uniris: Uniris.fromJson(json['uniris']),
       );
+
+  Uniris? uniris;
 
   Map<String, dynamic> toJson() => {
         'uniris': uniris!.toJson(),
@@ -32,13 +32,13 @@ class Uniris {
     this.btc,
   });
 
-  double? btc;
-
   factory Uniris.fromJson(Map<String, dynamic> json) => Uniris(
-        btc: json["btc"].toDouble(),
+        btc: json['btc'].toDouble(),
       );
 
+  double? btc;
+  
   Map<String, dynamic> toJson() => {
-        "btc": btc,
+        'btc': btc,
       };
 }

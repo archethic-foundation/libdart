@@ -9,13 +9,13 @@ import 'package:uniris_lib_dart/utils.dart';
 import 'package:uniris_lib_dart/crypto.dart' as crypto;
 
 const Map<String, int> txTypes = {
-  "identity": 0,
-  "keychain": 1,
-  "transfer": 2,
-  "hosting": 6,
-  "code_proposal": 7,
-  "code_approval": 8,
-  "nft": 9
+  'identity': 0,
+  'keychain': 1,
+  'transfer': 2,
+  'hosting': 6,
+  'code_proposal': 7,
+  'code_approval': 8,
+  'nft': 9
 };
 
 TransactionBuilder transactionBuilderFromJson(String str) =>
@@ -25,29 +25,12 @@ String transactionBuilderToJson(TransactionBuilder data) =>
     json.encode(data.toJson());
 
 class TransactionBuilder {
-  String? type;
-  Uint8List? address;
-  Uint8List? previousPublicKey;
-  Uint8List? previousSignature;
-  int? timestamp;
-  Uint8List? originSignature;
-  Data? data;
-
-  TransactionBuilder.allParams(
-      {this.type,
-      this.address,
-      this.previousPublicKey,
-      this.previousSignature,
-      this.timestamp,
-      this.originSignature,
-      this.data});
-
   TransactionBuilder(String txType) {
-    this.type = txType;
-    this.data = Data.fromJson({
-      'content': new Uint8List(0),
-      'code': new Uint8List(0),
-      'keys': {'secret': new Uint8List(0), 'authorizedKeys': {}},
+    type = txType;
+    data = Data.fromJson({
+      'content': Uint8List(0),
+      'code': Uint8List(0),
+      'keys': {'secret': Uint8List(0), 'authorizedKeys': {}},
       'ledger': {
         'uco': {'transfers': []},
         'nft': {'transfers': []}
@@ -58,25 +41,42 @@ class TransactionBuilder {
 
   factory TransactionBuilder.fromJson(Map<String, dynamic> json) =>
       TransactionBuilder.allParams(
-        type: json["type"],
-        address: json["address"],
-        previousPublicKey: json["previousPublicKey"],
-        previousSignature: json["previousSignature"],
-        timestamp: json["timestamp"],
-        originSignature: json["originSignature"],
-        data: Data.fromJson(json["data"]),
+        type: json['type'],
+        address: json['address'],
+        previousPublicKey: json['previousPublicKey'],
+        previousSignature: json['previousSignature'],
+        timestamp: json['timestamp'],
+        originSignature: json['originSignature'],
+        data: Data.fromJson(json['data']),
       );
 
+  TransactionBuilder.allParams(
+      {this.type,
+      this.address,
+      this.previousPublicKey,
+      this.previousSignature,
+      this.timestamp,
+      this.originSignature,
+      this.data});
+      
+  String? type;
+  Uint8List? address;
+  Uint8List? previousPublicKey;
+  Uint8List? previousSignature;
+  int? timestamp;
+  Uint8List? originSignature;
+  Data? data;
+
   Map<String, dynamic> toJson() => {
-        "type": type,
-        "address": List<dynamic>.from(address!.map((x) => x)),
-        "previousPublicKey":
+        'type': type,
+        'address': List<dynamic>.from(address!.map((x) => x)),
+        'previousPublicKey':
             List<dynamic>.from(previousPublicKey!.map((x) => x)),
-        "previousSignature":
+        'previousSignature':
             List<dynamic>.from(previousSignature!.map((x) => x)),
-        "timestamp": timestamp,
-        "originSignature": List<dynamic>.from(originSignature!.map((x) => x)),
-        "data": data!.toJson(),
+        'timestamp': timestamp,
+        'originSignature': List<dynamic>.from(originSignature!.map((x) => x)),
+        'data': data!.toJson(),
       };
 
   /*
@@ -87,7 +87,7 @@ class TransactionBuilder {
     if (!(code is String)) {
       throw "'code' must be a string";
     }
-    this.data!.code = Uint8List.fromList(utf8.encode(code));
+    data!.code = Uint8List.fromList(utf8.encode(code));
     return this;
   }
 
@@ -103,7 +103,7 @@ class TransactionBuilder {
     if (content is String) {
       content = Uint8List.fromList(utf8.encode(content));
     }
-    this.data!.content = content;
+    data!.content = content;
     return this;
   }
 
@@ -123,7 +123,7 @@ class TransactionBuilder {
         secret = Uint8List.fromList(utf8.encode(secret));
       }
     }
-    this.data!.keys!.secret = secret;
+    data!.keys!.secret = secret;
     return this;
   }
 
@@ -156,8 +156,7 @@ class TransactionBuilder {
         throw "'encryptedSecretKey' must be an hexadecimal string";
       }
     }
-    this
-        .data!
+    data!
         .keys!
         .authorizedKeys!
         .putIfAbsent(uint8ListToHex(publicKey), () => encryptedSecretKey);
@@ -182,10 +181,10 @@ class TransactionBuilder {
         throw "'to' must be an hexadecimal string";
       }
     }
-    UcoTransfer ucoTransfer = new UcoTransfer();
+    final UcoTransfer ucoTransfer = UcoTransfer();
     ucoTransfer.to = to;
     ucoTransfer.amount = amount;
-    this.data!.ledger!.uco!.transfers!.add(ucoTransfer);
+    data!.ledger!.uco!.transfers!.add(ucoTransfer);
     return this;
   }
 
@@ -219,11 +218,11 @@ class TransactionBuilder {
         throw "'nftAddress' must be an hexadecimal string";
       }
     }
-    NftTransfer nftTransfer = new NftTransfer();
+    final NftTransfer nftTransfer = NftTransfer();
     nftTransfer.to = to;
     nftTransfer.amount = amount;
     nftTransfer.nft = nftAddress;
-    this.data!.ledger!.nft!.transfers!.add(nftTransfer);
+    data!.ledger!.nft!.transfers!.add(nftTransfer);
     return this;
   }
 
@@ -243,7 +242,7 @@ class TransactionBuilder {
         throw "'to' must be an hexadecimal string";
       }
     }
-    this.data!.recipients!.add(to);
+    data!.recipients!.add(to);
     return this;
   }
 
@@ -255,16 +254,16 @@ class TransactionBuilder {
     * @param {String} hashAlgo Hash algorithm to use for the address generation
     */
   TransactionBuilder build(seed, int index,
-      {String curve = "ed25519", String hashAlgo = "sha256"}) {
-    KeyPair keypair = crypto.deriveKeyPair(seed, index, curve: curve);
-    KeyPair nextKeypair = crypto.deriveKeyPair(seed, index + 1, curve: curve);
-    Uint8List address = crypto.hash(nextKeypair.publicKey, algo: hashAlgo);
+      {String curve = 'ed25519', String hashAlgo = 'sha256'}) {
+    final KeyPair keypair = crypto.deriveKeyPair(seed, index, curve: curve);
+    final KeyPair nextKeypair = crypto.deriveKeyPair(seed, index + 1, curve: curve);
+    final Uint8List address = crypto.hash(nextKeypair.publicKey, algo: hashAlgo);
 
     this.address = address;
-    this.previousPublicKey = keypair.publicKey;
-    this.timestamp = new DateTime.now().millisecondsSinceEpoch;
-    this.previousSignature =
-        crypto.sign(this.previousSignaturePayload(), keypair.privateKey);
+    previousPublicKey = keypair.publicKey;
+    timestamp = DateTime.now().millisecondsSinceEpoch;
+    previousSignature =
+        crypto.sign(previousSignaturePayload(), keypair.privateKey);
 
     return this;
   }
@@ -286,8 +285,8 @@ class TransactionBuilder {
       }
     }
 
-    this.originSignature =
-        crypto.sign(this.originSignaturePayload(), privateKey);
+    originSignature =
+        crypto.sign(originSignaturePayload(), privateKey);
     return this;
   }
 
@@ -295,64 +294,64 @@ class TransactionBuilder {
    * Generate the payload for the previous signature by encoding address, timestamp, type and data
    */
   Uint8List previousSignaturePayload() {
-    Uint8List bufTimestamp = encodeBigInt(BigInt.from(this.timestamp!));
-    Uint8List bufCodeSize = encodeInt32(this.data!.code!.length);
-    Uint8List bufContentSize = encodeInt32(this.data!.content!.length);
-    Uint8List bufSecretSize = encodeInt32(this.data!.keys!.secret!.length);
+    final Uint8List bufTimestamp = encodeBigInt(BigInt.from(timestamp!));
+    final Uint8List bufCodeSize = encodeInt32(data!.code!.length);
+    final Uint8List bufContentSize = encodeInt32(data!.content!.length);
+    final Uint8List bufSecretSize = encodeInt32(data!.keys!.secret!.length);
 
-    Uint8List? authorizedKeysBuffers = new Uint8List(0);
-    this.data!.keys!.authorizedKeys!.forEach((publicKey, authorizedKey) {
+    Uint8List? authorizedKeysBuffers = Uint8List(0);
+    data!.keys!.authorizedKeys!.forEach((publicKey, authorizedKey) {
       authorizedKeysBuffers = concatUint8List([
         hexToUint8List(publicKey),
-        this.data!.keys!.authorizedKeys![publicKey]
+        data!.keys!.authorizedKeys![publicKey]
       ]);
     });
 
-    Uint8List? ucoTransfersBuffers = new Uint8List(0);
-    if (this.data!.ledger!.uco!.transfers!.length > 0) {
+    Uint8List? ucoTransfersBuffers = Uint8List(0);
+    if (data!.ledger!.uco!.transfers!.isNotEmpty) {
       ucoTransfersBuffers = concatUint8List([
-        this.data!.ledger!.uco!.transfers![0].to!,
-        encodeFloat64(this.data!.ledger!.uco!.transfers![0].amount!)
+        data!.ledger!.uco!.transfers![0].to!,
+        encodeFloat64(data!.ledger!.uco!.transfers![0].amount!)
       ]);
     }
 
-    Uint8List? nftTransfersBuffers = new Uint8List(0);
-    if (this.data!.ledger!.nft!.transfers!.length > 0) {
+    Uint8List? nftTransfersBuffers = Uint8List(0);
+    if (data!.ledger!.nft!.transfers!.isNotEmpty) {
       nftTransfersBuffers = concatUint8List([
-        this.data!.ledger!.nft!.transfers![0].nft!,
-        this.data!.ledger!.nft!.transfers![0].to!,
-        encodeFloat64(this.data!.ledger!.nft!.transfers![0].amount!)
+        data!.ledger!.nft!.transfers![0].nft!,
+        data!.ledger!.nft!.transfers![0].to!,
+        encodeFloat64(data!.ledger!.nft!.transfers![0].amount!)
       ]);
     }
 
     return concatUint8List([
-      this.address!,
-      Uint8List.fromList([txTypes[(this.type)]!]),
+      address!,
+      Uint8List.fromList([txTypes[type]!]),
       bufTimestamp,
       bufCodeSize,
-      this.data!.code!,
+      data!.code!,
       bufContentSize,
-      this.data!.content!,
+      data!.content!,
       bufSecretSize,
-      this.data!.keys!.secret!,
-      Uint8List.fromList([this.data!.keys!.authorizedKeys!.length]),
+      data!.keys!.secret!,
+      Uint8List.fromList([data!.keys!.authorizedKeys!.length]),
       authorizedKeysBuffers!,
-      Uint8List.fromList([this.data!.ledger!.uco!.transfers!.length]),
+      Uint8List.fromList([data!.ledger!.uco!.transfers!.length]),
       ucoTransfersBuffers,
-      Uint8List.fromList([this.data!.ledger!.nft!.transfers!.length]),
+      Uint8List.fromList([data!.ledger!.nft!.transfers!.length]),
       nftTransfersBuffers,
-      Uint8List.fromList([this.data!.recipients!.length]),
-      concatUint8List(this.data!.recipients!)
+      Uint8List.fromList([data!.recipients!.length]),
+      concatUint8List(data!.recipients!)
     ]);
   }
 
   Uint8List originSignaturePayload() {
-    var payloadForPreviousSignature = this.previousSignaturePayload();
+    final Uint8List payloadForPreviousSignature = previousSignaturePayload();
     return concatUint8List([
       payloadForPreviousSignature,
-      this.previousPublicKey!,
-      Uint8List.fromList([this.previousSignature!.length]),
-      this.previousSignature!,
+      previousPublicKey!,
+      Uint8List.fromList([previousSignature!.length]),
+      previousSignature!,
     ]);
   }
 
@@ -360,21 +359,21 @@ class TransactionBuilder {
   * Convert the transaction in JSON
   */
   toJSON() {
-    String _json = jsonEncode({
-      'address': uint8ListToHex(this.address!),
-      'type': this.type,
-      'timestamp': this.timestamp,
+    final String _json = jsonEncode({
+      'address': uint8ListToHex(address!),
+      'type': type,
+      'timestamp': timestamp,
       'data': {
-        'content': uint8ListToHex(this.data!.content!),
-        'code': utf8.decode(this.data!.code!),
+        'content': uint8ListToHex(data!.content!),
+        'code': utf8.decode(data!.code!),
         'keys': {
-          'secret': uint8ListToHex(this.data!.keys!.secret!),
-          'authorizedKeys': hexAuthorizedKeys(this.data!.keys!.authorizedKeys!)
+          'secret': uint8ListToHex(data!.keys!.secret!),
+          'authorizedKeys': hexAuthorizedKeys(data!.keys!.authorizedKeys!)
         },
         'ledger': {
           'uco': {
             'transfers':
-                List<dynamic>.from(this.data!.ledger!.uco!.transfers!.map((x) {
+                List<dynamic>.from(data!.ledger!.uco!.transfers!.map((x) {
               return {
                 'to': uint8ListToHex(x.to!),
                 'amount': x.amount,
@@ -383,7 +382,7 @@ class TransactionBuilder {
           },
           'nft': {
             'transfers':
-                List<dynamic>.from(this.data!.ledger!.nft!.transfers!.map((x) {
+                List<dynamic>.from(data!.ledger!.nft!.transfers!.map((x) {
               return {
                 'to': uint8ListToHex(x.to!),
                 'amount': x.amount,
@@ -392,13 +391,13 @@ class TransactionBuilder {
             }))
           },
         },
-        'recipients': List<dynamic>.from(this.data!.recipients!.map((x) => x)),
+        'recipients': List<dynamic>.from(data!.recipients!.map((x) => x)),
       },
-      'previousPublicKey': uint8ListToHex(this.previousPublicKey!),
-      'previousSignature': uint8ListToHex(this.previousSignature!),
-      'originSignature': this.originSignature == null
-          ? this.originSignature
-          : uint8ListToHex(this.originSignature!)
+      'previousPublicKey': uint8ListToHex(previousPublicKey!),
+      'previousSignature': uint8ListToHex(previousSignature!),
+      'originSignature': originSignature == null
+          ? originSignature
+          : uint8ListToHex(originSignature!)
     });
     return _json;
   }
@@ -413,27 +412,27 @@ class Data {
     this.recipients,
   });
 
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        content: json['content'],
+        code: json['code'],
+        keys: Keys.fromJson(json['keys']),
+        ledger: Ledger.fromJson(json['ledger']),
+        recipients: List<Uint8List>.from(json['recipients'].map((x) => x)),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'content': List<dynamic>.from(content!.map((x) => x)),
+        'code': List<dynamic>.from(code!.map((x) => x)),
+        'keys': keys!.toJson(),
+        'ledger': ledger!.toJson(),
+        'recipients': List<dynamic>.from(recipients!.map((x) => x)),
+      };
+
   Uint8List? content;
   Uint8List? code;
   Keys? keys;
   Ledger? ledger;
   List<Uint8List>? recipients;
-
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        content: json["content"],
-        code: json["code"],
-        keys: Keys.fromJson(json["keys"]),
-        ledger: Ledger.fromJson(json["ledger"]),
-        recipients: List<Uint8List>.from(json["recipients"].map((x) => x)),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "content": List<dynamic>.from(content!.map((x) => x)),
-        "code": List<dynamic>.from(code!.map((x) => x)),
-        "keys": keys!.toJson(),
-        "ledger": ledger!.toJson(),
-        "recipients": List<dynamic>.from(recipients!.map((x) => x)),
-      };
 }
 
 class Keys {
@@ -442,20 +441,20 @@ class Keys {
     this.authorizedKeys,
   });
 
-  Uint8List? secret;
-  Map<dynamic, dynamic>? authorizedKeys;
-
   factory Keys.fromJson(Map<dynamic, dynamic> json) => Keys(
-        secret: json["secret"],
-        authorizedKeys: Map<dynamic, dynamic>.from(json["authorizedKeys"]
+        secret: json['secret'],
+        authorizedKeys: Map<dynamic, dynamic>.from(json['authorizedKeys']
             .map((x, y) => MapEntry<dynamic, dynamic>(x, y))),
       );
 
   Map<dynamic, dynamic> toJson() => {
-        "secret": List<dynamic>.from(secret!.map((x) => x)),
-        "authorizedKeys": Map<dynamic, dynamic>.from(
+        'secret': List<dynamic>.from(secret!.map((x) => x)),
+        'authorizedKeys': Map<dynamic, dynamic>.from(
             authorizedKeys!.map((x, y) => MapEntry<dynamic, dynamic>(x, y))),
       };
+
+  Uint8List? secret;
+  Map<dynamic, dynamic>? authorizedKeys;
 }
 
 class Ledger {
@@ -464,18 +463,18 @@ class Ledger {
     this.nft,
   });
 
-  Uco? uco;
-  Nft? nft;
-
   factory Ledger.fromJson(Map<String, dynamic> json) => Ledger(
-        uco: Uco.fromJson(json["uco"]),
-        nft: Nft.fromJson(json["nft"]),
+        uco: Uco.fromJson(json['uco']),
+        nft: Nft.fromJson(json['nft']),
       );
 
   Map<String, dynamic> toJson() => {
-        "uco": uco!.toJson(),
-        "nft": nft!.toJson(),
+        'uco': uco!.toJson(),
+        'nft': nft!.toJson(),
       };
+
+  Uco? uco;
+  Nft? nft;
 }
 
 class Nft {
@@ -483,16 +482,17 @@ class Nft {
     this.transfers,
   });
 
-  List<NftTransfer>? transfers;
-
   factory Nft.fromJson(Map<String, dynamic> json) => Nft(
         transfers: List<NftTransfer>.from(
-            json["transfers"].map((x) => NftTransfer.fromJson(x))),
+            json['transfers'].map((x) => NftTransfer.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "transfers": List<dynamic>.from(transfers!.map((x) => x.toJson())),
+        'transfers': List<dynamic>.from(transfers!.map((x) => x.toJson())),
       };
+
+  List<NftTransfer>? transfers;
+
 }
 
 class NftTransfer {
@@ -502,21 +502,21 @@ class NftTransfer {
     this.nft,
   });
 
-  Uint8List? to;
-  double? amount;
-  Uint8List? nft;
-
   factory NftTransfer.fromJson(Map<String, dynamic> json) => NftTransfer(
-        to: json["to"],
-        amount: json["amount"].toDouble(),
-        nft: json["nft"],
+        to: json['to'],
+        amount: json['amount'].toDouble(),
+        nft: json['nft'],
       );
 
   Map<String, dynamic> toJson() => {
-        "to": to,
-        "amount": amount,
-        "nft": nft,
+        'to': to,
+        'amount': amount,
+        'nft': nft,
       };
+
+  Uint8List? to;
+  double? amount;
+  Uint8List? nft;
 }
 
 class Uco {
@@ -524,16 +524,16 @@ class Uco {
     this.transfers,
   });
 
-  List<UcoTransfer>? transfers;
-
   factory Uco.fromJson(Map<String, dynamic> json) => Uco(
         transfers: List<UcoTransfer>.from(
-            json["transfers"].map((x) => UcoTransfer.fromJson(x))),
+            json['transfers'].map((x) => UcoTransfer.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "transfers": List<dynamic>.from(transfers!.map((x) => x.toJson())),
+        'transfers': List<dynamic>.from(transfers!.map((x) => x.toJson())),
       };
+
+  List<UcoTransfer>? transfers;
 }
 
 class UcoTransfer {
@@ -542,22 +542,22 @@ class UcoTransfer {
     this.amount,
   });
 
-  Uint8List? to;
-  double? amount;
-
   factory UcoTransfer.fromJson(Map<String, dynamic> json) => UcoTransfer(
-        to: json["to"],
-        amount: json["amount"].toDouble(),
+        to: json['to'],
+        amount: json['amount'].toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
-        "to": to,
-        "amount": amount,
+        'to': to,
+        'amount': amount,
       };
+
+  Uint8List? to;
+  double? amount;
 }
 
 Map<dynamic, dynamic> hexAuthorizedKeys(Map<dynamic, dynamic> authorizedKeys) {
-  Map<dynamic, dynamic> authorizedKeysHex = {};
+  final Map<dynamic, dynamic> authorizedKeysHex = {};
   for (String publicKey in authorizedKeys.keys) {
     authorizedKeysHex.putIfAbsent(
         publicKey, () => uint8ListToHex(authorizedKeys[publicKey]));

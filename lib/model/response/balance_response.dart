@@ -16,18 +16,18 @@ class BalanceResponse {
     this.nft,
   });
 
+  factory BalanceResponse.fromJson(Map<String, dynamic> json) =>
+      BalanceResponse(
+        uco: json['uco'].toDouble(),
+        nft: BalanceResponseNft.fromJson(json['nft']),
+      );
+
   double? uco;
   BalanceResponseNft? nft;
 
-  factory BalanceResponse.fromJson(Map<String, dynamic> json) =>
-      BalanceResponse(
-        uco: json["uco"].toDouble(),
-        nft: BalanceResponseNft.fromJson(json["nft"]),
-      );
-
   Map<String, dynamic> toJson() => {
-        "uco": uco,
-        "nft": nft!.toJson(),
+        'uco': uco,
+        'nft': nft!.toJson(),
       };
 }
 
@@ -37,17 +37,17 @@ class BalanceResponseNft {
     this.amount,
   });
 
+  factory BalanceResponseNft.fromJson(Map<String, dynamic> json) =>
+      BalanceResponseNft(
+        address: json['address'],
+        amount: json['amount'].toDouble(),
+      );
+
   String? address;
   double? amount;
 
-  factory BalanceResponseNft.fromJson(Map<String, dynamic> json) =>
-      BalanceResponseNft(
-        address: json["address"],
-        amount: json["amount"].toDouble(),
-      );
-
   Map<String, dynamic> toJson() => {
-        "address": address,
-        "amount": amount,
+        'address': address,
+        'amount': amount,
       };
 }

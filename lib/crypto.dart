@@ -9,6 +9,7 @@ import 'dart:typed_data' show Uint8List;
 import 'package:convert/convert.dart' show hex;
 import 'package:pinenacl/ed25519.dart' as ed25519;
 import 'package:asn1lib/asn1lib.dart' as asn1lib show ASN1Sequence, ASN1Integer;
+import 'package:pointycastle/ecc/api.dart';
 import 'package:pointycastle/export.dart'
     show
         Digest,
@@ -33,7 +34,7 @@ import 'package:uniris_lib_dart/utils.dart';
 import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
 import 'package:flutter_sodium/flutter_sodium.dart' as sodium show Sodium;
 
-Uint8List hash(content, {String algo = "sha256"}) {
+Uint8List hash(content, {String algo = 'sha256'}) {
   if (!(content is Uint8List) && !(content is String)) {
     throw "'content' must be a string or Uint8List";
   }
@@ -47,38 +48,38 @@ Uint8List hash(content, {String algo = "sha256"}) {
   }
 
   switch (algo) {
-    case "sha256":
-      Digest sha256 = new Digest("SHA-256");
+    case 'sha256':
+      final Digest sha256 = Digest('SHA-256');
       return concatUint8List([
-        new Uint8List.fromList([0]),
+        Uint8List.fromList([0]),
         sha256.process(content)
       ]);
-    case "sha512":
-      Digest sha512 = new Digest("SHA-512");
+    case 'sha512':
+      final Digest sha512 = Digest('SHA-512');
       return concatUint8List([
-        new Uint8List.fromList([1]),
+        Uint8List.fromList([1]),
         sha512.process(content)
       ]);
-    case "sha3-256":
-      Digest sha3_256 = new Digest("SHA3-256");
+    case 'sha3-256':
+      final Digest sha3_256 = Digest('SHA3-256');
       return concatUint8List([
-        new Uint8List.fromList([2]),
+        Uint8List.fromList([2]),
         sha3_256.process(content)
       ]);
-    case "sha3-512":
-      Digest sha3_512 = new Digest("SHA3-512");
+    case 'sha3-512':
+      final Digest sha3_512 = Digest('SHA3-512');
       return concatUint8List([
-        new Uint8List.fromList([3]),
+        Uint8List.fromList([3]),
         sha3_512.process(content)
       ]);
-    case "blake2b":
-      Digest blake2b = new Digest("Blake2b");
+    case 'blake2b':
+      final Digest blake2b = Digest('Blake2b');
       return concatUint8List([
-        new Uint8List.fromList([4]),
+        Uint8List.fromList([4]),
         blake2b.process(content)
       ]);
     default:
-      throw "Hash algorithm not supported";
+      throw 'Hash algorithm not supported';
   }
 }
 
@@ -88,7 +89,7 @@ Uint8List hash(content, {String algo = "sha256"}) {
 * @param {int} index Number to identify the order of keys to generate
 * @param {String} curve Elliptic curve to use ("ed25519", "P256", "secp256k1")
 */
-KeyPair deriveKeyPair(String seed, int index, {String curve = "ed25519"}) {
+KeyPair deriveKeyPair(String seed, int index, {String curve = 'ed25519'}) {
   if (!(seed is String)) {
     throw "'seed' must be a string";
   }
@@ -97,47 +98,47 @@ KeyPair deriveKeyPair(String seed, int index, {String curve = "ed25519"}) {
     throw "index' must be a positive number";
   }
 
-  Uint8List pvBuf = derivePrivateKey(seed, index);
+  final Uint8List pvBuf = derivePrivateKey(seed, index);
 
   switch (curve) {
-    case "ed25519":
-      var curveIdBuf = Uint8List.fromList([0]);
-      var signingKey = ed25519.SigningKey(seed: pvBuf);
-      Uint8List pubBuf = signingKey.publicKey.toUint8List();
+    case 'ed25519':
+      final Uint8List curveIdBuf = Uint8List.fromList([0]);
+      final ed25519.SigningKey signingKey = ed25519.SigningKey(seed: pvBuf);
+      final Uint8List pubBuf = signingKey.publicKey.toUint8List();
       return KeyPair(
           privateKey: concatUint8List([curveIdBuf, pvBuf]),
           publicKey: concatUint8List([curveIdBuf, pubBuf]));
 
-    case "P256":
-      var curveIdBuf = Uint8List.fromList([1]);
-      final p256 = ECCurve_prime256v1();
+    case 'P256':
+      final Uint8List curveIdBuf = Uint8List.fromList([1]);
+      final ECCurve_prime256v1 p256 = ECCurve_prime256v1();
 
-      final point = p256.G;
+      final ECPoint point = p256.G;
 
-      final bigInt = BigInt.parse(hex.encode(pvBuf), radix: 16);
-      var curvePoint = point * bigInt;
-      Uint8List pubBuf = curvePoint!.getEncoded(false);
+      final BigInt bigInt = BigInt.parse(hex.encode(pvBuf), radix: 16);
+      final ECPoint? curvePoint = point * bigInt;
+      final Uint8List pubBuf = curvePoint!.getEncoded(false);
       return KeyPair(
           privateKey: concatUint8List([curveIdBuf, pvBuf]),
           publicKey: concatUint8List([curveIdBuf, pubBuf]));
 
-    case "secp256k1":
-      var curveIdBuf = Uint8List.fromList([2]);
-      final secp256k1 = ECCurve_secp256k1();
+    case 'secp256k1':
+      final Uint8List curveIdBuf = Uint8List.fromList([2]);
+      final ECCurve_secp256k1 secp256k1 = ECCurve_secp256k1();
 
-      final point = secp256k1.G;
+      final ECPoint point = secp256k1.G;
 
-      final bigInt = BigInt.parse(hex.encode(pvBuf), radix: 16);
+      final BigInt bigInt = BigInt.parse(hex.encode(pvBuf), radix: 16);
 
-      var curvePoint = point * bigInt;
-      Uint8List pubBuf = curvePoint!.getEncoded(false);
+      final ECPoint? curvePoint = point * bigInt;
+      final Uint8List pubBuf = curvePoint!.getEncoded(false);
 
       return KeyPair(
           privateKey: concatUint8List([curveIdBuf, pvBuf]),
           publicKey: concatUint8List([curveIdBuf, pubBuf]));
 
     default:
-      throw "Curve not supported";
+      throw 'Curve not supported';
   }
 }
 
@@ -171,53 +172,53 @@ Uint8List sign(data, privateKey) {
     }
   }
 
-  Uint8List curveBuf = privateKey.sublist(0, 1);
-  Uint8List pvBuf = privateKey.sublist(1, privateKey.length);
+  final Uint8List curveBuf = privateKey.sublist(0, 1);
+  final Uint8List pvBuf = privateKey.sublist(1, privateKey.length);
 
   switch (curveBuf[0]) {
     case 0:
-      Digest sha512 = new Digest("SHA-512");
-      Uint8List msgHash = sha512.process(data);
-      var signingKey = ed25519.SigningKey(seed: pvBuf);
-      ed25519.SignatureBase sm = signingKey.sign(msgHash).signature;
+      final Digest sha512 = Digest('SHA-512');
+      final Uint8List msgHash = sha512.process(data);
+      final ed25519.SigningKey signingKey = ed25519.SigningKey(seed: pvBuf);
+      final ed25519.SignatureBase sm = signingKey.sign(msgHash).signature;
       return Uint8List.fromList(sm);
 
     case 1:
-      Digest sha256 = new Digest("SHA-256");
-      Uint8List msgHash = sha256.process(data);
+      final Digest sha256 = Digest('SHA-256');
+      final Uint8List msgHash = sha256.process(data);
       final ECDomainParameters _params = ECCurve_prime256v1();
 
-      final digest = SHA256Digest();
-      final signer = ECDSASigner(null, HMac(digest, 64));
-      final key = ECPrivateKey(decodeBigInt(pvBuf), _params);
+      final SHA256Digest digest = SHA256Digest();
+      final ECDSASigner signer = ECDSASigner(null, HMac(digest, 64));
+      final ECPrivateKey key = ECPrivateKey(decodeBigInt(pvBuf), _params);
 
       signer.init(true, PrivateKeyParameter(key));
-      var sig = signer.generateSignature(msgHash) as ECSignature;
+      final ECSignature sig = signer.generateSignature(msgHash) as ECSignature;
 
-      var topLevel = new asn1lib.ASN1Sequence();
+      final asn1lib.ASN1Sequence topLevel = asn1lib.ASN1Sequence();
       topLevel.add(asn1lib.ASN1Integer(sig.r));
       topLevel.add(asn1lib.ASN1Integer(sig.s));
       return topLevel.encodedBytes;
 
     case 2:
-      Digest sha256 = new Digest("SHA-256");
-      Uint8List msgHash = sha256.process(data);
+      final Digest sha256 = Digest('SHA-256');
+      final Uint8List msgHash = sha256.process(data);
       final ECDomainParameters _params = ECCurve_secp256k1();
 
-      final digest = SHA256Digest();
-      final signer = ECDSASigner(null, HMac(digest, 64));
-      final key = ECPrivateKey(decodeBigInt(pvBuf), _params);
+      final SHA256Digest digest = SHA256Digest();
+      final ECDSASigner signer = ECDSASigner(null, HMac(digest, 64));
+      final ECPrivateKey key = ECPrivateKey(decodeBigInt(pvBuf), _params);
 
       signer.init(true, PrivateKeyParameter(key));
-      var sig = signer.generateSignature(msgHash) as ECSignature;
+      final ECSignature sig = signer.generateSignature(msgHash) as ECSignature;
 
-      var topLevel = new asn1lib.ASN1Sequence();
+      final asn1lib.ASN1Sequence topLevel = asn1lib.ASN1Sequence();
       topLevel.add(asn1lib.ASN1Integer(sig.r));
       topLevel.add(asn1lib.ASN1Integer(sig.s));
       return topLevel.encodedBytes;
 
     default:
-      throw "Curve not supported";
+      throw 'Curve not supported';
   }
 }
 
@@ -258,48 +259,48 @@ bool verify(sig, data, publicKey) {
     }
   }
 
-  Uint8List curveBuf = publicKey.sublist(0, 1);
-  Uint8List pubBuf = publicKey.sublist(1, publicKey.length);
+  final Uint8List curveBuf = publicKey.sublist(0, 1);
+  final Uint8List pubBuf = publicKey.sublist(1, publicKey.length);
 
   switch (curveBuf[0]) {
     case 0:
-      Digest sha512 = new Digest("SHA-512");
-      Uint8List msgHash = sha512.process(data);
-      final verifyKey = ed25519.VerifyKey(pubBuf);
+      final Digest sha512 = Digest('SHA-512');
+      final Uint8List msgHash = sha512.process(data);
+      final ed25519.VerifyKey verifyKey = ed25519.VerifyKey(pubBuf);
       return verifyKey.verify(
           signature: ed25519.Signature(sig), message: msgHash);
     case 1:
-      Digest sha256 = new Digest("SHA-256");
-      Uint8List msgHash = sha256.process(data);
+      final Digest sha256 = Digest('SHA-256');
+      final Uint8List msgHash = sha256.process(data);
 
       final ECDomainParameters curve = ECCurve_prime256v1();
 
-      BigInt r = decodeBigInt(sig.sublist(0, 32));
-      BigInt s = decodeBigInt(sig.sublist(32, 64));
-      final signer = ECDSASigner(null, HMac(sha256, 64));
+      final BigInt r = decodeBigInt(sig.sublist(0, 32));
+      final BigInt s = decodeBigInt(sig.sublist(32, 64));
+      final ECDSASigner signer = ECDSASigner(null, HMac(sha256, 64));
       signer.init(
           false,
-          new PublicKeyParameter(
-              new ECPublicKey(curve.curve.decodePoint(pubBuf), curve)));
-      return signer.verifySignature(msgHash, new ECSignature(r, s));
+          PublicKeyParameter(
+              ECPublicKey(curve.curve.decodePoint(pubBuf), curve)));
+      return signer.verifySignature(msgHash, ECSignature(r, s));
 
     case 2:
-      Digest sha256 = new Digest("SHA-256");
-      Uint8List msgHash = sha256.process(data);
+      final Digest sha256 = Digest('SHA-256');
+      final Uint8List msgHash = sha256.process(data);
 
       final ECDomainParameters curve = ECCurve_secp256k1();
 
-      BigInt r = decodeBigInt(sig.sublist(0, 32));
-      BigInt s = decodeBigInt(sig.sublist(32, 64));
-      final signer = ECDSASigner(null, HMac(sha256, 64));
+      final BigInt r = decodeBigInt(sig.sublist(0, 32));
+      final BigInt s = decodeBigInt(sig.sublist(32, 64));
+      final ECDSASigner signer = ECDSASigner(null, HMac(sha256, 64));
       signer.init(
           false,
-          new PublicKeyParameter(
-              new ECPublicKey(curve.curve.decodePoint(pubBuf), curve)));
-      return signer.verifySignature(msgHash, new ECSignature(r, s));
+          PublicKeyParameter(
+              ECPublicKey(curve.curve.decodePoint(pubBuf), curve)));
+      return signer.verifySignature(msgHash, ECSignature(r, s));
 
     default:
-      throw "Curve not supported";
+      throw 'Curve not supported';
   }
 }
 
@@ -333,13 +334,13 @@ Uint8List ecEncrypt(data, publicKey) {
     }
   }
 
-  Uint8List curveBuf = publicKey.sublist(0, 1);
-  Uint8List pubBuf = publicKey.sublist(1, publicKey.length);
+  final Uint8List curveBuf = publicKey.sublist(0, 1);
+  final Uint8List pubBuf = publicKey.sublist(1, publicKey.length);
 
   switch (curveBuf[0]) {
     case 0:
       try {
-        Uint8List curve25519Pub =
+        final Uint8List curve25519Pub =
             sodium.Sodium.cryptoSignEd25519PkToCurve25519(pubBuf);
         return sodium.Sodium.cryptoBoxSeal(data, curve25519Pub);
       } catch (e) {
@@ -351,7 +352,7 @@ Uint8List ecEncrypt(data, publicKey) {
     case 2:
 
     default:
-      throw "Curve not supported";
+      throw 'Curve not supported';
   }
 }
 
@@ -368,17 +369,17 @@ Secret deriveSecret(sharedKey) {
     }
   }
 
-  crypto.Hmac hmac = new crypto.Hmac(crypto.sha256, Uint8List(0));
+  crypto.Hmac hmac = crypto.Hmac(crypto.sha256, Uint8List(0));
   crypto.Digest digest = hmac.convert(utf8.encode(sharedKey));
-  Uint8List pseudoRandomKey = Uint8List.fromList(digest.bytes);
+  final Uint8List pseudoRandomKey = Uint8List.fromList(digest.bytes);
 
-  hmac = new crypto.Hmac(crypto.sha256, pseudoRandomKey);
-  digest = hmac.convert(utf8.encode("0"));
-  Uint8List iv = Uint8List.fromList(digest.bytes.sublist(0, 32));
+  hmac = crypto.Hmac(crypto.sha256, pseudoRandomKey);
+  digest = hmac.convert(utf8.encode('0'));
+  final Uint8List iv = Uint8List.fromList(digest.bytes.sublist(0, 32));
 
-  hmac = new crypto.Hmac(crypto.sha256, iv);
-  digest = hmac.convert(utf8.encode("1"));
-  Uint8List aesKey = Uint8List.fromList(digest.bytes.sublist(0, 32));
+  hmac = crypto.Hmac(crypto.sha256, iv);
+  digest = hmac.convert(utf8.encode('1'));
+  final Uint8List aesKey = Uint8List.fromList(digest.bytes.sublist(0, 32));
 
   return Secret(iv: iv, aesKey: aesKey);
 }
@@ -413,17 +414,17 @@ Uint8List aesEncrypt(data, key) {
     }
   }
 
-  Uint8List aad = Uint8List.fromList(
-      List<int>.generate(16, (i) => Random.secure().nextInt(256)));
-  Uint8List iv = Uint8List.fromList(
-      List<int>.generate(12, (i) => Random.secure().nextInt(256)));
+  final Uint8List aad = Uint8List.fromList(
+      List<int>.generate(16, (int i) => Random.secure().nextInt(256)));
+  final Uint8List iv = Uint8List.fromList(
+      List<int>.generate(12, (int i) => Random.secure().nextInt(256)));
 
-  var encrypter = GCMBlockCipher(AESFastEngine());
-  var params = AEADParameters(KeyParameter(key), 16 * 8, iv, aad);
+  final GCMBlockCipher encrypter = GCMBlockCipher(AESFastEngine());
+  final AEADParameters<KeyParameter> params = AEADParameters(KeyParameter(key), 16 * 8, iv, aad);
   encrypter.init(true, params);
-  var cipherText = encrypter.process(data);
+  final Uint8List cipherText = encrypter.process(data);
 
-  Uint8List result = concatUint8List([
+  final Uint8List result = concatUint8List([
     encrypter.nonce,
     encrypter.aad!,
     Uint8List.fromList(cipherText.sublist(0, 5))
@@ -477,18 +478,18 @@ Uint8List aesDecrypt(cipherText, key) {
 
 Uint8List derivePrivateKey(String seed, int index) {
   //Derive master keys
-  crypto.Hmac hmac = new crypto.Hmac(crypto.sha512, Uint8List(0));
+  crypto.Hmac hmac = crypto.Hmac(crypto.sha512, Uint8List(0));
   crypto.Digest digest = hmac.convert(utf8.encode(seed));
-  Uint8List masterKey = Uint8List.fromList(digest.bytes.sublist(0, 32));
-  Uint8List masterEntropy = Uint8List.fromList(digest.bytes.sublist(32, 64));
+  final Uint8List masterKey = Uint8List.fromList(digest.bytes.sublist(0, 32));
+  final Uint8List masterEntropy = Uint8List.fromList(digest.bytes.sublist(32, 64));
 
   //Derive the final seed
-  hmac = new crypto.Hmac(crypto.sha512, masterEntropy);
-  Uint8List indexBuf = encodeInt32(index);
-  Uint8List extendedSeed = concatUint8List([masterKey, indexBuf]);
+  hmac = crypto.Hmac(crypto.sha512, masterEntropy);
+  final Uint8List indexBuf = encodeInt32(index);
+  final Uint8List extendedSeed = concatUint8List([masterKey, indexBuf]);
   digest = hmac.convert(extendedSeed);
 
-  Uint8List hmacBuf = Uint8List.fromList(digest.bytes.sublist(0, 32));
+  final Uint8List hmacBuf = Uint8List.fromList(digest.bytes.sublist(0, 32));
 
   return hmacBuf;
 }

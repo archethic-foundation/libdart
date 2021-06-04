@@ -15,12 +15,12 @@ class SimplePriceIdrResponse {
     this.uniris,
   });
 
-  Uniris? uniris;
-
   factory SimplePriceIdrResponse.fromJson(Map<String, dynamic> json) =>
       SimplePriceIdrResponse(
         uniris: Uniris.fromJson(json['uniris']),
       );
+
+  Uniris? uniris;
 
   Map<String, dynamic> toJson() => {
         'uniris': uniris!.toJson(),
@@ -32,13 +32,13 @@ class Uniris {
     this.idr,
   });
 
-  double? idr;
-
   factory Uniris.fromJson(Map<String, dynamic> json) => Uniris(
-        idr: json["idr"].toDouble(),
+        idr: json['idr'].toDouble(),
       );
 
+  double? idr;
+  
   Map<String, dynamic> toJson() => {
-        "idr": idr,
+        'idr': idr,
       };
 }

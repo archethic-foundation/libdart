@@ -17,8 +17,8 @@ dynamic sendTx(tx, String endpoint) async {
     'Accept': 'application/json',
   };
 
-  http.Response responseHttp = await http.post(
-      Uri.parse(endpoint + "/api/transaction"),
+  final http.Response responseHttp = await http.post(
+      Uri.parse(endpoint + '/api/transaction'),
       body: json.encode(tx),
       headers: requestHeaders);
 
@@ -31,7 +31,7 @@ dynamic getTransactionIndex(String address, String endpoint) async {
     'Accept': 'application/json',
   };
 
-  http.Response responseHttp = await http.post(Uri.parse(endpoint + "/api"),
+  final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
       body: json.encode("{query: 'query {lastTransaction(address: " +
           address +
           ") {chainLength}}'"),
@@ -46,7 +46,7 @@ dynamic getStorageNoncePublicKey(String endpoint) async {
     'Accept': 'application/json',
   };
 
-  http.Response responseHttp = await http.post(Uri.parse(endpoint + "/api"),
+  final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
       body:
           json.encode("{query: 'query {sharedSecrets{storageNoncePublicKey}}'"),
       headers: requestHeaders);
@@ -60,7 +60,7 @@ Future<BalanceResponse> fetchBalance(String address, String endpoint) async {
     'Accept': 'application/json',
   };
 
-  String _json = json.encode('query {' +
+  final String _json = json.encode('query {' +
       ' balance(address: ' +
       address +
       '}) {' +
@@ -72,10 +72,10 @@ Future<BalanceResponse> fetchBalance(String address, String endpoint) async {
       '} ' +
       '}');
 
-  http.Response responseHttp = await http.post(Uri.parse(endpoint + "/api"),
+  final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
       body: _json, headers: requestHeaders);
 
-  Completer<BalanceResponse> _completer = new Completer<BalanceResponse>();
+  final Completer<BalanceResponse> _completer = Completer<BalanceResponse>();
   BalanceResponse? balanceResponse;
   if (responseHttp.statusCode == 200) {
     balanceResponse = balanceResponseFromJson(responseHttp.body);
@@ -91,7 +91,7 @@ Future<TransactionResponse> getTransactionContent(
     'Accept': 'application/json',
   };
 
-  String _json = json.encode('query { ' +
+  final String _json = json.encode('query { ' +
       ' transaction(address: ' +
       address +
       '}) { ' +
@@ -101,11 +101,11 @@ Future<TransactionResponse> getTransactionContent(
       ' } ' +
       ' } ');
 
-  http.Response responseHttp = await http.post(Uri.parse(endpoint + "/api"),
+  final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
       body: _json, headers: requestHeaders);
 
-  Completer<TransactionResponse> _completer =
-      new Completer<TransactionResponse>();
+  final Completer<TransactionResponse> _completer =
+      Completer<TransactionResponse>();
   TransactionResponse? transactionResponse;
   if (responseHttp.statusCode == 200) {
     transactionResponse = transactionResponseFromJson(responseHttp.body);
@@ -121,7 +121,7 @@ Future<TransactionChainResponse> getTransactions(
     'Accept': 'application/json',
   };
 
-  String _json = json.encode('query {' +
+  final String _json = json.encode('query {' +
       ' transactionChain(address: ' +
       address +
       ') {' +
@@ -148,11 +148,11 @@ Future<TransactionChainResponse> getTransactions(
       ' }' +
       '}');
 
-  http.Response responseHttp = await http.post(Uri.parse(endpoint + "/api"),
+  final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
       body: _json, headers: requestHeaders);
 
-  Completer<TransactionChainResponse> _completer =
-      new Completer<TransactionChainResponse>();
+  final Completer<TransactionChainResponse> _completer =
+      Completer<TransactionChainResponse>();
   TransactionChainResponse? transactionChainResponse;
   if (responseHttp.statusCode == 200) {
     transactionChainResponse =
@@ -164,7 +164,7 @@ Future<TransactionChainResponse> getTransactions(
 
 
 void notifyAddressReplication(String address, String endpoint) {
-  AbsintheSocket _socket = AbsintheSocket("ws://"+endpoint+"/socket");
+  final AbsintheSocket _socket = AbsintheSocket('ws://'+endpoint+'/socket');
   // TODO: in progress
   /*Observer _categoryObserver = Observer(
         onError: reject,

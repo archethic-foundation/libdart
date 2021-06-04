@@ -15,16 +15,16 @@ class TransactionResponse {
     this.data,
   });
 
-  TransactionResponseData? data;
-
   factory TransactionResponse.fromJson(Map<String, dynamic> json) =>
       TransactionResponse(
-        data: TransactionResponseData.fromJson(json["data"]),
+        data: TransactionResponseData.fromJson(json['data']),
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data!.toJson(),
+        'data': data!.toJson(),
       };
+
+  TransactionResponseData? data;
 }
 
 class TransactionResponseData {
@@ -32,14 +32,14 @@ class TransactionResponseData {
     this.content,
   });
 
-  String? content;
-
   factory TransactionResponseData.fromJson(Map<String, dynamic> json) =>
       TransactionResponseData(
-        content: json["content"],
+        content: json['content'],
       );
 
   Map<String, dynamic> toJson() => {
-        "content": content,
+        'content': content,
       };
+
+  String? content;
 }

@@ -17,7 +17,7 @@ bool isHex(String inputString) {
  * @param {Uint8List} hexString Hexadecimal string
  */
 Uint8List hexToUint8List(String hexString) {
-  final bytes = hex.decode(hexString);
+  final List<int> bytes = hex.decode(hexString);
   return Uint8List.fromList(bytes);
 }
 
@@ -34,7 +34,7 @@ String uint8ListToHex(Uint8List bytes) {
  * @param {Array} arrays Uint8List
  */
 Uint8List concatUint8List(Iterable<Uint8List> list) =>
-    Uint8List.fromList(list.expand((element) => element).toList());
+    Uint8List.fromList(list.expand((Uint8List element) => element).toList());
 
 /*
  * Encode a integer into a Uint8List (4 bytes)
@@ -49,9 +49,9 @@ Uint8List encodeInt32(int number) {
  * @param {Number} number Number to encode
  */
 Uint8List encodeBigInt(BigInt number) {
-  var data = ByteData(8);
-  var _bigInt = number;
-  for (var i = 1; i <= data.lengthInBytes; i++) {
+  final ByteData data = ByteData(8);
+  BigInt _bigInt = number;
+  for (int i = 1; i <= data.lengthInBytes; i++) {
     data.setUint8(data.lengthInBytes - i, _bigInt.toUnsigned(8).toInt());
     _bigInt = _bigInt >> 8;
   }
@@ -76,7 +76,7 @@ BigInt decodeBigInt(Uint8List bytes) {
  * @param {Number} number Number to encode
  */
 Uint8List encodeFloat64(double number) {
-  var byteConvert = ByteData(8);
+  final ByteData byteConvert = ByteData(8);
   byteConvert.setFloat64(0, number);
   return byteConvert.buffer.asUint8List();
 }

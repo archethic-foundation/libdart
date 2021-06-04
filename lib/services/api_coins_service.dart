@@ -49,17 +49,17 @@ class ApiCoinsService {
   */
   Future<CoinsResponse> getCoinsResponse() async {
     CoinsResponse? coinsResponse;
-    HttpClient httpClient = new HttpClient();
+    final HttpClient httpClient = HttpClient();
     try {
-      HttpClientRequest request = await httpClient
-          .getUrl(Uri.parse("https://api.coingecko.com/api/v3/coins/uniris"));
+      final HttpClientRequest request = await httpClient
+          .getUrl(Uri.parse('https://api.coingecko.com/api/v3/coins/uniris'));
       request.headers.set('content-type', 'application/json');
-      HttpClientResponse response = await request.close();
+      final HttpClientResponse response = await request.close();
       if (response.statusCode == 200) {
-        String reply = await response.transform(utf8.decoder).join();
+        final String reply = await response.transform(utf8.decoder).join();
         coinsResponse = coinsResponseFromJson(reply);
       }
-    } catch (e) {} finally {
+    } finally {
       httpClient.close();
     }
     return coinsResponse!;
@@ -72,20 +72,20 @@ class ApiCoinsService {
   */
   Future<CoinsPriceResponse> getCoinsChart(String currency, int nbDays) async {
     CoinsPriceResponse? coinsPriceResponse;
-    HttpClient httpClient = new HttpClient();
+    final HttpClient httpClient = HttpClient();
     try {
-      HttpClientRequest request = await httpClient.getUrl(Uri.parse(
-          "https://api.coingecko.com/api/v3/coins/uniris/market_chart?vs_currency=" +
+      final HttpClientRequest request = await httpClient.getUrl(Uri.parse(
+          'https://api.coingecko.com/api/v3/coins/uniris/market_chart?vs_currency=' +
               currency +
-              "&days=" +
+              '&days=' +
               nbDays.toString()));
       request.headers.set('content-type', 'application/json');
-      HttpClientResponse response = await request.close();
+      final HttpClientResponse response = await request.close();
       if (response.statusCode == 200) {
-        String reply = await response.transform(utf8.decoder).join();
+        final String reply = await response.transform(utf8.decoder).join();
         coinsPriceResponse = coinsPriceResponseFromJson(reply);
       }
-    } catch (e) {} finally {
+    } finally {
       httpClient.close();
     }
     return coinsPriceResponse!;
@@ -97,250 +97,250 @@ class ApiCoinsService {
   */
   Future<SimplePriceResponse> getSimplePrice(String currency) async {
     //print("getSimplePrice");
-    SimplePriceResponse simplePriceResponse = new SimplePriceResponse();
+    final SimplePriceResponse simplePriceResponse = SimplePriceResponse();
     simplePriceResponse.currency = currency;
 
-    HttpClient httpClient = new HttpClient();
+    final HttpClient httpClient = HttpClient();
     try {
       HttpClientRequest request = await httpClient.getUrl(Uri.parse(
-          "https://api.coingecko.com/api/v3/simple/price?ids=uniris&vs_currencies=BTC"));
+          'https://api.coingecko.com/api/v3/simple/price?ids=uniris&vs_currencies=BTC'));
       request.headers.set('content-type', 'application/json');
       HttpClientResponse response = await request.close();
       if (response.statusCode == 200) {
-        String reply = await response.transform(utf8.decoder).join();
-        SimplePriceBtcResponse simplePriceBtcResponse =
+        final String reply = await response.transform(utf8.decoder).join();
+        final SimplePriceBtcResponse simplePriceBtcResponse =
             simplePriceBtcResponseFromJson(reply);
         simplePriceResponse.btcPrice = simplePriceBtcResponse.uniris!.btc;
       }
 
       request = await httpClient.getUrl(Uri.parse(
-          "https://api.coingecko.com/api/v3/simple/price?ids=uniris&vs_currencies=" +
+          'https://api.coingecko.com/api/v3/simple/price?ids=uniris&vs_currencies=' +
               currency));
       request.headers.set('content-type', 'application/json');
       response = await request.close();
       if (response.statusCode == 200) {
-        String reply = await response.transform(utf8.decoder).join();
+        final String reply = await response.transform(utf8.decoder).join();
         switch (currency.toUpperCase()) {
-          case "ARS":
-            SimplePriceArsResponse simplePriceLocalResponse =
+          case 'ARS':
+            final SimplePriceArsResponse simplePriceLocalResponse =
                 simplePriceArsResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.ars;
             break;
-          case "AUD":
-            SimplePriceAudResponse simplePriceLocalResponse =
+          case 'AUD':
+            final SimplePriceAudResponse simplePriceLocalResponse =
                 simplePriceAudResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.aud;
             break;
-          case "BRL":
-            SimplePriceBrlResponse simplePriceLocalResponse =
+          case 'BRL':
+            final SimplePriceBrlResponse simplePriceLocalResponse =
                 simplePriceBrlResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.brl;
             break;
-          case "CAD":
-            SimplePriceCadResponse simplePriceLocalResponse =
+          case 'CAD':
+            final SimplePriceCadResponse simplePriceLocalResponse =
                 simplePriceCadResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.cad;
             break;
-          case "CHF":
-            SimplePriceChfResponse simplePriceLocalResponse =
+          case 'CHF':
+            final SimplePriceChfResponse simplePriceLocalResponse =
                 simplePriceChfResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.chf;
             break;
-          case "CLP":
-            SimplePriceClpResponse simplePriceLocalResponse =
+          case 'CLP':
+            final SimplePriceClpResponse simplePriceLocalResponse =
                 simplePriceClpResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.clp;
             break;
-          case "CNY":
-            SimplePriceCnyResponse simplePriceLocalResponse =
+          case 'CNY':
+            final SimplePriceCnyResponse simplePriceLocalResponse =
                 simplePriceCnyResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.cny;
             break;
-          case "CZK":
-            SimplePriceCzkResponse simplePriceLocalResponse =
+          case 'CZK':
+            final SimplePriceCzkResponse simplePriceLocalResponse =
                 simplePriceCzkResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.czk;
             break;
-          case "DKK":
-            SimplePriceDkkResponse simplePriceLocalResponse =
+          case 'DKK':
+            final SimplePriceDkkResponse simplePriceLocalResponse =
                 simplePriceDkkResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.dkk;
             break;
-          case "EUR":
-            SimplePriceEurResponse simplePriceLocalResponse =
+          case 'EUR':
+            final SimplePriceEurResponse simplePriceLocalResponse =
                 simplePriceEurResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.eur;
             break;
-          case "GBP":
-            SimplePriceGbpResponse simplePriceLocalResponse =
+          case 'GBP':
+            final SimplePriceGbpResponse simplePriceLocalResponse =
                 simplePriceGbpResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.gbp;
             break;
-          case "HKD":
-            SimplePriceHkdResponse simplePriceLocalResponse =
+          case 'HKD':
+            final SimplePriceHkdResponse simplePriceLocalResponse =
                 simplePriceHkdResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.hkd;
             break;
-          case "HUF":
-            SimplePriceHufResponse simplePriceLocalResponse =
+          case 'HUF':
+            final SimplePriceHufResponse simplePriceLocalResponse =
                 simplePriceHufResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.huf;
             break;
-          case "IDR":
-            SimplePriceIdrResponse simplePriceLocalResponse =
+          case 'IDR':
+            final SimplePriceIdrResponse simplePriceLocalResponse =
                 simplePriceIdrResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.idr;
             break;
-          case "ILS":
-            SimplePriceIlsResponse simplePriceLocalResponse =
+          case 'ILS':
+            final SimplePriceIlsResponse simplePriceLocalResponse =
                 simplePriceIlsResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.ils;
             break;
-          case "INR":
-            SimplePriceInrResponse simplePriceLocalResponse =
+          case 'INR':
+            final SimplePriceInrResponse simplePriceLocalResponse =
                 simplePriceInrResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.inr;
             break;
-          case "JPY":
-            SimplePriceJpyResponse simplePriceLocalResponse =
+          case 'JPY':
+            final SimplePriceJpyResponse simplePriceLocalResponse =
                 simplePriceJpyResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.jpy;
             break;
-          case "KRW":
-            SimplePriceKrwResponse simplePriceLocalResponse =
+          case 'KRW':
+            final SimplePriceKrwResponse simplePriceLocalResponse =
                 simplePriceKrwResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.krw;
             break;
-          case "KWD":
-            SimplePriceKwdResponse simplePriceLocalResponse =
+          case 'KWD':
+            final SimplePriceKwdResponse simplePriceLocalResponse =
                 simplePriceKwdResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.kwd;
             break;
-          case "MXN":
-            SimplePriceMxnResponse simplePriceLocalResponse =
+          case 'MXN':
+            final SimplePriceMxnResponse simplePriceLocalResponse =
                 simplePriceMxnResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.mxn;
             break;
-          case "MYR":
-            SimplePriceMyrResponse simplePriceLocalResponse =
+          case 'MYR':
+            final SimplePriceMyrResponse simplePriceLocalResponse =
                 simplePriceMyrResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.myr;
             break;
-          case "NOK":
-            SimplePriceNokResponse simplePriceLocalResponse =
+          case 'NOK':
+            final SimplePriceNokResponse simplePriceLocalResponse =
                 simplePriceNokResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.nok;
             break;
-          case "NZD":
-            SimplePriceNzdResponse simplePriceLocalResponse =
+          case 'NZD':
+            final SimplePriceNzdResponse simplePriceLocalResponse =
                 simplePriceNzdResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.nzd;
             break;
-          case "PHP":
-            SimplePricePhpResponse simplePriceLocalResponse =
+          case 'PHP':
+            final SimplePricePhpResponse simplePriceLocalResponse =
                 simplePricePhpResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.php;
             break;
-          case "PKR":
-            SimplePricePkrResponse simplePriceLocalResponse =
+          case 'PKR':
+            final SimplePricePkrResponse simplePriceLocalResponse =
                 simplePricePkrResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.pkr;
             break;
-          case "PLN":
-            SimplePricePlnResponse simplePriceLocalResponse =
+          case 'PLN':
+            final SimplePricePlnResponse simplePriceLocalResponse =
                 simplePricePlnResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.pln;
             break;
-          case "RUB":
-            SimplePriceRubResponse simplePriceLocalResponse =
+          case 'RUB':
+            final SimplePriceRubResponse simplePriceLocalResponse =
                 simplePriceRubResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.rub;
             break;
-          case "SAR":
-            SimplePriceSarResponse simplePriceLocalResponse =
+          case 'SAR':
+            final SimplePriceSarResponse simplePriceLocalResponse =
                 simplePriceSarResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.sar;
             break;
-          case "SEK":
-            SimplePriceSekResponse simplePriceLocalResponse =
+          case 'SEK':
+            final SimplePriceSekResponse simplePriceLocalResponse =
                 simplePriceSekResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.sek;
             break;
-          case "SGD":
-            SimplePriceSgdResponse simplePriceLocalResponse =
+          case 'SGD':
+            final SimplePriceSgdResponse simplePriceLocalResponse =
                 simplePriceSgdResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.sgd;
             break;
-          case "THB":
-            SimplePriceThbResponse simplePriceLocalResponse =
+          case 'THB':
+            final SimplePriceThbResponse simplePriceLocalResponse =
                 simplePriceThbResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.thb;
             break;
-          case "TRY":
-            SimplePriceTryResponse simplePriceLocalResponse =
+          case 'TRY':
+            final SimplePriceTryResponse simplePriceLocalResponse =
                 simplePriceTryResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.tryl;
             break;
-          case "TWD":
-            SimplePriceTwdResponse simplePriceLocalResponse =
+          case 'TWD':
+            final SimplePriceTwdResponse simplePriceLocalResponse =
                 simplePriceTwdResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.twd;
             break;
-          case "AED":
-            SimplePriceAedResponse simplePriceLocalResponse =
+          case 'AED':
+            final SimplePriceAedResponse simplePriceLocalResponse =
                 simplePriceAedResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.aed;
             break;
-          case "ZAR":
-            SimplePriceZarResponse simplePriceLocalResponse =
+          case 'ZAR':
+            final SimplePriceZarResponse simplePriceLocalResponse =
                 simplePriceZarResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.zar;
             break;
-          case "USD":
+          case 'USD':
           default:
-            SimplePriceUsdResponse simplePriceLocalResponse =
+            final SimplePriceUsdResponse simplePriceLocalResponse =
                 simplePriceUsdResponseFromJson(reply);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.uniris!.usd;
             break;
         }
       }
-    } catch (e) {} finally {
+    } finally {
       httpClient.close();
     }
     return simplePriceResponse;
@@ -351,14 +351,14 @@ class ApiCoinsService {
   */
   Future<CoinsCurrentDataResponse> getCoinsCurrentData() async {
     CoinsCurrentDataResponse? coinsCurrentDataResponse;
-    HttpClient httpClient = new HttpClient();
+    final HttpClient httpClient = HttpClient();
     try {
-      HttpClientRequest request = await httpClient
-          .getUrl(Uri.parse("https://api.coingecko.com/api/v3/coins/uniris"));
+      final HttpClientRequest request = await httpClient
+          .getUrl(Uri.parse('https://api.coingecko.com/api/v3/coins/uniris'));
       request.headers.set('content-type', 'application/json');
-      HttpClientResponse response = await request.close();
+      final HttpClientResponse response = await request.close();
       if (response.statusCode == 200) {
-        String reply = await response.transform(utf8.decoder).join();
+        final String reply = await response.transform(utf8.decoder).join();
         coinsCurrentDataResponse = coinsCurrentDataResponseFromJson(reply);
       }
     } catch (e) {

@@ -6,43 +6,9 @@ import 'package:phoenix_wings/phoenix_wings.dart';
 
 /// An Absinthe Socket
 class AbsintheSocket {
-  String endpoint;
-  AbsintheSocketOptions socketOptions = AbsintheSocketOptions();
-  PhoenixSocket _phoenixSocket;
-  PhoenixChannel _absintheChannel;
-  List<Notifier> _notifiers = [];
-  List<Notifier> _queuedPushes = [];
-  NotifierPushHandler subscriptionHandler;
-  NotifierPushHandler unsubscriptionHandler;
-
-  static _onError(Map response) {
-    print("onError");
-    print(response.toString());
-  }
-
-  static _onSubscriptionSucceed(Notifier notifier) {
-    return (Map response) {
-      print("response");
-      print(response.toString());
-      notifier.subscriptionId = response["subscriptionId"];
-    };
-  }
-
-  _onUnsubscriptionSucceed(Notifier notifier) {
-    return (Map response) {
-      print("unsubscription response");
-      print(response.toString());
-      notifier.cancel();
-      _notifiers.remove(notifier);
-    };
-  }
-
-  static _onTimeout(Map response) {
-    print("onTimeout");
-  }
 
   AbsintheSocket(this.endpoint, {this.socketOptions}) {
-    if (socketOptions == null) socketOptions = AbsintheSocketOptions();
+    socketOptions ??= AbsintheSocketOptions();
     subscriptionHandler = NotifierPushHandler(
         onError: _onError,
         onTimeout: _onTimeout,
@@ -53,22 +19,57 @@ class AbsintheSocket {
         onSucceed: _onUnsubscriptionSucceed);
     _phoenixSocket = PhoenixSocket(endpoint,
         socketOptions: PhoenixSocketOptions(
-            params: socketOptions.params..addAll({"vsn": "2.0.0"})));
+            params: socketOptions.params..addAll({'vsn': '2.0.0'})));
     _connect();
   }
+  
+  String endpoint;
+  AbsintheSocketOptions socketOptions = AbsintheSocketOptions();
+  PhoenixSocket _phoenixSocket;
+  PhoenixChannel _absintheChannel;
+  final List<Notifier> _notifiers = [];
+  List<Notifier> _queuedPushes = [];
+  NotifierPushHandler subscriptionHandler;
+  NotifierPushHandler unsubscriptionHandler;
 
-  _connect() async {
-    await _phoenixSocket.connect();
-    _phoenixSocket.onMessage(_onMessage);
-    _absintheChannel = _phoenixSocket.channel("__absinthe__:control", {});
-    _absintheChannel.join().receive("ok", _sendQueuedPushes);
+  static void _onError(Map response) {
+    print('onError');
+    print(response.toString());
   }
 
-  disconnect() {
+  static _onSubscriptionSucceed(Notifier notifier) {
+    return (Map response) {
+      print('response');
+      print(response.toString());
+      notifier.subscriptionId = response['subscriptionId'];
+    };
+  }
+
+  _onUnsubscriptionSucceed(Notifier notifier) {
+    return (Map response) {
+      print('unsubscription response');
+      print(response.toString());
+      notifier.cancel();
+      _notifiers.remove(notifier);
+    };
+  }
+
+  static void _onTimeout(Map response) {
+    print('onTimeout');
+  }
+
+  Future<void> _connect() async {
+    await _phoenixSocket.connect();
+    _phoenixSocket.onMessage(_onMessage);
+    _absintheChannel = _phoenixSocket.channel('__absinthe__:control', {});
+    _absintheChannel.join().receive('ok', _sendQueuedPushes);
+  }
+
+  void disconnect() {
     _phoenixSocket.disconnect();
   }
 
-  _sendQueuedPushes(_) {
+  void _sendQueuedPushes(_) {
     _queuedPushes.forEach((notifier) {
       _pushRequest(notifier);
     });
@@ -82,42 +83,42 @@ class AbsintheSocket {
   void unsubscribe(Notifier notifier) {
     _handlePush(
         _absintheChannel.push(
-            event: "unsubscribe",
-            payload: {"subscriptionId": notifier.subscriptionId}),
+            event: 'unsubscribe',
+            payload: {'subscriptionId': notifier.subscriptionId}),
         _createPushHandler(unsubscriptionHandler, notifier));
   }
 
   Notifier send(GqlRequest request) {
-    Notifier notifier = Notifier(request: request);
+    final Notifier notifier = Notifier(request: request);
     _notifiers.add(notifier);
     _pushRequest(notifier);
     return notifier;
   }
 
-  _onMessage(PhoenixMessage message) {
-    String subscriptionId = message.topic;
+  void _onMessage(PhoenixMessage message) {
+    final String subscriptionId = message.topic;
     _notifiers
         .where((Notifier notifier) => notifier.subscriptionId == subscriptionId)
         .forEach(
-            (Notifier notifier) => notifier.notify(message.payload["result"]));
+            (Notifier notifier) => notifier.notify(message.payload['result']));
   }
 
-  _pushRequest(Notifier notifier) {
+  void _pushRequest(Notifier notifier) {
     if (_absintheChannel == null) {
       _queuedPushes.add(notifier);
     } else {
       _handlePush(
           _absintheChannel.push(
-              event: "doc", payload: {"query": notifier.request.operation}),
+              event: 'doc', payload: {'query': notifier.request.operation}),
           _createPushHandler(subscriptionHandler, notifier));
     }
   }
 
-  _handlePush(PhoenixPush push, PushHandler handler) {
+  void _handlePush(PhoenixPush push, PushHandler handler) {
     push
-        .receive("ok", handler.onSucceed)
-        .receive("error", handler.onError)
-        .receive("timeout", handler.onTimeout);
+        .receive('ok', handler.onSucceed)
+        .receive('error', handler.onError)
+        .receive('timeout', handler.onTimeout);
   }
 
   PushHandler _createPushHandler(
@@ -135,19 +136,19 @@ class AbsintheSocket {
 }
 
 class AbsintheSocketOptions {
-  Map<String, String> params = {};
-
   AbsintheSocketOptions({this.params}) {
-    if (params == null) params = {};
+    params ??= {};
   }
+
+  Map<String, String> params = {};
 }
 
 class Notifier<Result> {
+  Notifier({this.request});
+
   GqlRequest request;
   List<Observer<Result>> observers = [];
   String subscriptionId;
-
-  Notifier({this.request});
 
   void observe(Observer observer) {
     observers.add(observer);
@@ -163,34 +164,34 @@ class Notifier<Result> {
 }
 
 class Observer<Result> {
+  Observer(
+      {this.onAbort, this.onCancel, this.onError, this.onStart, this.onResult});
+
   Function onAbort;
   Function onCancel;
   Function onError;
   Function onStart;
   Function onResult;
-
-  Observer(
-      {this.onAbort, this.onCancel, this.onError, this.onStart, this.onResult});
 }
 
 class GqlRequest {
-  String operation;
-
   GqlRequest({this.operation});
+
+  String operation;
 }
 
 class NotifierPushHandler<Response> {
+  NotifierPushHandler({this.onError, this.onSucceed, this.onTimeout});
+
   Function onError;
   Function onSucceed;
   Function onTimeout;
-
-  NotifierPushHandler({this.onError, this.onSucceed, this.onTimeout});
 }
 
 class PushHandler<Response> {
+  PushHandler({this.onError, this.onSucceed, this.onTimeout});
+
   Function onError;
   Function onSucceed;
   Function onTimeout;
-
-  PushHandler({this.onError, this.onSucceed, this.onTimeout});
 }

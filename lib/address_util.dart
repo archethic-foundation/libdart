@@ -11,8 +11,8 @@ import 'package:uniris_lib_dart/utils.dart';
  * @param {String} hashAlgo  Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
  */
 String deriveAddress(String seed, int index,
-    {String curve = "ed25519", String hashAlgo = "sha256"}) {
-  KeyPair keypair = crypto.deriveKeyPair(seed, index, curve: curve);
+    {String curve = 'ed25519', String hashAlgo = 'sha256'}) {
+  final KeyPair keypair = crypto.deriveKeyPair(seed, index, curve: curve);
   return uint8ListToHex(crypto.hash(keypair.publicKey, algo: hashAlgo));
 }
 
@@ -22,8 +22,8 @@ String deriveAddress(String seed, int index,
  * @param {String} endpoint
  */
 Future<String> lastAddress(String seed, String endpoint) async {
-  String genesisAddress = deriveAddress(seed, 0);
-  int index = await sendTx(genesisAddress, endpoint);
-  String lastAddress = deriveAddress(seed, index);
+  final String genesisAddress = deriveAddress(seed, 0);
+  final int index = await sendTx(genesisAddress, endpoint);
+  final String lastAddress = deriveAddress(seed, index);
   return lastAddress;
 }
