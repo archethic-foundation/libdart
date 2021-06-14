@@ -1,10 +1,14 @@
 library test.utils_test;
 
+// Dart imports:
 import 'dart:typed_data';
 
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
-import 'package:uniris_lib_dart/utils.dart';
 import 'package:pointycastle/src/utils.dart' as pc_utils;
+
+// Project imports:
+import 'package:uniris_lib_dart/utils.dart';
 
 void main() {
   group('isHex', () {

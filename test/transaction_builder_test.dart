@@ -1,13 +1,17 @@
 library test.transaction_builder_test;
 
+// Dart imports:
 import 'dart:convert';
 import 'dart:typed_data';
 
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
+
+// Project imports:
+import 'package:uniris_lib_dart/crypto.dart' as crypto;
 import 'package:uniris_lib_dart/model/key_pair.dart';
 import 'package:uniris_lib_dart/transaction_builder.dart';
 import 'package:uniris_lib_dart/utils.dart';
-import 'package:uniris_lib_dart/crypto.dart' as crypto;
 
 void main() {
   group('Transaction builder', () {

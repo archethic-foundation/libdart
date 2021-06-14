@@ -1,6 +1,11 @@
+// Dart imports:
 import 'dart:async';
 import 'dart:convert';
+
+// Package imports:
 import 'package:http/http.dart' as http show Response, post;
+
+// Project imports:
 import 'package:uniris_lib_dart/model/response/balance_response.dart';
 import 'package:uniris_lib_dart/model/response/transaction_chain_response.dart';
 import 'package:uniris_lib_dart/model/response/transaction_response.dart';

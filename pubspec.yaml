@@ -13,7 +13,7 @@ dependencies:
 
   pointycastle: ^3.0.1
 
-  crypto: ^3.0.1
+  crypto: ^3.0.1 
 
   convert: ^3.0.0
 
@@ -32,7 +32,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  import_sorter: ^4.6.0
+  
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

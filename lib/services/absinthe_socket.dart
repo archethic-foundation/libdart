@@ -2,6 +2,7 @@
 
 library absinthe_socket;
 
+// Package imports:
 import 'package:phoenix_wings/phoenix_wings.dart';
 
 /// An Absinthe Socket

@@ -2,6 +2,7 @@
 //
 //     final coinsPriceResponse = coinsPriceResponseFromJson(jsonString);
 
+// Dart imports:
 import 'dart:convert';
 
 CoinsPriceResponse coinsPriceResponseFromJson(String str) =>

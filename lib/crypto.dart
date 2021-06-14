@@ -3,13 +3,25 @@
 * @param {String | Uint8List} content Data to hash (string or buffer)
 * @param {String} algo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
 */
+
+// Dart imports:
 import 'dart:convert' show utf8;
 import 'dart:math' show Random;
 import 'dart:typed_data' show Uint8List;
-import 'package:convert/convert.dart' show hex;
-import 'package:pinenacl/ed25519.dart' as ed25519;
+
+// Package imports:
 import 'package:asn1lib/asn1lib.dart' as asn1lib show ASN1Sequence, ASN1Integer;
+import 'package:convert/convert.dart' show hex;
+import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
+import 'package:flutter_sodium/flutter_sodium.dart' as sodium show Sodium;
+import 'package:pinenacl/ed25519.dart' as ed25519;
 import 'package:pointycastle/ecc/api.dart';
+
+// Project imports:
+import 'package:uniris_lib_dart/model/key_pair.dart';
+import 'package:uniris_lib_dart/model/secret.dart';
+import 'package:uniris_lib_dart/utils.dart';
+
 import 'package:pointycastle/export.dart'
     show
         Digest,
@@ -28,11 +40,6 @@ import 'package:pointycastle/export.dart'
         ECSignature,
         ECDomainParameters,
         SHA256Digest;
-import 'package:uniris_lib_dart/model/key_pair.dart';
-import 'package:uniris_lib_dart/model/secret.dart';
-import 'package:uniris_lib_dart/utils.dart';
-import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
-import 'package:flutter_sodium/flutter_sodium.dart' as sodium show Sodium;
 
 Uint8List hash(content, {String algo = 'sha256'}) {
   if (!(content is Uint8List) && !(content is String)) {

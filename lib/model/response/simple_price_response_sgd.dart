@@ -2,6 +2,7 @@
 //
 //     final simplePriceSgdResponse = simplePriceSgdResponseFromJson(jsonString);
 
+// Dart imports:
 import 'dart:convert';
 
 SimplePriceSgdResponse simplePriceSgdResponseFromJson(String str) =>

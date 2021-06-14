@@ -2,6 +2,7 @@
 //
 //     final balanceResponse = balanceResponseFromJson(jsonString);
 
+// Dart imports:
 import 'dart:convert';
 
 BalanceResponse balanceResponseFromJson(String str) =>
