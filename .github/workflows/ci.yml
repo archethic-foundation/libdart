@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: configure libsodium
+        run: curl -O https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
+
+      - name: extract libsodium
+        run: tar -xvzf LATEST.tar.gz
+
+      - name: configure and make libsodium
+        run: cd libsodium-stable && ./configure && make && make check && sudo make install
+
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.0.5'
+      - name: Run Checks 
+        run: |
+          flutter pub get
+          flutter test
