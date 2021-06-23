@@ -18,22 +18,22 @@ class SimplePriceIlsResponse {
 
   factory SimplePriceIlsResponse.fromJson(Map<String, dynamic> json) =>
       SimplePriceIlsResponse(
-        uniris: Uniris.fromJson(json['uniris']),
+        uniris: ArchEthic.fromJson(json['uniris']),
       );
 
-  Uniris? uniris;
+  ArchEthic? uniris;
 
   Map<String, dynamic> toJson() => {
         'uniris': uniris!.toJson(),
       };
 }
 
-class Uniris {
-  Uniris({
+class ArchEthic {
+  ArchEthic({
     this.ils,
   });
 
-  factory Uniris.fromJson(Map<String, dynamic> json) => Uniris(
+  factory ArchEthic.fromJson(Map<String, dynamic> json) => ArchEthic(
         ils: json['ils'].toDouble(),
       );
 

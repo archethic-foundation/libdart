@@ -3,51 +3,51 @@ import 'dart:convert';
 import 'dart:io';
 
 // Project imports:
-import 'package:uniris_lib_dart/model/response/coins_current_data_response.dart';
-import 'package:uniris_lib_dart/model/response/coins_price_response.dart';
-import 'package:uniris_lib_dart/model/response/coins_response.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_aed.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_ars.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_aud.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_brl.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_btc.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_cad.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_chf.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_clp.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_cny.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_czk.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_dkk.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_eur.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_gbp.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_hkd.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_huf.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_idr.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_ils.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_inr.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_jpy.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_krw.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_kwd.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_mxn.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_myr.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_nok.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_nzd.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_php.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_pkr.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_pln.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_rub.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_sar.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_sek.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_sgd.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_thb.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_try.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_twd.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_usd.dart';
-import 'package:uniris_lib_dart/model/response/simple_price_response_zar.dart';
+import 'package:archethic_lib_dart/model/response/coins_current_data_response.dart';
+import 'package:archethic_lib_dart/model/response/coins_price_response.dart';
+import 'package:archethic_lib_dart/model/response/coins_response.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_aed.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_ars.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_aud.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_brl.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_btc.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_cad.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_chf.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_clp.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_cny.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_czk.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_dkk.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_eur.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_gbp.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_hkd.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_huf.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_idr.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_ils.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_inr.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_jpy.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_krw.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_kwd.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_mxn.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_myr.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_nok.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_nzd.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_php.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_pkr.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_pln.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_rub.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_sar.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_sek.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_sgd.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_thb.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_try.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_twd.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_usd.dart';
+import 'package:archethic_lib_dart/model/response/simple_price_response_zar.dart';
 
 class ApiCoinsService {
   /*
-   * Get Uniris Coin info
+   * Get ArchEthic Coin info
   */
   Future<CoinsResponse> getCoinsResponse() async {
     CoinsResponse? coinsResponse;
@@ -68,7 +68,7 @@ class ApiCoinsService {
   }
 
   /*
-   * Get Uniris Coin infos (Prices, Marketcaps, Total Volumes)
+   * Get ArchEthic Coin infos (Prices, Marketcaps, Total Volumes)
    * @param {String} currency
    * @param {int} nbDays
   */
@@ -94,7 +94,7 @@ class ApiCoinsService {
   }
 
   /*
-   * Get Uniris Coin infos (BTC Price, Local Currency Price)
+   * Get ArchEthic Coin infos (BTC Price, Local Currency Price)
    * @param {String} currency
   */
   Future<SimplePriceResponse> getSimplePrice(String currency) async {
@@ -349,7 +349,7 @@ class ApiCoinsService {
   }
 
   /*
-   * Get Uniris Coin infos (name, price, market, ... including exchange tickers)
+   * Get ArchEthic Coin infos (name, price, market, ... including exchange tickers)
   */
   Future<CoinsCurrentDataResponse> getCoinsCurrentData() async {
     CoinsCurrentDataResponse? coinsCurrentDataResponse;

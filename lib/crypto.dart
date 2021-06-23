@@ -18,9 +18,9 @@ import 'package:pinenacl/ed25519.dart' as ed25519;
 import 'package:pointycastle/ecc/api.dart';
 
 // Project imports:
-import 'package:uniris_lib_dart/model/key_pair.dart';
-import 'package:uniris_lib_dart/model/secret.dart';
-import 'package:uniris_lib_dart/utils.dart';
+import 'package:archethic_lib_dart/model/key_pair.dart';
+import 'package:archethic_lib_dart/model/secret.dart';
+import 'package:archethic_lib_dart/utils.dart';
 
 import 'package:pointycastle/export.dart'
     show

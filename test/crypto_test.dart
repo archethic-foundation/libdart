@@ -8,9 +8,9 @@ import 'package:flutter_sodium/flutter_sodium.dart' as sodium;
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
-import 'package:uniris_lib_dart/crypto.dart' as crypto;
-import 'package:uniris_lib_dart/model/key_pair.dart';
-import 'package:uniris_lib_dart/utils.dart';
+import 'package:archethic_lib_dart/crypto.dart' as crypto;
+import 'package:archethic_lib_dart/model/key_pair.dart';
+import 'package:archethic_lib_dart/utils.dart';
 
 void main() {
   sodium.Sodium.init();

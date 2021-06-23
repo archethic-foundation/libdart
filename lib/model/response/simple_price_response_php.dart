@@ -18,22 +18,22 @@ class SimplePricePhpResponse {
 
   factory SimplePricePhpResponse.fromJson(Map<String, dynamic> json) =>
       SimplePricePhpResponse(
-        uniris: Uniris.fromJson(json['uniris']),
+        uniris: ArchEthic.fromJson(json['uniris']),
       );
 
-  Uniris? uniris;
+  ArchEthic? uniris;
 
   Map<String, dynamic> toJson() => {
         'uniris': uniris!.toJson(),
       };
 }
 
-class Uniris {
-  Uniris({
+class ArchEthic {
+  ArchEthic({
     this.php,
   });
 
-  factory Uniris.fromJson(Map<String, dynamic> json) => Uniris(
+  factory ArchEthic.fromJson(Map<String, dynamic> json) => ArchEthic(
         php: json['php'].toDouble(),
       );
 

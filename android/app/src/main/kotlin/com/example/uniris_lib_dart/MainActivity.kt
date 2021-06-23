@@ -1,4 +1,4 @@
-package com.example.uniris_lib_dart
+package com.example.archethic_lib_dart
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,8 +1,8 @@
 // Project imports:
-import 'package:uniris_lib_dart/api.dart';
-import 'package:uniris_lib_dart/crypto.dart' as crypto;
-import 'package:uniris_lib_dart/model/key_pair.dart';
-import 'package:uniris_lib_dart/utils.dart';
+import 'package:archethic_lib_dart/api.dart';
+import 'package:archethic_lib_dart/crypto.dart' as crypto;
+import 'package:archethic_lib_dart/model/key_pair.dart';
+import 'package:archethic_lib_dart/utils.dart';
 
 /*
  * Derive an address

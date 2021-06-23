@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pointycastle/src/utils.dart' as pc_utils;
 
 // Project imports:
-import 'package:uniris_lib_dart/utils.dart';
+import 'package:archethic_lib_dart/utils.dart';
 
 void main() {
   group('isHex', () {

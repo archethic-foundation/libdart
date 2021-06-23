@@ -1,14 +1,14 @@
-[![CI](https://github.com/redDwarf03/uniris_lib_dart/actions/workflows/ci.yaml/badge.svg)](https://github.com/redDwarf03/uniris_lib_dart/actions/workflows/ci.yaml) [![Pub](https://img.shields.io/pub/v/uniris_lib_dart.svg)](https://pub.dartlang.org/packages/uniris_lib_dart)
+[![CI](https://github.com/redDwarf03/archethic_lib_dart/actions/workflows/ci.yaml/badge.svg)](https://github.com/redDwarf03/archethic_lib_dart/actions/workflows/ci.yaml) [![Pub](https://img.shields.io/pub/v/archethic_lib_dart.svg)](https://pub.dartlang.org/packages/archethic_lib_dart)
 
-# uniris_lib_dart
+# archethic_lib_dart
 
-Uniris dart library for Flutter based on [Official Uniris Javascript library for Node and Browser](https://github.com/UNIRIS/uniris-libjs)
+ArchEthic dart library for Flutter based on [Official ArchEthic Javascript library for Node and Browser](https://github.com/archethic-foundation/libjs)
 
 ## Usage
 
-This library aims to provide a easy way to create Uniris transaction and to send them over the network.
+This library aims to provide a easy way to create ArchEthic transaction and to send them over the network.
 
-It supports the Uniris Cryptography rules which are:
+It supports the ArchEthic Cryptography rules which are:
 
 - Algorithm identification: the first byte of key and hashes identify the curve or the digest algorithm used to help determine which algorithm during
   verification.
@@ -32,7 +32,7 @@ It supports the Uniris Cryptography rules which are:
   
 - Key derivation:
   
-    To be able to retrieve previous public key, the Uniris network designs the key derivation through a seed (passphrase) and an index(number of
+    To be able to retrieve previous public key, the ArchEthic network designs the key derivation through a seed (passphrase) and an index(number of
      previous public keys/transactions).
     The procedure is described as follows:
     
@@ -59,9 +59,9 @@ It supports the Uniris Cryptography rules which are:
   - `curve` (optional, "ed25519" by default) is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1")
 
   ```dart
-  import 'package:uniris_lib_dart/crypto.dart' as crypto;
-  import 'package:uniris_lib_dart/key_pair.dart';
-  import 'package:uniris_lib_dart/utils.dart';
+  import 'package:archethic_lib_dart/crypto.dart' as crypto;
+  import 'package:archethic_lib_dart/key_pair.dart';
+  import 'package:archethic_lib_dart/utils.dart';
 
   KeyPair keypair = crypto.deriveKeyPair("mysuperpassphraseorseed", 0);
   // uint8ListToHex(keypair.publicKey) => 00a6e144cdd34c608f88cc5a92d0962e7cfe9843b0bb62fefbdb60eb41814b7c92
@@ -75,9 +75,9 @@ It supports the Uniris Cryptography rules which are:
   - `publicKey` Public key to derive a shared secret and for whom the content must be encrypted
   
   ```dart
-  import 'package:uniris_lib_dart/crypto.dart' as crypto;
-  import 'package:uniris_lib_dart/key_pair.dart';
-  import 'package:uniris_lib_dart/utils.dart';
+  import 'package:archethic_lib_dart/crypto.dart' as crypto;
+  import 'package:archethic_lib_dart/key_pair.dart';
+  import 'package:archethic_lib_dart/utils.dart';
 
   Uint8List cipher = crypto.ecEncrypt("dataToEncrypt" "00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646");
   ```
@@ -135,7 +135,7 @@ It supports the Uniris Cryptography rules which are:
   - `hashAlgo` is the hash algorithm to use to generate the address (can be "sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
   
   ```dart
-  import 'package:uniris_lib_dart/transaction_builder.dart';
+  import 'package:archethic_lib_dart/transaction_builder.dart';
 
   var tx = new TransactionBuilder("transfer")
     .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
@@ -148,7 +148,7 @@ It supports the Uniris Cryptography rules which are:
    - `privateKey` is hexadecimal encoding or Uint8List representing the private key to generate the origin signature to able to perform the ProofOfWork and authorize the transaction
 
   ```dart
-  import 'package:uniris_lib_dart/transaction_builder.dart';
+  import 'package:archethic_lib_dart/transaction_builder.dart';
 
   var tx = new TransactionBuilder("transfer")
     .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
@@ -161,7 +161,7 @@ It supports the Uniris Cryptography rules which are:
   Export the transaction generated into JSON
 
    ```dart
-  import 'package:uniris_lib_dart/transaction_builder.dart';
+  import 'package:archethic_lib_dart/transaction_builder.dart';
 
   var tx = new TransactionBuilder("transfer")
     .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
@@ -187,16 +187,16 @@ It supports the Uniris Cryptography rules which are:
 
   ### Coingecko functions
   #### getCoinsResponse()
-  Get all Uniris Coin infos with http request https://api.coingecko.com/api/v3/coins/uniris
+  Get all ArchEthic Coin infos with http request https://api.coingecko.com/api/v3/coins/uniris
 
   #### getCoinsChart(currency, nbDays)
-  Get Uniris Coin infos (Prices, Marketcaps, Total Volumes) for a period with http request https://api.coingecko.com/api/v3/coins/uniris/market_chart?vs_currency=currency&days=nbDays
+  Get ArchEthic Coin infos (Prices, Marketcaps, Total Volumes) for a period with http request https://api.coingecko.com/api/v3/coins/uniris/market_chart?vs_currency=currency&days=nbDays
 
   #### getSimplePrice(currency)
-  Get Uniris Coin infos (BTC Price, Local Currency Price) with https://api.coingecko.com/api/v3/simple/price?ids=uniris&vs_currencies=currency
+  Get ArchEthic Coin infos (BTC Price, Local Currency Price) with https://api.coingecko.com/api/v3/simple/price?ids=uniris&vs_currencies=currency
 
   #### getCoinsCurrentData()
-  Get Uniris Coin infos (name, price, market, ... including exchange tickers) with https://api.coingecko.com/api/v3/coins/uniris
+  Get ArchEthic Coin infos (name, price, market, ... including exchange tickers) with https://api.coingecko.com/api/v3/coins/uniris
 
 ## Running the tests
 

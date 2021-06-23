@@ -1,2 +1,3 @@
 dartdoc
 dart format lib test
+flutter pub run import_sorter:main

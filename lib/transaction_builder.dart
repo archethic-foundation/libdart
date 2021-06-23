@@ -7,9 +7,9 @@ import 'dart:convert' show json, utf8, jsonEncode;
 import 'dart:typed_data' show Uint8List;
 
 // Project imports:
-import 'package:uniris_lib_dart/crypto.dart' as crypto;
-import 'package:uniris_lib_dart/model/key_pair.dart';
-import 'package:uniris_lib_dart/utils.dart';
+import 'package:archethic_lib_dart/crypto.dart' as crypto;
+import 'package:archethic_lib_dart/model/key_pair.dart';
+import 'package:archethic_lib_dart/utils.dart';
 
 const Map<String, int> txTypes = {
   'identity': 0,
