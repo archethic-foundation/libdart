@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the getSimplePrice method from the ApiCoinsService class, for the Dart programming language.">
+  <title>getSimplePrice method - ApiCoinsService class - api_coins_service library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">archethic_lib_dart</a></li>
+    <li><a href="../../services_api_coins_service/services_api_coins_service-library.html">api_coins_service</a></li>
+    <li><a href="../../services_api_coins_service/ApiCoinsService-class.html">ApiCoinsService</a></li>
+    <li class="self-crumb">getSimplePrice method</li>
+  </ol>
+  <div class="self-name">getSimplePrice</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-method">getSimplePrice</span> method 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../model_response_simple_price_response/SimplePriceResponse-class.html">SimplePriceResponse</a></span>&gt;</span></span>
+<span class="name ">getSimplePrice</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getSimplePrice-param-currency"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">currency</span></span></li>
+</ol>)
+
+      
+
+    </section>
+    
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">Future&lt;SimplePriceResponse&gt; getSimplePrice(String currency) async {
+  final SimplePriceResponse simplePriceResponse = SimplePriceResponse();
+  simplePriceResponse.currency = currency;
+
+  final HttpClient httpClient = HttpClient();
+  try {
+    HttpClientRequest request = await httpClient.getUrl(Uri.parse(
+        &#39;https:&#47;&#47;api.coingecko.com&#47;api&#47;v3&#47;simple&#47;price?ids=uniris&amp;vs_currencies=BTC&#39;));
+    request.headers.set(&#39;content-type&#39;, &#39;application&#47;json&#39;);
+    HttpClientResponse response = await request.close();
+    if (response.statusCode == 200) {
+      final String reply = await response.transform(utf8.decoder).join();
+      final SimplePriceBtcResponse simplePriceBtcResponse =
+          simplePriceBtcResponseFromJson(reply);
+      simplePriceResponse.btcPrice = simplePriceBtcResponse.uniris!.btc;
+    }
+
+    request = await httpClient.getUrl(Uri.parse(
+        &#39;https:&#47;&#47;api.coingecko.com&#47;api&#47;v3&#47;simple&#47;price?ids=uniris&amp;vs_currencies=&#39; +
+            currency));
+    request.headers.set(&#39;content-type&#39;, &#39;application&#47;json&#39;);
+    response = await request.close();
+    if (response.statusCode == 200) {
+      final String reply = await response.transform(utf8.decoder).join();
+      switch (currency.toUpperCase()) {
+        case &#39;ARS&#39;:
+          final SimplePriceArsResponse simplePriceLocalResponse =
+              simplePriceArsResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.ars;
+          break;
+        case &#39;AUD&#39;:
+          final SimplePriceAudResponse simplePriceLocalResponse =
+              simplePriceAudResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.aud;
+          break;
+        case &#39;BRL&#39;:
+          final SimplePriceBrlResponse simplePriceLocalResponse =
+              simplePriceBrlResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.brl;
+          break;
+        case &#39;CAD&#39;:
+          final SimplePriceCadResponse simplePriceLocalResponse =
+              simplePriceCadResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.cad;
+          break;
+        case &#39;CHF&#39;:
+          final SimplePriceChfResponse simplePriceLocalResponse =
+              simplePriceChfResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.chf;
+          break;
+        case &#39;CLP&#39;:
+          final SimplePriceClpResponse simplePriceLocalResponse =
+              simplePriceClpResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.clp;
+          break;
+        case &#39;CNY&#39;:
+          final SimplePriceCnyResponse simplePriceLocalResponse =
+              simplePriceCnyResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.cny;
+          break;
+        case &#39;CZK&#39;:
+          final SimplePriceCzkResponse simplePriceLocalResponse =
+              simplePriceCzkResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.czk;
+          break;
+        case &#39;DKK&#39;:
+          final SimplePriceDkkResponse simplePriceLocalResponse =
+              simplePriceDkkResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.dkk;
+          break;
+        case &#39;EUR&#39;:
+          final SimplePriceEurResponse simplePriceLocalResponse =
+              simplePriceEurResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.eur;
+          break;
+        case &#39;GBP&#39;:
+          final SimplePriceGbpResponse simplePriceLocalResponse =
+              simplePriceGbpResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.gbp;
+          break;
+        case &#39;HKD&#39;:
+          final SimplePriceHkdResponse simplePriceLocalResponse =
+              simplePriceHkdResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.hkd;
+          break;
+        case &#39;HUF&#39;:
+          final SimplePriceHufResponse simplePriceLocalResponse =
+              simplePriceHufResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.huf;
+          break;
+        case &#39;IDR&#39;:
+          final SimplePriceIdrResponse simplePriceLocalResponse =
+              simplePriceIdrResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.idr;
+          break;
+        case &#39;ILS&#39;:
+          final SimplePriceIlsResponse simplePriceLocalResponse =
+              simplePriceIlsResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.ils;
+          break;
+        case &#39;INR&#39;:
+          final SimplePriceInrResponse simplePriceLocalResponse =
+              simplePriceInrResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.inr;
+          break;
+        case &#39;JPY&#39;:
+          final SimplePriceJpyResponse simplePriceLocalResponse =
+              simplePriceJpyResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.jpy;
+          break;
+        case &#39;KRW&#39;:
+          final SimplePriceKrwResponse simplePriceLocalResponse =
+              simplePriceKrwResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.krw;
+          break;
+        case &#39;KWD&#39;:
+          final SimplePriceKwdResponse simplePriceLocalResponse =
+              simplePriceKwdResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.kwd;
+          break;
+        case &#39;MXN&#39;:
+          final SimplePriceMxnResponse simplePriceLocalResponse =
+              simplePriceMxnResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.mxn;
+          break;
+        case &#39;MYR&#39;:
+          final SimplePriceMyrResponse simplePriceLocalResponse =
+              simplePriceMyrResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.myr;
+          break;
+        case &#39;NOK&#39;:
+          final SimplePriceNokResponse simplePriceLocalResponse =
+              simplePriceNokResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.nok;
+          break;
+        case &#39;NZD&#39;:
+          final SimplePriceNzdResponse simplePriceLocalResponse =
+              simplePriceNzdResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.nzd;
+          break;
+        case &#39;PHP&#39;:
+          final SimplePricePhpResponse simplePriceLocalResponse =
+              simplePricePhpResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.php;
+          break;
+        case &#39;PKR&#39;:
+          final SimplePricePkrResponse simplePriceLocalResponse =
+              simplePricePkrResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.pkr;
+          break;
+        case &#39;PLN&#39;:
+          final SimplePricePlnResponse simplePriceLocalResponse =
+              simplePricePlnResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.pln;
+          break;
+        case &#39;RUB&#39;:
+          final SimplePriceRubResponse simplePriceLocalResponse =
+              simplePriceRubResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.rub;
+          break;
+        case &#39;SAR&#39;:
+          final SimplePriceSarResponse simplePriceLocalResponse =
+              simplePriceSarResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.sar;
+          break;
+        case &#39;SEK&#39;:
+          final SimplePriceSekResponse simplePriceLocalResponse =
+              simplePriceSekResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.sek;
+          break;
+        case &#39;SGD&#39;:
+          final SimplePriceSgdResponse simplePriceLocalResponse =
+              simplePriceSgdResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.sgd;
+          break;
+        case &#39;THB&#39;:
+          final SimplePriceThbResponse simplePriceLocalResponse =
+              simplePriceThbResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.thb;
+          break;
+        case &#39;TRY&#39;:
+          final SimplePriceTryResponse simplePriceLocalResponse =
+              simplePriceTryResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.tryl;
+          break;
+        case &#39;TWD&#39;:
+          final SimplePriceTwdResponse simplePriceLocalResponse =
+              simplePriceTwdResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.twd;
+          break;
+        case &#39;AED&#39;:
+          final SimplePriceAedResponse simplePriceLocalResponse =
+              simplePriceAedResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.aed;
+          break;
+        case &#39;ZAR&#39;:
+          final SimplePriceZarResponse simplePriceLocalResponse =
+              simplePriceZarResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.zar;
+          break;
+        case &#39;USD&#39;:
+        default:
+          final SimplePriceUsdResponse simplePriceLocalResponse =
+              simplePriceUsdResponseFromJson(reply);
+          simplePriceResponse.localCurrencyPrice =
+              simplePriceLocalResponse.uniris!.usd;
+          break;
+      }
+    }
+  } finally {
+    httpClient.close();
+  }
+  return simplePriceResponse;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../../index.html">archethic_lib_dart</a></li>
+  <li><a href="../../services_api_coins_service/services_api_coins_service-library.html">api_coins_service</a></li>
+  <li><a href="../../services_api_coins_service/ApiCoinsService-class.html">ApiCoinsService</a></li>
+  <li class="self-crumb">getSimplePrice method</li>
+</ol>
+
+
+    <h5>ApiCoinsService class</h5>
+    <ol>
+
+    <li class="section-title"><a href="../../services_api_coins_service/ApiCoinsService-class.html#constructors">Constructors</a></li>
+    <li><a href="../../services_api_coins_service/ApiCoinsService/ApiCoinsService.html">ApiCoinsService</a></li>
+
+
+    <li class="section-title inherited">
+      <a href="../../services_api_coins_service/ApiCoinsService-class.html#instance-properties">Properties</a>
+    </li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+
+    <li class="section-title"><a href="../../services_api_coins_service/ApiCoinsService-class.html#instance-methods">Methods</a></li>
+    <li><a href="../../services_api_coins_service/ApiCoinsService/getCoinsChart.html">getCoinsChart</a></li>
+    <li><a href="../../services_api_coins_service/ApiCoinsService/getCoinsCurrentData.html">getCoinsCurrentData</a></li>
+    <li><a href="../../services_api_coins_service/ApiCoinsService/getCoinsResponse.html">getCoinsResponse</a></li>
+    <li><a href="../../services_api_coins_service/ApiCoinsService/getSimplePrice.html">getSimplePrice</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+
+    <li class="section-title inherited"><a href="../../services_api_coins_service/ApiCoinsService-class.html#operators">Operators</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
+
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    archethic_lib_dart
+      0.0.6+6
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+

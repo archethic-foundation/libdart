@@ -47,7 +47,7 @@ import 'package:archethic_lib_dart/model/response/simple_price_response_zar.dart
 
 class ApiCoinsService {
   /*
-   * Get ArchEthic Coin info
+   * Get Uniris Coin info
   */
   Future<CoinsResponse> getCoinsResponse() async {
     CoinsResponse? coinsResponse;
@@ -68,7 +68,7 @@ class ApiCoinsService {
   }
 
   /*
-   * Get ArchEthic Coin infos (Prices, Marketcaps, Total Volumes)
+   * Get Uniris Coin infos (Prices, Marketcaps, Total Volumes)
    * @param {String} currency
    * @param {int} nbDays
   */
@@ -94,11 +94,10 @@ class ApiCoinsService {
   }
 
   /*
-   * Get ArchEthic Coin infos (BTC Price, Local Currency Price)
+   * Get Uniris Coin infos (BTC Price, Local Currency Price)
    * @param {String} currency
   */
   Future<SimplePriceResponse> getSimplePrice(String currency) async {
-    //print("getSimplePrice");
     final SimplePriceResponse simplePriceResponse = SimplePriceResponse();
     simplePriceResponse.currency = currency;
 
@@ -349,7 +348,7 @@ class ApiCoinsService {
   }
 
   /*
-   * Get ArchEthic Coin infos (name, price, market, ... including exchange tickers)
+   * Get Uniris Coin infos (name, price, market, ... including exchange tickers)
   */
   Future<CoinsCurrentDataResponse> getCoinsCurrentData() async {
     CoinsCurrentDataResponse? coinsCurrentDataResponse;

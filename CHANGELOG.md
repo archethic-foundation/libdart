@@ -1,8 +1,12 @@
 Changelog
 =========
 
+#### Version 0.0.6+6 (2021-06-23) 
+* Rename references by ArchEthic 
+* Update dependencies
+
 #### Version 0.0.5+5 (2021-05-11) 
-* Add coingecko api (Get ArchEthic Coin infos (name, price, market, ... including exchange tickers))
+* Add coingecko api (Get Uniris Coin infos (name, price, market, ... including exchange tickers))
 * Add absinthe socket
 
 #### Version 0.0.4+4 (2021-05-04) 
