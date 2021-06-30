@@ -13,8 +13,6 @@ import 'dart:typed_data' show Uint8List;
 import 'package:asn1lib/asn1lib.dart' as asn1lib show ASN1Sequence, ASN1Integer;
 import 'package:convert/convert.dart' show hex;
 import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
-import 'package:flutter_sodium/flutter_sodium.dart' as sodium show Sodium;
-import 'package:pinenacl/ed25519.dart' as ed25519;
 import 'package:pointycastle/ecc/api.dart';
 
 // Project imports:
@@ -94,9 +92,9 @@ Uint8List hash(content, {String algo = 'sha256'}) {
 * Generate a keypair using a derivation function with a seed and an index. Each keys is prepending with a curve identification.
 * @param {String} seed Keypair derivation seed
 * @param {int} index Number to identify the order of keys to generate
-* @param {String} curve Elliptic curve to use ("ed25519", "P256", "secp256k1")
+* @param {String} curve Elliptic curve to use (P256", "secp256k1")
 */
-KeyPair deriveKeyPair(String seed, int index, {String curve = 'ed25519'}) {
+KeyPair deriveKeyPair(String seed, int index, {String curve = 'P256'}) {
   if (!(seed is String)) {
     throw "'seed' must be a string";
   }
@@ -107,15 +105,9 @@ KeyPair deriveKeyPair(String seed, int index, {String curve = 'ed25519'}) {
 
   final Uint8List pvBuf = derivePrivateKey(seed, index);
 
-  switch (curve) {
-    case 'ed25519':
-      final Uint8List curveIdBuf = Uint8List.fromList([0]);
-      final ed25519.SigningKey signingKey = ed25519.SigningKey(seed: pvBuf);
-      final Uint8List pubBuf = signingKey.publicKey.toUint8List();
-      return KeyPair(
-          privateKey: concatUint8List([curveIdBuf, pvBuf]),
-          publicKey: concatUint8List([curveIdBuf, pubBuf]));
+  final Uint8List softwareIdBuf = Uint8List.fromList([0]);
 
+  switch (curve) {
     case 'P256':
       final Uint8List curveIdBuf = Uint8List.fromList([1]);
       final ECCurve_prime256v1 p256 = ECCurve_prime256v1();
@@ -126,8 +118,8 @@ KeyPair deriveKeyPair(String seed, int index, {String curve = 'ed25519'}) {
       final ECPoint? curvePoint = point * bigInt;
       final Uint8List pubBuf = curvePoint!.getEncoded(false);
       return KeyPair(
-          privateKey: concatUint8List([curveIdBuf, pvBuf]),
-          publicKey: concatUint8List([curveIdBuf, pubBuf]));
+          privateKey: concatUint8List([curveIdBuf, softwareIdBuf, pvBuf]),
+          publicKey: concatUint8List([curveIdBuf, softwareIdBuf, pubBuf]));
 
     case 'secp256k1':
       final Uint8List curveIdBuf = Uint8List.fromList([2]);
@@ -141,8 +133,8 @@ KeyPair deriveKeyPair(String seed, int index, {String curve = 'ed25519'}) {
       final Uint8List pubBuf = curvePoint!.getEncoded(false);
 
       return KeyPair(
-          privateKey: concatUint8List([curveIdBuf, pvBuf]),
-          publicKey: concatUint8List([curveIdBuf, pubBuf]));
+          privateKey: concatUint8List([curveIdBuf, softwareIdBuf, pvBuf]),
+          publicKey: concatUint8List([curveIdBuf, softwareIdBuf, pubBuf]));
 
     default:
       throw 'Curve not supported';
@@ -183,13 +175,6 @@ Uint8List sign(data, privateKey) {
   final Uint8List pvBuf = privateKey.sublist(1, privateKey.length);
 
   switch (curveBuf[0]) {
-    case 0:
-      final Digest sha512 = Digest('SHA-512');
-      final Uint8List msgHash = sha512.process(data);
-      final ed25519.SigningKey signingKey = ed25519.SigningKey(seed: pvBuf);
-      final ed25519.SignatureBase sm = signingKey.sign(msgHash).signature;
-      return Uint8List.fromList(sm);
-
     case 1:
       final Digest sha256 = Digest('SHA-256');
       final Uint8List msgHash = sha256.process(data);
@@ -270,12 +255,6 @@ bool verify(sig, data, publicKey) {
   final Uint8List pubBuf = publicKey.sublist(1, publicKey.length);
 
   switch (curveBuf[0]) {
-    case 0:
-      final Digest sha512 = Digest('SHA-512');
-      final Uint8List msgHash = sha512.process(data);
-      final ed25519.VerifyKey verifyKey = ed25519.VerifyKey(pubBuf);
-      return verifyKey.verify(
-          signature: ed25519.Signature(sig), message: msgHash);
     case 1:
       final Digest sha256 = Digest('SHA-256');
       final Uint8List msgHash = sha256.process(data);
@@ -345,15 +324,6 @@ Uint8List ecEncrypt(data, publicKey) {
   final Uint8List pubBuf = publicKey.sublist(1, publicKey.length);
 
   switch (curveBuf[0]) {
-    case 0:
-      try {
-        final Uint8List curve25519Pub =
-            sodium.Sodium.cryptoSignEd25519PkToCurve25519(pubBuf);
-        return sodium.Sodium.cryptoBoxSeal(data, curve25519Pub);
-      } catch (e) {
-        print(e);
-      }
-      return Uint8List(0);
     case 1:
 
     case 2:
@@ -376,7 +346,8 @@ Secret deriveSecret(sharedKey) {
     }
   }
 
-  crypto.Hmac hmac = crypto.Hmac(crypto.sha256, Uint8List(0));
+  // TODO: Verify hmac = hash("sha256", "") instead of hmac = createHmac("sha256", "")
+  crypto.Hmac hmac = crypto.Hmac(crypto.sha256, (Uint8List(0)));
   crypto.Digest digest = hmac.convert(utf8.encode(sharedKey));
   final Uint8List pseudoRandomKey = Uint8List.fromList(digest.bytes);
 
@@ -484,19 +455,23 @@ Uint8List aesDecrypt(cipherText, key) {
   return Uint8List(0);
 }
 
-Uint8List derivePrivateKey(String seed, int index) {
+Uint8List derivePrivateKey(seed, int index) {
+  if (isHex(seed)) {
+    seed = hexToUint8List(seed);
+  }
+
   //Derive master keys
-  crypto.Hmac hmac = crypto.Hmac(crypto.sha512, Uint8List(0));
-  crypto.Digest digest = hmac.convert(utf8.encode(seed));
-  final Uint8List masterKey = Uint8List.fromList(digest.bytes.sublist(0, 32));
-  final Uint8List masterEntropy =
-      Uint8List.fromList(digest.bytes.sublist(32, 64));
+  final Digest sha512 = Digest('SHA-512');
+  Uint8List buf = sha512.process(seed);
+
+  final Uint8List masterKey = buf.sublist(0, 32);
+  final Uint8List masterEntropy = buf.sublist(32, 64);
 
   //Derive the final seed
-  hmac = crypto.Hmac(crypto.sha512, masterEntropy);
+  crypto.Hmac hmac = crypto.Hmac(crypto.sha512, masterEntropy);
   final Uint8List indexBuf = encodeInt32(index);
   final Uint8List extendedSeed = concatUint8List([masterKey, indexBuf]);
-  digest = hmac.convert(extendedSeed);
+  crypto.Digest digest = hmac.convert(extendedSeed);
 
   final Uint8List hmacBuf = Uint8List.fromList(digest.bytes.sublist(0, 32));
 

@@ -11,14 +11,18 @@ import 'package:archethic_lib_dart/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/model/key_pair.dart';
 import 'package:archethic_lib_dart/utils.dart';
 
+const version = 1;
+
 const Map<String, int> txTypes = {
-  'identity': 0,
-  'keychain': 1,
-  'transfer': 2,
-  'hosting': 6,
+  // User based transaction types
+  'keychain_access': 254,
+  'keychain': 255,
+  'transfer': 253,
+  'hosting': 252,
+  'nft': 251,
+  //Network based transaction types
   'code_proposal': 7,
-  'code_approval': 8,
-  'nft': 9
+  'code_approval': 8
 };
 
 TransactionBuilder transactionBuilderFromJson(String str) =>
@@ -29,7 +33,12 @@ String transactionBuilderToJson(TransactionBuilder data) =>
 
 class TransactionBuilder {
   TransactionBuilder(String txType) {
+    if (!txTypes.containsKey(txType)) {
+      throw 'Transaction type must be \'transfer\', \'hosting\', \'keychain_access\', \'keychain\',  \'nft\', \'code_proposal\', \'code_approval\'';
+    }
+
     type = txType;
+    version = version;
     data = Data.fromJson({
       'content': Uint8List(0),
       'code': Uint8List(0),
@@ -44,14 +53,14 @@ class TransactionBuilder {
 
   factory TransactionBuilder.fromJson(Map<String, dynamic> json) =>
       TransactionBuilder.allParams(
-        type: json['type'],
-        address: json['address'],
-        previousPublicKey: json['previousPublicKey'],
-        previousSignature: json['previousSignature'],
-        timestamp: json['timestamp'],
-        originSignature: json['originSignature'],
-        data: Data.fromJson(json['data']),
-      );
+          type: json['type'],
+          address: json['address'],
+          previousPublicKey: json['previousPublicKey'],
+          previousSignature: json['previousSignature'],
+          timestamp: json['timestamp'],
+          originSignature: json['originSignature'],
+          data: Data.fromJson(json['data']),
+          version: json['version']);
 
   TransactionBuilder.allParams(
       {this.type,
@@ -60,9 +69,11 @@ class TransactionBuilder {
       this.previousSignature,
       this.timestamp,
       this.originSignature,
-      this.data});
+      this.data,
+      this.version});
 
   String? type;
+  int? version;
   Uint8List? address;
   Uint8List? previousPublicKey;
   Uint8List? previousSignature;
@@ -79,7 +90,7 @@ class TransactionBuilder {
             List<dynamic>.from(previousSignature!.map((x) => x)),
         'timestamp': timestamp,
         'originSignature': List<dynamic>.from(originSignature!.map((x) => x)),
-        'data': data!.toJson(),
+        'data': data!.toJson()
       };
 
   /*
@@ -293,7 +304,7 @@ class TransactionBuilder {
   }
 
   /*
-   * Generate the payload for the previous signature by encoding address, timestamp, type and data
+   * Generate the payload for the previous signature by encoding address, type and data
    */
   Uint8List previousSignaturePayload() {
     final Uint8List bufTimestamp = encodeBigInt(BigInt.from(timestamp!));
@@ -325,6 +336,7 @@ class TransactionBuilder {
     }
 
     return concatUint8List([
+      encodeInt32(version!),
       address!,
       Uint8List.fromList([txTypes[type]!]),
       bufTimestamp,
