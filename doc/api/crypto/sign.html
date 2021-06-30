@@ -93,13 +93,6 @@
   final Uint8List pvBuf = privateKey.sublist(1, privateKey.length);
 
   switch (curveBuf[0]) {
-    case 0:
-      final Digest sha512 = Digest(&#39;SHA-512&#39;);
-      final Uint8List msgHash = sha512.process(data);
-      final ed25519.SigningKey signingKey = ed25519.SigningKey(seed: pvBuf);
-      final ed25519.SignatureBase sm = signingKey.sign(msgHash).signature;
-      return Uint8List.fromList(sm);
-
     case 1:
       final Digest sha256 = Digest(&#39;SHA-256&#39;);
       final Uint8List msgHash = sha256.process(data);
@@ -189,7 +182,7 @@
 <footer>
   <span class="no-break">
     archethic_lib_dart
-      0.0.6+6
+      0.0.7+7
   </span>
 
   

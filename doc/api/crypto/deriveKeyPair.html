@@ -55,7 +55,7 @@
 <span class="returntype"><a href="../model_key_pair/KeyPair-class.html">KeyPair</a></span>
 <span class="name ">deriveKeyPair</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="deriveKeyPair-param-seed"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">seed</span>, </span></li>
 <li><span class="parameter" id="deriveKeyPair-param-index"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">index</span>, </span></li>
-<li><span class="parameter" id="deriveKeyPair-param-curve">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">curve</span> = <span class="default-value">&#39;ed25519&#39;</span>}</span></li>
+<li><span class="parameter" id="deriveKeyPair-param-curve">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">curve</span> = <span class="default-value">&#39;P256&#39;</span>}</span></li>
 </ol>)
 
     </section>
@@ -65,7 +65,7 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">KeyPair deriveKeyPair(String seed, int index, {String curve = &#39;ed25519&#39;}) {
+  <pre class="language-dart"><code class="language-dart">KeyPair deriveKeyPair(String seed, int index, {String curve = &#39;P256&#39;}) {
   if (!(seed is String)) {
     throw &quot;&#39;seed&#39; must be a string&quot;;
   }
@@ -76,15 +76,9 @@
 
   final Uint8List pvBuf = derivePrivateKey(seed, index);
 
-  switch (curve) {
-    case &#39;ed25519&#39;:
-      final Uint8List curveIdBuf = Uint8List.fromList([0]);
-      final ed25519.SigningKey signingKey = ed25519.SigningKey(seed: pvBuf);
-      final Uint8List pubBuf = signingKey.publicKey.toUint8List();
-      return KeyPair(
-          privateKey: concatUint8List([curveIdBuf, pvBuf]),
-          publicKey: concatUint8List([curveIdBuf, pubBuf]));
+  final Uint8List softwareIdBuf = Uint8List.fromList([0]);
 
+  switch (curve) {
     case &#39;P256&#39;:
       final Uint8List curveIdBuf = Uint8List.fromList([1]);
       final ECCurve_prime256v1 p256 = ECCurve_prime256v1();
@@ -95,8 +89,8 @@
       final ECPoint? curvePoint = point * bigInt;
       final Uint8List pubBuf = curvePoint!.getEncoded(false);
       return KeyPair(
-          privateKey: concatUint8List([curveIdBuf, pvBuf]),
-          publicKey: concatUint8List([curveIdBuf, pubBuf]));
+          privateKey: concatUint8List([curveIdBuf, softwareIdBuf, pvBuf]),
+          publicKey: concatUint8List([curveIdBuf, softwareIdBuf, pubBuf]));
 
     case &#39;secp256k1&#39;:
       final Uint8List curveIdBuf = Uint8List.fromList([2]);
@@ -110,8 +104,8 @@
       final Uint8List pubBuf = curvePoint!.getEncoded(false);
 
       return KeyPair(
-          privateKey: concatUint8List([curveIdBuf, pvBuf]),
-          publicKey: concatUint8List([curveIdBuf, pubBuf]));
+          privateKey: concatUint8List([curveIdBuf, softwareIdBuf, pvBuf]),
+          publicKey: concatUint8List([curveIdBuf, softwareIdBuf, pubBuf]));
 
     default:
       throw &#39;Curve not supported&#39;;
@@ -168,7 +162,7 @@
 <footer>
   <span class="no-break">
     archethic_lib_dart
-      0.0.6+6
+      0.0.7+7
   </span>
 
   
