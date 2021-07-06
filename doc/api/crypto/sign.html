@@ -90,43 +90,26 @@
   }
 
   final Uint8List curveBuf = privateKey.sublist(0, 1);
-  final Uint8List pvBuf = privateKey.sublist(1, privateKey.length);
+  final Uint8List softwareIdBuf = privateKey.sublist(1, 2);
+  final Uint8List pvBuf = privateKey.sublist(2, privateKey.length);
 
   switch (curveBuf[0]) {
     case 1:
       final Digest sha256 = Digest(&#39;SHA-256&#39;);
       final Uint8List msgHash = sha256.process(data);
-      final ECDomainParameters _params = ECCurve_prime256v1();
 
-      final SHA256Digest digest = SHA256Digest();
-      final ECDSASigner signer = ECDSASigner(null, HMac(digest, 64));
-      final ECPrivateKey key = ECPrivateKey(decodeBigInt(pvBuf), _params);
-
-      signer.init(true, PrivateKeyParameter(key));
-      final ECSignature sig = signer.generateSignature(msgHash) as ECSignature;
-
-      final asn1lib.ASN1Sequence topLevel = asn1lib.ASN1Sequence();
-      topLevel.add(asn1lib.ASN1Integer(sig.r));
-      topLevel.add(asn1lib.ASN1Integer(sig.s));
-      return topLevel.encodedBytes;
-
+      var ec = elliptic.getP256();
+      elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      var sig = ecdsa.signature(privateKey, msgHash);
+      return Uint8List.fromList(sig.toDER());
     case 2:
       final Digest sha256 = Digest(&#39;SHA-256&#39;);
       final Uint8List msgHash = sha256.process(data);
-      final ECDomainParameters _params = ECCurve_secp256k1();
 
-      final SHA256Digest digest = SHA256Digest();
-      final ECDSASigner signer = ECDSASigner(null, HMac(digest, 64));
-      final ECPrivateKey key = ECPrivateKey(decodeBigInt(pvBuf), _params);
-
-      signer.init(true, PrivateKeyParameter(key));
-      final ECSignature sig = signer.generateSignature(msgHash) as ECSignature;
-
-      final asn1lib.ASN1Sequence topLevel = asn1lib.ASN1Sequence();
-      topLevel.add(asn1lib.ASN1Integer(sig.r));
-      topLevel.add(asn1lib.ASN1Integer(sig.s));
-      return topLevel.encodedBytes;
-
+      var ec = elliptic.getSecp256k1();
+      elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      var sig = ecdsa.signature(privateKey, msgHash);
+      return Uint8List.fromList(sig.toDER());
     default:
       throw &#39;Curve not supported&#39;;
   }

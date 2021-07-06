@@ -5,7 +5,6 @@ import 'dart:typed_data';
 
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pointycastle/src/utils.dart' as pc_utils;
 
 // Project imports:
 import 'package:archethic_lib_dart/utils.dart';
@@ -35,7 +34,7 @@ void main() {
   group('concatUint8List', () {
     test('should concat Uint8List arrays', () {
       expect(
-          pc_utils.concatUint8List([
+          concatUint8List([
             Uint8List.fromList([1, 2, 3]),
             Uint8List.fromList([4, 5, 6])
           ]),

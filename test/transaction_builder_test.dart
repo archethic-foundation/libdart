@@ -8,8 +8,12 @@ import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
+import 'package:archethic_lib_dart/api.dart';
 import 'package:archethic_lib_dart/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/model/key_pair.dart';
+import 'package:archethic_lib_dart/model/response/balance_response.dart';
+import 'package:archethic_lib_dart/model/response/transaction_last_response.dart';
+import 'package:archethic_lib_dart/model/response/transaction_response.dart';
 import 'package:archethic_lib_dart/transaction_builder.dart';
 import 'package:archethic_lib_dart/utils.dart';
 
@@ -116,18 +120,20 @@ void main() {
             .addRecipient(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
 
-        final KeyPair keypair = crypto.deriveKeyPair('seed', 0);
-        final KeyPair nextKeypair = crypto.deriveKeyPair('seed', 1);
+        final KeyPair keypair = crypto.deriveKeyPair(
+            '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
+            0);
+        final KeyPair nextKeypair = crypto.deriveKeyPair(
+            '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
+            1);
         final Uint8List address = crypto.hash(nextKeypair.publicKey);
 
         tx.address = address;
         tx.previousPublicKey = keypair.publicKey;
-        tx.timestamp = DateTime.now().millisecondsSinceEpoch;
         final Uint8List payload = tx.previousSignaturePayload();
         final Uint8List expectedBinary = concatUint8List([
           tx.address!,
           Uint8List.fromList([2]),
-          encodeBigInt(BigInt.from(tx.timestamp!)),
           //Code size
           encodeInt32(232),
           Uint8List.fromList(utf8.encode(
@@ -185,7 +191,9 @@ void main() {
             .addAuthorizedKey(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
-            .build('seed', 0);
+            .build(
+                '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
+                0);
 
         expect(
             tx.address,
@@ -226,9 +234,13 @@ void main() {
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.')
             .addRecipient(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
-            .build('seed', 0);
+            .build(
+                '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
+                0);
 
-        final KeyPair transactionKeyPair = crypto.deriveKeyPair('seed', 0);
+        final KeyPair transactionKeyPair = crypto.deriveKeyPair(
+            '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
+            0);
         final Uint8List previousSig = crypto.sign(
             tx.previousSignaturePayload(), transactionKeyPair.privateKey);
 
@@ -237,7 +249,6 @@ void main() {
         final Uint8List expectedBinary = concatUint8List([
           tx.address!,
           Uint8List.fromList([2]),
-          encodeBigInt(BigInt.from(tx.timestamp!)),
           //Code size
           encodeInt32(232),
           Uint8List.fromList(utf8.encode(
@@ -292,10 +303,14 @@ void main() {
 
     group('originSign', () {
       test('should sign the transaction with a origin private key', () {
-        final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
+        final KeyPair originKeypair = crypto.deriveKeyPair(
+            '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
+            0);
 
         final TransactionBuilder tx = TransactionBuilder('transfer')
-            .build('seed', 0)
+            .build(
+                '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
+                0)
             .originSign(originKeypair.privateKey);
         expect(
             crypto.verify(tx.originSignature, tx.originSignaturePayload(),
@@ -306,9 +321,15 @@ void main() {
 
     group('toJSON', () {
       test('should return a JSON from the transaction', () {
-        final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
-        final KeyPair transactionKeyPair = crypto.deriveKeyPair('seed', 0);
-        final KeyPair nextTransactionKeyPair = crypto.deriveKeyPair('seed', 1);
+        final KeyPair originKeypair = crypto.deriveKeyPair(
+            '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
+            0);
+        final KeyPair transactionKeyPair = crypto.deriveKeyPair(
+            '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
+            0);
+        final KeyPair nextTransactionKeyPair = crypto.deriveKeyPair(
+            '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
+            1);
 
         final TransactionBuilder tx = TransactionBuilder('transfer')
             .addAuthorizedKey(
@@ -317,7 +338,9 @@ void main() {
             .addUCOTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 0.2193)
-            .build('seed', 0)
+            .build(
+                '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
+                0)
             .originSign(originKeypair.privateKey);
 
         final parsedTx = json.decode(tx.toJSON());
@@ -344,6 +367,59 @@ void main() {
           'amount': 0.2193
         });
       });
+    });
+  });
+
+  group('api', () {
+    test('getTransactionIndex', () async {
+      int chainLength = await getTransactionIndex(
+          '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
+          'http://www.archethic.net');
+
+      expect(chainLength, 1);
+    });
+
+    test('getStorageNoncePublicKey', () async {
+      String storageNoncePublicKey =
+          await getStorageNoncePublicKey('http://www.archethic.net');
+
+      expect(
+        storageNoncePublicKey,
+        "00004BA72C106818CC3A75961559CA03B10ECCFFCD6684062F4BE0355C153055595D",
+      );
+    });
+
+    test('fetchBalance', () async {
+      BalanceResponse balanceResponse = await fetchBalance(
+          '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
+          'http://www.archethic.net');
+
+      expect(
+        balanceResponse.data!.balance!.uco,
+        0,
+      );
+    });
+
+    test('getTransactionContent', () async {
+      String content = await getTransactionContent(
+          '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
+          'http://www.archethic.net');
+
+      expect(
+        content,
+        "B0B116A90BBA010076A5A8A4B33AE08D325CD509D6DBEBD336364999D5357D6DD6392B07AD64E0EE0047304502207A6663334659C8FFB7695433B93D18EC5ECF487AB1CF2324573974028E5DBE71022100AB52E547E945B59EB850E586A0CFD2F1378938E8EAFFF8C9F283A607DC517B75",
+      );
+    });
+
+    test('getTransactions', () async {
+      await getTransactions(
+          '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
+          'http://www.archethic.net');
+
+      expect(
+        "",
+        "B0B116A90BBA010076A5A8A4B33AE08D325CD509D6DBEBD336364999D5357D6DD6392B07AD64E0EE0047304502207A6663334659C8FFB7695433B93D18EC5ECF487AB1CF2324573974028E5DBE71022100AB52E547E945B59EB850E586A0CFD2F1378938E8EAFFF8C9F283A607DC517B75",
+      );
     });
   });
 }

@@ -57,7 +57,6 @@ class TransactionBuilder {
           address: json['address'],
           previousPublicKey: json['previousPublicKey'],
           previousSignature: json['previousSignature'],
-          timestamp: json['timestamp'],
           originSignature: json['originSignature'],
           data: Data.fromJson(json['data']),
           version: json['version']);
@@ -67,7 +66,6 @@ class TransactionBuilder {
       this.address,
       this.previousPublicKey,
       this.previousSignature,
-      this.timestamp,
       this.originSignature,
       this.data,
       this.version});
@@ -77,7 +75,6 @@ class TransactionBuilder {
   Uint8List? address;
   Uint8List? previousPublicKey;
   Uint8List? previousSignature;
-  int? timestamp;
   Uint8List? originSignature;
   Data? data;
 
@@ -88,7 +85,6 @@ class TransactionBuilder {
             List<dynamic>.from(previousPublicKey!.map((x) => x)),
         'previousSignature':
             List<dynamic>.from(previousSignature!.map((x) => x)),
-        'timestamp': timestamp,
         'originSignature': List<dynamic>.from(originSignature!.map((x) => x)),
         'data': data!.toJson()
       };
@@ -275,7 +271,6 @@ class TransactionBuilder {
 
     this.address = address;
     previousPublicKey = keypair.publicKey;
-    timestamp = DateTime.now().millisecondsSinceEpoch;
     previousSignature =
         crypto.sign(previousSignaturePayload(), keypair.privateKey);
 
@@ -307,7 +302,6 @@ class TransactionBuilder {
    * Generate the payload for the previous signature by encoding address, type and data
    */
   Uint8List previousSignaturePayload() {
-    final Uint8List bufTimestamp = encodeBigInt(BigInt.from(timestamp!));
     final Uint8List bufCodeSize = encodeInt32(data!.code!.length);
     final Uint8List bufContentSize = encodeInt32(data!.content!.length);
     final Uint8List bufSecretSize = encodeInt32(data!.keys!.secret!.length);
@@ -339,7 +333,6 @@ class TransactionBuilder {
       encodeInt32(version!),
       address!,
       Uint8List.fromList([txTypes[type]!]),
-      bufTimestamp,
       bufCodeSize,
       data!.code!,
       bufContentSize,
@@ -374,7 +367,6 @@ class TransactionBuilder {
     final String _json = jsonEncode({
       'address': uint8ListToHex(address!),
       'type': type,
-      'timestamp': timestamp,
       'data': {
         'content': uint8ListToHex(data!.content!),
         'code': utf8.decode(data!.code!),

@@ -65,31 +65,30 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;BalanceResponse&gt; fetchBalance(String address, String endpoint) async {
+  final Completer&lt;BalanceResponse&gt; _completer = Completer&lt;BalanceResponse&gt;();
+  BalanceResponse? balanceResponse;
+
   final Map&lt;String, String&gt; requestHeaders = {
     &#39;Content-type&#39;: &#39;application&#47;json&#39;,
     &#39;Accept&#39;: &#39;application&#47;json&#39;,
   };
 
-  final String _json = json.encode(&#39;query {&#39; +
-      &#39; balance(address: &#39; +
-      address +
-      &#39;}) {&#39; +
-      &#39; uco,&#39; +
-      &#39; nft { &#39; +
-      &#39; address, &#39; +
-      &#39; amount &#39; +
-      &#39;} &#39; +
-      &#39;} &#39; +
-      &#39;}&#39;);
+  String _body =
+      &#39;{&quot;query&quot;: &quot;query {balance(address: \\&quot;$address\\&quot;) {uco, nft {address, amount}}}&quot;}&#39;;
+  print(_body);
 
-  final http.Response responseHttp = await http
-      .post(Uri.parse(endpoint + &#39;&#47;api&#39;), body: _json, headers: requestHeaders);
+  try {
+    http.Response responseHttp = await http.post(Uri.parse(endpoint + &#39;&#47;api&#39;),
+        body: _body, headers: requestHeaders);
+    print(responseHttp.body);
 
-  final Completer&lt;BalanceResponse&gt; _completer = Completer&lt;BalanceResponse&gt;();
-  BalanceResponse? balanceResponse;
-  if (responseHttp.statusCode == 200) {
-    balanceResponse = balanceResponseFromJson(responseHttp.body);
+    if (responseHttp.statusCode == 200) {
+      balanceResponse = balanceResponseFromJson(responseHttp.body);
+    }
+  } catch (e) {
+    print(&quot;error: &quot; + e.toString());
   }
+
   _completer.complete(balanceResponse!);
   return _completer.future;
 }</code></pre>

@@ -1,4 +1,4 @@
-pub global activate dartdoc
+flutter pub global activate dartdoc
 export PATH="$PATH":"$HOME/SSE/app/flutter/.pub-cache/bin"
 dartdoc
 dart format lib test

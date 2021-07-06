@@ -1,6 +1,10 @@
 Changelog
 =========
 
+#### Version 0.0.7+7 (2021-07-06) 
+* Update Crypto and Transaction builder with the latest changes from the node implementation
+* Update dependencies
+
 #### Version 0.0.6+6 (2021-06-23) 
 * Rename references by ArchEthic 
 * Update dependencies

@@ -103,38 +103,28 @@
   }
 
   final Uint8List curveBuf = publicKey.sublist(0, 1);
-  final Uint8List pubBuf = publicKey.sublist(1, publicKey.length);
+  final Uint8List softwareIdBuf = publicKey.sublist(1, 2);
+  final Uint8List pubBuf = publicKey.sublist(2, publicKey.length);
 
   switch (curveBuf[0]) {
     case 1:
       final Digest sha256 = Digest(&#39;SHA-256&#39;);
       final Uint8List msgHash = sha256.process(data);
 
-      final ECDomainParameters curve = ECCurve_prime256v1();
-
-      final BigInt r = decodeBigInt(sig.sublist(0, 32));
-      final BigInt s = decodeBigInt(sig.sublist(32, 64));
-      final ECDSASigner signer = ECDSASigner(null, HMac(sha256, 64));
-      signer.init(
-          false,
-          PublicKeyParameter(
-              ECPublicKey(curve.curve.decodePoint(pubBuf), curve)));
-      return signer.verifySignature(msgHash, ECSignature(r, s));
-
+      var ec = elliptic.getP256();
+      elliptic.PublicKey publicKey =
+          elliptic.PublicKey.fromHex(ec, uint8ListToHex(pubBuf));
+      ecdsa.Signature signature = ecdsa.Signature.fromASN1(sig);
+      return ecdsa.verify(publicKey, msgHash, signature);
     case 2:
       final Digest sha256 = Digest(&#39;SHA-256&#39;);
       final Uint8List msgHash = sha256.process(data);
 
-      final ECDomainParameters curve = ECCurve_secp256k1();
-
-      final BigInt r = decodeBigInt(sig.sublist(0, 32));
-      final BigInt s = decodeBigInt(sig.sublist(32, 64));
-      final ECDSASigner signer = ECDSASigner(null, HMac(sha256, 64));
-      signer.init(
-          false,
-          PublicKeyParameter(
-              ECPublicKey(curve.curve.decodePoint(pubBuf), curve)));
-      return signer.verifySignature(msgHash, ECSignature(r, s));
+      var ec = elliptic.getSecp256k1();
+      elliptic.PublicKey publicKey =
+          elliptic.PublicKey.fromHex(ec, uint8ListToHex(pubBuf));
+      ecdsa.Signature signature = ecdsa.Signature.fromASN1(sig);
+      return ecdsa.verify(publicKey, msgHash, signature);
 
     default:
       throw &#39;Curve not supported&#39;;

@@ -81,31 +81,23 @@
   switch (curve) {
     case &#39;P256&#39;:
       final Uint8List curveIdBuf = Uint8List.fromList([1]);
-      final ECCurve_prime256v1 p256 = ECCurve_prime256v1();
-
-      final ECPoint point = p256.G;
-
-      final BigInt bigInt = BigInt.parse(hex.encode(pvBuf), radix: 16);
-      final ECPoint? curvePoint = point * bigInt;
-      final Uint8List pubBuf = curvePoint!.getEncoded(false);
+      var ec = elliptic.getP256();
+      elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      elliptic.PublicKey publicKey = ec.privateToPublicKey(privateKey);
       return KeyPair(
           privateKey: concatUint8List([curveIdBuf, softwareIdBuf, pvBuf]),
-          publicKey: concatUint8List([curveIdBuf, softwareIdBuf, pubBuf]));
+          publicKey: concatUint8List(
+              [curveIdBuf, softwareIdBuf, hexToUint8List(publicKey.toHex())]));
 
     case &#39;secp256k1&#39;:
       final Uint8List curveIdBuf = Uint8List.fromList([2]);
-      final ECCurve_secp256k1 secp256k1 = ECCurve_secp256k1();
-
-      final ECPoint point = secp256k1.G;
-
-      final BigInt bigInt = BigInt.parse(hex.encode(pvBuf), radix: 16);
-
-      final ECPoint? curvePoint = point * bigInt;
-      final Uint8List pubBuf = curvePoint!.getEncoded(false);
-
+      var ec = elliptic.getSecp256k1();
+      elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      elliptic.PublicKey publicKey = ec.privateToPublicKey(privateKey);
       return KeyPair(
           privateKey: concatUint8List([curveIdBuf, softwareIdBuf, pvBuf]),
-          publicKey: concatUint8List([curveIdBuf, softwareIdBuf, pubBuf]));
+          publicKey: concatUint8List(
+              [curveIdBuf, softwareIdBuf, hexToUint8List(publicKey.toHex())]));
 
     default:
       throw &#39;Curve not supported&#39;;

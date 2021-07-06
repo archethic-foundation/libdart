@@ -60,10 +60,9 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">factory TransactionResponseData.fromJson(Map&lt;String, dynamic&gt; json) =&gt;
-    TransactionResponseData(
-      content: json[&#39;content&#39;],
-    );</code></pre>
+  <pre class="language-dart"><code class="language-dart">factory TransactionResponseData.fromJson(Map&lt;String, dynamic&gt; json) =&gt; TransactionResponseData(
+    transaction: Transaction.fromJson(json[&quot;transaction&quot;]),
+);</code></pre>
 </section>
 
 
@@ -95,9 +94,9 @@
     <li class="section-title">
       <a href="../../model_response_transaction_response/TransactionResponseData-class.html#instance-properties">Properties</a>
     </li>
-    <li><a href="../../model_response_transaction_response/TransactionResponseData/content.html">content</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+    <li><a href="../../model_response_transaction_response/TransactionResponseData/transaction.html">transaction</a></li>
 
     <li class="section-title"><a href="../../model_response_transaction_response/TransactionResponseData-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>

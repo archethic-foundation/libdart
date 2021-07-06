@@ -10,10 +10,9 @@ import 'dart:math' show Random;
 import 'dart:typed_data' show Uint8List;
 
 // Package imports:
-import 'package:asn1lib/asn1lib.dart' as asn1lib show ASN1Sequence, ASN1Integer;
-import 'package:convert/convert.dart' show hex;
 import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
-import 'package:pointycastle/ecc/api.dart';
+import 'package:ecdsa/ecdsa.dart' as ecdsa;
+import 'package:elliptic/elliptic.dart' as elliptic;
 
 // Project imports:
 import 'package:archethic_lib_dart/model/key_pair.dart';
@@ -21,23 +20,7 @@ import 'package:archethic_lib_dart/model/secret.dart';
 import 'package:archethic_lib_dart/utils.dart';
 
 import 'package:pointycastle/export.dart'
-    show
-        Digest,
-        ECCurve_prime256v1,
-        AEADParameters,
-        AESFastEngine,
-        KeyParameter,
-        GCMBlockCipher,
-        PublicKeyParameter,
-        ECPublicKey,
-        ECPrivateKey,
-        ECCurve_secp256k1,
-        HMac,
-        PrivateKeyParameter,
-        ECDSASigner,
-        ECSignature,
-        ECDomainParameters,
-        SHA256Digest;
+    show Digest, AEADParameters, AESFastEngine, KeyParameter, GCMBlockCipher;
 
 Uint8List hash(content, {String algo = 'sha256'}) {
   if (!(content is Uint8List) && !(content is String)) {
@@ -110,31 +93,23 @@ KeyPair deriveKeyPair(String seed, int index, {String curve = 'P256'}) {
   switch (curve) {
     case 'P256':
       final Uint8List curveIdBuf = Uint8List.fromList([1]);
-      final ECCurve_prime256v1 p256 = ECCurve_prime256v1();
-
-      final ECPoint point = p256.G;
-
-      final BigInt bigInt = BigInt.parse(hex.encode(pvBuf), radix: 16);
-      final ECPoint? curvePoint = point * bigInt;
-      final Uint8List pubBuf = curvePoint!.getEncoded(false);
+      var ec = elliptic.getP256();
+      elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      elliptic.PublicKey publicKey = ec.privateToPublicKey(privateKey);
       return KeyPair(
           privateKey: concatUint8List([curveIdBuf, softwareIdBuf, pvBuf]),
-          publicKey: concatUint8List([curveIdBuf, softwareIdBuf, pubBuf]));
+          publicKey: concatUint8List(
+              [curveIdBuf, softwareIdBuf, hexToUint8List(publicKey.toHex())]));
 
     case 'secp256k1':
       final Uint8List curveIdBuf = Uint8List.fromList([2]);
-      final ECCurve_secp256k1 secp256k1 = ECCurve_secp256k1();
-
-      final ECPoint point = secp256k1.G;
-
-      final BigInt bigInt = BigInt.parse(hex.encode(pvBuf), radix: 16);
-
-      final ECPoint? curvePoint = point * bigInt;
-      final Uint8List pubBuf = curvePoint!.getEncoded(false);
-
+      var ec = elliptic.getSecp256k1();
+      elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      elliptic.PublicKey publicKey = ec.privateToPublicKey(privateKey);
       return KeyPair(
           privateKey: concatUint8List([curveIdBuf, softwareIdBuf, pvBuf]),
-          publicKey: concatUint8List([curveIdBuf, softwareIdBuf, pubBuf]));
+          publicKey: concatUint8List(
+              [curveIdBuf, softwareIdBuf, hexToUint8List(publicKey.toHex())]));
 
     default:
       throw 'Curve not supported';
@@ -172,43 +147,26 @@ Uint8List sign(data, privateKey) {
   }
 
   final Uint8List curveBuf = privateKey.sublist(0, 1);
-  final Uint8List pvBuf = privateKey.sublist(1, privateKey.length);
+  final Uint8List softwareIdBuf = privateKey.sublist(1, 2);
+  final Uint8List pvBuf = privateKey.sublist(2, privateKey.length);
 
   switch (curveBuf[0]) {
     case 1:
       final Digest sha256 = Digest('SHA-256');
       final Uint8List msgHash = sha256.process(data);
-      final ECDomainParameters _params = ECCurve_prime256v1();
 
-      final SHA256Digest digest = SHA256Digest();
-      final ECDSASigner signer = ECDSASigner(null, HMac(digest, 64));
-      final ECPrivateKey key = ECPrivateKey(decodeBigInt(pvBuf), _params);
-
-      signer.init(true, PrivateKeyParameter(key));
-      final ECSignature sig = signer.generateSignature(msgHash) as ECSignature;
-
-      final asn1lib.ASN1Sequence topLevel = asn1lib.ASN1Sequence();
-      topLevel.add(asn1lib.ASN1Integer(sig.r));
-      topLevel.add(asn1lib.ASN1Integer(sig.s));
-      return topLevel.encodedBytes;
-
+      var ec = elliptic.getP256();
+      elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      var sig = ecdsa.signature(privateKey, msgHash);
+      return Uint8List.fromList(sig.toDER());
     case 2:
       final Digest sha256 = Digest('SHA-256');
       final Uint8List msgHash = sha256.process(data);
-      final ECDomainParameters _params = ECCurve_secp256k1();
 
-      final SHA256Digest digest = SHA256Digest();
-      final ECDSASigner signer = ECDSASigner(null, HMac(digest, 64));
-      final ECPrivateKey key = ECPrivateKey(decodeBigInt(pvBuf), _params);
-
-      signer.init(true, PrivateKeyParameter(key));
-      final ECSignature sig = signer.generateSignature(msgHash) as ECSignature;
-
-      final asn1lib.ASN1Sequence topLevel = asn1lib.ASN1Sequence();
-      topLevel.add(asn1lib.ASN1Integer(sig.r));
-      topLevel.add(asn1lib.ASN1Integer(sig.s));
-      return topLevel.encodedBytes;
-
+      var ec = elliptic.getSecp256k1();
+      elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      var sig = ecdsa.signature(privateKey, msgHash);
+      return Uint8List.fromList(sig.toDER());
     default:
       throw 'Curve not supported';
   }
@@ -252,38 +210,28 @@ bool verify(sig, data, publicKey) {
   }
 
   final Uint8List curveBuf = publicKey.sublist(0, 1);
-  final Uint8List pubBuf = publicKey.sublist(1, publicKey.length);
+  final Uint8List softwareIdBuf = publicKey.sublist(1, 2);
+  final Uint8List pubBuf = publicKey.sublist(2, publicKey.length);
 
   switch (curveBuf[0]) {
     case 1:
       final Digest sha256 = Digest('SHA-256');
       final Uint8List msgHash = sha256.process(data);
 
-      final ECDomainParameters curve = ECCurve_prime256v1();
-
-      final BigInt r = decodeBigInt(sig.sublist(0, 32));
-      final BigInt s = decodeBigInt(sig.sublist(32, 64));
-      final ECDSASigner signer = ECDSASigner(null, HMac(sha256, 64));
-      signer.init(
-          false,
-          PublicKeyParameter(
-              ECPublicKey(curve.curve.decodePoint(pubBuf), curve)));
-      return signer.verifySignature(msgHash, ECSignature(r, s));
-
+      var ec = elliptic.getP256();
+      elliptic.PublicKey publicKey =
+          elliptic.PublicKey.fromHex(ec, uint8ListToHex(pubBuf));
+      ecdsa.Signature signature = ecdsa.Signature.fromASN1(sig);
+      return ecdsa.verify(publicKey, msgHash, signature);
     case 2:
       final Digest sha256 = Digest('SHA-256');
       final Uint8List msgHash = sha256.process(data);
 
-      final ECDomainParameters curve = ECCurve_secp256k1();
-
-      final BigInt r = decodeBigInt(sig.sublist(0, 32));
-      final BigInt s = decodeBigInt(sig.sublist(32, 64));
-      final ECDSASigner signer = ECDSASigner(null, HMac(sha256, 64));
-      signer.init(
-          false,
-          PublicKeyParameter(
-              ECPublicKey(curve.curve.decodePoint(pubBuf), curve)));
-      return signer.verifySignature(msgHash, ECSignature(r, s));
+      var ec = elliptic.getSecp256k1();
+      elliptic.PublicKey publicKey =
+          elliptic.PublicKey.fromHex(ec, uint8ListToHex(pubBuf));
+      ecdsa.Signature signature = ecdsa.Signature.fromASN1(sig);
+      return ecdsa.verify(publicKey, msgHash, signature);
 
     default:
       throw 'Curve not supported';

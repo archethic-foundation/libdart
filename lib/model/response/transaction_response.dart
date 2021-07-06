@@ -16,31 +16,64 @@ class TransactionResponse {
     this.data,
   });
 
+  TransactionResponseData? data;
+
   factory TransactionResponse.fromJson(Map<String, dynamic> json) =>
       TransactionResponse(
-        data: TransactionResponseData.fromJson(json['data']),
+        data: TransactionResponseData.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
-        'data': data!.toJson(),
+        "data": data!.toJson(),
       };
-
-  TransactionResponseData? data;
 }
 
 class TransactionResponseData {
   TransactionResponseData({
-    this.content,
+    this.transaction,
   });
+
+  Transaction? transaction;
 
   factory TransactionResponseData.fromJson(Map<String, dynamic> json) =>
       TransactionResponseData(
-        content: json['content'],
+        transaction: Transaction.fromJson(json["transaction"]),
       );
 
   Map<String, dynamic> toJson() => {
-        'content': content,
+        "transaction": transaction!.toJson(),
       };
+}
+
+class Transaction {
+  Transaction({
+    this.data,
+  });
+
+  TransactionData? data;
+
+  factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
+        data: TransactionData.fromJson(json["data"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "data": data!.toJson(),
+      };
+}
+
+class TransactionData {
+  TransactionData({
+    this.content,
+  });
 
   String? content;
+
+  factory TransactionData.fromJson(Map<String, dynamic> json) =>
+      TransactionData(
+        content: json["content"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "content": content,
+      };
 }
