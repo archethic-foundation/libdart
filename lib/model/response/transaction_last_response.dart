@@ -16,15 +16,15 @@ class TransactionLastResponse {
     this.data,
   });
 
-  Data? data;
-
   factory TransactionLastResponse.fromJson(Map<String, dynamic> json) =>
       TransactionLastResponse(
-        data: Data.fromJson(json["data"]),
+        data: Data.fromJson(json['data']),
       );
 
+  Data? data;
+
   Map<String, dynamic> toJson() => {
-        "data": data!.toJson(),
+        'data': data!.toJson(),
       };
 }
 
@@ -33,14 +33,14 @@ class Data {
     this.lastTransaction,
   });
 
-  LastTransaction? lastTransaction;
-
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        lastTransaction: LastTransaction.fromJson(json["lastTransaction"]),
+        lastTransaction: LastTransaction.fromJson(json['lastTransaction']),
       );
 
+  LastTransaction? lastTransaction;
+
   Map<String, dynamic> toJson() => {
-        "lastTransaction": lastTransaction!.toJson(),
+        'lastTransaction': lastTransaction!.toJson(),
       };
 }
 
@@ -49,14 +49,14 @@ class LastTransaction {
     this.chainLength,
   });
 
-  int? chainLength;
-
   factory LastTransaction.fromJson(Map<String, dynamic> json) =>
       LastTransaction(
-        chainLength: json["chainLength"],
+        chainLength: json['chainLength'],
       );
+      
+  int? chainLength;
 
   Map<String, dynamic> toJson() => {
-        "chainLength": chainLength,
+        'chainLength': chainLength,
       };
 }

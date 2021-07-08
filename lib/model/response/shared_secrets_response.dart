@@ -16,15 +16,15 @@ class SharedSecretsResponse {
     this.data,
   });
 
-  Data? data;
-
   factory SharedSecretsResponse.fromJson(Map<String, dynamic> json) =>
       SharedSecretsResponse(
-        data: Data.fromJson(json["data"]),
+        data: Data.fromJson(json['data']),
       );
 
+  Data? data;
+
   Map<String, dynamic> toJson() => {
-        "data": data!.toJson(),
+        'data': data!.toJson(),
       };
 }
 
@@ -33,14 +33,14 @@ class Data {
     this.sharedSecrets,
   });
 
-  SharedSecrets? sharedSecrets;
-
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        sharedSecrets: SharedSecrets.fromJson(json["sharedSecrets"]),
+        sharedSecrets: SharedSecrets.fromJson(json['sharedSecrets']),
       );
 
+  SharedSecrets? sharedSecrets;
+
   Map<String, dynamic> toJson() => {
-        "sharedSecrets": sharedSecrets!.toJson(),
+        'sharedSecrets': sharedSecrets!.toJson(),
       };
 }
 
@@ -49,13 +49,13 @@ class SharedSecrets {
     this.storageNoncePublicKey,
   });
 
+  factory SharedSecrets.fromJson(Map<String, dynamic> json) => SharedSecrets(
+        storageNoncePublicKey: json['storageNoncePublicKey'],
+      );
+      
   String? storageNoncePublicKey;
 
-  factory SharedSecrets.fromJson(Map<String, dynamic> json) => SharedSecrets(
-        storageNoncePublicKey: json["storageNoncePublicKey"],
-      );
-
   Map<String, dynamic> toJson() => {
-        "storageNoncePublicKey": storageNoncePublicKey,
+        'storageNoncePublicKey': storageNoncePublicKey,
       };
 }

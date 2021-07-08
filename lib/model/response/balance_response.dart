@@ -16,15 +16,15 @@ class BalanceResponse {
     this.data,
   });
 
-  Data? data;
-
   factory BalanceResponse.fromJson(Map<String, dynamic> json) =>
       BalanceResponse(
-        data: Data.fromJson(json["data"]),
+        data: Data.fromJson(json['data']),
       );
 
+  Data? data;
+
   Map<String, dynamic> toJson() => {
-        "data": data!.toJson(),
+        'data': data!.toJson(),
       };
 }
 
@@ -33,14 +33,14 @@ class Data {
     this.balance,
   });
 
-  Balance? balance;
-
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        balance: Balance.fromJson(json["balance"]),
+        balance: Balance.fromJson(json['balance']),
       );
 
+  Balance? balance;
+
   Map<String, dynamic> toJson() => {
-        "balance": balance!.toJson(),
+        'balance': balance!.toJson(),
       };
 }
 
@@ -50,16 +50,16 @@ class Balance {
     this.uco,
   });
 
+  factory Balance.fromJson(Map<String, dynamic> json) => Balance(
+        nft: List<dynamic>.from(json['nft'].map((x) => x)),
+        uco: json['uco'].toDouble(),
+      );
+
   List<dynamic>? nft;
   double? uco;
 
-  factory Balance.fromJson(Map<String, dynamic> json) => Balance(
-        nft: List<dynamic>.from(json["nft"].map((x) => x)),
-        uco: json["uco"].toDouble(),
-      );
-
   Map<String, dynamic> toJson() => {
-        "nft": List<dynamic>.from(nft!.map((x) => x)),
-        "uco": uco,
+        'nft': List<dynamic>.from(nft!.map((x) => x)),
+        'uco': uco,
       };
 }

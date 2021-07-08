@@ -2,47 +2,48 @@ name: archethic_lib_dart
 description: ArchEthic dart library for Flutter based on Official ArchEthic Javascript library for Node and Browser
 homepage: https://github.com/redDwarf03/archethic_lib_dart
 
-version: 0.0.7+7
+version: 0.0.8+8
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  flutter:
-    sdk: flutter
-
-  # A Dart library implementing cryptographic algorithms and primitives, modeled on the BouncyCastle library
-  pointycastle: ^3.1.3
-
-  # Implementations of SHA, MD5, and HMAC cryptographic functions
-  crypto: ^3.0.1 
-
-  # Utilities for converting between data representations. Provides a number of Sink, Codec, Decoder, and Encoder types
-  convert: ^3.0.1
-
-  # Pure secp256k1 signature algorithm implement for dart language which uses pure dart and basic types to represent all matters
-  secp256k1: ^0.3.0
-
-  # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
-  pinenacl: ^0.3.1
 
   # An ASN1 parser library for Dart. Encodes / decodes from ASN1 Objects to BER bytes
   asn1lib: ^1.0.2
 
+  # Utilities for converting between data representations. Provides a number of Sink, Codec, Decoder, and Encoder types
+  convert: ^3.0.1
+
+  # Implementations of SHA, MD5, and HMAC cryptographic functions
+  crypto: ^3.0.1 
+
+  # Package ecdsa implements the Elliptic Curve Digital Signature Algorithm, as defined in FIPS 186-3
+  ecdsa: ^0.0.2
+
+  # basic elliptic curves
+  elliptic: ^0.3.1
+
+  flutter:
+    sdk: flutter
+
   # Flutter bindings for libsodium, a modern, easy-to-use crypto library
   flutter_sodium: ^0.2.0
-  
+
   # A composable, multi-platform, Future-based API for HTTP requests
   http: ^0.13.3
 
   # Phoenix Channel client for Dart
   phoenix_wings: ^1.0.2
 
-  # basic elliptic curves
-  elliptic: ^0.3.1
+  # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
+  pinenacl: ^0.3.1
 
-  # Package ecdsa implements the Elliptic Curve Digital Signature Algorithm, as defined in FIPS 186-3
-  ecdsa: ^0.0.2
+  # A Dart library implementing cryptographic algorithms and primitives, modeled on the BouncyCastle library
+  pointycastle: ^3.1.3
+
+  # Pure secp256k1 signature algorithm implement for dart language which uses pure dart and basic types to represent all matters
+  secp256k1: ^0.3.0
 
 dev_dependencies:
   flutter_test:

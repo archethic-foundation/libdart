@@ -8,7 +8,6 @@ import 'package:flutter_sodium/flutter_sodium.dart' as sodium;
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
-import 'package:archethic_lib_dart/api.dart';
 import 'package:archethic_lib_dart/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/model/key_pair.dart';
 import 'package:archethic_lib_dart/utils.dart';
@@ -46,70 +45,54 @@ void main() {
     });
 
     group('deriveKeyPair', () {
-      /*test('should generate an EC keypair using Ed25519 curve', () {
-        final KeyPair keypair = crypto.deriveKeyPair('52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159', 0);
+      test('should generate an EC keypair using Ed25519 curve', () {
+        final KeyPair keypair = crypto.deriveKeyPair('seed', 0, curve: 'ed25519');
         expect(uint8ListToHex(keypair.publicKey),
-            '0100047b68f44c874d01ba650bbb39683d599385e54d1bdc8342409a328d3d8dcb6e3768f9d22a926fdab5753fadc2da42ef6b77fae65fd90b665d14456539e7e22ed0');
-      });*/
+            '000061d6cd8da68207bd01198909c139c130a3df3a8bd20f4bacb123c46354ccd52c');
+      });
       test('should generate an EC keypair using P256 curve', () {
-        final KeyPair keypair = crypto.deriveKeyPair(
-            '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
-            0,
-            curve: 'P256');
+        final KeyPair keypair = crypto.deriveKeyPair('seed', 0, curve: 'P256');
         expect(uint8ListToHex(keypair.publicKey),
-            '0100047b68f44c874d01ba650bbb39683d599385e54d1bdc8342409a328d3d8dcb6e3768f9d22a926fdab5753fadc2da42ef6b77fae65fd90b665d14456539e7e22ed0');
+            '0100044d91a0a1a7cf06a2902d3842f82d2791bcbf3ee6f6dc8de0f90e53e9991c3cb33684b7b9e66f26e7c9f5302f73c69897be5f301de9a63521a08ac4ef34c18728');
       });
       test('should generate an EC keypair using secp256k1 curve', () {
-        final KeyPair keypair = crypto.deriveKeyPair(
-            '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
-            0,
-            curve: 'secp256k1');
+        final KeyPair keypair = crypto.deriveKeyPair('seed', 0, curve: 'secp256k1');
         expect(uint8ListToHex(keypair.publicKey),
-            '02000472dd7703ddbba8cbefc74f1d9cc26df2c2f1bc89124ac560572eb044351d0d02a939ae120e92ea2b536ddce5fe4cde08989855cf0d6ef6d5c892bccc8f144499');
+            '0200044d02d071e7e24348fc24951bded20c08409b075c7956348fef89e118370f382cf99c064b17ad950aaeb1ae04971afdc6a44d68e731b8d0a01a8f56eade92875a');
       });
 
       test('should produce different key by changing the index', () {
-        final KeyPair keypair1 = crypto.deriveKeyPair(
-            '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
-            1);
-        final KeyPair keypair2 = crypto.deriveKeyPair(
-            '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
-            2);
+        final KeyPair keypair1 = crypto.deriveKeyPair('seed', 0);
+        final KeyPair keypair2 = crypto.deriveKeyPair('seed', 1);
         expect(keypair1, isNot(equals(keypair2)));
       });
     });
 
     group('sign/verify', () {
-      /* test(
+      test(
           'should sign a message with an ed25519 key and create valid signature',
           () {
         final KeyPair keypair =
-            crypto.deriveKeyPair('52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159', 0, curve: 'ed25519');
+            crypto.deriveKeyPair('seed', 0, curve: 'ed25519');
         final Uint8List sig = crypto.sign('hello', keypair.privateKey);
         expect(crypto.verify(sig, 'hello', keypair.publicKey), true);
-      });*/
+      });
       test('should sign a message with an P256 key', () {
-        KeyPair keypair = crypto.deriveKeyPair(
-            '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
-            0,
-            curve: 'P256');
-        Uint8List sig = crypto.sign('hello', keypair.privateKey);
+        final KeyPair keypair = crypto.deriveKeyPair('seed', 0, curve: 'P256');
+        final Uint8List sig = crypto.sign('hello', keypair.privateKey);
         expect(crypto.verify(sig, 'hello', keypair.publicKey), true);
       });
       test('should sign a message with an secp256k1 key', () {
-        KeyPair keypair = crypto.deriveKeyPair(
-            '52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159',
-            0,
-            curve: 'secp256k1');
-        Uint8List sig = crypto.sign("hello", keypair.privateKey);
-        expect(crypto.verify(sig, "hello", keypair.publicKey), true);
+        final KeyPair keypair = crypto.deriveKeyPair('seed', 0, curve: 'secp256k1');
+        final Uint8List sig = crypto.sign('hello', keypair.privateKey);
+        expect(crypto.verify(sig, 'hello', keypair.publicKey), true);
       });
     });
 
     group('ecEncrypt', () {
       /*test('should encrypt a data using a ed25519 public key', () {
         final KeyPair keypair =
-            crypto.deriveKeyPair('52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159', 0, curve: 'ed25519');
+            crypto.deriveKeyPair('seed', 0, curve: 'ed25519');
         final Uint8List secret = Uint8List.fromList([
           10,
           35,
@@ -167,7 +150,7 @@ void main() {
       });
 
       test('should encrypt a data using a secp256k1 public key', () {
-        /*KeyPair keypair = crypto.deriveKeyPair('52FC713FFC16C741EAFA5D4D2F85EC3374E8AE583CBC36590FE56F4F056C2159', 0, curve: "secp256k1");
+        /*KeyPair keypair = crypto.deriveKeyPair('seed', 0, curve: 'secp256k1');
         Uint8List ciphertext = crypto.ecEncrypt('hello', keypair.publicKey);
 
         Uint8List ephemeralPubKey = ciphertext.sublist(0, 65);

@@ -3,15 +3,14 @@ import 'dart:async';
 import 'dart:convert';
 
 // Package imports:
+import 'package:archethic_lib_dart/model/response/transactions_response.dart';
 import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
 import 'package:archethic_lib_dart/model/response/balance_response.dart';
 import 'package:archethic_lib_dart/model/response/shared_secrets_response.dart';
-import 'package:archethic_lib_dart/model/response/transaction_chain_response.dart';
 import 'package:archethic_lib_dart/model/response/transaction_last_response.dart';
-import 'package:archethic_lib_dart/model/response/transaction_response.dart';
-import 'package:archethic_lib_dart/transaction_builder.dart';
+import 'package:archethic_lib_dart/model/response/transaction_content_response.dart';
 
 //import 'package:pinenacl/api.dart';
 //import 'package:archethic_lib_dart/services/absinthe_socket.dart';
@@ -36,19 +35,19 @@ dynamic sendTx(tx, String endpoint) async {
 }
 
 Future<int> getTransactionIndex(String address, String endpoint) async {
-  Completer<int> _completer = new Completer<int>();
+  final Completer<int> _completer = Completer<int>();
   int _chainLength = 0;
   TransactionLastResponse transactionLastResponse =
-      new TransactionLastResponse();
+      TransactionLastResponse();
   final Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
   };
   try {
-    String _body =
+    final String _body =
         '{"query": "query {lastTransaction(address: \\"$address\\") {chainLength}}"}';
     print(_body);
-    http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
+    final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
         body: _body, headers: requestHeaders);
     print(responseHttp.body);
     if (responseHttp.statusCode == 200) {
@@ -61,7 +60,7 @@ Future<int> getTransactionIndex(String address, String endpoint) async {
       }
     }
   } catch (e) {
-    print("error: " + e.toString());
+    print('error: ' + e.toString());
   }
 
   _completer.complete(_chainLength);
@@ -69,9 +68,9 @@ Future<int> getTransactionIndex(String address, String endpoint) async {
 }
 
 Future<String> getStorageNoncePublicKey(String endpoint) async {
-  Completer<String> _completer = new Completer<String>();
-  String _storageNoncePublicKey = "";
-  SharedSecretsResponse sharedSecretsResponse = new SharedSecretsResponse();
+  final Completer<String> _completer = Completer<String>();
+  String _storageNoncePublicKey = '';
+  SharedSecretsResponse sharedSecretsResponse = SharedSecretsResponse();
 
   final Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
@@ -79,9 +78,9 @@ Future<String> getStorageNoncePublicKey(String endpoint) async {
   };
 
   try {
-    String _body = '{"query": "query {sharedSecrets {storageNoncePublicKey}}"}';
+    const String _body = '{"query": "query {sharedSecrets {storageNoncePublicKey}}"}';
     print(_body);
-    http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
+    final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
         body: _body, headers: requestHeaders);
     print(responseHttp.body);
     if (responseHttp.statusCode == 200) {
@@ -93,7 +92,7 @@ Future<String> getStorageNoncePublicKey(String endpoint) async {
       }
     }
   } catch (e) {
-    print("error: " + e.toString());
+    print('error: ' + e.toString());
   }
 
   _completer.complete(_storageNoncePublicKey);
@@ -109,12 +108,12 @@ Future<BalanceResponse> fetchBalance(String address, String endpoint) async {
     'Accept': 'application/json',
   };
 
-  String _body =
+  final String _body =
       '{"query": "query {balance(address: \\"$address\\") {uco, nft {address, amount}}}"}';
   print(_body);
 
   try {
-    http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
+    final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
         body: _body, headers: requestHeaders);
     print(responseHttp.body);
 
@@ -122,7 +121,7 @@ Future<BalanceResponse> fetchBalance(String address, String endpoint) async {
       balanceResponse = balanceResponseFromJson(responseHttp.body);
     }
   } catch (e) {
-    print("error: " + e.toString());
+    print('error: ' + e.toString());
   }
 
   _completer.complete(balanceResponse!);
@@ -131,73 +130,68 @@ Future<BalanceResponse> fetchBalance(String address, String endpoint) async {
 
 Future<String> getTransactionContent(String address, String endpoint) async {
   final Completer<String> _completer = Completer<String>();
-  String _content = "";
-  TransactionResponse? transactionResponse = new TransactionResponse();
+  String _content = '';
+  TransactionContentResponse? transactionContentResponse = TransactionContentResponse();
 
   final Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
   };
 
-  String _body =
+  final String _body =
       '{"query":"query { transaction(address: \\"$address\\") { data { content }} }"}';
   print(_body);
 
   try {
-    http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
+    final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
         body: _body, headers: requestHeaders);
     print(responseHttp.body);
 
     if (responseHttp.statusCode == 200) {
-      transactionResponse = transactionResponseFromJson(responseHttp.body);
-      if (transactionResponse.data != null &&
-          transactionResponse.data!.transaction != null &&
-          transactionResponse.data!.transaction!.data != null) {
-        _content = transactionResponse.data!.transaction!.data!.content!;
+      transactionContentResponse = transactionContentResponseFromJson(responseHttp.body);
+      if (transactionContentResponse.data != null &&
+          transactionContentResponse.data!.transaction != null &&
+          transactionContentResponse.data!.transaction!.data != null) {
+        _content = transactionContentResponse.data!.transaction!.data!.content!;
       }
     }
   } catch (e) {
-    print("error: " + e.toString());
+    print('error: ' + e.toString());
   }
 
   _completer.complete(_content);
   return _completer.future;
 }
 
-Future<TransactionBuilder> getTransactions(
+Future<TransactionsResponse> getTransactions(
     String address, String endpoint) async {
-  final Completer<TransactionBuilder> _completer =
-      Completer<TransactionBuilder>();
-  TransactionBuilder? transactionChainResponse =
-      new TransactionBuilder("keychain_access");
+  final Completer<TransactionsResponse> _completer =
+      Completer<TransactionsResponse>();
+  TransactionsResponse? transactionsResponse =
+      TransactionsResponse();
 
   final Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
   };
 
-  String _body =
+  final String _body =
       '{"query":"query { transactionChain(address: \\"$address\\") {address, type, data { ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } } } }"}';
   print(_body);
 
   try {
-    http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
+    final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
         body: _body, headers: requestHeaders);
     print(responseHttp.body);
 
     if (responseHttp.statusCode == 200) {
-      transactionChainResponse = transactionBuilderFromJson(responseHttp.body);
-      /* if (transactionResponse.data != null &&
-      transactionResponse.data!.transaction != null &&
-      transactionResponse.data!.transaction!.data != null) {
-        _content = transactionResponse.data!.transaction!.data!.content!;
-      }*/
+      transactionsResponse = transactionsResponseFromJson(responseHttp.body);
     }
   } catch (e) {
-    print("error: " + e.toString());
+    print('error: ' + e.toString());
   }
 
-  _completer.complete(transactionChainResponse);
+  _completer.complete(transactionsResponse);
   return _completer.future;
 }
 
@@ -213,7 +207,7 @@ void notifyAddressReplication(String address, String endpoint) {
   notifier.observe(_categoryObserver);
 
    
-    return new Promise((resolve, reject) => {
+    return Promise((resolve, reject) => {
         withAbsintheSocket.observe(absintheSocket, notifier, {
             onAbort: console.log("abort"),
             onError: reject,
@@ -221,4 +215,33 @@ void notifyAddressReplication(String address, String endpoint) {
             onResult: resolve
         })
     })*/
+}
+
+
+Future<String> getNodeList(String endpoint) async {
+  final Completer<String> _completer = Completer<String>();
+  const String _storageNoncePublicKey = '';
+  SharedSecretsResponse sharedSecretsResponse = SharedSecretsResponse();
+
+  final Map<String, String> requestHeaders = {
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+  };
+
+  try {
+    const String _body = '{"query": "query {list_nodes}"}';
+    print(_body);
+    final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
+        body: _body, headers: requestHeaders);
+    print(responseHttp.body);
+    if (responseHttp.statusCode == 200) {
+      sharedSecretsResponse = sharedSecretsResponseFromJson(responseHttp.body);
+     
+    }
+  } catch (e) {
+    print('error: ' + e.toString());
+  }
+
+  _completer.complete(_storageNoncePublicKey);
+  return _completer.future;
 }

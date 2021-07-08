@@ -2,6 +2,20 @@
 //
 //     final transactionBuilder = transactionBuilderFromJson(jsonString);
 
+/*  Represent a transaction in pending validation
+  - Address: hash of the new generated public key for the given transaction
+  - Type: transaction type
+  - Data: transaction data zone (identity, keychain, smart contract, etc.)
+  - Previous signature: signature from the previous public key
+  - Previous public key: previous generated public key matching the previous signature
+  - Origin signature: signature from the device which originated the transaction (used in the Proof of work)
+  - Version: version of the transaction (used for backward compatiblity)
+
+  When the transaction is validated the following fields are filled:
+  - Validation stamp: coordinator work result
+  - Cross validation stamps: endorsements of the validation stamp from the coordinator
+*/
+
 // Dart imports:
 import 'dart:convert' show json, utf8, jsonEncode;
 import 'dart:typed_data' show Uint8List;
@@ -11,7 +25,7 @@ import 'package:archethic_lib_dart/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/model/key_pair.dart';
 import 'package:archethic_lib_dart/utils.dart';
 
-const version = 1;
+const int cVersion = 1;
 
 const Map<String, int> txTypes = {
   // User based transaction types
@@ -21,8 +35,16 @@ const Map<String, int> txTypes = {
   'hosting': 252,
   'nft': 251,
   //Network based transaction types
+  'node': 0,
+  'node_shared_secrets': 1,
+  'origin_shared_secrets': 2,
+  'beacon': 3,
+  'beacon_summary': 4,
+  'oracle': 5,
+  'oracle_summary': 6,
   'code_proposal': 7,
-  'code_approval': 8
+  'code_approval': 8,
+  'node_rewards': 9,
 };
 
 TransactionBuilder transactionBuilderFromJson(String str) =>
@@ -38,7 +60,7 @@ class TransactionBuilder {
     }
 
     type = txType;
-    version = version;
+    version = cVersion;
     data = Data.fromJson({
       'content': Uint8List(0),
       'code': Uint8List(0),
@@ -59,6 +81,7 @@ class TransactionBuilder {
           previousSignature: json['previousSignature'],
           originSignature: json['originSignature'],
           data: Data.fromJson(json['data']),
+          validationStamp: json['validationStamp'],
           version: json['version']);
 
   TransactionBuilder.allParams(
@@ -68,6 +91,7 @@ class TransactionBuilder {
       this.previousSignature,
       this.originSignature,
       this.data,
+      this.validationStamp,
       this.version});
 
   String? type;
@@ -76,6 +100,7 @@ class TransactionBuilder {
   Uint8List? previousPublicKey;
   Uint8List? previousSignature;
   Uint8List? originSignature;
+  int? validationStamp;
   Data? data;
 
   Map<String, dynamic> toJson() => {
@@ -85,6 +110,7 @@ class TransactionBuilder {
             List<dynamic>.from(previousPublicKey!.map((x) => x)),
         'previousSignature':
             List<dynamic>.from(previousSignature!.map((x) => x)),
+        'validationStamp': validationStamp,
         'originSignature': List<dynamic>.from(originSignature!.map((x) => x)),
         'data': data!.toJson()
       };
@@ -261,8 +287,8 @@ class TransactionBuilder {
     * @param {String} curve Elliptic curve to use for the key generation
     * @param {String} hashAlgo Hash algorithm to use for the address generation
     */
-  TransactionBuilder build(seed, int index,
-      {String curve = 'ed25519', String hashAlgo = 'sha256'}) {
+  TransactionBuilder build(seed, int index, String curve,
+      {String hashAlgo = 'sha256'}) {
     final KeyPair keypair = crypto.deriveKeyPair(seed, index, curve: curve);
     final KeyPair nextKeypair =
         crypto.deriveKeyPair(seed, index + 1, curve: curve);
@@ -271,6 +297,7 @@ class TransactionBuilder {
 
     this.address = address;
     previousPublicKey = keypair.publicKey;
+    validationStamp = DateTime.now().millisecondsSinceEpoch;
     previousSignature =
         crypto.sign(previousSignaturePayload(), keypair.privateKey);
 
@@ -303,7 +330,12 @@ class TransactionBuilder {
    */
   Uint8List previousSignaturePayload() {
     final Uint8List bufCodeSize = encodeInt32(data!.code!.length);
-    final Uint8List bufContentSize = encodeInt32(data!.content!.length);
+    int contentSize = data!.content!.length;
+    if(data!.content! is Uint8List)
+    {
+      contentSize = data!.content!.lengthInBytes;
+    }
+    final Uint8List bufContentSize = encodeInt32(contentSize);
     final Uint8List bufSecretSize = encodeInt32(data!.keys!.secret!.length);
 
     Uint8List? authorizedKeysBuffers = Uint8List(0);
