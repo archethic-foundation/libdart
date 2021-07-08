@@ -232,14 +232,18 @@ bool verify(sig, data, publicKey) {
       final ed25519.VerifyKey verifyKey = ed25519.VerifyKey(pubBuf);
       return verifyKey.verify(signature: ed25519.Signature(sig), message: data);
     case 1:
-      final Uint8List msgHash = hash(data, algo: 'sha256');
+      final Digest sha256 = Digest('SHA-256');
+      final Uint8List msgHash = sha256.process(data);
+
       final elliptic.EllipticCurve ec = elliptic.getP256();
       final elliptic.PublicKey publicKey =
           elliptic.PublicKey.fromHex(ec, uint8ListToHex(pubBuf));
       final ecdsa.Signature signature = ecdsa.Signature.fromASN1(sig);
       return ecdsa.verify(publicKey, msgHash, signature);
     case 2:
-      final Uint8List msgHash = hash(data, algo: 'sha256');
+      final Digest sha256 = Digest('SHA-256');
+      Uint8List msgHash = sha256.process(data);
+
       final elliptic.Curve ec = elliptic.getSecp256k1();
       final elliptic.PublicKey publicKey =
           elliptic.PublicKey.fromHex(ec, uint8ListToHex(pubBuf));
@@ -399,7 +403,8 @@ Uint8List derivePrivateKey(seed, int index) {
   }
 
   //Derive master keys
-  final Uint8List buf = hash(seed, algo: 'sha512');
+  final Digest sha512 = Digest('SHA-512');
+  final Uint8List buf = sha512.process(seed);
   final Uint8List masterKey = buf.sublist(0, 32);
   final Uint8List masterEntropy = buf.sublist(32, 64);
 
