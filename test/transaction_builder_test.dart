@@ -182,10 +182,12 @@ void main() {
       test('should build the transaction and the related signature', () {
         final TransactionBuilder tx = TransactionBuilder('transfer')
             .addAuthorizedKey(
-                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             .build('seed', 0, 'P256');
-
+        print(tx.address.toString());
+        print(hexToUint8List(
+                '001680dab710eca8bc6b6c8025e57ebaf2d30c03d8d23a21ba7f8a157c365c5d49'));
         expect(
             tx.address,
             hexToUint8List(
@@ -351,14 +353,14 @@ void main() {
     test('getTransactionIndex', () async {
       final int chainLength = await getTransactionIndex(
           '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
-          'http://www.archethic.net');
+          'http://localhost:4000');
 
       expect(chainLength, 1);
     });
 
     test('getStorageNoncePublicKey', () async {
       final String storageNoncePublicKey =
-          await getStorageNoncePublicKey('http://www.archethic.net');
+          await getStorageNoncePublicKey('http://localhost:4000');
 
       expect(
         storageNoncePublicKey,
@@ -369,7 +371,7 @@ void main() {
     test('fetchBalance', () async {
       final BalanceResponse balanceResponse = await fetchBalance(
           '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
-          'http://www.archethic.net');
+          'http://localhost:4000');
 
       expect(
         balanceResponse.data!.balance!.uco,
@@ -380,7 +382,7 @@ void main() {
     test('getTransactionContent', () async {
       final String content = await getTransactionContent(
           '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
-          'http://www.archethic.net');
+          'http://localhost:4000');
 
       expect(
         content,
@@ -391,7 +393,8 @@ void main() {
     test('getTransactions', () async {
       final TransactionsResponse transactionsResponse = await getTransactions(
           '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
-          'http://www.archethic.net');
+          0,
+          'http://localhost:4000');
 
       expect(
         transactionsResponse.data!.transactionChain![0].address,
@@ -399,14 +402,14 @@ void main() {
       );
     });
 
-    /*test('getNodeList', () async {
+    test('getNodeList', () async {
       String storageNoncePublicKey =
-          await getNodeList('http://www.archethic.net');
+          await getNodeList('http://localhost:4000');
 
       expect(
         storageNoncePublicKey,
         "00004BA72C106818CC3A75961559CA03B10ECCFFCD6684062F4BE0355C153055595D",
       );
-    });*/
+    });
   });
 }
