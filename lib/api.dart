@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
 import 'package:archethic_lib_dart/model/response/balance_response.dart';
+import 'package:archethic_lib_dart/model/response/nodes_response.dart';
 import 'package:archethic_lib_dart/model/response/shared_secrets_response.dart';
 import 'package:archethic_lib_dart/model/response/transaction_content_response.dart';
 import 'package:archethic_lib_dart/model/response/transaction_last_response.dart';
@@ -261,10 +262,9 @@ void notifyAddressReplication(String address, String endpoint) {
  * @param {String} The endpoint
  * Returns the [Node] infos
  */
-Future<String> getNodeList(String endpoint) async {
-  final Completer<String> _completer = Completer<String>();
-  const String _storageNoncePublicKey = '';
-  SharedSecretsResponse sharedSecretsResponse = SharedSecretsResponse();
+Future<NodesResponse> getNodeList(String endpoint) async {
+  final Completer<NodesResponse> _completer = Completer<NodesResponse>();
+  NodesResponse nodesResponse = NodesResponse();
 
   final Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
@@ -272,7 +272,8 @@ Future<String> getNodeList(String endpoint) async {
   };
 
   try {
-    const String _body = '{"query": "query {nodes}"}';
+    const String _body =
+        '{"query": "query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress}}"}';
     print(_body);
     final http.Response responseHttp = await http.post(
         Uri.parse(endpoint + '/api'),
@@ -280,12 +281,12 @@ Future<String> getNodeList(String endpoint) async {
         headers: requestHeaders);
     print(responseHttp.body);
     if (responseHttp.statusCode == 200) {
-      sharedSecretsResponse = sharedSecretsResponseFromJson(responseHttp.body);
+      nodesResponse = nodesResponseFromJson(responseHttp.body);
     }
   } catch (e) {
     print('error: ' + e.toString());
   }
 
-  _completer.complete(_storageNoncePublicKey);
+  _completer.complete(nodesResponse);
   return _completer.future;
 }
