@@ -34,6 +34,11 @@ dynamic sendTx(tx, String endpoint) async {
   return json.decode(responseHttp.body);
 }
 
+/*
+ * Query the network to find the last transaction from an address
+ * @param {String} The [Address] scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+ * @param {String} The endpoint
+ */
 Future<int> getTransactionIndex(String address, String endpoint) async {
   final Completer<int> _completer = Completer<int>();
   int _chainLength = 0;
@@ -68,6 +73,10 @@ Future<int> getTransactionIndex(String address, String endpoint) async {
   return _completer.future;
 }
 
+/*
+ * getStorageNoncePublicKey
+ * @param {String} The endpoint
+ */
 Future<String> getStorageNoncePublicKey(String endpoint) async {
   final Completer<String> _completer = Completer<String>();
   String _storageNoncePublicKey = '';
@@ -103,6 +112,12 @@ Future<String> getStorageNoncePublicKey(String endpoint) async {
   return _completer.future;
 }
 
+/*
+ * Query the network to find a balance from an address
+ * @param {String} The [Address] scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+ * @param {String} The endpoint
+ * Returns [BalanceResponse] represents a ledger balance. It includes: UCO: uco balance & NFT: NFT balances
+ */
 Future<BalanceResponse> fetchBalance(String address, String endpoint) async {
   final Completer<BalanceResponse> _completer = Completer<BalanceResponse>();
   BalanceResponse? balanceResponse;
@@ -134,6 +149,12 @@ Future<BalanceResponse> fetchBalance(String address, String endpoint) async {
   return _completer.future;
 }
 
+/*
+ * Query the network to find a transaction
+ * @param {String} The [Address] scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+ * @param {String} The endpoint
+ * Returns the [Content] scalar type represents transaction content. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
+ */
 Future<String> getTransactionContent(String address, String endpoint) async {
   final Completer<String> _completer = Completer<String>();
   String _content = '';
@@ -173,8 +194,15 @@ Future<String> getTransactionContent(String address, String endpoint) async {
   return _completer.future;
 }
 
+/*
+ * Query the network to find a transaction chain
+ * @param {String} The [Address] scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+ * @param {int} The page
+ * @param {String} The endpoint
+ * Returns the [Content] scalar type represents transaction content. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
+ */
 Future<TransactionsResponse> getTransactions(
-    String address, String endpoint) async {
+    String address, int page, String endpoint) async {
   final Completer<TransactionsResponse> _completer =
       Completer<TransactionsResponse>();
   TransactionsResponse? transactionsResponse = TransactionsResponse();
@@ -185,7 +213,7 @@ Future<TransactionsResponse> getTransactions(
   };
 
   final String _body =
-      '{"query":"query { transactionChain(address: \\"$address\\") {address, type, data { ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } } } }"}';
+      '{"query":"query { transactionChain(address: \\"$address\\", page: $page) {address, type, data { ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } } } }"}';
   print(_body);
 
   try {
@@ -228,6 +256,11 @@ void notifyAddressReplication(String address, String endpoint) {
     })*/
 }
 
+/*
+ * Query the node infos
+ * @param {String} The endpoint
+ * Returns the [Node] infos
+ */
 Future<String> getNodeList(String endpoint) async {
   final Completer<String> _completer = Completer<String>();
   const String _storageNoncePublicKey = '';
@@ -239,7 +272,7 @@ Future<String> getNodeList(String endpoint) async {
   };
 
   try {
-    const String _body = '{"query": "query {list_nodes}"}';
+    const String _body = '{"query": "query {nodes}"}';
     print(_body);
     final http.Response responseHttp = await http.post(
         Uri.parse(endpoint + '/api'),
