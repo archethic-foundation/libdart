@@ -53,7 +53,7 @@ class LastTransaction {
       LastTransaction(
         chainLength: json['chainLength'],
       );
-      
+
   int? chainLength;
 
   Map<String, dynamic> toJson() => {

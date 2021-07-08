@@ -70,7 +70,7 @@ class TransactionData {
       TransactionData(
         content: json['content'],
       );
-      
+
   String? content;
 
   Map<String, dynamic> toJson() => {

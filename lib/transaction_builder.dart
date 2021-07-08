@@ -331,8 +331,7 @@ class TransactionBuilder {
   Uint8List previousSignaturePayload() {
     final Uint8List bufCodeSize = encodeInt32(data!.code!.length);
     int contentSize = data!.content!.length;
-    if(data!.content! is Uint8List)
-    {
+    if (data!.content! is Uint8List) {
       contentSize = data!.content!.lengthInBytes;
     }
     final Uint8List bufContentSize = encodeInt32(contentSize);

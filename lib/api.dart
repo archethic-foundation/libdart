@@ -3,14 +3,14 @@ import 'dart:async';
 import 'dart:convert';
 
 // Package imports:
-import 'package:archethic_lib_dart/model/response/transactions_response.dart';
 import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
 import 'package:archethic_lib_dart/model/response/balance_response.dart';
 import 'package:archethic_lib_dart/model/response/shared_secrets_response.dart';
-import 'package:archethic_lib_dart/model/response/transaction_last_response.dart';
 import 'package:archethic_lib_dart/model/response/transaction_content_response.dart';
+import 'package:archethic_lib_dart/model/response/transaction_last_response.dart';
+import 'package:archethic_lib_dart/model/response/transactions_response.dart';
 
 //import 'package:pinenacl/api.dart';
 //import 'package:archethic_lib_dart/services/absinthe_socket.dart';
@@ -37,8 +37,7 @@ dynamic sendTx(tx, String endpoint) async {
 Future<int> getTransactionIndex(String address, String endpoint) async {
   final Completer<int> _completer = Completer<int>();
   int _chainLength = 0;
-  TransactionLastResponse transactionLastResponse =
-      TransactionLastResponse();
+  TransactionLastResponse transactionLastResponse = TransactionLastResponse();
   final Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
@@ -47,8 +46,10 @@ Future<int> getTransactionIndex(String address, String endpoint) async {
     final String _body =
         '{"query": "query {lastTransaction(address: \\"$address\\") {chainLength}}"}';
     print(_body);
-    final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
-        body: _body, headers: requestHeaders);
+    final http.Response responseHttp = await http.post(
+        Uri.parse(endpoint + '/api'),
+        body: _body,
+        headers: requestHeaders);
     print(responseHttp.body);
     if (responseHttp.statusCode == 200) {
       transactionLastResponse =
@@ -78,10 +79,13 @@ Future<String> getStorageNoncePublicKey(String endpoint) async {
   };
 
   try {
-    const String _body = '{"query": "query {sharedSecrets {storageNoncePublicKey}}"}';
+    const String _body =
+        '{"query": "query {sharedSecrets {storageNoncePublicKey}}"}';
     print(_body);
-    final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
-        body: _body, headers: requestHeaders);
+    final http.Response responseHttp = await http.post(
+        Uri.parse(endpoint + '/api'),
+        body: _body,
+        headers: requestHeaders);
     print(responseHttp.body);
     if (responseHttp.statusCode == 200) {
       sharedSecretsResponse = sharedSecretsResponseFromJson(responseHttp.body);
@@ -113,8 +117,10 @@ Future<BalanceResponse> fetchBalance(String address, String endpoint) async {
   print(_body);
 
   try {
-    final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
-        body: _body, headers: requestHeaders);
+    final http.Response responseHttp = await http.post(
+        Uri.parse(endpoint + '/api'),
+        body: _body,
+        headers: requestHeaders);
     print(responseHttp.body);
 
     if (responseHttp.statusCode == 200) {
@@ -131,7 +137,8 @@ Future<BalanceResponse> fetchBalance(String address, String endpoint) async {
 Future<String> getTransactionContent(String address, String endpoint) async {
   final Completer<String> _completer = Completer<String>();
   String _content = '';
-  TransactionContentResponse? transactionContentResponse = TransactionContentResponse();
+  TransactionContentResponse? transactionContentResponse =
+      TransactionContentResponse();
 
   final Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
@@ -143,12 +150,15 @@ Future<String> getTransactionContent(String address, String endpoint) async {
   print(_body);
 
   try {
-    final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
-        body: _body, headers: requestHeaders);
+    final http.Response responseHttp = await http.post(
+        Uri.parse(endpoint + '/api'),
+        body: _body,
+        headers: requestHeaders);
     print(responseHttp.body);
 
     if (responseHttp.statusCode == 200) {
-      transactionContentResponse = transactionContentResponseFromJson(responseHttp.body);
+      transactionContentResponse =
+          transactionContentResponseFromJson(responseHttp.body);
       if (transactionContentResponse.data != null &&
           transactionContentResponse.data!.transaction != null &&
           transactionContentResponse.data!.transaction!.data != null) {
@@ -167,8 +177,7 @@ Future<TransactionsResponse> getTransactions(
     String address, String endpoint) async {
   final Completer<TransactionsResponse> _completer =
       Completer<TransactionsResponse>();
-  TransactionsResponse? transactionsResponse =
-      TransactionsResponse();
+  TransactionsResponse? transactionsResponse = TransactionsResponse();
 
   final Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
@@ -180,8 +189,10 @@ Future<TransactionsResponse> getTransactions(
   print(_body);
 
   try {
-    final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
-        body: _body, headers: requestHeaders);
+    final http.Response responseHttp = await http.post(
+        Uri.parse(endpoint + '/api'),
+        body: _body,
+        headers: requestHeaders);
     print(responseHttp.body);
 
     if (responseHttp.statusCode == 200) {
@@ -217,7 +228,6 @@ void notifyAddressReplication(String address, String endpoint) {
     })*/
 }
 
-
 Future<String> getNodeList(String endpoint) async {
   final Completer<String> _completer = Completer<String>();
   const String _storageNoncePublicKey = '';
@@ -231,12 +241,13 @@ Future<String> getNodeList(String endpoint) async {
   try {
     const String _body = '{"query": "query {list_nodes}"}';
     print(_body);
-    final http.Response responseHttp = await http.post(Uri.parse(endpoint + '/api'),
-        body: _body, headers: requestHeaders);
+    final http.Response responseHttp = await http.post(
+        Uri.parse(endpoint + '/api'),
+        body: _body,
+        headers: requestHeaders);
     print(responseHttp.body);
     if (responseHttp.statusCode == 200) {
       sharedSecretsResponse = sharedSecretsResponseFromJson(responseHttp.body);
-     
     }
   } catch (e) {
     print('error: ' + e.toString());

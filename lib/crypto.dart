@@ -13,12 +13,12 @@ import 'dart:typed_data' show Uint8List;
 import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
 import 'package:ecdsa/ecdsa.dart' as ecdsa;
 import 'package:elliptic/elliptic.dart' as elliptic;
+import 'package:pinenacl/ed25519.dart' as ed25519;
 
 // Project imports:
 import 'package:archethic_lib_dart/model/key_pair.dart';
 import 'package:archethic_lib_dart/model/secret.dart';
 import 'package:archethic_lib_dart/utils.dart';
-import 'package:pinenacl/ed25519.dart' as ed25519;
 
 import 'package:pointycastle/export.dart'
     show Digest, AEADParameters, AESFastEngine, KeyParameter, GCMBlockCipher;
@@ -102,7 +102,8 @@ KeyPair deriveKeyPair(String seed, int index, {String curve = 'P256'}) {
     case 'P256':
       final Uint8List curveIdBuf = Uint8List.fromList([1]);
       final elliptic.EllipticCurve ec = elliptic.getP256();
-      final elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      final elliptic.PrivateKey privateKey =
+          elliptic.PrivateKey.fromBytes(ec, pvBuf);
       final elliptic.PublicKey publicKey = ec.privateToPublicKey(privateKey);
       return KeyPair(
           privateKey: concatUint8List([curveIdBuf, softwareIdBuf, pvBuf]),
@@ -112,7 +113,8 @@ KeyPair deriveKeyPair(String seed, int index, {String curve = 'P256'}) {
     case 'secp256k1':
       final Uint8List curveIdBuf = Uint8List.fromList([2]);
       final elliptic.Curve ec = elliptic.getSecp256k1();
-      final elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      final elliptic.PrivateKey privateKey =
+          elliptic.PrivateKey.fromBytes(ec, pvBuf);
       final elliptic.PublicKey publicKey = ec.privateToPublicKey(privateKey);
       return KeyPair(
           privateKey: concatUint8List([curveIdBuf, softwareIdBuf, pvBuf]),
@@ -167,7 +169,8 @@ Uint8List sign(data, privateKey) {
       final Uint8List msgHash = sha256.process(data);
 
       final elliptic.EllipticCurve ec = elliptic.getP256();
-      final elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      final elliptic.PrivateKey privateKey =
+          elliptic.PrivateKey.fromBytes(ec, pvBuf);
       final ecdsa.Signature sig = ecdsa.signature(privateKey, msgHash);
       return Uint8List.fromList(sig.toDER());
     case 2:
@@ -175,7 +178,8 @@ Uint8List sign(data, privateKey) {
       final Uint8List msgHash = sha256.process(data);
 
       final elliptic.Curve ec = elliptic.getSecp256k1();
-      final elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      final elliptic.PrivateKey privateKey =
+          elliptic.PrivateKey.fromBytes(ec, pvBuf);
       final ecdsa.Signature sig = ecdsa.signature(privateKey, msgHash);
       return Uint8List.fromList(sig.toDER());
     default:
@@ -226,8 +230,7 @@ bool verify(sig, data, publicKey) {
   switch (curveBuf[0]) {
     case 0:
       final ed25519.VerifyKey verifyKey = ed25519.VerifyKey(pubBuf);
-      return verifyKey.verify(
-          signature: ed25519.Signature(sig), message: data);
+      return verifyKey.verify(signature: ed25519.Signature(sig), message: data);
     case 1:
       final Uint8List msgHash = hash(data, algo: 'sha256');
       final elliptic.EllipticCurve ec = elliptic.getP256();
@@ -439,7 +442,7 @@ Secret deriveSecret(sharedKey) {
 
   return Secret(iv: iv, aesKey: aesKey);
 }
-void aesAuthEncrypt(data, aesKey, iv) {
 
+void aesAuthEncrypt(data, aesKey, iv) {
   // TODO
 }

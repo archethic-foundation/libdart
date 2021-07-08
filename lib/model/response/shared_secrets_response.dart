@@ -52,7 +52,7 @@ class SharedSecrets {
   factory SharedSecrets.fromJson(Map<String, dynamic> json) => SharedSecrets(
         storageNoncePublicKey: json['storageNoncePublicKey'],
       );
-      
+
   String? storageNoncePublicKey;
 
   Map<String, dynamic> toJson() => {

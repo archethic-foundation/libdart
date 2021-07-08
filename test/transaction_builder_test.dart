@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 // Package imports:
-import 'package:archethic_lib_dart/model/response/transactions_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
@@ -13,6 +12,7 @@ import 'package:archethic_lib_dart/api.dart';
 import 'package:archethic_lib_dart/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/model/key_pair.dart';
 import 'package:archethic_lib_dart/model/response/balance_response.dart';
+import 'package:archethic_lib_dart/model/response/transactions_response.dart';
 import 'package:archethic_lib_dart/transaction_builder.dart';
 import 'package:archethic_lib_dart/utils.dart';
 
@@ -97,8 +97,7 @@ void main() {
     group('previousSignaturePayload', () {
       test('should generate binary encoding of the transaction before signing',
           () {
-        const String code =
-            ' condition inherit: [ ' +
+        const String code = ' condition inherit: [ ' +
             ' uco_transferred: 0.020' +
             ' ] ' +
             ' actions triggered by: transaction do ' +
@@ -205,8 +204,7 @@ void main() {
     group('originSignaturePayload', () {
       test('should generate binary encoding of the transaction before signing',
           () {
-        const String code =
-            ' condition inherit: [ ' +
+        const String code = ' condition inherit: [ ' +
             ' uco_transferred: 0.020' +
             ' ] ' +
             ' actions triggered by: transaction do ' +
