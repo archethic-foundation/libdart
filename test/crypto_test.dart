@@ -4,7 +4,6 @@ library test.crypto_test;
 import 'dart:typed_data';
 
 // Package imports:
-import 'package:flutter_sodium/flutter_sodium.dart' as sodium;
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
@@ -13,8 +12,6 @@ import 'package:archethic_lib_dart/model/key_pair.dart';
 import 'package:archethic_lib_dart/utils.dart';
 
 void main() {
-  sodium.Sodium.init();
-
   group('Crypto', () {
     group('hash', () {
       test('should generate a sha256 hash with an algo id at the beginning',
@@ -93,67 +90,15 @@ void main() {
     });
 
     group('ecEncrypt', () {
-      /*test('should encrypt a data using a ed25519 public key', () {
-        final KeyPair keypair =
-            crypto.deriveKeyPair('seed', 0, curve: 'ed25519');
-        final Uint8List secret = Uint8List.fromList([
-          10,
-          35,
-          17,
-          69,
-          75,
-          209,
-          215,
-          254,
-          93,
-          80,
-          136,
-          162,
-          3,
-          11,
-          92,
-          115,
-          73,
-          248,
-          11,
-          116,
-          237,
-          131,
-          153,
-          68,
-          241,
-          39,
-          161,
-          97,
-          1,
-          185,
-          253,
-          200
-        ]);
-        final Uint8List ciphertext =
-            crypto.ecEncrypt(secret, keypair.publicKey);
-        expect(ciphertext.length, 80);
+      // TODO
+    });
 
-        final Uint8List pvBuf = keypair.privateKey.sublist(1, 33);
-        final Uint8List pubBuf = keypair.publicKey.sublist(1, 33);
+    test('should encrypt a data using a P256 public key', () {
+      // TODO
+    });
 
-        final Uint8List curve25519Pub =
-            sodium.Sodium.cryptoSignEd25519PkToCurve25519(pubBuf);
-        final Uint8List curve25519Pv =
-            sodium.Sodium.cryptoSignEd25519SkToCurve25519(
-                concatUint8List([pvBuf, pubBuf]));
-        expect(
-            sodium.Sodium.cryptoBoxSealOpen(
-                ciphertext, curve25519Pub, curve25519Pv),
-            secret);
-      });*/
-
-      test('should encrypt a data using a P256 public key', () {
-        // TODO
-      });
-
-      test('should encrypt a data using a secp256k1 public key', () {
-        /*KeyPair keypair = crypto.deriveKeyPair('seed', 0, curve: 'secp256k1');
+    test('should encrypt a data using a secp256k1 public key', () {
+      /*KeyPair keypair = crypto.deriveKeyPair('seed', 0, curve: 'secp256k1');
         Uint8List ciphertext = crypto.ecEncrypt('hello', keypair.publicKey);
 
         Uint8List ephemeralPubKey = ciphertext.sublist(0, 65);
@@ -170,17 +115,16 @@ void main() {
           offset +=
               gcm.processBlock(encrypted, offset, paddedPlainText, offset);
         }*/
-      });
     });
+  });
 
-    group('aesEncrypt', () {
-      test('should encrypt and decrypt data with a key', () {
-        // TODO
-        /*Uint8List key = Uint8List.fromList(
+  group('aesEncrypt', () {
+    test('should encrypt and decrypt data with a key', () {
+      // TODO
+      /*Uint8List key = Uint8List.fromList(
             List<int>.generate(32, (i) => Random.secure().nextInt(256)));
         Uint8List encrypted = crypto.aesEncrypt("hello", key);
         expect(crypto.aesDecrypt(encrypted, key), utf8.encode("hello"));*/
-      });
     });
   });
 }

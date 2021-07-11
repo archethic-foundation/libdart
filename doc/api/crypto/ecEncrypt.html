@@ -90,11 +90,13 @@
   }
 
   final Uint8List curveBuf = publicKey.sublist(0, 1);
-  final Uint8List pubBuf = publicKey.sublist(1, publicKey.length);
+  final Uint8List pubBuf = publicKey.sublist(2, publicKey.length);
 
   switch (curveBuf[0]) {
+    &#47;&#47; TODO
+    &#47;&#47; http:&#47;&#47;5.9.10.113&#47;66488767&#47;aes-gcm-encryption-in-flutter-dart
+    case 0:
     case 1:
-
     case 2:
 
     default:
@@ -128,6 +130,7 @@
 
 
   <li class="section-title"><a href="../crypto/crypto-library.html#functions">Functions</a></li>
+  <li><a href="../crypto/aesAuthEncrypt.html">aesAuthEncrypt</a></li>
   <li><a href="../crypto/aesDecrypt.html">aesDecrypt</a></li>
   <li><a href="../crypto/aesEncrypt.html">aesEncrypt</a></li>
   <li><a href="../crypto/deriveKeyPair.html">deriveKeyPair</a></li>
@@ -152,7 +155,7 @@
 <footer>
   <span class="no-break">
     archethic_lib_dart
-      0.0.7+7
+      0.0.8+8
   </span>
 
   

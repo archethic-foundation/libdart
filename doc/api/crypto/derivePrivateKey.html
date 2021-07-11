@@ -65,22 +65,25 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Uint8List derivePrivateKey(seed, int index) {
-  if (isHex(seed)) {
-    seed = hexToUint8List(seed);
+  if (seed is String) {
+    if (isHex(seed)) {
+      seed = hexToUint8List(seed);
+    } else {
+      seed = Uint8List.fromList(utf8.encode(seed));
+    }
   }
 
   &#47;&#47;Derive master keys
   final Digest sha512 = Digest(&#39;SHA-512&#39;);
-  Uint8List buf = sha512.process(seed);
-
+  final Uint8List buf = sha512.process(seed);
   final Uint8List masterKey = buf.sublist(0, 32);
   final Uint8List masterEntropy = buf.sublist(32, 64);
 
   &#47;&#47;Derive the final seed
-  crypto.Hmac hmac = crypto.Hmac(crypto.sha512, masterEntropy);
+  final crypto.Hmac hmac = crypto.Hmac(crypto.sha512, masterEntropy);
   final Uint8List indexBuf = encodeInt32(index);
   final Uint8List extendedSeed = concatUint8List([masterKey, indexBuf]);
-  crypto.Digest digest = hmac.convert(extendedSeed);
+  final crypto.Digest digest = hmac.convert(extendedSeed);
 
   final Uint8List hmacBuf = Uint8List.fromList(digest.bytes.sublist(0, 32));
 
@@ -113,6 +116,7 @@
 
 
   <li class="section-title"><a href="../crypto/crypto-library.html#functions">Functions</a></li>
+  <li><a href="../crypto/aesAuthEncrypt.html">aesAuthEncrypt</a></li>
   <li><a href="../crypto/aesDecrypt.html">aesDecrypt</a></li>
   <li><a href="../crypto/aesEncrypt.html">aesEncrypt</a></li>
   <li><a href="../crypto/deriveKeyPair.html">deriveKeyPair</a></li>
@@ -137,7 +141,7 @@
 <footer>
   <span class="no-break">
     archethic_lib_dart
-      0.0.7+7
+      0.0.8+8
   </span>
 
   

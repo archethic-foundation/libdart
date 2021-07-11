@@ -13,9 +13,6 @@ import 'package:archethic_lib_dart/model/response/transaction_content_response.d
 import 'package:archethic_lib_dart/model/response/transaction_last_response.dart';
 import 'package:archethic_lib_dart/model/response/transactions_response.dart';
 
-//import 'package:pinenacl/api.dart';
-//import 'package:archethic_lib_dart/services/absinthe_socket.dart';
-
 /*
  * Send a transaction to the network
  * @param {Object} tx Transaction to send
@@ -233,28 +230,6 @@ Future<TransactionsResponse> getTransactions(
 
   _completer.complete(transactionsResponse);
   return _completer.future;
-}
-
-void notifyAddressReplication(String address, String endpoint) {
-  //final AbsintheSocket _socket = AbsintheSocket('ws://' + endpoint + '/socket');
-  // TODO: in progress
-  /*Observer _categoryObserver = Observer(
-        onError: reject,
-        onResult: resolve,
-        onStart: print("open"));
-
-  Notifier notifier = _socket.send(GqlRequest(operation: "subscription { acknowledgeStorage(address: "+address+") { address } }"));
-  notifier.observe(_categoryObserver);
-
-   
-    return Promise((resolve, reject) => {
-        withAbsintheSocket.observe(absintheSocket, notifier, {
-            onAbort: console.log("abort"),
-            onError: reject,
-            onStart: console.log("open"),
-            onResult: resolve
-        })
-    })*/
 }
 
 /*

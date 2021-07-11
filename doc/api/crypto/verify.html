@@ -103,27 +103,29 @@
   }
 
   final Uint8List curveBuf = publicKey.sublist(0, 1);
-  final Uint8List softwareIdBuf = publicKey.sublist(1, 2);
   final Uint8List pubBuf = publicKey.sublist(2, publicKey.length);
 
   switch (curveBuf[0]) {
+    case 0:
+      final ed25519.VerifyKey verifyKey = ed25519.VerifyKey(pubBuf);
+      return verifyKey.verify(signature: ed25519.Signature(sig), message: data);
     case 1:
       final Digest sha256 = Digest(&#39;SHA-256&#39;);
       final Uint8List msgHash = sha256.process(data);
 
-      var ec = elliptic.getP256();
-      elliptic.PublicKey publicKey =
+      final elliptic.EllipticCurve ec = elliptic.getP256();
+      final elliptic.PublicKey publicKey =
           elliptic.PublicKey.fromHex(ec, uint8ListToHex(pubBuf));
-      ecdsa.Signature signature = ecdsa.Signature.fromASN1(sig);
+      final ecdsa.Signature signature = ecdsa.Signature.fromASN1(sig);
       return ecdsa.verify(publicKey, msgHash, signature);
     case 2:
       final Digest sha256 = Digest(&#39;SHA-256&#39;);
-      final Uint8List msgHash = sha256.process(data);
+      Uint8List msgHash = sha256.process(data);
 
-      var ec = elliptic.getSecp256k1();
-      elliptic.PublicKey publicKey =
+      final elliptic.Curve ec = elliptic.getSecp256k1();
+      final elliptic.PublicKey publicKey =
           elliptic.PublicKey.fromHex(ec, uint8ListToHex(pubBuf));
-      ecdsa.Signature signature = ecdsa.Signature.fromASN1(sig);
+      final ecdsa.Signature signature = ecdsa.Signature.fromASN1(sig);
       return ecdsa.verify(publicKey, msgHash, signature);
 
     default:
@@ -157,6 +159,7 @@
 
 
   <li class="section-title"><a href="../crypto/crypto-library.html#functions">Functions</a></li>
+  <li><a href="../crypto/aesAuthEncrypt.html">aesAuthEncrypt</a></li>
   <li><a href="../crypto/aesDecrypt.html">aesDecrypt</a></li>
   <li><a href="../crypto/aesEncrypt.html">aesEncrypt</a></li>
   <li><a href="../crypto/deriveKeyPair.html">deriveKeyPair</a></li>
@@ -181,7 +184,7 @@
 <footer>
   <span class="no-break">
     archethic_lib_dart
-      0.0.7+7
+      0.0.8+8
   </span>
 
   

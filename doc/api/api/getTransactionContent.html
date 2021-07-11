@@ -66,33 +66,37 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;String&gt; getTransactionContent(String address, String endpoint) async {
   final Completer&lt;String&gt; _completer = Completer&lt;String&gt;();
-  String _content = &quot;&quot;;
-  TransactionResponse? transactionResponse = new TransactionResponse();
+  String _content = &#39;&#39;;
+  TransactionContentResponse? transactionContentResponse =
+      TransactionContentResponse();
 
   final Map&lt;String, String&gt; requestHeaders = {
     &#39;Content-type&#39;: &#39;application&#47;json&#39;,
     &#39;Accept&#39;: &#39;application&#47;json&#39;,
   };
 
-  String _body =
+  final String _body =
       &#39;{&quot;query&quot;:&quot;query { transaction(address: \\&quot;$address\\&quot;) { data { content }} }&quot;}&#39;;
   print(_body);
 
   try {
-    http.Response responseHttp = await http.post(Uri.parse(endpoint + &#39;&#47;api&#39;),
-        body: _body, headers: requestHeaders);
+    final http.Response responseHttp = await http.post(
+        Uri.parse(endpoint + &#39;&#47;api&#39;),
+        body: _body,
+        headers: requestHeaders);
     print(responseHttp.body);
 
     if (responseHttp.statusCode == 200) {
-      transactionResponse = transactionResponseFromJson(responseHttp.body);
-      if (transactionResponse.data != null &amp;&amp;
-          transactionResponse.data!.transaction != null &amp;&amp;
-          transactionResponse.data!.transaction!.data != null) {
-        _content = transactionResponse.data!.transaction!.data!.content!;
+      transactionContentResponse =
+          transactionContentResponseFromJson(responseHttp.body);
+      if (transactionContentResponse.data != null &amp;&amp;
+          transactionContentResponse.data!.transaction != null &amp;&amp;
+          transactionContentResponse.data!.transaction!.data != null) {
+        _content = transactionContentResponse.data!.transaction!.data!.content!;
       }
     }
   } catch (e) {
-    print(&quot;error: &quot; + e.toString());
+    print(&#39;error: &#39; + e.toString());
   }
 
   _completer.complete(_content);
@@ -126,11 +130,11 @@
 
   <li class="section-title"><a href="../api/api-library.html#functions">Functions</a></li>
   <li><a href="../api/fetchBalance.html">fetchBalance</a></li>
+  <li><a href="../api/getNodeList.html">getNodeList</a></li>
   <li><a href="../api/getStorageNoncePublicKey.html">getStorageNoncePublicKey</a></li>
   <li><a href="../api/getTransactionContent.html">getTransactionContent</a></li>
   <li><a href="../api/getTransactionIndex.html">getTransactionIndex</a></li>
   <li><a href="../api/getTransactions.html">getTransactions</a></li>
-  <li><a href="../api/notifyAddressReplication.html">notifyAddressReplication</a></li>
   <li><a href="../api/sendTx.html">sendTx</a></li>
 
 
@@ -147,7 +151,7 @@
 <footer>
   <span class="no-break">
     archethic_lib_dart
-      0.0.7+7
+      0.0.8+8
   </span>
 
   

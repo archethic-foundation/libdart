@@ -90,25 +90,29 @@
   }
 
   final Uint8List curveBuf = privateKey.sublist(0, 1);
-  final Uint8List softwareIdBuf = privateKey.sublist(1, 2);
   final Uint8List pvBuf = privateKey.sublist(2, privateKey.length);
 
   switch (curveBuf[0]) {
+    case 0:
+      final ed25519.SigningKey signingKey = ed25519.SigningKey(seed: pvBuf);
+      final ed25519.SignatureBase sm = signingKey.sign(data).signature;
+      return Uint8List.fromList(sm);
     case 1:
       final Digest sha256 = Digest(&#39;SHA-256&#39;);
       final Uint8List msgHash = sha256.process(data);
-
-      var ec = elliptic.getP256();
-      elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
-      var sig = ecdsa.signature(privateKey, msgHash);
+      final elliptic.EllipticCurve ec = elliptic.getP256();
+      final elliptic.PrivateKey privateKey =
+          elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      final ecdsa.Signature sig = ecdsa.signature(privateKey, msgHash);
       return Uint8List.fromList(sig.toDER());
     case 2:
       final Digest sha256 = Digest(&#39;SHA-256&#39;);
       final Uint8List msgHash = sha256.process(data);
 
-      var ec = elliptic.getSecp256k1();
-      elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
-      var sig = ecdsa.signature(privateKey, msgHash);
+      final elliptic.Curve ec = elliptic.getSecp256k1();
+      final elliptic.PrivateKey privateKey =
+          elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      final ecdsa.Signature sig = ecdsa.signature(privateKey, msgHash);
       return Uint8List.fromList(sig.toDER());
     default:
       throw &#39;Curve not supported&#39;;
@@ -141,6 +145,7 @@
 
 
   <li class="section-title"><a href="../crypto/crypto-library.html#functions">Functions</a></li>
+  <li><a href="../crypto/aesAuthEncrypt.html">aesAuthEncrypt</a></li>
   <li><a href="../crypto/aesDecrypt.html">aesDecrypt</a></li>
   <li><a href="../crypto/aesEncrypt.html">aesEncrypt</a></li>
   <li><a href="../crypto/deriveKeyPair.html">deriveKeyPair</a></li>
@@ -165,7 +170,7 @@
 <footer>
   <span class="no-break">
     archethic_lib_dart
-      0.0.7+7
+      0.0.8+8
   </span>
 
   

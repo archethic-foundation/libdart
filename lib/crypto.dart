@@ -167,7 +167,6 @@ Uint8List sign(data, privateKey) {
     case 1:
       final Digest sha256 = Digest('SHA-256');
       final Uint8List msgHash = sha256.process(data);
-
       final elliptic.EllipticCurve ec = elliptic.getP256();
       final elliptic.PrivateKey privateKey =
           elliptic.PrivateKey.fromBytes(ec, pvBuf);

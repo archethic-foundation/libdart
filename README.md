@@ -64,8 +64,7 @@ It supports the ArchEthic Cryptography rules which are:
 
   ```dart
   import 'package:archethic_lib_dart/crypto.dart' as crypto;
-  import 'package:archethic_lib_dart/key_pair.dart';
-  import 'package:archethic_lib_dart/utils.dart';
+  import 'package:archethic_lib_dart/model/key_pair.dart';
 
   KeyPair keypair = crypto.deriveKeyPair("mysuperpassphraseorseed", 0);
   // uint8ListToHex(keypair.publicKey) => 0100048cac473e46edd109c3ef59eec22b9ece9f99a2d0dce1c4ccb31ce0bacec4a9ad246744889fb7c98ea75c0f0ecd60002c07fae92f23382669ca9aff1339f44216
@@ -80,7 +79,7 @@ It supports the ArchEthic Cryptography rules which are:
   
   ```dart
   import 'package:archethic_lib_dart/crypto.dart' as crypto;
-  import 'package:archethic_lib_dart/key_pair.dart';
+  import 'package:archethic_lib_dart/model/key_pair.dart';
   import 'package:archethic_lib_dart/utils.dart';
 
   Uint8List cipher = crypto.ecEncrypt("dataToEncrypt" "00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646");
@@ -143,7 +142,7 @@ It supports the ArchEthic Cryptography rules which are:
 
   var tx = new TransactionBuilder("transfer")
     .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
-    .build("mysuperpassphraseorseed", 0) 
+    .build("mysuperpassphraseorseed", 0, 'P256');
   ```
 
   #### originSign(privateKey)
@@ -154,11 +153,11 @@ It supports the ArchEthic Cryptography rules which are:
   ```dart
   import 'package:archethic_lib_dart/transaction_builder.dart';
 
+  final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
   var tx = new TransactionBuilder("transfer")
     .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
-    .build("mysuperpassphraseorseed", 0) 
-    .originSign(originPrivateKey)
-
+    .build("mysuperpassphraseorseed", 0, 'P256') 
+    .originSign(originKeypair.privateKey);
   ```
 
   #### toJSON()
@@ -169,8 +168,8 @@ It supports the ArchEthic Cryptography rules which are:
 
   var tx = new TransactionBuilder("transfer")
     .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
-    .build("mysuperpassphraseorseed", 0) 
-    .toJSON()
+    .build("mysuperpassphraseorseed", 0, 'P256') 
+    .toJSON();
   ```
   
   ### Remote Endpoint calls

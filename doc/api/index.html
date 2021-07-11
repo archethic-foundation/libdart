@@ -52,19 +52,23 @@
 <p>It supports the ArchEthic Cryptography rules which are:</p>
 <ul>
 <li>
-<p>Algorithm identification: the first byte of key and hashes identify the curve or the digest algorithm used to help determine which algorithm during
-verification.</p>
+<p>Algorithm identification: keys are prepared by metadata bytes to indicate the curve used and the origin of the generation, and hashes are prepended by a byte to indicate the hash algorithm used. 
+Those information help during the verification</p>
 <pre class="language-dart"><code>
-    Ed25519    Public key
-      |           /
-      |          /
-    &lt;&lt;0, 106, 58, 193, 73, 144, 121, 104, 101, 53, 140, 125, 240, 52, 222, 35, 181,
+    Ed25519   Software Origin   Public key
+      |          |              |
+      |  |-------|              |
+      |  |   |------------------|        
+      |  |   |     
+    &lt;&lt;0, 0, 106, 58, 193, 73, 144, 121, 104, 101, 53, 140, 125, 240, 52, 222, 35, 181,
     13, 81, 241, 114, 227, 205, 51, 167, 139, 100, 176, 111, 68, 234, 206, 72&gt;&gt;
 
-     NIST P-256   Public key
-      |          /
-      |         /
-    &lt;&lt;1, 4, 7, 161, 46, 148, 183, 43, 175, 150, 13, 39, 6, 158, 100, 2, 46, 167,
+     NIST P-256  Software Origin   Public key
+      |            |              |
+      |  |---------|              |
+      |  |  |----------------------
+      |  |  |    
+    &lt;&lt;1, 0, 4, 7, 161, 46, 148, 183, 43, 175, 150, 13, 39, 6, 158, 100, 2, 46, 167,
      101, 222, 82, 108, 56, 71, 28, 192, 188, 104, 154, 182, 87, 11, 218, 58, 107,
     222, 154, 48, 222, 193, 176, 88, 174, 1, 6, 154, 72, 28, 217, 222, 147, 106,
     73, 150, 128, 209, 93, 99, 115, 17, 39, 96, 47, 203, 104, 34&gt;&gt;
@@ -92,16 +96,15 @@ The procedure is described as follows:</p>
 <h4 id="derivekeypairseed-index-curve">deriveKeyPair(seed, index, curve)</h4>
 <p>It creates a new keypair into hexadecimal format</p>
 <ul>
-<li><code>seed</code> is hexadecimal encoding representing the transaction chain seed to be able to derive and generate the keys</li>
+<li><code>seed</code> is hexadecimal encoding or Uint8Array representing the transaction chain seed to be able to derive and generate the keys</li>
 <li><code>index</code> is the number of transactions in the chain, to generate the actual and the next public key (see below the cryptography section)</li>
-<li><code>curve</code> (optional, "ed25519" by default) is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1")</li>
+<li><code>curve</code> is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1") - default to: "P256"</li>
 </ul>
 <pre class="language-dart"><code class="language-dart">  import 'package:archethic_lib_dart/crypto.dart' as crypto;
-  import 'package:archethic_lib_dart/key_pair.dart';
-  import 'package:archethic_lib_dart/utils.dart';
+  import 'package:archethic_lib_dart/model/key_pair.dart';
 
   KeyPair keypair = crypto.deriveKeyPair("mysuperpassphraseorseed", 0);
-  // uint8ListToHex(keypair.publicKey) =&gt; 00a6e144cdd34c608f88cc5a92d0962e7cfe9843b0bb62fefbdb60eb41814b7c92
+  // uint8ListToHex(keypair.publicKey) =&gt; 0100048cac473e46edd109c3ef59eec22b9ece9f99a2d0dce1c4ccb31ce0bacec4a9ad246744889fb7c98ea75c0f0ecd60002c07fae92f23382669ca9aff1339f44216
 </code></pre>
 <h4 id="ecencryptdata-publickey">ecEncrypt(data, publicKey)</h4>
 <p>Perform an ECIES encryption using a public key and a data</p>
@@ -110,7 +113,7 @@ The procedure is described as follows:</p>
 <li><code>publicKey</code> Public key to derive a shared secret and for whom the content must be encrypted</li>
 </ul>
 <pre class="language-dart"><code class="language-dart">  import 'package:archethic_lib_dart/crypto.dart' as crypto;
-  import 'package:archethic_lib_dart/key_pair.dart';
+  import 'package:archethic_lib_dart/model/key_pair.dart';
   import 'package:archethic_lib_dart/utils.dart';
 
   Uint8List cipher = crypto.ecEncrypt("dataToEncrypt" "00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646");
@@ -119,7 +122,7 @@ The procedure is described as follows:</p>
 <p><em>Don't available for the moment... soon...</em></p>
 <h3 id="transactionbuilding">TransactionBuilding</h3>
 <p><code>new TransactionBuilder(type)</code> creates a new instance of the transaction builder</p>
-<p><code>type</code> is the string defining the type of transaction to generate ("keychain", "identity", "transfer", "hosting", "code_proposal", "code_approval", "nft")</p>
+<p><code>type</code> is the string defining the type of transaction to generate ("keychain", "keychain_access", "transfer", "hosting", "code_proposal", "code_approval", "nft")</p>
 <p>The transaction builder instance contains the following methods:</p>
 <h4 id="setcodecode">setCode(code)</h4>
 <p>Add the code in the <code>data.code</code> section of the transaction
@@ -158,16 +161,16 @@ The procedure is described as follows:</p>
 <p>Generate <code>address</code>, <code>timestamp</code>, <code>previousPublicKey</code>, <code>previousSignature</code>, <code>originSignature</code> of the transaction and 
   serialize it using a custom binary protocol.</p>
 <ul>
-<li><code>seed</code> is hexadecimal encoding or Uint8List representing the transaction chain seed to be able to derive and generate the keys</li>
+<li><code>seed</code> is hexadecimal encoding or Uint8Array representing the transaction chain seed to be able to derive and generate the keys</li>
 <li><code>index</code> is the number of transactions in the chain, to generate the actual and the next public key (see below the cryptography section)</li>
-<li><code>curve</code> is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1")</li>
-<li><code>hashAlgo</code> is the hash algorithm to use to generate the address (can be "sha256", "sha512", "sha3-256", "sha3-512", "blake2b")</li>
+<li><code>curve</code> is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1") - default to "P256"</li>
+<li><code>hashAlgo</code> is the hash algorithm to use to generate the address (can be "sha256", "sha512", "sha3-256", "sha3-512", "bake2b") - default to "sha256"</li>
 </ul>
 <pre class="language-dart"><code class="language-dart">  import 'package:archethic_lib_dart/transaction_builder.dart';
 
   var tx = new TransactionBuilder("transfer")
     .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
-    .build("mysuperpassphraseorseed", 0) 
+    .build("mysuperpassphraseorseed", 0, 'P256');
 </code></pre>
 <h4 id="originsignprivatekey">originSign(privateKey)</h4>
 <p>Sign the transaction with an origin device private key</p>
@@ -176,11 +179,11 @@ The procedure is described as follows:</p>
 </ul>
 <pre class="language-dart"><code class="language-dart">  import 'package:archethic_lib_dart/transaction_builder.dart';
 
+  final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
   var tx = new TransactionBuilder("transfer")
     .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
-    .build("mysuperpassphraseorseed", 0) 
-    .originSign(originPrivateKey)
-
+    .build("mysuperpassphraseorseed", 0, 'P256') 
+    .originSign(originKeypair.privateKey);
 </code></pre>
 <h4 id="tojson">toJSON()</h4>
 <p>Export the transaction generated into JSON</p>
@@ -188,19 +191,40 @@ The procedure is described as follows:</p>
 
   var tx = new TransactionBuilder("transfer")
     .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
-    .build("mysuperpassphraseorseed", 0) 
-    .toJSON()
+    .build("mysuperpassphraseorseed", 0, 'P256') 
+    .toJSON();
 </code></pre>
 <h3 id="remote-endpoint-calls">Remote Endpoint calls</h3>
 <h4 id="sendtransactiontx-endpoint">sendTransaction(tx, endpoint)</h4>
 <p>Dispatch the transaction to a node by serializing a GraphQL request</p>
+<ul>
+<li><code>tx</code> represent the built transaction from the <strong>transactionBuilder</strong></li>
+<li><code>endpoint</code> is the HTTP URL to a ArchEthic node (acting as welcome node)</li>
+</ul>
 <p><em>Don't available for the moment... soon...</em></p>
 <h4 id="gettransactionindexaddress-endpoint">getTransactionIndex(address, endpoint)</h4>
 <p>Query a node to find the length of the chain to retrieve the transaction index</p>
-<p><em>Don't available for the moment... soon...</em></p>
+<ul>
+<li><code>address</code> Transaction address (in hexadecimal)</li>
+<li><code>endpoint</code> Node endpoint</li>
+</ul>
+<pre class="language-dart"><code class="language-dart">  import 'package:archethic_lib_dart/transaction_builder.dart';
+
+  int index = await getTransactionIndex(
+          '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', 'http://www.archethic.net');
+  // 0
+</code></pre>
 <h4 id="getstoragenoncepublickeyendpoint">getStorageNoncePublicKey(endpoint)</h4>
 <p>Query a node to find the public key of the shared storage node key</p>
-<p><em>Don't available for the moment... soon...</em></p>
+<ul>
+<li><code>endpoint</code> Node endpoint</li>
+</ul>
+<pre class="language-dart"><code class="language-dart">  import 'package:archethic_lib_dart/transaction_builder.dart';
+
+  String storageNoncePublicKey =
+          await getStorageNoncePublicKey('http://www.archethic.net');
+  // 00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646
+</code></pre>
 <h3 id="coingecko-functions">Coingecko functions</h3>
 <h4 id="getcoinsresponse">getCoinsResponse()</h4>
 <p>Get all Uniris Coin infos with http request <a href="https://api.coingecko.com/api/v3/coins/uniris">https://api.coingecko.com/api/v3/coins/uniris</a></p>
@@ -219,13 +243,6 @@ The procedure is described as follows:</p>
       <section class="summary">
           <h2>Libraries</h2>
         <dl>
-          <dt id="absinthe_socket">
-  <span class="name"><a href="absinthe_socket/absinthe_socket-library.html">absinthe_socket</a></span> 
-
-</dt>
-<dd> 
-</dd>
-
           <dt id="address_util">
   <span class="name"><a href="address_util/address_util-library.html">address_util</a></span> 
 
@@ -284,6 +301,13 @@ The procedure is described as follows:</p>
 
           <dt id="key_pair">
   <span class="name"><a href="model_key_pair/model_key_pair-library.html">key_pair</a></span> 
+
+</dt>
+<dd> 
+</dd>
+
+          <dt id="nodes_response">
+  <span class="name"><a href="model_response_nodes_response/model_response_nodes_response-library.html">nodes_response</a></span> 
 
 </dt>
 <dd> 
@@ -590,6 +614,13 @@ The procedure is described as follows:</p>
 <dd> 
 </dd>
 
+          <dt id="transaction_content_response">
+  <span class="name"><a href="model_response_transaction_content_response/model_response_transaction_content_response-library.html">transaction_content_response</a></span> 
+
+</dt>
+<dd> 
+</dd>
+
           <dt id="transaction_last_response">
   <span class="name"><a href="model_response_transaction_last_response/model_response_transaction_last_response-library.html">transaction_last_response</a></span> 
 
@@ -597,8 +628,8 @@ The procedure is described as follows:</p>
 <dd> 
 </dd>
 
-          <dt id="transaction_response">
-  <span class="name"><a href="model_response_transaction_response/model_response_transaction_response-library.html">transaction_response</a></span> 
+          <dt id="transactions_response">
+  <span class="name"><a href="model_response_transactions_response/model_response_transactions_response-library.html">transactions_response</a></span> 
 
 </dt>
 <dd> 
@@ -631,7 +662,6 @@ The procedure is described as follows:</p>
     <h5 class="hidden-xs"><span class="package-name">archethic_lib_dart</span> <span class="package-kind">package</span></h5>
     <ol>
       <li class="section-title">Libraries</li>
-      <li><a href="absinthe_socket/absinthe_socket-library.html">absinthe_socket</a></li>
       <li><a href="address_util/address_util-library.html">address_util</a></li>
       <li><a href="api/api-library.html">api</a></li>
       <li><a href="services_api_coins_service/services_api_coins_service-library.html">api_coins_service</a></li>
@@ -641,6 +671,7 @@ The procedure is described as follows:</p>
       <li><a href="model_response_coins_response/model_response_coins_response-library.html">coins_response</a></li>
       <li><a href="crypto/crypto-library.html">crypto</a></li>
       <li><a href="model_key_pair/model_key_pair-library.html">key_pair</a></li>
+      <li><a href="model_response_nodes_response/model_response_nodes_response-library.html">nodes_response</a></li>
       <li><a href="model_secret/model_secret-library.html">secret</a></li>
       <li><a href="model_response_shared_secrets_response/model_response_shared_secrets_response-library.html">shared_secrets_response</a></li>
       <li><a href="model_response_simple_price_response/model_response_simple_price_response-library.html">simple_price_response</a></li>
@@ -684,8 +715,9 @@ The procedure is described as follows:</p>
       <li><a href="model_response_simple_price_response_zar/model_response_simple_price_response_zar-library.html">simple_price_response_zar</a></li>
       <li><a href="transaction_builder/transaction_builder-library.html">transaction_builder</a></li>
       <li><a href="model_response_transaction_chain_response/model_response_transaction_chain_response-library.html">transaction_chain_response</a></li>
+      <li><a href="model_response_transaction_content_response/model_response_transaction_content_response-library.html">transaction_content_response</a></li>
       <li><a href="model_response_transaction_last_response/model_response_transaction_last_response-library.html">transaction_last_response</a></li>
-      <li><a href="model_response_transaction_response/model_response_transaction_response-library.html">transaction_response</a></li>
+      <li><a href="model_response_transactions_response/model_response_transactions_response-library.html">transactions_response</a></li>
       <li><a href="utils/utils-library.html">utils</a></li>
 </ol>
 
@@ -699,7 +731,7 @@ The procedure is described as follows:</p>
 <footer>
   <span class="no-break">
     archethic_lib_dart
-      0.0.7+7
+      0.0.8+8
   </span>
 
   

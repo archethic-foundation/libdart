@@ -75,15 +75,23 @@
   }
 
   final Uint8List pvBuf = derivePrivateKey(seed, index);
-
   final Uint8List softwareIdBuf = Uint8List.fromList([0]);
 
   switch (curve) {
+    case &#39;ed25519&#39;:
+      final Uint8List curveIdBuf = Uint8List.fromList([0]);
+      final ed25519.SigningKey signingKey = ed25519.SigningKey(seed: pvBuf);
+      final Uint8List pubBuf = signingKey.publicKey.toUint8List();
+      return KeyPair(
+          privateKey: concatUint8List([curveIdBuf, softwareIdBuf, pvBuf]),
+          publicKey: concatUint8List([curveIdBuf, softwareIdBuf, pubBuf]));
+
     case &#39;P256&#39;:
       final Uint8List curveIdBuf = Uint8List.fromList([1]);
-      var ec = elliptic.getP256();
-      elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
-      elliptic.PublicKey publicKey = ec.privateToPublicKey(privateKey);
+      final elliptic.EllipticCurve ec = elliptic.getP256();
+      final elliptic.PrivateKey privateKey =
+          elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      final elliptic.PublicKey publicKey = ec.privateToPublicKey(privateKey);
       return KeyPair(
           privateKey: concatUint8List([curveIdBuf, softwareIdBuf, pvBuf]),
           publicKey: concatUint8List(
@@ -91,9 +99,10 @@
 
     case &#39;secp256k1&#39;:
       final Uint8List curveIdBuf = Uint8List.fromList([2]);
-      var ec = elliptic.getSecp256k1();
-      elliptic.PrivateKey privateKey = elliptic.PrivateKey.fromBytes(ec, pvBuf);
-      elliptic.PublicKey publicKey = ec.privateToPublicKey(privateKey);
+      final elliptic.Curve ec = elliptic.getSecp256k1();
+      final elliptic.PrivateKey privateKey =
+          elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      final elliptic.PublicKey publicKey = ec.privateToPublicKey(privateKey);
       return KeyPair(
           privateKey: concatUint8List([curveIdBuf, softwareIdBuf, pvBuf]),
           publicKey: concatUint8List(
@@ -130,6 +139,7 @@
 
 
   <li class="section-title"><a href="../crypto/crypto-library.html#functions">Functions</a></li>
+  <li><a href="../crypto/aesAuthEncrypt.html">aesAuthEncrypt</a></li>
   <li><a href="../crypto/aesDecrypt.html">aesDecrypt</a></li>
   <li><a href="../crypto/aesEncrypt.html">aesEncrypt</a></li>
   <li><a href="../crypto/deriveKeyPair.html">deriveKeyPair</a></li>
@@ -154,7 +164,7 @@
 <footer>
   <span class="no-break">
     archethic_lib_dart
-      0.0.7+7
+      0.0.8+8
   </span>
 
   

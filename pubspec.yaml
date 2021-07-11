@@ -27,14 +27,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # Flutter bindings for libsodium, a modern, easy-to-use crypto library
-  flutter_sodium: ^0.2.0
-
   # A composable, multi-platform, Future-based API for HTTP requests
   http: ^0.13.3
-
-  # Phoenix Channel client for Dart
-  phoenix_wings: ^1.0.2
 
   # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
   pinenacl: ^0.3.1

@@ -73,20 +73,22 @@
     &#39;Accept&#39;: &#39;application&#47;json&#39;,
   };
 
-  String _body =
+  final String _body =
       &#39;{&quot;query&quot;: &quot;query {balance(address: \\&quot;$address\\&quot;) {uco, nft {address, amount}}}&quot;}&#39;;
   print(_body);
 
   try {
-    http.Response responseHttp = await http.post(Uri.parse(endpoint + &#39;&#47;api&#39;),
-        body: _body, headers: requestHeaders);
+    final http.Response responseHttp = await http.post(
+        Uri.parse(endpoint + &#39;&#47;api&#39;),
+        body: _body,
+        headers: requestHeaders);
     print(responseHttp.body);
 
     if (responseHttp.statusCode == 200) {
       balanceResponse = balanceResponseFromJson(responseHttp.body);
     }
   } catch (e) {
-    print(&quot;error: &quot; + e.toString());
+    print(&#39;error: &#39; + e.toString());
   }
 
   _completer.complete(balanceResponse!);
@@ -120,11 +122,11 @@
 
   <li class="section-title"><a href="../api/api-library.html#functions">Functions</a></li>
   <li><a href="../api/fetchBalance.html">fetchBalance</a></li>
+  <li><a href="../api/getNodeList.html">getNodeList</a></li>
   <li><a href="../api/getStorageNoncePublicKey.html">getStorageNoncePublicKey</a></li>
   <li><a href="../api/getTransactionContent.html">getTransactionContent</a></li>
   <li><a href="../api/getTransactionIndex.html">getTransactionIndex</a></li>
   <li><a href="../api/getTransactions.html">getTransactions</a></li>
-  <li><a href="../api/notifyAddressReplication.html">notifyAddressReplication</a></li>
   <li><a href="../api/sendTx.html">sendTx</a></li>
 
 
@@ -141,7 +143,7 @@
 <footer>
   <span class="no-break">
     archethic_lib_dart
-      0.0.7+7
+      0.0.8+8
   </span>
 
   
