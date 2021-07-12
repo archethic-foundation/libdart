@@ -46,9 +46,7 @@ import 'package:archethic_lib_dart/model/response/simple_price_response_usd.dart
 import 'package:archethic_lib_dart/model/response/simple_price_response_zar.dart';
 
 class ApiCoinsService {
-  /*
-   * Get Uniris Coin info
-  */
+  /// Get Uniris Coin info
   Future<CoinsResponse> getCoinsResponse() async {
     CoinsResponse? coinsResponse;
     final HttpClient httpClient = HttpClient();
@@ -67,11 +65,9 @@ class ApiCoinsService {
     return coinsResponse!;
   }
 
-  /*
-   * Get Uniris Coin infos (Prices, Marketcaps, Total Volumes)
-   * @param {String} currency
-   * @param {int} nbDays
-  */
+  /// Get Uniris Coin infos (Prices, Marketcaps, Total Volumes)
+  /// @param {String} currency
+  /// @param {int} nbDays
   Future<CoinsPriceResponse> getCoinsChart(String currency, int nbDays) async {
     CoinsPriceResponse? coinsPriceResponse;
     final HttpClient httpClient = HttpClient();
@@ -93,10 +89,8 @@ class ApiCoinsService {
     return coinsPriceResponse!;
   }
 
-  /*
-   * Get Uniris Coin infos (BTC Price, Local Currency Price)
-   * @param {String} currency
-  */
+  /// Get Uniris Coin infos (BTC Price, Local Currency Price)
+  /// @param {String} currency
   Future<SimplePriceResponse> getSimplePrice(String currency) async {
     final SimplePriceResponse simplePriceResponse = SimplePriceResponse();
     simplePriceResponse.currency = currency;
@@ -347,9 +341,7 @@ class ApiCoinsService {
     return simplePriceResponse;
   }
 
-  /*
-   * Get Uniris Coin infos (name, price, market, ... including exchange tickers)
-  */
+  /// Get Uniris Coin infos (name, price, market, ... including exchange tickers)
   Future<CoinsCurrentDataResponse> getCoinsCurrentData() async {
     CoinsCurrentDataResponse? coinsCurrentDataResponse;
     final HttpClient httpClient = HttpClient();

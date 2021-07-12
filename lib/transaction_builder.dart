@@ -2,19 +2,17 @@
 //
 //     final transactionBuilder = transactionBuilderFromJson(jsonString);
 
-/*  Represent a transaction in pending validation
-  - Address: hash of the new generated public key for the given transaction
-  - Type: transaction type
-  - Data: transaction data zone (identity, keychain, smart contract, etc.)
-  - Previous signature: signature from the previous public key
-  - Previous public key: previous generated public key matching the previous signature
-  - Origin signature: signature from the device which originated the transaction (used in the Proof of work)
-  - Version: version of the transaction (used for backward compatiblity)
-
-  When the transaction is validated the following fields are filled:
-  - Validation stamp: coordinator work result
-  - Cross validation stamps: endorsements of the validation stamp from the coordinator
-*/
+///  Represent a transaction in pending validation
+///  - Address: hash of the new generated public key for the given transaction
+/// - Type: transaction type
+/// - Data: transaction data zone (identity, keychain, smart contract, etc.)
+/// - Previous signature: signature from the previous public key
+/// - Previous public key: previous generated public key matching the previous signature
+/// - Origin signature: signature from the device which originated the transaction (used in the Proof of work)
+/// - Version: version of the transaction (used for backward compatiblity)
+/// When the transaction is validated the following fields are filled:
+/// - Validation stamp: coordinator work result
+/// - Cross validation stamps: endorsements of the validation stamp from the coordinator
 
 // Dart imports:
 import 'dart:convert' show json, utf8, jsonEncode;
@@ -28,13 +26,14 @@ import 'package:archethic_lib_dart/utils.dart';
 const int cVersion = 1;
 
 const Map<String, int> txTypes = {
-  // User based transaction types
+  /// User based transaction types
   'keychain_access': 254,
   'keychain': 255,
   'transfer': 253,
   'hosting': 252,
   'nft': 251,
-  //Network based transaction types
+
+  /// Network based transaction types
   'node': 0,
   'node_shared_secrets': 1,
   'origin_shared_secrets': 2,
@@ -115,10 +114,8 @@ class TransactionBuilder {
         'data': data!.toJson()
       };
 
-  /*
-   * Add smart contract code to the transaction
-   * @param {String} code Smart contract code
-   */
+  /// Add smart contract code to the transaction
+  /// @param {String} code Smart contract code
   TransactionBuilder setCode(String code) {
     if (!(code is String)) {
       throw "'code' must be a string";
@@ -127,10 +124,8 @@ class TransactionBuilder {
     return this;
   }
 
-  /*
-   * Add a content to the transaction
-   * @param {String | Uint8List} content Hosted content
-   */
+  /// Add a content to the transaction
+  /// @param {String | Uint8List} content Hosted content
   TransactionBuilder setContent(content) {
     if (!(content is Uint8List) && !(content is String)) {
       throw "'content' must be a string or Uint8List";
@@ -143,10 +138,8 @@ class TransactionBuilder {
     return this;
   }
 
-  /*
-   * Add a secret to the transaction
-   * @param {String | Uint8List} secret Secret encrypted (hexadecimal or binary buffer)
-   */
+  /// Add a secret to the transaction
+  /// @param {String | Uint8List} secret Secret encrypted (hexadecimal or binary buffer)
   TransactionBuilder setSecret(secret) {
     if (!(secret is Uint8List) && !(secret is String)) {
       throw "'secret' must be a string or Uint8List";
@@ -163,11 +156,9 @@ class TransactionBuilder {
     return this;
   }
 
-  /*
-   * Add an authorized public key for secret decryption to the transaction with its encrypted secret key
-   * @param {String | Uint8List} publicKey Authorized public key (hexadecimal or or binary buffer)
-   * @param {String | Uint8List} encryptedSecretKey Encrypted secret key for the given public key (hexadecimal or binary buffer)
-   */
+  /// Add an authorized public key for secret decryption to the transaction with its encrypted secret key
+  /// @param {String | Uint8List} publicKey Authorized public key (hexadecimal or or binary buffer)
+  /// @param {String | Uint8List} encryptedSecretKey Encrypted secret key for the given public key (hexadecimal or binary buffer)
   TransactionBuilder addAuthorizedKey(publicKey, encryptedSecretKey) {
     if (!(publicKey is Uint8List) && !(publicKey is String)) {
       throw "'publicKey' must be a string or Uint8List";
@@ -198,11 +189,9 @@ class TransactionBuilder {
     return this;
   }
 
-  /*
-   * Add a UCO transfer to the transaction
-   * @param {String | Uint8List} to Address of the recipient (hexadecimal or binary buffer)
-   * @param {double} amount Amount of UCO to transfer
-   */
+  /// Add a UCO transfer to the transaction
+  /// @param {String | Uint8List} to Address of the recipient (hexadecimal or binary buffer)
+  /// @param {double} amount Amount of UCO to transfer
   TransactionBuilder addUCOTransfer(to, double amount) {
     if (!(to is Uint8List) && !(to is String)) {
       throw "'to' must be a string or Uint8List";
@@ -222,12 +211,10 @@ class TransactionBuilder {
     return this;
   }
 
-  /*
-   * Add a NFT transfer to the transaction 
-   * @param {String | Uint8List} to Address of the recipient (hexadecimal or binary buffer)
-   * @param {double} amount Amount of UCO to transfer
-   * @param {String | Uint8List} nftAddress Address of NFT to spend (hexadecimal or binary buffer)
-   */
+  /// Add a NFT transfer to the transaction
+  /// @param {String | Uint8List} to Address of the recipient (hexadecimal or binary buffer)
+  /// @param {double} amount Amount of UCO to transfer
+  /// @param {String | Uint8List} nftAddress Address of NFT to spend (hexadecimal or binary buffer)
   TransactionBuilder addNFTTransfer(to, double amount, nftAddress) {
     if (!(to is Uint8List) && !(to is String)) {
       throw "'to' must be a string or Uint8List";
@@ -260,10 +247,8 @@ class TransactionBuilder {
     return this;
   }
 
-  /*
-   * Add recipient to the transaction
-   * @param {String | Uint8List} to Recipient address (hexadecimal or binary buffer) 
-   */
+  /// Add recipient to the transaction
+  /// @param {String | Uint8List} to Recipient address (hexadecimal or binary buffer)
   TransactionBuilder addRecipient(to) {
     if (!(to is Uint8List) && !(to is String)) {
       throw "'to' must be a string or Uint8List";
@@ -280,13 +265,11 @@ class TransactionBuilder {
     return this;
   }
 
-  /*
-    * Generate the transaction address, keys and signatures
-    * @param {String | Uint8List} seed Transaction chain seed (hexadecimal or binary buffer)
-    * @param {Integer} index Number of transaction on the chain
-    * @param {String} curve Elliptic curve to use for the key generation
-    * @param {String} hashAlgo Hash algorithm to use for the address generation
-    */
+  /// Generate the transaction address, keys and signatures
+  /// @param {String | Uint8List} seed Transaction chain seed (hexadecimal or binary buffer)
+  /// @param {Integer} index Number of transaction on the chain
+  /// @param {String} curve Elliptic curve to use for the key generation
+  /// @param {String} hashAlgo Hash algorithm to use for the address generation
   TransactionBuilder build(seed, int index, String curve,
       {String hashAlgo = 'sha256'}) {
     final KeyPair keypair = crypto.deriveKeyPair(seed, index, curve: curve);
@@ -304,10 +287,8 @@ class TransactionBuilder {
     return this;
   }
 
-  /*
-     * Sign the transaction with an origin private key
-     * @param {String | Uint8List} originPv Origin Private Key (hexadecimal or binary buffer)
-     */
+  /// Sign the transaction with an origin private key
+  /// @param {String | Uint8List} originPv Origin Private Key (hexadecimal or binary buffer)
   TransactionBuilder originSign(privateKey) {
     if (!(privateKey is Uint8List) && !(privateKey is String)) {
       throw "'privateKey' must be a string or Uint8List";
@@ -325,9 +306,7 @@ class TransactionBuilder {
     return this;
   }
 
-  /*
-   * Generate the payload for the previous signature by encoding address, type and data
-   */
+  /// Generate the payload for the previous signature by encoding address, type and data
   Uint8List previousSignaturePayload() {
     final Uint8List bufCodeSize = encodeInt32(data!.code!.length);
     int contentSize = data!.content!.length;
@@ -391,9 +370,7 @@ class TransactionBuilder {
     ]);
   }
 
-  /*
-  * Convert the transaction in JSON
-  */
+  /// Convert the transaction in JSON
   toJSON() {
     final String _json = jsonEncode({
       'address': uint8ListToHex(address!),

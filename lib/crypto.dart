@@ -72,12 +72,10 @@ Uint8List hash(content, {String algo = 'sha256'}) {
   }
 }
 
-/*
-* Generate a keypair using a derivation function with a seed and an index. Each keys is prepending with a curve identification.
-* @param {String} seed Keypair derivation seed
-* @param {int} index Number to identify the order of keys to generate
-* @param {String} curve Elliptic curve to use (P256", "secp256k1", "ed25519")
-*/
+/// Generate a keypair using a derivation function with a seed and an index. Each keys is prepending with a curve identification.
+/// @param {String} seed Keypair derivation seed
+/// @param {int} index Number to identify the order of keys to generate
+/// @param {String} curve Elliptic curve to use (P256", "secp256k1", "ed25519")
 KeyPair deriveKeyPair(String seed, int index, {String curve = 'P256'}) {
   if (!(seed is String)) {
     throw "'seed' must be a string";
@@ -126,11 +124,9 @@ KeyPair deriveKeyPair(String seed, int index, {String curve = 'P256'}) {
   }
 }
 
-/*
-* Sign the data 
-* @param {String | Uint8List} data Data to sign
-* @param {String | Uint8List} privateKey Private key to use to sign the data
-*/
+/// Sign the data
+/// @param {String | Uint8List} data Data to sign
+/// @param {String | Uint8List} privateKey Private key to use to sign the data
 Uint8List sign(data, privateKey) {
   if (!(data is Uint8List) && !(data is String)) {
     throw "'data' must be a string or Uint8List";
@@ -254,11 +250,9 @@ bool verify(sig, data, publicKey) {
   }
 }
 
-/*
-* Encrypt a data for a given public key using ECIES algorithm
-* @param {String | Uint8List} data Data to encrypt
-* @param {String | Uint8List} publicKey Public key for the shared secret encryption
-*/
+/// Encrypt a data for a given public key using ECIES algorithm
+/// @param {String | Uint8List} data Data to encrypt
+/// @param {String | Uint8List} publicKey Public key for the shared secret encryption
 Uint8List ecEncrypt(data, publicKey) {
   if (!(data is Uint8List) && !(data is String)) {
     throw "'data' must be a string or Uint8List";
@@ -299,11 +293,9 @@ Uint8List ecEncrypt(data, publicKey) {
   }
 }
 
-/*
-* Encrypt a data for a given public key using AES algorithm
-* @param {String | Uint8List} data Data to encrypt
-* @param {String | Uint8List} key Symmetric key
-*/
+/// Encrypt a data for a given public key using AES algorithm
+/// @param {String | Uint8List} data Data to encrypt
+/// @param {String | Uint8List} key Symmetric key
 Uint8List aesEncrypt(data, key) {
   if (!(data is Uint8List) && !(data is String)) {
     throw "'data' must be a string or Uint8List";
