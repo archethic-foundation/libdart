@@ -1,4 +1,4 @@
-[![CI](https://github.com/redDwarf03/archethic_lib_dart/actions/workflows/ci.yaml/badge.svg)](https://github.com/redDwarf03/archethic_lib_dart/actions/workflows/ci.yaml) [![Pub](https://img.shields.io/pub/v/archethic_lib_dart.svg)](https://pub.dartlang.org/packages/archethic_lib_dart)
+[![CI](https://github.com/redDwarf03/archethic_lib_dart/actions/workflows/ci.yaml/badge.svg)](https://github.com/redDwarf03/archethic_lib_dart/actions/workflows/ci.yaml) [![Pub](https://img.shields.io/pub/v/archethic_lib_dart.svg)](https://pub.dartlang.org/packages/archethic_lib_dart) [![Platform](https://img.shields.io/badge/Platform-Flutter-02569B?logo=flutter)]
 
 # archethic_lib_dart
 
