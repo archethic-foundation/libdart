@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.0.10+10 (2021-07-12) 
+* Documentation
+
 #### Version 0.0.9+9 (2021-07-12) 
 * Expose services
 * Fix bugs
