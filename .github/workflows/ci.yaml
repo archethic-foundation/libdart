@@ -17,11 +17,10 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
-      
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '2.0.5'
-      - name: Run Checks 
+      - name: Run Checks
         run: |
           flutter pub get
           flutter test

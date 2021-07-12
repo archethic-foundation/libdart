@@ -16,7 +16,7 @@ dependencies:
   convert: ^3.0.1
 
   # Implementations of SHA, MD5, and HMAC cryptographic functions
-  crypto: ^3.0.1 
+  crypto: ^3.0.1
 
   # A library for doing cryptographic signing/verifying and encrypting/decrypting.
   crypto_keys: ^0.3.0

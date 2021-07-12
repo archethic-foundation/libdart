@@ -137,7 +137,7 @@ class ApiService {
       print('error: ' + e.toString());
     }
 
-    _completer.complete(balanceResponse!);
+    _completer.complete(balanceResponse);
     return _completer.future;
   }
 
