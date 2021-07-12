@@ -11,6 +11,7 @@ import 'dart:typed_data' show Uint8List;
 
 // Package imports:
 import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
+import 'package:crypto_keys/crypto_keys.dart' as cryptoKeys;
 import 'package:ecdsa/ecdsa.dart' as ecdsa;
 import 'package:elliptic/elliptic.dart' as elliptic;
 import 'package:pinenacl/ed25519.dart' as ed25519;
@@ -321,22 +322,17 @@ Uint8List aesEncrypt(data, key) {
     }
   }
 
-  final Uint8List aad = Uint8List.fromList(
-      List<int>.generate(16, (int i) => Random.secure().nextInt(256)));
+  cryptoKeys.KeyPair keyPair = cryptoKeys.KeyPair.symmetric(
+      cryptoKeys.SymmetricKey(keyValue: Uint8List.fromList(key)));
   final Uint8List iv = Uint8List.fromList(
       List<int>.generate(12, (int i) => Random.secure().nextInt(256)));
+  cryptoKeys.Encrypter encrypter = keyPair.publicKey!
+      .createEncrypter(cryptoKeys.algorithms.encryption.aes.gcm);
+  cryptoKeys.EncryptionResult v =
+      encrypter.encrypt(data, initializationVector: iv);
 
-  final GCMBlockCipher encrypter = GCMBlockCipher(AESFastEngine());
-  final AEADParameters<KeyParameter> params =
-      AEADParameters(KeyParameter(key), 16 * 8, iv, aad);
-  encrypter.init(true, params);
-  final Uint8List cipherText = encrypter.process(data);
-
-  final Uint8List result = concatUint8List([
-    encrypter.nonce,
-    encrypter.aad!,
-    Uint8List.fromList(cipherText.sublist(0, 5))
-  ]);
+  final Uint8List result =
+      concatUint8List([v.initializationVector!, v.authenticationTag!, v.data]);
   return result;
 }
 
@@ -365,23 +361,17 @@ Uint8List aesDecrypt(cipherText, key) {
     }
   }
 
-  // TODO
-  /*
+  cryptoKeys.KeyPair keyPair = cryptoKeys.KeyPair.symmetric(
+      cryptoKeys.SymmetricKey(keyValue: Uint8List.fromList(key)));
   Uint8List iv = cipherText.sublist(0, 12);
   Uint8List tag = cipherText.sublist(12, 12 + 16);
   Uint8List encrypted = cipherText.sublist(28, cipherText.length);
+  cryptoKeys.Encrypter encrypter = keyPair.privateKey!
+      .createEncrypter(cryptoKeys.algorithms.encryption.aes.gcm);
+  Uint8List decrypted = encrypter.decrypt(cryptoKeys.EncryptionResult(encrypted,
+      initializationVector: iv, authenticationTag: tag));
 
-  final gcm = GCMBlockCipher(AESFastEngine())
-    ..init(false, AEADParameters(KeyParameter(key), 8 * 16, iv, tag));
-
-  final paddedPlainText = Uint8List(encrypted.length);
-
-  var offset = 0;
-  while (offset < encrypted.length) {
-    offset += gcm.processBlock(encrypted, offset, paddedPlainText, offset);
-  }
-  */
-  return Uint8List(0);
+  return decrypted;
 }
 
 Uint8List derivePrivateKey(seed, int index) {

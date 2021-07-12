@@ -79,15 +79,22 @@ It supports the ArchEthic Cryptography rules which are:
   
   ```dart
   import 'package:archethic_lib_dart/crypto.dart' as crypto;
-  import 'package:archethic_lib_dart/model/key_pair.dart';
-  import 'package:archethic_lib_dart/utils.dart';
 
   Uint8List cipher = crypto.ecEncrypt("dataToEncrypt" "00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646");
   ```
 
   #### aesEncrypt(data, publicKey)
-  *Don't available for the moment... soon...*
-  
+  Perform an AES encryption using a key and a data
+
+  - `data` Data to encrypt
+  - `key` Symmetric key
+
+  ```dart
+  import 'package:archethic_lib_dart/crypto.dart' as crypto;
+
+  Uint8List cipher = crypto.aesEncrypt("dataToEncrypt" "00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646");
+  ```
+
   ### TransactionBuilding
   
   `new TransactionBuilder(type)` creates a new instance of the transaction builder
