@@ -1,6 +1,10 @@
 Changelog
 =========
 
+#### Version 0.0.9+9 (2021-07-12) 
+* Expose services
+* Fix bugs
+
 #### Version 0.0.8+8 (2021-07-08) 
 * Update Crypto and Transaction builder with the latest changes from the node implementation
 * Add api methods

@@ -152,7 +152,8 @@ It supports the ArchEthic Cryptography rules which are:
 
   ```dart
   import 'package:archethic_lib_dart/transaction_builder.dart';
-
+  import 'package:archethic_lib_dart/crypto.dart' as crypto;
+  
   final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
   var tx = new TransactionBuilder("transfer")
     .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
@@ -188,9 +189,9 @@ It supports the ArchEthic Cryptography rules which are:
   - `endpoint` Node endpoint
 
    ```dart
-  import 'package:archethic_lib_dart/transaction_builder.dart';
+  import 'package:archethic_lib_dart/services/api_service.dart';
 
-  int index = await getTransactionIndex(
+  int index = await ApiService().getTransactionIndex(
           '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', 'http://www.archethic.net');
   // 0
   ``` 
@@ -201,10 +202,10 @@ It supports the ArchEthic Cryptography rules which are:
   - `endpoint` Node endpoint
 
    ```dart
-  import 'package:archethic_lib_dart/transaction_builder.dart';
+  import 'package:archethic_lib_dart/services/api_service.dart';
 
   String storageNoncePublicKey =
-          await getStorageNoncePublicKey('http://www.archethic.net');
+          await await ApiService().getStorageNoncePublicKey('http://www.archethic.net');
   // 00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646
   ``` 
 
