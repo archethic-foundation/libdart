@@ -62,7 +62,9 @@ class ApiCoinsService {
       if (responseHttp.statusCode == 200) {
         coinsResponse = coinsResponseFromJson(responseHttp.body);
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
     return coinsResponse!;
   }
 
@@ -86,7 +88,9 @@ class ApiCoinsService {
       if (responseHttp.statusCode == 200) {
         coinsPriceResponse = coinsPriceResponseFromJson(responseHttp.body);
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
     return coinsPriceResponse!;
   }
 
@@ -336,7 +340,9 @@ class ApiCoinsService {
             break;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
 
     return simplePriceResponse;
   }
@@ -356,7 +362,9 @@ class ApiCoinsService {
         coinsCurrentDataResponse =
             coinsCurrentDataResponseFromJson(responseHttp.body);
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
 
     return coinsCurrentDataResponse!;
   }
