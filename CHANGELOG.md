@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.0.13+13 (2021-07-12) 
+* Remove Flutter declarations
+
 #### Version 0.0.12+12 (2021-07-12) 
 * Remove Flutter SDK dependencies
 
