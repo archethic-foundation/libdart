@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.0.14+14 (2021-07-12) 
+* Web compatibility
+
 #### Version 0.0.13+13 (2021-07-12) 
 * Remove Flutter declarations
 
