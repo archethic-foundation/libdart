@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.0.12+12 (2021-07-12) 
+* Remove Flutter SDK dependencies
+
 #### Version 0.0.11+11 (2021-07-12) 
 * Add methods : encrypt & decrypt a data for a given public key using AES algorithm
 

@@ -32,7 +32,7 @@ class ApiService {
   }
 
   /// Query the network to find the last transaction from an address
-  /// @param {String} The [Address] scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+  /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   /// @param {String} The endpoint
   Future<int> getTransactionIndex(String address, String endpoint) async {
     final Completer<int> _completer = Completer<int>();
@@ -107,7 +107,7 @@ class ApiService {
   }
 
   /// Query the network to find a balance from an address
-  /// @param {String} The [Address] scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+  /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   /// @param {String} The endpoint
   /// Returns [BalanceResponse] represents a ledger balance. It includes: UCO: uco balance & NFT: NFT balances
   Future<BalanceResponse> fetchBalance(String address, String endpoint) async {
@@ -142,9 +142,9 @@ class ApiService {
   }
 
   /// Query the network to find a transaction
-  /// @param {String} The [Address] scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+  /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   /// @param {String} The endpoint
-  /// Returns the [Content] scalar type represents transaction content. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
+  /// Returns the content scalar type represents transaction content. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
   Future<String> getTransactionContent(String address, String endpoint) async {
     final Completer<String> _completer = Completer<String>();
     String _content = '';
@@ -186,10 +186,10 @@ class ApiService {
   }
 
   /// Query the network to find a transaction chain
-  /// @param {String} The [Address] scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+  /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   /// @param {int} The page
   /// @param {String} The endpoint
-  /// Returns the [Content] scalar type represents transaction content. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
+  /// Returns the content scalar type represents transaction content [TransactionsResponse]. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
   Future<TransactionsResponse> getTransactions(
       String address, int page, String endpoint) async {
     final Completer<TransactionsResponse> _completer =
@@ -225,7 +225,7 @@ class ApiService {
 
   /// Query the node infos
   /// @param {String} The endpoint
-  /// Returns the [Node] infos
+  /// Returns the [NodesResponse] infos
   Future<NodesResponse> getNodeList(String endpoint) async {
     final Completer<NodesResponse> _completer = Completer<NodesResponse>();
     NodesResponse nodesResponse = NodesResponse();
