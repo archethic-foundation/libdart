@@ -15,13 +15,12 @@ import 'package:crypto_keys/crypto_keys.dart' as cryptoKeys;
 import 'package:ecdsa/ecdsa.dart' as ecdsa;
 import 'package:elliptic/elliptic.dart' as elliptic;
 import 'package:pinenacl/ed25519.dart' as ed25519;
+import 'package:pointycastle/export.dart' show Digest;
 
 // Project imports:
 import 'package:archethic_lib_dart/model/key_pair.dart';
 import 'package:archethic_lib_dart/model/secret.dart';
 import 'package:archethic_lib_dart/utils.dart';
-
-import 'package:pointycastle/export.dart' show Digest;
 
 Uint8List hash(content, {String algo = 'sha256'}) {
   if (!(content is Uint8List) && !(content is String)) {
