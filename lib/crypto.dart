@@ -21,8 +21,7 @@ import 'package:archethic_lib_dart/model/key_pair.dart';
 import 'package:archethic_lib_dart/model/secret.dart';
 import 'package:archethic_lib_dart/utils.dart';
 
-import 'package:pointycastle/export.dart'
-    show Digest, AEADParameters, AESFastEngine, KeyParameter, GCMBlockCipher;
+import 'package:pointycastle/export.dart' show Digest;
 
 Uint8List hash(content, {String algo = 'sha256'}) {
   if (!(content is Uint8List) && !(content is String)) {

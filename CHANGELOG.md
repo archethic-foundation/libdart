@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.0.17+17 (2021-07-13) 
+* remove flutter references
+
 #### Version 0.0.16+16 (2021-07-13) 
 * remove unused folders
 

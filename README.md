@@ -232,6 +232,6 @@ It supports the ArchEthic Cryptography rules which are:
 ## Running the tests
 
 ```bash
-flutter test
+dart test
 ```
 

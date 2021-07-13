@@ -6,7 +6,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 // Project imports:
 import 'package:archethic_lib_dart/crypto.dart' as crypto;
@@ -122,10 +122,10 @@ void main() {
 
   group('aesEncrypt', () {
     test('should encrypt and decrypt data with a key', () {
-      Uint8List key = Uint8List.fromList(
+      final Uint8List key = Uint8List.fromList(
           List<int>.generate(32, (i) => Random.secure().nextInt(256)));
-      Uint8List encrypted = crypto.aesEncrypt("hello", key);
-      expect(crypto.aesDecrypt(encrypted, key), utf8.encode("hello"));
+      final Uint8List encrypted = crypto.aesEncrypt('hello', key);
+      expect(crypto.aesDecrypt(encrypted, key), utf8.encode('hello'));
     });
   });
 }

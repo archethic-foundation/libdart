@@ -1,6 +1,3 @@
-flutter pub global activate dartdoc
-export PATH="$PATH":"$HOME/SSE/app/flutter/.pub-cache/bin"
-dartdoc
 dart format lib test
-flutter pub run import_sorter:main
+dart run import_sorter:main
 dart pub publish --dry-run
