@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.0.15+15 (2021-07-13) 
+* remove unused folders
+
 #### Version 0.0.15+15 (2021-07-12) 
 * add Code Factor Controls (https://www.codefactor.io/repository/github/reddwarf03/archethic_lib_dart)
 
