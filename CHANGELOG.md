@@ -1,14 +1,18 @@
 Changelog
 =========
 
+#### Version 0.0.2 (2021-07-14) 
+* Change version naming
+* Use rfc6979 for ecdsa signature
+
 #### Version 0.0.17+17 (2021-07-13) 
-* remove flutter references
+* Remove flutter references
 
 #### Version 0.0.16+16 (2021-07-13) 
-* remove unused folders
+* Remove unused folders
 
 #### Version 0.0.15+15 (2021-07-12) 
-* add Code Factor Controls (https://www.codefactor.io/repository/github/reddwarf03/archethic_lib_dart)
+* Add Code Factor Controls (https://www.codefactor.io/repository/github/reddwarf03/archethic_lib_dart)
 
 #### Version 0.0.14+14 (2021-07-12) 
 * Web compatibility

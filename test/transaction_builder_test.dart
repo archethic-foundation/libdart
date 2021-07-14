@@ -203,7 +203,7 @@ void main() {
       });
     });
 
-    /*group('originSignaturePayload', () {
+    group('originSignaturePayload', () {
       test('should generate binary encoding of the transaction before signing',
           () {
         const String code = '''condition inherit: [
@@ -289,7 +289,7 @@ void main() {
         ]);
         expect(payload, expectedBinary);
       });
-    });*/
+    });
 
     group('originSign', () {
       test('should sign the transaction with a origin private key', () {
@@ -305,7 +305,7 @@ void main() {
       });
     });
 
-    /*group('toJSON', () {
+    group('toJSON', () {
       test('should return a JSON from the transaction', () {
         final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
         final KeyPair transactionKeyPair = crypto.deriveKeyPair('seed', 0);
@@ -345,7 +345,7 @@ void main() {
           'amount': 0.2193
         });
       });
-    });*/
+    });
   });
 
 /* In Comment because CI

@@ -165,7 +165,7 @@ Uint8List sign(data, privateKey) {
       final elliptic.EllipticCurve ec = elliptic.getP256();
       final elliptic.PrivateKey privateKey =
           elliptic.PrivateKey.fromBytes(ec, pvBuf);
-      final ecdsa.Signature sig = ecdsa.signature(privateKey, msgHash);
+      final ecdsa.Signature sig = ecdsa.deterministicSign(privateKey, msgHash);
       return Uint8List.fromList(sig.toDER());
     case 2:
       final Digest sha256 = Digest('SHA-256');
@@ -174,7 +174,7 @@ Uint8List sign(data, privateKey) {
       final elliptic.Curve ec = elliptic.getSecp256k1();
       final elliptic.PrivateKey privateKey =
           elliptic.PrivateKey.fromBytes(ec, pvBuf);
-      final ecdsa.Signature sig = ecdsa.signature(privateKey, msgHash);
+      final ecdsa.Signature sig = ecdsa.deterministicSign(privateKey, msgHash);
       return Uint8List.fromList(sig.toDER());
     default:
       throw 'Curve not supported';
