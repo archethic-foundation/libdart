@@ -22,7 +22,7 @@ dependencies:
   crypto_keys: ^0.3.0
 
   # Package ecdsa implements the Elliptic Curve Digital Signature Algorithm, as defined in FIPS 186-3
-  ecdsa: ^0.0.2
+  ecdsa: ^0.0.4
 
   # basic elliptic curves
   elliptic: ^0.3.1
