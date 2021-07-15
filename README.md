@@ -181,38 +181,34 @@ It supports the ArchEthic Cryptography rules which are:
   ```
   
   ### Remote Endpoint calls
-  #### sendTransaction(tx, endpoint)
+  #### sendTransaction(tx)
   Dispatch the transaction to a node by serializing a GraphQL request
 
   - `tx` represent the built transaction from the **transactionBuilder**
-  - `endpoint` is the HTTP URL to a ArchEthic node (acting as welcome node)
 
   *Don't available for the moment... soon...*
 
-  #### getTransactionIndex(address, endpoint)
+  #### getTransactionIndex(address)
   Query a node to find the length of the chain to retrieve the transaction index
 
   - `address` Transaction address (in hexadecimal)
-  - `endpoint` Node endpoint
 
-   ```dart
+  ```dart
   import 'package:archethic_lib_dart/services/api_service.dart';
 
-  int index = await ApiService().getTransactionIndex(
-          '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', 'http://www.archethic.net');
+  int index = await ApiService('http://www.archethic.net').getTransactionIndex(
+          '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
   // 0
   ``` 
 
-  #### getStorageNoncePublicKey(endpoint)
+  #### getStorageNoncePublicKey()
   Query a node to find the public key of the shared storage node key
-
-  - `endpoint` Node endpoint
 
    ```dart
   import 'package:archethic_lib_dart/services/api_service.dart';
 
   String storageNoncePublicKey =
-          await await ApiService().getStorageNoncePublicKey('http://www.archethic.net');
+          await await ApiService('http://www.archethic.net').getStorageNoncePublicKey();
   // 00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646
   ``` 
 

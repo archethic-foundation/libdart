@@ -1,68 +1,71 @@
 Changelog
 =========
 
+#### Version 0.0.22 (2021-07-15) 
+* Removing endpoint paramaters in each methods. Becoming a global parameter
+
 #### Version 0.0.21 (2021-07-15) 
-* Clean code
+* Cleaning code
 
 #### Version 0.0.20 (2021-07-14) 
-* Change version naming
-* Use rfc6979 for ecdsa signature
+* Changing version naming
+* Using rfc6979 for ecdsa signature
 
 #### Version 0.0.17+17 (2021-07-13) 
-* Remove flutter references
+* Removing flutter references
 
 #### Version 0.0.16+16 (2021-07-13) 
-* Remove unused folders
+* Removing unused folders
 
 #### Version 0.0.15+15 (2021-07-12) 
-* Add Code Factor Controls (https://www.codefactor.io/repository/github/reddwarf03/archethic_lib_dart)
+* Adding Code Factor Controls (https://www.codefactor.io/repository/github/reddwarf03/archethic_lib_dart)
 
 #### Version 0.0.14+14 (2021-07-12) 
 * Web compatibility
 
 #### Version 0.0.13+13 (2021-07-12) 
-* Remove Flutter declarations
+* Removing Flutter declarations
 
 #### Version 0.0.12+12 (2021-07-12) 
-* Remove Flutter SDK dependencies
+* Removing Flutter SDK dependencies
 
 #### Version 0.0.11+11 (2021-07-12) 
-* Add methods : encrypt & decrypt a data for a given public key using AES algorithm
+* Adding methods : encrypt & decrypt a data for a given public key using AES algorithm
 
 #### Version 0.0.10+10 (2021-07-12) 
 * Documentation
 
 #### Version 0.0.9+9 (2021-07-12) 
-* Expose services
-* Fix bugs
+* Exposing services
+* Fixing bugs
 
 #### Version 0.0.8+8 (2021-07-08) 
-* Update Crypto and Transaction builder with the latest changes from the node implementation
-* Add api methods
+* Updating Crypto and Transaction builder with the latest changes from the node implementation
+* Adding api methods
 
 #### Version 0.0.7+7 (2021-07-06) 
-* Update Crypto and Transaction builder with the latest changes from the node implementation
-* Update dependencies
+* Updating Crypto and Transaction builder with the latest changes from the node implementation
+* Updating dependencies
 
 #### Version 0.0.6+6 (2021-06-23) 
-* Rename references by ArchEthic 
-* Update dependencies
+* Renaming references by ArchEthic 
+* Updating dependencies
 
 #### Version 0.0.5+5 (2021-05-11) 
-* Add coingecko api (Get Uniris Coin infos (name, price, market, ... including exchange tickers))
-* Add absinthe socket
+* Adding coingecko api (Get Uniris Coin infos (name, price, market, ... including exchange tickers))
+* Adding absinthe socket
 
 #### Version 0.0.4+4 (2021-05-04) 
-* Add api requests (fetchBalance, getTransactionContent, getTransactions)
-* Add coingecko api
-* Organize packages
+* Adding api requests (fetchBalance, getTransactionContent, getTransactions)
+* Adding coingecko api
+* Organizing packages
 
 #### Version 0.0.3+3 (2021-04-21) 
 * Dartdoc
-* Change project structure
+* Changing project structure
 
 #### Version 0.0.2+2 (2021-04-21) 
-* Remove cupertino_icons dependency
+* Removing cupertino_icons dependency
 * Dart format
 
 #### Version 0.0.1+1 (2021-04-21) 

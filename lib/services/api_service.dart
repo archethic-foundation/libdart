@@ -14,17 +14,21 @@ import 'package:archethic_lib_dart/model/response/transaction_last_response.dart
 import 'package:archethic_lib_dart/model/response/transactions_response.dart';
 
 class ApiService {
+  ApiService(this.endpoint);
+
+  /// [endpoint] is the HTTP URL to a ArchEthic node (acting as welcome node)
+  String? endpoint;
+
   /// Send a transaction to the network
   /// @param {Object} tx Transaction to send
-  /// @param {String} endpoint Node endpoint
-  dynamic sendTx(tx, String endpoint) async {
+  dynamic sendTx(tx) async {
     final Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
 
     final http.Response responseHttp = await http.post(
-        Uri.parse(endpoint + '/api/transaction'),
+        Uri.parse(this.endpoint! + '/api/transaction'),
         body: json.encode(tx),
         headers: requestHeaders);
 
@@ -33,8 +37,7 @@ class ApiService {
 
   /// Query the network to find the last transaction from an address
   /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  /// @param {String} The endpoint
-  Future<int> getTransactionIndex(String address, String endpoint) async {
+  Future<int> getTransactionIndex(String address) async {
     final Completer<int> _completer = Completer<int>();
     int _chainLength = 0;
     TransactionLastResponse transactionLastResponse = TransactionLastResponse();
@@ -47,7 +50,7 @@ class ApiService {
           '{"query": "query {lastTransaction(address: \\"$address\\") {chainLength}}"}';
       print(_body);
       final http.Response responseHttp = await http.post(
-          Uri.parse(endpoint + '/api'),
+          Uri.parse(this.endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
       print(responseHttp.body);
@@ -69,8 +72,7 @@ class ApiService {
   }
 
   /// getStorageNoncePublicKey
-  /// @param {String} The endpoint
-  Future<String> getStorageNoncePublicKey(String endpoint) async {
+  Future<String> getStorageNoncePublicKey() async {
     final Completer<String> _completer = Completer<String>();
     String _storageNoncePublicKey = '';
     SharedSecretsResponse sharedSecretsResponse = SharedSecretsResponse();
@@ -85,7 +87,7 @@ class ApiService {
           '{"query": "query {sharedSecrets {storageNoncePublicKey}}"}';
       print(_body);
       final http.Response responseHttp = await http.post(
-          Uri.parse(endpoint + '/api'),
+          Uri.parse(this.endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
       print(responseHttp.body);
@@ -108,9 +110,8 @@ class ApiService {
 
   /// Query the network to find a balance from an address
   /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  /// @param {String} The endpoint
   /// Returns [BalanceResponse] represents a ledger balance. It includes: UCO: uco balance & NFT: NFT balances
-  Future<BalanceResponse> fetchBalance(String address, String endpoint) async {
+  Future<BalanceResponse> fetchBalance(String address) async {
     final Completer<BalanceResponse> _completer = Completer<BalanceResponse>();
     BalanceResponse? balanceResponse;
 
@@ -125,7 +126,7 @@ class ApiService {
 
     try {
       final http.Response responseHttp = await http.post(
-          Uri.parse(endpoint + '/api'),
+          Uri.parse(this.endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
       print(responseHttp.body);
@@ -143,9 +144,8 @@ class ApiService {
 
   /// Query the network to find a transaction
   /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  /// @param {String} The endpoint
   /// Returns the content scalar type represents transaction content. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
-  Future<String> getTransactionContent(String address, String endpoint) async {
+  Future<String> getTransactionContent(String address) async {
     final Completer<String> _completer = Completer<String>();
     String _content = '';
     TransactionContentResponse? transactionContentResponse =
@@ -162,7 +162,7 @@ class ApiService {
 
     try {
       final http.Response responseHttp = await http.post(
-          Uri.parse(endpoint + '/api'),
+          Uri.parse(this.endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
       print(responseHttp.body);
@@ -188,10 +188,8 @@ class ApiService {
   /// Query the network to find a transaction chain
   /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   /// @param {int} The page
-  /// @param {String} The endpoint
   /// Returns the content scalar type represents transaction content [TransactionsResponse]. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
-  Future<TransactionsResponse> getTransactions(
-      String address, int page, String endpoint) async {
+  Future<TransactionsResponse> getTransactions(String address, int page) async {
     final Completer<TransactionsResponse> _completer =
         Completer<TransactionsResponse>();
     TransactionsResponse? transactionsResponse = TransactionsResponse();
@@ -207,7 +205,7 @@ class ApiService {
 
     try {
       final http.Response responseHttp = await http.post(
-          Uri.parse(endpoint + '/api'),
+          Uri.parse(this.endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
       print(responseHttp.body);
@@ -224,9 +222,8 @@ class ApiService {
   }
 
   /// Query the node infos
-  /// @param {String} The endpoint
   /// Returns the [NodesResponse] infos
-  Future<NodesResponse> getNodeList(String endpoint) async {
+  Future<NodesResponse> getNodeList() async {
     final Completer<NodesResponse> _completer = Completer<NodesResponse>();
     NodesResponse nodesResponse = NodesResponse();
 
@@ -240,7 +237,7 @@ class ApiService {
           '{"query": "query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress}}"}';
       print(_body);
       final http.Response responseHttp = await http.post(
-          Uri.parse(endpoint + '/api'),
+          Uri.parse(this.endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
       print(responseHttp.body);

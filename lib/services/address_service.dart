@@ -5,6 +5,11 @@ import 'package:archethic_lib_dart/services/api_service.dart';
 import 'package:archethic_lib_dart/utils.dart';
 
 class AddressService {
+  AddressService(this.endpoint);
+
+  /// [endpoint] is the HTTP URL to a ArchEthic node (acting as welcome node)
+  String? endpoint;
+
   /// Derive an address
   /// @param {String} seed TransactionChain seed
   /// @param {int} index Number of transaction in the chain
@@ -18,11 +23,10 @@ class AddressService {
 
   /// Get the last address
   /// @param {String} seed TransactionChain seed
-  /// @param {String} endpoint
-  Future<String> lastAddress(String seed, String endpoint) async {
+  Future<String> lastAddress(String seed) async {
     final String genesisAddress = deriveAddress(seed, 0);
     final int index =
-        await ApiService().getTransactionIndex(genesisAddress, endpoint);
+        await ApiService(this.endpoint!).getTransactionIndex(genesisAddress);
     final String lastAddress = deriveAddress(seed, index);
     return lastAddress;
   }
