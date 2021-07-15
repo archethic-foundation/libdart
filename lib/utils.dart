@@ -2,7 +2,7 @@
 import 'dart:typed_data' show Uint8List, ByteData, Endian;
 
 // Package imports:
-import 'package:convert/convert.dart' show hex;
+import 'package:pinenacl/encoding.dart';
 
 /// Determines if a string is an hexadecimal
 /// @param {String} inputString Potential hexadecimal string
@@ -16,14 +16,14 @@ bool isHex(String inputString) {
 /// Encode an hexadecimal string into a Uint8List
 /// @param {Uint8List} hexString Hexadecimal string
 Uint8List hexToUint8List(String hexString) {
-  final List<int> bytes = hex.decode(hexString);
+  final List<int> bytes = HexCoder.instance.decode(hexString);
   return Uint8List.fromList(bytes);
 }
 
 /// Encode an Uint8List into an hexadecimal string
 /// @param {Uint8List} bytes Uint8List
 String uint8ListToHex(Uint8List bytes) {
-  return hex.encode(Uint8List.fromList(bytes));
+  return HexCoder.instance.encode(Uint8List.fromList(bytes));
 }
 
 /// Concat a list of Uint8List
