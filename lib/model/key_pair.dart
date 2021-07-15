@@ -1,6 +1,7 @@
 // Dart imports:
 import 'dart:typed_data' show Uint8List;
 
+/// Holds a key pair (private and public key)
 class KeyPair {
   KeyPair({
     required this.privateKey,

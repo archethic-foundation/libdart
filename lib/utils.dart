@@ -1,14 +1,11 @@
-/*
- * Determines if a string is an hexadecimal
- * @param {String} inputString Potential hexadecimal string
- */
-
 // Dart imports:
 import 'dart:typed_data' show Uint8List, ByteData, Endian;
 
 // Package imports:
 import 'package:convert/convert.dart' show hex;
 
+/// Determines if a string is an hexadecimal
+/// @param {String} inputString Potential hexadecimal string
 bool isHex(String inputString) {
   if (!RegExp('[0-9A-Fa-f]{6}').hasMatch(inputString)) {
     return false;

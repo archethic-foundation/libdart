@@ -1,9 +1,3 @@
-/*
-* Create a hash digest from the data with an hash algorithm identification prepending the digest
-* @param {String | Uint8List} content Data to hash (string or buffer)
-* @param {String} algo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
-*/
-
 // Dart imports:
 import 'dart:convert' show utf8;
 import 'dart:math' show Random;
@@ -22,6 +16,9 @@ import 'package:archethic_lib_dart/model/key_pair.dart';
 import 'package:archethic_lib_dart/model/secret.dart';
 import 'package:archethic_lib_dart/utils.dart';
 
+/// Create a hash digest from the data with an hash algorithm identification prepending the digest
+/// @param {String | Uint8List} content Data to hash (string or buffer)
+/// @param {String} algo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
 Uint8List hash(content, {String algo = 'sha256'}) {
   if (!(content is Uint8List) && !(content is String)) {
     throw "'content' must be a string or Uint8List";
@@ -393,13 +390,13 @@ Uint8List derivePrivateKey(seed, int index) {
     }
   }
 
-  //Derive master keys
+  /// Derive master keys
   final Digest sha512 = Digest('SHA-512');
   final Uint8List buf = sha512.process(seed);
   final Uint8List masterKey = buf.sublist(0, 32);
   final Uint8List masterEntropy = buf.sublist(32, 64);
 
-  //Derive the final seed
+  /// Derive the final seed
   final crypto.Hmac hmac = crypto.Hmac(crypto.sha512, masterEntropy);
   final Uint8List indexBuf = encodeInt32(index);
   final Uint8List extendedSeed =

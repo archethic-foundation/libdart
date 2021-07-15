@@ -1,6 +1,6 @@
-// To parse this JSON data, do
-//
-//     final transactionBuilder = transactionBuilderFromJson(jsonString);
+/// To parse this JSON data, do
+///
+///     final transactionBuilder = transactionBuilderFromJson(jsonString);
 
 ///  Represent a transaction in pending validation
 ///  - Address: hash of the new generated public key for the given transaction
