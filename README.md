@@ -208,7 +208,7 @@ It supports the ArchEthic Cryptography rules which are:
   import 'package:archethic_lib_dart/services/api_service.dart';
 
   String storageNoncePublicKey =
-          await await ApiService('http://www.archethic.net').getStorageNoncePublicKey();
+          await ApiService('http://www.archethic.net').getStorageNoncePublicKey();
   // 00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646
   ``` 
 
