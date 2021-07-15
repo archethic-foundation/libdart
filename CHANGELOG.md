@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.0.21 (2021-07-15) 
+* Clean code
+
 #### Version 0.0.20 (2021-07-14) 
 * Change version naming
 * Use rfc6979 for ecdsa signature

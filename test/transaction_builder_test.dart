@@ -134,10 +134,10 @@ void main() {
         tx.address = address;
         tx.previousPublicKey = keypair.publicKey;
         final Uint8List payload = tx.previousSignaturePayload();
-        final Uint8List expectedBinary = concatUint8List([
+        final Uint8List expectedBinary = concatUint8List(<Uint8List>[
           encodeInt32(1),
           tx.address!,
-          Uint8List.fromList([253]),
+          Uint8List.fromList(<int>[253]),
           //Code size
           encodeInt32(code.length),
           Uint8List.fromList(utf8.encode(code)),
@@ -148,24 +148,24 @@ void main() {
           encodeInt32(secret.length),
           Uint8List.fromList(utf8.encode(secret)),
           // Nb of authorized keys
-          Uint8List.fromList([1]),
+          Uint8List.fromList(<int>[1]),
           // Authorized keys encoding
-          concatUint8List([
+          concatUint8List(<Uint8List>[
             hexToUint8List(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
             hexToUint8List(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
           ]),
           // Nb of uco transfers
-          Uint8List.fromList([1]),
-          concatUint8List([
+          Uint8List.fromList(<int>[1]),
+          concatUint8List(<Uint8List>[
             hexToUint8List(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
             encodeFloat64(0.2020)
           ]),
           // Nb of NFT transfers
-          Uint8List.fromList([1]),
-          concatUint8List([
+          Uint8List.fromList(<int>[1]),
+          concatUint8List(<Uint8List>[
             hexToUint8List(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
             hexToUint8List(
@@ -173,7 +173,7 @@ void main() {
             encodeFloat64(100)
           ]),
           // Nb of recipients
-          Uint8List.fromList([1]),
+          Uint8List.fromList(<int>[1]),
           hexToUint8List(
               '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
         ]);
@@ -240,11 +240,11 @@ void main() {
         final Uint8List previousSig = crypto.sign(
             tx.previousSignaturePayload(), transactionKeyPair.privateKey);
         final Uint8List payload = tx.originSignaturePayload();
-        final Uint8List expectedBinary = concatUint8List([
+        final Uint8List expectedBinary = concatUint8List(<Uint8List>[
           // Version
           encodeInt32(1),
           tx.address!,
-          Uint8List.fromList([253]),
+          Uint8List.fromList(<int>[253]),
           //Code size
           encodeInt32(code.length),
           Uint8List.fromList(utf8.encode(code)),
@@ -255,24 +255,24 @@ void main() {
           encodeInt32(secret.length),
           Uint8List.fromList(utf8.encode(secret)),
           // Nb of authorized keys
-          Uint8List.fromList([1]),
+          Uint8List.fromList(<int>[1]),
           // Authorized keys encoding
-          concatUint8List([
+          concatUint8List(<Uint8List>[
             hexToUint8List(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
             hexToUint8List(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
           ]),
           // Nb of uco transfers
-          Uint8List.fromList([1]),
-          concatUint8List([
+          Uint8List.fromList(<int>[1]),
+          concatUint8List(<Uint8List>[
             hexToUint8List(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
             encodeFloat64(0.2020)
           ]),
           // Nb of NFT transfers
-          Uint8List.fromList([1]),
-          concatUint8List([
+          Uint8List.fromList(<int>[1]),
+          concatUint8List(<Uint8List>[
             hexToUint8List(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
             hexToUint8List(
@@ -280,11 +280,11 @@ void main() {
             encodeFloat64(100)
           ]),
           // Nb of recipients
-          Uint8List.fromList([1]),
+          Uint8List.fromList(<int>[1]),
           hexToUint8List(
               '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
           transactionKeyPair.publicKey,
-          Uint8List.fromList([previousSig.length]),
+          Uint8List.fromList(<int>[previousSig.length]),
           previousSig
         ]);
         expect(payload, expectedBinary);

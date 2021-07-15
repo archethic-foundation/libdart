@@ -123,7 +123,7 @@ void main() {
   group('aesEncrypt', () {
     test('should encrypt and decrypt data with a key', () {
       final Uint8List key = Uint8List.fromList(
-          List<int>.generate(32, (i) => Random.secure().nextInt(256)));
+          List<int>.generate(32, (int i) => Random.secure().nextInt(256)));
       final Uint8List encrypted = crypto.aesEncrypt('hello', key);
       expect(crypto.aesDecrypt(encrypted, key), utf8.encode('hello'));
     });

@@ -22,13 +22,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
-  asn1lib:
-    dependency: "direct main"
-    description:
-      name: asn1lib
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   async:
     dependency: transitive
     description:
@@ -65,7 +58,7 @@ packages:
     source: hosted
     version: "1.15.0"
   convert:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: convert
       url: "https://pub.dartlang.org"

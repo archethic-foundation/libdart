@@ -21,45 +21,47 @@ void main() {
 
   group('hexToUint8List', () {
     test('should convert an hexadecimal to Uint8List', () {
-      expect(hexToUint8List('025381ef'), Uint8List.fromList([2, 83, 129, 239]));
+      expect(hexToUint8List('025381ef'),
+          Uint8List.fromList(<int>[2, 83, 129, 239]));
     });
   });
 
   group('uint8ListToHex', () {
     test('should convert a Uint8List to hex', () {
-      expect(uint8ListToHex(Uint8List.fromList([2, 83, 129, 239])), '025381ef');
+      expect(uint8ListToHex(Uint8List.fromList(<int>[2, 83, 129, 239])),
+          '025381ef');
     });
   });
 
   group('concatUint8List', () {
     test('should concat Uint8List arrays', () {
       expect(
-          concatUint8List([
-            Uint8List.fromList([1, 2, 3]),
-            Uint8List.fromList([4, 5, 6])
+          concatUint8List(<Uint8List>[
+            Uint8List.fromList(<int>[1, 2, 3]),
+            Uint8List.fromList(<int>[4, 5, 6])
           ]),
-          Uint8List.fromList([1, 2, 3, 4, 5, 6]));
+          Uint8List.fromList(<int>[1, 2, 3, 4, 5, 6]));
     });
   });
 
   group('encodeInt32', () {
     test('should encode an integer', () {
-      expect(
-          encodeInt32(212323839823), Uint8List.fromList([111, 124, 175, 79]));
+      expect(encodeInt32(212323839823),
+          Uint8List.fromList(<int>[111, 124, 175, 79]));
     });
   });
 
   group('encodeBigInt', () {
     test('should encode an integer into a big integer on 8 bytes', () {
       expect(encodeBigInt(BigInt.from(212323839821021)),
-          Uint8List.fromList([0, 0, 193, 27, 127, 12, 196, 221]));
+          Uint8List.fromList(<int>[0, 0, 193, 27, 127, 12, 196, 221]));
     });
   });
 
   group('encodeFloat64', () {
     test('should encode an double into a 8 bytes array', () {
       expect(encodeFloat64(0.243829489482948),
-          Uint8List.fromList([63, 207, 53, 206, 1, 144, 151, 247]));
+          Uint8List.fromList(<int>[63, 207, 53, 206, 1, 144, 151, 247]));
     });
   });
 }
