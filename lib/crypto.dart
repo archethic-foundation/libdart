@@ -4,7 +4,6 @@ import 'dart:math' show Random;
 import 'dart:typed_data' show Uint8List;
 
 // Package imports:
-import 'package:archethic_lib_dart/model/aes_auth_encrypt_infos.dart';
 import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
 import 'package:crypto_keys/crypto_keys.dart' as cryptoKeys;
 import 'package:ecdsa/ecdsa.dart' as ecdsa;
@@ -13,6 +12,7 @@ import 'package:pinenacl/ed25519.dart' as ed25519;
 import 'package:pointycastle/export.dart' show Digest;
 
 // Project imports:
+import 'package:archethic_lib_dart/model/aes_auth_encrypt_infos.dart';
 import 'package:archethic_lib_dart/model/key_pair.dart';
 import 'package:archethic_lib_dart/model/secret.dart';
 import 'package:archethic_lib_dart/utils.dart';
@@ -314,7 +314,7 @@ Uint8List ecEncrypt(data, publicKey) {
       final AesAuthEncryptInfos aesAuthEncryptInfos =
           aesAuthEncrypt(data, secret.aesKey, secret.iv);
       return concatUint8List([
-        Uint8List.fromList(hexToUint8List(publicKey.toHex())),
+        hexToUint8List(publicKey.toHex()),
         aesAuthEncryptInfos.tag,
         aesAuthEncryptInfos.encrypted
       ]);
@@ -329,7 +329,7 @@ Uint8List ecEncrypt(data, publicKey) {
       final AesAuthEncryptInfos aesAuthEncryptInfos =
           aesAuthEncrypt(data, secret.aesKey, secret.iv);
       return concatUint8List([
-        Uint8List.fromList(hexToUint8List(publicKey.toHex())),
+        hexToUint8List(publicKey.toHex()),
         aesAuthEncryptInfos.tag,
         aesAuthEncryptInfos.encrypted
       ]);
@@ -549,7 +549,8 @@ Secret deriveSecret(sharedKey) {
   return Secret(iv: iv, aesKey: aesKey);
 }
 
-AesAuthEncryptInfos aesAuthEncrypt(data, aesKey, iv) {
+AesAuthEncryptInfos aesAuthEncrypt(
+    Uint8List data, Uint8List aesKey, Uint8List iv) {
   final cryptoKeys.KeyPair keyPair = cryptoKeys.KeyPair.symmetric(
       cryptoKeys.SymmetricKey(keyValue: Uint8List.fromList(aesKey)));
 
@@ -562,7 +563,8 @@ AesAuthEncryptInfos aesAuthEncrypt(data, aesKey, iv) {
   return new AesAuthEncryptInfos(tag: v.authenticationTag!, encrypted: v.data);
 }
 
-Uint8List aesAuthDecrypt(encrypted, aesKey, iv, tag) {
+Uint8List aesAuthDecrypt(
+    Uint8List encrypted, Uint8List aesKey, Uint8List iv, Uint8List tag) {
   final cryptoKeys.KeyPair keyPair = cryptoKeys.KeyPair.symmetric(
       cryptoKeys.SymmetricKey(keyValue: Uint8List.fromList(aesKey)));
 

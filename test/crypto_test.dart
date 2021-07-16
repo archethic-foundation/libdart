@@ -106,26 +106,6 @@ void main() {
         expect(crypto.ecDecrypt(cipherText, keypair.privateKey), 'hello');
       });
     });
-
-    test('should encrypt a data using a secp256k1 public key', () {
-      /*KeyPair keypair = crypto.deriveKeyPair('seed', 0, curve: 'secp256k1');
-        Uint8List ciphertext = crypto.ecEncrypt('hello', keypair.publicKey);
-
-        Uint8List ephemeralPubKey = ciphertext.sublist(0, 65);
-        Uint8List tag = ciphertext.sublist(65, 65 + 16);
-        Uint8List encrypted = ciphertext.sublist(65 + 16, ciphertext.length);
-
-        final gcm = GCMBlockCipher(AESFastEngine())
-          ..init(false, AEADParameters(KeyParameter(key), 8 * 16, iv, tag));
-
-        final paddedPlainText = Uint8List(encrypted.length);
-
-        var offset = 0;
-        while (offset < encrypted.length) {
-          offset +=
-              gcm.processBlock(encrypted, offset, paddedPlainText, offset);
-        }*/
-    });
   });
 
   group('aesEncrypt', () {
@@ -133,7 +113,8 @@ void main() {
       final Uint8List key = Uint8List.fromList(
           List<int>.generate(32, (int i) => Random.secure().nextInt(256)));
       final Uint8List encrypted = crypto.aesEncrypt('hello', key);
-      expect(crypto.aesDecrypt(encrypted, key), utf8.encode('hello'));
+      expect(crypto.aesDecrypt(encrypted, key),
+          Uint8List.fromList(utf8.encode('hello')));
     });
   });
 }
