@@ -92,11 +92,19 @@ void main() {
     });
 
     group('ecEncrypt', () {
-      // TODO
-    });
-
-    test('should encrypt a data using a P256 public key', () {
-      // TODO
+      test('should encrypt a data using a P256 public key', () {
+        final KeyPair keypair = crypto.deriveKeyPair('seed', 0, curve: 'P256');
+        final Uint8List cipherText =
+            crypto.ecEncrypt('hello', keypair.publicKey);
+        expect(crypto.ecDecrypt(cipherText, keypair.privateKey), 'hello');
+      });
+      test('should encrypt a data using a secp256k1 public key', () {
+        final KeyPair keypair =
+            crypto.deriveKeyPair('seed', 0, curve: 'secp256k1');
+        final Uint8List cipherText =
+            crypto.ecEncrypt('hello', keypair.publicKey);
+        expect(crypto.ecDecrypt(cipherText, keypair.privateKey), 'hello');
+      });
     });
 
     test('should encrypt a data using a secp256k1 public key', () {

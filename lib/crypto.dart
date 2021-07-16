@@ -4,6 +4,7 @@ import 'dart:math' show Random;
 import 'dart:typed_data' show Uint8List;
 
 // Package imports:
+import 'package:archethic_lib_dart/model/aes_auth_encrypt_infos.dart';
 import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
 import 'package:crypto_keys/crypto_keys.dart' as cryptoKeys;
 import 'package:ecdsa/ecdsa.dart' as ecdsa;
@@ -256,6 +257,18 @@ bool verify(sig, data, publicKey) {
   }
 }
 
+Uint8List computeSecret(
+    elliptic.PrivateKey selfPriv, elliptic.PublicKey otherPub) {
+  assert(selfPriv.curve == otherPub.curve);
+
+  var curve = selfPriv.curve;
+  var byteLen = (curve.bitSize + 7) ~/ 8;
+  var p = curve.scalarMul(otherPub, selfPriv.bytes);
+  var hex = p.X.toRadixString(16);
+  return Uint8List.fromList(List<int>.generate(
+      byteLen, (i) => int.parse(hex.substring(i * 2, i * 2 + 2), radix: 16)));
+}
+
 /// Encrypt a data for a given public key using ECIES algorithm
 /// @param {String | Uint8List} data Data to encrypt
 /// @param {String | Uint8List} publicKey Public key for the shared secret encryption
@@ -292,7 +305,106 @@ Uint8List ecEncrypt(data, publicKey) {
     // http://5.9.10.113/66488767/aes-gcm-encryption-in-flutter-dart
     case 0:
     case 1:
+      final elliptic.EllipticCurve ec = elliptic.getP256();
+      final elliptic.PrivateKey privateKey = ec.generatePrivateKey();
+      final elliptic.PublicKey publicKey =
+          elliptic.PublicKey.fromHex(ec, uint8ListToHex(pubBuf));
+      final Uint8List sharedKey = computeSecret(privateKey, publicKey);
+      final Secret secret = deriveSecret(sharedKey);
+      final AesAuthEncryptInfos aesAuthEncryptInfos =
+          aesAuthEncrypt(data, secret.aesKey, secret.iv);
+      return concatUint8List([
+        Uint8List.fromList(hexToUint8List(publicKey.toHex())),
+        aesAuthEncryptInfos.tag,
+        aesAuthEncryptInfos.encrypted
+      ]);
+
     case 2:
+      final elliptic.Curve ec = elliptic.getSecp256k1();
+      final elliptic.PrivateKey privateKey = ec.generatePrivateKey();
+      final elliptic.PublicKey publicKey =
+          elliptic.PublicKey.fromHex(ec, uint8ListToHex(pubBuf));
+      final Uint8List sharedKey = computeSecret(privateKey, publicKey);
+      final Secret secret = deriveSecret(sharedKey);
+      final AesAuthEncryptInfos aesAuthEncryptInfos =
+          aesAuthEncrypt(data, secret.aesKey, secret.iv);
+      return concatUint8List([
+        Uint8List.fromList(hexToUint8List(publicKey.toHex())),
+        aesAuthEncryptInfos.tag,
+        aesAuthEncryptInfos.encrypted
+      ]);
+
+    default:
+      throw 'Curve not supported';
+  }
+}
+
+/// Decrypt a ciphertext for a given private key using ECIES algorithm
+/// @param {String | Uint8List} ciphertext Ciphertext to decrypt
+/// @param {String | Uint8List} privateKey Private key for the shared secret encryption
+Uint8List ecDecrypt(cipherText, privateKey) {
+  if (!(cipherText is Uint8List) && !(cipherText is String)) {
+    throw "'cipherText' must be a string or Uint8List";
+  }
+
+  if (!(privateKey is Uint8List) && !(privateKey is String)) {
+    throw "'publicKey' must be a string or Uint8List";
+  }
+
+  if (cipherText is String) {
+    if (isHex(cipherText)) {
+      cipherText = hexToUint8List(cipherText);
+    } else {
+      cipherText = Uint8List.fromList(utf8.encode(cipherText));
+    }
+  }
+
+  if (privateKey is String) {
+    if (isHex(privateKey)) {
+      privateKey = hexToUint8List(privateKey);
+    } else {
+      throw "'privateKey' must be an hexadecimal string";
+    }
+  }
+
+  final Uint8List curveBuf = privateKey.sublist(0, 1);
+  final Uint8List pvBuf = privateKey.sublist(2, privateKey.length);
+
+  switch (curveBuf[0]) {
+    // TODO
+    // http://5.9.10.113/66488767/aes-gcm-encryption-in-flutter-dart
+    case 0:
+    case 1:
+      final Uint8List ephemeralPubKey = cipherText.sublist(0, 65);
+      final Uint8List tag = cipherText.sublist(65, 65 + 16);
+      final Uint8List encrypted =
+          cipherText.sublist(65 + 16, cipherText.length);
+
+      final elliptic.EllipticCurve ec = elliptic.getP256();
+      final elliptic.PrivateKey privateKey =
+          elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      final elliptic.PublicKey publicKey =
+          elliptic.PublicKey.fromHex(ec, uint8ListToHex(ephemeralPubKey));
+      var sharedKey = computeSecret(privateKey, publicKey);
+      Secret secret = deriveSecret(sharedKey);
+
+      return aesAuthDecrypt(encrypted, secret.aesKey, secret.iv, tag);
+
+    case 2:
+      final Uint8List ephemeralPubKey = cipherText.sublist(0, 65);
+      final Uint8List tag = cipherText.sublist(65, 65 + 16);
+      final Uint8List encrypted =
+          cipherText.sublist(65 + 16, cipherText.length);
+
+      final elliptic.Curve ec = elliptic.getSecp256k1();
+      final elliptic.PrivateKey privateKey =
+          elliptic.PrivateKey.fromBytes(ec, pvBuf);
+      final elliptic.PublicKey publicKey =
+          elliptic.PublicKey.fromHex(ec, uint8ListToHex(ephemeralPubKey));
+      var sharedKey = computeSecret(privateKey, publicKey);
+      Secret secret = deriveSecret(sharedKey);
+
+      return aesAuthDecrypt(encrypted, secret.aesKey, secret.iv, tag);
 
     default:
       throw 'Curve not supported';
@@ -423,7 +535,7 @@ Secret deriveSecret(sharedKey) {
 
   // TODO: Verify hmac = hash("sha256", "") instead of hmac = createHmac("sha256", "")
   crypto.Hmac hmac = crypto.Hmac(crypto.sha256, Uint8List(0));
-  crypto.Digest digest = hmac.convert(utf8.encode(sharedKey));
+  crypto.Digest digest = hmac.convert(sharedKey);
   final Uint8List pseudoRandomKey = Uint8List.fromList(digest.bytes);
 
   hmac = crypto.Hmac(crypto.sha256, pseudoRandomKey);
@@ -437,6 +549,30 @@ Secret deriveSecret(sharedKey) {
   return Secret(iv: iv, aesKey: aesKey);
 }
 
-void aesAuthEncrypt(data, aesKey, iv) {
-  // TODO
+AesAuthEncryptInfos aesAuthEncrypt(data, aesKey, iv) {
+  final cryptoKeys.KeyPair keyPair = cryptoKeys.KeyPair.symmetric(
+      cryptoKeys.SymmetricKey(keyValue: Uint8List.fromList(aesKey)));
+
+  final cryptoKeys.Encrypter encrypter = keyPair.publicKey!
+      .createEncrypter(cryptoKeys.algorithms.encryption.aes.gcm);
+
+  final cryptoKeys.EncryptionResult v =
+      encrypter.encrypt(data, initializationVector: iv);
+
+  return new AesAuthEncryptInfos(tag: v.authenticationTag!, encrypted: v.data);
+}
+
+Uint8List aesAuthDecrypt(encrypted, aesKey, iv, tag) {
+  final cryptoKeys.KeyPair keyPair = cryptoKeys.KeyPair.symmetric(
+      cryptoKeys.SymmetricKey(keyValue: Uint8List.fromList(aesKey)));
+
+  final cryptoKeys.Encrypter encrypter = keyPair.publicKey!
+      .createEncrypter(cryptoKeys.algorithms.encryption.aes.gcm);
+
+  final Uint8List decrypted = encrypter.decrypt(cryptoKeys.EncryptionResult(
+      encrypted,
+      initializationVector: iv,
+      authenticationTag: tag));
+
+  return decrypted;
 }
