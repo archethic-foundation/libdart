@@ -8,6 +8,7 @@ import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
 import 'package:crypto_keys/crypto_keys.dart' as cryptoKeys;
 import 'package:ecdsa/ecdsa.dart' as ecdsa;
 import 'package:elliptic/elliptic.dart' as elliptic;
+import 'package:elliptic/ecdh.dart' as ecdh;
 import 'package:pinenacl/ed25519.dart' as ed25519;
 import 'package:pointycastle/export.dart' show Digest;
 
@@ -257,18 +258,6 @@ bool verify(sig, data, publicKey) {
   }
 }
 
-Uint8List computeSecret(
-    elliptic.PrivateKey selfPriv, elliptic.PublicKey otherPub) {
-  assert(selfPriv.curve == otherPub.curve);
-
-  var curve = selfPriv.curve;
-  var byteLen = (curve.bitSize + 7) ~/ 8;
-  var p = curve.scalarMul(otherPub, selfPriv.bytes);
-  var hex = p.X.toRadixString(16);
-  return Uint8List.fromList(List<int>.generate(
-      byteLen, (i) => int.parse(hex.substring(i * 2, i * 2 + 2), radix: 16)));
-}
-
 /// Encrypt a data for a given public key using ECIES algorithm
 /// @param {String | Uint8List} data Data to encrypt
 /// @param {String | Uint8List} publicKey Public key for the shared secret encryption
@@ -309,7 +298,7 @@ Uint8List ecEncrypt(data, publicKey) {
       final elliptic.PrivateKey privateKey = ec.generatePrivateKey();
       final elliptic.PublicKey publicKey =
           elliptic.PublicKey.fromHex(ec, uint8ListToHex(pubBuf));
-      final Uint8List sharedKey = computeSecret(privateKey, publicKey);
+      final Uint8List sharedKey = Uint8List.fromList(ecdh.computeSecret(privateKey, publicKey));
       final Secret secret = deriveSecret(sharedKey);
       final AesAuthEncryptInfos aesAuthEncryptInfos =
           aesAuthEncrypt(data, secret.aesKey, secret.iv);
@@ -324,7 +313,7 @@ Uint8List ecEncrypt(data, publicKey) {
       final elliptic.PrivateKey privateKey = ec.generatePrivateKey();
       final elliptic.PublicKey publicKey =
           elliptic.PublicKey.fromHex(ec, uint8ListToHex(pubBuf));
-      final Uint8List sharedKey = computeSecret(privateKey, publicKey);
+      final Uint8List sharedKey = Uint8List.fromList(ecdh.computeSecret(privateKey, publicKey));
       final Secret secret = deriveSecret(sharedKey);
       final AesAuthEncryptInfos aesAuthEncryptInfos =
           aesAuthEncrypt(data, secret.aesKey, secret.iv);
@@ -385,7 +374,7 @@ Uint8List ecDecrypt(cipherText, privateKey) {
           elliptic.PrivateKey.fromBytes(ec, pvBuf);
       final elliptic.PublicKey publicKey =
           elliptic.PublicKey.fromHex(ec, uint8ListToHex(ephemeralPubKey));
-      var sharedKey = computeSecret(privateKey, publicKey);
+      final Uint8List sharedKey = Uint8List.fromList(ecdh.computeSecret(privateKey, publicKey));
       Secret secret = deriveSecret(sharedKey);
 
       return aesAuthDecrypt(encrypted, secret.aesKey, secret.iv, tag);
@@ -401,7 +390,7 @@ Uint8List ecDecrypt(cipherText, privateKey) {
           elliptic.PrivateKey.fromBytes(ec, pvBuf);
       final elliptic.PublicKey publicKey =
           elliptic.PublicKey.fromHex(ec, uint8ListToHex(ephemeralPubKey));
-      var sharedKey = computeSecret(privateKey, publicKey);
+      final Uint8List sharedKey = Uint8List.fromList(ecdh.computeSecret(privateKey, publicKey));
       Secret secret = deriveSecret(sharedKey);
 
       return aesAuthDecrypt(encrypted, secret.aesKey, secret.iv, tag);
