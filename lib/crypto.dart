@@ -292,7 +292,10 @@ Uint8List ecEncrypt(data, publicKey) {
   switch (curveBuf[0]) {
     // TODO
     // http://5.9.10.113/66488767/aes-gcm-encryption-in-flutter-dart
+      
     case 0:
+      // final ed25519.SigningKey signingKey = ed25519.SigningKey.generate();
+      
     case 1:
       final elliptic.EllipticCurve ec = elliptic.getP256();
       final elliptic.PrivateKey privateKey = ec.generatePrivateKey();
