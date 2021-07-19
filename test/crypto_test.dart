@@ -92,6 +92,13 @@ void main() {
     });
 
     group('ecEncrypt', () {
+      test('should encrypt a data using a ed25519 public key', () {
+        final KeyPair keypair =
+            crypto.deriveKeyPair('seed', 0, curve: 'ed25519');
+        final Uint8List cipherText =
+            crypto.ecEncrypt('hello', keypair.publicKey);
+        expect(crypto.ecDecrypt(cipherText, keypair.privateKey), 'hello');
+      });
       test('should encrypt a data using a P256 public key', () {
         final KeyPair keypair = crypto.deriveKeyPair('seed', 0, curve: 'P256');
         final Uint8List cipherText =

@@ -33,6 +33,9 @@ dependencies:
   # Pure secp256k1 signature algorithm implement for dart language which uses pure dart and basic types to represent all matters
   secp256k1: ^0.3.0
 
+  # Dart port of Curve25519
+  x25519: ^0.0.2
+
 dev_dependencies:
   # Automatically organize your dart imports
   import_sorter: ^4.6.0

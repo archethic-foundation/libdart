@@ -11,6 +11,7 @@ import 'package:elliptic/elliptic.dart' as elliptic;
 import 'package:elliptic/ecdh.dart' as ecdh;
 import 'package:pinenacl/ed25519.dart' as ed25519;
 import 'package:pointycastle/export.dart' show Digest;
+import 'package:x25519/x25519.dart' as x25519;
 
 // Project imports:
 import 'package:archethic_lib_dart/model/aes_auth_encrypt_infos.dart';
@@ -291,12 +292,23 @@ Uint8List ecEncrypt(data, publicKey) {
   print("ecEncrypt: pubBuf: " + pubBuf.toString());
 
   switch (curveBuf[0]) {
-    // TODO
-    // http://5.9.10.113/66488767/aes-gcm-encryption-in-flutter-dart
-
     case 0:
-    // final ed25519.SigningKey signingKey = ed25519.SigningKey.generate();
+      x25519.KeyPair keyPair = x25519.generateKeyPair();
+      final Uint8List ephemeralPrivateKey =
+          Uint8List.fromList(keyPair.privateKey);
+      final Uint8List ephemeralPublicKey =
+          Uint8List.fromList(keyPair.publicKey);
 
+      final Uint8List sharedKey = x25519.X25519(ephemeralPrivateKey, pubBuf);
+      final Secret secret = deriveSecret(sharedKey);
+      final AesAuthEncryptInfos aesAuthEncryptInfos =
+          aesAuthEncrypt(data, secret.aesKey, secret.iv);
+
+      return concatUint8List([
+        ephemeralPublicKey,
+        aesAuthEncryptInfos.tag,
+        aesAuthEncryptInfos.encrypted
+      ]);
     case 1:
       final elliptic.EllipticCurve ec = elliptic.getP256();
       final elliptic.PrivateKey privateKey = ec.generatePrivateKey();
@@ -382,9 +394,15 @@ Uint8List ecDecrypt(cipherText, privateKey) {
   print("ecDecrypt: pvBuf: " + pvBuf.toString());
 
   switch (curveBuf[0]) {
-    // TODO
-    // http://5.9.10.113/66488767/aes-gcm-encryption-in-flutter-dart
     case 0:
+      final Uint8List ephemeralPubKey = cipherText.sublist(0, 32);
+      final Uint8List tag = cipherText.sublist(32, 32 + 16);
+      final Uint8List encrypted =
+          cipherText.sublist(32 + 16, cipherText.length);
+      final Uint8List sharedKey = x25519.X25519(pvBuf, ephemeralPubKey);
+      final Secret secret = deriveSecret(sharedKey);
+
+      return aesAuthDecrypt(encrypted, secret.aesKey, secret.iv, tag);
     case 1:
       final Uint8List ephemeralPubKey = cipherText.sublist(0, 65);
       final Uint8List tag = cipherText.sublist(65, 65 + 16);

@@ -407,6 +407,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  x25519:
+    dependency: "direct main"
+    description:
+      name: x25519
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   yaml:
     dependency: transitive
     description:
