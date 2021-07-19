@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.0.24 (2021-07-19) 
+* Add ecEncrypt with Ed25519 public key
+
 #### Version 0.0.23 (2021-07-19) 
 * Add ecEncrypt with P256 and secp256k1 public key
 

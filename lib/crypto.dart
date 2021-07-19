@@ -7,8 +7,10 @@ import 'dart:typed_data' show Uint8List;
 import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
 import 'package:crypto_keys/crypto_keys.dart' as cryptoKeys;
 import 'package:ecdsa/ecdsa.dart' as ecdsa;
-import 'package:elliptic/elliptic.dart' as elliptic;
 import 'package:elliptic/ecdh.dart' as ecdh;
+import 'package:elliptic/elliptic.dart' as elliptic;
+import 'package:libsodium/libsodium.dart' as sodium;
+import 'package:pinenacl/api.dart';
 import 'package:pinenacl/ed25519.dart' as ed25519;
 import 'package:pointycastle/export.dart' show Digest;
 import 'package:x25519/x25519.dart' as x25519;
@@ -298,12 +300,19 @@ Uint8List ecEncrypt(data, publicKey) {
       final Uint8List ephemeralPublicKey =
           Uint8List.fromList(keyPair.publicKey);
 
-      final Uint8List sharedKey = x25519.X25519(ephemeralPrivateKey, pubBuf);
+      // initialize sodium
+      sodium.Sodium.init();
+
+      final Uint8List curve25519Pub =
+          sodium.Sodium.cryptoSignEd25519PkToCurve25519(pubBuf);
+      final Uint8List sharedKey =
+          x25519.X25519(ephemeralPrivateKey, curve25519Pub);
+
       final Secret secret = deriveSecret(sharedKey);
       final AesAuthEncryptInfos aesAuthEncryptInfos =
           aesAuthEncrypt(data, secret.aesKey, secret.iv);
 
-      return concatUint8List([
+      return concatUint8List(<Uint8List>[
         ephemeralPublicKey,
         aesAuthEncryptInfos.tag,
         aesAuthEncryptInfos.encrypted
@@ -318,7 +327,7 @@ Uint8List ecEncrypt(data, publicKey) {
       final Secret secret = deriveSecret(sharedKey);
       final AesAuthEncryptInfos aesAuthEncryptInfos =
           aesAuthEncrypt(data, secret.aesKey, secret.iv);
-      return concatUint8List([
+      return concatUint8List(<Uint8List>[
         hexToUint8List(privateKey.publicKey.toHex()),
         aesAuthEncryptInfos.tag,
         aesAuthEncryptInfos.encrypted
@@ -334,7 +343,7 @@ Uint8List ecEncrypt(data, publicKey) {
       final Secret secret = deriveSecret(sharedKey);
       final AesAuthEncryptInfos aesAuthEncryptInfos =
           aesAuthEncrypt(data, secret.aesKey, secret.iv);
-      return concatUint8List([
+      return concatUint8List(<Uint8List>[
         hexToUint8List(privateKey.publicKey.toHex()),
         aesAuthEncryptInfos.tag,
         aesAuthEncryptInfos.encrypted
@@ -382,7 +391,14 @@ Uint8List ecDecrypt(cipherText, privateKey) {
       final Uint8List tag = cipherText.sublist(32, 32 + 16);
       final Uint8List encrypted =
           cipherText.sublist(32 + 16, cipherText.length);
-      final Uint8List sharedKey = x25519.X25519(pvBuf, ephemeralPubKey);
+
+      // initialize sodium
+      sodium.Sodium.init();
+
+      final Uint8List curve25519pv =
+          sodium.Sodium.cryptoSignEd25519SkToCurve25519(
+              concatUint8List(<Uint8List>[pvBuf, Uint8List(32)]));
+      final Uint8List sharedKey = x25519.X25519(curve25519pv, ephemeralPubKey);
       final Secret secret = deriveSecret(sharedKey);
 
       return aesAuthDecrypt(encrypted, secret.aesKey, secret.iv, tag);
@@ -462,7 +478,7 @@ Uint8List aesEncrypt(data, key) {
       encrypter.encrypt(data, initializationVector: iv);
 
   final Uint8List result =
-      concatUint8List([v.initializationVector!, v.authenticationTag!, v.data]);
+      concatUint8List(<Uint8List>[v.initializationVector!, v.authenticationTag!, v.data]);
   return result;
 }
 
