@@ -289,11 +289,10 @@ Uint8List ecEncrypt(data, publicKey) {
 
   final Uint8List curveBuf = publicKey.sublist(0, 1);
   final Uint8List pubBuf = publicKey.sublist(2, publicKey.length);
-  print("ecEncrypt: pubBuf: " + pubBuf.toString());
 
   switch (curveBuf[0]) {
     case 0:
-      x25519.KeyPair keyPair = x25519.generateKeyPair();
+      final x25519.KeyPair keyPair = x25519.generateKeyPair();
       final Uint8List ephemeralPrivateKey =
           Uint8List.fromList(keyPair.privateKey);
       final Uint8List ephemeralPublicKey =
@@ -316,24 +315,11 @@ Uint8List ecEncrypt(data, publicKey) {
           elliptic.PublicKey.fromHex(ec, uint8ListToHex(pubBuf));
       final Uint8List sharedKey =
           Uint8List.fromList(ecdh.computeSecret(privateKey, publicKey));
-      print("ecEncrypt: sharedKey: " + sharedKey.toString());
       final Secret secret = deriveSecret(sharedKey);
-      print("ecEncrypt: data: " + data.toString());
-      print("ecEncrypt: secret.aesKey: " + secret.aesKey.toString());
-      print("ecEncrypt: secret.iv: " + secret.iv.toString());
-      print("ecEncrypt: publicKey.toHex(): " + publicKey.toHex());
-      print("ecEncrypt: privateKey.toHex(): " + privateKey.toHex());
-
       final AesAuthEncryptInfos aesAuthEncryptInfos =
           aesAuthEncrypt(data, secret.aesKey, secret.iv);
-
-      print("ecEncrypt: aesAuthEncryptInfos.tag: " +
-          aesAuthEncryptInfos.tag.toString());
-      print("ecEncrypt: aesAuthEncryptInfos.encrypted: " +
-          aesAuthEncryptInfos.encrypted.toString());
-
       return concatUint8List([
-        hexToUint8List(publicKey.toHex()),
+        hexToUint8List(privateKey.publicKey.toHex()),
         aesAuthEncryptInfos.tag,
         aesAuthEncryptInfos.encrypted
       ]);
@@ -349,7 +335,7 @@ Uint8List ecEncrypt(data, publicKey) {
       final AesAuthEncryptInfos aesAuthEncryptInfos =
           aesAuthEncrypt(data, secret.aesKey, secret.iv);
       return concatUint8List([
-        hexToUint8List(publicKey.toHex()),
+        hexToUint8List(privateKey.publicKey.toHex()),
         aesAuthEncryptInfos.tag,
         aesAuthEncryptInfos.encrypted
       ]);
@@ -390,9 +376,6 @@ Uint8List ecDecrypt(cipherText, privateKey) {
   final Uint8List curveBuf = privateKey.sublist(0, 1);
   final Uint8List pvBuf = privateKey.sublist(2, privateKey.length);
 
-  print("ecDecrypt: cipherText: " + cipherText.toString());
-  print("ecDecrypt: pvBuf: " + pvBuf.toString());
-
   switch (curveBuf[0]) {
     case 0:
       final Uint8List ephemeralPubKey = cipherText.sublist(0, 32);
@@ -408,11 +391,6 @@ Uint8List ecDecrypt(cipherText, privateKey) {
       final Uint8List tag = cipherText.sublist(65, 65 + 16);
       final Uint8List encrypted =
           cipherText.sublist(65 + 16, cipherText.length);
-
-      print("ecDecrypt: ephemeralPubKey: " + ephemeralPubKey.toString());
-      print("ecDecrypt: tag: " + tag.toString());
-      print("ecDecrypt: encrypted: " + encrypted.toString());
-
       final elliptic.EllipticCurve ec = elliptic.getP256();
       final elliptic.PrivateKey privateKey =
           elliptic.PrivateKey.fromBytes(ec, pvBuf);
@@ -420,16 +398,7 @@ Uint8List ecDecrypt(cipherText, privateKey) {
           elliptic.PublicKey.fromHex(ec, uint8ListToHex(ephemeralPubKey));
       final Uint8List sharedKey =
           Uint8List.fromList(ecdh.computeSecret(privateKey, publicKey));
-
-      Secret secret = deriveSecret(sharedKey);
-
-      print("ecDecrypt: publicKey.toHex(): " + publicKey.toHex());
-      print("ecDecrypt: privateKey.bytes.toString(): " +
-          privateKey.bytes.toString());
-      print("ecDecrypt: privateKey.toHex(): " + privateKey.toHex());
-      print("ecDecrypt: sharedKey: " + sharedKey.toString());
-      print("ecDecrypt: secret.aesKey: " + secret.aesKey.toString());
-      print("ecDecrypt: secret.iv: " + secret.iv.toString());
+      final Secret secret = deriveSecret(sharedKey);
 
       return aesAuthDecrypt(encrypted, secret.aesKey, secret.iv, tag);
 
@@ -446,7 +415,7 @@ Uint8List ecDecrypt(cipherText, privateKey) {
           elliptic.PublicKey.fromHex(ec, uint8ListToHex(ephemeralPubKey));
       final Uint8List sharedKey =
           Uint8List.fromList(ecdh.computeSecret(privateKey, publicKey));
-      Secret secret = deriveSecret(sharedKey);
+      final Secret secret = deriveSecret(sharedKey);
 
       return aesAuthDecrypt(encrypted, secret.aesKey, secret.iv, tag);
 
@@ -593,8 +562,8 @@ Secret deriveSecret(sharedKey) {
 
 AesAuthEncryptInfos aesAuthEncrypt(
     Uint8List data, Uint8List aesKey, Uint8List iv) {
-  final cryptoKeys.KeyPair keyPair = cryptoKeys.KeyPair.symmetric(
-      cryptoKeys.SymmetricKey(keyValue: Uint8List.fromList(aesKey)));
+  final cryptoKeys.KeyPair keyPair =
+      cryptoKeys.KeyPair.symmetric(cryptoKeys.SymmetricKey(keyValue: aesKey));
 
   final cryptoKeys.Encrypter encrypter = keyPair.publicKey!
       .createEncrypter(cryptoKeys.algorithms.encryption.aes.gcm);
@@ -602,13 +571,13 @@ AesAuthEncryptInfos aesAuthEncrypt(
   final cryptoKeys.EncryptionResult v =
       encrypter.encrypt(data, initializationVector: iv);
 
-  return new AesAuthEncryptInfos(tag: v.authenticationTag!, encrypted: v.data);
+  return AesAuthEncryptInfos(tag: v.authenticationTag!, encrypted: v.data);
 }
 
 Uint8List aesAuthDecrypt(
     Uint8List encrypted, Uint8List aesKey, Uint8List iv, Uint8List tag) {
-  final cryptoKeys.KeyPair keyPair = cryptoKeys.KeyPair.symmetric(
-      cryptoKeys.SymmetricKey(keyValue: Uint8List.fromList(aesKey)));
+  final cryptoKeys.KeyPair keyPair =
+      cryptoKeys.KeyPair.symmetric(cryptoKeys.SymmetricKey(keyValue: aesKey));
 
   final cryptoKeys.Encrypter encrypter = keyPair.publicKey!
       .createEncrypter(cryptoKeys.algorithms.encryption.aes.gcm);
