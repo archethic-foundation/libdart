@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.0.23 (2021-07-19) 
+* Add ecEncrypt with P256 and secp256k1 public key
+
 #### Version 0.0.22 (2021-07-15) 
 * Removing endpoint paramaters in each methods. Becoming a global parameter
 
