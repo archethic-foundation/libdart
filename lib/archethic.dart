@@ -21,3 +21,4 @@ export 'src/model/response/transaction_chain_response.dart';
 export 'src/model/response/transaction_content_response.dart';
 export 'src/model/response/transaction_last_response.dart';
 export 'src/model/response/transactions_response.dart';
+export 'src/model/response/simple_price_response.dart';
