@@ -2,7 +2,7 @@ name: archethic_lib_dart
 description: ArchEthic dart library for Flutter based on Official ArchEthic Javascript library for Node and Browser
 homepage: https://github.com/redDwarf03/archethic_lib_dart
 
-version: 0.0.26
+version: 0.0.27
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -25,7 +25,7 @@ dependencies:
   http: ^0.13.3
 
   # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
-  pinenacl: ^0.3.1
+  pinenacl: ^0.3.3
 
   # A Dart library implementing cryptographic algorithms and primitives, modeled on the BouncyCastle library
   pointycastle: ^3.1.3

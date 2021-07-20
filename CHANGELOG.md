@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.0.27 (2021-07-20) 
+* Updating pinenacl 0.3.3
+
 #### Version 0.0.26 (2021-07-20) 
 * Updating documentation
 * Changing project structure
