@@ -27,7 +27,6 @@ import 'package:pinenacl/ed25519.dart' as ed25519
 import 'package:x25519/x25519.dart' as x25519
     show generateKeyPair, KeyPair, X25519;
 
-
 /// Create a hash digest from the data with an hash algorithm identification prepending the digest
 /// @param {String | Uint8List} content Data to hash (string or buffer)
 /// @param {String} algo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")

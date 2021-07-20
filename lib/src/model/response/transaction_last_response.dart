@@ -18,22 +18,23 @@ class TransactionLastResponse {
 
   factory TransactionLastResponse.fromJson(Map<String, dynamic> json) =>
       TransactionLastResponse(
-        data: Data.fromJson(json['data']),
+        data: TransactionLastData.fromJson(json['data']),
       );
 
-  Data? data;
+  TransactionLastData? data;
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
       };
 }
 
-class Data {
-  Data({
+class TransactionLastData {
+  TransactionLastData({
     this.lastTransaction,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory TransactionLastData.fromJson(Map<String, dynamic> json) =>
+      TransactionLastData(
         lastTransaction: LastTransaction.fromJson(json['lastTransaction']),
       );
 

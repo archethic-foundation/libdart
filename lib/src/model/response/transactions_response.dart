@@ -79,29 +79,30 @@ class TransactionChainData {
 
   factory TransactionChainData.fromJson(Map<String, dynamic> json) =>
       TransactionChainData(
-        ledger: Ledger.fromJson(json['ledger']),
+        ledger: TransactionChainDataLedger.fromJson(json['ledger']),
       );
 
-  Ledger? ledger;
+  TransactionChainDataLedger? ledger;
 
   Map<String, dynamic> toJson() => {
         'ledger': ledger!.toJson(),
       };
 }
 
-class Ledger {
-  Ledger({
+class TransactionChainDataLedger {
+  TransactionChainDataLedger({
     this.nft,
     this.uco,
   });
 
-  factory Ledger.fromJson(Map<String, dynamic> json) => Ledger(
-        nft: Nft.fromJson(json['nft']),
-        uco: Uco.fromJson(json['uco']),
+  factory TransactionChainDataLedger.fromJson(Map<String, dynamic> json) =>
+      TransactionChainDataLedger(
+        nft: TransactionChainDataLedgerNft.fromJson(json['nft']),
+        uco: TransactionChainDataLedgerUco.fromJson(json['uco']),
       );
 
-  Nft? nft;
-  Uco? uco;
+  TransactionChainDataLedgerNft? nft;
+  TransactionChainDataLedgerUco? uco;
 
   Map<String, dynamic> toJson() => {
         'nft': nft!.toJson(),
@@ -109,12 +110,13 @@ class Ledger {
       };
 }
 
-class Nft {
-  Nft({
+class TransactionChainDataLedgerNft {
+  TransactionChainDataLedgerNft({
     this.transfers,
   });
 
-  factory Nft.fromJson(Map<String, dynamic> json) => Nft(
+  factory TransactionChainDataLedgerNft.fromJson(Map<String, dynamic> json) =>
+      TransactionChainDataLedgerNft(
         transfers: List<dynamic>.from(json['transfers'].map((x) => x)),
       );
 
@@ -125,12 +127,13 @@ class Nft {
       };
 }
 
-class Uco {
-  Uco({
+class TransactionChainDataLedgerUco {
+  TransactionChainDataLedgerUco({
     this.transfers,
   });
 
-  factory Uco.fromJson(Map<String, dynamic> json) => Uco(
+  factory TransactionChainDataLedgerUco.fromJson(Map<String, dynamic> json) =>
+      TransactionChainDataLedgerUco(
         transfers: List<dynamic>.from(json['transfers'].map((x) => x)),
       );
 

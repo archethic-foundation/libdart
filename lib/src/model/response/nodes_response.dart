@@ -16,22 +16,23 @@ class NodesResponse {
   });
 
   factory NodesResponse.fromJson(Map<String, dynamic> json) => NodesResponse(
-        data: Data.fromJson(json['data']),
+        data: NodesResponseData.fromJson(json['data']),
       );
 
-  Data? data;
+  NodesResponseData? data;
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
       };
 }
 
-class Data {
-  Data({
+class NodesResponseData {
+  NodesResponseData({
     this.nodes,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory NodesResponseData.fromJson(Map<String, dynamic> json) =>
+      NodesResponseData(
         nodes: List<Node>.from(json['nodes'].map((x) => Node.fromJson(x))),
       );
 

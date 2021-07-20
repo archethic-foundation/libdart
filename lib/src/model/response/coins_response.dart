@@ -53,10 +53,10 @@ class CoinsResponse {
         hashingAlgorithm: json['hashing_algorithm'],
         categories: List<String>.from(json['categories'].map((x) => x)),
         publicNotice: json['public_notice'],
-        localization: Tion.fromJson(json['localization']),
-        description: Tion.fromJson(json['description']),
-        links: Links.fromJson(json['links']),
-        image: Image.fromJson(json['image']),
+        localization: CoinsTion.fromJson(json['localization']),
+        description: CoinsTion.fromJson(json['description']),
+        links: CoinsLinks.fromJson(json['links']),
+        image: CoinsImage.fromJson(json['image']),
         countryOrigin: json['country_origin'],
         genesisDate: json['genesis_date'],
         sentimentVotesUpPercentage:
@@ -70,15 +70,15 @@ class CoinsResponse {
         communityScore: json['community_score'].toDouble(),
         liquidityScore: json['liquidity_score'].toDouble(),
         publicInterestScore: json['public_interest_score'].toDouble(),
-        marketData: MarketData.fromJson(json['market_data']),
-        communityData: CommunityData.fromJson(json['community_data']),
-        developerData: DeveloperData.fromJson(json['developer_data']),
+        marketData: CoinsMarketData.fromJson(json['market_data']),
+        communityData: CoinsCommunityData.fromJson(json['community_data']),
+        developerData: CoinsDeveloperData.fromJson(json['developer_data']),
         publicInterestStats:
-            PublicInterestStats.fromJson(json['public_interest_stats']),
+            CoinsPublicInterestStats.fromJson(json['public_interest_stats']),
         statusUpdates: List<dynamic>.from(json['status_updates'].map((x) => x)),
         lastUpdated: DateTime.parse(json['last_updated']),
-        tickers:
-            List<Ticker>.from(json['tickers'].map((x) => Ticker.fromJson(x))),
+        tickers: List<CoinsTicker>.from(
+            json['tickers'].map((x) => CoinsTicker.fromJson(x))),
       );
 
   String? id;
@@ -89,10 +89,10 @@ class CoinsResponse {
   dynamic hashingAlgorithm;
   List<String>? categories;
   dynamic publicNotice;
-  Tion? localization;
-  Tion? description;
-  Links? links;
-  Image? image;
+  CoinsTion? localization;
+  CoinsTion? description;
+  CoinsLinks? links;
+  CoinsImage? image;
   String? countryOrigin;
   dynamic genesisDate;
   double? sentimentVotesUpPercentage;
@@ -104,13 +104,13 @@ class CoinsResponse {
   double? communityScore;
   double? liquidityScore;
   double? publicInterestScore;
-  MarketData? marketData;
-  CommunityData? communityData;
-  DeveloperData? developerData;
-  PublicInterestStats? publicInterestStats;
+  CoinsMarketData? marketData;
+  CoinsCommunityData? communityData;
+  CoinsDeveloperData? developerData;
+  CoinsPublicInterestStats? publicInterestStats;
   List<dynamic>? statusUpdates;
   DateTime? lastUpdated;
-  List<Ticker>? tickers;
+  List<CoinsTicker>? tickers;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -146,8 +146,8 @@ class CoinsResponse {
       };
 }
 
-class CommunityData {
-  CommunityData({
+class CoinsCommunityData {
+  CoinsCommunityData({
     this.facebookLikes,
     this.twitterFollowers,
     this.redditAveragePosts48H,
@@ -157,7 +157,8 @@ class CommunityData {
     this.telegramChannelUserCount,
   });
 
-  factory CommunityData.fromJson(Map<String, dynamic> json) => CommunityData(
+  factory CoinsCommunityData.fromJson(Map<String, dynamic> json) =>
+      CoinsCommunityData(
         facebookLikes: json['facebook_likes'],
         twitterFollowers: json['twitter_followers'],
         redditAveragePosts48H: json['reddit_average_posts_48h'].toDouble(),
@@ -187,8 +188,8 @@ class CommunityData {
       };
 }
 
-class Tion {
-  Tion({
+class CoinsTion {
+  CoinsTion({
     this.en,
     this.de,
     this.es,
@@ -212,7 +213,7 @@ class Tion {
     this.id,
   });
 
-  factory Tion.fromJson(Map<String, dynamic> json) => Tion(
+  factory CoinsTion.fromJson(Map<String, dynamic> json) => CoinsTion(
         en: json['en'],
         de: json['de'],
         es: json['es'],
@@ -283,8 +284,8 @@ class Tion {
       };
 }
 
-class DeveloperData {
-  DeveloperData({
+class CoinsDeveloperData {
+  CoinsDeveloperData({
     this.forks,
     this.stars,
     this.subscribers,
@@ -297,7 +298,8 @@ class DeveloperData {
     this.last4WeeksCommitActivitySeries,
   });
 
-  factory DeveloperData.fromJson(Map<String, dynamic> json) => DeveloperData(
+  factory CoinsDeveloperData.fromJson(Map<String, dynamic> json) =>
+      CoinsDeveloperData(
         forks: json['forks'],
         stars: json['stars'],
         subscribers: json['subscribers'],
@@ -305,8 +307,9 @@ class DeveloperData {
         closedIssues: json['closed_issues'],
         pullRequestsMerged: json['pull_requests_merged'],
         pullRequestContributors: json['pull_request_contributors'],
-        codeAdditionsDeletions4Weeks: CodeAdditionsDeletions4Weeks.fromJson(
-            json['code_additions_deletions_4_weeks']),
+        codeAdditionsDeletions4Weeks:
+            CoinsCodeAdditionsDeletions4Weeks.fromJson(
+                json['code_additions_deletions_4_weeks']),
         commitCount4Weeks: json['commit_count_4_weeks'],
         last4WeeksCommitActivitySeries: List<dynamic>.from(
             json['last_4_weeks_commit_activity_series'].map((x) => x)),
@@ -319,7 +322,7 @@ class DeveloperData {
   int? closedIssues;
   int? pullRequestsMerged;
   int? pullRequestContributors;
-  CodeAdditionsDeletions4Weeks? codeAdditionsDeletions4Weeks;
+  CoinsCodeAdditionsDeletions4Weeks? codeAdditionsDeletions4Weeks;
   int? commitCount4Weeks;
   List<dynamic>? last4WeeksCommitActivitySeries;
 
@@ -339,14 +342,15 @@ class DeveloperData {
       };
 }
 
-class CodeAdditionsDeletions4Weeks {
-  CodeAdditionsDeletions4Weeks({
+class CoinsCodeAdditionsDeletions4Weeks {
+  CoinsCodeAdditionsDeletions4Weeks({
     this.additions,
     this.deletions,
   });
 
-  factory CodeAdditionsDeletions4Weeks.fromJson(Map<String, dynamic> json) =>
-      CodeAdditionsDeletions4Weeks(
+  factory CoinsCodeAdditionsDeletions4Weeks.fromJson(
+          Map<String, dynamic> json) =>
+      CoinsCodeAdditionsDeletions4Weeks(
         additions: json['additions'],
         deletions: json['deletions'],
       );
@@ -360,14 +364,14 @@ class CodeAdditionsDeletions4Weeks {
       };
 }
 
-class Image {
-  Image({
+class CoinsImage {
+  CoinsImage({
     this.thumb,
     this.small,
     this.large,
   });
 
-  factory Image.fromJson(Map<String, dynamic> json) => Image(
+  factory CoinsImage.fromJson(Map<String, dynamic> json) => CoinsImage(
         thumb: json['thumb'],
         small: json['small'],
         large: json['large'],
@@ -384,8 +388,8 @@ class Image {
       };
 }
 
-class Links {
-  Links({
+class CoinsLinks {
+  CoinsLinks({
     this.homepage,
     this.blockchainSite,
     this.officialForumUrl,
@@ -399,7 +403,7 @@ class Links {
     this.reposUrl,
   });
 
-  factory Links.fromJson(Map<String, dynamic> json) => Links(
+  factory CoinsLinks.fromJson(Map<String, dynamic> json) => CoinsLinks(
         homepage: List<String>.from(json['homepage'].map((x) => x)),
         blockchainSite:
             List<String>.from(json['blockchain_site'].map((x) => x)),
@@ -413,7 +417,7 @@ class Links {
         bitcointalkThreadIdentifier: json['bitcointalk_thread_identifier'],
         telegramChannelIdentifier: json['telegram_channel_identifier'],
         subredditUrl: json['subreddit_url'],
-        reposUrl: ReposUrl.fromJson(json['repos_url']),
+        reposUrl: CoinsLinksReposUrl.fromJson(json['repos_url']),
       );
 
   List<String>? homepage;
@@ -426,7 +430,7 @@ class Links {
   int? bitcointalkThreadIdentifier;
   String? telegramChannelIdentifier;
   String? subredditUrl;
-  ReposUrl? reposUrl;
+  CoinsLinksReposUrl? reposUrl;
 
   Map<String, dynamic> toJson() => {
         'homepage': List<dynamic>.from(homepage!.map((x) => x)),
@@ -444,13 +448,14 @@ class Links {
       };
 }
 
-class ReposUrl {
-  ReposUrl({
+class CoinsLinksReposUrl {
+  CoinsLinksReposUrl({
     this.github,
     this.bitbucket,
   });
 
-  factory ReposUrl.fromJson(Map<String, dynamic> json) => ReposUrl(
+  factory CoinsLinksReposUrl.fromJson(Map<String, dynamic> json) =>
+      CoinsLinksReposUrl(
         github: List<String>.from(json['github'].map((x) => x)),
         bitbucket: List<dynamic>.from(json['bitbucket'].map((x) => x)),
       );
@@ -464,8 +469,8 @@ class ReposUrl {
       };
 }
 
-class MarketData {
-  MarketData({
+class CoinsMarketData {
+  CoinsMarketData({
     this.currentPrice,
     this.roi,
     this.ath,
@@ -507,7 +512,8 @@ class MarketData {
     this.lastUpdated,
   });
 
-  factory MarketData.fromJson(Map<String, dynamic> json) => MarketData(
+  factory CoinsMarketData.fromJson(Map<String, dynamic> json) =>
+      CoinsMarketData(
         currentPrice: Map.from(json['current_price'])
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         roi: json['roi'],
@@ -526,7 +532,7 @@ class MarketData {
         marketCap: Map.from(json['market_cap'])
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         marketCapRank: json['market_cap_rank'],
-        fullyDilutedValuation: FullyDilutedValuation.fromJson(),
+        fullyDilutedValuation: CoinsMarketFullyDilutedValuation.fromJson(),
         totalVolume: Map.from(json['total_volume'])
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         high24H: Map.from(json['high_24h'])
@@ -572,7 +578,8 @@ class MarketData {
         priceChangePercentage200DInCurrency:
             Map.from(json['price_change_percentage_200d_in_currency'])
                 .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
-        priceChangePercentage1YInCurrency: FullyDilutedValuation.fromJson(),
+        priceChangePercentage1YInCurrency:
+            CoinsMarketFullyDilutedValuation.fromJson(),
         marketCapChange24HInCurrency:
             Map.from(json['market_cap_change_24h_in_currency'])
                 .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
@@ -595,7 +602,7 @@ class MarketData {
   Map<String, DateTime>? atlDate;
   Map<String, double>? marketCap;
   int? marketCapRank;
-  FullyDilutedValuation? fullyDilutedValuation;
+  CoinsMarketFullyDilutedValuation? fullyDilutedValuation;
   Map<String, double>? totalVolume;
   Map<String, double>? high24H;
   Map<String, double>? low24H;
@@ -617,7 +624,7 @@ class MarketData {
   Map<String, double>? priceChangePercentage30DInCurrency;
   Map<String, double>? priceChangePercentage60DInCurrency;
   Map<String, double>? priceChangePercentage200DInCurrency;
-  FullyDilutedValuation? priceChangePercentage1YInCurrency;
+  CoinsMarketFullyDilutedValuation? priceChangePercentage1YInCurrency;
   Map<String, double>? marketCapChange24HInCurrency;
   Map<String, double>? marketCapChangePercentage24HInCurrency;
   dynamic totalSupply;
@@ -697,22 +704,23 @@ class MarketData {
       };
 }
 
-class FullyDilutedValuation {
-  FullyDilutedValuation();
+class CoinsMarketFullyDilutedValuation {
+  CoinsMarketFullyDilutedValuation();
 
-  factory FullyDilutedValuation.fromJson() => FullyDilutedValuation();
+  factory CoinsMarketFullyDilutedValuation.fromJson() =>
+      CoinsMarketFullyDilutedValuation();
 
   Map<String, dynamic> toJson() => {};
 }
 
-class PublicInterestStats {
-  PublicInterestStats({
+class CoinsPublicInterestStats {
+  CoinsPublicInterestStats({
     this.alexaRank,
     this.bingMatches,
   });
 
-  factory PublicInterestStats.fromJson(Map<String, dynamic> json) =>
-      PublicInterestStats(
+  factory CoinsPublicInterestStats.fromJson(Map<String, dynamic> json) =>
+      CoinsPublicInterestStats(
         alexaRank: json['alexa_rank'],
         bingMatches: json['bing_matches'],
       );
@@ -726,8 +734,8 @@ class PublicInterestStats {
       };
 }
 
-class Ticker {
-  Ticker({
+class CoinsTicker {
+  CoinsTicker({
     this.base,
     this.target,
     this.market,
@@ -747,10 +755,10 @@ class Ticker {
     this.targetCoinId,
   });
 
-  factory Ticker.fromJson(Map<String, dynamic> json) => Ticker(
+  factory CoinsTicker.fromJson(Map<String, dynamic> json) => CoinsTicker(
         base: json['base'],
         target: json['target'],
-        market: Market.fromJson(json['market']),
+        market: CoinsTickerMarket.fromJson(json['market']),
         last: json['last'].toDouble(),
         volume: json['volume'].toDouble(),
         convertedLast: Map.from(json['converted_last'])
@@ -771,7 +779,7 @@ class Ticker {
 
   String? base;
   String? target;
-  Market? market;
+  CoinsTickerMarket? market;
   double? last;
   double? volume;
   Map<String, double>? convertedLast;
@@ -810,14 +818,15 @@ class Ticker {
       };
 }
 
-class Market {
-  Market({
+class CoinsTickerMarket {
+  CoinsTickerMarket({
     this.name,
     this.identifier,
     this.hasTradingIncentive,
   });
 
-  factory Market.fromJson(Map<String, dynamic> json) => Market(
+  factory CoinsTickerMarket.fromJson(Map<String, dynamic> json) =>
+      CoinsTickerMarket(
         name: json['name'],
         identifier: json['identifier'],
         hasTradingIncentive: json['has_trading_incentive'],

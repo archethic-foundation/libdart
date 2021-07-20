@@ -18,39 +18,41 @@ class BalanceResponse {
 
   factory BalanceResponse.fromJson(Map<String, dynamic> json) =>
       BalanceResponse(
-        data: Data.fromJson(json['data']),
+        data: BalanceResponseData.fromJson(json['data']),
       );
 
-  Data? data;
+  BalanceResponseData? data;
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
       };
 }
 
-class Data {
-  Data({
+class BalanceResponseData {
+  BalanceResponseData({
     this.balance,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        balance: Balance.fromJson(json['balance']),
+  factory BalanceResponseData.fromJson(Map<String, dynamic> json) =>
+      BalanceResponseData(
+        balance: BalanceResponseDataBalance.fromJson(json['balance']),
       );
 
-  Balance? balance;
+  BalanceResponseDataBalance? balance;
 
   Map<String, dynamic> toJson() => {
         'balance': balance!.toJson(),
       };
 }
 
-class Balance {
-  Balance({
+class BalanceResponseDataBalance {
+  BalanceResponseDataBalance({
     this.nft,
     this.uco,
   });
 
-  factory Balance.fromJson(Map<String, dynamic> json) => Balance(
+  factory BalanceResponseDataBalance.fromJson(Map<String, dynamic> json) =>
+      BalanceResponseDataBalance(
         nft: List<dynamic>.from(json['nft'].map((x) => x)),
         uco: json['uco'].toDouble(),
       );
