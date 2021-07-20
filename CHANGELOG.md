@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.0.25 (2021-07-20) 
+* Web compatible
+
 #### Version 0.0.24 (2021-07-19) 
 * Add ecEncrypt with Ed25519 public key
 

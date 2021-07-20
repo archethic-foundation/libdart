@@ -9,9 +9,9 @@ import 'package:crypto_keys/crypto_keys.dart' as cryptoKeys;
 import 'package:ecdsa/ecdsa.dart' as ecdsa;
 import 'package:elliptic/ecdh.dart' as ecdh;
 import 'package:elliptic/elliptic.dart' as elliptic;
-import 'package:libsodium/libsodium.dart' as sodium;
 import 'package:pinenacl/api.dart';
 import 'package:pinenacl/ed25519.dart' as ed25519;
+import 'package:pinenacl/tweetnacl.dart' as tweetnacl;
 import 'package:pointycastle/export.dart' show Digest;
 import 'package:x25519/x25519.dart' as x25519;
 
@@ -300,11 +300,10 @@ Uint8List ecEncrypt(data, publicKey) {
       final Uint8List ephemeralPublicKey =
           Uint8List.fromList(keyPair.publicKey);
 
-      // initialize sodium
-      sodium.Sodium.init();
+      final curve25519Pub = Uint8List(32);
+      tweetnacl.TweetNaClExt.crypto_sign_ed25519_pk_to_x25519_pk(
+          curve25519Pub, pubBuf);
 
-      final Uint8List curve25519Pub =
-          sodium.Sodium.cryptoSignEd25519PkToCurve25519(pubBuf);
       final Uint8List sharedKey =
           x25519.X25519(ephemeralPrivateKey, curve25519Pub);
 
@@ -392,12 +391,10 @@ Uint8List ecDecrypt(cipherText, privateKey) {
       final Uint8List encrypted =
           cipherText.sublist(32 + 16, cipherText.length);
 
-      // initialize sodium
-      sodium.Sodium.init();
+      final curve25519pv = Uint8List(32);
+      tweetnacl.TweetNaClExt.crypto_sign_ed25519_sk_to_x25519_sk(
+          curve25519pv, pvBuf);
 
-      final Uint8List curve25519pv =
-          sodium.Sodium.cryptoSignEd25519SkToCurve25519(
-              concatUint8List(<Uint8List>[pvBuf, Uint8List(32)]));
       final Uint8List sharedKey = x25519.X25519(curve25519pv, ephemeralPubKey);
       final Secret secret = deriveSecret(sharedKey);
 
@@ -477,8 +474,8 @@ Uint8List aesEncrypt(data, key) {
   final cryptoKeys.EncryptionResult v =
       encrypter.encrypt(data, initializationVector: iv);
 
-  final Uint8List result =
-      concatUint8List(<Uint8List>[v.initializationVector!, v.authenticationTag!, v.data]);
+  final Uint8List result = concatUint8List(
+      <Uint8List>[v.initializationVector!, v.authenticationTag!, v.data]);
   return result;
 }
 
