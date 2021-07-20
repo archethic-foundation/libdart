@@ -8,13 +8,13 @@ import 'dart:typed_data';
 import 'package:test/test.dart';
 
 // Project imports:
-import 'package:archethic_lib_dart/crypto.dart' as crypto;
-import 'package:archethic_lib_dart/model/key_pair.dart';
-import 'package:archethic_lib_dart/model/response/balance_response.dart';
-import 'package:archethic_lib_dart/model/response/nodes_response.dart';
-import 'package:archethic_lib_dart/model/response/transactions_response.dart';
-import 'package:archethic_lib_dart/transaction_builder.dart';
-import 'package:archethic_lib_dart/utils.dart';
+import 'package:archethic_lib_dart/src/crypto.dart' as crypto;
+import 'package:archethic_lib_dart/src/model/key_pair.dart';
+import 'package:archethic_lib_dart/src/model/response/balance_response.dart';
+import 'package:archethic_lib_dart/src/model/response/nodes_response.dart';
+import 'package:archethic_lib_dart/src/model/response/transactions_response.dart';
+import 'package:archethic_lib_dart/src/transaction_builder.dart';
+import 'package:archethic_lib_dart/src/utils.dart';
 
 void main() {
   group('Transaction builder', () {

@@ -1,6 +1,7 @@
-import 'package:archethic_lib_dart/crypto.dart' as crypto;
-import 'package:archethic_lib_dart/model/key_pair.dart';
-import 'package:archethic_lib_dart/transaction_builder.dart';
+import 'package:archethic_lib_dart/src/crypto.dart' as crypto
+    show deriveKeyPair;
+import 'package:archethic_lib_dart/src/model/key_pair.dart';
+import 'package:archethic_lib_dart/src/transaction_builder.dart';
 
 void main(List<String> args) {
   /// It creates a new keypair into hexadecimal format

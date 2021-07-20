@@ -5,21 +5,28 @@ import 'dart:typed_data' show Uint8List;
 
 // Package imports:
 import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
-import 'package:crypto_keys/crypto_keys.dart' as cryptoKeys;
-import 'package:ecdsa/ecdsa.dart' as ecdsa;
-import 'package:elliptic/ecdh.dart' as ecdh;
-import 'package:elliptic/elliptic.dart' as elliptic;
+import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
 import 'package:pinenacl/api.dart';
-import 'package:pinenacl/ed25519.dart' as ed25519;
-import 'package:pinenacl/tweetnacl.dart' as tweetnacl;
+import 'package:pinenacl/tweetnacl.dart' as tweetnacl show TweetNaClExt;
 import 'package:pointycastle/export.dart' show Digest;
-import 'package:x25519/x25519.dart' as x25519;
 
 // Project imports:
-import 'package:archethic_lib_dart/model/aes_auth_encrypt_infos.dart';
-import 'package:archethic_lib_dart/model/key_pair.dart';
-import 'package:archethic_lib_dart/model/secret.dart';
-import 'package:archethic_lib_dart/utils.dart';
+import 'package:archethic_lib_dart/src/model/aes_auth_encrypt_infos.dart';
+import 'package:archethic_lib_dart/src/model/key_pair.dart';
+import 'package:archethic_lib_dart/src/model/secret.dart';
+import 'package:archethic_lib_dart/src/utils.dart';
+
+import 'package:crypto_keys/crypto_keys.dart' as cryptoKeys
+    show EncryptionResult, SymmetricKey, KeyPair, Encrypter, algorithms;
+import 'package:ecdsa/ecdsa.dart' as ecdsa
+    show Signature, deterministicSign, verify;
+import 'package:elliptic/elliptic.dart' as elliptic
+    show EllipticCurve, PrivateKey, PublicKey, Curve, getSecp256k1, getP256;
+import 'package:pinenacl/ed25519.dart' as ed25519
+    show SigningKey, SignatureBase, VerifyKey, Signature;
+import 'package:x25519/x25519.dart' as x25519
+    show generateKeyPair, KeyPair, X25519;
+
 
 /// Create a hash digest from the data with an hash algorithm identification prepending the digest
 /// @param {String | Uint8List} content Data to hash (string or buffer)

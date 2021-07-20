@@ -1,8 +1,11 @@
 // Project imports:
-import 'package:archethic_lib_dart/crypto.dart' as crypto;
-import 'package:archethic_lib_dart/model/key_pair.dart';
-import 'package:archethic_lib_dart/services/api_service.dart';
-import 'package:archethic_lib_dart/utils.dart';
+import 'package:archethic_lib_dart/src/crypto.dart' as crypto
+    show deriveKeyPair, hash;
+
+// Project imports:
+import 'package:archethic_lib_dart/src/model/key_pair.dart';
+import 'package:archethic_lib_dart/src/services/api_service.dart';
+import 'package:archethic_lib_dart/src/utils.dart' show uint8ListToHex;
 
 class AddressService {
   AddressService(this.endpoint);

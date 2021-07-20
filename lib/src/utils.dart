@@ -2,7 +2,7 @@
 import 'dart:typed_data' show Uint8List, ByteData, Endian;
 
 // Package imports:
-import 'package:pinenacl/encoding.dart';
+import 'package:pinenacl/encoding.dart' show HexCoder;
 
 /// Determines if a string is an hexadecimal
 /// @param {String} inputString Potential hexadecimal string

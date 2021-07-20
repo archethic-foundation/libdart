@@ -6,12 +6,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
-import 'package:archethic_lib_dart/model/response/balance_response.dart';
-import 'package:archethic_lib_dart/model/response/nodes_response.dart';
-import 'package:archethic_lib_dart/model/response/shared_secrets_response.dart';
-import 'package:archethic_lib_dart/model/response/transaction_content_response.dart';
-import 'package:archethic_lib_dart/model/response/transaction_last_response.dart';
-import 'package:archethic_lib_dart/model/response/transactions_response.dart';
+import 'package:archethic_lib_dart/src/model/response/balance_response.dart';
+import 'package:archethic_lib_dart/src/model/response/nodes_response.dart';
+import 'package:archethic_lib_dart/src/model/response/shared_secrets_response.dart';
+import 'package:archethic_lib_dart/src/model/response/transaction_content_response.dart';
+import 'package:archethic_lib_dart/src/model/response/transaction_last_response.dart';
+import 'package:archethic_lib_dart/src/model/response/transactions_response.dart';
 
 class ApiService {
   ApiService(this.endpoint);

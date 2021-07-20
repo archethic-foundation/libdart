@@ -1,14 +1,18 @@
 Changelog
 =========
 
+#### Version 0.0.26 (2021-07-20) 
+* Updating documentation
+* Changing project structure
+
 #### Version 0.0.25 (2021-07-20) 
 * Web compatible
 
 #### Version 0.0.24 (2021-07-19) 
-* Add ecEncrypt with Ed25519 public key
+* Adding ecEncrypt with Ed25519 public key
 
 #### Version 0.0.23 (2021-07-19) 
-* Add ecEncrypt with P256 and secp256k1 public key
+* Adding ecEncrypt with P256 and secp256k1 public key
 
 #### Version 0.0.22 (2021-07-15) 
 * Removing endpoint paramaters in each methods. Becoming a global parameter

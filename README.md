@@ -1,4 +1,4 @@
-[![CI](https://github.com/redDwarf03/archethic_lib_dart/actions/workflows/ci.yaml/badge.svg)](https://github.com/redDwarf03/archethic_lib_dart/actions/workflows/ci.yaml) [![Pub](https://img.shields.io/pub/v/archethic_lib_dart.svg)](https://pub.dartlang.org/packages/archethic_lib_dart) [![Platform](https://img.shields.io/badge/Platform-Flutter-02569B?logo=flutter)](https://flutter.dev) [![CodeFactor](https://www.codefactor.io/repository/github/reddwarf03/archethic_lib_dart/badge)](https://www.codefactor.io/repository/github/reddwarf03/archethic_lib_dart)
+[![CI](https://github.com/redDwarf03/archethic_lib_dart/src/actions/workflows/ci.yaml/badge.svg)](https://github.com/redDwarf03/archethic_lib_dart/src/actions/workflows/ci.yaml) [![Pub](https://img.shields.io/pub/v/archethic_lib_dart.svg)](https://pub.dartlang.org/packages/archethic_lib_dart) [![Platform](https://img.shields.io/badge/Platform-Flutter-02569B?logo=flutter)](https://flutter.dev) [![CodeFactor](https://www.codefactor.io/repository/github/reddwarf03/archethic_lib_dart/src/badge)](https://www.codefactor.io/repository/github/reddwarf03/archethic_lib_dart)
 
 # archethic_lib_dart
 
@@ -63,8 +63,8 @@ It supports the ArchEthic Cryptography rules which are:
   - `curve` is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1") - default to: "P256"
 
   ```dart
-  import 'package:archethic_lib_dart/crypto.dart' as crypto;
-  import 'package:archethic_lib_dart/model/key_pair.dart';
+  import 'package:archethic_lib_dart/src/crypto.dart' as crypto;
+  import 'package:archethic_lib_dart/src/model/key_pair.dart';
 
   KeyPair keypair = crypto.deriveKeyPair("mysuperpassphraseorseed", 0);
   // uint8ListToHex(keypair.publicKey) => 0100048cac473e46edd109c3ef59eec22b9ece9f99a2d0dce1c4ccb31ce0bacec4a9ad246744889fb7c98ea75c0f0ecd60002c07fae92f23382669ca9aff1339f44216
@@ -78,7 +78,7 @@ It supports the ArchEthic Cryptography rules which are:
   - `publicKey` Public key to derive a shared secret and for whom the content must be encrypted
   
   ```dart
-  import 'package:archethic_lib_dart/crypto.dart' as crypto;
+  import 'package:archethic_lib_dart/src/crypto.dart' as crypto;
 
   Uint8List cipher = crypto.ecEncrypt("dataToEncrypt" "00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646");
   ```
@@ -90,7 +90,7 @@ It supports the ArchEthic Cryptography rules which are:
   - `key` Symmetric key
 
   ```dart
-  import 'package:archethic_lib_dart/crypto.dart' as crypto;
+  import 'package:archethic_lib_dart/src/crypto.dart' as crypto;
 
   Uint8List cipher = crypto.aesEncrypt("dataToEncrypt" "00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646");
   ```
@@ -145,7 +145,7 @@ It supports the ArchEthic Cryptography rules which are:
   - `hashAlgo` is the hash algorithm to use to generate the address (can be "sha256", "sha512", "sha3-256", "sha3-512", "bake2b") - default to "sha256"
   
   ```dart
-  import 'package:archethic_lib_dart/transaction_builder.dart';
+  import 'package:archethic_lib_dart/src/transaction_builder.dart';
 
   var tx = new TransactionBuilder("transfer")
     .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
@@ -158,8 +158,8 @@ It supports the ArchEthic Cryptography rules which are:
    - `privateKey` is hexadecimal encoding or Uint8List representing the private key to generate the origin signature to able to perform the ProofOfWork and authorize the transaction
 
   ```dart
-  import 'package:archethic_lib_dart/transaction_builder.dart';
-  import 'package:archethic_lib_dart/crypto.dart' as crypto;
+  import 'package:archethic_lib_dart/src/transaction_builder.dart';
+  import 'package:archethic_lib_dart/src/crypto.dart' as crypto;
   
   final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
   var tx = new TransactionBuilder("transfer")
@@ -172,7 +172,7 @@ It supports the ArchEthic Cryptography rules which are:
   Export the transaction generated into JSON
 
    ```dart
-  import 'package:archethic_lib_dart/transaction_builder.dart';
+  import 'package:archethic_lib_dart/src/transaction_builder.dart';
 
   var tx = new TransactionBuilder("transfer")
     .addUCOTransfer("00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646", 0.420) 
@@ -194,7 +194,7 @@ It supports the ArchEthic Cryptography rules which are:
   - `address` Transaction address (in hexadecimal)
 
   ```dart
-  import 'package:archethic_lib_dart/services/api_service.dart';
+  import 'package:archethic_lib_dart/src/services/api_service.dart';
 
   int index = await ApiService('http://www.archethic.net').getTransactionIndex(
           '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
@@ -205,7 +205,7 @@ It supports the ArchEthic Cryptography rules which are:
   Query a node to find the public key of the shared storage node key
 
    ```dart
-  import 'package:archethic_lib_dart/services/api_service.dart';
+  import 'package:archethic_lib_dart/src/services/api_service.dart';
 
   String storageNoncePublicKey =
           await ApiService('http://www.archethic.net').getStorageNoncePublicKey();
