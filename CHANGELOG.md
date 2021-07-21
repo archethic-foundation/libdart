@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.1.0 (2021-07-21) 
+* Moving project to the ArchEthic official repo
+
 #### Version 0.0.28 (2021-07-21) 
 * Updating elliptic: 0.3.5
 * Updating license

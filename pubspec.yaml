@@ -1,8 +1,8 @@
 name: archethic_lib_dart
-description: ArchEthic dart library for Flutter based on Official ArchEthic Javascript library for Node and Browser
-homepage: https://github.com/redDwarf03/archethic_lib_dart
+description: ArchEthic dart library for Flutter for Node and Browser
+homepage: https://github.com/archethic-foundation/libdart
 
-version: 0.0.28
+version: 0.1.0
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
