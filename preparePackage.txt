@@ -1,3 +1,5 @@
+dart analyze
 dart format lib test
 dart run import_sorter:main
+dart test
 dart pub publish --dry-run
