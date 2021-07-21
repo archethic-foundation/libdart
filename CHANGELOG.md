@@ -1,6 +1,10 @@
 Changelog
 =========
 
+#### Version 0.0.28 (2021-07-21) 
+* Updating elliptic: 0.3.5
+* Updating license
+
 #### Version 0.0.27 (2021-07-20) 
 * Updating pinenacl 0.3.3
 

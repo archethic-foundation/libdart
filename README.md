@@ -179,13 +179,6 @@ It supports the ArchEthic Cryptography rules which are:
   ```
   
   ### Remote Endpoint calls
-  #### sendTransaction(tx)
-  Dispatch the transaction to a node by serializing a GraphQL request
-
-  - `tx` represent the built transaction from the **transactionBuilder**
-
-  *Don't available for the moment... soon...*
-
   #### getTransactionIndex(address)
   Query a node to find the length of the chain to retrieve the transaction index
 
