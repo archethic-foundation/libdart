@@ -17,8 +17,13 @@ class NodesResponse {
   });
 
   factory NodesResponse.fromJson(Map<String, dynamic> json) => NodesResponse(
-        data: json['data'] == null ? null : NodesResponseData.fromJson(json['data']),
-        errors: json["errors"] == null ? null : List<NodesResponseDataError>.from(json["errors"].map((x) => NodesResponseDataError.fromJson(x))),
+        data: json['data'] == null
+            ? null
+            : NodesResponseData.fromJson(json['data']),
+        errors: json["errors"] == null
+            ? null
+            : List<NodesResponseDataError>.from(
+                json["errors"].map((x) => NodesResponseDataError.fromJson(x))),
       );
 
   NodesResponseData? data;
@@ -101,43 +106,45 @@ class Node {
       };
 }
 
-
 class NodesResponseDataError {
-    NodesResponseDataError({
-        this.locations,
-        this.message,
-    });
+  NodesResponseDataError({
+    this.locations,
+    this.message,
+  });
 
-    List<NodesResponseDataErrorLocation>? locations;
-    String? message;
+  List<NodesResponseDataErrorLocation>? locations;
+  String? message;
 
-    factory NodesResponseDataError.fromJson(Map<String, dynamic> json) => NodesResponseDataError(
-        locations: List<NodesResponseDataErrorLocation>.from(json["locations"].map((x) => NodesResponseDataErrorLocation.fromJson(x))),
+  factory NodesResponseDataError.fromJson(Map<String, dynamic> json) =>
+      NodesResponseDataError(
+        locations: List<NodesResponseDataErrorLocation>.from(json["locations"]
+            .map((x) => NodesResponseDataErrorLocation.fromJson(x))),
         message: json["message"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "locations": List<dynamic>.from(locations!.map((x) => x.toJson())),
         "message": message,
-    };
+      };
 }
 
 class NodesResponseDataErrorLocation {
-    NodesResponseDataErrorLocation({
-        this.column,
-        this.line,
-    });
+  NodesResponseDataErrorLocation({
+    this.column,
+    this.line,
+  });
 
-    int? column;
-    int? line;
+  int? column;
+  int? line;
 
-    factory NodesResponseDataErrorLocation.fromJson(Map<String, dynamic> json) => NodesResponseDataErrorLocation(
+  factory NodesResponseDataErrorLocation.fromJson(Map<String, dynamic> json) =>
+      NodesResponseDataErrorLocation(
         column: json["column"],
         line: json["line"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "column": column,
         "line": line,
-    };
+      };
 }

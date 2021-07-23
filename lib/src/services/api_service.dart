@@ -3,7 +3,6 @@ import 'dart:async';
 import 'dart:convert';
 
 // Package imports:
-import 'package:archethic_lib_dart/src/transaction_builder.dart';
 import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
@@ -13,6 +12,7 @@ import 'package:archethic_lib_dart/src/model/response/shared_secrets_response.da
 import 'package:archethic_lib_dart/src/model/response/transaction_content_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transaction_last_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transactions_response.dart';
+import 'package:archethic_lib_dart/src/transaction_builder.dart';
 
 class ApiService {
   ApiService(this.endpoint);

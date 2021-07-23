@@ -19,8 +19,13 @@ class BalanceResponse {
 
   factory BalanceResponse.fromJson(Map<String, dynamic> json) =>
       BalanceResponse(
-        data: json['data'] == null ? null : BalanceResponseData.fromJson(json['data']),
-        errors: json['errors'] == null ? null : List<BalanceResponseDataError>.from(json['errors'].map((x) => BalanceResponseDataError.fromJson(x))),
+        data: json['data'] == null
+            ? null
+            : BalanceResponseData.fromJson(json['data']),
+        errors: json['errors'] == null
+            ? null
+            : List<BalanceResponseDataError>.from(json['errors']
+                .map((x) => BalanceResponseDataError.fromJson(x))),
       );
 
   BalanceResponseData? data;
@@ -71,42 +76,45 @@ class BalanceResponseDataBalance {
 }
 
 class BalanceResponseDataError {
-    BalanceResponseDataError({
-        this.locations,
-        this.message,
-    });
+  BalanceResponseDataError({
+    this.locations,
+    this.message,
+  });
 
-    List<BalanceResponseDataErrorLocation>? locations;
-    String? message;
+  List<BalanceResponseDataErrorLocation>? locations;
+  String? message;
 
-    factory BalanceResponseDataError.fromJson(Map<String, dynamic> json) => BalanceResponseDataError(
-        locations: List<BalanceResponseDataErrorLocation>.from(json['locations'].map((x) => BalanceResponseDataErrorLocation.fromJson(x))),
+  factory BalanceResponseDataError.fromJson(Map<String, dynamic> json) =>
+      BalanceResponseDataError(
+        locations: List<BalanceResponseDataErrorLocation>.from(json['locations']
+            .map((x) => BalanceResponseDataErrorLocation.fromJson(x))),
         message: json['message'],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         'locations': List<dynamic>.from(locations!.map((x) => x.toJson())),
         'message': message,
-    };
+      };
 }
 
 class BalanceResponseDataErrorLocation {
-    BalanceResponseDataErrorLocation({
-        this.column,
-        this.line,
-    });
+  BalanceResponseDataErrorLocation({
+    this.column,
+    this.line,
+  });
 
-    int? column;
-    int? line;
+  int? column;
+  int? line;
 
-    factory BalanceResponseDataErrorLocation.fromJson(Map<String, dynamic> json) => BalanceResponseDataErrorLocation(
+  factory BalanceResponseDataErrorLocation.fromJson(
+          Map<String, dynamic> json) =>
+      BalanceResponseDataErrorLocation(
         column: json['column'],
         line: json['line'],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         'column': column,
         'line': line,
-    };
+      };
 }
-

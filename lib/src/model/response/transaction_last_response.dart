@@ -20,7 +20,10 @@ class TransactionLastResponse {
   factory TransactionLastResponse.fromJson(Map<String, dynamic> json) =>
       TransactionLastResponse(
         data: TransactionLastData.fromJson(json['data']),
-        errors: json['errors'] == null ? null : List<TransactionLastDataError>.from(json['errors'].map((x) => TransactionLastDataError.fromJson(x))),
+        errors: json['errors'] == null
+            ? null
+            : List<TransactionLastDataError>.from(json['errors']
+                .map((x) => TransactionLastDataError.fromJson(x))),
       );
 
   TransactionLastData? data;
@@ -67,46 +70,49 @@ class LastTransaction {
 }
 
 class TransactionLastDataError {
-    TransactionLastDataError({
-        this.locations,
-        this.message,
-        this.path,
-    });
+  TransactionLastDataError({
+    this.locations,
+    this.message,
+    this.path,
+  });
 
-    List<TransactionLastDataErrorLocation>? locations;
-    String? message;
-    List<String>? path;
+  List<TransactionLastDataErrorLocation>? locations;
+  String? message;
+  List<String>? path;
 
-    factory TransactionLastDataError.fromJson(Map<String, dynamic> json) => TransactionLastDataError(
-        locations: List<TransactionLastDataErrorLocation>.from(json['locations'].map((x) => TransactionLastDataErrorLocation.fromJson(x))),
+  factory TransactionLastDataError.fromJson(Map<String, dynamic> json) =>
+      TransactionLastDataError(
+        locations: List<TransactionLastDataErrorLocation>.from(json['locations']
+            .map((x) => TransactionLastDataErrorLocation.fromJson(x))),
         message: json['message'],
         path: List<String>.from(json['path'].map((x) => x)),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         'locations': List<dynamic>.from(locations!.map((x) => x.toJson())),
         'message': message,
         'path': List<dynamic>.from(path!.map((x) => x)),
-    };
+      };
 }
 
-
 class TransactionLastDataErrorLocation {
-    TransactionLastDataErrorLocation({
-        this.column,
-        this.line,
-    });
+  TransactionLastDataErrorLocation({
+    this.column,
+    this.line,
+  });
 
-    int? column;
-    int? line;
+  int? column;
+  int? line;
 
-    factory TransactionLastDataErrorLocation.fromJson(Map<String, dynamic> json) => TransactionLastDataErrorLocation(
+  factory TransactionLastDataErrorLocation.fromJson(
+          Map<String, dynamic> json) =>
+      TransactionLastDataErrorLocation(
         column: json['column'],
         line: json['line'],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         'column': column,
         'line': line,
-    };
+      };
 }

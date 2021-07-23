@@ -12,15 +12,17 @@ String transactionsResponseToJson(TransactionsResponse data) =>
     json.encode(data.toJson());
 
 class TransactionsResponse {
-  TransactionsResponse({
-    this.data,
-    this.errors
-  });
+  TransactionsResponse({this.data, this.errors});
 
   factory TransactionsResponse.fromJson(Map<String, dynamic> json) =>
       TransactionsResponse(
-        data: json['data'] == null ? null : TransactionsResponseData.fromJson(json['data']),
-        errors: json["errors"] == null ? null : List<TransactionsResponseDataError>.from(json["errors"].map((x) => TransactionsResponseDataError.fromJson(x))),
+        data: json['data'] == null
+            ? null
+            : TransactionsResponseData.fromJson(json['data']),
+        errors: json["errors"] == null
+            ? null
+            : List<TransactionsResponseDataError>.from(json["errors"]
+                .map((x) => TransactionsResponseDataError.fromJson(x))),
       );
 
   TransactionsResponseData? data;
@@ -149,41 +151,46 @@ class TransactionChainDataLedgerUco {
 }
 
 class TransactionsResponseDataError {
-    TransactionsResponseDataError({
-        this.locations,
-        this.message,
-    });
+  TransactionsResponseDataError({
+    this.locations,
+    this.message,
+  });
 
-    List<TransactionsResponseDataErrorLocation>? locations;
-    String? message;
+  List<TransactionsResponseDataErrorLocation>? locations;
+  String? message;
 
-    factory TransactionsResponseDataError.fromJson(Map<String, dynamic> json) => TransactionsResponseDataError(
-        locations: List<TransactionsResponseDataErrorLocation>.from(json["locations"].map((x) => TransactionsResponseDataErrorLocation.fromJson(x))),
+  factory TransactionsResponseDataError.fromJson(Map<String, dynamic> json) =>
+      TransactionsResponseDataError(
+        locations: List<TransactionsResponseDataErrorLocation>.from(
+            json["locations"]
+                .map((x) => TransactionsResponseDataErrorLocation.fromJson(x))),
         message: json["message"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "locations": List<dynamic>.from(locations!.map((x) => x.toJson())),
         "message": message,
-    };
+      };
 }
 
 class TransactionsResponseDataErrorLocation {
-    TransactionsResponseDataErrorLocation({
-        this.column,
-        this.line,
-    });
+  TransactionsResponseDataErrorLocation({
+    this.column,
+    this.line,
+  });
 
-    int? column;
-    int? line;
+  int? column;
+  int? line;
 
-    factory TransactionsResponseDataErrorLocation.fromJson(Map<String, dynamic> json) => TransactionsResponseDataErrorLocation(
+  factory TransactionsResponseDataErrorLocation.fromJson(
+          Map<String, dynamic> json) =>
+      TransactionsResponseDataErrorLocation(
         column: json["column"],
         line: json["line"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "column": column,
         "line": line,
-    };
+      };
 }
