@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 
 // Package imports:
+import 'package:archethic_lib_dart/src/transaction_builder.dart';
 import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
@@ -21,7 +22,7 @@ class ApiService {
 
   /// Send a transaction to the network
   /// @param {Object} tx Transaction to send
-  dynamic sendTx(tx) async {
+  dynamic sendTx(TransactionBuilder tx) async {
     final Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -29,9 +30,9 @@ class ApiService {
 
     final http.Response responseHttp = await http.post(
         Uri.parse(this.endpoint! + '/api/transaction'),
-        body: json.encode(tx),
+        body: tx.toJSON(),
         headers: requestHeaders);
-    print('sendTx: requestHttp.body=' + json.encode(tx));
+    print('sendTx: requestHttp.body=' + tx.toJSON());
     print("sendTx: responseHttp.body=" + responseHttp.body);
     return json.decode(responseHttp.body);
   }
