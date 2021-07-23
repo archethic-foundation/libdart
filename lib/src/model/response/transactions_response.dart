@@ -14,17 +14,21 @@ String transactionsResponseToJson(TransactionsResponse data) =>
 class TransactionsResponse {
   TransactionsResponse({
     this.data,
+    this.errors
   });
 
   factory TransactionsResponse.fromJson(Map<String, dynamic> json) =>
       TransactionsResponse(
-        data: TransactionsResponseData.fromJson(json['data']),
+        data: json['data'] == null ? null : TransactionsResponseData.fromJson(json['data']),
+        errors: json["errors"] == null ? null : List<TransactionsResponseDataError>.from(json["errors"].map((x) => TransactionsResponseDataError.fromJson(x))),
       );
 
   TransactionsResponseData? data;
+  List<TransactionsResponseDataError>? errors;
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
+        "errors": List<dynamic>.from(errors!.map((x) => x.toJson())),
       };
 }
 
@@ -142,4 +146,44 @@ class TransactionChainDataLedgerUco {
   Map<String, dynamic> toJson() => {
         'transfers': List<dynamic>.from(transfers!.map((x) => x)),
       };
+}
+
+class TransactionsResponseDataError {
+    TransactionsResponseDataError({
+        this.locations,
+        this.message,
+    });
+
+    List<TransactionsResponseDataErrorLocation>? locations;
+    String? message;
+
+    factory TransactionsResponseDataError.fromJson(Map<String, dynamic> json) => TransactionsResponseDataError(
+        locations: List<TransactionsResponseDataErrorLocation>.from(json["locations"].map((x) => TransactionsResponseDataErrorLocation.fromJson(x))),
+        message: json["message"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "locations": List<dynamic>.from(locations!.map((x) => x.toJson())),
+        "message": message,
+    };
+}
+
+class TransactionsResponseDataErrorLocation {
+    TransactionsResponseDataErrorLocation({
+        this.column,
+        this.line,
+    });
+
+    int? column;
+    int? line;
+
+    factory TransactionsResponseDataErrorLocation.fromJson(Map<String, dynamic> json) => TransactionsResponseDataErrorLocation(
+        column: json["column"],
+        line: json["line"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "column": column,
+        "line": line,
+    };
 }

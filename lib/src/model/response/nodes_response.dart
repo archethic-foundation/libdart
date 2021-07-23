@@ -13,16 +13,20 @@ String nodesResponseToJson(NodesResponse data) => json.encode(data.toJson());
 class NodesResponse {
   NodesResponse({
     this.data,
+    this.errors,
   });
 
   factory NodesResponse.fromJson(Map<String, dynamic> json) => NodesResponse(
-        data: NodesResponseData.fromJson(json['data']),
+        data: json['data'] == null ? null : NodesResponseData.fromJson(json['data']),
+        errors: json["errors"] == null ? null : List<NodesResponseDataError>.from(json["errors"].map((x) => NodesResponseDataError.fromJson(x))),
       );
 
   NodesResponseData? data;
+  List<NodesResponseDataError>? errors;
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
+        "errors": List<dynamic>.from(errors!.map((x) => x.toJson())),
       };
 }
 
@@ -95,4 +99,45 @@ class Node {
         'port': port,
         'rewardAddress': rewardAddress,
       };
+}
+
+
+class NodesResponseDataError {
+    NodesResponseDataError({
+        this.locations,
+        this.message,
+    });
+
+    List<NodesResponseDataErrorLocation>? locations;
+    String? message;
+
+    factory NodesResponseDataError.fromJson(Map<String, dynamic> json) => NodesResponseDataError(
+        locations: List<NodesResponseDataErrorLocation>.from(json["locations"].map((x) => NodesResponseDataErrorLocation.fromJson(x))),
+        message: json["message"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "locations": List<dynamic>.from(locations!.map((x) => x.toJson())),
+        "message": message,
+    };
+}
+
+class NodesResponseDataErrorLocation {
+    NodesResponseDataErrorLocation({
+        this.column,
+        this.line,
+    });
+
+    int? column;
+    int? line;
+
+    factory NodesResponseDataErrorLocation.fromJson(Map<String, dynamic> json) => NodesResponseDataErrorLocation(
+        column: json["column"],
+        line: json["line"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "column": column,
+        "line": line,
+    };
 }

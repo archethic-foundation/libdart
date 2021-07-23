@@ -14,17 +14,21 @@ String balanceResponseToJson(BalanceResponse data) =>
 class BalanceResponse {
   BalanceResponse({
     this.data,
+    this.errors,
   });
 
   factory BalanceResponse.fromJson(Map<String, dynamic> json) =>
       BalanceResponse(
-        data: BalanceResponseData.fromJson(json['data']),
+        data: json['data'] == null ? null : BalanceResponseData.fromJson(json['data']),
+        errors: json['errors'] == null ? null : List<BalanceResponseDataError>.from(json['errors'].map((x) => BalanceResponseDataError.fromJson(x))),
       );
 
   BalanceResponseData? data;
+  List<BalanceResponseDataError>? errors;
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
+        'errors': List<dynamic>.from(errors!.map((x) => x.toJson())),
       };
 }
 
@@ -65,3 +69,44 @@ class BalanceResponseDataBalance {
         'uco': uco,
       };
 }
+
+class BalanceResponseDataError {
+    BalanceResponseDataError({
+        this.locations,
+        this.message,
+    });
+
+    List<BalanceResponseDataErrorLocation>? locations;
+    String? message;
+
+    factory BalanceResponseDataError.fromJson(Map<String, dynamic> json) => BalanceResponseDataError(
+        locations: List<BalanceResponseDataErrorLocation>.from(json['locations'].map((x) => BalanceResponseDataErrorLocation.fromJson(x))),
+        message: json['message'],
+    );
+
+    Map<String, dynamic> toJson() => {
+        'locations': List<dynamic>.from(locations!.map((x) => x.toJson())),
+        'message': message,
+    };
+}
+
+class BalanceResponseDataErrorLocation {
+    BalanceResponseDataErrorLocation({
+        this.column,
+        this.line,
+    });
+
+    int? column;
+    int? line;
+
+    factory BalanceResponseDataErrorLocation.fromJson(Map<String, dynamic> json) => BalanceResponseDataErrorLocation(
+        column: json['column'],
+        line: json['line'],
+    );
+
+    Map<String, dynamic> toJson() => {
+        'column': column,
+        'line': line,
+    };
+}
+

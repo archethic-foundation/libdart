@@ -17,7 +17,6 @@ export 'src/model/response/coins_current_data_response.dart';
 export 'src/model/response/coins_price_response.dart';
 export 'src/model/response/coins_response.dart';
 export 'src/model/response/nodes_response.dart';
-export 'src/model/response/transaction_chain_response.dart';
 export 'src/model/response/transaction_content_response.dart';
 export 'src/model/response/transaction_last_response.dart';
 export 'src/model/response/transactions_response.dart';
