@@ -3,7 +3,7 @@ import 'package:archethic_lib_dart/src/crypto.dart' as crypto
     show deriveKeyPair, hash;
 
 // Project imports:
-import 'package:archethic_lib_dart/src/model/key_pair.dart';
+import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils.dart' show uint8ListToHex;
 
@@ -29,7 +29,7 @@ class AddressService {
   Future<String> lastAddress(String seed) async {
     final String genesisAddress = deriveAddress(seed, 0);
     final int index =
-        await ApiService(this.endpoint!).getTransactionIndex(genesisAddress);
+        await ApiService(endpoint!).getTransactionIndex(genesisAddress);
     final String lastAddress = deriveAddress(seed, index);
     return lastAddress;
   }

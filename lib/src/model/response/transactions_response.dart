@@ -5,6 +5,10 @@
 // Dart imports:
 import 'dart:convert';
 
+// Project imports:
+import 'package:archethic_lib_dart/src/model/errors.dart';
+import 'package:archethic_lib_dart/src/model/ledger.dart';
+
 TransactionsResponse transactionsResponseFromJson(String str) =>
     TransactionsResponse.fromJson(json.decode(str));
 
@@ -19,18 +23,17 @@ class TransactionsResponse {
         data: json['data'] == null
             ? null
             : TransactionsResponseData.fromJson(json['data']),
-        errors: json["errors"] == null
+        errors: json['errors'] == null
             ? null
-            : List<TransactionsResponseDataError>.from(json["errors"]
-                .map((x) => TransactionsResponseDataError.fromJson(x))),
+            : List<Errors>.from(json['errors'].map((x) => Errors.fromJson(x))),
       );
 
   TransactionsResponseData? data;
-  List<TransactionsResponseDataError>? errors;
+  List<Errors>? errors;
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
-        "errors": List<dynamic>.from(errors!.map((x) => x.toJson())),
+        'errors': List<dynamic>.from(errors!.map((x) => x.toJson())),
       };
 }
 
@@ -85,112 +88,12 @@ class TransactionChainData {
 
   factory TransactionChainData.fromJson(Map<String, dynamic> json) =>
       TransactionChainData(
-        ledger: TransactionChainDataLedger.fromJson(json['ledger']),
+        ledger: Ledger.fromJson(json['ledger']),
       );
 
-  TransactionChainDataLedger? ledger;
+  Ledger? ledger;
 
   Map<String, dynamic> toJson() => {
         'ledger': ledger!.toJson(),
-      };
-}
-
-class TransactionChainDataLedger {
-  TransactionChainDataLedger({
-    this.nft,
-    this.uco,
-  });
-
-  factory TransactionChainDataLedger.fromJson(Map<String, dynamic> json) =>
-      TransactionChainDataLedger(
-        nft: TransactionChainDataLedgerNft.fromJson(json['nft']),
-        uco: TransactionChainDataLedgerUco.fromJson(json['uco']),
-      );
-
-  TransactionChainDataLedgerNft? nft;
-  TransactionChainDataLedgerUco? uco;
-
-  Map<String, dynamic> toJson() => {
-        'nft': nft!.toJson(),
-        'uco': uco!.toJson(),
-      };
-}
-
-class TransactionChainDataLedgerNft {
-  TransactionChainDataLedgerNft({
-    this.transfers,
-  });
-
-  factory TransactionChainDataLedgerNft.fromJson(Map<String, dynamic> json) =>
-      TransactionChainDataLedgerNft(
-        transfers: List<dynamic>.from(json['transfers'].map((x) => x)),
-      );
-
-  List<dynamic>? transfers;
-
-  Map<String, dynamic> toJson() => {
-        'transfers': List<dynamic>.from(transfers!.map((x) => x)),
-      };
-}
-
-class TransactionChainDataLedgerUco {
-  TransactionChainDataLedgerUco({
-    this.transfers,
-  });
-
-  factory TransactionChainDataLedgerUco.fromJson(Map<String, dynamic> json) =>
-      TransactionChainDataLedgerUco(
-        transfers: List<dynamic>.from(json['transfers'].map((x) => x)),
-      );
-
-  List<dynamic>? transfers;
-
-  Map<String, dynamic> toJson() => {
-        'transfers': List<dynamic>.from(transfers!.map((x) => x)),
-      };
-}
-
-class TransactionsResponseDataError {
-  TransactionsResponseDataError({
-    this.locations,
-    this.message,
-  });
-
-  List<TransactionsResponseDataErrorLocation>? locations;
-  String? message;
-
-  factory TransactionsResponseDataError.fromJson(Map<String, dynamic> json) =>
-      TransactionsResponseDataError(
-        locations: List<TransactionsResponseDataErrorLocation>.from(
-            json["locations"]
-                .map((x) => TransactionsResponseDataErrorLocation.fromJson(x))),
-        message: json["message"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "locations": List<dynamic>.from(locations!.map((x) => x.toJson())),
-        "message": message,
-      };
-}
-
-class TransactionsResponseDataErrorLocation {
-  TransactionsResponseDataErrorLocation({
-    this.column,
-    this.line,
-  });
-
-  int? column;
-  int? line;
-
-  factory TransactionsResponseDataErrorLocation.fromJson(
-          Map<String, dynamic> json) =>
-      TransactionsResponseDataErrorLocation(
-        column: json["column"],
-        line: json["line"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "column": column,
-        "line": line,
       };
 }

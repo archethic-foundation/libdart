@@ -1,0 +1,26 @@
+// Project imports:
+import 'package:archethic_lib_dart/src/model/nft_balance.dart';
+
+/// [Balance] represents a ledger balance.
+class Balance {
+  Balance({
+    this.nft,
+    this.uco,
+  });
+
+  /// NFT: NFT balances
+  List<NftBalance>? nft;
+
+  /// UCO: uco balance
+  double? uco;
+
+  factory Balance.fromJson(Map<String, dynamic> json) => Balance(
+        nft: List<NftBalance>.from(json['nft'].map((x) => x)),
+        uco: json['uco'] == null ? null : json['uco'].toDouble(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'nft': List<dynamic>.from(nft!.map((x) => x)),
+        'uco': uco,
+      };
+}

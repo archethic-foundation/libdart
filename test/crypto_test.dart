@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 
 // Project imports:
 import 'package:archethic_lib_dart/src/crypto.dart' as crypto;
-import 'package:archethic_lib_dart/src/model/key_pair.dart';
+import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/utils.dart';
 
 void main() {

@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.2.0 (2021-08-24) 
+* Structuring of the model layer
+
 #### Version 0.1.1 (2021-08-23) 
 * Fixing bugs
 

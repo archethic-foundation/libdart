@@ -5,6 +5,10 @@
 // Dart imports:
 import 'dart:convert';
 
+// Project imports:
+import 'package:archethic_lib_dart/src/model/errors.dart';
+import 'package:archethic_lib_dart/src/model/shared_secrets.dart';
+
 SharedSecretsResponse sharedSecretsResponseFromJson(String str) =>
     SharedSecretsResponse.fromJson(json.decode(str));
 
@@ -14,48 +18,23 @@ String sharedSecretsResponseToJson(SharedSecretsResponse data) =>
 class SharedSecretsResponse {
   SharedSecretsResponse({
     this.data,
+    this.errors,
   });
 
   factory SharedSecretsResponse.fromJson(Map<String, dynamic> json) =>
       SharedSecretsResponse(
-        data: Data.fromJson(json['data']),
+        data:
+            json['data'] == null ? null : SharedSecrets.fromJson(json['data']),
+        errors: json['errors'] == null
+            ? null
+            : List<Errors>.from(json['errors'].map((x) => Errors.fromJson(x))),
       );
 
-  Data? data;
+  SharedSecrets? data;
+  List<Errors>? errors;
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
-      };
-}
-
-class Data {
-  Data({
-    this.sharedSecrets,
-  });
-
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        sharedSecrets: SharedSecrets.fromJson(json['sharedSecrets']),
-      );
-
-  SharedSecrets? sharedSecrets;
-
-  Map<String, dynamic> toJson() => {
-        'sharedSecrets': sharedSecrets!.toJson(),
-      };
-}
-
-class SharedSecrets {
-  SharedSecrets({
-    this.storageNoncePublicKey,
-  });
-
-  factory SharedSecrets.fromJson(Map<String, dynamic> json) => SharedSecrets(
-        storageNoncePublicKey: json['storageNoncePublicKey'],
-      );
-
-  String? storageNoncePublicKey;
-
-  Map<String, dynamic> toJson() => {
-        'storageNoncePublicKey': storageNoncePublicKey,
+        'errors': List<dynamic>.from(errors!.map((x) => x.toJson())),
       };
 }

@@ -11,9 +11,9 @@ import 'package:pinenacl/tweetnacl.dart' as tweetnacl show TweetNaClExt;
 import 'package:pointycastle/export.dart' show Digest;
 
 // Project imports:
-import 'package:archethic_lib_dart/src/model/aes_auth_encrypt_infos.dart';
-import 'package:archethic_lib_dart/src/model/key_pair.dart';
-import 'package:archethic_lib_dart/src/model/secret.dart';
+import 'package:archethic_lib_dart/src/model/crypto/aes_auth_encrypt_infos.dart';
+import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
+import 'package:archethic_lib_dart/src/model/crypto/secret.dart';
 import 'package:archethic_lib_dart/src/utils.dart';
 
 import 'package:crypto_keys/crypto_keys.dart' as cryptoKeys

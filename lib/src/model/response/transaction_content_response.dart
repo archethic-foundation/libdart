@@ -5,6 +5,10 @@
 // Dart imports:
 import 'dart:convert';
 
+// Project imports:
+import 'package:archethic_lib_dart/src/model/errors.dart';
+import 'package:archethic_lib_dart/src/model/transaction.dart';
+
 TransactionContentResponse transactionContentResponseFromJson(String str) =>
     TransactionContentResponse.fromJson(json.decode(str));
 
@@ -24,12 +28,11 @@ class TransactionContentResponse {
             : TransactionContentResponseData.fromJson(json['data']),
         errors: json['errors'] == null
             ? null
-            : List<TransactionContentResponseDataError>.from(json['errors']
-                .map((x) => TransactionContentResponseDataError.fromJson(x))),
+            : List<Errors>.from(json['errors'].map((x) => Errors.fromJson(x))),
       );
 
   TransactionContentResponseData? data;
-  List<TransactionContentResponseDataError>? errors;
+  List<Errors>? errors;
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
@@ -51,84 +54,5 @@ class TransactionContentResponseData {
 
   Map<String, dynamic> toJson() => {
         'transaction': transaction!.toJson(),
-      };
-}
-
-class Transaction {
-  Transaction({
-    this.data,
-  });
-
-  factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
-        data: TransactionData.fromJson(json['data']),
-      );
-
-  TransactionData? data;
-
-  Map<String, dynamic> toJson() => {
-        'data': data!.toJson(),
-      };
-}
-
-class TransactionData {
-  TransactionData({
-    this.content,
-  });
-
-  factory TransactionData.fromJson(Map<String, dynamic> json) =>
-      TransactionData(
-        content: json['content'],
-      );
-
-  String? content;
-
-  Map<String, dynamic> toJson() => {
-        'content': content,
-      };
-}
-
-class TransactionContentResponseDataError {
-  TransactionContentResponseDataError({
-    this.locations,
-    this.message,
-  });
-
-  List<TransactionContentResponseDataErrorLocation>? locations;
-  String? message;
-
-  factory TransactionContentResponseDataError.fromJson(
-          Map<String, dynamic> json) =>
-      TransactionContentResponseDataError(
-        locations: List<TransactionContentResponseDataErrorLocation>.from(
-            json['locations'].map((x) =>
-                TransactionContentResponseDataErrorLocation.fromJson(x))),
-        message: json['message'],
-      );
-
-  Map<String, dynamic> toJson() => {
-        'locations': List<dynamic>.from(locations!.map((x) => x.toJson())),
-        'message': message,
-      };
-}
-
-class TransactionContentResponseDataErrorLocation {
-  TransactionContentResponseDataErrorLocation({
-    this.column,
-    this.line,
-  });
-
-  int? column;
-  int? line;
-
-  factory TransactionContentResponseDataErrorLocation.fromJson(
-          Map<String, dynamic> json) =>
-      TransactionContentResponseDataErrorLocation(
-        column: json['column'],
-        line: json['line'],
-      );
-
-  Map<String, dynamic> toJson() => {
-        'column': column,
-        'line': line,
       };
 }

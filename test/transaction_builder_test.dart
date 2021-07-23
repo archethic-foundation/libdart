@@ -5,47 +5,64 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 // Package imports:
+import 'package:archethic_lib_dart/src/model/data.dart';
 import 'package:test/test.dart';
 
 // Project imports:
 import 'package:archethic_lib_dart/src/crypto.dart' as crypto;
-import 'package:archethic_lib_dart/src/model/key_pair.dart';
-import 'package:archethic_lib_dart/src/model/response/balance_response.dart';
-import 'package:archethic_lib_dart/src/model/response/nodes_response.dart';
-import 'package:archethic_lib_dart/src/model/response/transactions_response.dart';
+import 'package:archethic_lib_dart/src/model/balance.dart';
+import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
+import 'package:archethic_lib_dart/src/model/node.dart';
+import 'package:archethic_lib_dart/src/model/transaction.dart';
+import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/transaction_builder.dart';
 import 'package:archethic_lib_dart/src/utils.dart';
+
+Data initData = Data.fromJson({
+  'content': '',
+  'code': '',
+  'keys': {
+    'secret': '',
+    'authorizedKeys': [
+      {'encryptedKey': '', 'publicKey': ''}
+    ]
+  },
+  'ledger': {
+    'uco': {'transfers': []},
+    'nft': {'transfers': []}
+  },
+  'recipients': []
+});
 
 void main() {
   group('Transaction builder', () {
     test('should assign type when create a new transaction instance', () {
-      final TransactionBuilder tx = TransactionBuilder('transfer');
+      final Transaction tx = Transaction(type: 'transfer', data: initData);
       expect(tx.type, 'transfer');
     });
 
     group('setCode', () {
       test('should insert the code into the transaction data', () {
-        final TransactionBuilder tx =
-            TransactionBuilder('transfer').setCode('my smart contract code');
-        expect(utf8.decode(tx.data!.code!), 'my smart contract code');
+        final Transaction tx = Transaction(type: 'transfer', data: initData)
+            .setCode('my smart contract code');
+        expect(tx.data!.code!, 'my smart contract code');
       });
     });
 
     group('setContent', () {
       test('should insert the content into the transaction data', () {
-        final TransactionBuilder tx =
-            TransactionBuilder('transfer').setContent('my super content');
-        expect(utf8.decode(tx.data!.content!), 'my super content');
+        final Transaction tx = Transaction(type: 'transfer', data: initData)
+            .setContent('my super content');
+        expect(tx.data!.content!, 'my super content');
       });
     });
     group('setSecret', () {
       test('should insert the secret into the transaction data', () {
-        final TransactionBuilder tx = TransactionBuilder('transfer').setSecret(
+        final Transaction tx = Transaction(type: 'transfer', data: initData)
+            .setSecret(
+                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
+        expect(tx.data!.keys!.secret!,
             '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
-        expect(
-            tx.data!.keys!.secret!,
-            hexToUint8List(
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'));
       });
     });
 
@@ -55,18 +72,19 @@ void main() {
             '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646';
         const String encryptedKey =
             '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88';
-        final TransactionBuilder tx = TransactionBuilder('transfer')
+        final Transaction tx = Transaction(type: 'transfer', data: initData)
             .addAuthorizedKey(publicKey, encryptedKey);
-        expect(tx.data!.keys!.authorizedKeys![publicKey],
-            hexToUint8List(encryptedKey));
+
+        expect(tx.data!.keys!.authorizedKeys![0].encryptedKey, encryptedKey);
       });
     });
 
     group('addUCOTransfer', () {
       test('should add an uco transfer to the transaction data', () {
-        final TransactionBuilder tx = TransactionBuilder('transfer').addUCOTransfer(
-            '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-            10.03);
+        final Transaction tx = Transaction(type: 'transfer', data: initData)
+            .addUCOTransfer(
+                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                10.03);
         expect(tx.data!.ledger!.uco!.transfers!.length, 1);
         expect(
             tx.data!.ledger!.uco!.transfers![0].to,
@@ -77,10 +95,11 @@ void main() {
     });
     group('addNFTTransfer', () {
       test('should add an nft transfer to the transaction data', () {
-        final TransactionBuilder tx = TransactionBuilder('transfer').addNFTTransfer(
-            '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-            10.03,
-            '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
+        final Transaction tx = Transaction(type: 'transfer', data: initData)
+            .addNFTTransfer(
+                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                10.03,
+                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
         expect(tx.data!.ledger!.nft!.transfers!.length, 1);
         expect(
             tx.data!.ledger!.nft!.transfers![0].to,
@@ -110,7 +129,7 @@ void main() {
         const String content =
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
         const String secret = 'mysecret';
-        final TransactionBuilder tx = TransactionBuilder('transfer')
+        final Transaction tx = Transaction(type: 'transfer', data: initData)
             .addAuthorizedKey(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
@@ -131,12 +150,12 @@ void main() {
         final KeyPair nextKeypair = crypto.deriveKeyPair('seed', 1);
         final Uint8List address = crypto.hash(nextKeypair.publicKey);
 
-        tx.address = address;
-        tx.previousPublicKey = keypair.publicKey;
+        tx.address = uint8ListToHex(address);
+        tx.previousPublicKey = uint8ListToHex(keypair.publicKey);
         final Uint8List payload = tx.previousSignaturePayload();
         final Uint8List expectedBinary = concatUint8List(<Uint8List>[
           encodeInt32(1),
-          tx.address!,
+          hexToUint8List(tx.address!),
           Uint8List.fromList(<int>[253]),
           //Code size
           encodeInt32(code.length),
@@ -183,7 +202,7 @@ void main() {
 
     group('build', () {
       test('should build the transaction and the related signature', () {
-        final TransactionBuilder tx = TransactionBuilder('transfer')
+        final Transaction tx = Transaction(type: 'transfer', data: initData)
             .addAuthorizedKey(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
@@ -218,7 +237,7 @@ void main() {
         const String content =
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
         const String secret = 'mysecret';
-        final TransactionBuilder tx = TransactionBuilder('transfer')
+        final Transaction tx = Transaction(type: 'transfer', data: initData)
             .addAuthorizedKey(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
@@ -243,7 +262,7 @@ void main() {
         final Uint8List expectedBinary = concatUint8List(<Uint8List>[
           // Version
           encodeInt32(1),
-          tx.address!,
+          hexToUint8List(tx.address!),
           Uint8List.fromList(<int>[253]),
           //Code size
           encodeInt32(code.length),
@@ -295,7 +314,7 @@ void main() {
       test('should sign the transaction with a origin private key', () {
         final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
 
-        final TransactionBuilder tx = TransactionBuilder('transfer')
+        final Transaction tx = Transaction(type: 'transfer', data: initData)
             .build('seed', 0, 'P256')
             .originSign(originKeypair.privateKey);
         expect(
@@ -311,7 +330,7 @@ void main() {
         final KeyPair transactionKeyPair = crypto.deriveKeyPair('seed', 0);
         final KeyPair nextTransactionKeyPair = crypto.deriveKeyPair('seed', 1);
 
-        final TransactionBuilder tx = TransactionBuilder('transfer')
+        final Transaction tx = Transaction(type: 'transfer', data: initData)
             .addAuthorizedKey(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
@@ -321,7 +340,7 @@ void main() {
             .build('seed', 0, 'P256')
             .originSign(originKeypair.privateKey);
 
-        final parsedTx = json.decode(tx.toJSON());
+        final parsedTx = json.decode(TransactionBuilder.toJSON(tx));
 
         final Uint8List previousSig = crypto.sign(
             tx.previousSignaturePayload(), transactionKeyPair.privateKey);
@@ -348,19 +367,18 @@ void main() {
     });
   });
 
-/* In Comment because CI
+  /*
   group('api', () {
     test('getTransactionIndex', () async {
-      final int chainLength = await getTransactionIndex(
-          '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
-          'http://localhost:4000');
-
+      final int chainLength = await ApiService('http://localhost:4000')
+          .getTransactionIndex(
+              '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D');
       expect(chainLength, 1);
     });
 
     test('getStorageNoncePublicKey', () async {
       final String storageNoncePublicKey =
-          await getStorageNoncePublicKey('http://localhost:4000');
+          await ApiService('http://localhost:4000').getStorageNoncePublicKey();
 
       expect(
         storageNoncePublicKey,
@@ -369,20 +387,20 @@ void main() {
     });
 
     test('fetchBalance', () async {
-      final BalanceResponse balanceResponse = await fetchBalance(
-          '00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D',
-          'http://localhost:4000');
+      final Balance balance = await ApiService('http://localhost:4000')
+          .fetchBalance(
+              '00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D');
 
       expect(
-        balanceResponse.data!.balance!.uco,
+        balance.uco,
         0,
       );
     });
 
     test('getTransactionContent', () async {
-      final String content = await getTransactionContent(
-          '00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D',
-          'http://localhost:4000');
+      final String content = await ApiService('http://localhost:4000')
+          .getTransactionContent(
+              '00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D');
 
       expect(
         content,
@@ -391,26 +409,25 @@ void main() {
     });
 
     test('getTransactions', () async {
-      final TransactionsResponse transactionsResponse = await getTransactions(
-          '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
-          0,
-          'http://localhost:4000');
+      final List<Transaction> transactionChain =
+          await ApiService('http://localhost:4000').getTransactionChain(
+              '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
+              0);
 
       expect(
-        transactionsResponse.data!.transactionChain![0].address,
+        transactionChain[0].address,
         '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
       );
     });
 
     test('getNodeList', () async {
-      NodesResponse nodesResponse =
-          await getNodeList('http://localhost:4000');
+      List<Node> nodes =
+          await ApiService('http://localhost:4000').getNodeList();
 
       expect(
-        nodesResponse.data!.nodes![0].ip,
+        nodes![0].ip,
         '127.0.0.1',
       );
     });
-  });
-  */
+  });*/
 }
