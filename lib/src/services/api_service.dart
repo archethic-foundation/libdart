@@ -31,7 +31,8 @@ class ApiService {
         Uri.parse(this.endpoint! + '/api/transaction'),
         body: json.encode(tx),
         headers: requestHeaders);
-
+    print('sendTx: requestHttp.body=' + json.encode(tx));
+    print("sendTx: responseHttp.body=" + responseHttp.body);
     return json.decode(responseHttp.body);
   }
 
@@ -48,12 +49,12 @@ class ApiService {
     try {
       final String _body =
           '{"query": "query {lastTransaction(address: \\"$address\\") {chainLength}}"}';
-      print(_body);
+      print('getTransactionIndex: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(this.endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      print(responseHttp.body);
+      print('getTransactionIndex: responseHttp.body=' + responseHttp.body);
       if (responseHttp.statusCode == 200) {
         transactionLastResponse =
             transactionLastResponseFromJson(responseHttp.body);
@@ -64,7 +65,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      print('error: ' + e.toString());
+      print('getTransactionIndex: error=' + e.toString());
     }
 
     _completer.complete(_chainLength);
@@ -85,12 +86,12 @@ class ApiService {
     try {
       const String _body =
           '{"query": "query {sharedSecrets {storageNoncePublicKey}}"}';
-      print(_body);
+      print('getStorageNoncePublicKey: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(this.endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      print(responseHttp.body);
+      print('getStorageNoncePublicKey: responseHttp.body=' + responseHttp.body);
       if (responseHttp.statusCode == 200) {
         sharedSecretsResponse =
             sharedSecretsResponseFromJson(responseHttp.body);
@@ -101,7 +102,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      print('error: ' + e.toString());
+      print('getStorageNoncePublicKey: error=' + e.toString());
     }
 
     _completer.complete(_storageNoncePublicKey);
@@ -122,20 +123,20 @@ class ApiService {
 
     final String _body =
         '{"query": "query {balance(address: \\"$address\\") {uco, nft {address, amount}}}"}';
-    print(_body);
+    print('fetchBalance: requestHttp.body=' + _body);
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse(this.endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      print(responseHttp.body);
+      print('fetchBalance: responseHttp.body=' + responseHttp.body);
 
       if (responseHttp.statusCode == 200) {
         balanceResponse = balanceResponseFromJson(responseHttp.body);
       }
     } catch (e) {
-      print('error: ' + e.toString());
+      print('fetchBalance: error=' + e.toString());
     }
 
     _completer.complete(balanceResponse);
@@ -158,14 +159,14 @@ class ApiService {
 
     final String _body =
         '{"query":"query { transaction(address: \\"$address\\") { data { content }} }"}';
-    print(_body);
+    print('getTransactionContent: requestHttp.body=' + _body);
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse(this.endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      print(responseHttp.body);
+      print('getTransactionContent: responseHttp.body=' + responseHttp.body);
 
       if (responseHttp.statusCode == 200) {
         transactionContentResponse =
@@ -178,7 +179,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      print('error: ' + e.toString());
+      print('getTransactionContent: error=' + e.toString());
     }
 
     _completer.complete(_content);
@@ -201,20 +202,20 @@ class ApiService {
 
     final String _body =
         '{"query":"query { transactionChain(address: \\"$address\\", page: $page) {address, type, data { ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } } } }"}';
-    print(_body);
+    print('getTransactions: requestHttp.body=' + _body);
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse(this.endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      print(responseHttp.body);
+      print('getTransactions: responseHttp.body=' + responseHttp.body);
 
       if (responseHttp.statusCode == 200) {
         transactionsResponse = transactionsResponseFromJson(responseHttp.body);
       }
     } catch (e) {
-      print('error: ' + e.toString());
+      print('getTransactions: error=' + e.toString());
     }
 
     _completer.complete(transactionsResponse);
@@ -235,17 +236,17 @@ class ApiService {
     try {
       const String _body =
           '{"query": "query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress}}"}';
-      print(_body);
+      print('getNodeList: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(this.endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      print(responseHttp.body);
+      print('getNodeList: responseHttp.body=' + responseHttp.body);
       if (responseHttp.statusCode == 200) {
         nodesResponse = nodesResponseFromJson(responseHttp.body);
       }
     } catch (e) {
-      print('error: ' + e.toString());
+      print('getNodeList: error=' + e.toString());
     }
 
     _completer.complete(nodesResponse);
