@@ -398,6 +398,7 @@ class TransactionBuilder {
   /// Convert the transaction in JSON
   toJSON() {
     final String _json = jsonEncode({
+      'version': version, 
       'address': uint8ListToHex(address!),
       'type': type,
       'data': {
