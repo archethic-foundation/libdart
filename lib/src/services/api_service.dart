@@ -61,7 +61,7 @@ class ApiService {
       if (responseHttp.statusCode == 200) {
         transactionLastResponse =
             transactionLastResponseFromJson(responseHttp.body);
-        if (transactionLastResponse.data != null) {
+        if (transactionLastResponse.data != null && transactionLastResponse.data!.chainLength != null) {
           _chainLength = transactionLastResponse.data!.chainLength!;
         }
       }
