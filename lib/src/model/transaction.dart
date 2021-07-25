@@ -445,4 +445,17 @@ class Transaction {
     });
     return authorizedKeysHex;
   }
+
+  static Data initData() {
+    return Data.fromJson({
+      'content': '',
+      'code': '',
+      'keys': {'secret': '', 'authorizedKeys': []},
+      'ledger': {
+        'uco': {'transfers': []},
+        'nft': {'transfers': []}
+      },
+      'recipients': []
+    });
+  }
 }

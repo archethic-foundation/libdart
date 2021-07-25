@@ -10,48 +10,38 @@ import 'package:test/test.dart';
 // Project imports:
 import 'package:archethic_lib_dart/src/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
-import 'package:archethic_lib_dart/src/model/data.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/utils.dart';
-
-Data initData() {
-  return Data.fromJson({
-    'content': '',
-    'code': '',
-    'keys': {'secret': '', 'authorizedKeys': []},
-    'ledger': {
-      'uco': {'transfers': []},
-      'nft': {'transfers': []}
-    },
-    'recipients': []
-  });
-}
 
 void main() {
   group('Transaction', () {
     test('should assign type when create a new transaction instance', () {
-      final Transaction tx = Transaction(type: 'transfer', data: initData());
+      final Transaction tx =
+          Transaction(type: 'transfer', data: Transaction.initData());
       expect(tx.type, 'transfer');
     });
 
     group('setCode', () {
       test('should insert the code into the transaction data', () {
-        final Transaction tx = Transaction(type: 'transfer', data: initData())
-            .setCode('my smart contract code');
+        final Transaction tx =
+            Transaction(type: 'transfer', data: Transaction.initData())
+                .setCode('my smart contract code');
         expect(tx.data!.code!, 'my smart contract code');
       });
     });
 
     group('setContent', () {
       test('should insert the content into the transaction data', () {
-        final Transaction tx = Transaction(type: 'transfer', data: initData())
-            .setContent('my super content');
+        final Transaction tx =
+            Transaction(type: 'transfer', data: Transaction.initData())
+                .setContent('my super content');
         expect(tx.data!.content!, 'my super content');
       });
     });
     group('setSecret', () {
       test('should insert the secret into the transaction data', () {
-        final Transaction tx = Transaction(type: 'transfer', data: initData())
+        final Transaction tx = Transaction(
+                type: 'transfer', data: Transaction.initData())
             .setSecret(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
         expect(tx.data!.keys!.secret!,
@@ -65,8 +55,9 @@ void main() {
             '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646';
         const String encryptedKey =
             '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88';
-        final Transaction tx = Transaction(type: 'transfer', data: initData())
-            .addAuthorizedKey(publicKey, encryptedKey);
+        final Transaction tx =
+            Transaction(type: 'transfer', data: Transaction.initData())
+                .addAuthorizedKey(publicKey, encryptedKey);
 
         expect(tx.data!.keys!.authorizedKeys![0].encryptedKey, encryptedKey);
       });
@@ -74,7 +65,8 @@ void main() {
 
     group('addUCOTransfer', () {
       test('should add an uco transfer to the transaction data', () {
-        final Transaction tx = Transaction(type: 'transfer', data: initData())
+        final Transaction tx = Transaction(
+                type: 'transfer', data: Transaction.initData())
             .addUCOTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 10.03);
@@ -86,7 +78,8 @@ void main() {
     });
     group('addNFTTransfer', () {
       test('should add an nft transfer to the transaction data', () {
-        final Transaction tx = Transaction(type: 'transfer', data: initData())
+        final Transaction tx = Transaction(
+                type: 'transfer', data: Transaction.initData())
             .addNFTTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 10.03,
@@ -116,7 +109,8 @@ void main() {
         const String content =
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
         const String secret = 'mysecret';
-        final Transaction tx = Transaction(type: 'transfer', data: initData())
+        final Transaction tx = Transaction(
+                type: 'transfer', data: Transaction.initData())
             .addAuthorizedKey(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
@@ -189,7 +183,8 @@ void main() {
 
     group('build', () {
       test('should build the transaction and the related signature', () {
-        final Transaction tx = Transaction(type: 'transfer', data: initData())
+        final Transaction tx = Transaction(
+                type: 'transfer', data: Transaction.initData())
             .addAuthorizedKey(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
@@ -220,7 +215,7 @@ void main() {
         const String content =
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
         const String secret = 'mysecret';
-        final Transaction tx = Transaction(type: 'transfer', data: initData())
+        final Transaction tx = Transaction(type: 'transfer', data: Transaction.initData())
             .addAuthorizedKey(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
@@ -297,9 +292,10 @@ void main() {
       test('should sign the transaction with a origin private key', () {
         final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
 
-        final Transaction tx = Transaction(type: 'transfer', data: initData())
-            .build('seed', 0, 'P256')
-            .originSign(originKeypair.privateKey);
+        final Transaction tx =
+            Transaction(type: 'transfer', data: Transaction.initData())
+                .build('seed', 0, 'P256')
+                .originSign(originKeypair.privateKey);
         expect(
             crypto.verify(tx.originSignature, tx.originSignaturePayload(),
                 originKeypair.publicKey),
@@ -313,7 +309,8 @@ void main() {
         final KeyPair transactionKeyPair = crypto.deriveKeyPair('seed', 0);
         final KeyPair nextTransactionKeyPair = crypto.deriveKeyPair('seed', 1);
 
-        final Transaction tx = Transaction(type: 'transfer', data: initData())
+        final Transaction tx = Transaction(
+                type: 'transfer', data: Transaction.initData())
             .addAuthorizedKey(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
