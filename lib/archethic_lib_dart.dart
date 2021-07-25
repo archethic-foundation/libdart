@@ -4,7 +4,6 @@
 library archethic;
 
 export 'src/crypto.dart';
-export 'src/transaction_builder.dart';
 export 'src/utils.dart';
 export 'src/services/address_service.dart';
 export 'src/services/api_coins_service.dart';
@@ -39,4 +38,3 @@ export 'src/model/uco_ledger.dart';
 export 'src/model/uco_transfer.dart';
 export 'src/model/unspent_outputs.dart';
 export 'src/model/validation_stamp.dart';
-

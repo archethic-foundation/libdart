@@ -15,7 +15,6 @@ import 'package:archethic_lib_dart/src/model/response/transaction_chain_response
 import 'package:archethic_lib_dart/src/model/response/transaction_content_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transaction_last_response.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
-import 'package:archethic_lib_dart/src/transaction_builder.dart';
 
 class ApiService {
   ApiService(this.endpoint);
@@ -33,9 +32,9 @@ class ApiService {
 
     final http.Response responseHttp = await http.post(
         Uri.parse(endpoint! + '/api/transaction'),
-        body: TransactionBuilder.toJSON(transaction),
+        body: transaction.convertToJSON(),
         headers: requestHeaders);
-    print('sendTx: requestHttp.body=' + TransactionBuilder.toJSON(transaction));
+    print('sendTx: requestHttp.body=' + transaction.convertToJSON());
     print('sendTx: responseHttp.body=' + responseHttp.body);
     return json.decode(responseHttp.body);
   }

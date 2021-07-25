@@ -96,11 +96,11 @@ It supports the ArchEthic Cryptography rules which are:
 
   ### TransactionBuilding
   
-  `new TransactionBuilder(type)` creates a new instance of the transaction builder
+  `new Transaction(type)` creates a new instance of the transaction
   
   `type` is the string defining the type of transaction to generate ("keychain", "keychain_access", "transfer", "hosting", "code_proposal", "code_approval", "nft")
   
-  The transaction builder instance contains the following methods:
+  The transaction instance contains the following methods:
   
   #### setCode(code)
   Add the code in the `data.code` section of the transaction
@@ -146,7 +146,7 @@ It supports the ArchEthic Cryptography rules which are:
   ```dart
   import 'package:archethic_lib_dart/archethic.dart';
 
-  var tx = new TransactionBuilder('transfer')
+  var tx = Transaction(type: 'transfer')
     .addUCOTransfer('00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', 0.420) 
     .build('mysuperpassphraseorseed', 0, 'P256');
   ```
@@ -160,22 +160,22 @@ It supports the ArchEthic Cryptography rules which are:
   import 'package:archethic_lib_dart/archethic.dart';
   
   final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
-  var tx = new TransactionBuilder('transfer')
+  var tx = Transaction(type: 'transfer')
     .addUCOTransfer('00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', 0.420) 
     .build('mysuperpassphraseorseed', 0, 'P256') 
     .originSign(originKeypair.privateKey);
   ```
 
-  #### toJSON()
+  #### convertToJSON()
   Export the transaction generated into JSON
 
    ```dart
   import 'package:archethic_lib_dart/archethic.dart';
 
-  var tx = new TransactionBuilder('transfer')
+  var tx = Transaction(type: 'transfer')
     .addUCOTransfer('00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', 0.420) 
     .build('mysuperpassphraseorseed', 0, 'P256') 
-    .toJSON();
+    .convertToJSON();
   ```
   
   ### Remote Endpoint calls

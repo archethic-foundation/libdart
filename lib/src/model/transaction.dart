@@ -16,14 +16,10 @@ import 'package:archethic_lib_dart/src/model/nft_transfer.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
 import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
-import 'package:archethic_lib_dart/src/crypto.dart' as crypto
-    show deriveKeyPair, hash, sign;
 import 'package:archethic_lib_dart/src/utils.dart';
 
-Transaction transactionFromJson(String str) =>
-    Transaction.fromJson(json.decode(str));
-
-String transactionToJson(Transaction data) => json.encode(data.toJson());
+import 'package:archethic_lib_dart/src/crypto.dart' as crypto
+    show deriveKeyPair, hash, sign;
 
 const int cVersion = 1;
 
@@ -125,19 +121,19 @@ class Transaction {
       );
 
   Map<String, dynamic> toJson() => {
-        'address': address,
-        'balance': balance!.toJson(),
-        'chainLength': chainLength,
-        'crossValidationStamps':
-            List<dynamic>.from(crossValidationStamps!.map((x) => x.toJson())),
-        'data': data!.toJson(),
-        'inputs': inputs!.toJson(),
-        'originSignature': originSignature,
-        'previousPublicKey': previousPublicKey,
-        'previousSignature': previousSignature,
-        'type': type,
-        'validationStamp': validationStamp!.toJson(),
-        'version': version,
+        'address': this.address,
+        'balance': this.balance!.toJson(),
+        'chainLength': this.chainLength,
+        'crossValidationStamps': List<dynamic>.from(
+            this.crossValidationStamps!.map((x) => x.toJson())),
+        'data': this.data!.toJson(),
+        'inputs': this.inputs!.toJson(),
+        'originSignature': this.originSignature,
+        'previousPublicKey': this.previousPublicKey,
+        'previousSignature': this.previousSignature,
+        'type': this.type,
+        'validationStamp': this.validationStamp!.toJson(),
+        'version': this.version,
       };
 
   /// Generate the transaction address, keys and signatures
@@ -154,12 +150,12 @@ class Transaction {
         crypto.hash(nextKeypair.publicKey, algo: hashAlgo);
 
     this.address = uint8ListToHex(address);
-    previousPublicKey = uint8ListToHex(keypair.publicKey);
+    this.previousPublicKey = uint8ListToHex(keypair.publicKey);
     ValidationStamp _validationStamp =
         new ValidationStamp(timestamp: DateTime.now().millisecondsSinceEpoch);
-    validationStamp = _validationStamp;
-    previousSignature =
-        uint8ListToHex(crypto.sign(previousSignaturePayload(), keypair.privateKey));
+    this.validationStamp = _validationStamp;
+    this.previousSignature = uint8ListToHex(
+        crypto.sign(this.previousSignaturePayload(), keypair.privateKey));
 
     return this;
   }
@@ -170,7 +166,7 @@ class Transaction {
     if (!(code is String)) {
       throw "'code' must be a string";
     }
-    data!.code = code;
+    this.data!.code = code;
     return this;
   }
 
@@ -184,7 +180,7 @@ class Transaction {
     if (content is Uint8List) {
       content = uint8ListToHex(content);
     }
-    data!.content = content;
+    this.data!.content = content;
     return this;
   }
 
@@ -199,7 +195,7 @@ class Transaction {
       secret = uint8ListToHex(secret);
     }
 
-    data!.keys!.secret = secret;
+    this.data!.keys!.secret = secret;
     return this;
   }
 
@@ -233,8 +229,8 @@ class Transaction {
 
     AuthorizedKey authorizedKey = new AuthorizedKey(
         publicKey: publicKey, encryptedKey: encryptedSecretKey);
-    if (data!.keys!.authorizedKeys!.contains(publicKey) == false) {
-      data!.keys!.authorizedKeys!.add(authorizedKey);
+    if (this.data!.keys!.authorizedKeys!.contains(publicKey) == false) {
+      this.data!.keys!.authorizedKeys!.add(authorizedKey);
     }
 
     return this;
@@ -256,7 +252,7 @@ class Transaction {
       to = uint8ListToHex(to);
     }
     final UCOTransfer ucoTransfer = UCOTransfer(to: to, amount: amount);
-    data!.ledger!.uco!.transfers!.add(ucoTransfer);
+    this.data!.ledger!.uco!.transfers!.add(ucoTransfer);
     return this;
   }
 
@@ -290,7 +286,7 @@ class Transaction {
     }
     final NFTTransfer nftTransfer =
         NFTTransfer(amount: amount, nft: nftAddress, to: to);
-    data!.ledger!.nft!.transfers!.add(nftTransfer);
+    this.data!.ledger!.nft!.transfers!.add(nftTransfer);
     return this;
   }
 
@@ -308,10 +304,9 @@ class Transaction {
     } else {
       to = uint8ListToHex(to);
     }
-    data!.recipients!.add(to);
+    this.data!.recipients!.add(to);
     return this;
   }
-
 
   /// Sign the transaction with an origin private key
   /// @param {String | Uint8List} originPv Origin Private Key (hexadecimal or binary buffer)
@@ -328,74 +323,126 @@ class Transaction {
       privateKey = uint8ListToHex(privateKey);
     }
 
-    originSignature = uint8ListToHex(crypto.sign(originSignaturePayload(), privateKey));
+    this.originSignature =
+        uint8ListToHex(crypto.sign(this.originSignaturePayload(), privateKey));
     return this;
   }
 
-
   Uint8List originSignaturePayload() {
-    final Uint8List payloadForPreviousSignature = previousSignaturePayload();
+    final Uint8List payloadForPreviousSignature =
+        this.previousSignaturePayload();
     return concatUint8List([
       payloadForPreviousSignature,
-      hexToUint8List(previousPublicKey!),
-      Uint8List.fromList([previousSignature!.length]),
-      hexToUint8List(previousSignature!),
+      hexToUint8List(this.previousPublicKey!),
+      Uint8List.fromList([hexToUint8List(this.previousSignature!).length]),
+      hexToUint8List(this.previousSignature!),
     ]);
   }
 
-/// Generate the payload for the previous signature by encoding address, type and data
+  /// Generate the payload for the previous signature by encoding address, type and data
   Uint8List previousSignaturePayload() {
-    final Uint8List bufCodeSize = encodeInt32(data!.code!.length);
-    int contentSize = data!.content!.length;
+    final Uint8List bufCodeSize = encodeInt32(this.data!.code!.length);
+    int contentSize = this.data!.content!.length;
     final Uint8List bufContentSize = encodeInt32(contentSize);
-    final Uint8List bufSecretSize = encodeInt32(data!.keys!.secret!.length);
+    final Uint8List bufSecretSize =
+        encodeInt32(this.data!.keys!.secret!.length);
 
     Uint8List authorizedKeysBuffers = Uint8List(0);
-    data!.keys!.authorizedKeys!.forEach((authorizedKey) {
-      authorizedKeysBuffers = concatUint8List(
-          [hexToUint8List(authorizedKey.publicKey!), hexToUint8List(authorizedKey.encryptedKey!)]);
+    this.data!.keys!.authorizedKeys!.forEach((authorizedKey) {
+      authorizedKeysBuffers = concatUint8List([
+        hexToUint8List(authorizedKey.publicKey!),
+        hexToUint8List(authorizedKey.encryptedKey!)
+      ]);
     });
 
     Uint8List ucoTransfersBuffers = Uint8List(0);
-    if (data!.ledger!.uco!.transfers!.isNotEmpty) {
+    if (this.data!.ledger!.uco!.transfers!.isNotEmpty) {
       ucoTransfersBuffers = concatUint8List([
-        hexToUint8List(data!.ledger!.uco!.transfers![0].to!),
-        encodeFloat64(data!.ledger!.uco!.transfers![0].amount!)
+        hexToUint8List(this.data!.ledger!.uco!.transfers![0].to!),
+        encodeFloat64(this.data!.ledger!.uco!.transfers![0].amount!)
       ]);
     }
 
     Uint8List nftTransfersBuffers = Uint8List(0);
-    if (data!.ledger!.nft!.transfers!.isNotEmpty) {
+    if (this.data!.ledger!.nft!.transfers!.isNotEmpty) {
       nftTransfersBuffers = concatUint8List([
-        hexToUint8List(data!.ledger!.nft!.transfers![0].nft!),
-        hexToUint8List(data!.ledger!.nft!.transfers![0].to!),
-        encodeFloat64(data!.ledger!.nft!.transfers![0].amount!)
+        hexToUint8List(this.data!.ledger!.nft!.transfers![0].nft!),
+        hexToUint8List(this.data!.ledger!.nft!.transfers![0].to!),
+        encodeFloat64(this.data!.ledger!.nft!.transfers![0].amount!)
       ]);
     }
 
     Uint8List recipients = Uint8List(0);
-    data!.recipients!.forEach((recipient) { 
+    this.data!.recipients!.forEach((recipient) {
       recipients = concatUint8List([recipients, hexToUint8List(recipient)]);
     });
 
     return concatUint8List([
-      encodeInt32(version!),
-      hexToUint8List(address!),
-      Uint8List.fromList([txTypes[type]!]),
+      encodeInt32(this.version!),
+      hexToUint8List(this.address!),
+      Uint8List.fromList([txTypes[this.type]!]),
       bufCodeSize,
-      hexToUint8List(data!.code!),
+      Uint8List.fromList(utf8.encode(this.data!.code!)),
       bufContentSize,
-      hexToUint8List(data!.content!),
+      Uint8List.fromList(utf8.encode(this.data!.content!)),
       bufSecretSize,
-      hexToUint8List(data!.keys!.secret!),
-      Uint8List.fromList([data!.keys!.authorizedKeys!.length]),
+      Uint8List.fromList(utf8.encode(this.data!.keys!.secret!)),
+      Uint8List.fromList([this.data!.keys!.authorizedKeys!.length]),
       authorizedKeysBuffers,
-      Uint8List.fromList([data!.ledger!.uco!.transfers!.length]),
+      Uint8List.fromList([this.data!.ledger!.uco!.transfers!.length]),
       ucoTransfersBuffers,
-      Uint8List.fromList([data!.ledger!.nft!.transfers!.length]),
+      Uint8List.fromList([this.data!.ledger!.nft!.transfers!.length]),
       nftTransfersBuffers,
-      Uint8List.fromList([data!.recipients!.length]),
+      Uint8List.fromList([this.data!.recipients!.length]),
       recipients
     ]);
+  }
+
+  /// Convert the transaction in JSON
+  String convertToJSON() {
+    final String _json = jsonEncode({
+      'version': this.version,
+      'address': this.address!,
+      'type': this.type,
+      'data': {
+        'content': this.data!.content!,
+        'code': this.data!.code!,
+        'keys': {
+          'secret': this.data!.keys!.secret!,
+          'authorizedKeys': hexAuthorizedKeys(this.data!.keys!.authorizedKeys!)
+        },
+        'ledger': {
+          'uco': {
+            'transfers':
+                List<dynamic>.from(this.data!.ledger!.uco!.transfers!.map((x) {
+              return {
+                'to': x.to!,
+                'amount': x.amount,
+              };
+            }))
+          },
+          'nft': {
+            'transfers':
+                List<dynamic>.from(this.data!.ledger!.nft!.transfers!.map((x) {
+              return {'to': x.to!, 'amount': x.amount, 'nft': x.nft!};
+            }))
+          },
+        },
+        'recipients': List<dynamic>.from(this.data!.recipients!.map((x) => x)),
+      },
+      'previousPublicKey': this.previousPublicKey!,
+      'previousSignature': this.previousSignature!,
+      'originSignature': this.originSignature!
+    });
+    return _json;
+  }
+
+  Map<dynamic, dynamic> hexAuthorizedKeys(List<AuthorizedKey> authorizedKeys) {
+    final Map<dynamic, dynamic> authorizedKeysHex = {};
+    authorizedKeys.forEach((authorizedKey) {
+      authorizedKeysHex.putIfAbsent(
+          authorizedKey.publicKey, () => authorizedKey.encryptedKey);
+    });
+    return authorizedKeysHex;
   }
 }

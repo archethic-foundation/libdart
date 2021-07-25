@@ -1,5 +1,5 @@
 import 'package:archethic_lib_dart/archethic_lib_dart.dart'
-    show KeyPair, deriveKeyPair, TransactionBuilder;
+    show KeyPair, deriveKeyPair;
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 
 void main(List<String> args) {
@@ -13,7 +13,7 @@ void main(List<String> args) {
           '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
           0.420)
       .build('mysuperpassphraseorseed', 0, 'P256');
-  TransactionBuilder.toJSON(transaction);
+  transaction.convertToJSON();
 
   /// Sign the transaction with an origin device private key
   final KeyPair originKeypair = deriveKeyPair('origin_seed', 0);
@@ -23,7 +23,7 @@ void main(List<String> args) {
           0.420)
       .build('mysuperpassphraseorseed', 0, 'P256')
       .originSign(originKeypair.privateKey);
-  TransactionBuilder.toJSON(transaction2);
+  transaction2.convertToJSON();
 
   /// Export the transaction generated into JSON
   var transaction3 = new Transaction(type: 'transfer')
@@ -31,5 +31,5 @@ void main(List<String> args) {
           '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
           0.420)
       .build('mysuperpassphraseorseed', 0, 'P256');
-  TransactionBuilder.toJSON(transaction3);
+  transaction3.convertToJSON();
 }
