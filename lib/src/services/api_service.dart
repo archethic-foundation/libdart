@@ -38,9 +38,7 @@ class ApiService {
         headers: requestHeaders);
     print('sendTx: requestHttp.body=' + transaction.convertToJSON());
     print('sendTx: responseHttp.body=' + responseHttp.body);
-    if (responseHttp.statusCode == 200) {
-      transactionStatus = transactionStatusFromJson(responseHttp.body);
-    }
+    transactionStatus = transactionStatusFromJson(responseHttp.body);
 
     _completer.complete(transactionStatus);
     return _completer.future;
