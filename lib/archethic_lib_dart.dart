@@ -34,6 +34,7 @@ export 'src/model/shared_secrets.dart';
 export 'src/model/transaction.dart';
 export 'src/model/transaction_input.dart';
 export 'src/model/transaction_movement.dart';
+export 'src/model/transaction_status.dart';
 export 'src/model/uco_ledger.dart';
 export 'src/model/uco_transfer.dart';
 export 'src/model/unspent_outputs.dart';

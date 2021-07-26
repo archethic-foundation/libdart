@@ -15,6 +15,7 @@ import 'package:archethic_lib_dart/src/model/response/transaction_chain_response
 import 'package:archethic_lib_dart/src/model/response/transaction_content_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transaction_last_response.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
+import 'package:archethic_lib_dart/src/model/transaction_status.dart';
 
 class ApiService {
   ApiService(this.endpoint);
@@ -24,19 +25,26 @@ class ApiService {
 
   /// Send a transaction to the network
   /// @param {Object} tx Transaction to send
-  dynamic sendTx(Transaction transaction) async {
+  Future<TransactionStatus> sendTx(Transaction transaction) async {
+    final Completer<TransactionStatus> _completer =
+        Completer<TransactionStatus>();
     final Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
-
+    TransactionStatus transactionStatus = TransactionStatus();
     final http.Response responseHttp = await http.post(
         Uri.parse(endpoint! + '/api/transaction'),
         body: transaction.convertToJSON(),
         headers: requestHeaders);
     print('sendTx: requestHttp.body=' + transaction.convertToJSON());
     print('sendTx: responseHttp.body=' + responseHttp.body);
-    return json.decode(responseHttp.body);
+    if (responseHttp.statusCode == 200) {
+      transactionStatus = transactionStatusFromJson(responseHttp.body);
+    }
+
+    _completer.complete(transactionStatus);
+    return _completer.future;
   }
 
   /// Query the network to find the last transaction from an address
