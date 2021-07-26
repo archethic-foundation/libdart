@@ -67,8 +67,11 @@ class ApiService {
         transactionLastResponse =
             transactionLastResponseFromJson(responseHttp.body);
         if (transactionLastResponse.data != null &&
-            transactionLastResponse.data!.chainLength != null) {
-          _chainLength = transactionLastResponse.data!.chainLength!;
+            transactionLastResponse.data!.lastTransaction != null &&
+            transactionLastResponse.data!.lastTransaction!.chainLength !=
+                null) {
+          _chainLength =
+              transactionLastResponse.data!.lastTransaction!.chainLength!;
         }
       }
     } catch (e) {
