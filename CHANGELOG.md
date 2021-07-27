@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.2.2 (2021-08-27) 
+* Adding logger
+
 #### Version 0.2.1 (2021-08-25) 
 * Adding status management when we send a tx
 * Fixing bugs

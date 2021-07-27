@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:http/http.dart' as http show Response, get;
+import 'package:logger/logger.dart';
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/coins/coins_current_data_response.dart';
@@ -45,6 +46,8 @@ import 'package:archethic_lib_dart/src/model/coins/simple_price_response_usd.dar
 import 'package:archethic_lib_dart/src/model/coins/simple_price_response_zar.dart';
 
 class ApiCoinsService {
+  Logger logger = Logger();
+
   /// Get Uniris Coin info
   Future<CoinsResponse> getCoinsResponse() async {
     CoinsResponse? coinsResponse;
@@ -60,7 +63,7 @@ class ApiCoinsService {
         coinsResponse = coinsResponseFromJson(responseHttp.body);
       }
     } catch (e) {
-      print(e);
+      logger.e(e.toString());
     }
     return coinsResponse!;
   }
@@ -86,7 +89,7 @@ class ApiCoinsService {
         coinsPriceResponse = coinsPriceResponseFromJson(responseHttp.body);
       }
     } catch (e) {
-      print(e);
+      logger.e(e.toString());
     }
     return coinsPriceResponse!;
   }
@@ -338,7 +341,7 @@ class ApiCoinsService {
         }
       }
     } catch (e) {
-      print(e);
+      logger.e(e.toString());
     }
 
     return simplePriceResponse;
@@ -360,7 +363,7 @@ class ApiCoinsService {
             coinsCurrentDataResponseFromJson(responseHttp.body);
       }
     } catch (e) {
-      print(e);
+      logger.e(e.toString());
     }
 
     return coinsCurrentDataResponse!;

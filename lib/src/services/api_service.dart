@@ -3,6 +3,7 @@ import 'dart:async';
 
 // Package imports:
 import 'package:http/http.dart' as http show Response, post;
+import 'package:logger/logger.dart';
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/balance.dart';
@@ -17,6 +18,8 @@ import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/model/transaction_status.dart';
 
 class ApiService {
+  Logger logger = Logger();
+
   ApiService(this.endpoint);
 
   /// [endpoint] is the HTTP URL to a ArchEthic node (acting as welcome node)
@@ -36,8 +39,8 @@ class ApiService {
         Uri.parse(endpoint! + '/api/transaction'),
         body: transaction.convertToJSON(),
         headers: requestHeaders);
-    print('sendTx: requestHttp.body=' + transaction.convertToJSON());
-    print('sendTx: responseHttp.body=' + responseHttp.body);
+    logger.d('sendTx: requestHttp.body=' + transaction.convertToJSON());
+    logger.d('sendTx: responseHttp.body=' + responseHttp.body);
     transactionStatus = transactionStatusFromJson(responseHttp.body);
 
     _completer.complete(transactionStatus);
@@ -57,12 +60,12 @@ class ApiService {
     try {
       final String _body =
           '{"query": "query {lastTransaction(address: \\"$address\\") {chainLength}}"}';
-      print('getTransactionIndex: requestHttp.body=' + _body);
+      logger.d('getTransactionIndex: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      print('getTransactionIndex: responseHttp.body=' + responseHttp.body);
+      logger.d('getTransactionIndex: responseHttp.body=' + responseHttp.body);
       if (responseHttp.statusCode == 200) {
         transactionLastResponse =
             transactionLastResponseFromJson(responseHttp.body);
@@ -75,7 +78,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      print('getTransactionIndex: error=' + e.toString());
+      logger.d('getTransactionIndex: error=' + e.toString());
     }
 
     _completer.complete(_chainLength);
@@ -96,12 +99,13 @@ class ApiService {
     try {
       const String _body =
           '{"query": "query {sharedSecrets {storageNoncePublicKey}}"}';
-      print('getStorageNoncePublicKey: requestHttp.body=' + _body);
+      logger.d('getStorageNoncePublicKey: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      print('getStorageNoncePublicKey: responseHttp.body=' + responseHttp.body);
+      logger.d(
+          'getStorageNoncePublicKey: responseHttp.body=' + responseHttp.body);
       if (responseHttp.statusCode == 200) {
         sharedSecretsResponse =
             sharedSecretsResponseFromJson(responseHttp.body);
@@ -112,7 +116,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      print('getStorageNoncePublicKey: error=' + e.toString());
+      logger.d('getStorageNoncePublicKey: error=' + e.toString());
     }
 
     _completer.complete(_storageNoncePublicKey);
@@ -134,14 +138,14 @@ class ApiService {
 
     final String _body =
         '{"query": "query {balance(address: \\"$address\\") {uco, nft {address, amount}}}"}';
-    print('fetchBalance: requestHttp.body=' + _body);
+    logger.d('fetchBalance: requestHttp.body=' + _body);
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      print('fetchBalance: responseHttp.body=' + responseHttp.body);
+      logger.d('fetchBalance: responseHttp.body=' + responseHttp.body);
 
       if (responseHttp.statusCode == 200) {
         balanceResponse = balanceResponseFromJson(responseHttp.body);
@@ -150,7 +154,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      print('fetchBalance: error=' + e.toString());
+      logger.d('fetchBalance: error=' + e.toString());
     }
 
     _completer.complete(balance);
@@ -173,14 +177,14 @@ class ApiService {
 
     final String _body =
         '{"query":"query { transaction(address: \\"$address\\") { data { content }} }"}';
-    print('getTransactionContent: requestHttp.body=' + _body);
+    logger.d('getTransactionContent: requestHttp.body=' + _body);
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      print('getTransactionContent: responseHttp.body=' + responseHttp.body);
+      logger.d('getTransactionContent: responseHttp.body=' + responseHttp.body);
 
       if (responseHttp.statusCode == 200) {
         transactionContentResponse =
@@ -193,7 +197,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      print('getTransactionContent: error=' + e.toString());
+      logger.d('getTransactionContent: error=' + e.toString());
     }
 
     _completer.complete(_content);
@@ -219,14 +223,14 @@ class ApiService {
 
     final String _body =
         '{"query":"query { transactionChain(address: \\"$address\\", page: $page) {address, type, data { ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } } } }"}';
-    print('getTransactionChain: requestHttp.body=' + _body);
+    logger.d('getTransactionChain: requestHttp.body=' + _body);
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      print('getTransactionChain: responseHttp.body=' + responseHttp.body);
+      logger.d('getTransactionChain: responseHttp.body=' + responseHttp.body);
 
       if (responseHttp.statusCode == 200) {
         transactionChainResponse =
@@ -236,7 +240,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      print('getTransactionChain: error=' + e.toString());
+      logger.d('getTransactionChain: error=' + e.toString());
     }
 
     _completer.complete(transactionChain);
@@ -258,12 +262,12 @@ class ApiService {
     try {
       const String _body =
           '{"query": "query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress}}"}';
-      print('getNodeList: requestHttp.body=' + _body);
+      logger.d('getNodeList: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      print('getNodeList: responseHttp.body=' + responseHttp.body);
+      logger.d('getNodeList: responseHttp.body=' + responseHttp.body);
       if (responseHttp.statusCode == 200) {
         nodesResponse = nodesResponseFromJson(responseHttp.body);
         if (nodesResponse.data != null) {
@@ -271,7 +275,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      print('getNodeList: error=' + e.toString());
+      logger.d('getNodeList: error=' + e.toString());
     }
 
     _completer.complete(nodesList);
