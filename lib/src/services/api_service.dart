@@ -222,7 +222,7 @@ class ApiService {
     };
 
     final String _body =
-        '{"query":"query { transactionChain(address: \\"$address\\", page: $page) {address, type, data { ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } } } }"}';
+        '{"query":"query { transactionChain(address: \\"$address\\", page: $page) {address, type, inputs { amount, from, nftAddress, spent, timestamp, type, }, validationStamp { timestamp, ledgerOperations { fee } }, data { ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } } } }"}';
     logger.d('getTransactionChain: requestHttp.body=' + _body);
 
     try {
