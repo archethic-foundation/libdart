@@ -13,8 +13,8 @@ class Ledger {
   UCOLedger? uco;
 
   factory Ledger.fromJson(Map<String, dynamic> json) => Ledger(
-        nft: NFTLedger.fromJson(json['nft']),
-        uco: UCOLedger.fromJson(json['uco']),
+        nft: json['nft'] == null ? null : NFTLedger.fromJson(json['nft']),
+        uco: json['uco'] == null ? null : UCOLedger.fromJson(json['uco']),
       );
 
   Map<String, dynamic> toJson() => {

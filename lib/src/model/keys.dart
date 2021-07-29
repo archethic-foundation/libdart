@@ -12,7 +12,7 @@ class Keys {
   String? secret;
 
   factory Keys.fromJson(Map<String, dynamic> json) => Keys(
-        authorizedKeys: List<AuthorizedKey>.from(
+        authorizedKeys: json['authorizedKeys'] == null ? null : List<AuthorizedKey>.from(
             json['authorizedKeys'].map((x) => AuthorizedKey.fromJson(x))),
         secret: json['secret'],
       );
