@@ -77,7 +77,7 @@ class Transaction {
   Data? data;
 
   /// - [TransactionInput] represents the inputs from the transaction
-  TransactionInput? inputs;
+  List<TransactionInput>? inputs;
 
   /// - Origin signature: signature from the device which originated the transaction (used in the Proof of work)
   String? originSignature;
@@ -109,7 +109,8 @@ class Transaction {
         data: json['data'] == null ? null : Data.fromJson(json['data']),
         inputs: json['inputs'] == null
             ? null
-            : TransactionInput.fromJson(json['inputs']),
+            : List<TransactionInput>.from(json['inputs']
+                .map((x) => TransactionInput.fromJson(x))),
         originSignature: json['originSignature'],
         previousPublicKey: json['previousPublicKey'],
         previousSignature: json['previousSignature'],
@@ -127,7 +128,8 @@ class Transaction {
         'crossValidationStamps': List<dynamic>.from(
             this.crossValidationStamps!.map((x) => x.toJson())),
         'data': this.data!.toJson(),
-        'inputs': this.inputs!.toJson(),
+        'inputs': List<dynamic>.from(
+            this.inputs!.map((x) => x.toJson())),
         'originSignature': this.originSignature,
         'previousPublicKey': this.previousPublicKey,
         'previousSignature': this.previousSignature,
