@@ -344,6 +344,10 @@ class Transaction {
   Uint8List previousSignaturePayload() {
     final Uint8List bufCodeSize = encodeInt32(this.data!.code!.length);
     int contentSize = this.data!.content!.length;
+    if(this.data!.content! is String && isHex(this.data!.content!))
+    {
+      contentSize = hexToUint8List(this.data!.content!).lengthInBytes;
+    }
     final Uint8List bufContentSize = encodeInt32(contentSize);
     final Uint8List bufSecretSize =
         encodeInt32(this.data!.keys!.secret!.length);
