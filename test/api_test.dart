@@ -1,7 +1,5 @@
 library test.api_test;
 
-/*
-
 // Package imports:
 import 'package:test/test.dart';
 
@@ -11,10 +9,8 @@ import 'package:archethic_lib_dart/src/model/node.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 
-*/
-
 void main() {
-/*  group('api', () {
+  group('api', () {
     test('getTransactionIndex', () async {
       final int chainLength = await ApiService('http://localhost:4000')
           .getTransactionIndex(
@@ -75,5 +71,5 @@ void main() {
         '127.0.0.1',
       );
     });
-  });*/
+  }, tags: ['noCI']);
 }

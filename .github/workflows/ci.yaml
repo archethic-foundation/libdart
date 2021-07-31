@@ -24,4 +24,4 @@ jobs:
         run: dart analyze
 
       - name: Tests
-        run: dart test
+        run: dart test --exclude-tags noCI
