@@ -15,7 +15,9 @@ class Balance {
   double? uco;
 
   factory Balance.fromJson(Map<String, dynamic> json) => Balance(
-        nft: json['nft'] == null ? null : List<NftBalance>.from(json['nft'].map((x) => x)),
+        nft: json['nft'] == null
+            ? null
+            : List<NftBalance>.from(json['nft'].map((x) => x)),
         uco: json['uco'] == null ? null : json['uco'].toDouble(),
       );
 

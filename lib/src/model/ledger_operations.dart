@@ -27,13 +27,18 @@ class LedgerOperations {
   factory LedgerOperations.fromJson(Map<String, dynamic> json) =>
       LedgerOperations(
         fee: json['fee'] == null ? null : json['fee'].toDouble(),
-        nodeMovements: json['nodeMovements'] == null ? null : List<NodeMovement>.from(
-            json['nodeMovements'].map((x) => NodeMovement.fromJson(x))),
-        transactionMovements: json['transactionMovements'] == null ? null : List<TransactionMovement>.from(
-            json['transactionMovements']
+        nodeMovements: json['nodeMovements'] == null
+            ? null
+            : List<NodeMovement>.from(
+                json['nodeMovements'].map((x) => NodeMovement.fromJson(x))),
+        transactionMovements: json['transactionMovements'] == null
+            ? null
+            : List<TransactionMovement>.from(json['transactionMovements']
                 .map((x) => TransactionMovement.fromJson(x))),
-        unspentOutputs: json['unspentOutputs'] == null ? null : List<UnspentOutputs>.from(
-            json['unspentOutputs'].map((x) => UnspentOutputs.fromJson(x))),
+        unspentOutputs: json['unspentOutputs'] == null
+            ? null
+            : List<UnspentOutputs>.from(
+                json['unspentOutputs'].map((x) => UnspentOutputs.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

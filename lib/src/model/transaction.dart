@@ -109,8 +109,8 @@ class Transaction {
         data: json['data'] == null ? null : Data.fromJson(json['data']),
         inputs: json['inputs'] == null
             ? null
-            : List<TransactionInput>.from(json['inputs']
-                .map((x) => TransactionInput.fromJson(x))),
+            : List<TransactionInput>.from(
+                json['inputs'].map((x) => TransactionInput.fromJson(x))),
         originSignature: json['originSignature'],
         previousPublicKey: json['previousPublicKey'],
         previousSignature: json['previousSignature'],
@@ -128,8 +128,7 @@ class Transaction {
         'crossValidationStamps': List<dynamic>.from(
             this.crossValidationStamps!.map((x) => x.toJson())),
         'data': this.data!.toJson(),
-        'inputs': List<dynamic>.from(
-            this.inputs!.map((x) => x.toJson())),
+        'inputs': List<dynamic>.from(this.inputs!.map((x) => x.toJson())),
         'originSignature': this.originSignature,
         'previousPublicKey': this.previousPublicKey,
         'previousSignature': this.previousSignature,
@@ -359,19 +358,31 @@ class Transaction {
 
     Uint8List ucoTransfersBuffers = Uint8List(0);
     if (this.data!.ledger!.uco!.transfers!.isNotEmpty) {
-      ucoTransfersBuffers = concatUint8List([
-        hexToUint8List(this.data!.ledger!.uco!.transfers![0].to!),
-        encodeFloat64(this.data!.ledger!.uco!.transfers![0].amount!)
-      ]);
+      this
+          .data!
+          .ledger!
+          .uco!
+          .transfers!
+          .forEach((ucoTransfer) => ucoTransfersBuffers = concatUint8List([
+                ucoTransfersBuffers,
+                hexToUint8List(ucoTransfer.to!),
+                encodeFloat64(ucoTransfer.amount!)
+              ]));
     }
 
     Uint8List nftTransfersBuffers = Uint8List(0);
     if (this.data!.ledger!.nft!.transfers!.isNotEmpty) {
-      nftTransfersBuffers = concatUint8List([
-        hexToUint8List(this.data!.ledger!.nft!.transfers![0].nft!),
-        hexToUint8List(this.data!.ledger!.nft!.transfers![0].to!),
-        encodeFloat64(this.data!.ledger!.nft!.transfers![0].amount!)
-      ]);
+      this
+          .data!
+          .ledger!
+          .nft!
+          .transfers!
+          .forEach((NFTTransfer) => nftTransfersBuffers = concatUint8List([
+                nftTransfersBuffers,
+                hexToUint8List(this.data!.ledger!.nft!.transfers![0].nft!),
+                hexToUint8List(this.data!.ledger!.nft!.transfers![0].to!),
+                encodeFloat64(this.data!.ledger!.nft!.transfers![0].amount!)
+              ]));
     }
 
     Uint8List recipients = Uint8List(0);

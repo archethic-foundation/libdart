@@ -1,17 +1,20 @@
 Changelog
 =========
 
-#### Version 0.2.2 (2021-08-27) 
+#### Version 0.2.3 (2021-07-31) 
+* Fixing the generation of previous signature when transfers in ledger have more than 1 occurence.
+
+#### Version 0.2.2 (2021-07-27) 
 * Adding logger
 
-#### Version 0.2.1 (2021-08-25) 
+#### Version 0.2.1 (2021-07-25) 
 * Adding status management when we send a tx
 * Fixing bugs
 
-#### Version 0.2.0 (2021-08-24) 
+#### Version 0.2.0 (2021-07-24) 
 * Structuring of the model layer
 
-#### Version 0.1.1 (2021-08-23) 
+#### Version 0.1.1 (2021-07-23) 
 * Fixing bugs
 
 #### Version 0.1.0 (2021-07-21) 
