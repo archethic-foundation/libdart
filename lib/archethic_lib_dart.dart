@@ -8,6 +8,7 @@ export 'src/utils.dart';
 export 'src/services/address_service.dart';
 export 'src/services/api_coins_service.dart';
 export 'src/services/api_service.dart';
+export 'src/services/nft_service.dart';
 export 'src/model/crypto/aes_auth_encrypt_infos.dart';
 export 'src/model/crypto/key_pair.dart';
 export 'src/model/crypto/secret.dart';
