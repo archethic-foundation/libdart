@@ -3,7 +3,8 @@ Changelog
 
 #### Version 0.2.3 (2021-07-31) 
 * Fixing the generation of previous signature when transfers in ledger have more than 1 occurence.
-* Add prepareNewNFT method to prepare a tx to create a new NFT
+* Adding prepareNewNFT method to prepare a tx to create a new NFT
+* Converting transaction.content to hex when necessary
 
 #### Version 0.2.2 (2021-07-27) 
 * Adding logger
