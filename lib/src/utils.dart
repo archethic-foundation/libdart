@@ -7,7 +7,8 @@ import 'package:pinenacl/encoding.dart' show HexCoder;
 /// Determines if a string is an hexadecimal
 /// @param {String} inputString Potential hexadecimal string
 bool isHex(String inputString) {
-  if (!RegExp('[0-9A-Fa-f]{6}').hasMatch(inputString)) {
+  RegExp _hexadecimal = RegExp(r'^[0-9a-fA-F]+$');
+  if (!_hexadecimal.hasMatch(inputString)) {
     return false;
   }
   return true;
