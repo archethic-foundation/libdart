@@ -180,6 +180,10 @@ class Transaction {
 
     if (content is Uint8List) {
       content = uint8ListToHex(content);
+    } else {
+      if (content is String && isHex(content) == false) {
+        content = uint8ListToHex(Uint8List.fromList(content.codeUnits));
+      }
     }
     this.data!.content = content;
     return this;
