@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.2.4 (2021-08-02) 
+* Removing init ValidationStamp in Transaction.build method
+
 #### Version 0.2.3 (2021-07-31) 
 * Fixing the generation of previous signature when transfers in ledger have more than 1 occurence.
 * Adding prepareNewNFT method to prepare a tx to create a new NFT

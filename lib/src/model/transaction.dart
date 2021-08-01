@@ -152,9 +152,6 @@ class Transaction {
 
     this.address = uint8ListToHex(address);
     this.previousPublicKey = uint8ListToHex(keypair.publicKey);
-    ValidationStamp _validationStamp =
-        new ValidationStamp(timestamp: DateTime.now().millisecondsSinceEpoch);
-    this.validationStamp = _validationStamp;
     this.previousSignature = uint8ListToHex(
         crypto.sign(this.previousSignaturePayload(), keypair.privateKey));
 
