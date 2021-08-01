@@ -17,6 +17,7 @@ import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
 import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
 import 'package:archethic_lib_dart/src/utils.dart';
+import 'package:pinenacl/encoding.dart' show HexCoder;
 
 import 'package:archethic_lib_dart/src/crypto.dart' as crypto
     show deriveKeyPair, hash, sign;
@@ -422,7 +423,7 @@ class Transaction {
       'address': this.address!,
       'type': this.type,
       'data': {
-        'content': this.data!.content!,
+        'content': uint8ListToHex(Uint8List.fromList(utf8.encode(this.data!.content!))),
         'code': this.data!.code!,
         'keys': {
           'secret': this.data!.keys!.secret!,
