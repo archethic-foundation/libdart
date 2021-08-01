@@ -179,7 +179,7 @@ class Transaction {
     }
 
     if (content is Uint8List) {
-      content = uint8ListToHex(content);
+      content = utf8.decode(content);
     }
     this.data!.content = content;
     return this;
@@ -343,19 +343,12 @@ class Transaction {
   /// Generate the payload for the previous signature by encoding address, type and data
   Uint8List previousSignaturePayload() {
     final Uint8List bufCodeSize = encodeInt32(this.data!.code!.length);
-    print('content: ' + this.data!.content!);
-    print('contenthexToUint8List: ' + hexToUint8List(this.data!.content!).toString());
-    print('contentUtf: ' + utf8.decode(this.data!.content!.codeUnits));
-     
     int contentSize = this.data!.content!.length;
-    print("contentSize1: " + contentSize.toString());
-    if(this.data!.content! is String && isHex(this.data!.content!))
+    if(this.data!.content! is String)
     {
-      contentSize = hexToUint8List(this.data!.content!).lengthInBytes;
-      print("contentSize2: " + contentSize.toString());
+      contentSize = Uint8List.fromList(utf8.encode(this.data!.content!)).lengthInBytes;
     }
-    final Uint8List bufContentSize = encodeInt32(this.data!.content!.length);
-    print("bufcontentSize: " + bufContentSize.toString());
+    final Uint8List bufContentSize = encodeInt32(contentSize);
     final Uint8List bufSecretSize =
         encodeInt32(this.data!.keys!.secret!.length);
 
