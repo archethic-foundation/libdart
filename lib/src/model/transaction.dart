@@ -354,7 +354,7 @@ class Transaction {
       contentSize = hexToUint8List(this.data!.content!).lengthInBytes;
       print("contentSize2: " + contentSize.toString());
     }
-    final Uint8List bufContentSize = encodeInt32(contentSize);
+    final Uint8List bufContentSize = encodeInt32(this.data!.content!.length);
     print("bufcontentSize: " + bufContentSize.toString());
     final Uint8List bufSecretSize =
         encodeInt32(this.data!.keys!.secret!.length);
