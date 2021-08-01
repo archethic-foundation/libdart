@@ -17,7 +17,6 @@ import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
 import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
 import 'package:archethic_lib_dart/src/utils.dart';
-import 'package:pinenacl/encoding.dart' show HexCoder;
 
 import 'package:archethic_lib_dart/src/crypto.dart' as crypto
     show deriveKeyPair, hash, sign;
@@ -345,9 +344,9 @@ class Transaction {
   Uint8List previousSignaturePayload() {
     final Uint8List bufCodeSize = encodeInt32(this.data!.code!.length);
     int contentSize = this.data!.content!.length;
-    if(this.data!.content! is String)
-    {
-      contentSize = Uint8List.fromList(utf8.encode(this.data!.content!)).lengthInBytes;
+    if (this.data!.content! is String) {
+      contentSize =
+          Uint8List.fromList(utf8.encode(this.data!.content!)).lengthInBytes;
     }
     final Uint8List bufContentSize = encodeInt32(contentSize);
     final Uint8List bufSecretSize =
@@ -423,7 +422,8 @@ class Transaction {
       'address': this.address!,
       'type': this.type,
       'data': {
-        'content': uint8ListToHex(Uint8List.fromList(utf8.encode(this.data!.content!))),
+        'content': uint8ListToHex(
+            Uint8List.fromList(utf8.encode(this.data!.content!))),
         'code': this.data!.code!,
         'keys': {
           'secret': this.data!.keys!.secret!,

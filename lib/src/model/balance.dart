@@ -17,7 +17,8 @@ class Balance {
   factory Balance.fromJson(Map<String, dynamic> json) => Balance(
         nft: json['nft'] == null
             ? null
-            : List<NftBalance>.from(json['nft'].map((x) => NftBalance.fromJson(x))),
+            : List<NftBalance>.from(
+                json['nft'].map((x) => NftBalance.fromJson(x))),
         uco: json['uco'] == null ? null : json['uco'].toDouble(),
       );
 
