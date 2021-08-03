@@ -58,7 +58,7 @@ class ApiService {
     };
     try {
       final String _body =
-          '{"query": "query {lastTransaction(address: \\"$address\\") { address chainLength originSignature previousPublicKey previousSignature type version}}"}';
+          '{"query": "query {lastTransaction(address: \\"$address\\") { {address, type, inputs { amount, from, nftAddress, spent, timestamp, type, }, validationStamp { timestamp, ledgerOperations { fee } }, data { ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } } }}}"}';
       logger.d('getTransactionIndex: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
