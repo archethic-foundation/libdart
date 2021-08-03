@@ -49,9 +49,8 @@ class ApiService {
 
   /// Query the network to find the last transaction from an address
   /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  Future<int> getTransactionIndex(String address) async {
-    final Completer<int> _completer = Completer<int>();
-    int _chainLength = 0;
+  Future<Transaction> getLastTransaction(String address) async {
+    final Completer<Transaction> _completer = Completer<Transaction>();
     TransactionLastResponse transactionLastResponse = TransactionLastResponse();
     final Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
@@ -59,7 +58,7 @@ class ApiService {
     };
     try {
       final String _body =
-          '{"query": "query {lastTransaction(address: \\"$address\\") {chainLength}}"}';
+          '{"query": "query {lastTransaction(address: \\"$address\\") { address chainLength originSignature previousPublicKey previousSignature type version}}"}';
       logger.d('getTransactionIndex: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
@@ -69,19 +68,12 @@ class ApiService {
       if (responseHttp.statusCode == 200) {
         transactionLastResponse =
             transactionLastResponseFromJson(responseHttp.body);
-        if (transactionLastResponse.data != null &&
-            transactionLastResponse.data!.lastTransaction != null &&
-            transactionLastResponse.data!.lastTransaction!.chainLength !=
-                null) {
-          _chainLength =
-              transactionLastResponse.data!.lastTransaction!.chainLength!;
-        }
       }
     } catch (e) {
       logger.d('getTransactionIndex: error=' + e.toString());
     }
 
-    _completer.complete(_chainLength);
+    _completer.complete(transactionLastResponse.data!.lastTransaction);
     return _completer.future;
   }
 

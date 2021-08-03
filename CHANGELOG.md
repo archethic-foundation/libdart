@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 0.2.5 (2021-08-04) 
+* Changing getTransactionIndex method with getLastTransaction method
+
 #### Version 0.2.4 (2021-08-02) 
 * Removing init ValidationStamp in Transaction.build method
 
