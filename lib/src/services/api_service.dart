@@ -68,6 +68,11 @@ class ApiService {
       if (responseHttp.statusCode == 200) {
         transactionLastResponse =
             transactionLastResponseFromJson(responseHttp.body);
+        if (transactionLastResponse.data!.lastTransaction == null) {
+          Transaction lastTransaction =
+              new Transaction(type: '', chainLength: 0);
+          transactionLastResponse.data!.lastTransaction = lastTransaction;
+        }
       }
     } catch (e) {
       logger.d('getTransactionIndex: error=' + e.toString());
