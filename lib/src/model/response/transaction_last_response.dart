@@ -26,7 +26,9 @@ class TransactionLastResponse {
 
   factory TransactionLastResponse.fromJson(Map<String, dynamic> json) =>
       TransactionLastResponse(
-        data: json["data"] == null ? null : TransactionLastResponseData.fromJson(json["data"]),
+        data: json["data"] == null
+            ? null
+            : TransactionLastResponseData.fromJson(json["data"]),
         errors: json['errors'] == null
             ? null
             : List<Errors>.from(json['errors'].map((x) => Errors.fromJson(x))),

@@ -52,6 +52,8 @@ class ApiService {
   Future<Transaction> getLastTransaction(String address) async {
     final Completer<Transaction> _completer = Completer<Transaction>();
     TransactionLastResponse transactionLastResponse = TransactionLastResponse();
+    Transaction lastTransaction =
+        new Transaction(type: '', chainLength: 0, data: Transaction.initData());
     final Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -68,17 +70,16 @@ class ApiService {
       if (responseHttp.statusCode == 200) {
         transactionLastResponse =
             transactionLastResponseFromJson(responseHttp.body);
-        if (transactionLastResponse.data!.lastTransaction == null) {
-          Transaction lastTransaction =
-              new Transaction(type: '', chainLength: 0);
-          transactionLastResponse.data!.lastTransaction = lastTransaction;
+        if (transactionLastResponse.data != null &&
+            transactionLastResponse.data!.lastTransaction != null) {
+          lastTransaction = transactionLastResponse.data!.lastTransaction!;
         }
       }
     } catch (e) {
       logger.d('getTransactionIndex: error=' + e.toString());
     }
 
-    _completer.complete(transactionLastResponse.data!.lastTransaction);
+    _completer.complete(lastTransaction);
     return _completer.future;
   }
 
