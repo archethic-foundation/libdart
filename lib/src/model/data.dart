@@ -1,6 +1,9 @@
 // Project imports:
+import 'dart:convert';
+
 import 'package:archethic_lib_dart/src/model/keys.dart';
 import 'package:archethic_lib_dart/src/model/ledger.dart';
+import 'package:archethic_lib_dart/src/utils.dart';
 
 /// [TransactionData] represents the data section for every transaction.
 
@@ -18,6 +21,9 @@ class Data {
 
   /// Content: free zone for data hosting (string or hexadecimal)
   String? content;
+
+  /// ContentDisplay: convert Content to lisible string
+  String? get contentDisplay => utf8.decode(hexToUint8List(content!));
 
   /// Keys: Secrets and authorized public keys to decrypt the secret
   Keys? keys;
