@@ -66,7 +66,7 @@ class TransactionChain {
   factory TransactionChain.fromJson(Map<String, dynamic> json) =>
       TransactionChain(
         address: json['address'],
-        data: TransactionChainData.fromJson(json['data']),
+        data: json['data'] == null ? null : TransactionChainData.fromJson(json['data']),
         type: json['type'],
       );
 

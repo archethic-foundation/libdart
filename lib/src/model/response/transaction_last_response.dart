@@ -49,7 +49,7 @@ class TransactionLastResponseData {
 
   factory TransactionLastResponseData.fromJson(Map<String, dynamic> json) =>
       TransactionLastResponseData(
-        lastTransaction: Transaction.fromJson(json["lastTransaction"]),
+        lastTransaction: json["lastTransaction"] == null ? null : Transaction.fromJson(json["lastTransaction"]),
       );
 
   Map<String, dynamic> toJson() => {

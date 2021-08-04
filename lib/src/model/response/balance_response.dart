@@ -47,7 +47,7 @@ class BalanceResponseData {
 
   factory BalanceResponseData.fromJson(Map<String, dynamic> json) =>
       BalanceResponseData(
-        balance: Balance.fromJson(json['balance']),
+        balance: json['balance'] == null ? null : Balance.fromJson(json['balance']),
       );
 
   Balance? balance;
