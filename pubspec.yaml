@@ -31,7 +31,7 @@ dependencies:
   pinenacl: ^0.3.3
 
   # A Dart library implementing cryptographic algorithms and primitives, modeled on the BouncyCastle library
-  pointycastle: ^3.1.3
+  pointycastle: ^3.2.0
 
   # Pure secp256k1 signature algorithm implement for dart language which uses pure dart and basic types to represent all matters
   secp256k1: ^0.3.0
