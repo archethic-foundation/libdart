@@ -45,7 +45,9 @@ class NodesResponseData {
 
   factory NodesResponseData.fromJson(Map<String, dynamic> json) =>
       NodesResponseData(
-        nodes: json['nodes'] == null ? null : List<Node>.from(json['nodes'].map((x) => Node.fromJson(x))),
+        nodes: json['nodes'] == null
+            ? null
+            : List<Node>.from(json['nodes'].map((x) => Node.fromJson(x))),
       );
 
   List<Node>? nodes;

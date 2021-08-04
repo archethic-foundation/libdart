@@ -60,7 +60,9 @@ class ApiService {
     };
     try {
       final String _body =
-          '{"query": "query {lastTransaction(address: \\"$address\\") { address, type, inputs { amount, from, nftAddress, spent, timestamp, type, }, validationStamp { timestamp, ledgerOperations { fee } }, data { ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } } }}"}';
+          '{"query": "query {lastTransaction(address: \\"$address\\") { ' +
+              Transaction.getQLFields() +
+              ' } }"}';
       logger.d('getTransactionIndex: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
@@ -220,7 +222,9 @@ class ApiService {
     };
 
     final String _body =
-        '{"query":"query { transactionChain(address: \\"$address\\", page: $page) {address, type, inputs { amount, from, nftAddress, spent, timestamp, type, }, validationStamp { timestamp, ledgerOperations { fee } }, data { ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } } } }"}';
+        '{"query":"query { transactionChain(address: \\"$address\\", page: $page) { ' +
+            Transaction.getQLFields() +
+            ' } }"}';
     logger.d('getTransactionChain: requestHttp.body=' + _body);
 
     try {

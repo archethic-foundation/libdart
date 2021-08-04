@@ -473,4 +473,8 @@ class Transaction {
       'recipients': []
     });
   }
+
+  static String getQLFields() {
+    return ' address, balance, nft { address, amount }, uco }, chainLength, crossValidationStamps { node, signature }, data { content, keys { authorizedKeys { encryptedKey, publicKey } secret } ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } recipients } inputs { amount, from, nftAddress, spent, timestamp, type, }, originSignature, previousPublicKey, previousSignature, type, validationStamp { timestamp, ledgerOperations { fee } }, version';
+  }
 }

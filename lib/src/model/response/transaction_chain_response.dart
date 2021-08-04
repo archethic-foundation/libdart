@@ -44,8 +44,10 @@ class TransactionsResponseData {
 
   factory TransactionsResponseData.fromJson(Map<String, dynamic> json) =>
       TransactionsResponseData(
-        transactionChain:  json['transactionChain'] == null ? null : List<Transaction>.from(
-            json['transactionChain'].map((x) => Transaction.fromJson(x))),
+        transactionChain: json['transactionChain'] == null
+            ? null
+            : List<Transaction>.from(
+                json['transactionChain'].map((x) => Transaction.fromJson(x))),
       );
 
   List<Transaction>? transactionChain;

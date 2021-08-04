@@ -47,7 +47,9 @@ class TransactionContentResponseData {
 
   factory TransactionContentResponseData.fromJson(Map<String, dynamic> json) =>
       TransactionContentResponseData(
-        transaction: json['transaction'] == null ? null : Transaction.fromJson(json['transaction']),
+        transaction: json['transaction'] == null
+            ? null
+            : Transaction.fromJson(json['transaction']),
       );
 
   Transaction? transaction;
