@@ -27,10 +27,17 @@ class AddressService {
 
   /// Get the last address
   /// @param {String} seed TransactionChain seed
-  Future<String> lastAddress(String seed) async {
+  Future<String> lastAddressWithSeed(String seed) async {
     final String genesisAddress = deriveAddress(seed, 0);
+    String lastAddress = await lastAddressWithAddress(genesisAddress);
+    return lastAddress;
+  }
+
+  /// Get the last address
+  /// @param {String} address TransactionChain address
+  Future<String> lastAddressWithAddress(String address) async {
     Transaction transaction =
-        await ApiService(endpoint!).getLastTransaction(genesisAddress);
-    return transaction.address!;
+        await ApiService(endpoint!).getLastTransaction(address);
+    return transaction.address == null ? '' : transaction.address!;
   }
 }

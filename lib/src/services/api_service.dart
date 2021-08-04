@@ -52,8 +52,8 @@ class ApiService {
   Future<Transaction> getLastTransaction(String address) async {
     final Completer<Transaction> _completer = Completer<Transaction>();
     TransactionLastResponse transactionLastResponse = TransactionLastResponse();
-    Transaction lastTransaction =
-        new Transaction(type: '', chainLength: 0, data: Transaction.initData());
+    Transaction lastTransaction = new Transaction(
+        type: '', chainLength: 0, data: Transaction.initData(), address: '');
     final Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
