@@ -71,5 +71,15 @@ void main() {
         '127.0.0.1',
       );
     });
+
+    test('networkTransactions', () async {
+      final List<Transaction> transactionsList = await ApiService('http://localhost:4000')
+          .networkTransactions('oracle_summary', 1);
+
+      expect(
+        transactionsList[0].type,
+        'oracle_summary',
+      );
+    });
   }, tags: ['noCI']);
 }

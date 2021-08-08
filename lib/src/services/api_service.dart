@@ -303,7 +303,7 @@ class ApiService {
     };
 
     final String _body =
-        '{"query":"query { transactionChain(type: \\"$type\\", page: $page) { ' +
+        '{"query":"query { networkTransactions(type: \\"$type\\", page: $page) { ' +
             Transaction.getQLFields() +
             ' } }"}';
     logger.d('networkTransactions: requestHttp.body=' + _body);
