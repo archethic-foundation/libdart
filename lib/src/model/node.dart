@@ -10,6 +10,8 @@ class Node {
     this.networkPatch,
     this.port,
     this.rewardAddress,
+    this.authorizationDate,
+    this.enrollmentDate
   });
 
   factory Node.fromJson(Map<String, dynamic> json) => Node(
@@ -25,6 +27,8 @@ class Node {
         networkPatch: json['networkPatch'],
         port: json['port'],
         rewardAddress: json['rewardAddress'],
+        authorizationDate: json['authorizationDate'],
+        enrollmentDate: json['enrollmentDate']
       );
 
   bool? authorized;
@@ -37,6 +41,8 @@ class Node {
   String? networkPatch;
   int? port;
   String? rewardAddress;
+  int? enrollmentDate;
+  int? authorizationDate;
 
   Map<String, dynamic> toJson() => {
         'authorized': authorized,
@@ -49,5 +55,7 @@ class Node {
         'networkPatch': networkPatch,
         'port': port,
         'rewardAddress': rewardAddress,
+        'authorizationDate': authorizationDate,
+        'enrollmentDate': enrollmentDate,
       };
 }

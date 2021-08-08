@@ -2,6 +2,7 @@
 import 'dart:async';
 
 // Package imports:
+import 'package:archethic_lib_dart/src/model/response/network_transactions_response.dart';
 import 'package:http/http.dart' as http show Response, post;
 import 'package:logger/logger.dart';
 
@@ -263,7 +264,7 @@ class ApiService {
 
     try {
       const String _body =
-          '{"query": "query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress}}"}';
+          '{"query": "query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress authorizationDate enrollmentDate}}"}';
       logger.d('getNodeList: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
@@ -281,6 +282,51 @@ class ApiService {
     }
 
     _completer.complete(nodesList);
+    return _completer.future;
+  }
+
+  /// Query the network to list the transaction on the type
+  /// @param {String} The type of transaction
+  /// @param {int} The page
+  /// Returns the content scalar type represents transaction content [List<Transaction>]. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
+  Future<List<Transaction>> networkTransactions(
+      String type, int page) async {
+    final Completer<List<Transaction>> _completer =
+        Completer<List<Transaction>>();
+    NetworkTransactionsResponse? networkTransactionsResponse =
+        NetworkTransactionsResponse();
+    List<Transaction> transactionsList =
+        List<Transaction>.empty(growable: true);
+    final Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final String _body =
+        '{"query":"query { transactionChain(type: \\"$type\\", page: $page) { ' +
+            Transaction.getQLFields() +
+            ' } }"}';
+    logger.d('networkTransactions: requestHttp.body=' + _body);
+
+    try {
+      final http.Response responseHttp = await http.post(
+          Uri.parse(endpoint! + '/api'),
+          body: _body,
+          headers: requestHeaders);
+      logger.d('networkTransactions: responseHttp.body=' + responseHttp.body);
+
+      if (responseHttp.statusCode == 200) {
+        networkTransactionsResponse =
+            networkTransactionsResponseFromJson(responseHttp.body);
+        if (networkTransactionsResponse.data != null) {
+          transactionsList = networkTransactionsResponse.data!.networkTransactions!;
+        }
+      }
+    } catch (e) {
+      logger.d('networkTransactions: error=' + e.toString());
+    }
+
+    _completer.complete(transactionsList);
     return _completer.future;
   }
 }
