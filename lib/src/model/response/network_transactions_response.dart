@@ -46,8 +46,8 @@ class TransactionsResponseData {
       TransactionsResponseData(
         networkTransactions: json['networkTransactions'] == null
             ? null
-            : List<Transaction>.from(
-                json['networkTransactions'].map((x) => Transaction.fromJson(x))),
+            : List<Transaction>.from(json['networkTransactions']
+                .map((x) => Transaction.fromJson(x))),
       );
 
   List<Transaction>? networkTransactions;

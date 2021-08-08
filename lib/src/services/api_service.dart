@@ -2,7 +2,6 @@
 import 'dart:async';
 
 // Package imports:
-import 'package:archethic_lib_dart/src/model/response/network_transactions_response.dart';
 import 'package:http/http.dart' as http show Response, post;
 import 'package:logger/logger.dart';
 
@@ -10,6 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/node.dart';
 import 'package:archethic_lib_dart/src/model/response/balance_response.dart';
+import 'package:archethic_lib_dart/src/model/response/network_transactions_response.dart';
 import 'package:archethic_lib_dart/src/model/response/nodes_response.dart';
 import 'package:archethic_lib_dart/src/model/response/shared_secrets_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transaction_chain_response.dart';
@@ -53,7 +53,7 @@ class ApiService {
   Future<Transaction> getLastTransaction(String address) async {
     final Completer<Transaction> _completer = Completer<Transaction>();
     TransactionLastResponse transactionLastResponse = TransactionLastResponse();
-    Transaction lastTransaction = new Transaction(
+    Transaction? lastTransaction = new Transaction(
         type: '', chainLength: 0, data: Transaction.initData(), address: '');
     final Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
@@ -75,7 +75,7 @@ class ApiService {
             transactionLastResponseFromJson(responseHttp.body);
         if (transactionLastResponse.data != null &&
             transactionLastResponse.data!.lastTransaction != null) {
-          lastTransaction = transactionLastResponse.data!.lastTransaction!;
+          lastTransaction = transactionLastResponse.data!.lastTransaction;
         }
       }
     } catch (e) {
@@ -130,7 +130,7 @@ class ApiService {
   Future<Balance> fetchBalance(String address) async {
     final Completer<Balance> _completer = Completer<Balance>();
     BalanceResponse? balanceResponse;
-    Balance balance = Balance();
+    Balance? balance = Balance();
 
     final Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
@@ -151,7 +151,7 @@ class ApiService {
       if (responseHttp.statusCode == 200) {
         balanceResponse = balanceResponseFromJson(responseHttp.body);
         if (balanceResponse.data != null) {
-          balance = balanceResponse.data!.balance!;
+          balance = balanceResponse.data!.balance;
         }
       }
     } catch (e) {
@@ -289,8 +289,7 @@ class ApiService {
   /// @param {String} The type of transaction
   /// @param {int} The page
   /// Returns the content scalar type represents transaction content [List<Transaction>]. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
-  Future<List<Transaction>> networkTransactions(
-      String type, int page) async {
+  Future<List<Transaction>> networkTransactions(String type, int page) async {
     final Completer<List<Transaction>> _completer =
         Completer<List<Transaction>>();
     NetworkTransactionsResponse? networkTransactionsResponse =
@@ -319,7 +318,8 @@ class ApiService {
         networkTransactionsResponse =
             networkTransactionsResponseFromJson(responseHttp.body);
         if (networkTransactionsResponse.data != null) {
-          transactionsList = networkTransactionsResponse.data!.networkTransactions!;
+          transactionsList =
+              networkTransactionsResponse.data!.networkTransactions!;
         }
       }
     } catch (e) {

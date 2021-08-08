@@ -73,8 +73,9 @@ void main() {
     });
 
     test('networkTransactions', () async {
-      final List<Transaction> transactionsList = await ApiService('http://localhost:4000')
-          .networkTransactions('oracle_summary', 1);
+      final List<Transaction> transactionsList =
+          await ApiService('http://localhost:4000')
+              .networkTransactions('oracle_summary', 1);
 
       expect(
         transactionsList[0].type,

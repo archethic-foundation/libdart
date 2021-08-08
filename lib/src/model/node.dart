@@ -1,35 +1,33 @@
 class Node {
-  Node({
-    this.authorized,
-    this.available,
-    this.averageAvailability,
-    this.firstPublicKey,
-    this.geoPatch,
-    this.ip,
-    this.lastPublicKey,
-    this.networkPatch,
-    this.port,
-    this.rewardAddress,
-    this.authorizationDate,
-    this.enrollmentDate
-  });
+  Node(
+      {this.authorized,
+      this.available,
+      this.averageAvailability,
+      this.firstPublicKey,
+      this.geoPatch,
+      this.ip,
+      this.lastPublicKey,
+      this.networkPatch,
+      this.port,
+      this.rewardAddress,
+      this.authorizationDate,
+      this.enrollmentDate});
 
   factory Node.fromJson(Map<String, dynamic> json) => Node(
-        authorized: json['authorized'],
-        available: json['available'],
-        averageAvailability: json['averageAvailability'] == null
-            ? null
-            : json['averageAvailability'].toDouble(),
-        firstPublicKey: json['firstPublicKey'],
-        geoPatch: json['geoPatch'],
-        ip: json['ip'],
-        lastPublicKey: json['lastPublicKey'],
-        networkPatch: json['networkPatch'],
-        port: json['port'],
-        rewardAddress: json['rewardAddress'],
-        authorizationDate: json['authorizationDate'],
-        enrollmentDate: json['enrollmentDate']
-      );
+      authorized: json['authorized'],
+      available: json['available'],
+      averageAvailability: json['averageAvailability'] == null
+          ? null
+          : json['averageAvailability'].toDouble(),
+      firstPublicKey: json['firstPublicKey'],
+      geoPatch: json['geoPatch'],
+      ip: json['ip'],
+      lastPublicKey: json['lastPublicKey'],
+      networkPatch: json['networkPatch'],
+      port: json['port'],
+      rewardAddress: json['rewardAddress'],
+      authorizationDate: json['authorizationDate'],
+      enrollmentDate: json['enrollmentDate']);
 
   bool? authorized;
   bool? available;
