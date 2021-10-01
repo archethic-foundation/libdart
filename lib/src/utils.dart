@@ -66,7 +66,7 @@ BigInt decodeBigInt(Uint8List bytes) {
 }
 
 /// Convert any number into a big int for 10^8 decimals
-/// @param {Number} Number to convert
-BigInt toBigInt(double number) {
-  return BigInt.from(number * 100000000);
+/// @param {BigInt} Number to convert
+BigInt toBigInt(var number) {
+  return BigInt.from(number) * BigInt.from(100000000);
 }
