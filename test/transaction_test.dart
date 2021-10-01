@@ -215,7 +215,8 @@ void main() {
         const String content =
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
         const String secret = 'mysecret';
-        final Transaction tx = Transaction(type: 'transfer', data: Transaction.initData())
+        final Transaction tx = Transaction(
+                type: 'transfer', data: Transaction.initData())
             .addAuthorizedKey(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')

@@ -249,8 +249,7 @@ class Transaction {
     } else {
       to = uint8ListToHex(to);
     }
-    final UCOTransfer ucoTransfer =
-        UCOTransfer(to: to, amount: toBigInt(amount));
+    final UCOTransfer ucoTransfer = UCOTransfer(to: to, amount: toBigInt(amount));
     this.data!.ledger!.uco!.transfers!.add(ucoTransfer);
     return this;
   }

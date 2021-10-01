@@ -1,3 +1,5 @@
+import 'package:archethic_lib_dart/src/utils.dart';
+
 /// [NFTTransfer] represents the an asset transfer
 class NFTTransfer {
   NFTTransfer({
@@ -13,7 +15,7 @@ class NFTTransfer {
   factory NFTTransfer.fromJson(Map<String, dynamic> json) => NFTTransfer(
         amount: json['amount'] == null
             ? null
-            : BigInt.from(json['amount'].toDouble()),
+            : toBigInt(json['amount'].toDouble()),
         to: json['to'],
         nft: json['nft'],
       );
