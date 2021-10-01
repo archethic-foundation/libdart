@@ -1,5 +1,5 @@
 // Dart imports:
-import 'dart:typed_data' show Uint8List, ByteData, Endian;
+import 'dart:typed_data' show Uint8List, Endian;
 
 // Package imports:
 import 'package:pinenacl/encoding.dart' show HexCoder;
@@ -38,16 +38,20 @@ Uint8List encodeInt32(int number) {
   return Uint8List(4)..buffer.asByteData().setInt32(0, number, Endian.big);
 }
 
-/// Encode a big integer into a Uint8List (8 bytes)
+/// Encode a BigInt into bytes using big-endian encoding.
+/// It encodes the integer to a minimal twos-compliment integer as defined by
+/// ASN.1 (8 bytes)
 /// @param {Number} number Number to encode
 Uint8List encodeBigInt(BigInt number) {
-  final ByteData data = ByteData(8);
-  BigInt _bigInt = number;
-  for (int i = 1; i <= data.lengthInBytes; i++) {
-    data.setUint8(data.lengthInBytes - i, _bigInt.toUnsigned(8).toInt());
-    _bigInt = _bigInt >> 8;
+  final _byteMask = new BigInt.from(0xff);
+  var result = new Uint8List(8);
+  BigInt work = number;
+  // big-endian
+  for (int i = 0; i < 8; i++) {
+    result[8 - i - 1] = (work & _byteMask).toInt();
+    work = work >> 8;
   }
-  return data.buffer.asUint8List();
+  return result;
 }
 
 /// Decode a BigInt from bytes in big-endian encoding.
@@ -61,10 +65,8 @@ BigInt decodeBigInt(Uint8List bytes) {
   return result;
 }
 
-/// Encode a float into a Uint8List (8 bytes)
-/// @param {Number} number Number to encode
-Uint8List encodeFloat64(double number) {
-  final ByteData byteConvert = ByteData(8);
-  byteConvert.setFloat64(0, number);
-  return byteConvert.buffer.asUint8List();
+/// Convert any number into a big int for 10^8 decimals
+/// @param {Number} Number to convert
+BigInt toBigInt(double number) {
+  return BigInt.from(number * 100000000);
 }

@@ -5,11 +5,13 @@ class UCOTransfer {
     this.to,
   });
 
-  double? amount;
+  BigInt? amount;
   String? to;
 
   factory UCOTransfer.fromJson(Map<String, dynamic> json) => UCOTransfer(
-        amount: json['amount'] == null ? null : json['amount'].toDouble(),
+        amount: json['amount'] == null
+            ? null
+            : BigInt.from(json['amount'].toDouble()),
         to: json['to'],
       );
 

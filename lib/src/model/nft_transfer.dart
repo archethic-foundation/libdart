@@ -6,12 +6,14 @@ class NFTTransfer {
     this.nft,
   });
 
-  double? amount;
+  BigInt? amount;
   String? to;
   String? nft;
 
   factory NFTTransfer.fromJson(Map<String, dynamic> json) => NFTTransfer(
-        amount: json['amount'] == null ? null : json['amount'].toDouble(),
+        amount: json['amount'] == null
+            ? null
+            : BigInt.from(json['amount'].toDouble()),
         to: json['to'],
         nft: json['nft'],
       );

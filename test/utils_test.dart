@@ -57,11 +57,4 @@ void main() {
           Uint8List.fromList(<int>[0, 0, 193, 27, 127, 12, 196, 221]));
     });
   });
-
-  group('encodeFloat64', () {
-    test('should encode an double into a 8 bytes array', () {
-      expect(encodeFloat64(0.243829489482948),
-          Uint8List.fromList(<int>[63, 207, 53, 206, 1, 144, 151, 247]));
-    });
-  });
 }

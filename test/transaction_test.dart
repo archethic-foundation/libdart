@@ -73,7 +73,7 @@ void main() {
         expect(tx.data!.ledger!.uco!.transfers!.length, 1);
         expect(tx.data!.ledger!.uco!.transfers![0].to,
             '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
-        expect(tx.data!.ledger!.uco!.transfers![0].amount, 10.03);
+        expect(tx.data!.ledger!.uco!.transfers![0].amount, toBigInt(10.03));
       });
     });
     group('addNFTTransfer', () {
@@ -87,7 +87,7 @@ void main() {
         expect(tx.data!.ledger!.nft!.transfers!.length, 1);
         expect(tx.data!.ledger!.nft!.transfers![0].to,
             '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
-        expect(tx.data!.ledger!.nft!.transfers![0].amount, 10.03);
+        expect(tx.data!.ledger!.nft!.transfers![0].amount, toBigInt(10.03));
         expect(tx.data!.ledger!.nft!.transfers![0].nft,
             '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
       });
@@ -161,7 +161,7 @@ void main() {
           concatUint8List(<Uint8List>[
             hexToUint8List(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
-            encodeFloat64(0.2020)
+            encodeBigInt(toBigInt(0.2020))
           ]),
           // Nb of NFT transfers
           Uint8List.fromList(<int>[1]),
@@ -170,7 +170,7 @@ void main() {
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
             hexToUint8List(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
-            encodeFloat64(100)
+            encodeBigInt(toBigInt(100))
           ]),
           // Nb of recipients
           Uint8List.fromList(<int>[1]),
@@ -265,7 +265,7 @@ void main() {
           concatUint8List(<Uint8List>[
             hexToUint8List(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
-            encodeFloat64(0.2020)
+            encodeBigInt(toBigInt(0.2020))
           ]),
           // Nb of NFT transfers
           Uint8List.fromList(<int>[1]),
@@ -274,7 +274,7 @@ void main() {
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
             hexToUint8List(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
-            encodeFloat64(100)
+            encodeBigInt(toBigInt(100))
           ]),
           // Nb of recipients
           Uint8List.fromList(<int>[1]),
@@ -341,7 +341,7 @@ void main() {
         expect(parsedTx['data']['ledger']['uco']['transfers'][0], {
           'to':
               '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-          'amount': 0.2193
+          'amount': toBigInt(0.2193).toString()
         });
       });
     });

@@ -249,7 +249,8 @@ class Transaction {
     } else {
       to = uint8ListToHex(to);
     }
-    final UCOTransfer ucoTransfer = UCOTransfer(to: to, amount: amount);
+    final UCOTransfer ucoTransfer =
+        UCOTransfer(to: to, amount: toBigInt(amount));
     this.data!.ledger!.uco!.transfers!.add(ucoTransfer);
     return this;
   }
@@ -283,7 +284,7 @@ class Transaction {
       nftAddress = uint8ListToHex(nftAddress);
     }
     final NFTTransfer nftTransfer =
-        NFTTransfer(amount: amount, nft: nftAddress, to: to);
+        NFTTransfer(amount: toBigInt(amount), nft: nftAddress, to: to);
     this.data!.ledger!.nft!.transfers!.add(nftTransfer);
     return this;
   }
@@ -367,7 +368,7 @@ class Transaction {
           .forEach((ucoTransfer) => ucoTransfersBuffers = concatUint8List([
                 ucoTransfersBuffers,
                 hexToUint8List(ucoTransfer.to!),
-                encodeFloat64(ucoTransfer.amount!)
+                encodeBigInt(ucoTransfer.amount!)
               ]));
     }
 
@@ -382,7 +383,7 @@ class Transaction {
                 nftTransfersBuffers,
                 hexToUint8List(this.data!.ledger!.nft!.transfers![0].nft!),
                 hexToUint8List(this.data!.ledger!.nft!.transfers![0].to!),
-                encodeFloat64(this.data!.ledger!.nft!.transfers![0].amount!)
+                encodeBigInt(this.data!.ledger!.nft!.transfers![0].amount!)
               ]));
     }
 
@@ -432,7 +433,7 @@ class Transaction {
                 List<dynamic>.from(this.data!.ledger!.uco!.transfers!.map((x) {
               return {
                 'to': x.to!,
-                'amount': x.amount,
+                'amount': x.amount.toString(),
               };
             }))
           },
