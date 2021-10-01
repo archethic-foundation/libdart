@@ -37,9 +37,9 @@ dependencies:
   secp256k1: ^0.3.0
 
   # Dart port of Curve25519
-  x25519: ^0.0.2
+  x25519: ^0.1.1
 
 dev_dependencies:
   # Automatically organize your dart imports
   import_sorter: ^4.6.0
-  test: ^1.17.12
+  test: ^1.18.0
