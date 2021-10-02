@@ -184,7 +184,8 @@ class Transaction {
 
   /// Add a secret to the transaction
   /// @param {String | Uint8List} secret Secret encrypted (hexadecimal or binary buffer)
-  Transaction setSecret(secret) {
+  /// @param {Object<String | Uint8List, String | Uint8List>} authorizedKeys
+  Transaction addSecret(secret, authorizedKeys) {
     if (!(secret is Uint8List) && !(secret is String)) {
       throw "'secret' must be a string or Uint8List";
     }
@@ -193,7 +194,9 @@ class Transaction {
       secret = uint8ListToHex(secret);
     }
 
-    this.data!.keys!.secret = secret;
+
+
+    this.data!.keys!.secrets!.add(secret);
     return this;
   }
 
@@ -225,10 +228,10 @@ class Transaction {
       encryptedSecretKey = uint8ListToHex(encryptedSecretKey);
     }
 
-    AuthorizedKey authorizedKey = new AuthorizedKey(
-        publicKey: publicKey, encryptedKey: encryptedSecretKey);
+    AuthorizedKey authorizedKey = new AuthorizedKey(authorizedKey: 
+       {publicKey: encryptedSecretKey});
     if (this.data!.keys!.authorizedKeys!.contains(publicKey) == false) {
-      this.data!.keys!.authorizedKeys!.add(authorizedKey);
+      this.data!.keys!.authorizedKeys!.add(authorizedKey.authorizedKey!);
     }
 
     return this;
@@ -346,16 +349,33 @@ class Transaction {
           Uint8List.fromList(utf8.encode(this.data!.content!)).lengthInBytes;
     }
     final Uint8List bufContentSize = encodeInt32(contentSize);
-    final Uint8List bufSecretSize =
-        encodeInt32(this.data!.keys!.secret!.length);
+    
+    final List<Uint8List> secretsBuffer = this.data!.keys!.secrets!.map((String secret) 
+    {
+       return concatUint8List([
+ 						 encodeInt32(Uint8List.fromList(utf8.encode(secret)).lengthInBytes),
+ 						 Uint8List.fromList(utf8.encode(secret))
+ 					 ]);
+    }).toList();
 
-    Uint8List authorizedKeysBuffers = Uint8List(0);
-    this.data!.keys!.authorizedKeys!.forEach((authorizedKey) {
-      authorizedKeysBuffers = concatUint8List([
-        hexToUint8List(authorizedKey.publicKey!),
-        hexToUint8List(authorizedKey.encryptedKey!)
-      ]);
-    });
+    // TODO
+    Uint8List authorizedKeysBuffer = Uint8List.fromList([]);
+
+    /*var authorizedKeysBuffer = this.data!.keys!.authorizedKeys!.map((authorizedKeysBySecret) 
+    {
+ 					  var nbAuthorizedKeys = this.data!.keys!.authorizedKeys!.length;
+ 					  var buf = [Uint8List.fromList([nbAuthorizedKeys])];
+
+ 				    for (var publicKey in this.data!.keys!.authorizedKeys!) {
+ 							var encryptedSecretKey = authorizedKeysBySecret[publicKey.];
+ 							publicKey = Uint8List.fromList(publicKey.split(','));
+
+ 							buf.add(Uint8List.fromList(publicKey));
+ 							buf.add(encryptedSecretKey);
+ 						}
+
+ 						return concatUint8List(buf);
+ 				});*/
 
     Uint8List ucoTransfersBuffers = Uint8List(0);
     if (this.data!.ledger!.uco!.transfers!.isNotEmpty) {
@@ -399,10 +419,9 @@ class Transaction {
       Uint8List.fromList(utf8.encode(this.data!.code!)),
       bufContentSize,
       Uint8List.fromList(utf8.encode(this.data!.content!)),
-      bufSecretSize,
-      Uint8List.fromList(utf8.encode(this.data!.keys!.secret!)),
-      Uint8List.fromList([this.data!.keys!.authorizedKeys!.length]),
-      authorizedKeysBuffers,
+      Uint8List.fromList([this.data!.keys!.secrets!.length]),
+      concatUint8List(secretsBuffer),
+      authorizedKeysBuffer,
       Uint8List.fromList([this.data!.ledger!.uco!.transfers!.length]),
       ucoTransfersBuffers,
       Uint8List.fromList([this.data!.ledger!.nft!.transfers!.length]),
@@ -423,8 +442,8 @@ class Transaction {
             Uint8List.fromList(utf8.encode(this.data!.content!))),
         'code': this.data!.code!,
         'keys': {
-          'secret': this.data!.keys!.secret!,
-          'authorizedKeys': hexAuthorizedKeys(this.data!.keys!.authorizedKeys!)
+          'secrets': this.data!.keys!.secrets!,
+          'authorizedKeys': []
         },
         'ledger': {
           'uco': {
@@ -452,6 +471,7 @@ class Transaction {
     return _json;
   }
 
+  /*
   Map<dynamic, dynamic> hexAuthorizedKeys(List<AuthorizedKey> authorizedKeys) {
     final Map<dynamic, dynamic> authorizedKeysHex = {};
     authorizedKeys.forEach((authorizedKey) {
@@ -459,13 +479,13 @@ class Transaction {
           authorizedKey.publicKey, () => authorizedKey.encryptedKey);
     });
     return authorizedKeysHex;
-  }
+  }*/
 
   static Data initData() {
     return Data.fromJson({
       'content': '',
       'code': '',
-      'keys': {'secret': '', 'authorizedKeys': []},
+      'keys': {'secrets': [], 'authorizedKeys': []},
       'ledger': {
         'uco': {'transfers': []},
         'nft': {'transfers': []}

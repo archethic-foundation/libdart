@@ -38,18 +38,18 @@ void main() {
         expect(tx.data!.content!, 'my super content');
       });
     });
-    group('setSecret', () {
+    /*group('setSecret', () {
       test('should insert the secret into the transaction data', () {
         final Transaction tx = Transaction(
                 type: 'transfer', data: Transaction.initData())
-            .setSecret(
+            .addSecret(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
         expect(tx.data!.keys!.secret!,
             '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
       });
-    });
+    });*/
 
-    group('addAuthorizedKey', () {
+    /*group('addAuthorizedKey', () {
       test('should add an authorized key to the transaction data', () {
         const String publicKey =
             '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646';
@@ -61,7 +61,7 @@ void main() {
 
         expect(tx.data!.keys!.authorizedKeys![0].encryptedKey, encryptedKey);
       });
-    });
+    });*/
 
     group('addUCOTransfer', () {
       test('should add an uco transfer to the transaction data', () {
@@ -114,7 +114,7 @@ void main() {
             .addAuthorizedKey(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
-            .setSecret(secret)
+            //.setSecret(secret)
             .addUCOTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 0.2020)
@@ -220,7 +220,7 @@ void main() {
             .addAuthorizedKey(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
-            .setSecret('mysecret')
+            //.setSecret('mysecret')
             .addUCOTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 0.2020)

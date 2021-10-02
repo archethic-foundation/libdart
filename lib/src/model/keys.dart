@@ -5,23 +5,25 @@ import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 class Keys {
   Keys({
     this.authorizedKeys,
-    this.secret,
+    this.secrets,
   });
 
-  List<AuthorizedKey>? authorizedKeys;
-  String? secret;
+  List<Map<String, String>>? authorizedKeys;
+  List<String>? secrets;
 
   factory Keys.fromJson(Map<String, dynamic> json) => Keys(
         authorizedKeys: json['authorizedKeys'] == null
             ? null
-            : List<AuthorizedKey>.from(
+            : List<Map<String, String>>.from(
                 json['authorizedKeys'].map((x) => AuthorizedKey.fromJson(x))),
-        secret: json['secret'],
+        secrets: json['secrets'] == null
+            ? null
+            : List<String>.from(json["secrets"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         'authorizedKeys':
-            List<dynamic>.from(authorizedKeys!.map((x) => x.toJson())),
-        'secret': secret,
+            List<dynamic>.from(authorizedKeys!.map((x) => x)),
+        'secrets': List<dynamic>.from(secrets!.map((x) => x)),
       };
 }
