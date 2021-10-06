@@ -353,7 +353,7 @@ class ApiService {
     };
     try {
       final String _body =
-      'query { transactionInputs(address: \\"$address\\") { amount, from, nftAddress, spent, timestamp, type } }';
+      '{"query":"query { transactionInputs(address: \\"$address\\") { amount, from, nftAddress, spent, timestamp, type } }"}';
       logger.d('getTransactionInputs: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
