@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:archethic_lib_dart/src/utils.dart';
 
 /// [UCOTransfer] represents the an asset transfer
@@ -11,9 +12,8 @@ class UCOTransfer {
   String? to;
 
   factory UCOTransfer.fromJson(Map<String, dynamic> json) => UCOTransfer(
-        amount: json['amount'] == null
-            ? null
-            : toBigInt(json['amount'].toDouble()),
+        amount:
+            json['amount'] == null ? null : toBigInt(json['amount'].toDouble()),
         to: json['to'],
       );
 

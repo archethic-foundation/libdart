@@ -8,6 +8,7 @@ import 'dart:typed_data';
 import 'package:test/test.dart';
 
 // Project imports:
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_lib_dart/src/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
@@ -38,30 +39,34 @@ void main() {
         expect(tx.data!.content!, 'my super content');
       });
     });
-    /*group('setSecret', () {
-      test('should insert the secret into the transaction data', () {
+
+    group('addOwnership', () {
+      test(
+          'should add an ownership with a secret and its authorized keys into the transaction data',
+          () {
         final Transaction tx = Transaction(
                 type: 'transfer', data: Transaction.initData())
-            .addSecret(
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
-        expect(tx.data!.keys!.secret!,
+            .addOwnership(
+                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+                [
+              AuthorizedKey(
+                  publicKey:
+                      '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                  encryptedSecretKey:
+                      '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+            ]);
+        expect(tx.data!.ownerships![0].secrets!,
             '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
+        expect(tx.data!.ownerships![0].authorizedPublicKeys!, [
+          {
+            'publicKey':
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+            'encryptedSecretKey':
+                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'
+          }
+        ]);
       });
-    });*/
-
-    /*group('addAuthorizedKey', () {
-      test('should add an authorized key to the transaction data', () {
-        const String publicKey =
-            '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646';
-        const String encryptedKey =
-            '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88';
-        final Transaction tx =
-            Transaction(type: 'transfer', data: Transaction.initData())
-                .addAuthorizedKey(publicKey, encryptedKey);
-
-        expect(tx.data!.keys!.authorizedKeys![0].encryptedKey, encryptedKey);
-      });
-    });*/
+    });
 
     group('addUCOTransfer', () {
       test('should add an uco transfer to the transaction data', () {
@@ -111,10 +116,13 @@ void main() {
         const String secret = 'mysecret';
         final Transaction tx = Transaction(
                 type: 'transfer', data: Transaction.initData())
-            .addAuthorizedKey(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
-            //.setSecret(secret)
+            .addOwnership(secret, [
+              AuthorizedKey(
+                  publicKey:
+                      '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                  encryptedSecretKey:
+                      '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+            ])
             .addUCOTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 0.2020)
@@ -185,9 +193,9 @@ void main() {
       test('should build the transaction and the related signature', () {
         final Transaction tx = Transaction(
                 type: 'transfer', data: Transaction.initData())
-            .addAuthorizedKey(
+            .addUCOTransfer(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+                10.0)
             .build('seed', 0, 'P256');
         expect(tx.address,
             '001680dab710eca8bc6b6c8025e57ebaf2d30c03d8d23a21ba7f8a157c365c5d49');
@@ -217,9 +225,13 @@ void main() {
         const String secret = 'mysecret';
         final Transaction tx = Transaction(
                 type: 'transfer', data: Transaction.initData())
-            .addAuthorizedKey(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+            .addOwnership(secret, [
+              AuthorizedKey(
+                  publicKey:
+                      '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                  encryptedSecretKey:
+                      '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+            ])
             //.setSecret('mysecret')
             .addUCOTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
@@ -312,12 +324,16 @@ void main() {
 
         final Transaction tx = Transaction(
                 type: 'transfer', data: Transaction.initData())
-            .addAuthorizedKey(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             .addUCOTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 0.2193)
+            .addOwnership(Uint8List.fromList([0, 1, 2, 3, 4]), [
+              AuthorizedKey(
+                  publicKey:
+                      '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                  encryptedSecretKey:
+                      '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+            ])
             .build('seed', 0, 'P256')
             .originSign(originKeypair.privateKey);
 

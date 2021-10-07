@@ -13,6 +13,7 @@ import 'package:archethic_lib_dart/src/model/cross_validation_stamp.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/data.dart';
 import 'package:archethic_lib_dart/src/model/nft_transfer.dart';
+import 'package:archethic_lib_dart/src/model/ownership.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
 import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
@@ -182,10 +183,10 @@ class Transaction {
     return this;
   }
 
-  /// Add a secret to the transaction
+  /// Add an ownership with a secret and its authorized public keys
   /// @param {String | Uint8List} secret Secret encrypted (hexadecimal or binary buffer)
-  /// @param {Object<String | Uint8List, String | Uint8List>} authorizedKeys
-  Transaction addSecret(secret, authorizedKeys) {
+  /// @param {List<AuthorizedKey>} authorizedKeys
+  Transaction addOwnership(secret, List<AuthorizedKey> authorizedKeys) {
     if (!(secret is Uint8List) && !(secret is String)) {
       throw "'secret' must be a string or Uint8List";
     }
@@ -194,46 +195,20 @@ class Transaction {
       secret = uint8ListToHex(secret);
     }
 
-
-
-    this.data!.keys!.secrets!.add(secret);
-    return this;
-  }
-
-  /// Add an authorized public key for secret decryption to the transaction with its encrypted secret key
-  /// @param {String | Uint8List} publicKey Authorized public key (hexadecimal or or binary buffer)
-  /// @param {String | Uint8List} encryptedSecretKey Encrypted secret key for the given public key (hexadecimal or binary buffer)
-  Transaction addAuthorizedKey(publicKey, encryptedSecretKey) {
-    if (!(publicKey is Uint8List) && !(publicKey is String)) {
-      throw "'publicKey' must be a string or Uint8List";
-    }
-
-    if (!(encryptedSecretKey is Uint8List) && !(encryptedSecretKey is String)) {
-      throw "'encryptedSecretKey' must be a string or Uint8List";
-    }
-
-    if (publicKey is String) {
-      if (!isHex(publicKey)) {
-        throw "'publicKey' must be an hexadecimal string";
+    authorizedKeys.forEach((AuthorizedKey authorizedKey) {
+      if (!isHex(authorizedKey.publicKey!)) {
+        throw "'Authorized public key' must be an hexadecimal string";
       }
-    } else {
-      publicKey = uint8ListToHex(publicKey);
-    }
 
-    if (encryptedSecretKey is String) {
-      if (!isHex(encryptedSecretKey)) {
-        throw "'encryptedSecretKey' must be an hexadecimal string";
+      if (!isHex(authorizedKey.encryptedSecretKey!)) {
+        throw "'Encrypted secret' must be an hexadecimal string";
       }
-    } else {
-      encryptedSecretKey = uint8ListToHex(encryptedSecretKey);
-    }
+    });
 
-    AuthorizedKey authorizedKey = new AuthorizedKey(authorizedKey: 
-       {publicKey: encryptedSecretKey});
-    if (this.data!.keys!.authorizedKeys!.contains(publicKey) == false) {
-      this.data!.keys!.authorizedKeys!.add(authorizedKey.authorizedKey!);
-    }
-
+    this
+        .data!
+        .ownerships!
+        .add(Ownership(secrets: secret, authorizedPublicKeys: authorizedKeys));
     return this;
   }
 
@@ -252,7 +227,8 @@ class Transaction {
     } else {
       to = uint8ListToHex(to);
     }
-    final UCOTransfer ucoTransfer = UCOTransfer(to: to, amount: toBigInt(amount));
+    final UCOTransfer ucoTransfer =
+        UCOTransfer(to: to, amount: toBigInt(amount));
     this.data!.ledger!.uco!.transfers!.add(ucoTransfer);
     return this;
   }
@@ -349,33 +325,25 @@ class Transaction {
           Uint8List.fromList(utf8.encode(this.data!.content!)).lengthInBytes;
     }
     final Uint8List bufContentSize = encodeInt32(contentSize);
-    
-    final List<Uint8List> secretsBuffer = this.data!.keys!.secrets!.map((String secret) 
-    {
-       return concatUint8List([
- 						 encodeInt32(Uint8List.fromList(utf8.encode(secret)).lengthInBytes),
- 						 Uint8List.fromList(utf8.encode(secret))
- 					 ]);
-    }).toList();
 
-    // TODO
-    Uint8List authorizedKeysBuffer = Uint8List.fromList([]);
+    Uint8List ownershipsBuffer = Uint8List.fromList([]);
 
-    /*var authorizedKeysBuffer = this.data!.keys!.authorizedKeys!.map((authorizedKeysBySecret) 
-    {
- 					  var nbAuthorizedKeys = this.data!.keys!.authorizedKeys!.length;
- 					  var buf = [Uint8List.fromList([nbAuthorizedKeys])];
+    this.data!.ownerships!.forEach((Ownership ownership) {
+      List<Uint8List> authorizedKeysBuffer = [
+        Uint8List.fromList([ownership.authorizedPublicKeys!.length])
+      ];
+      ownership.authorizedPublicKeys!.forEach((AuthorizedKey authorizedKey) {
+        authorizedKeysBuffer.add(hexToUint8List(authorizedKey.publicKey!));
+        authorizedKeysBuffer
+            .add(hexToUint8List(authorizedKey.encryptedSecretKey!));
+      });
 
- 				    for (var publicKey in this.data!.keys!.authorizedKeys!) {
- 							var encryptedSecretKey = authorizedKeysBySecret[publicKey.];
- 							publicKey = Uint8List.fromList(publicKey.split(','));
-
- 							buf.add(Uint8List.fromList(publicKey));
- 							buf.add(encryptedSecretKey);
- 						}
-
- 						return concatUint8List(buf);
- 				});*/
+      ownershipsBuffer = concatUint8List([
+        // TODO
+        //encodeInt32(Uint8List.fromList(utf8.encode(ownership.secrets)).lengthInBytes),
+        concatUint8List(authorizedKeysBuffer)
+      ]);
+    });
 
     Uint8List ucoTransfersBuffers = Uint8List(0);
     if (this.data!.ledger!.uco!.transfers!.isNotEmpty) {
@@ -419,9 +387,8 @@ class Transaction {
       Uint8List.fromList(utf8.encode(this.data!.code!)),
       bufContentSize,
       Uint8List.fromList(utf8.encode(this.data!.content!)),
-      Uint8List.fromList([this.data!.keys!.secrets!.length]),
-      concatUint8List(secretsBuffer),
-      authorizedKeysBuffer,
+      Uint8List.fromList([this.data!.ownerships!.length]),
+      ownershipsBuffer,
       Uint8List.fromList([this.data!.ledger!.uco!.transfers!.length]),
       ucoTransfersBuffers,
       Uint8List.fromList([this.data!.ledger!.nft!.transfers!.length]),
@@ -441,10 +408,12 @@ class Transaction {
         'content': uint8ListToHex(
             Uint8List.fromList(utf8.encode(this.data!.content!))),
         'code': this.data!.code!,
-        'keys': {
-          'secrets': this.data!.keys!.secrets!,
-          'authorizedKeys': []
-        },
+        'ownerships': List<dynamic>.from(this.data!.ownerships!.map((x) {
+          return {
+            'secrets': x.secrets!,
+            'authorizedKey': x.authorizedPublicKeys,
+          };
+        })),
         'ledger': {
           'uco': {
             'transfers':
@@ -471,21 +440,11 @@ class Transaction {
     return _json;
   }
 
-  /*
-  Map<dynamic, dynamic> hexAuthorizedKeys(List<AuthorizedKey> authorizedKeys) {
-    final Map<dynamic, dynamic> authorizedKeysHex = {};
-    authorizedKeys.forEach((authorizedKey) {
-      authorizedKeysHex.putIfAbsent(
-          authorizedKey.publicKey, () => authorizedKey.encryptedKey);
-    });
-    return authorizedKeysHex;
-  }*/
-
   static Data initData() {
     return Data.fromJson({
       'content': '',
       'code': '',
-      'keys': {'secrets': [], 'authorizedKeys': []},
+      'ownerships': [],
       'ledger': {
         'uco': {'transfers': []},
         'nft': {'transfers': []}
@@ -495,6 +454,6 @@ class Transaction {
   }
 
   static String getQLFields() {
-    return ' address, balance { nft { address, amount }, uco }, chainLength, crossValidationStamps { node, signature }, data { content, keys { authorizedKeys { encryptedSecretKey, publicKey } secrets } ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } recipients } inputs { amount, from, nftAddress, spent, timestamp, type, }, originSignature, previousPublicKey, previousSignature, type, validationStamp { timestamp, ledgerOperations { fee } }, version';
+    return ' address, balance { nft { address, amount }, uco }, chainLength, crossValidationStamps { node, signature }, data { content,  ownerships {  authorizedPublicKeys { encryptedSecretKey, publicKey } secrets } ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } recipients } inputs { amount, from, nftAddress, spent, timestamp, type, }, originSignature, previousPublicKey, previousSignature, type, validationStamp { timestamp, ledgerOperations { fee } }, version';
   }
 }

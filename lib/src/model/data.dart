@@ -2,8 +2,8 @@
 import 'dart:convert';
 
 // Project imports:
-import 'package:archethic_lib_dart/src/model/keys.dart';
 import 'package:archethic_lib_dart/src/model/ledger.dart';
+import 'package:archethic_lib_dart/src/model/ownership.dart';
 import 'package:archethic_lib_dart/src/utils.dart';
 
 /// [TransactionData] represents the data section for every transaction.
@@ -12,7 +12,7 @@ class Data {
   Data({
     this.code,
     this.content,
-    this.keys,
+    this.ownerships,
     this.ledger,
     this.recipients,
   });
@@ -26,8 +26,8 @@ class Data {
   /// ContentDisplay: convert Content to lisible string
   String? get contentDisplay => utf8.decode(hexToUint8List(content!));
 
-  /// Keys: Secrets and authorized public keys to decrypt the secret
-  Keys? keys;
+  /// Ownership: authorization/delegations containing list of secrets and their authorized public keys to proof the ownership
+  List<Ownership>? ownerships;
 
   /// Ledger: asset transfers
   Ledger? ledger;
@@ -38,7 +38,9 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         code: json['code'],
         content: json['content'],
-        keys: json['keys'] == null ? null : Keys.fromJson(json['keys']),
+        ownerships: json['ownerships'] == null
+            ? null
+            : List<Ownership>.from(json['ownerships'].map((x) => x)),
         ledger: json['ledger'] == null ? null : Ledger.fromJson(json['ledger']),
         recipients: json['recipients'] == null
             ? null
@@ -48,7 +50,7 @@ class Data {
   Map<String, dynamic> toJson() => {
         'code': code,
         'content': content,
-        'keys': keys!.toJson(),
+        'ownerships': List<dynamic>.from(ownerships!.map((x) => x)),
         'ledger': ledger!.toJson(),
         'recipients': List<dynamic>.from(recipients!.map((x) => x)),
       };

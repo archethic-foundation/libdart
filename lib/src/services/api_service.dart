@@ -4,17 +4,13 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
-import 'package:archethic_lib_dart/src/crypto.dart' as crypto;
-import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
-import 'package:archethic_lib_dart/src/model/response/transaction_inputs_response.dart';
-import 'package:archethic_lib_dart/src/model/transaction_input.dart';
-import 'package:archethic_lib_dart/src/services/address_service.dart';
-import 'package:archethic_lib_dart/src/utils.dart' as utils;
 import 'package:http/http.dart' as http show Response, post;
 import 'package:logger/logger.dart';
 
 // Project imports:
+import 'package:archethic_lib_dart/src/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/model/balance.dart';
+import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/node.dart';
 import 'package:archethic_lib_dart/src/model/response/balance_response.dart';
 import 'package:archethic_lib_dart/src/model/response/network_transactions_response.dart';
@@ -22,9 +18,13 @@ import 'package:archethic_lib_dart/src/model/response/nodes_response.dart';
 import 'package:archethic_lib_dart/src/model/response/shared_secrets_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transaction_chain_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transaction_content_response.dart';
+import 'package:archethic_lib_dart/src/model/response/transaction_inputs_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transaction_last_response.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
+import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/transaction_status.dart';
+import 'package:archethic_lib_dart/src/services/address_service.dart';
+import 'package:archethic_lib_dart/src/utils.dart' as utils;
 
 class ApiService {
   Logger logger = Logger();
@@ -344,16 +344,19 @@ class ApiService {
   /// Query the network to list the transaction inputs from an address
   /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   Future<List<TransactionInput>> getTransactionInputs(String address) async {
-    final Completer<List<TransactionInput>> _completer = Completer<List<TransactionInput>>();
-    List<TransactionInput> transactionInputs = List<TransactionInput>.empty(growable: true);
-    TransactionInputsResponse transactionInputsResponse = TransactionInputsResponse();
+    final Completer<List<TransactionInput>> _completer =
+        Completer<List<TransactionInput>>();
+    List<TransactionInput> transactionInputs =
+        List<TransactionInput>.empty(growable: true);
+    TransactionInputsResponse transactionInputsResponse =
+        TransactionInputsResponse();
     final Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
     try {
       final String _body =
-      '{"query":"query { transactionInputs(address: \\"$address\\") { amount, from, nftAddress, spent, timestamp, type } }"}';
+          '{"query":"query { transactionInputs(address: \\"$address\\") { amount, from, nftAddress, spent, timestamp, type } }"}';
       logger.d('getTransactionInputs: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
@@ -363,7 +366,7 @@ class ApiService {
       if (responseHttp.statusCode == 200) {
         transactionInputsResponse =
             transactionInputsResponseFromJson(responseHttp.body);
-            transactionInputs = transactionInputsResponse.data!.transactionInputs!;
+        transactionInputs = transactionInputsResponse.data!.transactionInputs!;
       }
     } catch (e) {
       logger.d('getTransactionInputs: error=' + e.toString());
@@ -373,12 +376,12 @@ class ApiService {
     return _completer.future;
   }
 
-      /// Create a keychain and an access keychain using the initial passphrase
-      /// @param {String | Uint8Array} passphrase Initial access passphrase
-      /// @param {*} originPrivateKey Origin private key
-      /// @returns Keychain transaction address
-      
-    /* void createKeychain(passphrase, originPrivateKey) async {
+  /// Create a keychain and an access keychain using the initial passphrase
+  /// @param {String | Uint8Array} passphrase Initial access passphrase
+  /// @param {*} originPrivateKey Origin private key
+  /// @returns Keychain transaction address
+
+  /* void createKeychain(passphrase, originPrivateKey) async {
          final Uint8List accessKeychainSeed = crypto.hash(passphrase);
          final KeyPair publicKey = crypto.deriveKeyPair(utils.uint8ListToHex(accessKeychainSeed), 0);
 

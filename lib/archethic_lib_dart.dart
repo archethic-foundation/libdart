@@ -22,7 +22,7 @@ export 'src/model/cross_validation_stamp.dart';
 export 'src/model/data.dart';
 export 'src/model/error.dart';
 export 'src/model/errors.dart';
-export 'src/model/keys.dart';
+export 'src/model/ownership.dart';
 export 'src/model/ledger.dart';
 export 'src/model/ledger_operations.dart';
 export 'src/model/location.dart';
