@@ -420,14 +420,14 @@ class Transaction {
                 List<dynamic>.from(this.data!.ledger!.uco!.transfers!.map((x) {
               return {
                 'to': x.to!,
-                'amount': x.amount,
+                'amount': x.amount!.toDouble(),
               };
             }))
           },
           'nft': {
             'transfers':
                 List<dynamic>.from(this.data!.ledger!.nft!.transfers!.map((x) {
-              return {'to': x.to!, 'amount': x.amount, 'nft': x.nft!};
+              return {'to': x.to!, 'amount': x.amount!.toDouble(), 'nft': x.nft!};
             }))
           },
         },
