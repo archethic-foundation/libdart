@@ -54,10 +54,9 @@ void main() {
                       '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                   encryptedSecretKey:
                       '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
-            ]);
-        expect(tx.data!.ownerships![0].secrets!,
-            '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
-        expect(tx.data!.ownerships![0].authorizedPublicKeys!, [
+            ]).build('seed', 0, 'P256');
+        final parsedTx = json.decode(tx.convertToJSON());
+        expect(parsedTx['data']['ownerships'][0]['authorizedKey'], [
           {
             'publicKey':
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
@@ -65,6 +64,9 @@ void main() {
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'
           }
         ]);
+
+        expect(tx.data!.ownerships![0].secret!,
+            '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
       });
     });
 
@@ -152,6 +154,8 @@ void main() {
           //Content size
           encodeInt32(content.length),
           Uint8List.fromList(utf8.encode(content)),
+          //Nb of ownerships
+          Uint8List.fromList([1]),
           //Secret size
           encodeInt32(secret.length),
           Uint8List.fromList(utf8.encode(secret)),
@@ -232,7 +236,6 @@ void main() {
                   encryptedSecretKey:
                       '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             ])
-            //.setSecret('mysecret')
             .addUCOTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 0.2020)
@@ -261,6 +264,8 @@ void main() {
           //Content size
           encodeInt32(content.length),
           Uint8List.fromList(utf8.encode(content)),
+          //Nb of ownerships
+          Uint8List.fromList([1]),
           //Secret size
           encodeInt32(secret.length),
           Uint8List.fromList(utf8.encode(secret)),
@@ -351,14 +356,18 @@ void main() {
             uint8ListToHex(transactionKeyPair.publicKey));
         expect(parsedTx['previousSignature'], uint8ListToHex(previousSig));
         expect(parsedTx['originSignature'], uint8ListToHex(originSig));
-        expect(
-            parsedTx['data']['keys']['authorizedKeys'][
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'],
-            '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
+        expect(parsedTx['data']['ownerships'][0]['authorizedKey'], [
+          {
+            'publicKey':
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+            'encryptedSecretKey':
+                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'
+          }
+        ]);
         expect(parsedTx['data']['ledger']['uco']['transfers'][0], {
           'to':
               '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-          'amount': toBigInt(0.2193).toString()
+          'amount': toBigInt(0.2193).toInt()
         });
       });
     });

@@ -208,7 +208,7 @@ class Transaction {
     this
         .data!
         .ownerships!
-        .add(Ownership(secrets: [secret], authorizedPublicKeys: authorizedKeys));
+        .add(Ownership(secret: secret, authorizedPublicKeys: authorizedKeys));
     return this;
   }
 
@@ -339,8 +339,9 @@ class Transaction {
       });
 
       ownershipsBuffer = concatUint8List([
-        // TODO
-        //encodeInt32(Uint8List.fromList(utf8.encode(ownership.secrets)).lengthInBytes),
+        encodeInt32(
+            Uint8List.fromList(utf8.encode(ownership.secret!)).lengthInBytes),
+        Uint8List.fromList(utf8.encode(ownership.secret!)),
         concatUint8List(authorizedKeysBuffer)
       ]);
     });
@@ -402,15 +403,17 @@ class Transaction {
   String convertToJSON() {
     final String _json = jsonEncode({
       'version': this.version,
-      'address': this.address!,
+      'address': this.address == null ? '' : this.address!,
       'type': this.type,
       'data': {
         'content': uint8ListToHex(
             Uint8List.fromList(utf8.encode(this.data!.content!))),
-        'code': this.data!.code!,
+        'code': this.data == null || this.data!.code == null
+            ? ''
+            : this.data!.code!,
         'ownerships': List<dynamic>.from(this.data!.ownerships!.map((x) {
           return {
-            'secrets': x.secrets!,
+            'secret': x.secret == null ? '' : x.secret!,
             'authorizedKey': x.authorizedPublicKeys,
           };
         })),
@@ -419,23 +422,30 @@ class Transaction {
             'transfers':
                 List<dynamic>.from(this.data!.ledger!.uco!.transfers!.map((x) {
               return {
-                'to': x.to!,
-                'amount': x.amount!.toInt(),
+                'to': x.to == null ? '' : x.to!,
+                'amount': x.amount == null ? 0 : x.amount!.toInt(),
               };
             }))
           },
           'nft': {
             'transfers':
                 List<dynamic>.from(this.data!.ledger!.nft!.transfers!.map((x) {
-              return {'to': x.to!, 'amount': x.amount!.toInt(), 'nft': x.nft!};
+              return {
+                'to': x.to == null ? '' : x.to!,
+                'amount': x.amount == null ? 0 : x.amount!.toInt(),
+                'nft': x.nft!
+              };
             }))
           },
         },
         'recipients': List<dynamic>.from(this.data!.recipients!.map((x) => x)),
       },
-      'previousPublicKey': this.previousPublicKey!,
-      'previousSignature': this.previousSignature!,
-      'originSignature': this.originSignature!
+      'previousPublicKey':
+          this.previousPublicKey == null ? '' : this.previousPublicKey!,
+      'previousSignature':
+          this.previousSignature == null ? '' : this.previousSignature!,
+      'originSignature':
+          this.originSignature == null ? '' : this.originSignature!
     });
     return _json;
   }
@@ -454,6 +464,6 @@ class Transaction {
   }
 
   static String getQLFields() {
-    return ' address, balance { nft { address, amount }, uco }, chainLength, crossValidationStamps { node, signature }, data { content,  ownerships {  authorizedPublicKeys { encryptedSecretKey, publicKey } secrets } ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } recipients } inputs { amount, from, nftAddress, spent, timestamp, type, }, originSignature, previousPublicKey, previousSignature, type, validationStamp { timestamp, ledgerOperations { fee } }, version';
+    return ' address, balance { nft { address, amount }, uco }, chainLength, crossValidationStamps { node, signature }, data { content,  ownerships {  authorizedPublicKeys { encryptedSecretKey, publicKey } secret } ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } recipients } inputs { amount, from, nftAddress, spent, timestamp, type, }, originSignature, previousPublicKey, previousSignature, type, validationStamp { timestamp, ledgerOperations { fee } }, version';
   }
 }
