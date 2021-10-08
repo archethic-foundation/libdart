@@ -3,7 +3,8 @@ Changelog
 
 #### Version 1.0.1 (2021-10-01) 
 * Update dependencies.
-* Support multiple secrets.
+* Change authorized keys to use list instead of map.
+* Rename keys to ownerships
 * Use integer instead of float
 * add getTransactionInputs method
 
