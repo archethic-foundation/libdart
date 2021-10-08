@@ -11,7 +11,7 @@ class NFTService {
   /// @param {} [originPrivateKey] The origin signature to able to perform the ProofOfWork and authorize the transaction
   Transaction prepareNewNFT(int initialSupply, String name, String seed,
       int index, String curve, String originPrivateKey) {
-    String content = 'initial supply: ${initialSupply}\nname: ${name}';
+    final String content = 'initial supply: $initialSupply\nname: $name';
     return Transaction(type: 'nft', data: Transaction.initData())
         .setContent(content)
         .build(seed, index, curve)

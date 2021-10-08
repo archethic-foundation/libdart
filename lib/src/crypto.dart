@@ -306,7 +306,7 @@ Uint8List ecEncrypt(data, publicKey) {
       final Uint8List ephemeralPublicKey =
           Uint8List.fromList(keyPair.publicKey);
 
-      final curve25519Pub = Uint8List(32);
+      final Uint8List curve25519Pub = Uint8List(32);
       tweetnacl.TweetNaClExt.crypto_sign_ed25519_pk_to_x25519_pk(
           curve25519Pub, pubBuf);
 
@@ -397,7 +397,7 @@ Uint8List ecDecrypt(cipherText, privateKey) {
       final Uint8List encrypted =
           cipherText.sublist(32 + 16, cipherText.length);
 
-      final curve25519pv = Uint8List(32);
+      final Uint8List curve25519pv = Uint8List(32);
       tweetnacl.TweetNaClExt.crypto_sign_ed25519_sk_to_x25519_sk(
           curve25519pv, pvBuf);
 

@@ -26,16 +26,16 @@ class TransactionLastResponse {
 
   factory TransactionLastResponse.fromJson(Map<String, dynamic> json) =>
       TransactionLastResponse(
-        data: json["data"] == null
+        data: json['data'] == null
             ? null
-            : TransactionLastResponseData.fromJson(json["data"]),
+            : TransactionLastResponseData.fromJson(json['data']),
         errors: json['errors'] == null
             ? null
             : List<Errors>.from(json['errors'].map((x) => Errors.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data!.toJson(),
+        'data': data!.toJson(),
         'errors': List<dynamic>.from(errors!.map((x) => x.toJson())),
       };
 }
@@ -49,12 +49,12 @@ class TransactionLastResponseData {
 
   factory TransactionLastResponseData.fromJson(Map<String, dynamic> json) =>
       TransactionLastResponseData(
-        lastTransaction: json["lastTransaction"] == null
+        lastTransaction: json['lastTransaction'] == null
             ? null
-            : Transaction.fromJson(json["lastTransaction"]),
+            : Transaction.fromJson(json['lastTransaction']),
       );
 
   Map<String, dynamic> toJson() => {
-        "lastTransaction": lastTransaction!.toJson(),
+        'lastTransaction': lastTransaction!.toJson(),
       };
 }

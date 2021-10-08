@@ -20,10 +20,10 @@ class TransactionStatus {
 
   factory TransactionStatus.fromJson(Map<String, dynamic> json) =>
       TransactionStatus(
-        status: json["status"],
+        status: json['status'],
       );
 
   Map<String, dynamic> toJson() => {
-        "status": status,
+        'status': status,
       };
 }

@@ -23,11 +23,11 @@ class TransactionInputsResponse {
 
   factory TransactionInputsResponse.fromJson(Map<String, dynamic> json) =>
       TransactionInputsResponse(
-        data: Data.fromJson(json["data"]),
+        data: Data.fromJson(json['data']),
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data!.toJson(),
+        'data': data!.toJson(),
       };
 }
 
@@ -40,11 +40,11 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         transactionInputs: List<TransactionInput>.from(
-            json["transactionInputs"].map((x) => TransactionInput.fromJson(x))),
+            json['transactionInputs'].map((x) => TransactionInput.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "transactionInputs":
+        'transactionInputs':
             List<dynamic>.from(transactionInputs!.map((x) => x.toJson())),
       };
 }

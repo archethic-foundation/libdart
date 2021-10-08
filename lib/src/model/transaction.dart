@@ -329,7 +329,7 @@ class Transaction {
     Uint8List ownershipsBuffer = Uint8List.fromList([]);
 
     this.data!.ownerships!.forEach((Ownership ownership) {
-      List<Uint8List> authorizedKeysBuffer = [
+      final List<Uint8List> authorizedKeysBuffer = [
         Uint8List.fromList([ownership.authorizedPublicKeys!.length])
       ];
       ownership.authorizedPublicKeys!.forEach((AuthorizedKey authorizedKey) {

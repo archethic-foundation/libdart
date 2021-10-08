@@ -63,7 +63,7 @@ void main() {
     });
 
     test('getNodeList', () async {
-      List<Node> nodes =
+      final List<Node> nodes =
           await ApiService('http://localhost:4000').getNodeList();
 
       expect(
