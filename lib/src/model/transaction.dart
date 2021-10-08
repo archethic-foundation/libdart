@@ -420,7 +420,7 @@ class Transaction {
                 List<dynamic>.from(this.data!.ledger!.uco!.transfers!.map((x) {
               return {
                 'to': x.to!,
-                'amount': x.amount.toString(),
+                'amount': x.amount,
               };
             }))
           },
