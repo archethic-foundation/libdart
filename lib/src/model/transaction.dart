@@ -208,7 +208,7 @@ class Transaction {
     this
         .data!
         .ownerships!
-        .add(Ownership(secrets: secret, authorizedPublicKeys: authorizedKeys));
+        .add(Ownership(secrets: [secret], authorizedPublicKeys: authorizedKeys));
     return this;
   }
 
