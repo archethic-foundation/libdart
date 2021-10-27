@@ -397,7 +397,7 @@ class ApiService {
 
     Transaction accessKeychainTx =
         Transaction(type: 'keychain_access', data: Transaction.initData())
-            .addOwnership(crypto.aesEncrypt(keychainAddress, accessKeychainAesKey), [
+            .addOwnership(crypto.aesEncrypt(keychainAddress, utils.uint8ListToHex(accessKeychainAesKey)), [
               AuthorizedKey(
                   publicKey: utils.uint8ListToHex(publicKey.publicKey),
                   encryptedSecretKey: utils.uint8ListToHex(
