@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 
 // Project imports:
 import 'package:archethic_lib_dart/src/crypto.dart' as crypto;
+import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/node.dart';
@@ -377,45 +378,61 @@ class ApiService {
   }
 
   /// Create a keychain and an access keychain using the initial passphrase
-  /// @param {String | Uint8Array} passphrase Initial access passphrase
+  /// @param {String | Uint8List} passphrase Initial access passphrase
   /// @param {*} originPrivateKey Origin private key
   /// @returns Keychain transaction address
 
-  /* void createKeychain(passphrase, originPrivateKey) async {
-         final Uint8List accessKeychainSeed = crypto.hash(passphrase);
-         final KeyPair publicKey = crypto.deriveKeyPair(utils.uint8ListToHex(accessKeychainSeed), 0);
+  Future<String?> createKeychain(passphrase, originPrivateKey) async {
+    final Uint8List accessKeychainSeed = crypto.hash(passphrase);
+    final KeyPair publicKey =
+        crypto.deriveKeyPair(utils.uint8ListToHex(accessKeychainSeed), 0);
 
-         final Uint8List keychainSeed = Uint8List.fromList(
-      List<int>.generate(12, (int i) => Random.secure().nextInt(32)));
-         final String keychainAddress = AddressService(endpoint).deriveAddress(utils.uint8ListToHex(keychainSeed), 0);
+    final Uint8List keychainSeed = Uint8List.fromList(
+        List<int>.generate(12, (int i) => Random.secure().nextInt(32)));
+    final String keychainAddress = AddressService(endpoint)
+        .deriveAddress(utils.uint8ListToHex(keychainSeed), 0);
 
-         final Uint8List accessKeychainAesKey = Uint8List.fromList(
-      List<int>.generate(12, (int i) => Random.secure().nextInt(32)));
+    final Uint8List accessKeychainAesKey = Uint8List.fromList(
+        List<int>.generate(12, (int i) => Random.secure().nextInt(32)));
 
-Transaction accessKeychainTx = Transaction(
-                type: 'keychain_access', data: Transaction.initData())
-             .addSecret(crypto.aesEncrypt(keychainAddress, null), accessKeychainAesKey)
-             .addAuthorizedKey(publicKey, crypto.ecEncrypt(publicKey, accessKeychainAesKey))
-             .build(accessKeychainSeed, 0, 'P256')
-             .originSign(originPrivateKey);
+    Transaction accessKeychainTx =
+        Transaction(type: 'keychain_access', data: Transaction.initData())
+            .addOwnership(crypto.aesEncrypt(keychainAddress, null), [
+              AuthorizedKey(
+                  publicKey: utils.uint8ListToHex(publicKey.publicKey),
+                  encryptedSecretKey: utils.uint8ListToHex(
+                      crypto.ecEncrypt(publicKey, accessKeychainAesKey)))
+            ])
+            .build(accessKeychainSeed, 0, 'P256')
+            .originSign(originPrivateKey);
 
-         KeyPair keyPair2 = crypto.deriveKeyPair(utils.uint8ListToHex(keychainSeed), 0);
+    KeyPair keyPair2 =
+        crypto.deriveKeyPair(utils.uint8ListToHex(keychainSeed), 0);
 
-         final Uint8List keychainAesKey = Uint8List.fromList(
-      List<int>.generate(12, (int i) => Random.secure().nextInt(32)));
+    final Uint8List keychainAesKey = Uint8List.fromList(
+        List<int>.generate(12, (int i) => Random.secure().nextInt(32)));
 
-         Transaction keyChainTx = Transaction( type: 'keychain', data: Transaction.initData())
-             .addSecret(crypto.aesEncrypt(JSON.stringify({ keychainSeed: keychainSeed }), keychain_aes_key))
-             .addAuthorizedKey(publicKey, crypto.ecEncrypt(keychain_aes_key), publicKey)
-             .addAuthorizedKey(keyPair2.publicKey, crypto.ecEncrypt(keychainAesKey), keyPair2.publicKey))
-             .build(keychainSeed, 0, 'P256')
-             .originSign(originPrivateKey);
+    Transaction keyChainTx =
+        Transaction(type: 'keychain', data: Transaction.initData())
+            .addOwnership(crypto.aesEncrypt(keychainSeed, keychainAesKey), [
+              AuthorizedKey(
+                  publicKey: utils.uint8ListToHex(publicKey.publicKey),
+                  encryptedSecretKey: utils.uint8ListToHex(
+                      crypto.ecEncrypt(keychainAesKey, publicKey.publicKey))),
+              AuthorizedKey(
+                  publicKey: utils.uint8ListToHex(keyPair2.publicKey),
+                  encryptedSecretKey: utils.uint8ListToHex(
+                      crypto.ecEncrypt(keychainAesKey, keyPair2.publicKey)))
+            ])
+            .build(keychainSeed, 0, 'P256')
+            .originSign(originPrivateKey);
 
-
-         const [access_keychain_res, keychain_res] = await Promise.all([this.sendTransaction(access_keychain_tx), this.sendTransaction(keychain_tx)])
-         if (access_keychain_res.status == "ok" && keychain_res.status == "ok") {
-             return keychain_tx.address
-         } else {
-             throw 'Something goes wrong !';
-         }*/
+    TransactionStatus ts1 = await this.sendTx(accessKeychainTx);
+    TransactionStatus ts2 = await this.sendTx(keyChainTx);
+    if (ts1.status == 'ok' && ts2.status == 'ok') {
+      return keyChainTx.address;
+    } else {
+      throw ('Something goes wrong !');
+    }
+  }
 }
