@@ -218,6 +218,6 @@ It supports the ArchEthic Cryptography rules which are:
 ## Running the tests
 
 ```bash
-dart test
+dart test --exclude-tags noCI
 ```
 
