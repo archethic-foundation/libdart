@@ -403,8 +403,12 @@ class ApiService {
             [
               AuthorizedKey(
                   publicKey: utils.uint8ListToHex(publicKey.publicKey),
-                  encryptedSecretKey: utils.uint8ListToHex(
-                      crypto.ecEncrypt(publicKey.publicKey, accessKeychainAesKey)))
+                  encryptedSecretKey: utils.uint8ListToHex(crypto.ecEncrypt(
+                      publicKey.publicKey,
+                      utils.concatUint8List(<Uint8List>[
+                        Uint8List.fromList([0]),
+                        accessKeychainAesKey
+                      ]))))
             ])
         .build(accessKeychainSeed, 0, 'P256')
         .originSign(originPrivateKey);
