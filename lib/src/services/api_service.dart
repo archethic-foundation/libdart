@@ -379,7 +379,7 @@ class ApiService {
 
   /// Create a keychain and an access keychain using the initial passphrase
   /// @param {String | Uint8List} passphrase Initial access passphrase
-  /// @param {*} originPrivateKey Origin private key
+  /// @param {String} originPrivateKey Origin private key
   /// @returns Keychain transaction address
 
   Future<String?> createKeychain(passphrase, originPrivateKey) async {
@@ -393,24 +393,27 @@ class ApiService {
         .deriveAddress(utils.uint8ListToHex(keychainSeed), 0);
 
     final Uint8List accessKeychainAesKey = Uint8List.fromList(
-        List<int>.generate(12, (int i) => Random.secure().nextInt(32)));
+        List<int>.generate(32, (int i) => Random.secure().nextInt(256)));
 
-    Transaction accessKeychainTx =
-        Transaction(type: 'keychain_access', data: Transaction.initData())
-            .addOwnership(crypto.aesEncrypt(keychainAddress, utils.uint8ListToHex(accessKeychainAesKey)), [
+    Transaction accessKeychainTx = Transaction(
+            type: 'keychain_access', data: Transaction.initData())
+        .addOwnership(
+            crypto.aesEncrypt(
+                keychainAddress, utils.uint8ListToHex(accessKeychainAesKey)),
+            [
               AuthorizedKey(
                   publicKey: utils.uint8ListToHex(publicKey.publicKey),
                   encryptedSecretKey: utils.uint8ListToHex(
                       crypto.ecEncrypt(publicKey, accessKeychainAesKey)))
             ])
-            .build(accessKeychainSeed, 0, 'P256')
-            .originSign(originPrivateKey);
+        .build(accessKeychainSeed, 0, 'P256')
+        .originSign(originPrivateKey);
 
     KeyPair keyPair2 =
         crypto.deriveKeyPair(utils.uint8ListToHex(keychainSeed), 0);
 
     final Uint8List keychainAesKey = Uint8List.fromList(
-        List<int>.generate(12, (int i) => Random.secure().nextInt(32)));
+        List<int>.generate(32, (int i) => Random.secure().nextInt(256)));
 
     Transaction keyChainTx =
         Transaction(type: 'keychain', data: Transaction.initData())
