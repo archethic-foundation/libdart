@@ -404,7 +404,7 @@ class ApiService {
               AuthorizedKey(
                   publicKey: utils.uint8ListToHex(publicKey.publicKey),
                   encryptedSecretKey: utils.uint8ListToHex(
-                      crypto.ecEncrypt(publicKey, accessKeychainAesKey)))
+                      crypto.ecEncrypt(publicKey.publicKey, accessKeychainAesKey)))
             ])
         .build(accessKeychainSeed, 0, 'P256')
         .originSign(originPrivateKey);
