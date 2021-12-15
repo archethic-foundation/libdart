@@ -27,11 +27,14 @@ dependencies:
   # Small, easy to use and extensible logger which prints beautiful logs
   logger: ^1.1.0
 
+  # Nonce contains a static generator that generates random alphanumeric strings, and can be constructed as an object containing a generated string
+  nonce: ^1.2.0
+
   # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
   pinenacl: ^0.3.3
 
   # A Dart library implementing cryptographic algorithms and primitives, modeled on the BouncyCastle library
-  pointycastle: ^3.3.5
+  pointycastle: ^3.4.0
 
   # Pure secp256k1 signature algorithm implement for dart language which uses pure dart and basic types to represent all matters
   secp256k1: ^0.3.0
@@ -42,4 +45,4 @@ dependencies:
 dev_dependencies:
   # Automatically organize your dart imports
   import_sorter: ^4.6.0
-  test: ^1.18.0
+  test: ^1.19.5
