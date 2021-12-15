@@ -39,4 +39,5 @@ export 'src/services/address_service.dart';
 export 'src/services/api_coins_service.dart';
 export 'src/services/api_service.dart';
 export 'src/services/nft_service.dart';
+export 'src/services/yubico_service.dart';
 export 'src/utils.dart';
