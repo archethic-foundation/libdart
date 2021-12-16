@@ -6,11 +6,11 @@ import 'package:test/test.dart';
 void main() {
   group('yubicoService', () {
     test('verifySignatures', () async {
-      final bool otpOk = await YubicoService().verifyYubiCloudOTP(
+      final String responseStatus = await YubicoService().verifyYubiCloudOTP(
           'vvccccccccccgdulirvfblfevltutjnnvhvknucncrjjltkgt',
           'oxz9kqh4=',
           '1');
-      expect(otpOk, true);
+      expect(responseStatus, 'OK');
     });
   }, tags: <String>['noCI']);
 }

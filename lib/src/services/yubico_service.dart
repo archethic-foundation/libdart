@@ -17,9 +17,9 @@ class YubicoService {
   /// @param {int} [timeout] (optional) Number of seconds to wait for sync responses; if absent, let the server decide
   /// @param {String} [sl] (optional) A value 0 to 100 indicating percentage of syncing required by client, or strings "fast" or "secure" to use server-configured values; if absent, let the server decide
   /// @param {String} [timestamp] (optional) Timestamp=1 requests timestamp and session counter information in the response
-  Future<bool> verifyYubiCloudOTP(String otp, String apiKey, String id,
+  Future<String> verifyYubiCloudOTP(String otp, String apiKey, String id,
       {int? timeout, String? sl, String? timestamp}) async {
-    bool verify = false;
+    String responseStatus = 'KO';
     try {
       final Uint8List apiKeyDecode64 = base64.decode(apiKey);
 
@@ -52,7 +52,6 @@ class YubicoService {
             hEncode64),
       );
 
-      bool statusOk = false;
       bool nonceOk = false;
       bool otpOk = false;
       bool hOk = false;
@@ -64,8 +63,8 @@ class YubicoService {
         print(responseParams);
         for (String element in responseParams) {
           print(element);
-          if (element.trim() == 'status=OK') {
-            statusOk = true;
+          if (element.startsWith('status=')) {
+            responseStatus = element.split('=')[1].trim();
           }
           if (element.startsWith('nonce=') &&
               element.split('=')[1].trim() == nonce) {
@@ -83,15 +82,16 @@ class YubicoService {
             hOk = true;
           }
         }
-        print(statusOk);
         // TODO : Verify Signature
-        if (statusOk && nonceOk && otpOk) {
-          verify = true;
+        if (!nonceOk || !otpOk) {
+          responseStatus = 'RESPONSE_KO';
         }
       }
     } catch (e) {
+      responseStatus = 'RESPONSE_KO';
       print(e.toString());
     }
-    return verify;
+    print('responseStatus=' + responseStatus);
+    return responseStatus;
   }
 }
