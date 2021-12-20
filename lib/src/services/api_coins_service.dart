@@ -48,7 +48,7 @@ import 'package:archethic_lib_dart/src/model/coins/simple_price_response_zar.dar
 class ApiCoinsService {
   Logger logger = Logger();
 
-  /// Get Uniris Coin info
+  /// Get ARCHEthic Coin info
   Future<CoinsResponse> getCoinsResponse() async {
     CoinsResponse? coinsResponse;
     final Map<String, String> requestHeaders = {
@@ -57,7 +57,7 @@ class ApiCoinsService {
 
     try {
       final http.Response responseHttp = await http.get(
-          Uri.parse('https://api.coingecko.com/api/v3/coins/uniris'),
+          Uri.parse('https://api.coingecko.com/api/v3/coins/archethic'),
           headers: requestHeaders);
       if (responseHttp.statusCode == 200) {
         coinsResponse = coinsResponseFromJson(responseHttp.body);
@@ -68,7 +68,7 @@ class ApiCoinsService {
     return coinsResponse!;
   }
 
-  /// Get Uniris Coin infos (Prices, Marketcaps, Total Volumes)
+  /// Get ARCHEthic Coin infos (Prices, Marketcaps, Total Volumes)
   /// @param {String} currency
   /// @param {int} nbDays
   Future<CoinsPriceResponse> getCoinsChart(String currency, int nbDays) async {
@@ -80,7 +80,7 @@ class ApiCoinsService {
     try {
       final http.Response responseHttp = await http.get(
           Uri.parse(
-              'https://api.coingecko.com/api/v3/coins/uniris/market_chart?vs_currency=' +
+              'https://api.coingecko.com/api/v3/coins/archethic/market_chart?vs_currency=' +
                   currency +
                   '&days=' +
                   nbDays.toString()),
@@ -94,7 +94,7 @@ class ApiCoinsService {
     return coinsPriceResponse!;
   }
 
-  /// Get Uniris Coin infos (BTC Price, Local Currency Price)
+  /// Get ARCHEthic Coin infos (BTC Price, Local Currency Price)
   /// @param {String} currency
   Future<SimplePriceResponse> getSimplePrice(String currency) async {
     final SimplePriceResponse simplePriceResponse = SimplePriceResponse();
@@ -106,17 +106,17 @@ class ApiCoinsService {
     try {
       http.Response responseHttp = await http.get(
           Uri.parse(
-              'https://api.coingecko.com/api/v3/simple/price?ids=uniris&vs_currencies=BTC'),
+              'https://api.coingecko.com/api/v3/simple/price?ids=archethic&vs_currencies=BTC'),
           headers: requestHeaders);
       if (responseHttp.statusCode == 200) {
         final SimplePriceBtcResponse simplePriceBtcResponse =
             simplePriceBtcResponseFromJson(responseHttp.body);
-        simplePriceResponse.btcPrice = simplePriceBtcResponse.uniris!.btc;
+        simplePriceResponse.btcPrice = simplePriceBtcResponse.archethic!.btc;
       }
 
       responseHttp = await http.get(
           Uri.parse(
-              'https://api.coingecko.com/api/v3/simple/price?ids=uniris&vs_currencies=' +
+              'https://api.coingecko.com/api/v3/simple/price?ids=archethic&vs_currencies=' +
                   currency),
           headers: requestHeaders);
       if (responseHttp.statusCode == 200) {
@@ -125,218 +125,218 @@ class ApiCoinsService {
             final SimplePriceArsResponse simplePriceLocalResponse =
                 simplePriceArsResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.ars;
+                simplePriceLocalResponse.archethic!.ars;
             break;
           case 'AUD':
             final SimplePriceAudResponse simplePriceLocalResponse =
                 simplePriceAudResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.aud;
+                simplePriceLocalResponse.archethic!.aud;
             break;
           case 'BRL':
             final SimplePriceBrlResponse simplePriceLocalResponse =
                 simplePriceBrlResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.brl;
+                simplePriceLocalResponse.archethic!.brl;
             break;
           case 'CAD':
             final SimplePriceCadResponse simplePriceLocalResponse =
                 simplePriceCadResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.cad;
+                simplePriceLocalResponse.archethic!.cad;
             break;
           case 'CHF':
             final SimplePriceChfResponse simplePriceLocalResponse =
                 simplePriceChfResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.chf;
+                simplePriceLocalResponse.archethic!.chf;
             break;
           case 'CLP':
             final SimplePriceClpResponse simplePriceLocalResponse =
                 simplePriceClpResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.clp;
+                simplePriceLocalResponse.archethic!.clp;
             break;
           case 'CNY':
             final SimplePriceCnyResponse simplePriceLocalResponse =
                 simplePriceCnyResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.cny;
+                simplePriceLocalResponse.archethic!.cny;
             break;
           case 'CZK':
             final SimplePriceCzkResponse simplePriceLocalResponse =
                 simplePriceCzkResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.czk;
+                simplePriceLocalResponse.archethic!.czk;
             break;
           case 'DKK':
             final SimplePriceDkkResponse simplePriceLocalResponse =
                 simplePriceDkkResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.dkk;
+                simplePriceLocalResponse.archethic!.dkk;
             break;
           case 'EUR':
             final SimplePriceEurResponse simplePriceLocalResponse =
                 simplePriceEurResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.eur;
+                simplePriceLocalResponse.archethic!.eur;
             break;
           case 'GBP':
             final SimplePriceGbpResponse simplePriceLocalResponse =
                 simplePriceGbpResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.gbp;
+                simplePriceLocalResponse.archethic!.gbp;
             break;
           case 'HKD':
             final SimplePriceHkdResponse simplePriceLocalResponse =
                 simplePriceHkdResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.hkd;
+                simplePriceLocalResponse.archethic!.hkd;
             break;
           case 'HUF':
             final SimplePriceHufResponse simplePriceLocalResponse =
                 simplePriceHufResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.huf;
+                simplePriceLocalResponse.archethic!.huf;
             break;
           case 'IDR':
             final SimplePriceIdrResponse simplePriceLocalResponse =
                 simplePriceIdrResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.idr;
+                simplePriceLocalResponse.archethic!.idr;
             break;
           case 'ILS':
             final SimplePriceIlsResponse simplePriceLocalResponse =
                 simplePriceIlsResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.ils;
+                simplePriceLocalResponse.archethic!.ils;
             break;
           case 'INR':
             final SimplePriceInrResponse simplePriceLocalResponse =
                 simplePriceInrResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.inr;
+                simplePriceLocalResponse.archethic!.inr;
             break;
           case 'JPY':
             final SimplePriceJpyResponse simplePriceLocalResponse =
                 simplePriceJpyResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.jpy;
+                simplePriceLocalResponse.archethic!.jpy;
             break;
           case 'KRW':
             final SimplePriceKrwResponse simplePriceLocalResponse =
                 simplePriceKrwResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.krw;
+                simplePriceLocalResponse.archethic!.krw;
             break;
           case 'KWD':
             final SimplePriceKwdResponse simplePriceLocalResponse =
                 simplePriceKwdResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.kwd;
+                simplePriceLocalResponse.archethic!.kwd;
             break;
           case 'MXN':
             final SimplePriceMxnResponse simplePriceLocalResponse =
                 simplePriceMxnResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.mxn;
+                simplePriceLocalResponse.archethic!.mxn;
             break;
           case 'MYR':
             final SimplePriceMyrResponse simplePriceLocalResponse =
                 simplePriceMyrResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.myr;
+                simplePriceLocalResponse.archethic!.myr;
             break;
           case 'NOK':
             final SimplePriceNokResponse simplePriceLocalResponse =
                 simplePriceNokResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.nok;
+                simplePriceLocalResponse.archethic!.nok;
             break;
           case 'NZD':
             final SimplePriceNzdResponse simplePriceLocalResponse =
                 simplePriceNzdResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.nzd;
+                simplePriceLocalResponse.archethic!.nzd;
             break;
           case 'PHP':
             final SimplePricePhpResponse simplePriceLocalResponse =
                 simplePricePhpResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.php;
+                simplePriceLocalResponse.archethic!.php;
             break;
           case 'PKR':
             final SimplePricePkrResponse simplePriceLocalResponse =
                 simplePricePkrResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.pkr;
+                simplePriceLocalResponse.archethic!.pkr;
             break;
           case 'PLN':
             final SimplePricePlnResponse simplePriceLocalResponse =
                 simplePricePlnResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.pln;
+                simplePriceLocalResponse.archethic!.pln;
             break;
           case 'RUB':
             final SimplePriceRubResponse simplePriceLocalResponse =
                 simplePriceRubResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.rub;
+                simplePriceLocalResponse.archethic!.rub;
             break;
           case 'SAR':
             final SimplePriceSarResponse simplePriceLocalResponse =
                 simplePriceSarResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.sar;
+                simplePriceLocalResponse.archethic!.sar;
             break;
           case 'SEK':
             final SimplePriceSekResponse simplePriceLocalResponse =
                 simplePriceSekResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.sek;
+                simplePriceLocalResponse.archethic!.sek;
             break;
           case 'SGD':
             final SimplePriceSgdResponse simplePriceLocalResponse =
                 simplePriceSgdResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.sgd;
+                simplePriceLocalResponse.archethic!.sgd;
             break;
           case 'THB':
             final SimplePriceThbResponse simplePriceLocalResponse =
                 simplePriceThbResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.thb;
+                simplePriceLocalResponse.archethic!.thb;
             break;
           case 'TRY':
             final SimplePriceTryResponse simplePriceLocalResponse =
                 simplePriceTryResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.tryl;
+                simplePriceLocalResponse.archethic!.tryl;
             break;
           case 'TWD':
             final SimplePriceTwdResponse simplePriceLocalResponse =
                 simplePriceTwdResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.twd;
+                simplePriceLocalResponse.archethic!.twd;
             break;
           case 'AED':
             final SimplePriceAedResponse simplePriceLocalResponse =
                 simplePriceAedResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.aed;
+                simplePriceLocalResponse.archethic!.aed;
             break;
           case 'ZAR':
             final SimplePriceZarResponse simplePriceLocalResponse =
                 simplePriceZarResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.zar;
+                simplePriceLocalResponse.archethic!.zar;
             break;
           case 'USD':
           default:
             final SimplePriceUsdResponse simplePriceLocalResponse =
                 simplePriceUsdResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
-                simplePriceLocalResponse.uniris!.usd;
+                simplePriceLocalResponse.archethic!.usd;
             break;
         }
       }
@@ -347,7 +347,7 @@ class ApiCoinsService {
     return simplePriceResponse;
   }
 
-  /// Get Uniris Coin infos (name, price, market, ... including exchange tickers)
+  /// Get ARCHEthic Coin infos (name, price, market, ... including exchange tickers)
   Future<CoinsCurrentDataResponse> getCoinsCurrentData() async {
     CoinsCurrentDataResponse? coinsCurrentDataResponse;
     final Map<String, String> requestHeaders = {
@@ -356,7 +356,7 @@ class ApiCoinsService {
 
     try {
       final http.Response responseHttp = await http.get(
-          Uri.parse('https://api.coingecko.com/api/v3/coins/uniris'),
+          Uri.parse('https://api.coingecko.com/api/v3/coins/archethic'),
           headers: requestHeaders);
       if (responseHttp.statusCode == 200) {
         coinsCurrentDataResponse =

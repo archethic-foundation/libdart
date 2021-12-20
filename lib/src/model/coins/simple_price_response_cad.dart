@@ -13,27 +13,27 @@ String simplePriceCadResponseToJson(SimplePriceCadResponse data) =>
 
 class SimplePriceCadResponse {
   SimplePriceCadResponse({
-    this.uniris,
+    this.archethic,
   });
 
   factory SimplePriceCadResponse.fromJson(Map<String, dynamic> json) =>
       SimplePriceCadResponse(
-        uniris: Uniris.fromJson(json['uniris']),
+        archethic: Archethic.fromJson(json['archethic']),
       );
 
-  Uniris? uniris;
+  Archethic? archethic;
 
   Map<String, dynamic> toJson() => {
-        'uniris': uniris!.toJson(),
+        'archethic': archethic!.toJson(),
       };
 }
 
-class Uniris {
-  Uniris({
+class Archethic {
+  Archethic({
     this.cad,
   });
 
-  factory Uniris.fromJson(Map<String, dynamic> json) => Uniris(
+  factory Archethic.fromJson(Map<String, dynamic> json) => Archethic(
         cad: json['cad'].toDouble(),
       );
 

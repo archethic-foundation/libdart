@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 1.0.3 (2021-12-20)
+* Coingecko infos changed : uniris -> archethic
+
 #### Version 1.0.2 (2021-10-27)
 * Update dependencies.
 * Add createKeychain method : Create a keychain and an access keychain using the initial passphrase

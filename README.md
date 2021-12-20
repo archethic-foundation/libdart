@@ -204,16 +204,16 @@ It supports the ArchEthic Cryptography rules which are:
 
   ### Coingecko functions
   #### getCoinsResponse()
-  Get all Uniris Coin infos with http request https://api.coingecko.com/api/v3/coins/uniris
+  Get all ARCHEthic Coin infos with http request https://api.coingecko.com/api/v3/coins/archethic
 
   #### getCoinsChart(currency, nbDays)
-  Get Uniris Coin infos (Prices, Marketcaps, Total Volumes) for a period with http request https://api.coingecko.com/api/v3/coins/uniris/market_chart?vs_currency=currency&days=nbDays
+  Get ARCHEthic Coin infos (Prices, Marketcaps, Total Volumes) for a period with http request https://api.coingecko.com/api/v3/coins/archethic/market_chart?vs_currency=currency&days=nbDays
 
   #### getSimplePrice(currency)
-  Get Uniris Coin infos (BTC Price, Local Currency Price) with https://api.coingecko.com/api/v3/simple/price?ids=uniris&vs_currencies=currency
+  Get ARCHEthic Coin infos (BTC Price, Local Currency Price) with https://api.coingecko.com/api/v3/simple/price?ids=archethic&vs_currencies=currency
 
   #### getCoinsCurrentData()
-  Get Uniris Coin infos (name, price, market, ... including exchange tickers) with https://api.coingecko.com/api/v3/coins/uniris
+  Get ARCHEthic Coin infos (name, price, market, ... including exchange tickers) with https://api.coingecko.com/api/v3/coins/archethic
 
 ## Running the tests
 
