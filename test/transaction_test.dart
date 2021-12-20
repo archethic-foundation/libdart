@@ -5,11 +5,11 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 // Package imports:
-import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:test/test.dart';
 
 // Project imports:
 import 'package:archethic_lib_dart/src/crypto.dart' as crypto;
+import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/utils.dart';
