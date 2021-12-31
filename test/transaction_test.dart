@@ -76,7 +76,7 @@ void main() {
                 type: 'transfer', data: Transaction.initData())
             .addUCOTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                10.03);
+                toBigInt(10.03));
         expect(tx.data!.ledger!.uco!.transfers!.length, 1);
         expect(tx.data!.ledger!.uco!.transfers![0].to,
             '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
@@ -127,7 +127,7 @@ void main() {
             ])
             .addUCOTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                0.2020)
+                toBigInt(0.2020))
             .addNFTTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 100,
@@ -199,7 +199,7 @@ void main() {
                 type: 'transfer', data: Transaction.initData())
             .addUCOTransfer(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                10.0)
+                toBigInt(10.0))
             .build('seed', 0, 'P256');
         expect(tx.address,
             '001680dab710eca8bc6b6c8025e57ebaf2d30c03d8d23a21ba7f8a157c365c5d49');
@@ -238,7 +238,7 @@ void main() {
             ])
             .addUCOTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                0.2020)
+                toBigInt(0.2020))
             .addNFTTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 100,
@@ -331,7 +331,7 @@ void main() {
                 type: 'transfer', data: Transaction.initData())
             .addUCOTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                0.2193)
+                toBigInt(0.2193))
             .addOwnership(Uint8List.fromList([0, 1, 2, 3, 4]), [
               AuthorizedKey(
                   publicKey:

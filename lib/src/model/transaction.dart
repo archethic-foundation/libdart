@@ -214,8 +214,8 @@ class Transaction {
 
   /// Add a UCO transfer to the transaction
   /// @param {String | Uint8List} to Address of the recipient (hexadecimal or binary buffer)
-  /// @param {double} amount Amount of UCO to transfer
-  Transaction addUCOTransfer(to, double amount) {
+  /// @param {BigInt} amount Amount of UCO to transfer
+  Transaction addUCOTransfer(to, BigInt amount) {
     if (!(to is Uint8List) && !(to is String)) {
       throw "'to' must be a string or Uint8List";
     }
@@ -227,8 +227,7 @@ class Transaction {
     } else {
       to = uint8ListToHex(to);
     }
-    final UCOTransfer ucoTransfer =
-        UCOTransfer(to: to, amount: toBigInt(amount));
+    final UCOTransfer ucoTransfer = UCOTransfer(to: to, amount: amount);
     this.data!.ledger!.uco!.transfers!.add(ucoTransfer);
     return this;
   }

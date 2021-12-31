@@ -121,7 +121,7 @@ It supports the ArchEthic Cryptography rules which are:
   #### addUCOTransfer(to, amount)
   Add a UCO transfer to the `data.ledger.uco.transfers` section of the transaction
   - `to` is hexadecimal encoding or Uint8List representing the transaction address (recipient) to receive the funds
-  - `amount` is the number of uco to send (double)
+  - `amount` is the number of uco to send (BigInt)
 
   #### addNFTTransfer(to, amount, nft_address)
   Add a NFT transfer to the `data.ledger.nft.transfers` section of the transaction
