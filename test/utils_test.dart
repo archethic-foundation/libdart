@@ -57,4 +57,10 @@ void main() {
           Uint8List.fromList(<int>[0, 0, 193, 27, 127, 12, 196, 221]));
     });
   });
+
+  group('toBigInt', () {
+    test('should convert a double into a big integer with 10^8', () {
+      expect(toBigInt(1.234567), BigInt.from(123456700));
+    });
+  });
 }

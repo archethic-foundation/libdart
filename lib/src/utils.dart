@@ -72,6 +72,6 @@ BigInt toBigInt(double? number) {
   if (number == null) {
     return BigInt.from(0);
   }
-  number * pow(10, 8);
+  number = number * pow(10, 8);
   return BigInt.from(number.toInt());
 }
