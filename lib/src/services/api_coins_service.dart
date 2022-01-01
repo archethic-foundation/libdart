@@ -106,16 +106,6 @@ class ApiCoinsService {
     try {
       http.Response responseHttp = await http.get(
           Uri.parse(
-              'https://api.coingecko.com/api/v3/simple/price?ids=archethic&vs_currencies=BTC'),
-          headers: requestHeaders);
-      if (responseHttp.statusCode == 200) {
-        final SimplePriceBtcResponse simplePriceBtcResponse =
-            simplePriceBtcResponseFromJson(responseHttp.body);
-        simplePriceResponse.btcPrice = simplePriceBtcResponse.archethic!.btc;
-      }
-
-      responseHttp = await http.get(
-          Uri.parse(
               'https://api.coingecko.com/api/v3/simple/price?ids=archethic&vs_currencies=' +
                   currency),
           headers: requestHeaders);
@@ -138,6 +128,12 @@ class ApiCoinsService {
                 simplePriceBrlResponseFromJson(responseHttp.body);
             simplePriceResponse.localCurrencyPrice =
                 simplePriceLocalResponse.archethic!.brl;
+            break;
+          case 'BTC':
+            final SimplePriceBtcResponse simplePriceLocalResponse =
+                simplePriceBtcResponseFromJson(responseHttp.body);
+            simplePriceResponse.localCurrencyPrice =
+                simplePriceLocalResponse.archethic!.btc;
             break;
           case 'CAD':
             final SimplePriceCadResponse simplePriceLocalResponse =
