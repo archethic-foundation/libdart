@@ -247,7 +247,8 @@ class ApiService {
       if (responseHttp.statusCode == 200) {
         transactionChainResponse =
             transactionChainResponseFromJson(responseHttp.body);
-        if (transactionChainResponse.data != null) {
+        if (transactionChainResponse.data != null &&
+            transactionChainResponse.data!.transactionChain != null) {
           transactionChain = transactionChainResponse.data!.transactionChain!;
         }
       }
