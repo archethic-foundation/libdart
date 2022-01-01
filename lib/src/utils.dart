@@ -68,12 +68,10 @@ BigInt decodeBigInt(Uint8List bytes) {
 
 /// Convert any number into a big int for 10^8 decimals
 /// @param {BigInt} Number to convert
-BigInt toBigInt(var number) {
-  double? _number = double.tryParse(number);
-  if (_number == null) {
+BigInt toBigInt(double? number) {
+  if (number == null) {
     return BigInt.from(0);
-  } else {
-    _number * pow(10, 8);
-    return BigInt.from(_number);
   }
+  number * pow(10, 8);
+  return BigInt.from(number);
 }

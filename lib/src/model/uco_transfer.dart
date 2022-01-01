@@ -12,7 +12,9 @@ class UCOTransfer {
   String? to;
 
   factory UCOTransfer.fromJson(Map<String, dynamic> json) => UCOTransfer(
-        amount: json['amount'] == null ? null : toBigInt(json['amount']),
+        amount: json['amount'] == null
+            ? null
+            : toBigInt(double.tryParse(json['amount'])!),
         to: json['to'],
       );
 
