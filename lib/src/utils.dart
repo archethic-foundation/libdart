@@ -73,5 +73,5 @@ BigInt toBigInt(double? number) {
     return BigInt.from(0);
   }
   number * pow(10, 8);
-  return BigInt.from(number);
+  return BigInt.from(number.toInt());
 }
