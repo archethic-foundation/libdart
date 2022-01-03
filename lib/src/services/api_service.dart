@@ -448,12 +448,9 @@ class ApiService {
   /// Query the network to find a transaction
   /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   /// Returns all informations represent transaction content.
-  Future<TransactionContentResponse> getTransactionAllInfos(
-      String address) async {
-    final Completer<TransactionContentResponse> _completer =
-        Completer<TransactionContentResponse>();
-    TransactionContentResponse? transactionResponse =
-        TransactionContentResponse();
+  Future<Transaction> getTransactionAllInfos(String address) async {
+    final Completer<Transaction> _completer = Completer<Transaction>();
+    Transaction? transaction;
 
     final Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
@@ -475,14 +472,18 @@ class ApiService {
           .d('getTransactionAllInfos: responseHttp.body=' + responseHttp.body);
 
       if (responseHttp.statusCode == 200) {
-        transactionResponse =
+        TransactionContentResponse transactionResponse =
             transactionContentResponseFromJson(responseHttp.body);
+        if (transactionResponse.data != null &&
+            transactionResponse.data!.transaction != null) {
+          transaction = transactionResponse.data!.transaction;
+        }
       }
     } catch (e) {
       logger.d('getTransactionAllInfos: error=' + e.toString());
     }
 
-    _completer.complete(transactionResponse);
+    _completer.complete(transaction);
     return _completer.future;
   }
 }
