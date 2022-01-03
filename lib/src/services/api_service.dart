@@ -21,6 +21,7 @@ import 'package:archethic_lib_dart/src/model/response/transaction_chain_response
 import 'package:archethic_lib_dart/src/model/response/transaction_content_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transaction_inputs_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transaction_last_response.dart';
+import 'package:archethic_lib_dart/src/model/response/transactions_response.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/transaction_status.dart';
@@ -442,5 +443,43 @@ class ApiService {
     } else {
       throw ('Something goes wrong !');
     }
+  }
+
+  /// Query the network to find a transaction
+  /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+  /// Returns all informations represent transaction content.
+  Future<TransactionsResponse> getTransactionAllInfos(String address) async {
+    final Completer<TransactionsResponse> _completer =
+        Completer<TransactionsResponse>();
+    TransactionsResponse? transactionResponse = TransactionsResponse();
+
+    final Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final String _body =
+        '{"query":"query { transaction(address: \\"$address\\") ' +
+            Transaction.getQLFields() +
+            ' }"}';
+    logger.d('getTransactionAllInfos: requestHttp.body=' + _body);
+
+    try {
+      final http.Response responseHttp = await http.post(
+          Uri.parse(endpoint! + '/api'),
+          body: _body,
+          headers: requestHeaders);
+      logger
+          .d('getTransactionAllInfos: responseHttp.body=' + responseHttp.body);
+
+      if (responseHttp.statusCode == 200) {
+        transactionResponse = transactionsResponseFromJson(responseHttp.body);
+      }
+    } catch (e) {
+      logger.d('getTransactionAllInfos: error=' + e.toString());
+    }
+
+    _completer.complete(transactionResponse);
+    return _completer.future;
   }
 }
