@@ -459,9 +459,9 @@ class ApiService {
     };
 
     final String _body =
-        '{"query":"query { transaction(address: \\"$address\\") ' +
+        '{"query":"query { transaction(address: \\"$address\\") {' +
             Transaction.getQLFields() +
-            ' }"}';
+            '} }"}';
     logger.d('getTransactionAllInfos: requestHttp.body=' + _body);
 
     try {
