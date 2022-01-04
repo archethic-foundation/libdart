@@ -1,6 +1,12 @@
 Changelog
 =========
 
+#### Version 1.0.4 (2022-01-04)
+* Add new method to get all transaction informations (ApiService().getTransactionAllInfos())
+* Integrate Bitcoin in currencies management
+* Fix Null Pointer Exceptions
+* Fix Bigint Conversions in UCOTransfer management
+
 #### Version 1.0.3 (2021-12-20)
 * Coingecko infos changed : uniris -> archethic
 

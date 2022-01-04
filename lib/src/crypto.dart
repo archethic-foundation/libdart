@@ -1,7 +1,6 @@
 // Dart imports:
 import 'dart:convert' show utf8;
 import 'dart:math' show Random;
-import 'dart:typed_data' show Uint8List;
 
 // Package imports:
 import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;

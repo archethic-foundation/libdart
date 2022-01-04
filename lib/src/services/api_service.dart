@@ -21,7 +21,6 @@ import 'package:archethic_lib_dart/src/model/response/transaction_chain_response
 import 'package:archethic_lib_dart/src/model/response/transaction_content_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transaction_inputs_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transaction_last_response.dart';
-import 'package:archethic_lib_dart/src/model/response/transactions_response.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/transaction_status.dart';
