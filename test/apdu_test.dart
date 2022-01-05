@@ -6,6 +6,6 @@ void main() {
   test('Command APDU test', () {
     // Get ArchEthic Account Address
     expect(CommandAPDU(cla: 0xe0, ins: 0x04, p1: 0, p2: 0).toBytes(),
-        "e00400".parseHex());
+        "e0040000".parseHex());
   });
 }

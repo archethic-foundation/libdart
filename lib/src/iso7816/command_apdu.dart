@@ -31,7 +31,7 @@ class CommandAPDU {
     this.ins = ins;
     this.p1 = p1;
     this.p2 = p2;
-    this.data = data!;
+    this.data = data == null ? Uint8List.fromList([]) : data;
     this.ne = ne;
   }
 
