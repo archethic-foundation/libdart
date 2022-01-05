@@ -41,7 +41,7 @@ class CommandAPDU {
       _cla = cla;
     } else {
       throw ArgumentError.value(
-          cla, "cla", "Command APDU invalid parameter value");
+          cla, 'cla', 'Command APDU invalid parameter value');
     }
   }
 
@@ -51,7 +51,7 @@ class CommandAPDU {
       _ins = ins;
     } else {
       throw ArgumentError.value(
-          ins, "ins", "Command APDU invalid parameter value");
+          ins, 'ins', 'Command APDU invalid parameter value');
     }
   }
 
@@ -61,7 +61,7 @@ class CommandAPDU {
       _p1 = p1;
     } else {
       throw ArgumentError.value(
-          p1, "p1", "Command APDU invalid parameter value");
+          p1, 'p1', 'Command APDU invalid parameter value');
     }
   }
 
@@ -71,7 +71,7 @@ class CommandAPDU {
       _p2 = p2;
     } else {
       throw ArgumentError.value(
-          p2, "p2", "Command APDU invalid parameter value");
+          p2, 'p2', 'Command APDU invalid parameter value');
     }
   }
 
@@ -79,7 +79,7 @@ class CommandAPDU {
   set data(Uint8List data) {
     if (data != null && data.length > 0xffff) {
       throw ArgumentError.value(
-          data, "data", "Command APDU invalid parameter value");
+          data, 'data', 'Command APDU invalid parameter value');
     }
     _data = data;
   }
@@ -90,7 +90,7 @@ class CommandAPDU {
       _ne = ne;
     } else {
       throw ArgumentError.value(
-          ne, "ne", "Command APDU invalid parameter value");
+          ne, 'ne', 'Command APDU invalid parameter value');
     }
   }
 
@@ -100,8 +100,8 @@ class CommandAPDU {
     }
 
     final bool extended = _data!.length > 255 || _ne! > 256;
-    final lc = Uint8List(extended ? 3 : 1);
-    final lcv = ByteData.view(lc.buffer);
+    final Uint8List lc = Uint8List(extended ? 3 : 1);
+    final ByteData lcv = ByteData.view(lc.buffer);
     if (!extended) {
       // case 3s
       lcv.setUint8(0, _data!.length);
@@ -119,9 +119,9 @@ class CommandAPDU {
     }
 
     final bool extended = ne > 256 || (_data?.length ?? 0) > 255;
-    final addByte = (_data?.isEmpty ?? true) ? 1 : 0;
-    final le = Uint8List(extended ? 2 + addByte : 1);
-    final lev = ByteData.view(le.buffer);
+    final int addByte = (_data?.isEmpty ?? true) ? 1 : 0;
+    final Uint8List le = Uint8List(extended ? 2 + addByte : 1);
+    final ByteData lev = ByteData.view(le.buffer);
     if (!extended) {
       // case 2s or 4s
       lev.setUint8(
@@ -136,17 +136,18 @@ class CommandAPDU {
 
   /// Returns serialized header bytes.
   Uint8List rawHeader() {
-    return Uint8List.fromList([_cla!, _ins!, _p1!, _p2!]);
+    return Uint8List.fromList(<int>[_cla!, _ins!, _p1!, _p2!]);
   }
 
   /// Returns serialized command APDU.
   Uint8List toBytes() {
-    final lc = _getLc();
-    final le = _getLe();
-    return Uint8List.fromList(rawHeader() + [...lc, ...?_data, ...le]);
+    final Uint8List lc = _getLc();
+    final Uint8List le = _getLe();
+    return Uint8List.fromList(rawHeader() + <int>[...lc, ...?_data, ...le]);
   }
 
   /// Returns string representation of command APDU
+  @override
   String toString() =>
-      "C-APDU(CLA:${_cla!.hex()} INS:${_ins!.hex()} P1:${_p1!.hex()} P2:${_p2!.hex()} Le:$_ne Lc:${_data?.length ?? 0x00} Data:${_data?.hex()})";
+      'C-APDU(CLA:${_cla!.hex()} INS:${_ins!.hex()} P1:${_p1!.hex()} P2:${_p2!.hex()} Le:$_ne Lc:${_data?.length ?? 0x00} Data:${_data?.hex()})';
 }
