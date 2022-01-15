@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 1.0.5 (2022-01-15)
+* Rename node field in CrossValidationStamp with 'nodePublicKey'
+
 #### Version 1.0.4 (2022-01-04)
 * Add new method to get all transaction informations (ApiService().getTransactionAllInfos())
 * Integrate Bitcoin in currencies management

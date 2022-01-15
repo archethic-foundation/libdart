@@ -1,24 +1,24 @@
 /// [CrossValidationStamp] represents the approval of the validation stamp by a cross validation node.
 class CrossValidationStamp {
   CrossValidationStamp({
-    this.node,
+    this.nodePublicKey,
     this.signature,
   });
 
   /// Node: node public key
-  String? node;
+  String? nodePublicKey;
 
   /// Signature: signature of the validation stamp
   String? signature;
 
   factory CrossValidationStamp.fromJson(Map<String, dynamic> json) =>
       CrossValidationStamp(
-        node: json['node'],
+        nodePublicKey: json['nodePublicKey'],
         signature: json['signature'],
       );
 
   Map<String, dynamic> toJson() => {
-        'node': node,
+        'nodePublicKey': nodePublicKey,
         'signature': signature,
       };
 }
