@@ -1,7 +1,11 @@
 //  Copyright © 2020 ZeroPass. All rights reserved.
+
+// Dart imports:
 import 'dart:typed_data';
-import 'package:archethic_lib_dart/src/iso7816/extension/uint8list_apis.dart';
+
+// Project imports:
 import 'package:archethic_lib_dart/src/iso7816/extension/int_apis.dart';
+import 'package:archethic_lib_dart/src/iso7816/extension/uint8list_apis.dart';
 
 /// Class defines ISO/IEC 7816-4 response APDU
 class ResponseAPDU {
