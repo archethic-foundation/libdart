@@ -3,7 +3,8 @@ Changelog
 
 #### Version 1.0.5 (2022-01-15)
 * Rename node field in CrossValidationStamp with 'nodePublicKey'
-* add flutter_lints
+* Add flutter_lints
+* Add Oracle UCO Price recovery
 
 #### Version 1.0.4 (2022-01-04)
 * Add new method to get all transaction informations (ApiService().getTransactionAllInfos())
