@@ -30,7 +30,7 @@ class TransactionInput {
 
   factory TransactionInput.fromJson(Map<String, dynamic> json) =>
       TransactionInput(
-        amount: json['amount'] == null ? null : json['amount'].toDouble(),
+        amount: json['amount']?.toDouble(),
         from: json['from'],
         nftAddress: json['nftAddress'],
         spent: json['spent'],

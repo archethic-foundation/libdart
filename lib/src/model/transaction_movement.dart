@@ -21,7 +21,7 @@ class TransactionMovement {
 
   factory TransactionMovement.fromJson(Map<String, dynamic> json) =>
       TransactionMovement(
-        amount: json['amount'] == null ? null : json['amount'].toDouble(),
+        amount: json['amount']?.toDouble(),
         nftAddress: json['nftAddress'],
         to: json['to'],
         type: json['type'],

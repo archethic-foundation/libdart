@@ -16,9 +16,7 @@ class Node {
   factory Node.fromJson(Map<String, dynamic> json) => Node(
       authorized: json['authorized'],
       available: json['available'],
-      averageAvailability: json['averageAvailability'] == null
-          ? null
-          : json['averageAvailability'].toDouble(),
+      averageAvailability: json['averageAvailability']?.toDouble(),
       firstPublicKey: json['firstPublicKey'],
       geoPatch: json['geoPatch'],
       ip: json['ip'],

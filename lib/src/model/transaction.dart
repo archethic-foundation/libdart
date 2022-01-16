@@ -123,19 +123,19 @@ class Transaction {
       );
 
   Map<String, dynamic> toJson() => {
-        'address': this.address,
-        'balance': this.balance!.toJson(),
-        'chainLength': this.chainLength,
-        'crossValidationStamps': List<dynamic>.from(
-            this.crossValidationStamps!.map((x) => x.toJson())),
-        'data': this.data!.toJson(),
-        'inputs': List<dynamic>.from(this.inputs!.map((x) => x.toJson())),
-        'originSignature': this.originSignature,
-        'previousPublicKey': this.previousPublicKey,
-        'previousSignature': this.previousSignature,
-        'type': this.type,
-        'validationStamp': this.validationStamp!.toJson(),
-        'version': this.version,
+        'address': address,
+        'balance': balance!.toJson(),
+        'chainLength': chainLength,
+        'crossValidationStamps':
+            List<dynamic>.from(crossValidationStamps!.map((x) => x.toJson())),
+        'data': data!.toJson(),
+        'inputs': List<dynamic>.from(inputs!.map((x) => x.toJson())),
+        'originSignature': originSignature,
+        'previousPublicKey': previousPublicKey,
+        'previousSignature': previousSignature,
+        'type': type,
+        'validationStamp': validationStamp!.toJson(),
+        'version': version,
       };
 
   /// Generate the transaction address, keys and signatures
@@ -152,9 +152,9 @@ class Transaction {
         crypto.hash(nextKeypair.publicKey, algo: hashAlgo);
 
     this.address = uint8ListToHex(address);
-    this.previousPublicKey = uint8ListToHex(keypair.publicKey);
-    this.previousSignature = uint8ListToHex(
-        crypto.sign(this.previousSignaturePayload(), keypair.privateKey));
+    previousPublicKey = uint8ListToHex(keypair.publicKey);
+    previousSignature = uint8ListToHex(
+        crypto.sign(previousSignaturePayload(), keypair.privateKey));
 
     return this;
   }
@@ -162,24 +162,21 @@ class Transaction {
   /// Add smart contract code to the transaction
   /// @param {String} code Smart contract code
   Transaction setCode(String code) {
-    if (!(code is String)) {
-      throw "'code' must be a string";
-    }
-    this.data!.code = code;
+    data!.code = code;
     return this;
   }
 
   /// Add a content to the transaction
   /// @param {String | Uint8List} content Hosted content
   Transaction setContent(content) {
-    if (!(content is Uint8List) && !(content is String)) {
+    if (content is! Uint8List && content is! String) {
       throw "'content' must be a string or Uint8List";
     }
 
     if (content is Uint8List) {
       content = utf8.decode(content);
     }
-    this.data!.content = content;
+    data!.content = content;
     return this;
   }
 
@@ -187,7 +184,7 @@ class Transaction {
   /// @param {String | Uint8List} secret Secret encrypted (hexadecimal or binary buffer)
   /// @param {List<AuthorizedKey>} authorizedKeys
   Transaction addOwnership(secret, List<AuthorizedKey> authorizedKeys) {
-    if (!(secret is Uint8List) && !(secret is String)) {
+    if (secret is! Uint8List && secret is! String) {
       throw "'secret' must be a string or Uint8List";
     }
 
@@ -195,7 +192,7 @@ class Transaction {
       secret = uint8ListToHex(secret);
     }
 
-    authorizedKeys.forEach((AuthorizedKey authorizedKey) {
+    for (var authorizedKey in authorizedKeys) {
       if (!isHex(authorizedKey.publicKey!)) {
         throw "'Authorized public key' must be an hexadecimal string";
       }
@@ -203,11 +200,9 @@ class Transaction {
       if (!isHex(authorizedKey.encryptedSecretKey!)) {
         throw "'Encrypted secret' must be an hexadecimal string";
       }
-    });
+    }
 
-    this
-        .data!
-        .ownerships!
+    data!.ownerships!
         .add(Ownership(secret: secret, authorizedPublicKeys: authorizedKeys));
     return this;
   }
@@ -216,7 +211,7 @@ class Transaction {
   /// @param {String | Uint8List} to Address of the recipient (hexadecimal or binary buffer)
   /// @param {BigInt} amount Amount of UCO to transfer
   Transaction addUCOTransfer(to, BigInt amount) {
-    if (!(to is Uint8List) && !(to is String)) {
+    if (to is! Uint8List && to is! String) {
       throw "'to' must be a string or Uint8List";
     }
 
@@ -228,7 +223,7 @@ class Transaction {
       to = uint8ListToHex(to);
     }
     final UCOTransfer ucoTransfer = UCOTransfer(to: to, amount: amount);
-    this.data!.ledger!.uco!.transfers!.add(ucoTransfer);
+    data!.ledger!.uco!.transfers!.add(ucoTransfer);
     return this;
   }
 
@@ -237,7 +232,7 @@ class Transaction {
   /// @param {double} amount Amount of UCO to transfer
   /// @param {String | Uint8List} nftAddress Address of NFT to spend (hexadecimal or binary buffer)
   Transaction addNFTTransfer(to, double amount, nftAddress) {
-    if (!(to is Uint8List) && !(to is String)) {
+    if (to is! Uint8List && to is! String) {
       throw "'to' must be a string or Uint8List";
     }
 
@@ -249,7 +244,7 @@ class Transaction {
       to = uint8ListToHex(to);
     }
 
-    if (!(nftAddress is Uint8List) && !(nftAddress is String)) {
+    if (nftAddress is! Uint8List && nftAddress is! String) {
       throw "'nftAddress' must be a string or Uint8List";
     }
 
@@ -262,14 +257,14 @@ class Transaction {
     }
     final NFTTransfer nftTransfer =
         NFTTransfer(amount: toBigInt(amount), nft: nftAddress, to: to);
-    this.data!.ledger!.nft!.transfers!.add(nftTransfer);
+    data!.ledger!.nft!.transfers!.add(nftTransfer);
     return this;
   }
 
   /// Add recipient to the transaction
   /// @param {String | Uint8List} to Recipient address (hexadecimal or binary buffer)
   Transaction addRecipient(to) {
-    if (!(to is Uint8List) && !(to is String)) {
+    if (to is! Uint8List && to is! String) {
       throw "'to' must be a string or Uint8List";
     }
 
@@ -280,14 +275,14 @@ class Transaction {
     } else {
       to = uint8ListToHex(to);
     }
-    this.data!.recipients!.add(to);
+    data!.recipients!.add(to);
     return this;
   }
 
   /// Sign the transaction with an origin private key
   /// @param {String | Uint8List} originPv Origin Private Key (hexadecimal or binary buffer)
   Transaction originSign(privateKey) {
-    if (!(privateKey is Uint8List) && !(privateKey is String)) {
+    if (privateKey is! Uint8List && privateKey is! String) {
       throw "'privateKey' must be a string or Uint8List";
     }
 
@@ -299,43 +294,38 @@ class Transaction {
       privateKey = uint8ListToHex(privateKey);
     }
 
-    this.originSignature =
-        uint8ListToHex(crypto.sign(this.originSignaturePayload(), privateKey));
+    originSignature =
+        uint8ListToHex(crypto.sign(originSignaturePayload(), privateKey));
     return this;
   }
 
   Uint8List originSignaturePayload() {
-    final Uint8List payloadForPreviousSignature =
-        this.previousSignaturePayload();
+    final Uint8List payloadForPreviousSignature = previousSignaturePayload();
     return concatUint8List([
       payloadForPreviousSignature,
-      hexToUint8List(this.previousPublicKey!),
-      Uint8List.fromList([hexToUint8List(this.previousSignature!).length]),
-      hexToUint8List(this.previousSignature!),
+      hexToUint8List(previousPublicKey!),
+      Uint8List.fromList([hexToUint8List(previousSignature!).length]),
+      hexToUint8List(previousSignature!),
     ]);
   }
 
   /// Generate the payload for the previous signature by encoding address, type and data
   Uint8List previousSignaturePayload() {
-    final Uint8List bufCodeSize = encodeInt32(this.data!.code!.length);
-    int contentSize = this.data!.content!.length;
-    if (this.data!.content! is String) {
-      contentSize =
-          Uint8List.fromList(utf8.encode(this.data!.content!)).lengthInBytes;
-    }
+    final Uint8List bufCodeSize = encodeInt32(data!.code!.length);
+    int contentSize = data!.content!.length;
     final Uint8List bufContentSize = encodeInt32(contentSize);
 
     Uint8List ownershipsBuffer = Uint8List.fromList([]);
 
-    this.data!.ownerships!.forEach((Ownership ownership) {
+    for (var ownership in data!.ownerships!) {
       final List<Uint8List> authorizedKeysBuffer = [
         Uint8List.fromList([ownership.authorizedPublicKeys!.length])
       ];
-      ownership.authorizedPublicKeys!.forEach((AuthorizedKey authorizedKey) {
+      for (var authorizedKey in ownership.authorizedPublicKeys!) {
         authorizedKeysBuffer.add(hexToUint8List(authorizedKey.publicKey!));
         authorizedKeysBuffer
             .add(hexToUint8List(authorizedKey.encryptedSecretKey!));
-      });
+      }
 
       ownershipsBuffer = concatUint8List([
         encodeInt32(
@@ -343,57 +333,52 @@ class Transaction {
         Uint8List.fromList(utf8.encode(ownership.secret!)),
         concatUint8List(authorizedKeysBuffer)
       ]);
-    });
+    }
 
     Uint8List ucoTransfersBuffers = Uint8List(0);
-    if (this.data!.ledger!.uco!.transfers!.isNotEmpty) {
-      this
-          .data!
-          .ledger!
-          .uco!
-          .transfers!
-          .forEach((ucoTransfer) => ucoTransfersBuffers = concatUint8List([
-                ucoTransfersBuffers,
-                hexToUint8List(ucoTransfer.to!),
-                encodeBigInt(ucoTransfer.amount!)
-              ]));
+    if (data!.ledger!.uco!.transfers!.isNotEmpty) {
+      for (var ucoTransfer in data!.ledger!.uco!.transfers!) {
+        ucoTransfersBuffers = concatUint8List([
+          ucoTransfersBuffers,
+          hexToUint8List(ucoTransfer.to!),
+          encodeBigInt(ucoTransfer.amount!)
+        ]);
+      }
     }
 
     Uint8List nftTransfersBuffers = Uint8List(0);
-    if (this.data!.ledger!.nft!.transfers!.isNotEmpty) {
-      this
-          .data!
-          .ledger!
-          .nft!
-          .transfers!
-          .forEach((NFTTransfer) => nftTransfersBuffers = concatUint8List([
-                nftTransfersBuffers,
-                hexToUint8List(this.data!.ledger!.nft!.transfers![0].nft!),
-                hexToUint8List(this.data!.ledger!.nft!.transfers![0].to!),
-                encodeBigInt(this.data!.ledger!.nft!.transfers![0].amount!)
-              ]));
+    if (data!.ledger!.nft!.transfers!.isNotEmpty) {
+      // ignore: non_constant_identifier_names
+      for (var NFTTransfer in data!.ledger!.nft!.transfers!) {
+        nftTransfersBuffers = concatUint8List([
+          nftTransfersBuffers,
+          hexToUint8List(data!.ledger!.nft!.transfers![0].nft!),
+          hexToUint8List(data!.ledger!.nft!.transfers![0].to!),
+          encodeBigInt(data!.ledger!.nft!.transfers![0].amount!)
+        ]);
+      }
     }
 
     Uint8List recipients = Uint8List(0);
-    this.data!.recipients!.forEach((recipient) {
+    for (var recipient in data!.recipients!) {
       recipients = concatUint8List([recipients, hexToUint8List(recipient)]);
-    });
+    }
 
     return concatUint8List([
-      encodeInt32(this.version!),
-      hexToUint8List(this.address!),
-      Uint8List.fromList([txTypes[this.type]!]),
+      encodeInt32(version!),
+      hexToUint8List(address!),
+      Uint8List.fromList([txTypes[type]!]),
       bufCodeSize,
-      Uint8List.fromList(utf8.encode(this.data!.code!)),
+      Uint8List.fromList(utf8.encode(data!.code!)),
       bufContentSize,
-      Uint8List.fromList(utf8.encode(this.data!.content!)),
-      Uint8List.fromList([this.data!.ownerships!.length]),
+      Uint8List.fromList(utf8.encode(data!.content!)),
+      Uint8List.fromList([data!.ownerships!.length]),
       ownershipsBuffer,
-      Uint8List.fromList([this.data!.ledger!.uco!.transfers!.length]),
+      Uint8List.fromList([data!.ledger!.uco!.transfers!.length]),
       ucoTransfersBuffers,
-      Uint8List.fromList([this.data!.ledger!.nft!.transfers!.length]),
+      Uint8List.fromList([data!.ledger!.nft!.transfers!.length]),
       nftTransfersBuffers,
-      Uint8List.fromList([this.data!.recipients!.length]),
+      Uint8List.fromList([data!.recipients!.length]),
       recipients
     ]);
   }
@@ -401,16 +386,14 @@ class Transaction {
   /// Convert the transaction in JSON
   String convertToJSON() {
     final String _json = jsonEncode({
-      'version': this.version,
-      'address': this.address == null ? '' : this.address!,
-      'type': this.type,
+      'version': version,
+      'address': address == null ? '' : address!,
+      'type': type,
       'data': {
-        'content': uint8ListToHex(
-            Uint8List.fromList(utf8.encode(this.data!.content!))),
-        'code': this.data == null || this.data!.code == null
-            ? ''
-            : this.data!.code!,
-        'ownerships': List<dynamic>.from(this.data!.ownerships!.map((x) {
+        'content':
+            uint8ListToHex(Uint8List.fromList(utf8.encode(data!.content!))),
+        'code': data == null || data!.code == null ? '' : data!.code!,
+        'ownerships': List<dynamic>.from(data!.ownerships!.map((x) {
           return {
             'secret': x.secret == null ? '' : x.secret!,
             'authorizedKey': x.authorizedPublicKeys,
@@ -419,7 +402,7 @@ class Transaction {
         'ledger': {
           'uco': {
             'transfers':
-                List<dynamic>.from(this.data!.ledger!.uco!.transfers!.map((x) {
+                List<dynamic>.from(data!.ledger!.uco!.transfers!.map((x) {
               return {
                 'to': x.to == null ? '' : x.to!,
                 'amount': x.amount == null ? 0 : x.amount!.toInt(),
@@ -428,7 +411,7 @@ class Transaction {
           },
           'nft': {
             'transfers':
-                List<dynamic>.from(this.data!.ledger!.nft!.transfers!.map((x) {
+                List<dynamic>.from(data!.ledger!.nft!.transfers!.map((x) {
               return {
                 'to': x.to == null ? '' : x.to!,
                 'amount': x.amount == null ? 0 : x.amount!.toInt(),
@@ -437,14 +420,11 @@ class Transaction {
             }))
           },
         },
-        'recipients': List<dynamic>.from(this.data!.recipients!.map((x) => x)),
+        'recipients': List<dynamic>.from(data!.recipients!.map((x) => x)),
       },
-      'previousPublicKey':
-          this.previousPublicKey == null ? '' : this.previousPublicKey!,
-      'previousSignature':
-          this.previousSignature == null ? '' : this.previousSignature!,
-      'originSignature':
-          this.originSignature == null ? '' : this.originSignature!
+      'previousPublicKey': previousPublicKey == null ? '' : previousPublicKey!,
+      'previousSignature': previousSignature == null ? '' : previousSignature!,
+      'originSignature': originSignature == null ? '' : originSignature!
     });
     return _json;
   }

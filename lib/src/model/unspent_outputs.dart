@@ -21,7 +21,7 @@ class UnspentOutputs {
   String? from;
 
   factory UnspentOutputs.fromJson(Map<String, dynamic> json) => UnspentOutputs(
-        amount: json['amount'] == null ? null : json['amount'].toDouble(),
+        amount: json['amount']?.toDouble(),
         nftAddress: json['nftAddress'],
         type: json['type'],
         from: json['from'],

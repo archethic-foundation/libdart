@@ -435,8 +435,8 @@ class ApiService {
             .build(keychainSeed, 0, 'P256')
             .originSign(originPrivateKey);
 
-    TransactionStatus ts1 = await this.sendTx(accessKeychainTx);
-    TransactionStatus ts2 = await this.sendTx(keyChainTx);
+    TransactionStatus ts1 = await sendTx(accessKeychainTx);
+    TransactionStatus ts2 = await sendTx(keyChainTx);
     if (ts1.status == 'ok' && ts2.status == 'ok') {
       return keyChainTx.address;
     } else {

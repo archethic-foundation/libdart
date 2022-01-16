@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 // Package imports:
-import 'package:convert/convert.dart' as C;
+import 'package:convert/convert.dart' as c;
 
 extension Uint8ListEncodeApis on Uint8List {
   String base64() {
@@ -11,6 +11,6 @@ extension Uint8ListEncodeApis on Uint8List {
   }
 
   String hex() {
-    return C.hex.encoder.convert(this);
+    return c.hex.encoder.convert(this);
   }
 }

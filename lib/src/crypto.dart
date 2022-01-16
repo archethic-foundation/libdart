@@ -15,7 +15,7 @@ import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/crypto/secret.dart';
 import 'package:archethic_lib_dart/src/utils.dart';
 
-import 'package:crypto_keys/crypto_keys.dart' as cryptoKeys
+import 'package:crypto_keys/crypto_keys.dart' as crypto_keys
     show EncryptionResult, SymmetricKey, KeyPair, Encrypter, algorithms;
 import 'package:ecdsa/ecdsa.dart' as ecdsa
     show Signature, deterministicSign, verify;
@@ -30,7 +30,7 @@ import 'package:x25519/x25519.dart' as x25519
 /// @param {String | Uint8List} content Data to hash (string or buffer)
 /// @param {String} algo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
 Uint8List hash(content, {String algo = 'sha256'}) {
-  if (!(content is Uint8List) && !(content is String)) {
+  if (content is! Uint8List && content is! String) {
     throw "'content' must be a string or Uint8List";
   }
 
@@ -83,11 +83,7 @@ Uint8List hash(content, {String algo = 'sha256'}) {
 /// @param {int} index Number to identify the order of keys to generate
 /// @param {String} curve Elliptic curve to use (P256", "secp256k1", "ed25519")
 KeyPair deriveKeyPair(String seed, int index, {String curve = 'P256'}) {
-  if (!(seed is String)) {
-    throw "'seed' must be a string";
-  }
-
-  if (!(index is int) || index < 0) {
+  if (index < 0) {
     throw "index' must be a positive number";
   }
 
@@ -144,11 +140,11 @@ KeyPair deriveKeyPair(String seed, int index, {String curve = 'P256'}) {
 /// @param {String | Uint8List} data Data to sign
 /// @param {String | Uint8List} privateKey Private key to use to sign the data
 Uint8List sign(data, privateKey) {
-  if (!(data is Uint8List) && !(data is String)) {
+  if (data is! Uint8List && data is! String) {
     throw "'data' must be a string or Uint8List";
   }
 
-  if (!(privateKey is Uint8List) && !(privateKey is String)) {
+  if (privateKey is! Uint8List && privateKey is! String) {
     throw "'privateKey' must be a string or Uint8List";
   }
 
@@ -199,15 +195,15 @@ Uint8List sign(data, privateKey) {
 }
 
 bool verify(sig, data, publicKey) {
-  if (!(sig is Uint8List) && !(sig is String)) {
+  if (sig is! Uint8List && sig is! String) {
     throw "'sig' must be a string or Uint8List";
   }
 
-  if (!(data is Uint8List) && !(data is String)) {
+  if (data is! Uint8List && data is! String) {
     throw "'data' must be a string or Uint8List";
   }
 
-  if (!(publicKey is Uint8List) && !(publicKey is String)) {
+  if (publicKey is! Uint8List && publicKey is! String) {
     throw "'publicKey' must be a string or Uint8List";
   }
 
@@ -270,11 +266,11 @@ bool verify(sig, data, publicKey) {
 /// @param {String | Uint8List} data Data to encrypt
 /// @param {String | Uint8List} publicKey Public key for the shared secret encryption
 Uint8List ecEncrypt(data, publicKey) {
-  if (!(data is Uint8List) && !(data is String)) {
+  if (data is! Uint8List && data is! String) {
     throw "'data' must be a string or Uint8List";
   }
 
-  if (!(publicKey is Uint8List) && !(publicKey is String)) {
+  if (publicKey is! Uint8List && publicKey is! String) {
     throw "'publicKey' must be a string or Uint8List";
   }
 
@@ -362,11 +358,11 @@ Uint8List ecEncrypt(data, publicKey) {
 /// @param {String | Uint8List} ciphertext Ciphertext to decrypt
 /// @param {String | Uint8List} privateKey Private key for the shared secret encryption
 Uint8List ecDecrypt(cipherText, privateKey) {
-  if (!(cipherText is Uint8List) && !(cipherText is String)) {
+  if (cipherText is! Uint8List && cipherText is! String) {
     throw "'cipherText' must be a string or Uint8List";
   }
 
-  if (!(privateKey is Uint8List) && !(privateKey is String)) {
+  if (privateKey is! Uint8List && privateKey is! String) {
     throw "'publicKey' must be a string or Uint8List";
   }
 
@@ -446,11 +442,11 @@ Uint8List ecDecrypt(cipherText, privateKey) {
 /// @param {String | Uint8List} data Data to encrypt
 /// @param {String | Uint8List} key Symmetric key
 Uint8List aesEncrypt(data, key) {
-  if (!(data is Uint8List) && !(data is String)) {
+  if (data is! Uint8List && data is! String) {
     throw "'data' must be a string or Uint8List";
   }
 
-  if (!(key is Uint8List) && !(key is String)) {
+  if (key is! Uint8List && key is! String) {
     throw "'key' must be a string or Uint8List";
   }
 
@@ -470,13 +466,13 @@ Uint8List aesEncrypt(data, key) {
     }
   }
 
-  final cryptoKeys.KeyPair keyPair = cryptoKeys.KeyPair.symmetric(
-      cryptoKeys.SymmetricKey(keyValue: Uint8List.fromList(key)));
+  final crypto_keys.KeyPair keyPair = crypto_keys.KeyPair.symmetric(
+      crypto_keys.SymmetricKey(keyValue: Uint8List.fromList(key)));
   final Uint8List iv = Uint8List.fromList(
       List<int>.generate(12, (int i) => Random.secure().nextInt(256)));
-  final cryptoKeys.Encrypter encrypter = keyPair.publicKey!
-      .createEncrypter(cryptoKeys.algorithms.encryption.aes.gcm);
-  final cryptoKeys.EncryptionResult v =
+  final crypto_keys.Encrypter encrypter = keyPair.publicKey!
+      .createEncrypter(crypto_keys.algorithms.encryption.aes.gcm);
+  final crypto_keys.EncryptionResult v =
       encrypter.encrypt(data, initializationVector: iv);
 
   final Uint8List result = concatUint8List(
@@ -485,11 +481,11 @@ Uint8List aesEncrypt(data, key) {
 }
 
 Uint8List aesDecrypt(cipherText, key) {
-  if (!(cipherText is Uint8List) && !(cipherText is String)) {
+  if (cipherText is! Uint8List && cipherText is! String) {
     throw "'cipherText' must be a string or Uint8List";
   }
 
-  if (!(key is Uint8List) && !(key is String)) {
+  if (key is! Uint8List && key is! String) {
     throw "'key' must be a string or Uint8List";
   }
 
@@ -509,14 +505,14 @@ Uint8List aesDecrypt(cipherText, key) {
     }
   }
 
-  final cryptoKeys.KeyPair keyPair = cryptoKeys.KeyPair.symmetric(
-      cryptoKeys.SymmetricKey(keyValue: Uint8List.fromList(key)));
+  final crypto_keys.KeyPair keyPair = crypto_keys.KeyPair.symmetric(
+      crypto_keys.SymmetricKey(keyValue: Uint8List.fromList(key)));
   final Uint8List iv = cipherText.sublist(0, 12);
   final Uint8List tag = cipherText.sublist(12, 12 + 16);
   final Uint8List encrypted = cipherText.sublist(28, cipherText.length);
-  final cryptoKeys.Encrypter encrypter = keyPair.privateKey!
-      .createEncrypter(cryptoKeys.algorithms.encryption.aes.gcm);
-  final Uint8List decrypted = encrypter.decrypt(cryptoKeys.EncryptionResult(
+  final crypto_keys.Encrypter encrypter = keyPair.privateKey!
+      .createEncrypter(crypto_keys.algorithms.encryption.aes.gcm);
+  final Uint8List decrypted = encrypter.decrypt(crypto_keys.EncryptionResult(
       encrypted,
       initializationVector: iv,
       authenticationTag: tag));
@@ -552,7 +548,7 @@ Uint8List derivePrivateKey(seed, int index) {
 }
 
 Secret deriveSecret(sharedKey) {
-  if (!(sharedKey is Uint8List) && !(sharedKey is String)) {
+  if (sharedKey is! Uint8List && sharedKey is! String) {
     throw "'sharedKey' must be a string or Uint8List";
   }
 
@@ -580,13 +576,13 @@ Secret deriveSecret(sharedKey) {
 
 AesAuthEncryptInfos aesAuthEncrypt(
     Uint8List data, Uint8List aesKey, Uint8List iv) {
-  final cryptoKeys.KeyPair keyPair =
-      cryptoKeys.KeyPair.symmetric(cryptoKeys.SymmetricKey(keyValue: aesKey));
+  final crypto_keys.KeyPair keyPair =
+      crypto_keys.KeyPair.symmetric(crypto_keys.SymmetricKey(keyValue: aesKey));
 
-  final cryptoKeys.Encrypter encrypter = keyPair.publicKey!
-      .createEncrypter(cryptoKeys.algorithms.encryption.aes.gcm);
+  final crypto_keys.Encrypter encrypter = keyPair.publicKey!
+      .createEncrypter(crypto_keys.algorithms.encryption.aes.gcm);
 
-  final cryptoKeys.EncryptionResult v =
+  final crypto_keys.EncryptionResult v =
       encrypter.encrypt(data, initializationVector: iv);
 
   return AesAuthEncryptInfos(tag: v.authenticationTag!, encrypted: v.data);
@@ -594,13 +590,13 @@ AesAuthEncryptInfos aesAuthEncrypt(
 
 Uint8List aesAuthDecrypt(
     Uint8List encrypted, Uint8List aesKey, Uint8List iv, Uint8List tag) {
-  final cryptoKeys.KeyPair keyPair =
-      cryptoKeys.KeyPair.symmetric(cryptoKeys.SymmetricKey(keyValue: aesKey));
+  final crypto_keys.KeyPair keyPair =
+      crypto_keys.KeyPair.symmetric(crypto_keys.SymmetricKey(keyValue: aesKey));
 
-  final cryptoKeys.Encrypter encrypter = keyPair.publicKey!
-      .createEncrypter(cryptoKeys.algorithms.encryption.aes.gcm);
+  final crypto_keys.Encrypter encrypter = keyPair.publicKey!
+      .createEncrypter(crypto_keys.algorithms.encryption.aes.gcm);
 
-  final Uint8List decrypted = encrypter.decrypt(cryptoKeys.EncryptionResult(
+  final Uint8List decrypted = encrypter.decrypt(crypto_keys.EncryptionResult(
       encrypted,
       initializationVector: iv,
       authenticationTag: tag));

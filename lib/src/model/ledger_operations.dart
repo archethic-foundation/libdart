@@ -26,7 +26,7 @@ class LedgerOperations {
 
   factory LedgerOperations.fromJson(Map<String, dynamic> json) =>
       LedgerOperations(
-        fee: json['fee'] == null ? null : json['fee'].toDouble(),
+        fee: json['fee']?.toDouble(),
         nodeMovements: json['nodeMovements'] == null
             ? null
             : List<NodeMovement>.from(

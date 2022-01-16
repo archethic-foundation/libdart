@@ -14,7 +14,7 @@ class NftBalance {
 
   factory NftBalance.fromJson(Map<String, dynamic> json) => NftBalance(
         address: json['address'],
-        amount: json['amount'] == null ? null : json['amount'].toDouble(),
+        amount: json['amount']?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {

@@ -759,8 +759,8 @@ class CoinsTicker {
         base: json['base'],
         target: json['target'],
         market: CoinsTickerMarket.fromJson(json['market']),
-        last: json['last'] == null ? null : json['last'].toDouble(),
-        volume: json['volume'] == null ? null : json['volume'].toDouble(),
+        last: json['last']?.toDouble(),
+        volume: json['volume']?.toDouble(),
         convertedLast: Map.from(json['converted_last'])
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         convertedVolume: Map.from(json['converted_volume'])

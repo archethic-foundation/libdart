@@ -582,9 +582,7 @@ class CoinsCurrentMarketData {
         priceChangePercentage1Y: json['price_change_percentage_1y'].toDouble(),
         marketCapChange24H: json['market_cap_change_24h'].toDouble(),
         marketCapChangePercentage24H:
-            json['market_cap_change_percentage_24h'] == null
-                ? null
-                : json['market_cap_change_percentage_24h'].toDouble(),
+            json['market_cap_change_percentage_24h']?.toDouble(),
         priceChange24HInCurrency: Map.from(json['price_change_24h_in_currency'])
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         priceChangePercentage1HInCurrency:
@@ -617,13 +615,9 @@ class CoinsCurrentMarketData {
         marketCapChangePercentage24HInCurrency:
             Map.from(json['market_cap_change_percentage_24h_in_currency'])
                 .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
-        totalSupply: json['total_supply'] == null
-            ? null
-            : json['total_supply'].toDouble(),
+        totalSupply: json['total_supply']?.toDouble(),
         maxSupply: json['max_supply'],
-        circulatingSupply: json['circulating_supply'] == null
-            ? null
-            : json['circulating_supply'].toDouble(),
+        circulatingSupply: json['circulating_supply']?.toDouble(),
         lastUpdated: DateTime.parse(json['last_updated']),
       );
 
@@ -819,8 +813,8 @@ class CoinsCurrentTicker {
         base: json['base'],
         target: json['target'],
         market: CoinsCurrentTickerMarket.fromJson(json['market']),
-        last: json['last'] == null ? null : json['last'].toDouble(),
-        volume: json['volume'] == null ? null : json['volume'].toDouble(),
+        last: json['last']?.toDouble(),
+        volume: json['volume']?.toDouble(),
         convertedLast: Map.from(json['converted_last'])
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         convertedVolume: Map.from(json['converted_volume'])
