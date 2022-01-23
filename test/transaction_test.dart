@@ -89,7 +89,7 @@ void main() {
                 type: 'transfer', data: Transaction.initData())
             .addNFTTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                10.03,
+                toBigInt(10.03),
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
         expect(tx.data!.ledger!.nft!.transfers!.length, 1);
         expect(tx.data!.ledger!.nft!.transfers![0].to,
@@ -130,7 +130,7 @@ void main() {
                 toBigInt(0.2020))
             .addNFTTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                100,
+                toBigInt(100),
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             .setCode(code)
             .setContent(content)
@@ -241,7 +241,7 @@ void main() {
                 toBigInt(0.2020))
             .addNFTTransfer(
                 '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                100,
+                toBigInt(100),
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             .setCode(code)
             .setContent(content)
