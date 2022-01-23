@@ -24,7 +24,9 @@ class Data {
   String? content;
 
   /// ContentDisplay: convert Content to lisible string
-  String? get contentDisplay => utf8.decode(hexToUint8List(content!));
+  // TODO: Confirm with Samuel
+  //String? get contentDisplay => utf8.decode(hexToUint8List(content!));
+  String? get contentDisplay => content;
 
   /// Ownership: authorization/delegations containing list of secrets and their authorized public keys to proof the ownership
   List<Ownership>? ownerships;
