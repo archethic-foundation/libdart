@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
+import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
 import 'package:http/http.dart' as http show Response, post;
 import 'package:logger/logger.dart';
 
@@ -483,6 +484,28 @@ class ApiService {
     }
 
     _completer.complete(transaction);
+    return _completer.future;
+  }
+
+  /// Get transaction fees
+  /// @param {Object} tx Transaction to estimate fees
+  Future<TransactionFee> getTransactionFee(Transaction transaction) async {
+    final Completer<TransactionFee> _completer = Completer<TransactionFee>();
+    final Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    TransactionFee transactionFee = TransactionFee();
+    final http.Response responseHttp = await http.post(
+        Uri.parse(endpoint! + '/api/transaction_fee'),
+        body: transaction.convertToJSON(),
+        headers: requestHeaders);
+    logger.d(
+        'getTransactionFees: requestHttp.body=' + transaction.convertToJSON());
+    logger.d('getTransactionFees: responseHttp.body=' + responseHttp.body);
+    transactionFee = transactionFeeFromJson(responseHttp.body);
+
+    _completer.complete(transactionFee);
     return _completer.future;
   }
 }

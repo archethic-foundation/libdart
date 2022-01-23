@@ -5,6 +5,8 @@
 
 import 'dart:convert';
 
+import 'package:archethic_lib_dart/src/model/uco.dart';
+
 OracleUcoPrice oracleUcoPriceFromJson(String str) =>
     OracleUcoPrice.fromJson(json.decode(str));
 
@@ -23,25 +25,5 @@ class OracleUcoPrice {
 
   Map<String, dynamic> toJson() => {
         "uco": uco!.toJson(),
-      };
-}
-
-class Uco {
-  Uco({
-    this.eur,
-    this.usd,
-  });
-
-  double? eur;
-  double? usd;
-
-  factory Uco.fromJson(Map<String, dynamic> json) => Uco(
-        eur: json["eur"]?.toDouble(),
-        usd: json["usd"]?.toDouble(),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "eur": eur,
-        "usd": usd,
       };
 }

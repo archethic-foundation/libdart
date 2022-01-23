@@ -1,6 +1,8 @@
 library test.api_test;
 
 // Package imports:
+import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
+import 'package:archethic_lib_dart/src/utils.dart';
 import 'package:test/test.dart';
 
 // Project imports:
@@ -80,6 +82,30 @@ void main() {
       expect(
         transactionsList[0].type,
         'oracle_summary',
+      );
+    });
+
+    test('getTransactionFees', () async {
+      final Transaction tx = Transaction(
+              address:
+                  '009e059e8171643b959284fe542909f3b32198b8fc25b3e50447589b84341c1d67',
+              type: 'transfer',
+              data: Transaction.initData(),
+              originSignature:
+                  '3045022024f8d254671af93f8b9c11b5a2781a4a7535d2e89bad69d6b1f142f8f4bcf489022100c364e10f5f846b2534a7ace4aeaa1b6c8cb674f842b9f8bc78225dfa61cabec6',
+              previousPublicKey:
+                  '000071e1b5d4b89eddf2322c69bbf1c5591f7361b24cb3c4c464f6b5eb688fe50f7a',
+              previousSignature:
+                  '9b209dd92c6caffbb5c39d12263f05baebc9fe3c36cb0f4dde04c96f1237b75a3a2973405c6d9d5e65d8a970a37bafea57b919febad46b0cceb04a7ffa4b6b00',
+              version: 1)
+          .addUCOTransfer(
+              '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              toBigInt(10.03));
+      TransactionFee transactionFee =
+          await ApiService('http://localhost:4000').getTransactionFee(tx);
+      expect(
+        transactionFee.fee!,
+        0.71883831,
       );
     });
   }, tags: ['noCI']);

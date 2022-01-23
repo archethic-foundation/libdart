@@ -6,6 +6,7 @@ Changelog
 * Add flutter_lints
 * Add Oracle UCO Price recovery
 * Add CODE_OF_CONDUCT.md and CONTRIBUTING.md
+* Add getTransactionFee method
 
 #### Version 1.0.4 (2022-01-04)
 * Add new method to get all transaction informations (ApiService().getTransactionAllInfos())
