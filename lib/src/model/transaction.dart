@@ -229,9 +229,9 @@ class Transaction {
 
   /// Add a NFT transfer to the transaction
   /// @param {String | Uint8List} to Address of the recipient (hexadecimal or binary buffer)
-  /// @param {double} amount Amount of UCO to transfer
+  /// @param {BigInt} amount Amount of NFT to transfer
   /// @param {String | Uint8List} nftAddress Address of NFT to spend (hexadecimal or binary buffer)
-  Transaction addNFTTransfer(to, double amount, nftAddress) {
+  Transaction addNFTTransfer(to, BigInt amount, nftAddress) {
     if (to is! Uint8List && to is! String) {
       throw "'to' must be a string or Uint8List";
     }
@@ -256,7 +256,7 @@ class Transaction {
       nftAddress = uint8ListToHex(nftAddress);
     }
     final NFTTransfer nftTransfer =
-        NFTTransfer(amount: toBigInt(amount), nft: nftAddress, to: to);
+        NFTTransfer(amount: amount, nft: nftAddress, to: to);
     data!.ledger!.nft!.transfers!.add(nftTransfer);
     return this;
   }
