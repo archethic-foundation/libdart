@@ -638,10 +638,14 @@ bool addressFormatControl(String? address) {
       default:
         return false;
     }
-    if (hexToUint8List(address.substring(2)).length != _digestSize) {
+    try {
+      if (hexToUint8List(address.substring(2)).length != _digestSize) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (e) {
       return false;
-    } else {
-      return true;
     }
   } else {
     return false;
