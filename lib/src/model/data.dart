@@ -1,10 +1,6 @@
-// Dart imports:
-import 'dart:convert';
-
 // Project imports:
 import 'package:archethic_lib_dart/src/model/ledger.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';
-import 'package:archethic_lib_dart/src/utils.dart';
 
 /// [TransactionData] represents the data section for every transaction.
 

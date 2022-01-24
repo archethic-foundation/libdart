@@ -127,4 +127,29 @@ void main() {
           Uint8List.fromList(utf8.encode('hello')));
     });
   });
+
+  group('addressFormatControl', () {
+    test('should control the format of an address', () {
+      // Valid address
+      expect(
+          crypto.addressFormatControl(
+              '001B5FCD5111745B73A6E5219C700657ED9161D3FC8AD539C95727578C0EC35DAC'),
+          true);
+      // Wrong address (too short)
+      expect(
+          crypto.addressFormatControl(
+              '001B5FCD5111745B73A6E5219C700657ED9161D3FC8AD539C95727578C0EC3'),
+          false);
+      // Not hex
+      expect(
+          crypto.addressFormatControl(
+              '001B5FCD5111745B73A6E5M19C700657ED9161D3FC8AD539C95727578C0EC3'),
+          false);
+      // Curve ko
+      expect(
+          crypto.addressFormatControl(
+              '061B5FCD5111745B73A6E5M19C700657ED9161D3FC8AD539C95727578C0EC3'),
+          false);
+    });
+  });
 }

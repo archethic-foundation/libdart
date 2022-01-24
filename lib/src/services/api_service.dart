@@ -267,7 +267,7 @@ class ApiService {
     final Completer<List<Node>> _completer = Completer<List<Node>>();
     NodesResponse nodesResponse = NodesResponse();
     List<Node> nodesList = List<Node>.empty(growable: true);
-    ;
+
     final Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json',

@@ -25,7 +25,7 @@ class AddressService {
     return uint8ListToHex(crypto.hash(keypair.publicKey, algo: hashAlgo));
   }
 
-  /// Get the last address
+  /// Get the last address from seed
   /// @param {String} seed TransactionChain seed
   Future<String> lastAddressFromSeed(String seed) async {
     final String genesisAddress = deriveAddress(seed, 0);
@@ -33,7 +33,7 @@ class AddressService {
     return lastAddress;
   }
 
-  /// Get the last address
+  /// Get the last address from address
   /// @param {String} address TransactionChain address
   Future<String> lastAddressFromAddress(String address) async {
     final Transaction transaction =
