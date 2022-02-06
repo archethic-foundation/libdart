@@ -1,12 +1,16 @@
-// Project imports:
-import 'package:archethic_lib_dart/src/crypto.dart' as crypto
-    show deriveKeyPair, hash;
+// Dart imports:
+import 'dart:typed_data';
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
-import 'package:archethic_lib_dart/src/utils.dart' show uint8ListToHex;
+
+import 'package:archethic_lib_dart/src/crypto.dart' as crypto
+    show deriveKeyPair, hash;
+
+import 'package:archethic_lib_dart/src/utils.dart'
+    show uint8ListToHex, concatUint8List;
 
 class AddressService {
   AddressService(this.endpoint);
@@ -20,9 +24,27 @@ class AddressService {
   /// @param {String} curve  Elliptic curve to use ("ed25519", "P256", "secp256k1")
   /// @param {String} hashAlgo  Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
   String deriveAddress(String seed, int index,
-      {String curve = 'P256', String hashAlgo = 'sha256'}) {
+      {String curve = 'ed25519', String hashAlgo = 'sha256'}) {
     final KeyPair keypair = crypto.deriveKeyPair(seed, index, curve: curve);
-    return uint8ListToHex(crypto.hash(keypair.publicKey, algo: hashAlgo));
+    switch (curve) {
+      case 'ed25519':
+        return uint8ListToHex(concatUint8List([
+          Uint8List.fromList([0]),
+          crypto.hash(keypair.publicKey, algo: hashAlgo)
+        ]));
+      case 'P256':
+        return uint8ListToHex(concatUint8List([
+          Uint8List.fromList([1]),
+          crypto.hash(keypair.publicKey, algo: hashAlgo)
+        ]));
+      case 'secp256k1':
+        return uint8ListToHex(concatUint8List([
+          Uint8List.fromList([2]),
+          crypto.hash(keypair.publicKey, algo: hashAlgo)
+        ]));
+      default:
+        throw 'Curve not supported';
+    }
   }
 
   /// Get the last address from seed

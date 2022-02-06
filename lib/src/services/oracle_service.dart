@@ -18,7 +18,7 @@ class OracleService {
     if (txList.isNotEmpty) {
       Transaction transaction =
           await ApiService(endpoint).getLastTransaction(txList[0].address!);
-      return oracleUcoPriceFromJson(transaction.data!.contentDisplay!);
+      return oracleUcoPriceFromJson(transaction.data!.content!);
     } else {
       return OracleUcoPrice(uco: Uco(eur: 0, usd: 0));
     }

@@ -4,7 +4,6 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
-import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
 import 'package:http/http.dart' as http show Response, post;
 import 'package:logger/logger.dart';
 
@@ -23,6 +22,7 @@ import 'package:archethic_lib_dart/src/model/response/transaction_content_respon
 import 'package:archethic_lib_dart/src/model/response/transaction_inputs_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transaction_last_response.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
+import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/transaction_status.dart';
 import 'package:archethic_lib_dart/src/services/address_service.dart';

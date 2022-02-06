@@ -348,7 +348,7 @@ class Transaction {
 
     Uint8List nftTransfersBuffers = Uint8List(0);
     if (data!.ledger!.nft!.transfers!.isNotEmpty) {
-      // ignore: non_constant_identifier_names
+      // ignore: non_constant_identifier_names, unused_local_variable
       for (var NFTTransfer in data!.ledger!.nft!.transfers!) {
         nftTransfersBuffers = concatUint8List([
           nftTransfersBuffers,
