@@ -34,7 +34,7 @@ class Archethic {
   });
 
   factory Archethic.fromJson(Map<String, dynamic> json) => Archethic(
-        php: json['php'].toDouble(),
+        php: json['php']?.toDouble(),
       );
 
   double? php;

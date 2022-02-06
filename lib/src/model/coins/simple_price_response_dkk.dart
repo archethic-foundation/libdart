@@ -34,7 +34,7 @@ class Archethic {
   });
 
   factory Archethic.fromJson(Map<String, dynamic> json) => Archethic(
-        dkk: json['dkk'].toDouble(),
+        dkk: json['dkk']?.toDouble(),
       );
 
   double? dkk;

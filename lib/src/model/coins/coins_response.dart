@@ -60,16 +60,16 @@ class CoinsResponse {
         countryOrigin: json['country_origin'],
         genesisDate: json['genesis_date'],
         sentimentVotesUpPercentage:
-            json['sentiment_votes_up_percentage'].toDouble(),
+            json['sentiment_votes_up_percentage']?.toDouble(),
         sentimentVotesDownPercentage:
-            json['sentiment_votes_down_percentage'].toDouble(),
+            json['sentiment_votes_down_percentage']?.toDouble(),
         marketCapRank: json['market_cap_rank'],
         coingeckoRank: json['coingecko_rank'],
-        coingeckoScore: json['coingecko_score'].toDouble(),
-        developerScore: json['developer_score'].toDouble(),
-        communityScore: json['community_score'].toDouble(),
-        liquidityScore: json['liquidity_score'].toDouble(),
-        publicInterestScore: json['public_interest_score'].toDouble(),
+        coingeckoScore: json['coingecko_score']?.toDouble(),
+        developerScore: json['developer_score']?.toDouble(),
+        communityScore: json['community_score']?.toDouble(),
+        liquidityScore: json['liquidity_score']?.toDouble(),
+        publicInterestScore: json['public_interest_score']?.toDouble(),
         marketData: CoinsMarketData.fromJson(json['market_data']),
         communityData: CoinsCommunityData.fromJson(json['community_data']),
         developerData: CoinsDeveloperData.fromJson(json['developer_data']),
@@ -161,9 +161,9 @@ class CoinsCommunityData {
       CoinsCommunityData(
         facebookLikes: json['facebook_likes'],
         twitterFollowers: json['twitter_followers'],
-        redditAveragePosts48H: json['reddit_average_posts_48h'].toDouble(),
+        redditAveragePosts48H: json['reddit_average_posts_48h']?.toDouble(),
         redditAverageComments48H:
-            json['reddit_average_comments_48h'].toDouble(),
+            json['reddit_average_comments_48h']?.toDouble(),
         redditSubscribers: json['reddit_subscribers'],
         redditAccountsActive48H: json['reddit_accounts_active_48h'],
         telegramChannelUserCount: json['telegram_channel_user_count'],
@@ -539,22 +539,22 @@ class CoinsMarketData {
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         low24H: Map.from(json['low_24h'])
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
-        priceChange24H: json['price_change_24h'].toDouble(),
+        priceChange24H: json['price_change_24h']?.toDouble(),
         priceChangePercentage24H:
-            json['price_change_percentage_24h'].toDouble(),
-        priceChangePercentage7D: json['price_change_percentage_7d'].toDouble(),
+            json['price_change_percentage_24h']?.toDouble(),
+        priceChangePercentage7D: json['price_change_percentage_7d']?.toDouble(),
         priceChangePercentage14D:
-            json['price_change_percentage_14d'].toDouble(),
+            json['price_change_percentage_14d']?.toDouble(),
         priceChangePercentage30D:
-            json['price_change_percentage_30d'].toDouble(),
+            json['price_change_percentage_30d']?.toDouble(),
         priceChangePercentage60D:
-            json['price_change_percentage_60d'].toDouble(),
+            json['price_change_percentage_60d']?.toDouble(),
         priceChangePercentage200D:
-            json['price_change_percentage_200d'].toDouble(),
-        priceChangePercentage1Y: json['price_change_percentage_1y'].toDouble(),
-        marketCapChange24H: json['market_cap_change_24h'].toDouble(),
+            json['price_change_percentage_200d']?.toDouble(),
+        priceChangePercentage1Y: json['price_change_percentage_1y']?.toDouble(),
+        marketCapChange24H: json['market_cap_change_24h']?.toDouble(),
         marketCapChangePercentage24H:
-            json['market_cap_change_percentage_24h'].toDouble(),
+            json['market_cap_change_percentage_24h']?.toDouble(),
         priceChange24HInCurrency: Map.from(json['price_change_24h_in_currency'])
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         priceChangePercentage1HInCurrency:
@@ -588,7 +588,7 @@ class CoinsMarketData {
                 .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         totalSupply: json['total_supply'],
         maxSupply: json['max_supply'],
-        circulatingSupply: json['circulating_supply'].toDouble(),
+        circulatingSupply: json['circulating_supply']?.toDouble(),
         lastUpdated: DateTime.parse(json['last_updated']),
       );
 
@@ -766,7 +766,7 @@ class CoinsTicker {
         convertedVolume: Map.from(json['converted_volume'])
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
         trustScore: json['trust_score'],
-        bidAskSpreadPercentage: json['bid_ask_spread_percentage'].toDouble(),
+        bidAskSpreadPercentage: json['bid_ask_spread_percentage']?.toDouble(),
         timestamp: DateTime.parse(json['timestamp']),
         lastTradedAt: DateTime.parse(json['last_traded_at']),
         lastFetchAt: DateTime.parse(json['last_fetch_at']),
