@@ -19,11 +19,6 @@ class Data {
   /// Content: free zone for data hosting (string or hexadecimal)
   String? content;
 
-  /// ContentDisplay: convert Content to lisible string
-  // TODO: Confirm with Samuel
-  //String? get contentDisplay => utf8.decode(hexToUint8List(content!));
-  String? get contentDisplay => content;
-
   /// Ownership: authorization/delegations containing list of secrets and their authorized public keys to proof the ownership
   List<Ownership>? ownerships;
 
