@@ -6,20 +6,20 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
-import 'package:archethic_lib_dart/src/utils/wallet_encoder.dart';
 import 'package:test/test.dart';
 
 // Project imports:
-import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
+import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+import 'package:archethic_lib_dart/src/utils/wallet_encoder.dart';
 
 void main() {
   group('Crypto', () {
     group('hash', () {
       test('should generate a sha256 hash with an algo id at the beginning',
           () {
-        expect(uint8ListToHex(crypto.hash(' ')),
+        expect(uint8ListToHex(crypto.hash('myfakedata')),
             '004e89e81096eb09c74a29bdf66e41fc118b6d17ac547223ca6629a71724e69f23');
       });
       test('should generate a sha512 hash with an algo id at the beginning',
@@ -161,7 +161,8 @@ void main() {
 
   group('onchainWalletGenerator', () {
     test('should control the Onchain Wallet', () {
-      final String encodedWalletKey = walletEncoder('');
+      final String encodedWalletKey = walletEncoder(
+          '04523f9d4068555b8c30bd03507f8c4e454a399b39885555dba91477b3640047cbfb8201d11567faa7956b41bb4b7f207a0fd1641d77f32f53ed9f38b7ecff12fb');
       expect(encodedWalletKey, encodedWalletKey);
     });
   });

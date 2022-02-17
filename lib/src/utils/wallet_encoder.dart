@@ -1,11 +1,17 @@
+// Dart imports:
 import 'dart:math';
 import 'dart:typed_data';
+
+// Package imports:
+import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
+import 'package:pointycastle/export.dart' as pc;
+import 'package:pointycastle/export.dart' show Digest;
+
+// Project imports:
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+
 import 'package:elliptic/elliptic.dart' as elliptic
     show Curve, getSecp256k1, PrivateKey, PublicKey;
-import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
-import 'package:pointycastle/export.dart' show Digest;
-import 'package:pointycastle/export.dart' as pc;
 
 /// Archethic Onchain Wallet Generator and Encoder, using V1 specifications
 /// from https://hackmd.io/@219_ne6IRI6utatg6Fc8ZA/B1g0TU0uK

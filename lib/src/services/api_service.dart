@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http show Response, post;
 import 'package:logger/logger.dart';
 
 // Project imports:
-import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
@@ -26,6 +25,7 @@ import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/transaction_status.dart';
 import 'package:archethic_lib_dart/src/services/address_service.dart';
+import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart' as utils;
 
 class ApiService {

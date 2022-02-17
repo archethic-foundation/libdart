@@ -1,15 +1,15 @@
 library test.api_test;
 
 // Package imports:
-import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
-import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:test/test.dart';
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/node.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
+import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 void main() {
   group('api', () {
