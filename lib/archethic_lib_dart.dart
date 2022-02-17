@@ -3,7 +3,6 @@
 /// This implementation is based on Official ArchEthic Javascript library for Node and Browser.
 library archethic;
 
-export 'src/utils/crypto.dart';
 export 'src/model/authorized_key.dart';
 export 'src/model/balance.dart';
 export 'src/model/coins/coins_current_data_response.dart';
@@ -43,4 +42,6 @@ export 'src/services/api_coins_service.dart';
 export 'src/services/api_service.dart';
 export 'src/services/nft_service.dart';
 export 'src/services/oracle_service.dart';
+export 'src/utils/crypto.dart';
 export 'src/utils/utils.dart';
+export 'src/utils/wallet_encoder.dart';
