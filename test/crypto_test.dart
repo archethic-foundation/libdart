@@ -6,19 +6,20 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
+import 'package:archethic_lib_dart/src/utils/wallet_encoder.dart';
 import 'package:test/test.dart';
 
 // Project imports:
-import 'package:archethic_lib_dart/src/crypto.dart' as crypto;
+import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
-import 'package:archethic_lib_dart/src/utils.dart';
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 void main() {
   group('Crypto', () {
     group('hash', () {
       test('should generate a sha256 hash with an algo id at the beginning',
           () {
-        expect(uint8ListToHex(crypto.hash('myfakedata')),
+        expect(uint8ListToHex(crypto.hash(' ')),
             '004e89e81096eb09c74a29bdf66e41fc118b6d17ac547223ca6629a71724e69f23');
       });
       test('should generate a sha512 hash with an algo id at the beginning',
@@ -66,6 +67,11 @@ void main() {
         final KeyPair keypair1 = crypto.deriveKeyPair('seed', 0);
         final KeyPair keypair2 = crypto.deriveKeyPair('seed', 1);
         expect(keypair1, isNot(equals(keypair2)));
+      });
+
+      test('should derive a keypair by using a seed and index', () {
+        expect(crypto.deriveKeyPair('mysuperseed', 0).publicKey,
+            '010004494a63b66df5442657affbc8c76b95ea1a19a756d1d9feb4b7a06f8373aff3f1666067d0c2082fe2dad8c77fa28010043608db7ab8a11479fb31056de3d1afbc');
       });
     });
 
@@ -150,6 +156,13 @@ void main() {
           crypto.addressFormatControl(
               '061B5FCD5111745B73A6E5M19C700657ED9161D3FC8AD539C95727578C0EC3'),
           false);
+    });
+  });
+
+  group('onchainWalletGenerator', () {
+    test('should control the Onchain Wallet', () {
+      final String encodedWalletKey = walletEncoder('');
+      expect(encodedWalletKey, encodedWalletKey);
     });
   });
 }

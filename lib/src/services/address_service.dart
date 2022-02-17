@@ -6,10 +6,10 @@ import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 
-import 'package:archethic_lib_dart/src/crypto.dart' as crypto
+import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
     show deriveKeyPair, hash;
 
-import 'package:archethic_lib_dart/src/utils.dart'
+import 'package:archethic_lib_dart/src/utils/utils.dart'
     show uint8ListToHex, concatUint8List;
 
 class AddressService {

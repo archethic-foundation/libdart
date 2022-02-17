@@ -1,10 +1,11 @@
 import 'package:archethic_lib_dart/archethic_lib_dart.dart'
     show KeyPair, deriveKeyPair;
 import 'package:archethic_lib_dart/src/model/transaction.dart';
-import 'package:archethic_lib_dart/src/utils.dart';
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 void main(List<String> args) {
   /// It creates a new keypair into hexadecimal format
+  // ignore: unused_local_variable
   final KeyPair keypair = deriveKeyPair('mysuperpassphraseorseed', 0);
 
   /// Generate `address`, `timestamp`, `previousPublicKey`, `previousSignature`, `originSignature` of the transaction and

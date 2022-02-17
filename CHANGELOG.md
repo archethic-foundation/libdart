@@ -8,6 +8,9 @@ Changelog
 * Add CODE_OF_CONDUCT.md and CONTRIBUTING.md
 * Add getTransactionFee method
 * Add addressFormatControl method
+* Add curve type in the address
+* Fix NullPointerException 
+* Add Archethic Onchain Wallet Generator and Encoder
 
 #### Version 1.0.4 (2022-01-04)
 * Add new method to get all transaction informations (ApiService().getTransactionAllInfos())

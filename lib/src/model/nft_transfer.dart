@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:archethic_lib_dart/src/utils.dart';
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 /// [NFTTransfer] represents the an asset transfer
 class NFTTransfer {

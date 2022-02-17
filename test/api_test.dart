@@ -2,7 +2,7 @@ library test.api_test;
 
 // Package imports:
 import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
-import 'package:archethic_lib_dart/src/utils.dart';
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:test/test.dart';
 
 // Project imports:

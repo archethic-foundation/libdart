@@ -13,7 +13,7 @@ import 'package:pointycastle/export.dart' show Digest;
 import 'package:archethic_lib_dart/src/model/crypto/aes_auth_encrypt_infos.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/crypto/secret.dart';
-import 'package:archethic_lib_dart/src/utils.dart';
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 import 'package:crypto_keys/crypto_keys.dart' as crypto_keys
     show EncryptionResult, SymmetricKey, KeyPair, Encrypter, algorithms;

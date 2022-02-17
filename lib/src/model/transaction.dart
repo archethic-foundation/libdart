@@ -17,9 +17,9 @@ import 'package:archethic_lib_dart/src/model/ownership.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
 import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
-import 'package:archethic_lib_dart/src/utils.dart';
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 
-import 'package:archethic_lib_dart/src/crypto.dart' as crypto
+import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
     show deriveKeyPair, hash, sign;
 
 const int cVersion = 1;
