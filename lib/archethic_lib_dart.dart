@@ -24,6 +24,7 @@ export 'src/model/nft_ledger.dart';
 export 'src/model/nft_transfer.dart';
 export 'src/model/node.dart';
 export 'src/model/node_movement.dart';
+export 'src/model/on_chain_wallet_data.dart';
 export 'src/model/oracle_chain/oracle_uco_price.dart';
 export 'src/model/ownership.dart';
 export 'src/model/shared_secrets.dart';

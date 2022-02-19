@@ -6,6 +6,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
+import 'package:archethic_lib_dart/src/model/on_chain_wallet_data.dart';
 import 'package:test/test.dart';
 
 // Project imports:
@@ -161,9 +162,10 @@ void main() {
 
   group('onchainWalletGenerator', () {
     test('should control the Onchain Wallet', () {
-      final String encodedWalletKey = walletEncoder(
+      final OnChainWalletData onChainWalletData = walletEncoder(
           '04523f9d4068555b8c30bd03507f8c4e454a399b39885555dba91477b3640047cbfb8201d11567faa7956b41bb4b7f207a0fd1641d77f32f53ed9f38b7ecff12fb');
-      expect(encodedWalletKey, encodedWalletKey);
+      expect(onChainWalletData.encodedWalletKey,
+          onChainWalletData.encodedWalletKey);
     });
   });
 }

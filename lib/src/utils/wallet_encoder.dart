@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
+import 'package:archethic_lib_dart/src/model/on_chain_wallet_data.dart';
 import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
 import 'package:pointycastle/export.dart' as pc;
 import 'package:pointycastle/export.dart' show Digest;
@@ -14,9 +15,8 @@ import 'package:elliptic/elliptic.dart' as elliptic
     show Curve, getSecp256k1, PrivateKey, PublicKey;
 
 /// Archethic Onchain Wallet Generator and Encoder, using V1 specifications
-/// from https://hackmd.io/@219_ne6IRI6utatg6Fc8ZA/B1g0TU0uK
 /// or https://archethic-foundation.github.io/archethic-docs/build/clients/wallet-spec
-String walletEncoder(String originPublicKey) {
+OnChainWalletData walletEncoder(String originPublicKey) {
   final Digest sha256 = Digest('SHA-256');
   final Digest sha512 = Digest('SHA-512');
 
@@ -160,5 +160,8 @@ String walletEncoder(String originPublicKey) {
       ephemeralPubKey.toHex() + authTag + uint8ListToHex(encryptedWalletKey);
   // print(encodedWalletKey);
 
-  return encodedWalletKey;
+  OnChainWalletData onChainWalletData = OnChainWalletData(
+      encodedWalletKey: encodedWalletKey, encryptedWallet: encryptedWallet);
+
+  return onChainWalletData;
 }
