@@ -274,8 +274,11 @@ class ApiService {
     };
 
     try {
+      // TODO: Wait for https://github.com/archethic-foundation/archethic-node/pull/198
+      // const String _body =
+      //    '{"query": "query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress authorizationDate enrollmentDate}}"}';
       const String _body =
-          '{"query": "query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress authorizationDate enrollmentDate}}"}';
+          '{"query": "query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress}}"}';
       logger.d('getNodeList: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
