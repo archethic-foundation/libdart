@@ -13,12 +13,14 @@ class CrossValidationStamp {
 
   factory CrossValidationStamp.fromJson(Map<String, dynamic> json) =>
       CrossValidationStamp(
-        nodePublicKey: json['nodePublicKey'],
+        // TODO: Wait for renaming node -> nodePublicKey
+        nodePublicKey: json['node'],
         signature: json['signature'],
       );
 
   Map<String, dynamic> toJson() => {
-        'nodePublicKey': nodePublicKey,
+        // TODO: Wait for renaming node -> nodePublicKey
+        'node': nodePublicKey,
         'signature': signature,
       };
 }
