@@ -1,3 +1,5 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
+
 /// [TransactionInput] represents the inputs from the transaction.
 
 class TransactionInput {

@@ -1,3 +1,5 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
+
 /// [TransactionMovement] represents ledger transaction movement.
 class TransactionMovement {
   TransactionMovement({

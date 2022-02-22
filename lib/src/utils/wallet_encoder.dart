@@ -1,3 +1,5 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
+
 // Dart imports:
 import 'dart:math';
 import 'dart:typed_data';
@@ -5,8 +7,16 @@ import 'dart:typed_data';
 // Package imports:
 import 'package:archethic_lib_dart/src/model/on_chain_wallet_data.dart';
 import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
-import 'package:pointycastle/export.dart' as pc;
-import 'package:pointycastle/export.dart' show Digest;
+import 'package:pointycastle/export.dart' as pc
+    show
+        Digest,
+        CTRStreamCipher,
+        AESEngine,
+        ParametersWithIV,
+        KeyParameter,
+        CBCBlockCipher,
+        SHA256Digest,
+        HMac;
 
 // Project imports:
 import 'package:archethic_lib_dart/src/utils/utils.dart';
@@ -17,8 +27,8 @@ import 'package:elliptic/elliptic.dart' as elliptic
 /// Archethic Onchain Wallet Generator and Encoder, using V1 specifications
 /// or https://archethic-foundation.github.io/archethic-docs/build/clients/wallet-spec
 OnChainWalletData walletEncoder(String originPublicKey) {
-  final Digest sha256 = Digest('SHA-256');
-  final Digest sha512 = Digest('SHA-512');
+  final pc.Digest sha256 = pc.Digest('SHA-256');
+  final pc.Digest sha512 = pc.Digest('SHA-512');
 
   const String version = '01';
 
@@ -162,6 +172,15 @@ OnChainWalletData walletEncoder(String originPublicKey) {
 
   OnChainWalletData onChainWalletData = OnChainWalletData(
       encodedWalletKey: encodedWalletKey, encryptedWallet: encryptedWallet);
+
+  Uint8List payload = concatUint8List([
+    hexToUint8List(onChainWalletData.encodedWalletKey!),
+    hexToUint8List(onChainWalletData.encryptedWallet!)
+  ]);
+  Uint8List payloadLength =
+      hexToUint8List(payload.lengthInBytes.toRadixString(16));
+  Uint8List addressPayload = concatUint8List([payloadLength, payload]);
+  print('addressPayload: ' + uint8ListToHex(addressPayload));
 
   return onChainWalletData;
 }

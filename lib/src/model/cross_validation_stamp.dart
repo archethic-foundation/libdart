@@ -1,3 +1,5 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
+
 /// [CrossValidationStamp] represents the approval of the validation stamp by a cross validation node.
 class CrossValidationStamp {
   CrossValidationStamp({

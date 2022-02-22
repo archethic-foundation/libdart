@@ -1,3 +1,5 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
+
 /// [UnspentOutput] represents the remaining unspent output of the transaction.
 
 class UnspentOutputs {
