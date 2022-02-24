@@ -444,8 +444,39 @@ class Transaction {
     });
   }
 
-  // TODO: Wait for renaming node -> nodePublicKey
   static String getQLFields() {
-    return ' address, balance { nft { address, amount }, uco }, chainLength, crossValidationStamps { node, signature }, data { content,  ownerships {  authorizedPublicKeys { encryptedSecretKey, publicKey } secret } ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } recipients } inputs { amount, from, nftAddress, spent, timestamp, type, }, originSignature, previousPublicKey, previousSignature, type, validationStamp { proofOfIntegrity, proofOfWork, signature, timestamp, ledgerOperations { fee } }, version';
+    return ' address, balance { nft { address, amount }, uco }, chainLength, crossValidationStamps { nodePublicKey, signature }, data { content,  ownerships {  authorizedPublicKeys { encryptedSecretKey, publicKey } secret } ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } recipients } inputs { amount, from, nftAddress, spent, timestamp, type, }, originSignature, previousPublicKey, previousSignature, type, validationStamp { proofOfIntegrity, proofOfWork, signature, timestamp, ledgerOperations { fee } }, version';
+  }
+
+  String transactionEncoding() {
+    /// Version: 4 bytes
+    /// Sender Address: See Address
+    /// Transaction type: 1 byte
+    /// Transaction data:[
+    ///   - Smart contract size: 4 bytes
+    ///   - Smart contract code: X bytes
+    ///   - Content size: 4 bytes
+    ///   - Content: X bytes
+    ///   - Ownerships length: 1 byte
+    ///   - Ownerships:[
+    ///     - Secret size: 4 bytes
+    ///     - Secret: X bytes
+    ///     - Authorized keys length: 1 byte
+    ///     - Authorized keys: list[]
+    ///   - Ledger:
+    ///     - UCO Ledger
+    ///       - Transfers length: 1 byte
+    ///       - Transfers: recipient | amount * 10^8 [8 bytes]
+    ///     - NFT Ledger
+    ///       - Transfers length: 1 byte
+    ///       - Transfers: nft_address | recipient | amount * 10^8 [8 bytes]
+    ///   - Recipients (size): 1 byte
+    ///   - Recipients: X bytes
+    ///   - Previous public key: curve_type [1 byte] | origin_type [1 byte] | raw_key 04xy [bytes]
+    ///   - Previous signature: X bytes
+    ///   - Previous signature is computed from [version, address, type, data]
+    ///   - Origin signature: X bytes (May be computed by the host)
+    ///   - Origin signature is computed from [version, address, type, data, previous public key, previous signature]
+    return '';
   }
 }
