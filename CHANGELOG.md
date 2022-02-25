@@ -5,12 +5,13 @@ Changelog
 * Rename node field in CrossValidationStamp with 'nodePublicKey'
 * Add flutter_lints
 * Add Oracle UCO Price recovery
-* Add CODE_OF_CONDUCT.md and CONTRIBUTING.md
-* Add getTransactionFee method
-* Add addressFormatControl method
+* Add function to get the tx's fee
+* Add function to control address format
 * Add curve type in the address
 * Fix NullPointerException 
-* Add Archethic Onchain Wallet Generator and Encoder
+* Add Network transactions list in the API
+* Add license notifications
+* Add CODE_OF_CONDUCT.md and CONTRIBUTING.md
 
 #### Version 1.0.4 (2022-01-04)
 * Add new method to get all transaction informations (ApiService().getTransactionAllInfos())
