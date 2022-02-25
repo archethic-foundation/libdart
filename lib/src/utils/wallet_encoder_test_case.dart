@@ -2,11 +2,17 @@
 
 // Dart imports:
 //import 'dart:math';
+
+// Dart imports:
 import 'dart:typed_data';
 
 // Package imports:
-import 'package:archethic_lib_dart/src/model/on_chain_wallet_data.dart';
 import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
+
+// Project imports:
+import 'package:archethic_lib_dart/src/model/on_chain_wallet_data.dart';
+import 'package:archethic_lib_dart/src/utils/utils.dart';
+
 import 'package:pointycastle/export.dart' as pc
     show
         Digest,
@@ -18,8 +24,6 @@ import 'package:pointycastle/export.dart' as pc
         SHA256Digest,
         HMac;
 
-// Project imports:
-import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 import 'package:elliptic/elliptic.dart' as elliptic
     show Curve, getSecp256k1, PrivateKey, PublicKey;
