@@ -40,9 +40,6 @@ dependencies:
   # Small, easy to use and extensible logger which prints beautiful logs
   logger: ^1.1.0
 
-  # A Phoenix Channel implementation for Dart
-  phoenix_wings: ^1.0.2
-
   # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
   pinenacl: ^0.3.3
 
