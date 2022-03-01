@@ -2,10 +2,12 @@
 
 // Dart imports:
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
+import 'package:absinthe_socket/absinthe_socket.dart';
 import 'package:http/http.dart' as http show Response, post;
 import 'package:logger/logger.dart';
 
@@ -48,15 +50,20 @@ class ApiService {
       'Accept': 'application/json',
     };
     TransactionStatus transactionStatus = TransactionStatus();
-    final http.Response responseHttp = await http.post(
-        Uri.parse(endpoint! + '/api/transaction'),
-        body: transaction.convertToJSON(),
-        headers: requestHeaders);
     logger.d('sendTx: requestHttp.body=' + transaction.convertToJSON());
-    logger.d('sendTx: responseHttp.body=' + responseHttp.body);
-    transactionStatus = transactionStatusFromJson(responseHttp.body);
+    try {
+      final http.Response responseHttp = await http.post(
+          Uri.parse(endpoint! + '/api/transaction'),
+          body: transaction.convertToJSON(),
+          headers: requestHeaders);
+      logger.d('sendTx: responseHttp.body=' + responseHttp.body);
+      transactionStatus = transactionStatusFromJson(responseHttp.body);
 
-    _completer.complete(transactionStatus);
+      _completer.complete(transactionStatus);
+    } catch (e) {
+      print(e);
+    }
+
     return _completer.future;
   }
 
@@ -506,5 +513,38 @@ class ApiService {
 
     _completer.complete(transactionFee);
     return _completer.future;
+  }
+
+  /// Await the transaction confirmations
+  /// @param {String} address Address to await
+  /// @param {String} endpoint Node endpoint
+  /// @param {Function} handler Success handler
+  void waitConfirmations(String address, Function handler) {
+    AbsintheSocket _socket = AbsintheSocket('ws://' + endpoint! + '/socket');
+    final String operation =
+        'subscription { transactionConfirmed(address: \\"$address\\") { nbConfirmations } } }';
+
+    Observer _categoryObserver = Observer(onAbort: () {
+      print('abort');
+    }, onError: (err) {
+      print('err');
+      throw err;
+    }, onResult: (result) {
+      print('result: ' + result);
+      print('result.data.transactionConfirmed: ' +
+          result.data.transactionConfirmed);
+
+      if (result.data.transactionConfirmed) {
+        print('result.data.transactionConfirmed.nbConfirmations: ' +
+            result.data.transactionConfirmed.nbConfirmations);
+        return result.data.transactionConfirmed.nbConfirmations;
+      }
+      throw result;
+    }, onStart: () {
+      print('open');
+    });
+
+    Notifier notifier = _socket.send(GqlRequest(operation: operation));
+    return notifier.observe(_categoryObserver);
   }
 }
