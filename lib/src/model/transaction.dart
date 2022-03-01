@@ -145,8 +145,8 @@ class Transaction {
   /// @param {Integer} index Number of transaction on the chain
   /// @param {String} curve Elliptic curve to use for the key generation
   /// @param {String} hashAlgo Hash algorithm to use for the address generation
-  Transaction build(seed, int index, String curve,
-      {String hashAlgo = 'sha256'}) {
+  Transaction build(seed, int index,
+      {String curve = 'P256', String hashAlgo = 'sha256'}) {
     final KeyPair keypair = crypto.deriveKeyPair(seed, index, curve: curve);
     final KeyPair nextKeypair =
         crypto.deriveKeyPair(seed, index + 1, curve: curve);

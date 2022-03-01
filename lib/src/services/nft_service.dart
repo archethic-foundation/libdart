@@ -20,7 +20,7 @@ class NFTService {
     }
     return Transaction(type: 'nft', data: Transaction.initData())
         .setContent(content)
-        .build(seed, index, curve)
+        .build(seed, index, curve: curve)
         .originSign(originPrivateKey);
   }
 }

@@ -54,7 +54,7 @@ void main() {
                       '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                   encryptedSecretKey:
                       '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
-            ]).build('seed', 0, 'P256');
+            ]).build('seed', 0, curve: 'P256');
         final parsedTx = json.decode(tx.convertToJSON());
         expect(parsedTx['data']['ownerships'][0]['authorizedKey'], [
           {
@@ -200,7 +200,7 @@ void main() {
             .addUCOTransfer(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(10.0))
-            .build('seed', 0, 'P256');
+            .build('seed', 0, curve: 'P256');
         expect(tx.address,
             '001680dab710eca8bc6b6c8025e57ebaf2d30c03d8d23a21ba7f8a157c365c5d49');
         expect(tx.previousPublicKey,
@@ -247,7 +247,7 @@ void main() {
             .setContent(content)
             .addRecipient(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
-            .build('seed', 0, 'P256');
+            .build('seed', 0, curve: 'P256');
 
         final KeyPair transactionKeyPair = crypto.deriveKeyPair('seed', 0);
         final Uint8List previousSig = crypto.sign(
@@ -312,7 +312,7 @@ void main() {
 
         final Transaction tx =
             Transaction(type: 'transfer', data: Transaction.initData())
-                .build('seed', 0, 'P256')
+                .build('seed', 0, curve: 'P256')
                 .originSign(originKeypair.privateKey);
         expect(
             crypto.verify(tx.originSignature, tx.originSignaturePayload(),
@@ -339,7 +339,7 @@ void main() {
                   encryptedSecretKey:
                       '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             ])
-            .build('seed', 0, 'P256')
+            .build('seed', 0, curve: 'P256')
             .originSign(originKeypair.privateKey);
 
         final parsedTx = json.decode(tx.convertToJSON());

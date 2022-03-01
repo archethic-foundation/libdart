@@ -411,7 +411,7 @@ class ApiService {
                         accessKeychainAesKey
                       ]))))
             ])
-        .build(accessKeychainSeed, 0, 'P256')
+        .build(accessKeychainSeed, 0, curve: 'P256')
         .originSign(originPrivateKey);
 
     KeyPair keyPair2 =
@@ -432,7 +432,7 @@ class ApiService {
                   encryptedSecretKey: utils.uint8ListToHex(
                       crypto.ecEncrypt(keychainAesKey, keyPair2.publicKey)))
             ])
-            .build(keychainSeed, 0, 'P256')
+            .build(keychainSeed, 0, curve: 'P256')
             .originSign(originPrivateKey);
 
     TransactionStatus ts1 = await sendTx(accessKeychainTx);

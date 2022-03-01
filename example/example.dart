@@ -15,7 +15,7 @@ void main(List<String> args) {
       .addUCOTransfer(
           '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
           toBigInt(0.420))
-      .build('mysuperpassphraseorseed', 0, 'P256');
+      .build('mysuperpassphraseorseed', 0, curve: 'P256');
   transaction.convertToJSON();
 
   /// Sign the transaction with an origin device private key
@@ -25,7 +25,7 @@ void main(List<String> args) {
       .addUCOTransfer(
           '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
           toBigInt(0.420))
-      .build('mysuperpassphraseorseed', 0, 'P256')
+      .build('mysuperpassphraseorseed', 0, curve: 'P256')
       .originSign(originKeypair.privateKey);
   transaction2.convertToJSON();
 
@@ -35,6 +35,6 @@ void main(List<String> args) {
       .addUCOTransfer(
           '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
           toBigInt(0.420))
-      .build('mysuperpassphraseorseed', 0, 'P256');
+      .build('mysuperpassphraseorseed', 0, curve: 'P256');
   transaction3.convertToJSON();
 }
