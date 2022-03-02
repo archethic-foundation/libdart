@@ -520,7 +520,8 @@ class ApiService {
   /// @param {String} endpoint Node endpoint
   /// @param {Function} handler Success handler
   void waitConfirmations(String address, Function handler) {
-    String host = Uri.parse(endpoint!).host;
+    String host =
+        Uri.parse(endpoint!).host + ':' + Uri.parse(endpoint!).port.toString();
     AbsintheSocket _socket =
         AbsintheSocket('ws://' + host + '/socket/websocket');
     final String operation =
