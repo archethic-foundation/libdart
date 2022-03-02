@@ -13,7 +13,7 @@ dependencies:
   # A dart client for GraphQL subscriptions via Absinthe sockets
   absinthe_socket: 
     git:
-      url: https://github.com/redDwarf03/absinthe_socket.git
+      url: https://github.com/anu788/absinthe_socket.git
       ref: master
 
   # A Dart library to encode and decode various archive and compression formats.
