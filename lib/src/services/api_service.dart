@@ -521,7 +521,8 @@ class ApiService {
   /// @param {Function} handler Success handler
   void waitConfirmations(String address, Function handler) {
     String host = Uri.parse(endpoint!).host;
-    AbsintheSocket _socket = AbsintheSocket('wss://' + host + '/socket');
+    AbsintheSocket _socket =
+        AbsintheSocket('ws://' + host + '/socket/websocket');
     final String operation =
         'subscription { transactionConfirmed(address: \\"$address\\") { nbConfirmations } } }';
 
