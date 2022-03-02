@@ -11,11 +11,11 @@ environment:
 dependencies:
 
   # A dart client for GraphQL subscriptions via Absinthe sockets
-  #absinthe_socket: 
-  #  git:
-  #    url: https://github.com/anu788/absinthe_socket.git
-  #    ref: master
-  absinthe_socket: ^0.0.3
+  absinthe_socket: 
+    git:
+      url: https://github.com/anu788/absinthe_socket.git
+      ref: master
+  #absinthe_socket: ^0.0.3
 
   # A Dart library to encode and decode various archive and compression formats.
   archive: ^3.2.1
