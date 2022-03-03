@@ -518,7 +518,7 @@ class ApiService {
   /// @param {String} address Address to await
   /// @param {String} endpoint Node endpoint
   /// @param {Function} handler Success handler
-  void waitConfirmations(String address, Function handler) async {
+  Future<void> waitConfirmations(String address, Function handler) async {
     String host =
         Uri.parse(endpoint!).host + ':' + Uri.parse(endpoint!).port.toString();
 
