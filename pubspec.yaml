@@ -10,13 +10,6 @@ environment:
 
 dependencies:
 
-  # A dart client for GraphQL subscriptions via Absinthe sockets
-  absinthe_socket: 
-    git:
-      url: https://github.com/anu788/absinthe_socket.git
-      ref: master
-  #absinthe_socket: ^0.0.3
-
   # A Dart library to encode and decode various archive and compression formats.
   archive: ^3.2.1
 
@@ -34,6 +27,13 @@ dependencies:
 
   # basic elliptic curves
   elliptic: ^0.3.5
+
+  # An experimental gql Link using Phoenix Channels. Supports queries, mutations and subscriptions
+  gql_phoenix_link_2: 
+    git:
+      url: https://github.com/redDwarf03/gql_phoenix_link.git
+      ref: master
+  graphql_flutter: ^5.0.1
 
   # A composable, multi-platform, Future-based API for HTTP requests
   http: ^0.13.4
