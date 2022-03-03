@@ -524,7 +524,7 @@ class ApiService {
 
     /// Absinthe plug api location
     final HttpLink phoenixHttpLink = HttpLink(
-      'https://' + host + '/api',
+      'https://testnet.archethic.net/socket/websocket?vsn=2.0.0#',
     );
 
     /// Your websocket location
