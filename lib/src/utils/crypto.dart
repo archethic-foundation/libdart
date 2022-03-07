@@ -611,7 +611,7 @@ Uint8List aesAuthDecrypt(
 bool addressFormatControl(String? address) {
   if (address != null && address.length > 1 && isHex(address)) {
     int _digestSize = 0;
-    switch (address.substring(0, 2)) {
+    switch (address.substring(0, 1)) {
 
       /// 00 = sha256
       case '00':
