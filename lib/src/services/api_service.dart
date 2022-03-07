@@ -5,8 +5,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:gql_phoenix_link_2/gql_phoenix_link_2.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:absinthe_socket/absinthe_socket.dart';
 import 'package:http/http.dart' as http show Response, post;
 import 'package:logger/logger.dart';
 
@@ -522,46 +521,35 @@ class ApiService {
     String host =
         Uri.parse(endpoint!).host + ':' + Uri.parse(endpoint!).port.toString();
 
-    /// Absinthe plug api location
-    final HttpLink phoenixHttpLink = HttpLink(
-      'https://testnet.archethic.net/socket/websocket?vsn=2.0.0#',
-    );
+    AbsintheSocket _socket =
+        AbsintheSocket('ws://' + host + '/socket/websocket');
 
-    /// Your websocket location
-    String websocketUri = 'ws://' + host + '/socket/websocket';
+    final String operation =
+        'subscription { transactionConfirmed(address: \\"$address\\") { nbConfirmations } } }';
 
-    /// Création of phoenixChannel for use in PhoenixLink
-    final phoenixChannel =
-        await PhoenixLink.createChannel(websocketUri: websocketUri);
+    Observer _categoryObserver = Observer(onAbort: () {
+      print('abort');
+    }, onCancel: () {
+      print('cancel');
+    }, onError: (err) {
+      print('err');
+      throw err;
+    }, onResult: (result) {
+      print('result: ' + result);
+      print('result.data.transactionConfirmed: ' +
+          result.data.transactionConfirmed);
+      if (result.data.transactionConfirmed) {
+        print('result.data.transactionConfirmed.nbConfirmations: ' +
+            result.data.transactionConfirmed.nbConfirmations);
+        return result.data.transactionConfirmed.nbConfirmations;
+      }
+      throw result;
+    }, onStart: () {
+      print('open');
+    });
 
-    /// Création of PhoenixLink
-    final phoenixLink = PhoenixLink(
-      channel: phoenixChannel,
-    );
-
-    /// Split like in flutter graphql documentation between websocket and http requests
-    var _link = Link.split(
-        (request) => request.isSubscription, phoenixLink, phoenixHttpLink);
-    final GraphQLClient client = GraphQLClient(
-      link: _link,
-      cache: GraphQLCache(),
-    );
-
-    /// Your subscription query
-    final subscriptionDocument = gql(
-      r'''
-    subscription { transactionConfirmed(address: \\"$address\\") { nbConfirmations } } }
-  ''',
-    );
-
-    Stream<QueryResult> subscription = client.subscribe(
-      SubscriptionOptions(document: subscriptionDocument),
-    );
-    subscription.listen(reactToPostCreated);
-  }
-
-  void reactToPostCreated(QueryResult event) {
-    print("Received event =>");
-    print(event);
+    Notifier notifier =
+        _socket.send(GqlRequest(operation: operation), 'notifierKey');
+    notifier.observe(_categoryObserver);
   }
 }
