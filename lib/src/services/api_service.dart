@@ -526,7 +526,7 @@ class ApiService {
 
     final String operation = 'subscription { transactionConfirmed(address: "' +
         address +
-        '") { nbConfirmations } } }';
+        '") { nbConfirmations } }';
 
     Observer _categoryObserver = Observer(onAbort: () {
       print('abort');
