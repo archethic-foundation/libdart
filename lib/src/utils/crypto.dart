@@ -614,27 +614,27 @@ bool addressFormatControl(String? address) {
     switch (address.substring(0, 1)) {
 
       /// 00 = sha256
-      case '00':
+      case '0':
         _digestSize = Digest('SHA-256').digestSize;
         break;
 
       /// 01 = sha512
-      case '01':
+      case '1':
         _digestSize = Digest('SHA-512').digestSize;
         break;
 
       /// 02 = sha3-256
-      case '02':
+      case '2':
         _digestSize = Digest('SHA3-256').digestSize;
         break;
 
       /// 03 = sha3-512
-      case '03':
+      case '3':
         _digestSize = Digest('SHA3-512').digestSize;
         break;
 
       /// 04 = blake2b
-      case '04':
+      case '4':
         _digestSize = Digest('Blake2b').digestSize;
         break;
       default:

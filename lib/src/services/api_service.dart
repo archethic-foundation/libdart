@@ -521,7 +521,8 @@ class ApiService {
     String host =
         Uri.parse(endpoint!).host + ':' + Uri.parse(endpoint!).port.toString();
 
-    AbsintheSocket _socket = AbsintheSocket('ws://' + host + '/socket');
+    AbsintheSocket _socket =
+        AbsintheSocket('ws://' + host + '/socket/websocket');
 
     final String operation =
         'subscription { transactionConfirmed(address: \\"$address\\") { nbConfirmations } } }';
