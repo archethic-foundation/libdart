@@ -641,7 +641,7 @@ bool addressFormatControl(String? address) {
         return false;
     }
     try {
-      if (hexToUint8List(address.substring(2)).length != _digestSize) {
+      if (hexToUint8List(address.substring(1)).length != _digestSize) {
         return false;
       } else {
         return true;
