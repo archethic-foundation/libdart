@@ -551,6 +551,6 @@ class ApiService {
 
     Notifier notifier =
         _socket.send(GqlRequest(operation: operation), 'notifierKey');
-    notifier.observe(_categoryObserver);
+    return notifier.observe(_categoryObserver);
   }
 }
