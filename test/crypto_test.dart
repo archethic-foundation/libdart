@@ -136,22 +136,22 @@ void main() {
       // Valid address
       expect(
           crypto.addressFormatControl(
-              '001B5FCD5111745B73A6E5219C700657ED9161D3FC8AD539C95727578C0EC35DAC'),
+              '0100035910490caa7e3d48b8f80b82a1d02102baa5fd5491dd97534f4af458638362'),
           true);
       // Wrong address (too short)
       expect(
           crypto.addressFormatControl(
-              '001B5FCD5111745B73A6E5219C700657ED9161D3FC8AD539C95727578C0EC3'),
+              '0100035910490caa7e3d48b8f80b82a1d02102baa5fd5491dd97534f4af4586383'),
           false);
       // Not hex
       expect(
           crypto.addressFormatControl(
-              '001B5FCD5111745B73A6E5M19C700657ED9161D3FC8AD539C95727578C0EC3'),
+              '0100035910490caa7e3d48b8f80b82a1d02102baa5fd5491dd97534f4af458638M'),
           false);
-      // Curve ko
+      // Hash ko
       expect(
           crypto.addressFormatControl(
-              '061B5FCD5111745B73A6E5M19C700657ED9161D3FC8AD539C95727578C0EC3'),
+              '0109035910490caa7e3d48b8f80b82a1d02102baa5fd5491dd97534f4af458638362'),
           false);
     });
   });
