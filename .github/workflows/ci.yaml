@@ -20,8 +20,5 @@ jobs:
       - name: Install dependencies
         run: dart pub get
 
-      - name: Analyze source code
-        run: dart analyze
-
       - name: Tests
         run: dart test --exclude-tags noCI
