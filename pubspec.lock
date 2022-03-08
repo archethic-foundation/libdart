@@ -13,7 +13,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: a2db38b6ad4c3bf25b2eb6c3197be3e86cb785a0
+      resolved-ref: "64894fdceedfe91969f8d21aaa9b3f8155133427"
       url: "https://github.com/DarksightKellar/absinthe_socket.git"
     source: git
     version: "0.0.4"
@@ -72,7 +72,7 @@ packages:
       name: collection
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.15.0"
+    version: "1.16.0"
   convert:
     dependency: "direct main"
     description:
@@ -296,7 +296,7 @@ packages:
       name: pub_semver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   quiver:
     dependency: transitive
     description:
