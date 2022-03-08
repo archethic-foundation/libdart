@@ -146,7 +146,7 @@ It supports the ArchEthic Cryptography rules which are:
   import 'package:archethic_lib_dart/archethic.dart';
 
   var tx = Transaction(type: 'transfer', data: Transaction.initData())
-    .addUCOTransfer('00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', 0.420) 
+    .addUCOTransfer('00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt(0.420)) 
     .build('mysuperpassphraseorseed', 0, 'P256');
   ```
 
@@ -160,7 +160,7 @@ It supports the ArchEthic Cryptography rules which are:
   
   final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
   var tx = Transaction(type: 'transfer', data: Transaction.initData())
-    .addUCOTransfer('00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', 0.420) 
+    .addUCOTransfer('00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt((0.420)) 
     .build('mysuperpassphraseorseed', 0, 'P256') 
     .originSign(originKeypair.privateKey);
   ```
@@ -172,7 +172,7 @@ It supports the ArchEthic Cryptography rules which are:
   import 'package:archethic_lib_dart/archethic.dart';
 
   var tx = Transaction(type: 'transfer', data: Transaction.initData())
-    .addUCOTransfer('00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', 0.420) 
+    .addUCOTransfer('00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt(0.420)) 
     .build('mysuperpassphraseorseed', 0, 'P256') 
     .convertToJSON();
   ```

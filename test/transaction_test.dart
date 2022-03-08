@@ -193,6 +193,35 @@ void main() {
       });
     });
 
+    group('setPreviousSignatureAndPreviousPublicKey', () {
+      test(
+          'should set previous signature and previous public key in transaction builder',
+          () {
+        const String examplePublicKey =
+            '0100044d91a0a1a7cf06a2902d3842f82d2791bcbf3ee6f6dc8de0f90e53e9991c3cb33684b7b9e66f26e7c9f5302f73c69897be5f301de9a63521a08ac4ef34c18728';
+        const String exampleSignature =
+            '3044022009ed5124c35feb3449f4287eb5a885dec06f10491146bf73d44684f5a2ced8d7022049e1fb29fcd6e622a8cd2e120931ab038987edbdc44e7a9ec12e5a290599a97e';
+
+        final Transaction tx =
+            Transaction(type: 'transfer', data: Transaction.initData())
+                .setPreviousSignatureAndPreviousPublicKey(
+                    exampleSignature, examplePublicKey);
+        expect(tx.previousPublicKey, examplePublicKey);
+        expect(tx.previousSignature, exampleSignature);
+      });
+    });
+
+    group('setAddress', () {
+      test('should set this.address in transaction builder', () {
+        const String exampleAddress =
+            '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88';
+        final Transaction tx =
+            Transaction(type: 'transfer', data: Transaction.initData())
+                .setAddress(exampleAddress);
+        expect(tx.address, exampleAddress);
+      });
+    });
+
     group('build', () {
       test('should build the transaction and the related signature', () {
         final Transaction tx = Transaction(
@@ -200,11 +229,11 @@ void main() {
             .addUCOTransfer(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(10.0))
-            .build('seed', 0, curve: 'P256');
+            .build('seed', 0, curve: 'ed25519', hashAlgo: 'sha256');
         expect(tx.address,
-            '001680dab710eca8bc6b6c8025e57ebaf2d30c03d8d23a21ba7f8a157c365c5d49');
+            '0000cb4ad2c856fda855aa8b67b0e6a46b5c3eeb301e67cd3e53e77ee9d9ccbfc430');
         expect(tx.previousPublicKey,
-            '0100044d91a0a1a7cf06a2902d3842f82d2791bcbf3ee6f6dc8de0f90e53e9991c3cb33684b7b9e66f26e7c9f5302f73c69897be5f301de9a63521a08ac4ef34c18728');
+            '000061d6cd8da68207bd01198909c139c130a3df3a8bd20f4bacb123c46354ccd52c');
         expect(
             crypto.verify(tx.previousSignature, tx.previousSignaturePayload(),
                 tx.previousPublicKey),
@@ -247,7 +276,7 @@ void main() {
             .setContent(content)
             .addRecipient(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
-            .build('seed', 0, curve: 'P256');
+            .build('seed', 0);
 
         final KeyPair transactionKeyPair = crypto.deriveKeyPair('seed', 0);
         final Uint8List previousSig = crypto.sign(
@@ -312,7 +341,7 @@ void main() {
 
         final Transaction tx =
             Transaction(type: 'transfer', data: Transaction.initData())
-                .build('seed', 0, curve: 'P256')
+                .build('seed', 0)
                 .originSign(originKeypair.privateKey);
         expect(
             crypto.verify(tx.originSignature, tx.originSignaturePayload(),
@@ -325,12 +354,11 @@ void main() {
       test('should return a JSON from the transaction', () {
         final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
         final KeyPair transactionKeyPair = crypto.deriveKeyPair('seed', 0);
-        final KeyPair nextTransactionKeyPair = crypto.deriveKeyPair('seed', 1);
 
         final Transaction tx = Transaction(
                 type: 'transfer', data: Transaction.initData())
             .addUCOTransfer(
-                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(0.2193))
             .addOwnership(Uint8List.fromList([0, 1, 2, 3, 4]), [
               AuthorizedKey(
@@ -339,7 +367,7 @@ void main() {
                   encryptedSecretKey:
                       '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             ])
-            .build('seed', 0, curve: 'P256')
+            .build('seed', 0)
             .originSign(originKeypair.privateKey);
 
         final parsedTx = json.decode(tx.convertToJSON());
@@ -349,8 +377,7 @@ void main() {
         final Uint8List originSig =
             crypto.sign(tx.originSignaturePayload(), originKeypair.privateKey);
 
-        expect(parsedTx['address'],
-            uint8ListToHex(crypto.hash(nextTransactionKeyPair.publicKey)));
+        expect(parsedTx['address'], crypto.deriveAddress('seed', 1));
         expect(parsedTx['type'], 'transfer');
         expect(parsedTx['previousPublicKey'],
             uint8ListToHex(transactionKeyPair.publicKey));
@@ -366,7 +393,7 @@ void main() {
         ]);
         expect(parsedTx['data']['ledger']['uco']['transfers'][0], {
           'to':
-              '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
           'amount': toBigInt(0.2193).toInt()
         });
       });

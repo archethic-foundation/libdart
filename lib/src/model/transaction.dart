@@ -22,7 +22,7 @@ import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
-    show deriveKeyPair, hash, sign;
+    show deriveKeyPair, hash, sign, deriveAddress;
 
 const int cVersion = 1;
 
@@ -141,19 +141,15 @@ class Transaction {
       };
 
   /// Generate the transaction address, keys and signatures
-  /// @param {String | Uint8List} seed Transaction chain seed (hexadecimal or binary buffer)
-  /// @param {Integer} index Number of transaction on the chain
+  /// @param {String} seed Transaction chain seed (hexadecimal or binary buffer)
+  /// @param {int} index Number of transaction on the chain
   /// @param {String} curve Elliptic curve to use for the key generation
   /// @param {String} hashAlgo Hash algorithm to use for the address generation
-  Transaction build(seed, int index,
-      {String curve = 'P256', String hashAlgo = 'sha256'}) {
+  Transaction build(String seed, int index,
+      {String curve = 'ed25519', String hashAlgo = 'sha256'}) {
     final KeyPair keypair = crypto.deriveKeyPair(seed, index, curve: curve);
-    final KeyPair nextKeypair =
-        crypto.deriveKeyPair(seed, index + 1, curve: curve);
-    final Uint8List address =
-        crypto.hash(nextKeypair.publicKey, algo: hashAlgo);
-
-    this.address = uint8ListToHex(address);
+    address =
+        crypto.deriveAddress(seed, index + 1, curve: curve, hashAlgo: hashAlgo);
     previousPublicKey = uint8ListToHex(keypair.publicKey);
     previousSignature = uint8ListToHex(
         crypto.sign(previousSignaturePayload(), keypair.privateKey));
@@ -278,6 +274,57 @@ class Transaction {
       to = uint8ListToHex(to);
     }
     data!.recipients!.add(to);
+    return this;
+  }
+
+  /// Set the transaction builder with Previous Publickey and Previous Signature
+  /// @param {String | Uint8List} to Previous Signature (hexadecimal)
+  /// @param {String | Uint8List} to Previous PublicKey (hexadecimal)
+  Transaction setPreviousSignatureAndPreviousPublicKey(prevSign, prevPubKey) {
+    if (prevSign is! Uint8List && prevSign is! String) {
+      throw "'prevSign' must be a string or Uint8List";
+    }
+
+    if (prevPubKey is! Uint8List && prevPubKey is! String) {
+      throw "'prevSign' must be a string or Uint8List";
+    }
+
+    if (prevSign is String) {
+      if (!isHex(prevSign)) {
+        throw "'prevSign' must be an hexadecimal string";
+      }
+    } else {
+      prevSign = uint8ListToHex(prevSign);
+    }
+
+    if (prevPubKey is String) {
+      if (!isHex(prevPubKey)) {
+        throw "'prevPubKey' must be an hexadecimal string";
+      }
+    } else {
+      prevPubKey = uint8ListToHex(prevPubKey);
+    }
+
+    previousSignature = prevSign;
+    previousPublicKey = prevPubKey;
+    return this;
+  }
+
+  /// Set the transaction builder with address (required for originSign)
+  /// @param {String | Uint8List} to Address (hexadecimal | Uint8List)
+  Transaction setAddress(addr) {
+    if (addr is! Uint8List && addr is! String) {
+      throw "'addr' must be a string or Uint8List";
+    }
+    if (addr is String) {
+      if (!isHex(addr)) {
+        throw "'addr' must be an hexadecimal string";
+      }
+    } else {
+      addr = uint8ListToHex(addr);
+    }
+
+    address = addr;
     return this;
   }
 

@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
+// Package imports:
 import 'package:absinthe_socket/absinthe_socket.dart';
 import 'package:http/http.dart' as http show Response, post;
 import 'package:logger/logger.dart';
@@ -26,7 +27,6 @@ import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/transaction_status.dart';
-import 'package:archethic_lib_dart/src/services/address_service.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart' as utils;
 
@@ -395,8 +395,8 @@ class ApiService {
 
     final Uint8List keychainSeed = Uint8List.fromList(
         List<int>.generate(12, (int i) => Random.secure().nextInt(32)));
-    final String keychainAddress = AddressService(endpoint)
-        .deriveAddress(utils.uint8ListToHex(keychainSeed), 0);
+    final String keychainAddress =
+        crypto.deriveAddress(utils.uint8ListToHex(keychainSeed), 0);
 
     final Uint8List accessKeychainAesKey = Uint8List.fromList(
         List<int>.generate(32, (int i) => Random.secure().nextInt(256)));
@@ -416,7 +416,7 @@ class ApiService {
                         accessKeychainAesKey
                       ]))))
             ])
-        .build(accessKeychainSeed, 0, curve: 'P256')
+        .build(utils.uint8ListToHex(accessKeychainSeed), 0, curve: 'P256')
         .originSign(originPrivateKey);
 
     KeyPair keyPair2 =
@@ -437,7 +437,7 @@ class ApiService {
                   encryptedSecretKey: utils.uint8ListToHex(
                       crypto.ecEncrypt(keychainAesKey, keyPair2.publicKey)))
             ])
-            .build(keychainSeed, 0, curve: 'P256')
+            .build(utils.uint8ListToHex(keychainSeed), 0, curve: 'P256')
             .originSign(originPrivateKey);
 
     TransactionStatus ts1 = await sendTx(accessKeychainTx);
