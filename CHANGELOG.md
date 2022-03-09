@@ -3,6 +3,7 @@ Changelog
 
 #### Version 1.0.7 (2022-03-08)
 * Update methods to be conform with libjs 1.4.0
+* Adapt crypto key identifiers
 
 #### Version 1.0.6 (2022-03-01)
 * Add default value to curve type in the address 

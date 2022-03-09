@@ -119,7 +119,7 @@ KeyPair deriveKeyPair(String seed, int index, {String curve = 'ed25519'}) {
   }
 
   final Uint8List pvBuf = derivePrivateKey(seed, index);
-  final Uint8List softwareIdBuf = Uint8List.fromList(<int>[0]);
+  final Uint8List softwareIdBuf = Uint8List.fromList(<int>[1]);
 
   switch (curve) {
     case 'ed25519':

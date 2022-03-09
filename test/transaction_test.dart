@@ -51,7 +51,7 @@ void main() {
                 [
               AuthorizedKey(
                   publicKey:
-                      '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                      '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                   encryptedSecretKey:
                       '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             ]).build('seed', 0, curve: 'P256');
@@ -59,7 +59,7 @@ void main() {
         expect(parsedTx['data']['ownerships'][0]['authorizedKey'], [
           {
             'publicKey':
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
             'encryptedSecretKey':
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'
           }
@@ -75,11 +75,11 @@ void main() {
         final Transaction tx = Transaction(
                 type: 'transfer', data: Transaction.initData())
             .addUCOTransfer(
-                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(10.03));
         expect(tx.data!.ledger!.uco!.transfers!.length, 1);
         expect(tx.data!.ledger!.uco!.transfers![0].to,
-            '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
+            '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
         expect(tx.data!.ledger!.uco!.transfers![0].amount, toBigInt(10.03));
       });
     });
@@ -88,15 +88,15 @@ void main() {
         final Transaction tx = Transaction(
                 type: 'transfer', data: Transaction.initData())
             .addNFTTransfer(
-                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(10.03),
-                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
         expect(tx.data!.ledger!.nft!.transfers!.length, 1);
         expect(tx.data!.ledger!.nft!.transfers![0].to,
-            '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
+            '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
         expect(tx.data!.ledger!.nft!.transfers![0].amount, toBigInt(10.03));
         expect(tx.data!.ledger!.nft!.transfers![0].nft,
-            '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
+            '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
       });
     });
 
@@ -110,7 +110,7 @@ void main() {
 
               actions triggered by: transaction do
                   set_type transfer
-                  add_uco_ledger to: "0056E763190B28B4CF9AAF3324CF379F27DE9EF7850209FB59AA002D71BA09788A", amount: 0.020
+                  add_uco_ledger to: "000056E763190B28B4CF9AAF3324CF379F27DE9EF7850209FB59AA002D71BA09788A", amount: 0.020
               end
             ''';
         const String content =
@@ -121,21 +121,21 @@ void main() {
             .addOwnership(secret, [
               AuthorizedKey(
                   publicKey:
-                      '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                      '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                   encryptedSecretKey:
                       '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             ])
             .addUCOTransfer(
-                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(0.2020))
             .addNFTTransfer(
-                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(100),
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             .setCode(code)
             .setContent(content)
             .addRecipient(
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
+                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
 
         final KeyPair keypair = crypto.deriveKeyPair('seed', 0);
         final KeyPair nextKeypair = crypto.deriveKeyPair('seed', 1);
@@ -164,7 +164,7 @@ void main() {
           // Authorized keys encoding
           concatUint8List(<Uint8List>[
             hexToUint8List(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
+                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
             hexToUint8List(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
           ]),
@@ -172,22 +172,22 @@ void main() {
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
             hexToUint8List(
-                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
             encodeBigInt(toBigInt(0.2020))
           ]),
           // Nb of NFT transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
             hexToUint8List(
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
+                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
             hexToUint8List(
-                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
             encodeBigInt(toBigInt(100))
           ]),
           // Nb of recipients
           Uint8List.fromList(<int>[1]),
           hexToUint8List(
-              '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
         ]);
         expect(payload, expectedBinary);
       });
@@ -198,7 +198,7 @@ void main() {
           'should set previous signature and previous public key in transaction builder',
           () {
         const String examplePublicKey =
-            '0100044d91a0a1a7cf06a2902d3842f82d2791bcbf3ee6f6dc8de0f90e53e9991c3cb33684b7b9e66f26e7c9f5302f73c69897be5f301de9a63521a08ac4ef34c18728';
+            '0101044d91a0a1a7cf06a2902d3842f82d2791bcbf3ee6f6dc8de0f90e53e9991c3cb33684b7b9e66f26e7c9f5302f73c69897be5f301de9a63521a08ac4ef34c18728';
         const String exampleSignature =
             '3044022009ed5124c35feb3449f4287eb5a885dec06f10491146bf73d44684f5a2ced8d7022049e1fb29fcd6e622a8cd2e120931ab038987edbdc44e7a9ec12e5a290599a97e';
 
@@ -214,7 +214,7 @@ void main() {
     group('setAddress', () {
       test('should set this.address in transaction builder', () {
         const String exampleAddress =
-            '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88';
+            '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88';
         final Transaction tx =
             Transaction(type: 'transfer', data: Transaction.initData())
                 .setAddress(exampleAddress);
@@ -231,9 +231,9 @@ void main() {
                 toBigInt(10.0))
             .build('seed', 0, curve: 'ed25519', hashAlgo: 'sha256');
         expect(tx.address,
-            '0000cb4ad2c856fda855aa8b67b0e6a46b5c3eeb301e67cd3e53e77ee9d9ccbfc430');
+            '00001ff1733caa91336976ee7cef5aff6bb26c7682213b8e6770ab82272f966dac35');
         expect(tx.previousPublicKey,
-            '000061d6cd8da68207bd01198909c139c130a3df3a8bd20f4bacb123c46354ccd52c');
+            '000161d6cd8da68207bd01198909c139c130a3df3a8bd20f4bacb123c46354ccd52c');
         expect(
             crypto.verify(tx.previousSignature, tx.previousSignaturePayload(),
                 tx.previousPublicKey),
@@ -250,7 +250,7 @@ void main() {
                           
                           actions triggered by: transaction do
                               set_type transfer
-                              add_uco_ledger to: "0056E763190B28B4CF9AAF3324CF379F27DE9EF7850209FB59AA002D71BA09788A", amount: 0.020
+                              add_uco_ledger to: "000056E763190B28B4CF9AAF3324CF379F27DE9EF7850209FB59AA002D71BA09788A", amount: 0.020
                           end
       ''';
         const String content =
@@ -261,21 +261,21 @@ void main() {
             .addOwnership(secret, [
               AuthorizedKey(
                   publicKey:
-                      '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                      '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                   encryptedSecretKey:
                       '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             ])
             .addUCOTransfer(
-                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(0.2020))
             .addNFTTransfer(
-                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(100),
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             .setCode(code)
             .setContent(content)
             .addRecipient(
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             .build('seed', 0);
 
         final KeyPair transactionKeyPair = crypto.deriveKeyPair('seed', 0);
@@ -303,7 +303,7 @@ void main() {
           // Authorized keys encoding
           concatUint8List(<Uint8List>[
             hexToUint8List(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
+                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
             hexToUint8List(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
           ]),
@@ -311,22 +311,22 @@ void main() {
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
             hexToUint8List(
-                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
             encodeBigInt(toBigInt(0.2020))
           ]),
           // Nb of NFT transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
             hexToUint8List(
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
+                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
             hexToUint8List(
-                '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
             encodeBigInt(toBigInt(100))
           ]),
           // Nb of recipients
           Uint8List.fromList(<int>[1]),
           hexToUint8List(
-              '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
           transactionKeyPair.publicKey,
           Uint8List.fromList(<int>[previousSig.length]),
           previousSig
@@ -363,7 +363,7 @@ void main() {
             .addOwnership(Uint8List.fromList([0, 1, 2, 3, 4]), [
               AuthorizedKey(
                   publicKey:
-                      '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                      '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                   encryptedSecretKey:
                       '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             ])
@@ -386,7 +386,7 @@ void main() {
         expect(parsedTx['data']['ownerships'][0]['authorizedKey'], [
           {
             'publicKey':
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
             'encryptedSecretKey':
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'
           }

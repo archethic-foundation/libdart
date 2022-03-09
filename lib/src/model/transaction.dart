@@ -22,7 +22,7 @@ import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
-    show deriveKeyPair, hash, sign, deriveAddress;
+    show deriveKeyPair, sign, deriveAddress;
 
 const int cVersion = 1;
 
