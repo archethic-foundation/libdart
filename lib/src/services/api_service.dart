@@ -528,29 +528,24 @@ class ApiService {
         address +
         '") { nbConfirmations } }';
 
-    Observer _categoryObserver = Observer(onAbort: () {
-      print('abort');
-    }, onCancel: () {
-      print('cancel');
-    }, onError: (err) {
-      print('err');
-      throw err;
-    }, onResult: (result) {
-      print('result: ' + result);
-      print('result.data.transactionConfirmed: ' +
-          result.data.transactionConfirmed);
-      if (result.data.transactionConfirmed) {
-        print('result.data.transactionConfirmed.nbConfirmations: ' +
-            result.data.transactionConfirmed.nbConfirmations);
-        return result.data.transactionConfirmed.nbConfirmations;
-      }
-      throw result;
-    }, onStart: () {
-      print('open');
-    });
+    Observer _categoryObserver = Observer(
+        onAbort: () {
+          print('abort');
+        },
+        onCancel: () {
+          print('cancel');
+        },
+        onError: (err) {
+          print('err');
+          throw err;
+        },
+        onResult: handler,
+        onStart: () {
+          print('open');
+        });
 
     Notifier notifier =
         _socket.send(GqlRequest(operation: operation), 'notifierKey');
-    return notifier.observe(_categoryObserver);
+    notifier.observe(_categoryObserver);
   }
 }
