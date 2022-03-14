@@ -276,9 +276,10 @@ void main() {
             .setContent(content)
             .addRecipient(
                 '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
-            .build('seed', 0);
+            .build('seed', 0, curve: 'P256');
 
-        final KeyPair transactionKeyPair = crypto.deriveKeyPair('seed', 0);
+        final KeyPair transactionKeyPair =
+            crypto.deriveKeyPair('seed', 0, curve: 'P256');
         final Uint8List previousSig = crypto.sign(
             tx.previousSignaturePayload(), transactionKeyPair.privateKey);
         final Uint8List payload = tx.originSignaturePayload();
