@@ -2,7 +2,8 @@
 import 'dart:typed_data';
 
 // Package imports:
-import 'package:archive/archive.dart';
+import 'package:archethic_lib_dart/src/services/address_service.dart';
+//import 'package:archive/archive.dart';
 import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, Digest;
 
 // Project imports:
@@ -13,10 +14,11 @@ import 'package:archethic_lib_dart/src/utils/crypto.dart' show deriveAddress;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 class HostingService {
+  String? endpoint;
+/*
   HostingService(this.endpoint);
 
   /// [endpoint] is the HTTP URL to a ArchEthic node (acting as welcome node)
-  String? endpoint;
 
   /// Files List in an archive
   List<ArchiveFile> filesInArchive = List.empty(growable: true);
@@ -36,8 +38,8 @@ class HostingService {
     List<String> addresses = [];
     List<String> arrayFiles = [];
     List<String> arrayAddress = [];
-
-    for (var file in archive.files) {
+*/
+  /* for (var file in archive.files) {
       if (file.isFile) {
         print(file.name);
         String _seed =
@@ -46,7 +48,7 @@ class HostingService {
         String _address =
             deriveAddress(_seed, 0, curve: curve, hashAlgo: hashAlgo);
         addresses.add(_address);
-        print(_address);
+        print('address: ' + _address);
         try {
           Transaction txn =
               Transaction(type: 'transfer', data: Transaction.initData())
@@ -56,26 +58,49 @@ class HostingService {
 
           TransactionStatus transactionStatus =
               await ApiService(endpoint).sendTx(txn);
-          ApiService(endpoint).waitConfirmations(txn.address!,
-              (nbConfirmations) {
-            print(nbConfirmations);
-          });
+          // await ApiService(endpoint).waitConfirmations(txn.address!,
+          //     (nbConfirmations) {
+          //   print(nbConfirmations);
+          // });
 
           print(transactionStatus.status);
         } catch (e) {
           print('e: ' + e.toString());
         }
       }
+    }*/
+/*
+    for (int i = 0; i < archive.files.length; i++) {
+      crypto.Hmac hmac = crypto.Hmac(crypto.sha256, hexToUint8List(seed));
+      crypto.Digest digest = hmac.convert(archive.files[i].name.codeUnits);
+      Uint8List _seed = Uint8List.fromList(digest.bytes);
+      String _address = deriveAddress(uint8ListToHex(_seed), 0,
+          curve: curve, hashAlgo: hashAlgo);
+      addresses.add(_address);
     }
 
-    /*for (int i = 0; i < files.length; i++) {
-      crypto.Hmac hmac = crypto.Hmac(crypto.sha256, hexToUint8List(seed));
-      crypto.Digest digest = hmac.convert(files[i]);
-      Uint8List _seed = Uint8List.fromList(digest.bytes);
-      String _address = AddressService(endpoint).deriveAddress(
-          uint8ListToHex(_seed), 0,
-          curve: curve, hashAlgo: hashAlgo);
+    Transaction txn =
+        Transaction(type: 'transfer', data: Transaction.initData());
 
+    for (int i = 0; i < addresses.length; i++) {
+      txn.addUCOTransfer(addresses[i], toBigInt(1));
+    }
+    txn.build(seed, 0).originSign(originPrivateKey);
+    try {
+      TransactionStatus transactionStatus =
+          await ApiService(endpoint).sendTx(txn);
+      // await ApiService(endpoint).waitConfirmations(txn.address!,
+      //     (nbConfirmations) {
+      //   print(nbConfirmations);
+      // });
+
+      print(transactionStatus.status);
+    } catch (e) {
+      print('e: ' + e.toString());
+    }
+
+    for (var file in archive.files) {}
+/*
       Transaction txBuilder =
           Transaction(type: 'hosting', data: Transaction.initData());
       txBuilder.setContent(files[i]);
@@ -127,5 +152,5 @@ class HostingService {
         }
       }
     }*/
-  }
+  }*/
 }

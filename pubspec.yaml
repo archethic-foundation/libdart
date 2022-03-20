@@ -17,7 +17,7 @@ dependencies:
       ref: master
       
   # A Dart library to encode and decode various archive and compression formats.
-  archive: ^3.2.1
+  # archive: ^3.2.1
 
   # Utilities for converting between data representations. Provides a number of Sink, Codec, Decoder, and Encoder types
   convert: ^3.0.1
