@@ -531,9 +531,8 @@ class ApiService {
     AbsintheSocket _socket =
         AbsintheSocket('ws://' + host + '/socket/websocket');
 
-    final String operation = 'subscription { transactionConfirmed(address: "' +
-        address +
-        '") { nbConfirmations } }';
+    final String operation =
+        """subscription { transactionConfirmed(address: "$address") { nbConfirmations } }""";
 
     Observer _observer = Observer(
       onAbort: onAbort,
