@@ -517,7 +517,14 @@ class ApiService {
   /// @param {String} address Address to await
   /// @param {String} endpoint Node endpoint
   /// @param {Function} handler Success handler
-  Future<void> waitConfirmations(String address, Function handler) async {
+  void waitConfirmations(
+    String address, {
+    onResult,
+    onError,
+    onCancel,
+    onStart,
+    onAbort,
+  }) {
     String host =
         Uri.parse(endpoint!).host + ':' + Uri.parse(endpoint!).port.toString();
 
@@ -528,24 +535,16 @@ class ApiService {
         address +
         '") { nbConfirmations } }';
 
-    Observer _categoryObserver = Observer(
-        onAbort: () {
-          print('abort');
-        },
-        onCancel: () {
-          print('cancel');
-        },
-        onError: (err) {
-          print('err');
-          throw err;
-        },
-        onResult: handler,
-        onStart: () {
-          print('open');
-        });
+    Observer _observer = Observer(
+      onAbort: onAbort,
+      onCancel: onCancel,
+      onError: onError,
+      onResult: onResult,
+      onStart: onStart,
+    );
 
     Notifier notifier =
         _socket.send(GqlRequest(operation: operation), 'notifierKey');
-    notifier.observe(_categoryObserver);
+    notifier.observe(_observer);
   }
 }
