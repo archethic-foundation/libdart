@@ -60,7 +60,7 @@ It supports the ArchEthic Cryptography rules which are:
 
   - `seed` is hexadecimal encoding or Uint8Array representing the transaction chain seed to be able to derive and generate the keys
   - `index` is the number of transactions in the chain, to generate the actual and the next public key (see below the cryptography section)
-  - `curve` is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1") - default to: "P256"
+  - `curve` is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1") - default to: "ed25519"
 
   ```dart
   import 'package:archethic_lib_dart/archethic.dart';
@@ -69,6 +69,20 @@ It supports the ArchEthic Cryptography rules which are:
   // uint8ListToHex(keypair.publicKey) => 0100048cac473e46edd109c3ef59eec22b9ece9f99a2d0dce1c4ccb31ce0bacec4a9ad246744889fb7c98ea75c0f0ecd60002c07fae92f23382669ca9aff1339f44216
   ```
 
+  #### deriveAddress(seed, index, curve, hashAlgo)
+  It creates a transaction address by extract the public key from the key derivation and hash it into a hexadecimal format
+
+   - `seed` is hexadecimal encoding or Uint8Array representing the transaction chain seed to be able to derive and generate the keys
+   - `index` is the number of transactions in the chain, to generate the actual and the next public key (see below the cryptography section)
+   - `curve` is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1") - Default to "ed25519"
+   - `hashAlgo` is the hash algorithm to create the address (can be "sha256", "sha512", "sha3-256", "sha3-512", "blake2b") - default to "sha256"
+
+   ```dart
+   import 'package:archethic_lib_dart/archethic.dart';
+
+   String address = crypto.deriveAddress("mysuperpassphraseorseed", 0);
+   // Address: 00004195d45987f33e5dcb71edfa63438d5e6add655b216acfdd31945d58210fe5d2
+   ```
 
   #### ecEncrypt(data, publicKey)
   Perform an ECIES encryption using a public key and a data
@@ -91,7 +105,7 @@ It supports the ArchEthic Cryptography rules which are:
   ```dart
   import 'package:archethic_lib_dart/archethic.dart';
 
-  Uint8List cipher = crypto.aesEncrypt('dataToEncrypt' '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
+  Uint8List cipher = crypto.aesEncrypt('dataToEncrypt' '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
   ```
 
   ### TransactionBuilding
@@ -146,7 +160,7 @@ It supports the ArchEthic Cryptography rules which are:
   import 'package:archethic_lib_dart/archethic.dart';
 
   var tx = Transaction(type: 'transfer', data: Transaction.initData())
-    .addUCOTransfer('00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt(0.420)) 
+    .addUCOTransfer('0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt(0.420)) 
     .build('mysuperpassphraseorseed', 0, 'P256');
   ```
 
@@ -160,7 +174,7 @@ It supports the ArchEthic Cryptography rules which are:
   
   final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
   var tx = Transaction(type: 'transfer', data: Transaction.initData())
-    .addUCOTransfer('00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt((0.420)) 
+    .addUCOTransfer('0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt((0.420)) 
     .build('mysuperpassphraseorseed', 0, 'P256') 
     .originSign(originKeypair.privateKey);
   ```
@@ -172,7 +186,7 @@ It supports the ArchEthic Cryptography rules which are:
   import 'package:archethic_lib_dart/archethic.dart';
 
   var tx = Transaction(type: 'transfer', data: Transaction.initData())
-    .addUCOTransfer('00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt(0.420)) 
+    .addUCOTransfer('0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt(0.420)) 
     .build('mysuperpassphraseorseed', 0, 'P256') 
     .convertToJSON();
   ```
@@ -186,7 +200,7 @@ It supports the ArchEthic Cryptography rules which are:
   ```dart
   import 'package:archethic_lib_dart/archethic.dart';
 
-  int index = await ApiService('https://mainnet.archethic.net').getTransactionIndex(
+  int index = await ApiService('https://testnet.archethic.net').getTransactionIndex(
           '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
   // 0
   ``` 
@@ -198,7 +212,7 @@ It supports the ArchEthic Cryptography rules which are:
   import 'package:archethic_lib_dart/archethic.dart';
 
   String storageNoncePublicKey =
-          await ApiService('https://mainnet.archethic.net').getStorageNoncePublicKey();
+          await ApiService('https://testnet.archethic.net').getStorageNoncePublicKey();
   // 00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646
   ``` 
 
