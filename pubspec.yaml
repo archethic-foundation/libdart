@@ -32,7 +32,7 @@ dependencies:
   ecdsa: ^0.0.4
 
   # basic elliptic curves
-  elliptic: ^0.3.5
+  elliptic: ^0.3.6
 
   # A composable, multi-platform, Future-based API for HTTP requests
   http: ^0.13.4
