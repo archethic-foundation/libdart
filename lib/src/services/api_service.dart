@@ -9,7 +9,6 @@ import 'dart:typed_data';
 // Package imports:
 import 'package:absinthe_socket/absinthe_socket.dart';
 import 'package:http/http.dart' as http show Response, post;
-import 'package:logger/logger.dart';
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
@@ -32,8 +31,6 @@ import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart' as utils;
 
 class ApiService {
-  Logger logger = Logger();
-
   ApiService(this.endpoint);
 
   /// [endpoint] is the HTTP URL to a ArchEthic node (acting as welcome node)
@@ -473,8 +470,7 @@ class ApiService {
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      logger
-          .d('getTransactionAllInfos: responseHttp.body=' + responseHttp.body);
+      dev.log('getTransactionAllInfos: responseHttp.body=' + responseHttp.body);
 
       if (responseHttp.statusCode == 200) {
         TransactionContentResponse transactionResponse =

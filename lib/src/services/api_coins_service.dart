@@ -2,7 +2,7 @@
 
 // Package imports:
 import 'package:http/http.dart' as http show Response, get;
-import 'package:logger/logger.dart';
+import 'dart:developer' as dev;
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/coins/coins_current_data_response.dart';
@@ -48,8 +48,6 @@ import 'package:archethic_lib_dart/src/model/coins/simple_price_response_usd.dar
 import 'package:archethic_lib_dart/src/model/coins/simple_price_response_zar.dart';
 
 class ApiCoinsService {
-  Logger logger = Logger();
-
   /// Get ARCHEthic Coin info
   Future<CoinsResponse> getCoinsResponse() async {
     CoinsResponse? coinsResponse;
@@ -65,7 +63,7 @@ class ApiCoinsService {
         coinsResponse = coinsResponseFromJson(responseHttp.body);
       }
     } catch (e) {
-      logger.e(e.toString());
+      dev.log(e.toString());
     }
     return coinsResponse!;
   }
@@ -91,7 +89,7 @@ class ApiCoinsService {
         coinsPriceResponse = coinsPriceResponseFromJson(responseHttp.body);
       }
     } catch (e) {
-      logger.e(e.toString());
+      dev.log(e.toString());
     }
     return coinsPriceResponse!;
   }
@@ -339,7 +337,7 @@ class ApiCoinsService {
         }
       }
     } catch (e) {
-      logger.e(e.toString());
+      dev.log(e.toString());
     }
 
     return simplePriceResponse;
@@ -361,7 +359,7 @@ class ApiCoinsService {
             coinsCurrentDataResponseFromJson(responseHttp.body);
       }
     } catch (e) {
-      logger.e(e.toString());
+      dev.log(e.toString());
     }
 
     return coinsCurrentDataResponse!;

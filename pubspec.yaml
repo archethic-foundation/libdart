@@ -37,9 +37,6 @@ dependencies:
   # A composable, multi-platform, Future-based API for HTTP requests
   http: ^0.13.4
 
-  # Small, easy to use and extensible logger which prints beautiful logs
-  logger: ^1.1.0
-
   # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
   pinenacl: ^0.3.3
 
