@@ -2,6 +2,7 @@
 
 // Dart imports:
 import 'dart:async';
+import 'dart:developer' as dev;
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -48,18 +49,18 @@ class ApiService {
       'Accept': 'application/json',
     };
     TransactionStatus transactionStatus = TransactionStatus();
-    logger.d('sendTx: requestHttp.body=' + transaction.convertToJSON());
+    dev.log('sendTx: requestHttp.body=' + transaction.convertToJSON());
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api/transaction'),
           body: transaction.convertToJSON(),
           headers: requestHeaders);
-      logger.d('sendTx: responseHttp.body=' + responseHttp.body);
+      dev.log('sendTx: responseHttp.body=' + responseHttp.body);
       transactionStatus = transactionStatusFromJson(responseHttp.body);
 
       _completer.complete(transactionStatus);
     } catch (e) {
-      print(e);
+      dev.log(e.toString());
     }
 
     return _completer.future;
@@ -81,12 +82,12 @@ class ApiService {
           '{"query": "query {lastTransaction(address: \\"$address\\") { ' +
               Transaction.getQLFields() +
               ' } }"}';
-      logger.d('getTransactionIndex: requestHttp.body=' + _body);
+      dev.log('getTransactionIndex: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      logger.d('getTransactionIndex: responseHttp.body=' + responseHttp.body);
+      dev.log('getTransactionIndex: responseHttp.body=' + responseHttp.body);
       if (responseHttp.statusCode == 200) {
         transactionLastResponse =
             transactionLastResponseFromJson(responseHttp.body);
@@ -96,7 +97,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      logger.d('getTransactionIndex: error=' + e.toString());
+      dev.log('getTransactionIndex: error=' + e.toString());
     }
 
     _completer.complete(lastTransaction);
@@ -117,12 +118,12 @@ class ApiService {
     try {
       const String _body =
           '{"query": "query {sharedSecrets {storageNoncePublicKey}}"}';
-      logger.d('getStorageNoncePublicKey: requestHttp.body=' + _body);
+      dev.log('getStorageNoncePublicKey: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      logger.d(
+      dev.log(
           'getStorageNoncePublicKey: responseHttp.body=' + responseHttp.body);
       if (responseHttp.statusCode == 200) {
         sharedSecretsResponse =
@@ -134,7 +135,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      logger.d('getStorageNoncePublicKey: error=' + e.toString());
+      dev.log('getStorageNoncePublicKey: error=' + e.toString());
     }
 
     _completer.complete(_storageNoncePublicKey);
@@ -156,14 +157,14 @@ class ApiService {
 
     final String _body =
         '{"query": "query {balance(address: \\"$address\\") {uco, nft {address, amount}}}"}';
-    logger.d('fetchBalance: requestHttp.body=' + _body);
+    dev.log('fetchBalance: requestHttp.body=' + _body);
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      logger.d('fetchBalance: responseHttp.body=' + responseHttp.body);
+      dev.log('fetchBalance: responseHttp.body=' + responseHttp.body);
 
       if (responseHttp.statusCode == 200) {
         balanceResponse = balanceResponseFromJson(responseHttp.body);
@@ -172,7 +173,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      logger.d('fetchBalance: error=' + e.toString());
+      dev.log('fetchBalance: error=' + e.toString());
     }
 
     _completer.complete(balance);
@@ -195,14 +196,14 @@ class ApiService {
 
     final String _body =
         '{"query":"query { transaction(address: \\"$address\\") { data { content }} }"}';
-    logger.d('getTransactionContent: requestHttp.body=' + _body);
+    dev.log('getTransactionContent: requestHttp.body=' + _body);
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      logger.d('getTransactionContent: responseHttp.body=' + responseHttp.body);
+      dev.log('getTransactionContent: responseHttp.body=' + responseHttp.body);
 
       if (responseHttp.statusCode == 200) {
         transactionContentResponse =
@@ -215,7 +216,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      logger.d('getTransactionContent: error=' + e.toString());
+      dev.log('getTransactionContent: error=' + e.toString());
     }
 
     _completer.complete(_content);
@@ -243,14 +244,14 @@ class ApiService {
         '{"query":"query { transactionChain(address: \\"$address\\", page: $page) { ' +
             Transaction.getQLFields() +
             ' } }"}';
-    logger.d('getTransactionChain: requestHttp.body=' + _body);
+    dev.log('getTransactionChain: requestHttp.body=' + _body);
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      logger.d('getTransactionChain: responseHttp.body=' + responseHttp.body);
+      dev.log('getTransactionChain: responseHttp.body=' + responseHttp.body);
 
       if (responseHttp.statusCode == 200) {
         transactionChainResponse =
@@ -261,7 +262,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      logger.d('getTransactionChain: error=' + e.toString());
+      dev.log('getTransactionChain: error=' + e.toString());
     }
 
     _completer.complete(transactionChain);
@@ -283,12 +284,12 @@ class ApiService {
     try {
       const String _body =
           '{"query": "query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress authorizationDate enrollmentDate}}"}';
-      logger.d('getNodeList: requestHttp.body=' + _body);
+      dev.log('getNodeList: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      logger.d('getNodeList: responseHttp.body=' + responseHttp.body);
+      dev.log('getNodeList: responseHttp.body=' + responseHttp.body);
       if (responseHttp.statusCode == 200) {
         nodesResponse = nodesResponseFromJson(responseHttp.body);
         if (nodesResponse.data != null) {
@@ -296,7 +297,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      logger.d('getNodeList: error=' + e.toString());
+      dev.log('getNodeList: error=' + e.toString());
     }
 
     _completer.complete(nodesList);
@@ -323,14 +324,14 @@ class ApiService {
         '{"query":"query { networkTransactions(type: \\"$type\\", page: $page) { ' +
             Transaction.getQLFields() +
             ' } }"}';
-    logger.d('networkTransactions: requestHttp.body=' + _body);
+    dev.log('networkTransactions: requestHttp.body=' + _body);
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      logger.d('networkTransactions: responseHttp.body=' + responseHttp.body);
+      dev.log('networkTransactions: responseHttp.body=' + responseHttp.body);
 
       if (responseHttp.statusCode == 200) {
         networkTransactionsResponse =
@@ -341,7 +342,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      logger.d('networkTransactions: error=' + e.toString());
+      dev.log('networkTransactions: error=' + e.toString());
     }
 
     _completer.complete(transactionsList);
@@ -364,19 +365,19 @@ class ApiService {
     try {
       final String _body =
           '{"query":"query { transactionInputs(address: \\"$address\\") { amount, from, nftAddress, spent, timestamp, type } }"}';
-      logger.d('getTransactionInputs: requestHttp.body=' + _body);
+      dev.log('getTransactionInputs: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
           body: _body,
           headers: requestHeaders);
-      logger.d('getTransactionInputs: responseHttp.body=' + responseHttp.body);
+      dev.log('getTransactionInputs: responseHttp.body=' + responseHttp.body);
       if (responseHttp.statusCode == 200) {
         transactionInputsResponse =
             transactionInputsResponseFromJson(responseHttp.body);
         transactionInputs = transactionInputsResponse.data!.transactionInputs!;
       }
     } catch (e) {
-      logger.d('getTransactionInputs: error=' + e.toString());
+      dev.log('getTransactionInputs: error=' + e.toString());
     }
 
     _completer.complete(transactionInputs);
@@ -465,7 +466,7 @@ class ApiService {
         '{"query":"query { transaction(address: \\"$address\\") {' +
             Transaction.getQLFields() +
             '} }"}';
-    logger.d('getTransactionAllInfos: requestHttp.body=' + _body);
+    dev.log('getTransactionAllInfos: requestHttp.body=' + _body);
 
     try {
       final http.Response responseHttp = await http.post(
@@ -484,7 +485,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      logger.d('getTransactionAllInfos: error=' + e.toString());
+      dev.log('getTransactionAllInfos: error=' + e.toString());
     }
 
     _completer.complete(transaction);
@@ -504,9 +505,9 @@ class ApiService {
         Uri.parse(endpoint! + '/api/transaction_fee'),
         body: transaction.convertToJSON(),
         headers: requestHeaders);
-    logger.d(
+    dev.log(
         'getTransactionFees: requestHttp.body=' + transaction.convertToJSON());
-    logger.d('getTransactionFees: responseHttp.body=' + responseHttp.body);
+    dev.log('getTransactionFees: responseHttp.body=' + responseHttp.body);
     transactionFee = transactionFeeFromJson(responseHttp.body);
 
     _completer.complete(transactionFee);
