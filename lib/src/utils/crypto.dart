@@ -34,23 +34,23 @@ import 'package:x25519/x25519.dart' as x25519
 /// @param {String} curve Elliptic curve to use ("ed25519", "P256", "secp256k1")
 /// @param {String} hashAlgo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
 String deriveAddress(String seed, int index,
-    {String curve = 'ed25519', String hashAlgo = 'sha256'}) {
-  final KeyPair keypair = deriveKeyPair(seed, index, curve: curve);
+    {String? curve = 'ed25519', String? hashAlgo = 'sha256'}) {
+  final KeyPair keypair = deriveKeyPair(seed, index, curve: curve!);
   switch (curve) {
     case 'ed25519':
       return uint8ListToHex(concatUint8List([
         Uint8List.fromList(<int>[0]),
-        hash(keypair.publicKey, algo: hashAlgo)
+        hash(keypair.publicKey, algo: hashAlgo!)
       ]));
     case 'P256':
       return uint8ListToHex(concatUint8List([
         Uint8List.fromList(<int>[1]),
-        hash(keypair.publicKey, algo: hashAlgo)
+        hash(keypair.publicKey, algo: hashAlgo!)
       ]));
     case 'secp256k1':
       return uint8ListToHex(concatUint8List([
         Uint8List.fromList(<int>[2]),
-        hash(keypair.publicKey, algo: hashAlgo)
+        hash(keypair.publicKey, algo: hashAlgo!)
       ]));
     default:
       throw 'Curve not supported';
@@ -113,7 +113,7 @@ Uint8List hash(content, {String algo = 'sha256'}) {
 /// @param {String} seed Keypair derivation seed
 /// @param {int} index Number to identify the order of keys to generate
 /// @param {String} curve Elliptic curve to use ("P256", "secp256k1", "ed25519")
-KeyPair deriveKeyPair(String seed, int index, {String curve = 'ed25519'}) {
+KeyPair deriveKeyPair(String seed, int index, {String? curve = 'ed25519'}) {
   if (index < 0) {
     throw "index' must be a positive number";
   }
