@@ -146,10 +146,10 @@ class Transaction {
   /// @param {String} curve Elliptic curve to use for the key generation
   /// @param {String} hashAlgo Hash algorithm to use for the address generation
   Transaction build(String seed, int index,
-      {String curve = 'ed25519', String hashAlgo = 'sha256'}) {
-    final KeyPair keypair = crypto.deriveKeyPair(seed, index, curve: curve);
-    address =
-        crypto.deriveAddress(seed, index + 1, curve: curve, hashAlgo: hashAlgo);
+      {String? curve = 'ed25519', String? hashAlgo = 'sha256'}) {
+    final KeyPair keypair = crypto.deriveKeyPair(seed, index, curve: curve!);
+    address = crypto.deriveAddress(seed, index + 1,
+        curve: curve, hashAlgo: hashAlgo!);
     previousPublicKey = uint8ListToHex(keypair.publicKey);
     previousSignature = uint8ListToHex(
         crypto.sign(previousSignaturePayload(), keypair.privateKey));
