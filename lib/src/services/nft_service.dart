@@ -22,9 +22,30 @@ class NFTService {
     if (typeMime != null && documentHex != null) {
       content = content + '\ntypeMime: $typeMime\ndocument: $documentHex';
     }
-    return Transaction(type: 'nft', data: Transaction.initData())
-        .setContent(content)
-        .build(seed, index, curve: curve!, hashAlgo: hashAlgo!)
-        .originSign(originPrivateKey);
+    if (curve != null && hashAlgo != null) {
+      return Transaction(type: 'nft', data: Transaction.initData())
+          .setContent(content)
+          .build(seed, index, curve: curve, hashAlgo: hashAlgo)
+          .originSign(originPrivateKey);
+    } else {
+      if (curve != null && hashAlgo == null) {
+        return Transaction(type: 'nft', data: Transaction.initData())
+            .setContent(content)
+            .build(seed, index, curve: curve)
+            .originSign(originPrivateKey);
+      } else {
+        if (curve == null && hashAlgo != null) {
+          return Transaction(type: 'nft', data: Transaction.initData())
+              .setContent(content)
+              .build(seed, index, hashAlgo: hashAlgo)
+              .originSign(originPrivateKey);
+        } else {
+          return Transaction(type: 'nft', data: Transaction.initData())
+              .setContent(content)
+              .build(seed, index)
+              .originSign(originPrivateKey);
+        }
+      }
+    }
   }
 }
