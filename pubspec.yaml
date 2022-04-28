@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 name: archethic_lib_dart
-description: ArchEthic dart library for Flutter for Node and Browser. This library aims to provide a easy way to create ArchEthic transaction and to send them over the network
+description: Archethic dart library for Flutter for Node and Browser. This library aims to provide a easy way to create Archethic transaction and to send them over the network
 homepage: https://github.com/archethic-foundation/libdart
 
 version: 1.0.7

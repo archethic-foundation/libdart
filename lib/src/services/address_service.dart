@@ -9,7 +9,7 @@ import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
 class AddressService {
   AddressService(this.endpoint);
 
-  /// [endpoint] is the HTTP URL to a ArchEthic node (acting as welcome node)
+  /// [endpoint] is the HTTP URL to a Archethic node (acting as welcome node)
   String? endpoint;
 
   /// Get the last address from seed

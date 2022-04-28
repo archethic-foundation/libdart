@@ -47,7 +47,7 @@ const Map<String, int> txTypes = {
   'node_rewards': 9,
 };
 
-/// [Transaction] represents a unitary transaction in the ArchEthic network.
+/// [Transaction] represents a unitary transaction in the Archethic network.
 class Transaction {
   Transaction({
     this.address,

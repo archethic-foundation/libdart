@@ -9,7 +9,7 @@ import 'package:archethic_lib_dart/src/services/api_service.dart';
 class OracleService {
   OracleService(this.endpoint);
 
-  /// [endpoint] is the HTTP URL to a ArchEthic node (acting as welcome node)
+  /// [endpoint] is the HTTP URL to a Archethic node (acting as welcome node)
   String? endpoint;
 
   /// return the last value of Oracle Uco_Price in {OracleUcoPrice}

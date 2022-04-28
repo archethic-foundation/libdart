@@ -48,7 +48,7 @@ import 'package:archethic_lib_dart/src/model/coins/simple_price_response_usd.dar
 import 'package:archethic_lib_dart/src/model/coins/simple_price_response_zar.dart';
 
 class ApiCoinsService {
-  /// Get ARCHEthic Coin info
+  /// Get Archethic Coin info
   Future<CoinsResponse> getCoinsResponse() async {
     CoinsResponse? coinsResponse;
     final Map<String, String> requestHeaders = {
@@ -68,7 +68,7 @@ class ApiCoinsService {
     return coinsResponse!;
   }
 
-  /// Get ARCHEthic Coin infos (Prices, Marketcaps, Total Volumes)
+  /// Get Archethic Coin infos (Prices, Marketcaps, Total Volumes)
   /// @param {String} currency
   /// @param {int} nbDays
   Future<CoinsPriceResponse> getCoinsChart(String currency, int nbDays) async {
@@ -94,7 +94,7 @@ class ApiCoinsService {
     return coinsPriceResponse!;
   }
 
-  /// Get ARCHEthic Coin infos (BTC Price, Local Currency Price)
+  /// Get Archethic Coin infos (BTC Price, Local Currency Price)
   /// @param {String} currency
   Future<SimplePriceResponse> getSimplePrice(String currency) async {
     final SimplePriceResponse simplePriceResponse = SimplePriceResponse();
@@ -343,7 +343,7 @@ class ApiCoinsService {
     return simplePriceResponse;
   }
 
-  /// Get ARCHEthic Coin infos (name, price, market, ... including exchange tickers)
+  /// Get Archethic Coin infos (name, price, market, ... including exchange tickers)
   Future<CoinsCurrentDataResponse> getCoinsCurrentData() async {
     CoinsCurrentDataResponse? coinsCurrentDataResponse;
     final Map<String, String> requestHeaders = {

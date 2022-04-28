@@ -11,7 +11,7 @@ class NFTService {
   /// @param {int} [index] Number of transaction in the chain
   /// @param {String} [curve] Elliptic curve to use ("ed25519", "P256", "secp256k1")
   /// @param {String} [hashAlgo] Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
-  /// @param {} [originPrivateKey] The origin signature to able to perform the ProofOfWork and authorize the transaction
+  /// @param {String} [originPrivateKey] The origin signature to able to perform the ProofOfWork and authorize the transaction
   Transaction prepareNewNFT(int initialSupply, String name, String seed,
       int index, String originPrivateKey,
       {String? typeMime,
