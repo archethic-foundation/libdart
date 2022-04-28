@@ -2,13 +2,13 @@
 
 # archethic_lib_dart
 
-ArchEthic dart library for Flutter
+Archethic dart library for Flutter
 
 ## Usage
 
-This library aims to provide a easy way to create ArchEthic transaction and to send them over the network.
+This library aims to provide a easy way to create Archethic transaction and to send them over the network.
 
-It supports the ArchEthic Cryptography rules which are:
+It supports the Archethic Cryptography rules which are:
 
 - Algorithm identification: keys are prepared by metadata bytes to indicate the curve used and the origin of the generation, and hashes are prepended by a byte to indicate the hash algorithm used. 
   Those information help during the verification
@@ -36,7 +36,7 @@ It supports the ArchEthic Cryptography rules which are:
   
 - Key derivation:
   
-    To be able to retrieve previous public key, the ArchEthic network designs the key derivation through a seed (passphrase) and an index(number of
+    To be able to retrieve previous public key, the Archethic network designs the key derivation through a seed (passphrase) and an index(number of
      previous public keys/transactions).
     The procedure is described as follows:
     
@@ -218,16 +218,16 @@ It supports the ArchEthic Cryptography rules which are:
 
   ### Coingecko functions
   #### getCoinsResponse()
-  Get all ARCHEthic Coin infos with http request https://api.coingecko.com/api/v3/coins/archethic
+  Get all Archethic Coin infos with http request https://api.coingecko.com/api/v3/coins/archethic
 
   #### getCoinsChart(currency, nbDays)
-  Get ARCHEthic Coin infos (Prices, Marketcaps, Total Volumes) for a period with http request https://api.coingecko.com/api/v3/coins/archethic/market_chart?vs_currency=currency&days=nbDays
+  Get Archethic Coin infos (Prices, Marketcaps, Total Volumes) for a period with http request https://api.coingecko.com/api/v3/coins/archethic/market_chart?vs_currency=currency&days=nbDays
 
   #### getSimplePrice(currency)
-  Get ARCHEthic Coin infos (BTC Price, Local Currency Price) with https://api.coingecko.com/api/v3/simple/price?ids=archethic&vs_currencies=currency
+  Get Archethic Coin infos (BTC Price, Local Currency Price) with https://api.coingecko.com/api/v3/simple/price?ids=archethic&vs_currencies=currency
 
   #### getCoinsCurrentData()
-  Get ARCHEthic Coin infos (name, price, market, ... including exchange tickers) with https://api.coingecko.com/api/v3/coins/archethic
+  Get Archethic Coin infos (name, price, market, ... including exchange tickers) with https://api.coingecko.com/api/v3/coins/archethic
 
 ## Running the tests
 
