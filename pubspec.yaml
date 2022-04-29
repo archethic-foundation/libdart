@@ -17,7 +17,7 @@ dependencies:
   convert: ^3.0.1
 
   # Implementations of SHA, MD5, and HMAC cryptographic functions
-  crypto: ^3.0.1
+  crypto: ^3.0.2
 
   # A library for doing cryptographic signing/verifying and encrypting/decrypting.
   crypto_keys: ^0.3.0
@@ -35,10 +35,10 @@ dependencies:
   jwk: ^0.1.1
 
   # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
-  pinenacl: ^0.3.3
+  pinenacl: ^0.3.4
 
   # A Dart library implementing cryptographic algorithms and primitives, modeled on the BouncyCastle library
-  pointycastle: ^3.5.1
+  pointycastle: ^3.6.0
 
   # Pure secp256k1 signature algorithm implement for dart language which uses pure dart and basic types to represent all matters
   secp256k1: ^0.3.0
@@ -50,4 +50,4 @@ dev_dependencies:
   flutter_lints: ^1.0.4
   # Automatically organize your dart imports
   import_sorter: ^4.6.0
-  test: ^1.19.5
+  test: ^1.21.7
