@@ -10,12 +10,12 @@ class Uco {
   double? usd;
 
   factory Uco.fromJson(Map<String, dynamic> json) => Uco(
-        eur: json["eur"]?.toDouble(),
-        usd: json["usd"]?.toDouble(),
+        eur: json['eur']?.toDouble(),
+        usd: json['usd']?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
-        "eur": eur,
-        "usd": usd,
+        'eur': eur,
+        'usd': usd,
       };
 }

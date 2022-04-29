@@ -1,13 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// Dart imports:
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:typed_data';
-
-// Package imports:
-import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
@@ -30,6 +25,8 @@ import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/transaction_status.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+// Package imports:
+import 'package:http/http.dart' as http show Response, post;
 
 class ApiService {
   ApiService(this.endpoint);
@@ -408,7 +405,7 @@ class ApiService {
       dev.log('getTransactionAllInfos: responseHttp.body=' + responseHttp.body);
 
       if (responseHttp.statusCode == 200) {
-        TransactionContentResponse transactionResponse =
+        final TransactionContentResponse transactionResponse =
             transactionContentResponseFromJson(responseHttp.body);
         if (transactionResponse.data != null &&
             transactionResponse.data!.transaction != null) {
@@ -454,9 +451,9 @@ class ApiService {
       'Accept': 'application/json',
     };
 
-    List<Ownership> ownerships = List.empty(growable: true);
+    List<Ownership> ownerships = List<Ownership>.empty(growable: true);
     try {
-      String _body =
+      final String _body =
           '{"query": "query { transaction(address: \\"$address\\") { data { ownerships { secret, authorizedPublicKeys { encryptedSecretKey, publicKey } } } } }"}';
       dev.log('getTransactionOwnerships: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
@@ -466,7 +463,7 @@ class ApiService {
       dev.log(
           'getTransactionOwnerships: responseHttp.body=' + responseHttp.body);
       if (responseHttp.statusCode == 200) {
-        TransactionContentResponse transactionResponse =
+        final TransactionContentResponse transactionResponse =
             transactionContentResponseFromJson(responseHttp.body);
         if (transactionResponse.data != null &&
             transactionResponse.data!.transaction != null &&
@@ -485,35 +482,35 @@ class ApiService {
   /// Retrieve a keychain by using keychain access seed
   /// @param {String} seed Keychain's access seed
   Future<Keychain> getKeychain(String seed) async {
-    KeyPair keypair = deriveKeyPair(seed, 0);
-    String accessKeychainAddress = deriveAddress(seed, 1);
+    final KeyPair keypair = deriveKeyPair(seed, 0);
+    final String accessKeychainAddress = deriveAddress(seed, 1);
 
-    List<Ownership> ownerships =
+    final List<Ownership> ownerships =
         await getTransactionOwnerships(accessKeychainAddress);
     if (ownerships.isEmpty) {
       throw 'Keychain doesn\'t exists';
     }
 
-    Ownership ownership = ownerships[0];
-    AuthorizedKey authorizedPublicKey = ownership.authorizedPublicKeys!
-        .firstWhere((authKey) =>
+    final Ownership ownership = ownerships[0];
+    final AuthorizedKey authorizedPublicKey = ownership.authorizedPublicKeys!
+        .firstWhere((AuthorizedKey authKey) =>
             authKey.publicKey!.toUpperCase() == utf8.decode(keypair.publicKey));
 
-    Uint8List aesKey =
+    final Uint8List aesKey =
         ecDecrypt(authorizedPublicKey.encryptedSecretKey, keypair.privateKey);
-    Uint8List keychainAddress = aesDecrypt(ownership.secret, aesKey);
+    final Uint8List keychainAddress = aesDecrypt(ownership.secret, aesKey);
 
-    List<Ownership> ownerships2 =
+    final List<Ownership> ownerships2 =
         await getTransactionOwnerships(uint8ListToHex(keychainAddress));
-    Ownership ownership2 = ownerships2[0];
+    final Ownership ownership2 = ownerships2[0];
 
-    AuthorizedKey authorizedPublicKey2 = ownership2.authorizedPublicKeys!
-        .firstWhere((publicKey) =>
+    final AuthorizedKey authorizedPublicKey2 = ownership2.authorizedPublicKeys!
+        .firstWhere((AuthorizedKey publicKey) =>
             publicKey.publicKey!.toUpperCase() ==
             utf8.decode(keypair.publicKey));
-    Uint8List aesKey2 =
+    final Uint8List aesKey2 =
         ecDecrypt(authorizedPublicKey2.encryptedSecretKey, keypair.privateKey);
-    Uint8List keychain = aesDecrypt(ownership2.secret, aesKey2);
+    final Uint8List keychain = aesDecrypt(ownership2.secret, aesKey2);
     return decodeKeychain(keychain);
   }
 }

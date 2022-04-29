@@ -24,10 +24,10 @@ class OracleUcoPrice {
   Uco? uco;
 
   factory OracleUcoPrice.fromJson(Map<String, dynamic> json) => OracleUcoPrice(
-        uco: Uco.fromJson(json["uco"]),
+        uco: Uco.fromJson(json['uco']),
       );
 
   Map<String, dynamic> toJson() => {
-        "uco": uco!.toJson(),
+        'uco': uco!.toJson(),
       };
 }

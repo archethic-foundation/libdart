@@ -7,8 +7,7 @@ Changelog
 * Add hashAlgo param in prepareNewNFT method
 * Change logs management
 * Add keychain creation and access
-
-#### Version 1.0.6 (2022-03-01)
+* Fix Index overflow in ecdh computeSecret() when the output X coordinate is less than 32 bytes
 * Add default value to curve type in the address 
 
 #### Version 1.0.5 (2022-01-15)

@@ -15,10 +15,10 @@ class OracleService {
   /// return the last value of Oracle Uco_Price in {OracleUcoPrice}
   /// @param {String} seed TransactionChain seed
   Future<OracleUcoPrice> getLastOracleUcoPrice() async {
-    List<Transaction> txList =
+    final List<Transaction> txList =
         await ApiService(endpoint).networkTransactions('oracle', 1);
     if (txList.isNotEmpty) {
-      Transaction transaction =
+      final Transaction transaction =
           await ApiService(endpoint).getLastTransaction(txList[0].address!);
       return oracleUcoPriceFromJson(transaction.data!.content!);
     } else {

@@ -1,10 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// To parse this JSON data, do
-//
-//     final transaction = transactionFromJson(jsonString);
-
-// Dart imports:
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -19,10 +13,9 @@ import 'package:archethic_lib_dart/src/model/ownership.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
 import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
-import 'package:archethic_lib_dart/src/utils/utils.dart';
-
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
     show deriveKeyPair, sign, deriveAddress;
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 const int cVersion = 1;
 
@@ -350,7 +343,7 @@ class Transaction {
 
   Uint8List originSignaturePayload() {
     final Uint8List payloadForPreviousSignature = previousSignaturePayload();
-    return concatUint8List([
+    return concatUint8List(<Uint8List>[
       payloadForPreviousSignature,
       hexToUint8List(previousPublicKey!),
       Uint8List.fromList([hexToUint8List(previousSignature!).length]),
@@ -376,7 +369,7 @@ class Transaction {
             .add(hexToUint8List(authorizedKey.encryptedSecretKey!));
       }
 
-      ownershipsBuffer = concatUint8List([
+      ownershipsBuffer = concatUint8List(<Uint8List>[
         encodeInt32(
             Uint8List.fromList(utf8.encode(ownership.secret!)).lengthInBytes),
         Uint8List.fromList(utf8.encode(ownership.secret!)),
@@ -387,7 +380,7 @@ class Transaction {
     Uint8List ucoTransfersBuffers = Uint8List(0);
     if (data!.ledger!.uco!.transfers!.isNotEmpty) {
       for (var ucoTransfer in data!.ledger!.uco!.transfers!) {
-        ucoTransfersBuffers = concatUint8List([
+        ucoTransfersBuffers = concatUint8List(<Uint8List>[
           ucoTransfersBuffers,
           hexToUint8List(ucoTransfer.to!),
           encodeBigInt(ucoTransfer.amount!)
@@ -399,7 +392,7 @@ class Transaction {
     if (data!.ledger!.nft!.transfers!.isNotEmpty) {
       // ignore: non_constant_identifier_names, unused_local_variable
       for (var NFTTransfer in data!.ledger!.nft!.transfers!) {
-        nftTransfersBuffers = concatUint8List([
+        nftTransfersBuffers = concatUint8List(<Uint8List>[
           nftTransfersBuffers,
           hexToUint8List(data!.ledger!.nft!.transfers![0].nft!),
           hexToUint8List(data!.ledger!.nft!.transfers![0].to!),
@@ -410,10 +403,11 @@ class Transaction {
 
     Uint8List recipients = Uint8List(0);
     for (var recipient in data!.recipients!) {
-      recipients = concatUint8List([recipients, hexToUint8List(recipient)]);
+      recipients =
+          concatUint8List(<Uint8List>[recipients, hexToUint8List(recipient)]);
     }
 
-    return concatUint8List([
+    return concatUint8List(<Uint8List>[
       encodeInt32(version!),
       hexToUint8List(address!),
       Uint8List.fromList([txTypes[type]!]),

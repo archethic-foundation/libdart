@@ -4,15 +4,14 @@ library test.transaction_test;
 import 'dart:convert';
 import 'dart:typed_data';
 
-// Package imports:
-import 'package:test/test.dart';
-
 // Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+// Package imports:
+import 'package:test/test.dart';
 
 void main() {
   group('Transaction', () {
@@ -155,7 +154,7 @@ void main() {
           encodeInt32(content.length),
           Uint8List.fromList(utf8.encode(content)),
           //Nb of ownerships
-          Uint8List.fromList([1]),
+          Uint8List.fromList(<int>[1]),
           //Secret size
           encodeInt32(secret.length),
           Uint8List.fromList(utf8.encode(secret)),
@@ -295,7 +294,7 @@ void main() {
           encodeInt32(content.length),
           Uint8List.fromList(utf8.encode(content)),
           //Nb of ownerships
-          Uint8List.fromList([1]),
+          Uint8List.fromList(<int>[1]),
           //Secret size
           encodeInt32(secret.length),
           Uint8List.fromList(utf8.encode(secret)),
@@ -361,7 +360,7 @@ void main() {
             .addUCOTransfer(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(0.2193))
-            .addOwnership(Uint8List.fromList([0, 1, 2, 3, 4]), [
+            .addOwnership(Uint8List.fromList(<int>[0, 1, 2, 3, 4]), [
               AuthorizedKey(
                   publicKey:
                       '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',

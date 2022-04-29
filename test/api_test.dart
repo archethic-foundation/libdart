@@ -1,8 +1,5 @@
 library test.api_test;
 
-// Package imports:
-import 'package:test/test.dart';
-
 // Project imports:
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/node.dart';
@@ -10,6 +7,8 @@ import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+// Package imports:
+import 'package:test/test.dart';
 
 void main() {
   group('api', () {
@@ -101,7 +100,7 @@ void main() {
           .addUCOTransfer(
               '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
               toBigInt(10.03));
-      TransactionFee transactionFee =
+      final TransactionFee transactionFee =
           await ApiService('http://localhost:4000').getTransactionFee(tx);
       expect(
         transactionFee.fee!,

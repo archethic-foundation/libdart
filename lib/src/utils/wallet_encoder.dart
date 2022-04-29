@@ -22,7 +22,6 @@ import 'package:pointycastle/export.dart' as pc
         SHA256Digest,
         HMac;
 
-
 import 'package:elliptic/elliptic.dart' as elliptic
     show Curve, getSecp256k1, PrivateKey, PublicKey;
 
@@ -175,13 +174,14 @@ OnChainWalletData walletEncoder(String originPublicKey) {
   OnChainWalletData onChainWalletData = OnChainWalletData(
       encodedWalletKey: encodedWalletKey, encryptedWallet: encryptedWallet);
 
-  Uint8List payload = concatUint8List([
+  Uint8List payload = concatUint8List(<Uint8List>[
     hexToUint8List(onChainWalletData.encodedWalletKey!),
     hexToUint8List(onChainWalletData.encryptedWallet!)
   ]);
   Uint8List payloadLength =
       hexToUint8List(payload.lengthInBytes.toRadixString(16));
-  Uint8List addressPayload = concatUint8List([payloadLength, payload]);
+  Uint8List addressPayload =
+      concatUint8List(<Uint8List>[payloadLength, payload]);
   print('addressPayload: ' + uint8ListToHex(addressPayload));
 
   return onChainWalletData;

@@ -22,13 +22,13 @@ class TransactionFee {
   Rates? rates;
 
   factory TransactionFee.fromJson(Map<String, dynamic> json) => TransactionFee(
-        fee: json["fee"]?.toDouble(),
-        rates: Rates.fromJson(json["rates"]),
+        fee: json['fee']?.toDouble(),
+        rates: Rates.fromJson(json['rates']),
       );
 
   Map<String, dynamic> toJson() => {
-        "fee": fee,
-        "rates": rates!.toJson(),
+        'fee': fee,
+        'rates': rates!.toJson(),
       };
 }
 
@@ -42,12 +42,12 @@ class Rates {
   double? usd;
 
   factory Rates.fromJson(Map<String, dynamic> json) => Rates(
-        eur: json["eur"]?.toDouble(),
-        usd: json["usd"]?.toDouble(),
+        eur: json['eur']?.toDouble(),
+        usd: json['usd']?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
-        "eur": eur,
-        "usd": usd,
+        'eur': eur,
+        'usd': usd,
       };
 }

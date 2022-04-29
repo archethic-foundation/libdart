@@ -1,30 +1,26 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// Dart imports:
 import 'dart:convert' show utf8;
 import 'dart:math' show Random;
-
-// Package imports:
-import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
-import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
-import 'package:pinenacl/api.dart';
-import 'package:pinenacl/tweetnacl.dart' as tweetnacl show TweetNaClExt;
-import 'package:pointycastle/export.dart' show Digest;
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/crypto/aes_auth_encrypt_infos.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/crypto/secret.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-
+// Package imports:
+import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
 import 'package:crypto_keys/crypto_keys.dart' as crypto_keys
     show EncryptionResult, SymmetricKey, KeyPair, Encrypter, algorithms;
 import 'package:ecdsa/ecdsa.dart' as ecdsa
     show Signature, deterministicSign, verify;
+import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
 import 'package:elliptic/elliptic.dart' as elliptic
     show EllipticCurve, PrivateKey, PublicKey, Curve, getSecp256k1, getP256;
+import 'package:pinenacl/api.dart';
 import 'package:pinenacl/ed25519.dart' as ed25519
     show SigningKey, SignatureBase, VerifyKey, Signature;
+import 'package:pinenacl/tweetnacl.dart' as tweetnacl show TweetNaClExt;
+import 'package:pointycastle/export.dart' show Digest;
 import 'package:x25519/x25519.dart' as x25519
     show generateKeyPair, KeyPair, X25519;
 
@@ -79,7 +75,7 @@ int curveToID(String curve) {
     case 'secp256k1':
       return 2;
     default:
-      throw "Curve not supported";
+      throw 'Curve not supported';
   }
 }
 
@@ -107,9 +103,9 @@ String deriveAddress(String seed, int index,
     {String curve = 'ed25519', String hashAlgo = 'sha256'}) {
   final KeyPair keypair = deriveKeyPair(seed, index, curve: curve);
 
-  int curveID = curveToID(curve);
-  Uint8List hashedPublicKey = hash(keypair.publicKey, algo: hashAlgo);
-  return uint8ListToHex(concatUint8List([
+  final int curveID = curveToID(curve);
+  final Uint8List hashedPublicKey = hash(keypair.publicKey, algo: hashAlgo);
+  return uint8ListToHex(concatUint8List(<Uint8List>[
     Uint8List.fromList(<int>[curveID]),
     hashedPublicKey
   ]));
@@ -131,8 +127,8 @@ Uint8List hash(content, {String algo = 'sha256'}) {
     }
   }
 
-  int algoID = hashAlgoToID(algo);
-  Uint8List digest = getHashDigest(content, algo);
+  final int algoID = hashAlgoToID(algo);
+  final Uint8List digest = getHashDigest(content, algo);
 
   return concatUint8List(<Uint8List>[
     Uint8List.fromList(<int>[algoID]),
@@ -181,17 +177,17 @@ KeyPair deriveKeyPair(String seed, int index, {String curve = 'ed25519'}) {
 /// @params {int} originID Origin identification
 KeyPair generateDeterministicKeyPair(
     Uint8List pvKey, String curve, int originID) {
-  int curveID = curveToID(curve);
-  KeyPair keyPair = getKeypair(pvKey, curve);
+  final int curveID = curveToID(curve);
+  final KeyPair keyPair = getKeypair(pvKey, curve);
   return KeyPair(
-      privateKey: concatUint8List([
-        Uint8List.fromList([curveID]),
-        Uint8List.fromList([originID]),
+      privateKey: concatUint8List(<Uint8List>[
+        Uint8List.fromList(<int>[curveID]),
+        Uint8List.fromList(<int>[originID]),
         keyPair.privateKey
       ]),
-      publicKey: concatUint8List([
-        Uint8List.fromList([curveID]),
-        Uint8List.fromList([originID]),
+      publicKey: concatUint8List(<Uint8List>[
+        Uint8List.fromList(<int>[curveID]),
+        Uint8List.fromList(<int>[originID]),
         keyPair.publicKey
       ]));
 }

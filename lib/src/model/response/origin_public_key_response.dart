@@ -22,12 +22,12 @@ class OriginPublicKeyResponse {
 
   factory OriginPublicKeyResponse.fromJson(Map<String, dynamic> json) =>
       OriginPublicKeyResponse(
-        certificate: json["certificate"],
-        originPublicKey: json["originPublicKey"],
+        certificate: json['certificate'],
+        originPublicKey: json['originPublicKey'],
       );
 
   Map<String, dynamic> toJson() => {
-        "certificate": certificate,
-        "originPublicKey": originPublicKey,
+        'certificate': certificate,
+        'originPublicKey': originPublicKey,
       };
 }
