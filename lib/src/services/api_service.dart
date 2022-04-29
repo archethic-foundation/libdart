@@ -2,19 +2,20 @@
 
 // Dart imports:
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer' as dev;
-import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
-import 'package:absinthe_socket/absinthe_socket.dart';
 import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
+import 'package:archethic_lib_dart/src/model/keychain.dart';
 import 'package:archethic_lib_dart/src/model/node.dart';
+import 'package:archethic_lib_dart/src/model/ownership.dart';
 import 'package:archethic_lib_dart/src/model/response/balance_response.dart';
 import 'package:archethic_lib_dart/src/model/response/network_transactions_response.dart';
 import 'package:archethic_lib_dart/src/model/response/nodes_response.dart';
@@ -27,13 +28,13 @@ import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/transaction_status.dart';
-import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
-import 'package:archethic_lib_dart/src/utils/utils.dart' as utils;
+import 'package:archethic_lib_dart/src/utils/crypto.dart';
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 class ApiService {
   ApiService(this.endpoint);
 
-  /// [endpoint] is the HTTP URL to a ArchEthic node (acting as welcome node)
+  /// [endpoint] is the HTTP URL to a Archethic node (acting as welcome node)
   String? endpoint;
 
   /// Send a transaction to the network
@@ -64,7 +65,7 @@ class ApiService {
   }
 
   /// Query the network to find the last transaction from an address
-  /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+  /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   Future<Transaction> getLastTransaction(String address) async {
     final Completer<Transaction> _completer = Completer<Transaction>();
     TransactionLastResponse transactionLastResponse = TransactionLastResponse();
@@ -140,7 +141,7 @@ class ApiService {
   }
 
   /// Query the network to find a balance from an address
-  /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+  /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   /// Returns [Balance] represents a ledger balance. It includes: UCO: uco balance & NFT: NFT balances
   Future<Balance> fetchBalance(String address) async {
     final Completer<Balance> _completer = Completer<Balance>();
@@ -178,7 +179,7 @@ class ApiService {
   }
 
   /// Query the network to find a transaction
-  /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+  /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   /// Returns the content scalar type represents transaction content. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
   Future<String> getTransactionContent(String address) async {
     final Completer<String> _completer = Completer<String>();
@@ -221,7 +222,7 @@ class ApiService {
   }
 
   /// Query the network to find a transaction chain
-  /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+  /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   /// @param {int} The page
   /// Returns the content scalar type represents transaction content [List<Transaction>]. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
   Future<List<Transaction>> getTransactionChain(
@@ -347,7 +348,7 @@ class ApiService {
   }
 
   /// Query the network to list the transaction inputs from an address
-  /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+  /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   Future<List<TransactionInput>> getTransactionInputs(String address) async {
     final Completer<List<TransactionInput>> _completer =
         Completer<List<TransactionInput>>();
@@ -381,74 +382,8 @@ class ApiService {
     return _completer.future;
   }
 
-  /// Create a keychain and an access keychain using the initial passphrase
-  /// @param {String | Uint8List} passphrase Initial access passphrase
-  /// @param {String} originPrivateKey Origin private key
-  /// @returns Keychain transaction address
-
-  Future<String?> createKeychain(passphrase, originPrivateKey) async {
-    final Uint8List accessKeychainSeed = crypto.hash(passphrase);
-    final KeyPair publicKey =
-        crypto.deriveKeyPair(utils.uint8ListToHex(accessKeychainSeed), 0);
-
-    final Uint8List keychainSeed = Uint8List.fromList(
-        List<int>.generate(12, (int i) => Random.secure().nextInt(32)));
-    final String keychainAddress =
-        crypto.deriveAddress(utils.uint8ListToHex(keychainSeed), 0);
-
-    final Uint8List accessKeychainAesKey = Uint8List.fromList(
-        List<int>.generate(32, (int i) => Random.secure().nextInt(256)));
-
-    Transaction accessKeychainTx = Transaction(
-            type: 'keychain_access', data: Transaction.initData())
-        .addOwnership(
-            crypto.aesEncrypt(
-                keychainAddress, utils.uint8ListToHex(accessKeychainAesKey)),
-            [
-              AuthorizedKey(
-                  publicKey: utils.uint8ListToHex(publicKey.publicKey),
-                  encryptedSecretKey: utils.uint8ListToHex(crypto.ecEncrypt(
-                      publicKey.publicKey,
-                      utils.concatUint8List(<Uint8List>[
-                        Uint8List.fromList([0]),
-                        accessKeychainAesKey
-                      ]))))
-            ])
-        .build(utils.uint8ListToHex(accessKeychainSeed), 0, curve: 'P256')
-        .originSign(originPrivateKey);
-
-    KeyPair keyPair2 =
-        crypto.deriveKeyPair(utils.uint8ListToHex(keychainSeed), 0);
-
-    final Uint8List keychainAesKey = Uint8List.fromList(
-        List<int>.generate(32, (int i) => Random.secure().nextInt(256)));
-
-    Transaction keyChainTx =
-        Transaction(type: 'keychain', data: Transaction.initData())
-            .addOwnership(crypto.aesEncrypt(keychainSeed, keychainAesKey), [
-              AuthorizedKey(
-                  publicKey: utils.uint8ListToHex(publicKey.publicKey),
-                  encryptedSecretKey: utils.uint8ListToHex(
-                      crypto.ecEncrypt(keychainAesKey, publicKey.publicKey))),
-              AuthorizedKey(
-                  publicKey: utils.uint8ListToHex(keyPair2.publicKey),
-                  encryptedSecretKey: utils.uint8ListToHex(
-                      crypto.ecEncrypt(keychainAesKey, keyPair2.publicKey)))
-            ])
-            .build(utils.uint8ListToHex(keychainSeed), 0, curve: 'P256')
-            .originSign(originPrivateKey);
-
-    TransactionStatus ts1 = await sendTx(accessKeychainTx);
-    TransactionStatus ts2 = await sendTx(keyChainTx);
-    if (ts1.status == 'ok' && ts2.status == 'ok') {
-      return keyChainTx.address;
-    } else {
-      throw ('Something goes wrong !');
-    }
-  }
-
   /// Query the network to find a transaction
-  /// @param {String} The address scalar type represents a cryptographic hash used in the ArchEthic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+  /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   /// Returns all informations represent transaction content.
   Future<Transaction> getTransactionAllInfos(String address) async {
     final Completer<Transaction> _completer = Completer<Transaction>();
@@ -510,37 +445,75 @@ class ApiService {
     return _completer.future;
   }
 
-  /// Await the transaction confirmations
-  /// @param {String} address Address to await
-  /// @param {String} endpoint Node endpoint
-  /// @param {Function} handler Success handler
-  void waitConfirmations(
-    String address, {
-    onResult,
-    onError,
-    onCancel,
-    onStart,
-    onAbort,
-  }) {
-    String host =
-        Uri.parse(endpoint!).host + ':' + Uri.parse(endpoint!).port.toString();
+  /// getTransactionOwnerships
+  Future<List<Ownership>> getTransactionOwnerships(String address) async {
+    final Completer<List<Ownership>> _completer = Completer<List<Ownership>>();
 
-    AbsintheSocket _socket =
-        AbsintheSocket('ws://' + host + '/socket/websocket');
+    final Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
 
-    final String operation =
-        """subscription { transactionConfirmed(address: "$address") { nbConfirmations } }""";
+    List<Ownership> ownerships = List.empty(growable: true);
+    try {
+      String _body =
+          '{"query": "query { transaction(address: \\"$address\\") { data { ownerships { secret, authorizedPublicKeys { encryptedSecretKey, publicKey } } } } }"}';
+      dev.log('getTransactionOwnerships: requestHttp.body=' + _body);
+      final http.Response responseHttp = await http.post(
+          Uri.parse(endpoint! + '/api'),
+          body: _body,
+          headers: requestHeaders);
+      dev.log(
+          'getTransactionOwnerships: responseHttp.body=' + responseHttp.body);
+      if (responseHttp.statusCode == 200) {
+        TransactionContentResponse transactionResponse =
+            transactionContentResponseFromJson(responseHttp.body);
+        if (transactionResponse.data != null &&
+            transactionResponse.data!.transaction != null &&
+            transactionResponse.data!.transaction!.data != null) {
+          ownerships = transactionResponse.data!.transaction!.data!.ownerships!;
+        }
+      }
+    } catch (e) {
+      dev.log('getTransactionOwnerships: error=' + e.toString());
+    }
 
-    Observer _observer = Observer(
-      onAbort: onAbort,
-      onCancel: onCancel,
-      onError: onError,
-      onResult: onResult,
-      onStart: onStart,
-    );
+    _completer.complete(ownerships);
+    return _completer.future;
+  }
 
-    Notifier notifier =
-        _socket.send(GqlRequest(operation: operation), 'notifierKey');
-    notifier.observe(_observer);
+  /// Retrieve a keychain by using keychain access seed
+  /// @param {String} seed Keychain's access seed
+  Future<Keychain> getKeychain(String seed) async {
+    KeyPair keypair = deriveKeyPair(seed, 0);
+    String accessKeychainAddress = deriveAddress(seed, 1);
+
+    List<Ownership> ownerships =
+        await getTransactionOwnerships(accessKeychainAddress);
+    if (ownerships.isEmpty) {
+      throw 'Keychain doesn\'t exists';
+    }
+
+    Ownership ownership = ownerships[0];
+    AuthorizedKey authorizedPublicKey = ownership.authorizedPublicKeys!
+        .firstWhere((authKey) =>
+            authKey.publicKey!.toUpperCase() == utf8.decode(keypair.publicKey));
+
+    Uint8List aesKey =
+        ecDecrypt(authorizedPublicKey.encryptedSecretKey, keypair.privateKey);
+    Uint8List keychainAddress = aesDecrypt(ownership.secret, aesKey);
+
+    List<Ownership> ownerships2 =
+        await getTransactionOwnerships(uint8ListToHex(keychainAddress));
+    Ownership ownership2 = ownerships2[0];
+
+    AuthorizedKey authorizedPublicKey2 = ownership2.authorizedPublicKeys!
+        .firstWhere((publicKey) =>
+            publicKey.publicKey!.toUpperCase() ==
+            utf8.decode(keypair.publicKey));
+    Uint8List aesKey2 =
+        ecDecrypt(authorizedPublicKey2.encryptedSecretKey, keypair.privateKey);
+    Uint8List keychain = aesDecrypt(ownership2.secret, aesKey2);
+    return decodeKeychain(keychain);
   }
 }

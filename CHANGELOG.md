@@ -1,9 +1,12 @@
 Changelog
 =========
 
-#### Version 1.0.7 (2022-03-08)
+#### Version 1.0.7 (2022-04-29)
 * Update methods to be conform with libjs 1.4.0
 * Adapt crypto key identifiers
+* Add hashAlgo param in prepareNewNFT method
+* Change logs management
+* Add keychain creation and access
 
 #### Version 1.0.6 (2022-03-01)
 * Add default value to curve type in the address 

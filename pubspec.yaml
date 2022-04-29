@@ -10,12 +10,6 @@ environment:
 
 dependencies:
 
-  # An experimental gql Link using Phoenix Channels. Supports queries, mutations and subscriptions
-  absinthe_socket: 
-    git:
-      url: https://github.com/DarksightKellar/absinthe_socket.git
-      ref: master
-      
   # A Dart library to encode and decode various archive and compression formats.
   # archive: ^3.2.1
 
@@ -36,6 +30,9 @@ dependencies:
 
   # A composable, multi-platform, Future-based API for HTTP requests
   http: ^0.13.4
+
+  # JWK (JSON Web Key) encoding and decoding
+  jwk: ^0.1.1
 
   # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
   pinenacl: ^0.3.3

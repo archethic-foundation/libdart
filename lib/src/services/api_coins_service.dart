@@ -1,8 +1,10 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
+// Dart imports:
+import 'dart:developer' as dev;
+
 // Package imports:
 import 'package:http/http.dart' as http show Response, get;
-import 'dart:developer' as dev;
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/coins/coins_current_data_response.dart';

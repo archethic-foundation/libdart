@@ -63,7 +63,7 @@ It supports the Archethic Cryptography rules which are:
   - `curve` is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1") - default to: "ed25519"
 
   ```dart
-  import 'package:archethic_lib_dart/archethic.dart';
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
   
   KeyPair keypair = crypto.deriveKeyPair('mysuperpassphraseorseed', 0);
   // uint8ListToHex(keypair.publicKey) => 0100048cac473e46edd109c3ef59eec22b9ece9f99a2d0dce1c4ccb31ce0bacec4a9ad246744889fb7c98ea75c0f0ecd60002c07fae92f23382669ca9aff1339f44216
@@ -78,7 +78,7 @@ It supports the Archethic Cryptography rules which are:
    - `hashAlgo` is the hash algorithm to create the address (can be "sha256", "sha512", "sha3-256", "sha3-512", "blake2b") - default to "sha256"
 
    ```dart
-   import 'package:archethic_lib_dart/archethic.dart';
+   import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
    String address = crypto.deriveAddress("mysuperpassphraseorseed", 0);
    // Address: 00004195d45987f33e5dcb71edfa63438d5e6add655b216acfdd31945d58210fe5d2
@@ -91,7 +91,7 @@ It supports the Archethic Cryptography rules which are:
   - `publicKey` Public key to derive a shared secret and for whom the content must be encrypted
   
   ```dart
-  import 'package:archethic_lib_dart/archethic.dart';
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
   Uint8List cipher = crypto.ecEncrypt('dataToEncrypt' '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
   ```
@@ -103,7 +103,7 @@ It supports the Archethic Cryptography rules which are:
   - `key` Symmetric key
 
   ```dart
-  import 'package:archethic_lib_dart/archethic.dart';
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
   Uint8List cipher = crypto.aesEncrypt('dataToEncrypt' '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
   ```
@@ -157,9 +157,9 @@ It supports the Archethic Cryptography rules which are:
   - `hashAlgo` is the hash algorithm to use to generate the address (can be "sha256", "sha512", "sha3-256", "sha3-512", "bake2b") - default to "sha256"
   
   ```dart
-  import 'package:archethic_lib_dart/archethic.dart';
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
-  var tx = Transaction(type: 'transfer', data: Transaction.initData())
+  Transaction tx = Transaction(type: 'transfer', data: Transaction.initData())
     .addUCOTransfer('0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt(0.420)) 
     .build('mysuperpassphraseorseed', 0, 'P256');
   ```
@@ -170,10 +170,10 @@ It supports the Archethic Cryptography rules which are:
    - `privateKey` is hexadecimal encoding or Uint8List representing the private key to generate the origin signature to able to perform the ProofOfWork and authorize the transaction
 
   ```dart
-  import 'package:archethic_lib_dart/archethic.dart';
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
   
   final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
-  var tx = Transaction(type: 'transfer', data: Transaction.initData())
+  Transaction tx = Transaction(type: 'transfer', data: Transaction.initData())
     .addUCOTransfer('0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt((0.420)) 
     .build('mysuperpassphraseorseed', 0, 'P256') 
     .originSign(originKeypair.privateKey);
@@ -183,9 +183,9 @@ It supports the Archethic Cryptography rules which are:
   Export the transaction generated into JSON
 
    ```dart
-  import 'package:archethic_lib_dart/archethic.dart';
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
-  var tx = Transaction(type: 'transfer', data: Transaction.initData())
+  Transaction tx = Transaction(type: 'transfer', data: Transaction.initData())
     .addUCOTransfer('0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt(0.420)) 
     .build('mysuperpassphraseorseed', 0, 'P256') 
     .convertToJSON();
@@ -198,7 +198,7 @@ It supports the Archethic Cryptography rules which are:
   - `address` Transaction address (in hexadecimal)
 
   ```dart
-  import 'package:archethic_lib_dart/archethic.dart';
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
   int index = await ApiService('https://testnet.archethic.net').getTransactionIndex(
           '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
@@ -209,12 +209,134 @@ It supports the Archethic Cryptography rules which are:
   Query a node to find the public key of the shared storage node key
 
    ```dart
-  import 'package:archethic_lib_dart/archethic.dart';
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
   String storageNoncePublicKey =
           await ApiService('https://testnet.archethic.net').getStorageNoncePublicKey();
   // 00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646
   ``` 
+
+  #### getTransactionFee(tx)
+  Query a node to fetch the tx fee for a given transaction
+  
+  - `tx` Generated transaction
+  
+  ```dart
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+
+  Transaction tx = Transaction(...)
+  TransactionFee transactionFee = await ApiService('https://testnet.archethic.net').getTransactionFee(tx);
+  ```
+
+  #### getTransactionOwnerships(address)
+  Query a node to find the ownerships (secrets and authorized keys) to given transaction's address
+
+  - `address`: Transaction's address
+
+  ```dart
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+
+  String address = crypto.deriveAddress("mysuperpassphraseorseed", 0);
+  List<Ownership> ownerships = await ApiService('https://testnet.archethic.net').getTransactionOwnerships(address);
+  ```
+
+  ### Keychain / Wallet management
+
+  #### newKeychainTransaction(String seed, List<AuthorizedKey> authorizedPublicKeys, Uint8List originPrivateKey)
+  Creates a new transaction to build a keychain by embedding the on-chain encrypted wallet.
+
+  - `seed` Keychain's seed
+  - `authorizedPublicKeys` List of authorized public keys able to decrypt the wallet
+  - `originPrivateKey` Key to make the origin signature of the transaction
+
+  #### newAccessKeychainTransaction(String seed, Uint8List keychainAddress, Uint8List originPrivateKey)
+  Creates a new keychain access transaction to allow a seed and its key to access a keychain
+
+  - `seed` Keychain access's seed
+  - `keychainAddress` Keychain's tx address
+  - `originPrivateKey` Key to make the origin signature of the transaction  
+
+  #### getKeychain(seed)
+  Retrieve a keychain from the keychain access transaction and decrypt the wallet to retrieve the services associated
+
+  - `seed` Keychain access's seed
+
+  ```dart
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+
+  Keychain keychain = await ApiService('https://testnet.archethic.net').getKeychain(accessKeychainSeed);
+  ```  
+
+  Once retreived the keychain provide the following methods:
+
+  ##### deriveAddress(service, index)
+  Derive an address for the given service at the index given
+
+  - `service`: Service name to identify the derivation path to use
+  - `index`: Chain index to derive (default to 0)
+
+  ```dart
+  Keychain keychain = await ApiService('https://testnet.archethic.net').getKeychain(accessKeychainSeed);
+  Uint8List genesisUCOAddress = keychain.deriveAddress('uco', index: 0);
+  ``` 
+
+  ##### deriveKeypair(service, index)
+  Derive a keypair for the given service at the index given
+
+  - `service`: Service name to identify the derivation path to use
+  - `index`: Chain index to derive (default to 0)
+  
+  ```dart
+  Keychain keychain = await ApiService('https://testnet.archethic.net').getKeychain(accessKeychainSeed);
+  KeyPair keyPair = keychain.deriveKeypair('uco', index: 0);
+  ``` 
+
+  ##### toDID
+  Return a Decentralized Identity document from the keychain. (This is used in the transaction's content of the keychain tx)
+
+  ```dart
+  Keychain keychain = await ApiService('https://testnet.archethic.net').getKeychain(accessKeychainSeed);
+  final Map<String, dynamic> did = keychain.toDID();
+  log(did)
+  {
+    "@context": [
+       "https://www.w3.org/ns/did/v1"
+    ],
+    "id": "did:archethic:keychain_address",
+    "authentification": servicesMaterials, //list of public keys of the services
+    "verificationMethod": servicesMaterials //list of public keys of the services
+  }
+  ```
+
+  ##### addService(String name, String derivationPath, {String curve = 'ed25519', String hashAlgo = 'sha256'})
+  Add a service into the keychain
+
+  - `name`: Name of the service to add
+  - `derivationPath`: Crypto derivation path
+  - `curve`: Elliptic curve to use
+  - `hashAlgo`: Hash algo
+
+  ```dart
+  Keychain keychain = await ApiService('https://testnet.archethic.net').getKeychain(accessKeychainSeed);
+  keychain.addService("nft1", "m/650'/1'/0'");
+  log(keychain)
+  {
+    version: 1,
+    seed: "mymasterseed",
+    services: {
+      uco: {
+        derivationPath: "m/650'/0'/0'",
+        curve: "ed25519",
+        hashAlgo: "sha256"
+      },
+      nft1: {
+        derivationPath: "m/650'/1'/0'",
+        curve: "ed25519",
+        hashAlgo: "sha256"
+      }
+    }
+  }
+  ```
 
   ### Coingecko functions
   #### getCoinsResponse()

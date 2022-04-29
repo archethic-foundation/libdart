@@ -8,15 +8,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "37.0.0"
-  absinthe_socket:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: master
-      resolved-ref: "64894fdceedfe91969f8d21aaa9b3f8155133427"
-      url: "https://github.com/DarksightKellar/absinthe_socket.git"
-    source: git
-    version: "0.0.4"
   adaptive_number:
     dependency: transitive
     description:
@@ -94,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.0"
+  cryptography:
+    dependency: transitive
+    description:
+      name: cryptography
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.5"
   ecdsa:
     dependency: "direct main"
     description:
@@ -185,6 +183,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.4"
+  jwk:
+    dependency: "direct main"
+    description:
+      name: jwk
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
   lints:
     dependency: transitive
     description:
@@ -248,13 +253,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.1"
-  phoenix_wings:
-    dependency: transitive
-    description:
-      name: phoenix_wings
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   pinenacl:
     dependency: "direct main"
     description:

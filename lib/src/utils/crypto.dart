@@ -28,33 +28,91 @@ import 'package:pinenacl/ed25519.dart' as ed25519
 import 'package:x25519/x25519.dart' as x25519
     show generateKeyPair, KeyPair, X25519;
 
+const int softwareId = 1;
+
+/// Get the ID of a given hash algorithm
+/// @params {String} hashAlgo Hash algorithm
+int hashAlgoToID(String hashAlgo) {
+  switch (hashAlgo) {
+    case 'sha256':
+      return 0;
+    case 'sha512':
+      return 1;
+    case 'sha3-256':
+      return 2;
+    case 'sha3-512':
+      return 3;
+    case 'blake2b':
+      return 4;
+    default:
+      throw 'Hash algorithm not supported';
+  }
+}
+
+/// Get the hash algo name from the hash algorithm ID
+/// @param {int} ID Hash algorithm's ID
+String idToHashAlgo(int id) {
+  switch (id) {
+    case 0:
+      return 'sha256';
+    case 1:
+      return 'sha512';
+    case 2:
+      return 'sha3-256';
+    case 3:
+      return 'sha3-512';
+    case 4:
+      return 'blake2b';
+    default:
+      throw 'Hash algorithm ID not supported';
+  }
+}
+
+/// Get the ID of a given Elliptic curve
+///@params {String} curve Elliptic curve
+int curveToID(String curve) {
+  switch (curve) {
+    case 'ed25519':
+      return 0;
+    case 'P256':
+      return 1;
+    case 'secp256k1':
+      return 2;
+    default:
+      throw "Curve not supported";
+  }
+}
+
+/// Get the curve name from the curve ID
+/// @param {int} ID Curve's ID
+String idToCurve(int id) {
+  switch (id) {
+    case 0:
+      return 'ed25519';
+    case 1:
+      return 'P256';
+    case 2:
+      return 'secp256k1';
+    default:
+      throw 'Curve ID not supported';
+  }
+}
+
 /// Create a hash digest from the data with an hash algorithm identification prepending the digest
 /// @param {String} seed Keypair derivation seed
 /// @param {int} index Number to identify the order of keys to generate
 /// @param {String} curve Elliptic curve to use ("ed25519", "P256", "secp256k1")
 /// @param {String} hashAlgo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
 String deriveAddress(String seed, int index,
-    {String? curve = 'ed25519', String? hashAlgo = 'sha256'}) {
-  final KeyPair keypair = deriveKeyPair(seed, index, curve: curve!);
-  switch (curve) {
-    case 'ed25519':
-      return uint8ListToHex(concatUint8List([
-        Uint8List.fromList(<int>[0]),
-        hash(keypair.publicKey, algo: hashAlgo!)
-      ]));
-    case 'P256':
-      return uint8ListToHex(concatUint8List([
-        Uint8List.fromList(<int>[1]),
-        hash(keypair.publicKey, algo: hashAlgo!)
-      ]));
-    case 'secp256k1':
-      return uint8ListToHex(concatUint8List([
-        Uint8List.fromList(<int>[2]),
-        hash(keypair.publicKey, algo: hashAlgo!)
-      ]));
-    default:
-      throw 'Curve not supported';
-  }
+    {String curve = 'ed25519', String hashAlgo = 'sha256'}) {
+  final KeyPair keypair = deriveKeyPair(seed, index, curve: curve);
+
+  int curveID = curveToID(curve);
+  Uint8List hashedPublicKey = hash(keypair.publicKey, algo: hashAlgo);
+  return uint8ListToHex(concatUint8List([
+    Uint8List.fromList(<int>[curveID]),
+    hashedPublicKey
+  ]));
 }
 
 /// Create a hash digest from the data with an hash algorithm identification prepending the digest
@@ -73,37 +131,32 @@ Uint8List hash(content, {String algo = 'sha256'}) {
     }
   }
 
+  int algoID = hashAlgoToID(algo);
+  Uint8List digest = getHashDigest(content, algo);
+
+  return concatUint8List(<Uint8List>[
+    Uint8List.fromList(<int>[algoID]),
+    digest
+  ]);
+}
+
+Uint8List getHashDigest(content, algo) {
   switch (algo) {
     case 'sha256':
       final Digest sha256 = Digest('SHA-256');
-      return concatUint8List(<Uint8List>[
-        Uint8List.fromList(<int>[0]),
-        sha256.process(content)
-      ]);
+      return sha256.process(content);
     case 'sha512':
       final Digest sha512 = Digest('SHA-512');
-      return concatUint8List(<Uint8List>[
-        Uint8List.fromList(<int>[1]),
-        sha512.process(content)
-      ]);
+      return sha512.process(content);
     case 'sha3-256':
       final Digest sha3_256 = Digest('SHA3-256');
-      return concatUint8List(<Uint8List>[
-        Uint8List.fromList(<int>[2]),
-        sha3_256.process(content)
-      ]);
+      return sha3_256.process(content);
     case 'sha3-512':
       final Digest sha3_512 = Digest('SHA3-512');
-      return concatUint8List(<Uint8List>[
-        Uint8List.fromList(<int>[3]),
-        sha3_512.process(content)
-      ]);
+      return sha3_512.process(content);
     case 'blake2b':
       final Digest blake2b = Digest('Blake2b');
-      return concatUint8List(<Uint8List>[
-        Uint8List.fromList(<int>[4]),
-        blake2b.process(content)
-      ]);
+      return blake2b.process(content);
     default:
       throw 'Hash algorithm not supported';
   }
@@ -113,55 +166,56 @@ Uint8List hash(content, {String algo = 'sha256'}) {
 /// @param {String} seed Keypair derivation seed
 /// @param {int} index Number to identify the order of keys to generate
 /// @param {String} curve Elliptic curve to use ("P256", "secp256k1", "ed25519")
-KeyPair deriveKeyPair(String seed, int index, {String? curve = 'ed25519'}) {
+KeyPair deriveKeyPair(String seed, int index, {String curve = 'ed25519'}) {
   if (index < 0) {
     throw "index' must be a positive number";
   }
 
   final Uint8List pvBuf = derivePrivateKey(seed, index);
-  final Uint8List softwareIdBuf = Uint8List.fromList(<int>[1]);
+  return generateDeterministicKeyPair(pvBuf, curve, softwareId);
+}
 
+/// Generate a new keypair deterministically with a given private key, curve and origin id
+/// @params {Uint8List} privateKey Private key
+/// @params {String} curve Elliptic curve
+/// @params {int} originID Origin identification
+KeyPair generateDeterministicKeyPair(
+    Uint8List pvKey, String curve, int originID) {
+  int curveID = curveToID(curve);
+  KeyPair keyPair = getKeypair(pvKey, curve);
+  return KeyPair(
+      privateKey: concatUint8List([
+        Uint8List.fromList([curveID]),
+        Uint8List.fromList([originID]),
+        keyPair.privateKey
+      ]),
+      publicKey: concatUint8List([
+        Uint8List.fromList([curveID]),
+        Uint8List.fromList([originID]),
+        keyPair.publicKey
+      ]));
+}
+
+KeyPair getKeypair(Uint8List pvKey, String curve) {
   switch (curve) {
     case 'ed25519':
-      final Uint8List curveIdBuf = Uint8List.fromList(<int>[0]);
-      final ed25519.SigningKey signingKey = ed25519.SigningKey(seed: pvBuf);
+      final ed25519.SigningKey signingKey = ed25519.SigningKey(seed: pvKey);
       final Uint8List pubBuf = signingKey.publicKey.toUint8List();
-      return KeyPair(
-          privateKey:
-              concatUint8List(<Uint8List>[curveIdBuf, softwareIdBuf, pvBuf]),
-          publicKey:
-              concatUint8List(<Uint8List>[curveIdBuf, softwareIdBuf, pubBuf]));
-
+      return KeyPair(privateKey: pvKey, publicKey: pubBuf);
     case 'P256':
-      final Uint8List curveIdBuf = Uint8List.fromList(<int>[1]);
       final elliptic.EllipticCurve ec = elliptic.getP256();
       final elliptic.PrivateKey privateKey =
-          elliptic.PrivateKey.fromBytes(ec, pvBuf);
+          elliptic.PrivateKey.fromBytes(ec, pvKey);
       final elliptic.PublicKey publicKey = ec.privateToPublicKey(privateKey);
       return KeyPair(
-          privateKey:
-              concatUint8List(<Uint8List>[curveIdBuf, softwareIdBuf, pvBuf]),
-          publicKey: concatUint8List(<Uint8List>[
-            curveIdBuf,
-            softwareIdBuf,
-            hexToUint8List(publicKey.toHex())
-          ]));
-
+          privateKey: pvKey, publicKey: hexToUint8List(publicKey.toHex()));
     case 'secp256k1':
-      final Uint8List curveIdBuf = Uint8List.fromList(<int>[2]);
       final elliptic.Curve ec = elliptic.getSecp256k1();
       final elliptic.PrivateKey privateKey =
-          elliptic.PrivateKey.fromBytes(ec, pvBuf);
+          elliptic.PrivateKey.fromBytes(ec, pvKey);
       final elliptic.PublicKey publicKey = ec.privateToPublicKey(privateKey);
       return KeyPair(
-          privateKey:
-              concatUint8List(<Uint8List>[curveIdBuf, softwareIdBuf, pvBuf]),
-          publicKey: concatUint8List(<Uint8List>[
-            curveIdBuf,
-            softwareIdBuf,
-            hexToUint8List(publicKey.toHex())
-          ]));
-
+          privateKey: pvKey, publicKey: hexToUint8List(publicKey.toHex()));
     default:
       throw 'Curve not supported';
   }

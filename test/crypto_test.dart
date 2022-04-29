@@ -118,6 +118,13 @@ void main() {
         expect(crypto.ecDecrypt(cipherText, keypair.privateKey),
             'hello'.codeUnits);
       });
+      test('should encrypt blob', () {
+        final blob = Uint8List.fromList(<int>[1, 2, 3, 4, 5]);
+        final KeyPair keypair =
+            crypto.deriveKeyPair('seed', 0, curve: 'secp256k1');
+        final Uint8List cipherText = crypto.ecEncrypt(blob, keypair.publicKey);
+        expect(crypto.ecDecrypt(cipherText, keypair.privateKey), blob);
+      });
     });
   });
 
