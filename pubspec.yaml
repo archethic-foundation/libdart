@@ -6,7 +6,7 @@ homepage: https://github.com/archethic-foundation/libdart
 version: 1.0.7
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.16.2 <3.0.0'
 
 dependencies:
 
