@@ -267,7 +267,7 @@ It supports the Archethic Cryptography rules which are:
   Keychain keychain = await ApiService('https://testnet.archethic.net').getKeychain(accessKeychainSeed);
   ```  
 
-  Once retreived the keychain provide the following methods:
+  Once retrieved the keychain provide the following methods:
 
   ##### deriveAddress(service, index)
   Derive an address for the given service at the index given
