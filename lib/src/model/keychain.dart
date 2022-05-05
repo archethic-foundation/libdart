@@ -135,13 +135,13 @@ class Keychain {
   /// @param {List<AuthorizedKey>} authorizedPublicKeys List of authorized public keys able to decrypt the keychain
   /// @param {Uint8List} originPrivateKey Origin private key to attest the transaction
   Transaction newKeychainTransaction(String seed,
-      List<AuthorizedKey> authorizedPublicKeys, Uint8List originPrivateKey) {
+      List<String> authorizedPublicKeys, Uint8List originPrivateKey) {
     final Keychain keychain = Keychain(Uint8List.fromList(utf8.encode(seed)));
 
     final int aesKey = Random.secure().nextInt(32);
 
     final List<AuthorizedKey> authorizedKeys =
-        List<AuthorizedKey>.from(authorizedPublicKeys.map((AuthorizedKey key) {
+        List<AuthorizedKey>.from(authorizedPublicKeys.map((String key) {
       return {
         'publicKey': key,
         'encryptedSecretKey': crypto.ecEncrypt(aesKey, key)

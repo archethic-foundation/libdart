@@ -242,7 +242,7 @@ It supports the Archethic Cryptography rules which are:
 
   ### Keychain / Wallet management
 
-  #### newKeychainTransaction(String seed, List<AuthorizedKey> authorizedPublicKeys, Uint8List originPrivateKey)
+  #### newKeychainTransaction(String seed, List<String> authorizedPublicKeys, Uint8List originPrivateKey)
   Creates a new transaction to build a keychain by embedding the on-chain encrypted wallet.
 
   - `seed` Keychain's seed
