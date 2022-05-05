@@ -3,14 +3,11 @@
 ///
 /// This implementation is based on Official Archethic Javascript library for Node and Browser.
 import 'dart:convert';
-import 'dart:math';
 import 'dart:typed_data';
 
 // Project imports:
-import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/service.dart';
-import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 
@@ -128,58 +125,6 @@ class Keychain {
       'authentication': servicesMetadata,
       'verificationMethod': servicesMetadata
     };
-  }
-
-  /// Create a new keychain and build a transaction
-  /// @param {String} seed Keychain's seed
-  /// @param {List<AuthorizedKey>} authorizedPublicKeys List of authorized public keys able to decrypt the keychain
-  /// @param {Uint8List} originPrivateKey Origin private key to attest the transaction
-  Transaction newKeychainTransaction(String seed,
-      List<String> authorizedPublicKeys, Uint8List originPrivateKey) {
-    final Keychain keychain = Keychain(Uint8List.fromList(utf8.encode(seed)));
-
-    final int aesKey = Random.secure().nextInt(32);
-
-    final List<AuthorizedKey> authorizedKeys =
-        List<AuthorizedKey>.from(authorizedPublicKeys.map((String key) {
-      return {
-        'publicKey': key,
-        'encryptedSecretKey': crypto.ecEncrypt(aesKey, key)
-      };
-    }));
-
-    return Transaction(type: 'hosting', data: Transaction.initData())
-        .setContent(jsonEncode(keychain.toDID()))
-        .addOwnership(
-            crypto.aesEncrypt(keychain.encode(), aesKey), authorizedKeys)
-        .build(seed, 0)
-        .originSign(originPrivateKey);
-  }
-
-  /// Create a new access keychain and build a transaction
-  /// @param {String} seed Access keychain's seed
-  /// @param {Uint8List} keychainAddress Keychain's transaction address
-  /// @param {Uint8List} originPrivateKey Origin private key to attest the transaction
-  Transaction newAccessKeychainTransaction(
-      String seed, Uint8List keychainAddress, Uint8List originPrivateKey) {
-    final int aesKey = Random.secure().nextInt(32);
-
-    final KeyPair keypair = crypto.deriveKeyPair(seed, 0);
-
-    final Uint8List encryptedSecretKey =
-        crypto.ecEncrypt(aesKey, keypair.publicKey);
-
-    final List<AuthorizedKey> authorizedKeys = [
-      AuthorizedKey(
-          publicKey: utf8.decode(keypair.publicKey),
-          encryptedSecretKey: utf8.decode(encryptedSecretKey))
-    ];
-
-    return Transaction(type: 'keychain_access', data: Transaction.initData())
-        .addOwnership(
-            crypto.aesEncrypt(keychainAddress, aesKey), authorizedKeys)
-        .build(seed, 0)
-        .originSign(originPrivateKey);
   }
 }
 

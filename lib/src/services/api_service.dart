@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as dev;
+import 'dart:math';
 import 'dart:typed_data';
 
 // Project imports:
@@ -477,6 +478,52 @@ class ApiService {
 
     _completer.complete(ownerships);
     return _completer.future;
+  }
+
+  /// Create a new keychain and build a transaction
+  /// @param {String} seed Keychain's seed
+  /// @param {List<AuthorizedKey>} authorizedPublicKeys List of authorized public keys able to decrypt the keychain
+  /// @param {Uint8List} originPrivateKey Origin private key to attest the transaction
+  Transaction newKeychainTransaction(String seed,
+      List<String> authorizedPublicKeys, Uint8List originPrivateKey) {
+    final Keychain keychain = Keychain(Uint8List.fromList(utf8.encode(seed)));
+
+    final int aesKey = Random.secure().nextInt(32);
+
+    final List<AuthorizedKey> authorizedKeys =
+        List<AuthorizedKey>.from(authorizedPublicKeys.map((String key) {
+      return {'publicKey': key, 'encryptedSecretKey': ecEncrypt(aesKey, key)};
+    }));
+
+    return Transaction(type: 'hosting', data: Transaction.initData())
+        .setContent(jsonEncode(keychain.toDID()))
+        .addOwnership(aesEncrypt(keychain.encode(), aesKey), authorizedKeys)
+        .build(seed, 0)
+        .originSign(originPrivateKey);
+  }
+
+  /// Create a new access keychain and build a transaction
+  /// @param {String} seed Access keychain's seed
+  /// @param {Uint8List} keychainAddress Keychain's transaction address
+  /// @param {Uint8List} originPrivateKey Origin private key to attest the transaction
+  Transaction newAccessKeychainTransaction(
+      String seed, Uint8List keychainAddress, Uint8List originPrivateKey) {
+    final int aesKey = Random.secure().nextInt(32);
+
+    final KeyPair keypair = deriveKeyPair(seed, 0);
+
+    final Uint8List encryptedSecretKey = ecEncrypt(aesKey, keypair.publicKey);
+
+    final List<AuthorizedKey> authorizedKeys = [
+      AuthorizedKey(
+          publicKey: utf8.decode(keypair.publicKey),
+          encryptedSecretKey: utf8.decode(encryptedSecretKey))
+    ];
+
+    return Transaction(type: 'keychain_access', data: Transaction.initData())
+        .addOwnership(aesEncrypt(keychainAddress, aesKey), authorizedKeys)
+        .build(seed, 0)
+        .originSign(originPrivateKey);
   }
 
   /// Retrieve a keychain by using keychain access seed
