@@ -494,7 +494,8 @@ class ApiService {
       keychain.addService(serviceName, derivationPath);
     }
 
-    final int aesKey = Random.secure().nextInt(32);
+    final String aesKey = uint8ListToHex(Uint8List.fromList(
+        List<int>.generate(32, (int i) => Random.secure().nextInt(256))));
 
     final List<AuthorizedKey> authorizedKeys =
         List<AuthorizedKey>.from(authorizedPublicKeys.map((String key) {
@@ -514,7 +515,8 @@ class ApiService {
   /// @param {Uint8List} originPrivateKey Origin private key to attest the transaction
   Transaction newAccessKeychainTransaction(
       String seed, Uint8List keychainAddress, Uint8List originPrivateKey) {
-    final int aesKey = Random.secure().nextInt(32);
+    final String aesKey = uint8ListToHex(Uint8List.fromList(
+        List<int>.generate(32, (int i) => Random.secure().nextInt(256))));
 
     final KeyPair keypair = deriveKeyPair(seed, 0);
 
