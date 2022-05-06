@@ -498,9 +498,12 @@ class ApiService {
         List<int>.generate(32, (int i) => Random.secure().nextInt(256))));
 
     final List<AuthorizedKey> authorizedKeys =
-        List<AuthorizedKey>.from(authorizedPublicKeys.map((String key) {
-      return {'publicKey': key, 'encryptedSecretKey': ecEncrypt(aesKey, key)};
-    }));
+        List<AuthorizedKey>.empty(growable: true);
+    for (String key in authorizedPublicKeys) {
+      authorizedKeys.add(AuthorizedKey(
+          encryptedSecretKey: uint8ListToHex(ecEncrypt(aesKey, key)),
+          publicKey: key));
+    }
 
     return Transaction(type: 'hosting', data: Transaction.initData())
         .setContent(jsonEncode(keychain.toDID()))
