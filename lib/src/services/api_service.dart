@@ -484,9 +484,15 @@ class ApiService {
   /// @param {String} seed Keychain's seed
   /// @param {List<AuthorizedKey>} authorizedPublicKeys List of authorized public keys able to decrypt the keychain
   /// @param {Uint8List} originPrivateKey Origin private key to attest the transaction
+  /// @param {String} service name
+  /// @param {String} derivation path associated to service name
   Transaction newKeychainTransaction(String seed,
-      List<String> authorizedPublicKeys, Uint8List originPrivateKey) {
+      List<String> authorizedPublicKeys, Uint8List originPrivateKey,
+      {String? serviceName, String? derivationPath}) {
     final Keychain keychain = Keychain(Uint8List.fromList(utf8.encode(seed)));
+    if (serviceName!.isNotEmpty && derivationPath!.isNotEmpty) {
+      keychain.addService(serviceName, derivationPath);
+    }
 
     final int aesKey = Random.secure().nextInt(32);
 
