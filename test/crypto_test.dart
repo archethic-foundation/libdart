@@ -5,6 +5,9 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
+// Package imports:
+import 'package:test/test.dart';
+
 // Project imports:
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/on_chain_wallet_data.dart';
@@ -12,8 +15,6 @@ import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:archethic_lib_dart/src/utils/wallet_encoder.dart';
 import 'package:archethic_lib_dart/src/utils/wallet_encoder_test_case.dart';
-// Package imports:
-import 'package:test/test.dart';
 
 void main() {
   group('Crypto', () {

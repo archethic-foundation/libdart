@@ -4,14 +4,15 @@ library test.transaction_test;
 import 'dart:convert';
 import 'dart:typed_data';
 
+// Package imports:
+import 'package:test/test.dart';
+
 // Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-// Package imports:
-import 'package:test/test.dart';
 
 void main() {
   group('Transaction', () {

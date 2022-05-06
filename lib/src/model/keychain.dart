@@ -2,19 +2,21 @@
 /// Package archEthic aims to provide a easy way to create Archethic transaction and to send them over the network.
 ///
 /// This implementation is based on Official Archethic Javascript library for Node and Browser.
+
+// Dart imports:
 import 'dart:convert';
 import 'dart:typed_data';
+
+// Package imports:
+import 'package:crypto/crypto.dart' as crypto_lib show Hmac, sha512, Digest;
+import 'package:jwk/jwk.dart';
+import 'package:pointycastle/api.dart';
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/service.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-
-// Package imports:
-import 'package:crypto/crypto.dart' as crypto_lib show Hmac, sha512, Digest;
-import 'package:jwk/jwk.dart';
-import 'package:pointycastle/api.dart';
 
 const int keychainOriginId = 0;
 
