@@ -15,6 +15,7 @@ import 'package:pointycastle/api.dart';
 // Project imports:
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/service.dart';
+import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 
@@ -91,6 +92,23 @@ class Keychain {
       Uint8List.fromList(<int>[curveID]),
       Uint8List.fromList(hashedPublicKey)
     ]);
+  }
+
+  Transaction buildTransaction(
+      Transaction transaction, String serviceName, int index,
+      {String? curve = 'ed25519', String? hashAlgo = 'sha256'}) {
+    final KeyPair keypair = deriveKeypair(serviceName, index: index);
+    transaction.address =
+        uint8ListToHex(deriveAddress(serviceName, index: index + 1));
+
+    final Uint8List payloadForPreviousSignature =
+        transaction.previousSignaturePayload();
+    final Uint8List previousSignature =
+        crypto.sign(payloadForPreviousSignature, keypair.privateKey);
+
+    transaction.setPreviousSignatureAndPreviousPublicKey(
+        previousSignature, keypair.publicKey);
+    return transaction;
   }
 
   Map<String, dynamic> toDID() {

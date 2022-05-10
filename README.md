@@ -148,7 +148,7 @@ It supports the Archethic Cryptography rules which are:
   - `to` is hexadecimal encoding or Uint8List representing the transaction address (recipient)
   
   #### build(seed, index, curve, hashAlgo)
-  Generate `address`, `timestamp`, `previousPublicKey`, `previousSignature`, `originSignature` of the transaction and 
+  Generate `address`, `timestamp`, `previousPublicKey`, `previousSignature` of the transaction and 
   serialize it using a custom binary protocol.
   
   - `seed` is hexadecimal encoding or Uint8Array representing the transaction chain seed to be able to derive and generate the keys
@@ -203,6 +203,18 @@ It supports the Archethic Cryptography rules which are:
   int index = await ApiService('https://testnet.archethic.net').getTransactionIndex(
           '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
   // 0
+  ``` 
+
+  #### getLastTransaction(address)
+  Query a node to find the last transaction in the transaction chain from an address
+
+  - `address` Transaction address (in hexadecimal)
+
+  ```dart
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+
+  Transaction transaction = await ApiService('https://testnet.archethic.net').getLastTransaction(
+          '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
   ``` 
 
   #### getStorageNoncePublicKey()
@@ -269,6 +281,24 @@ It supports the Archethic Cryptography rules which are:
 
   Once retrieved the keychain provide the following methods:
 
+  ##### buildTransaction(tx, serviceName, index)
+  Generate `address`, `previousPublicKey`, `previousSignature` of the transaction and 
+  serialize it using a custom binary protocol, based on the derivation path, curve and hash algo of the service given in param.
+
+  - `tx` is an instance of `Transaction`
+  - `serviceName` is the service name to use for getting the derivation path, the curve and the hash algo
+  - `index` is the number of transactions in the chain, to generate the actual and the next public key (see the cryptography section)
+
+  Return is the signed `Transaction`. Notice that the function also sign the `Transaction` given in param, so getting the return is not mandatory
+
+  ```dart
+
+  final Transaction tx = Transaction(type: 'transfer', data: Transaction.initData()).addUCOTransfert(...);
+  final Keychain keychain = await ApiService('https://testnet.archethic.net').getKeychain(accessKeychainSeed);
+  final int index = await ApiService('https://testnet.archethic.net').getTransactionIndex(keychain.deriveAddress('uco', 0));
+  Transaction signedTx = keychain.buildTransaction(tx, 'uco', index);
+  ```
+
   ##### deriveAddress(service, index)
   Derive an address for the given service at the index given
 
@@ -291,7 +321,7 @@ It supports the Archethic Cryptography rules which are:
   KeyPair keyPair = keychain.deriveKeypair('uco', index: 0);
   ``` 
 
-  ##### toDID
+  ##### toDID()
   Return a Decentralized Identity document from the keychain. (This is used in the transaction's content of the keychain tx)
 
   ```dart
