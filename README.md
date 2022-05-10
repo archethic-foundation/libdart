@@ -383,7 +383,12 @@ It supports the Archethic Cryptography rules which are:
   }
   ```
 
-  ### Coingecko functions
+  </details>
+   <br/>
+   <details>
+   <summary>Coingecko functions</summary>
+   <br/>
+
   #### getCoinsResponse()
   Get all Archethic Coin infos with http request https://api.coingecko.com/api/v3/coins/archethic
 
@@ -398,7 +403,7 @@ It supports the Archethic Cryptography rules which are:
 
   </details>
    <br/>
-   
+
 ## Running the tests
 
 ```bash
