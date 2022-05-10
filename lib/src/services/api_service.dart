@@ -81,6 +81,40 @@ class ApiService {
           '{"query": "query {lastTransaction(address: \\"$address\\") { ' +
               Transaction.getQLFields() +
               ' } }"}';
+      dev.log('getLastTransaction: requestHttp.body=' + _body);
+      final http.Response responseHttp = await http.post(
+          Uri.parse(endpoint! + '/api'),
+          body: _body,
+          headers: requestHeaders);
+      dev.log('getLastTransaction: responseHttp.body=' + responseHttp.body);
+      if (responseHttp.statusCode == 200) {
+        transactionLastResponse =
+            transactionLastResponseFromJson(responseHttp.body);
+        if (transactionLastResponse.data != null &&
+            transactionLastResponse.data!.lastTransaction != null) {
+          lastTransaction = transactionLastResponse.data!.lastTransaction;
+        }
+      }
+    } catch (e) {
+      dev.log('getLastTransaction: error=' + e.toString());
+    }
+
+    _completer.complete(lastTransaction);
+    return _completer.future;
+  }
+
+  Future<Transaction> getTransactionIndex(String address) async {
+    final Completer<Transaction> _completer = Completer<Transaction>();
+    TransactionLastResponse transactionLastResponse = TransactionLastResponse();
+    Transaction? lastTransaction = Transaction(
+        type: '', chainLength: 0, data: Transaction.initData(), address: '');
+    final Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    try {
+      final String _body =
+          '{"query": "query {lastTransaction(address: \\"$address\\") { chainLength } }"}';
       dev.log('getTransactionIndex: requestHttp.body=' + _body);
       final http.Response responseHttp = await http.post(
           Uri.parse(endpoint! + '/api'),
