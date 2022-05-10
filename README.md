@@ -53,7 +53,9 @@ It supports the Archethic Cryptography rules which are:
     ```  
 ## API
 
-  ### Cryptographic functions
+  <details>
+  <summary>Cryptographic functions</summary>
+  <br/>
 
   #### deriveKeyPair(seed, index, curve)
   It creates a new keypair into hexadecimal format
@@ -108,7 +110,11 @@ It supports the Archethic Cryptography rules which are:
   Uint8List cipher = crypto.aesEncrypt('dataToEncrypt' '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
   ```
 
-  ### TransactionBuilding
+  </details>
+   <br/>
+   <details>
+   <summary>Transaction building</summary>
+   <br/>
   
   `new Transaction(type)` creates a new instance of the transaction
   
@@ -191,7 +197,12 @@ It supports the Archethic Cryptography rules which are:
     .convertToJSON();
   ```
   
-  ### Remote Endpoint calls
+  </details>
+   <br/>
+   <details>
+   <summary>Remote Endpoint calls</summary>
+   <br/>
+
   #### getTransactionIndex(address)
   Query a node to find the length of the chain to retrieve the transaction index
 
@@ -252,7 +263,11 @@ It supports the Archethic Cryptography rules which are:
   List<Ownership> ownerships = await ApiService('https://testnet.archethic.net').getTransactionOwnerships(address);
   ```
 
-  ### Keychain / Wallet management
+  </details>
+   <br/>
+   <details>
+   <summary>Keychain / Wallet management</summary>
+   <br/>
 
   #### newKeychainTransaction(String seed, List<String> authorizedPublicKeys, Uint8List originPrivateKey)
   Creates a new transaction to build a keychain by embedding the on-chain encrypted wallet.
@@ -281,7 +296,7 @@ It supports the Archethic Cryptography rules which are:
 
   Once retrieved the keychain provide the following methods:
 
-  ##### buildTransaction(tx, serviceName, index)
+  #### buildTransaction(tx, serviceName, index)
   Generate `address`, `previousPublicKey`, `previousSignature` of the transaction and 
   serialize it using a custom binary protocol, based on the derivation path, curve and hash algo of the service given in param.
 
@@ -299,7 +314,7 @@ It supports the Archethic Cryptography rules which are:
   Transaction signedTx = keychain.buildTransaction(tx, 'uco', index);
   ```
 
-  ##### deriveAddress(service, index)
+  #### deriveAddress(service, index)
   Derive an address for the given service at the index given
 
   - `service`: Service name to identify the derivation path to use
@@ -310,7 +325,7 @@ It supports the Archethic Cryptography rules which are:
   Uint8List genesisUCOAddress = keychain.deriveAddress('uco', index: 0);
   ``` 
 
-  ##### deriveKeypair(service, index)
+  #### deriveKeypair(service, index)
   Derive a keypair for the given service at the index given
 
   - `service`: Service name to identify the derivation path to use
@@ -321,7 +336,7 @@ It supports the Archethic Cryptography rules which are:
   KeyPair keyPair = keychain.deriveKeypair('uco', index: 0);
   ``` 
 
-  ##### toDID()
+  #### toDID()
   Return a Decentralized Identity document from the keychain. (This is used in the transaction's content of the keychain tx)
 
   ```dart
@@ -338,7 +353,7 @@ It supports the Archethic Cryptography rules which are:
   }
   ```
 
-  ##### addService(String name, String derivationPath, {String curve = 'ed25519', String hashAlgo = 'sha256'})
+  #### addService(String name, String derivationPath, {String curve = 'ed25519', String hashAlgo = 'sha256'})
   Add a service into the keychain
 
   - `name`: Name of the service to add
@@ -381,6 +396,9 @@ It supports the Archethic Cryptography rules which are:
   #### getCoinsCurrentData()
   Get Archethic Coin infos (name, price, market, ... including exchange tickers) with https://api.coingecko.com/api/v3/coins/archethic
 
+  </details>
+   <br/>
+   
 ## Running the tests
 
 ```bash
