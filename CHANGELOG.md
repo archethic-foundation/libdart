@@ -1,6 +1,14 @@
 Changelog
 =========
 
+#### Version 1.0.8 (2022-05-10)
+* Improve README readability
+* Add transaction building from the keychain
+* Distinct getLastTransaction and getTransactionIndex methods
+* Keychain management : Fix bugs (authorizedKeys alimentation, aesKey generation) 
+* Move methods newAccessKeychainTransaction & newKeychainTransaction to ApiService class
+* Add serviceName and derivationPath in newKeychainTransaction method signature
+
 #### Version 1.0.7 (2022-04-29)
 * Update methods to be conform with libjs 1.4.0
 * Adapt crypto key identifiers
