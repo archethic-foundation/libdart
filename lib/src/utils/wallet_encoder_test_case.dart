@@ -1,15 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// Dart imports:
 import 'dart:typed_data';
-
-// Package imports:
-import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/on_chain_wallet_data.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-
+// Package imports:
+import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
 import 'package:elliptic/elliptic.dart' as elliptic
     show Curve, getSecp256k1, PrivateKey, PublicKey;
 import 'package:pointycastle/export.dart' as pc
@@ -73,11 +69,10 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
 
   /// IV encrypting Onchain Wallet (SHA256(SHA256(Wallet Key)))[0:16]
   print('IV encrypting Onchain Wallet (SHA256(SHA256(Wallet Key)))[0:16]');
-  final Uint8List _walletEncryptionKeyEncrypted =
+  final Uint8List walletEncryptionKeyEncrypted =
       sha256.process(sha256.process(hexToUint8List(walletEncryptionKey)));
   final String walletEncryptionIv =
-      uint8ListToHex(_walletEncryptionKeyEncrypted.sublist(0, 16))
-          .toUpperCase();
+      uint8ListToHex(walletEncryptionKeyEncrypted.sublist(0, 16)).toUpperCase();
   print(walletEncryptionIv);
 
   /// Encryption of Encoded Wallet (AES256 CTR)
@@ -121,17 +116,17 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
       Uint8List.fromList(ecdh.computeSecret(ephemeralPrivKey, ledger));
   print(uint8ListToHex(ecdhSecret));
 
-  final Uint8List _ecdhSecretEncrypted =
+  final Uint8List ecdhSecretEncrypted =
       sha512.process(sha512.process(ecdhSecret));
 
   /// AES256 CBC Key: SHA512(SHA512(ECDH Point x))[0:32]
   print('AES256 CBC Key: SHA512(SHA512(ECDH Point x))[0:32]');
-  final String aesKey = uint8ListToHex(_ecdhSecretEncrypted.sublist(0, 32));
+  final String aesKey = uint8ListToHex(ecdhSecretEncrypted.sublist(0, 32));
   print(aesKey);
 
   /// IV: SHA512(SHA512(ECDH Point x))[32:48]
   print('IV: SHA512(SHA512(ECDH Point x))[32:48]');
-  final String iv = uint8ListToHex(_ecdhSecretEncrypted.sublist(32, 48));
+  final String iv = uint8ListToHex(ecdhSecretEncrypted.sublist(32, 48));
   print(iv);
 
   /// Encryption of Wallet Key (AES256 CBC)
@@ -154,7 +149,7 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
   /// Authentication Seed: SHA512(SHA512(ECDH Point x))[48:64]
   print('Authentication Seed: SHA512(SHA512(ECDH Point x))[48:64]');
   final String authSeed =
-      uint8ListToHex(_ecdhSecretEncrypted.sublist(48, 64)).toUpperCase();
+      uint8ListToHex(ecdhSecretEncrypted.sublist(48, 64)).toUpperCase();
   print(authSeed);
 
   /// Authentication Key: SHA256(Authentication Seed)
@@ -169,7 +164,7 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
   final pc.HMac hmac = pc.HMac(pc.SHA256Digest(), 64)
     ..init(pc.KeyParameter(authKey));
   final String authTag =
-      uint8ListToHex(hmac.process((encryptedWalletKey)).sublist(0, 16));
+      uint8ListToHex(hmac.process(encryptedWalletKey).sublist(0, 16));
   print(authTag);
 
   /// Encoding of Encrypted Wallet Key(ephemeral public key, authentication tag, encrypted wallet key):
@@ -190,16 +185,16 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
       hexToUint8List(payload.lengthInBytes.toRadixString(16));
   final Uint8List addressPayload =
       concatUint8List(<Uint8List>[payloadLength, payload]);
-  print('addressPayload: ' + uint8ListToHex(addressPayload));
+  print('addressPayload: ${uint8ListToHex(addressPayload)}');
 
   final Uint8List txHash =
       sha256.process(Uint8List.fromList('ARCHETHIC'.codeUnits));
-  print('txHash: ' + uint8ListToHex(txHash));
+  print('txHash: ${uint8ListToHex(txHash)}');
 
   payload = concatUint8List(<Uint8List>[txHash, payload]);
   payloadLength = hexToUint8List(payload.lengthInBytes.toRadixString(16));
   final Uint8List signPayload =
       concatUint8List(<Uint8List>[payloadLength, payload]);
-  print('signPayload: ' + uint8ListToHex(signPayload));
+  print('signPayload: ${uint8ListToHex(signPayload)}');
   return onChainWalletData;
 }

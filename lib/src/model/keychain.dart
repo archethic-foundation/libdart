@@ -2,15 +2,8 @@
 /// Package archEthic aims to provide a easy way to create Archethic transaction and to send them over the network.
 ///
 /// This implementation is based on Official Archethic Javascript library for Node and Browser.
-
-// Dart imports:
 import 'dart:convert';
 import 'dart:typed_data';
-
-// Package imports:
-import 'package:crypto/crypto.dart' as crypto_lib show Hmac, sha512, Digest;
-import 'package:jwk/jwk.dart';
-import 'package:pointycastle/api.dart';
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
@@ -18,13 +11,17 @@ import 'package:archethic_lib_dart/src/model/service.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+// Package imports:
+import 'package:crypto/crypto.dart' as crypto_lib show Hmac, sha512, Digest;
+import 'package:jwk/jwk.dart';
+import 'package:pointycastle/api.dart';
 
 const int keychainOriginId = 0;
 
 class Keychain {
   Keychain(this.seed, {this.version, this.services}) {
     version = 1;
-    services ??= {};
+    services ??= <String, Service>{};
   }
 
   Keychain.serviceUCO(this.seed, {this.version = 1}) {
@@ -37,8 +34,8 @@ class Keychain {
 
   void addService(String name, String derivationPath,
       {String curve = 'ed25519', String hashAlgo = 'sha256'}) {
-    services ??= {};
-    services!.addAll({
+    services ??= <String, Service>{};
+    services!.addAll(<String, Service>{
       name: Service(
           derivationPath: derivationPath, curve: curve, hashAlgo: hashAlgo)
     });
@@ -127,7 +124,7 @@ class Keychain {
             seed, service.derivationPath!, 0,
             curve: service.curve!);
 
-        servicesMetadata.add({
+        servicesMetadata.add(<String, dynamic>{
           'id': 'did:archethic:$address#key${servicesMetadata.length}',
           'type': 'JsonWebKey2020',
           'publicKeyJwk': keyToJWK(keyPair.publicKey).toJson()
@@ -137,8 +134,8 @@ class Keychain {
       }
     });
 
-    return {
-      '@context': [
+    return <String, dynamic>{
+      '@context': <String>[
         'https://www.w3.org/ns/did/v1',
       ],
       'id': 'did:archethic:$address',
@@ -183,7 +180,7 @@ Keychain decodeKeychain(Uint8List binary) {
   return keychain;
 }
 
-KeyPair deriveArchethicKeypair(seed, String derivationPath, int index,
+KeyPair deriveArchethicKeypair(dynamic seed, String derivationPath, int index,
     {String curve = 'ed25519'}) {
   // Hash the derivation path
   final Digest sha256 = Digest('SHA-256');
@@ -211,12 +208,15 @@ Jwk keyToJWK(Uint8List publicKey) {
 
   switch (curveID) {
     case 0:
-      return Jwk.fromJson(
-          {'kty': 'OKP', 'crv': 'Ed25519', 'x': base64Url.encode(key)});
+      return Jwk.fromJson(<dynamic, dynamic>{
+        'kty': 'OKP',
+        'crv': 'Ed25519',
+        'x': base64Url.encode(key)
+      });
     case 1:
       final Uint8List x = key.sublist(16);
       final Uint8List y = key.sublist(-16);
-      return Jwk.fromJson({
+      return Jwk.fromJson(<dynamic, dynamic>{
         'kty': 'EC',
         'crv': 'P-256',
         'x': base64Url.encode(x),
@@ -225,7 +225,7 @@ Jwk keyToJWK(Uint8List publicKey) {
     case 2:
       final Uint8List x = key.sublist(16);
       final Uint8List y = key.sublist(-16);
-      return Jwk.fromJson({
+      return Jwk.fromJson(<dynamic, dynamic>{
         'kty': 'EC',
         'crv': 'secp256k1',
         'x': base64Url.encode(x),

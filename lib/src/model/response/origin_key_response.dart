@@ -28,7 +28,7 @@ class OriginKeyResponse {
         encryptedSecretKey: json['encrypted_secret_key'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'encrypted_origin_private_keys': encryptedOriginPrivateKeys,
         'encrypted_secret_key': encryptedSecretKey,
       };

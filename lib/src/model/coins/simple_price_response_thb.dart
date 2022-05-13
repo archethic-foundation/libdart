@@ -25,7 +25,7 @@ class SimplePriceThbResponse {
 
   Archethic? archethic;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'archethic': archethic!.toJson(),
       };
 }
@@ -41,7 +41,7 @@ class Archethic {
 
   double? thb;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'thb': thb,
       };
 }

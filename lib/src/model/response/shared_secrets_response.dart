@@ -29,13 +29,14 @@ class SharedSecretsResponse {
             json['data'] == null ? null : SharedSecrets.fromJson(json['data']),
         errors: json['errors'] == null
             ? null
-            : List<Errors>.from(json['errors'].map((x) => Errors.fromJson(x))),
+            : List<Errors>.from(
+                json['errors'].map((dynamic x) => Errors.fromJson(x))),
       );
 
   SharedSecrets? data;
   List<Errors>? errors;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'data': data!.toJson(),
         'errors': List<dynamic>.from(errors!.map((Errors x) => x.toJson())),
       };

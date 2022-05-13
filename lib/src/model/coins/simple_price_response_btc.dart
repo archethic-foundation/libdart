@@ -25,7 +25,7 @@ class SimplePriceBtcResponse {
 
   Archethic? archethic;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'archethic': archethic!.toJson(),
       };
 }
@@ -41,7 +41,7 @@ class Archethic {
 
   double? btc;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'btc': btc,
       };
 }

@@ -4,15 +4,14 @@ library test.transaction_test;
 import 'dart:convert';
 import 'dart:typed_data';
 
-// Package imports:
-import 'package:test/test.dart';
-
 // Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+// Package imports:
+import 'package:test/test.dart';
 
 void main() {
   group('Transaction', () {
@@ -48,22 +47,24 @@ void main() {
                 type: 'transfer', data: Transaction.initData())
             .addOwnership(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
-                [
+                <AuthorizedKey>[
               AuthorizedKey(
                   publicKey:
                       '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                   encryptedSecretKey:
                       '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
             ]).build('seed', 0, curve: 'P256');
-        final parsedTx = json.decode(tx.convertToJSON());
-        expect(parsedTx['data']['ownerships'][0]['authorizedKey'], [
-          {
-            'publicKey':
-                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-            'encryptedSecretKey':
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'
-          }
-        ]);
+        final dynamic parsedTx = json.decode(tx.convertToJSON());
+        expect(
+            parsedTx['data']['ownerships'][0]['authorizedKey'],
+            <Map<String, String>>[
+              <String, String>{
+                'publicKey':
+                    '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                'encryptedSecretKey':
+                    '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'
+              }
+            ]);
 
         expect(tx.data!.ownerships![0].secret!,
             '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
@@ -118,7 +119,7 @@ void main() {
         const String secret = 'mysecret';
         final Transaction tx = Transaction(
                 type: 'transfer', data: Transaction.initData())
-            .addOwnership(secret, [
+            .addOwnership(secret, <AuthorizedKey>[
               AuthorizedKey(
                   publicKey:
                       '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
@@ -258,7 +259,7 @@ void main() {
         const String secret = 'mysecret';
         final Transaction tx = Transaction(
                 type: 'transfer', data: Transaction.initData())
-            .addOwnership(secret, [
+            .addOwnership(secret, <AuthorizedKey>[
               AuthorizedKey(
                   publicKey:
                       '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
@@ -361,7 +362,8 @@ void main() {
             .addUCOTransfer(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(0.2193))
-            .addOwnership(Uint8List.fromList(<int>[0, 1, 2, 3, 4]), [
+            .addOwnership(
+                Uint8List.fromList(<int>[0, 1, 2, 3, 4]), <AuthorizedKey>[
               AuthorizedKey(
                   publicKey:
                       '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
@@ -371,7 +373,7 @@ void main() {
             .build('seed', 0)
             .originSign(originKeypair.privateKey);
 
-        final parsedTx = json.decode(tx.convertToJSON());
+        final dynamic parsedTx = json.decode(tx.convertToJSON());
 
         final Uint8List previousSig = crypto.sign(
             tx.previousSignaturePayload(), transactionKeyPair.privateKey);
@@ -384,15 +386,18 @@ void main() {
             uint8ListToHex(transactionKeyPair.publicKey));
         expect(parsedTx['previousSignature'], uint8ListToHex(previousSig));
         expect(parsedTx['originSignature'], uint8ListToHex(originSig));
-        expect(parsedTx['data']['ownerships'][0]['authorizedKey'], [
-          {
-            'publicKey':
-                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-            'encryptedSecretKey':
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'
-          }
-        ]);
-        expect(parsedTx['data']['ledger']['uco']['transfers'][0], {
+        expect(
+            parsedTx['data']['ownerships'][0]['authorizedKey'],
+            <Map<String, String>>[
+              <String, String>{
+                'publicKey':
+                    '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                'encryptedSecretKey':
+                    '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'
+              }
+            ]);
+        expect(
+            parsedTx['data']['ledger']['uco']['transfers'][0], <String, Object>{
           'to':
               '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
           'amount': toBigInt(0.2193).toInt()

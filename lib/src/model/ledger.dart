@@ -19,7 +19,7 @@ class Ledger {
         uco: json['uco'] == null ? null : UCOLedger.fromJson(json['uco']),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'nft': nft!.toJson(),
         'uco': uco!.toJson(),
       };

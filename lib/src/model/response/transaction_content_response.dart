@@ -30,13 +30,14 @@ class TransactionContentResponse {
             : TransactionContentResponseData.fromJson(json['data']),
         errors: json['errors'] == null
             ? null
-            : List<Errors>.from(json['errors'].map((x) => Errors.fromJson(x))),
+            : List<Errors>.from(
+                json['errors'].map((dynamic x) => Errors.fromJson(x))),
       );
 
   TransactionContentResponseData? data;
   List<Errors>? errors;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'data': data!.toJson(),
         'errors': List<dynamic>.from(errors!.map((Errors x) => x.toJson())),
       };
@@ -56,7 +57,7 @@ class TransactionContentResponseData {
 
   Transaction? transaction;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'transaction': transaction!.toJson(),
       };
 }

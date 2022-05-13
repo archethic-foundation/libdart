@@ -25,7 +25,7 @@ class SimplePriceMxnResponse {
 
   Archethic? archethic;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'archethic': archethic!.toJson(),
       };
 }
@@ -41,7 +41,7 @@ class Archethic {
 
   double? mxn;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'mxn': mxn,
       };
 }

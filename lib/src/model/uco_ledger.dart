@@ -15,10 +15,10 @@ class UCOLedger {
         transfers: json['transfers'] == null
             ? null
             : List<UCOTransfer>.from(
-                json['transfers'].map((x) => UCOTransfer.fromJson(x))),
+                json['transfers'].map((dynamic x) => UCOTransfer.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'transfers':
             List<dynamic>.from(transfers!.map((UCOTransfer x) => x.toJson())),
       };

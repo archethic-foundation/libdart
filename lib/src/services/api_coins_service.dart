@@ -1,10 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// Dart imports:
 import 'dart:developer' as dev;
-
-// Package imports:
-import 'package:http/http.dart' as http show Response, get;
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/coins/coins_current_data_response.dart';
@@ -49,11 +44,14 @@ import 'package:archethic_lib_dart/src/model/coins/simple_price_response_twd.dar
 import 'package:archethic_lib_dart/src/model/coins/simple_price_response_usd.dart';
 import 'package:archethic_lib_dart/src/model/coins/simple_price_response_zar.dart';
 
+// Package imports:
+import 'package:http/http.dart' as http show Response, get;
+
 class ApiCoinsService {
   /// Get Archethic Coin info
   Future<CoinsResponse> getCoinsResponse() async {
     CoinsResponse? coinsResponse;
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json'
     };
 
@@ -75,7 +73,7 @@ class ApiCoinsService {
   /// @param {int} nbDays
   Future<CoinsPriceResponse> getCoinsChart(String currency, int nbDays) async {
     CoinsPriceResponse? coinsPriceResponse;
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json'
     };
 
@@ -98,7 +96,7 @@ class ApiCoinsService {
   Future<SimplePriceResponse> getSimplePrice(String currency) async {
     final SimplePriceResponse simplePriceResponse = SimplePriceResponse();
     simplePriceResponse.currency = currency;
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json'
     };
 
@@ -344,7 +342,7 @@ class ApiCoinsService {
   /// Get Archethic Coin infos (name, price, market, ... including exchange tickers)
   Future<CoinsCurrentDataResponse> getCoinsCurrentData() async {
     CoinsCurrentDataResponse? coinsCurrentDataResponse;
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json'
     };
 

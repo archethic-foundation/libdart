@@ -29,7 +29,7 @@ class TransactionMovement {
         type: json['type'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'amount': amount,
         'nftAddress': nftAddress,
         'to': to,

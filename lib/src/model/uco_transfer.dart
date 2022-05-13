@@ -19,7 +19,7 @@ class UCOTransfer {
         to: json['to'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'amount': amount,
         'to': to,
       };

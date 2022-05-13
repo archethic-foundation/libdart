@@ -25,7 +25,7 @@ class TransactionStatus {
         status: json['status'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'status': status,
       };
 }

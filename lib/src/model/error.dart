@@ -18,14 +18,14 @@ class Error {
         locations: json['locations'] == null
             ? null
             : List<Location>.from(
-                json['locations'].map((x) => Location.fromJson(x))),
+                json['locations'].map((dynamic x) => Location.fromJson(x))),
         message: json['message'],
         path: json['path'] == null
             ? null
-            : List<String>.from(json['path'].map((x) => x)),
+            : List<String>.from(json['path'].map((dynamic x) => x)),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'locations':
             List<dynamic>.from(locations!.map((Location x) => x.toJson())),
         'message': message,

@@ -15,10 +15,10 @@ class NFTLedger {
         transfers: json['transfers'] == null
             ? null
             : List<NFTTransfer>.from(
-                json['transfers'].map((x) => NFTTransfer.fromJson(x))),
+                json['transfers'].map((dynamic x) => NFTTransfer.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'transfers':
             List<dynamic>.from(transfers!.map((NFTTransfer x) => x.toJson())),
       };

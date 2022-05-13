@@ -27,7 +27,7 @@ class OracleUcoPrice {
         uco: Uco.fromJson(json['uco']),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'uco': uco!.toJson(),
       };
 }

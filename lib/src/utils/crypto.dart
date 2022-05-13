@@ -1,15 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// Dart imports:
 import 'dart:convert' show utf8;
 import 'dart:math' show Random;
-
-// Package imports:
-import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
-import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
-import 'package:pinenacl/api.dart';
-import 'package:pinenacl/tweetnacl.dart' as tweetnacl show TweetNaClExt;
-import 'package:pointycastle/export.dart' show Digest;
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/crypto/aes_auth_encrypt_infos.dart';
@@ -17,14 +8,20 @@ import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/crypto/secret.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 
+// Package imports:
+import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
 import 'package:crypto_keys/crypto_keys.dart' as crypto_keys
-    show EncryptionResult, SymmetricKey, KeyPair, Encrypter, algorithms;
+    show EncryptionResult, SymmetricKey, KeyPair, Encrypter, algorithms, Key;
 import 'package:ecdsa/ecdsa.dart' as ecdsa
     show Signature, deterministicSign, verify;
+import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
 import 'package:elliptic/elliptic.dart' as elliptic
     show EllipticCurve, PrivateKey, PublicKey, Curve, getSecp256k1, getP256;
+import 'package:pinenacl/api.dart';
 import 'package:pinenacl/ed25519.dart' as ed25519
     show SigningKey, SignatureBase, VerifyKey, Signature;
+import 'package:pinenacl/tweetnacl.dart' as tweetnacl show TweetNaClExt;
+import 'package:pointycastle/export.dart' show Digest;
 import 'package:x25519/x25519.dart' as x25519
     show generateKeyPair, KeyPair, X25519;
 
@@ -118,7 +115,7 @@ String deriveAddress(String seed, int index,
 /// Create a hash digest from the data with an hash algorithm identification prepending the digest
 /// @param {String | Uint8List} content Data to hash (string or buffer)
 /// @param {String} algo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
-Uint8List hash(content, {String algo = 'sha256'}) {
+Uint8List hash(dynamic content, {String algo = 'sha256'}) {
   if (content is! Uint8List && content is! String) {
     throw "'content' must be a string or Uint8List";
   }
@@ -140,7 +137,7 @@ Uint8List hash(content, {String algo = 'sha256'}) {
   ]);
 }
 
-Uint8List getHashDigest(content, algo) {
+Uint8List getHashDigest(dynamic content, dynamic algo) {
   switch (algo) {
     case 'sha256':
       final Digest sha256 = Digest('SHA-256');
@@ -224,7 +221,7 @@ KeyPair getKeypair(Uint8List pvKey, String curve) {
 /// Sign the data
 /// @param {String | Uint8List} data Data to sign
 /// @param {String | Uint8List} privateKey Private key to use to sign the data
-Uint8List sign(data, privateKey) {
+Uint8List sign(dynamic data, dynamic privateKey) {
   if (data is! Uint8List && data is! String) {
     throw "'data' must be a string or Uint8List";
   }
@@ -279,7 +276,7 @@ Uint8List sign(data, privateKey) {
   }
 }
 
-bool verify(sig, data, publicKey) {
+bool verify(dynamic sig, dynamic data, dynamic publicKey) {
   if (sig is! Uint8List && sig is! String) {
     throw "'sig' must be a string or Uint8List";
   }
@@ -350,7 +347,7 @@ bool verify(sig, data, publicKey) {
 /// Encrypt a data for a given public key using ECIES algorithm
 /// @param {String | Uint8List} data Data to encrypt
 /// @param {String | Uint8List} publicKey Public key for the shared secret encryption
-Uint8List ecEncrypt(data, publicKey) {
+Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
   if (data is! Uint8List && data is! String) {
     throw "'data' must be a string or Uint8List";
   }
@@ -442,7 +439,7 @@ Uint8List ecEncrypt(data, publicKey) {
 /// Decrypt a ciphertext for a given private key using ECIES algorithm
 /// @param {String | Uint8List} ciphertext Ciphertext to decrypt
 /// @param {String | Uint8List} privateKey Private key for the shared secret encryption
-Uint8List ecDecrypt(cipherText, privateKey) {
+Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
   if (cipherText is! Uint8List && cipherText is! String) {
     throw "'cipherText' must be a string or Uint8List";
   }
@@ -526,7 +523,7 @@ Uint8List ecDecrypt(cipherText, privateKey) {
 /// Encrypt a data for a given public key using AES algorithm
 /// @param {String | Uint8List} data Data to encrypt
 /// @param {String | Uint8List} key Symmetric key
-Uint8List aesEncrypt(data, key) {
+Uint8List aesEncrypt(dynamic data, dynamic key) {
   if (data is! Uint8List && data is! String) {
     throw "'data' must be a string or Uint8List";
   }
@@ -555,7 +552,7 @@ Uint8List aesEncrypt(data, key) {
       crypto_keys.SymmetricKey(keyValue: Uint8List.fromList(key)));
   final Uint8List iv = Uint8List.fromList(
       List<int>.generate(12, (int i) => Random.secure().nextInt(256)));
-  final crypto_keys.Encrypter encrypter = keyPair.publicKey!
+  final crypto_keys.Encrypter<crypto_keys.Key> encrypter = keyPair.publicKey!
       .createEncrypter(crypto_keys.algorithms.encryption.aes.gcm);
   final crypto_keys.EncryptionResult v =
       encrypter.encrypt(data, initializationVector: iv);
@@ -565,7 +562,7 @@ Uint8List aesEncrypt(data, key) {
   return result;
 }
 
-Uint8List aesDecrypt(cipherText, key) {
+Uint8List aesDecrypt(dynamic cipherText, dynamic key) {
   if (cipherText is! Uint8List && cipherText is! String) {
     throw "'cipherText' must be a string or Uint8List";
   }
@@ -595,7 +592,7 @@ Uint8List aesDecrypt(cipherText, key) {
   final Uint8List iv = cipherText.sublist(0, 12);
   final Uint8List tag = cipherText.sublist(12, 12 + 16);
   final Uint8List encrypted = cipherText.sublist(28, cipherText.length);
-  final crypto_keys.Encrypter encrypter = keyPair.privateKey!
+  final crypto_keys.Encrypter<crypto_keys.Key> encrypter = keyPair.privateKey!
       .createEncrypter(crypto_keys.algorithms.encryption.aes.gcm);
   final Uint8List decrypted = encrypter.decrypt(crypto_keys.EncryptionResult(
       encrypted,
@@ -605,7 +602,7 @@ Uint8List aesDecrypt(cipherText, key) {
   return decrypted;
 }
 
-Uint8List derivePrivateKey(seed, int index) {
+Uint8List derivePrivateKey(dynamic seed, int index) {
   if (seed is String) {
     if (isHex(seed)) {
       seed = hexToUint8List(seed);
@@ -632,7 +629,7 @@ Uint8List derivePrivateKey(seed, int index) {
   return hmacBuf;
 }
 
-Secret deriveSecret(sharedKey) {
+Secret deriveSecret(dynamic sharedKey) {
   if (sharedKey is! Uint8List && sharedKey is! String) {
     throw "'sharedKey' must be a string or Uint8List";
   }
@@ -664,7 +661,7 @@ AesAuthEncryptInfos aesAuthEncrypt(
   final crypto_keys.KeyPair keyPair =
       crypto_keys.KeyPair.symmetric(crypto_keys.SymmetricKey(keyValue: aesKey));
 
-  final crypto_keys.Encrypter encrypter = keyPair.publicKey!
+  final crypto_keys.Encrypter<crypto_keys.Key> encrypter = keyPair.publicKey!
       .createEncrypter(crypto_keys.algorithms.encryption.aes.gcm);
 
   final crypto_keys.EncryptionResult v =
@@ -678,7 +675,7 @@ Uint8List aesAuthDecrypt(
   final crypto_keys.KeyPair keyPair =
       crypto_keys.KeyPair.symmetric(crypto_keys.SymmetricKey(keyValue: aesKey));
 
-  final crypto_keys.Encrypter encrypter = keyPair.publicKey!
+  final crypto_keys.Encrypter<crypto_keys.Key> encrypter = keyPair.publicKey!
       .createEncrypter(crypto_keys.algorithms.encryption.aes.gcm);
 
   final Uint8List decrypted = encrypter.decrypt(crypto_keys.EncryptionResult(

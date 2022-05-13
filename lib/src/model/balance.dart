@@ -20,11 +20,11 @@ class Balance {
         nft: json['nft'] == null
             ? null
             : List<NftBalance>.from(
-                json['nft'].map((x) => NftBalance.fromJson(x))),
+                json['nft'].map((dynamic x) => NftBalance.fromJson(x))),
         uco: json['uco']?.toDouble(),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'nft': List<dynamic>.from(nft!.map((NftBalance x) => x.toJson())),
         'uco': uco,
       };

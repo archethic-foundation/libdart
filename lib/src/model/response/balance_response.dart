@@ -30,13 +30,14 @@ class BalanceResponse {
             : BalanceResponseData.fromJson(json['data']),
         errors: json['errors'] == null
             ? null
-            : List<Errors>.from(json['errors'].map((x) => Errors.fromJson(x))),
+            : List<Errors>.from(
+                json['errors'].map((dynamic x) => Errors.fromJson(x))),
       );
 
   BalanceResponseData? data;
   List<Errors>? errors;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'data': data!.toJson(),
         'errors': List<dynamic>.from(errors!.map((Errors x) => x.toJson())),
       };
@@ -55,7 +56,7 @@ class BalanceResponseData {
 
   Balance? balance;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'balance': balance!.toJson(),
       };
 }

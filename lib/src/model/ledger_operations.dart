@@ -31,19 +31,19 @@ class LedgerOperations {
         fee: json['fee']?.toDouble(),
         nodeMovements: json['nodeMovements'] == null
             ? null
-            : List<NodeMovement>.from(
-                json['nodeMovements'].map((x) => NodeMovement.fromJson(x))),
+            : List<NodeMovement>.from(json['nodeMovements']
+                .map((dynamic x) => NodeMovement.fromJson(x))),
         transactionMovements: json['transactionMovements'] == null
             ? null
             : List<TransactionMovement>.from(json['transactionMovements']
-                .map((x) => TransactionMovement.fromJson(x))),
+                .map((dynamic x) => TransactionMovement.fromJson(x))),
         unspentOutputs: json['unspentOutputs'] == null
             ? null
-            : List<UnspentOutputs>.from(
-                json['unspentOutputs'].map((x) => UnspentOutputs.fromJson(x))),
+            : List<UnspentOutputs>.from(json['unspentOutputs']
+                .map((dynamic x) => UnspentOutputs.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'fee': fee,
         'nodeMovements': List<dynamic>.from(
             nodeMovements!.map((NodeMovement x) => x.toJson())),

@@ -42,7 +42,7 @@ class Node {
   int? enrollmentDate;
   int? authorizationDate;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'authorized': authorized,
         'available': available,
         'averageAvailability': averageAvailability,

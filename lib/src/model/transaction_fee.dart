@@ -26,7 +26,7 @@ class TransactionFee {
         rates: Rates.fromJson(json['rates']),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'fee': fee,
         'rates': rates!.toJson(),
       };
@@ -46,7 +46,7 @@ class Rates {
         usd: json['usd']?.toDouble(),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'eur': eur,
         'usd': usd,
       };

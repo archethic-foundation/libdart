@@ -35,14 +35,14 @@ class Data {
         content: json['content'],
         ownerships: json['ownerships'] == null
             ? null
-            : List<Ownership>.from(json['ownerships'].map((x) => x)),
+            : List<Ownership>.from(json['ownerships'].map((dynamic x) => x)),
         ledger: json['ledger'] == null ? null : Ledger.fromJson(json['ledger']),
         recipients: json['recipients'] == null
             ? null
-            : List<String>.from(json['recipients'].map((x) => x)),
+            : List<String>.from(json['recipients'].map((dynamic x) => x)),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'code': code,
         'content': content,
         'ownerships': List<dynamic>.from(ownerships!.map((Ownership x) => x)),

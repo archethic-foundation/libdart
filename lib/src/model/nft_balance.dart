@@ -19,7 +19,7 @@ class NftBalance {
         amount: json['amount']?.toDouble(),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'address': address,
         'amount': amount,
       };

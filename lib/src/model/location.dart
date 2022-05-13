@@ -15,7 +15,7 @@ class Location {
         line: json['line'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'column': column,
         'line': line,
       };

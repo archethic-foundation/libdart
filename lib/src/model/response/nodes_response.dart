@@ -28,13 +28,14 @@ class NodesResponse {
             : NodesResponseData.fromJson(json['data']),
         errors: json['errors'] == null
             ? null
-            : List<Errors>.from(json['errors'].map((x) => Errors.fromJson(x))),
+            : List<Errors>.from(
+                json['errors'].map((dynamic x) => Errors.fromJson(x))),
       );
 
   NodesResponseData? data;
   List<Errors>? errors;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'data': data!.toJson(),
         'errors': List<dynamic>.from(errors!.map((Errors x) => x.toJson())),
       };
@@ -49,12 +50,13 @@ class NodesResponseData {
       NodesResponseData(
         nodes: json['nodes'] == null
             ? null
-            : List<Node>.from(json['nodes'].map((x) => Node.fromJson(x))),
+            : List<Node>.from(
+                json['nodes'].map((dynamic x) => Node.fromJson(x))),
       );
 
   List<Node>? nodes;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'nodes': List<dynamic>.from(nodes!.map((Node x) => x.toJson())),
       };
 }

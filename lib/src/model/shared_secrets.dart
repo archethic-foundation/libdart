@@ -14,7 +14,7 @@ class SharedSecrets {
         storageNoncePublicKey: json['storageNoncePublicKey'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'storageNoncePublicKey': storageNoncePublicKey,
       };
 }

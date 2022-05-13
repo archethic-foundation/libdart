@@ -42,7 +42,7 @@ class ApiService {
   Future<TransactionStatus> sendTx(Transaction transaction) async {
     final Completer<TransactionStatus> completer =
         Completer<TransactionStatus>();
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
@@ -71,7 +71,7 @@ class ApiService {
     TransactionLastResponse transactionLastResponse = TransactionLastResponse();
     Transaction? lastTransaction = Transaction(
         type: '', chainLength: 0, data: Transaction.initData(), address: '');
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
@@ -105,7 +105,7 @@ class ApiService {
     TransactionLastResponse transactionLastResponse = TransactionLastResponse();
     Transaction? lastTransaction = Transaction(
         type: '', chainLength: 0, data: Transaction.initData(), address: '');
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
@@ -140,7 +140,7 @@ class ApiService {
     String storageNoncePublicKey = '';
     SharedSecretsResponse sharedSecretsResponse = SharedSecretsResponse();
 
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
@@ -180,7 +180,7 @@ class ApiService {
     BalanceResponse? balanceResponse;
     Balance? balance = Balance();
 
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
@@ -219,7 +219,7 @@ class ApiService {
     TransactionContentResponse? transactionContentResponse =
         TransactionContentResponse();
 
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
@@ -265,7 +265,7 @@ class ApiService {
         TransactionChainResponse();
     List<Transaction> transactionChain =
         List<Transaction>.empty(growable: true);
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
@@ -304,7 +304,7 @@ class ApiService {
     NodesResponse nodesResponse = NodesResponse();
     List<Node> nodesList = List<Node>.empty(growable: true);
 
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
@@ -343,7 +343,7 @@ class ApiService {
         NetworkTransactionsResponse();
     List<Transaction> transactionsList =
         List<Transaction>.empty(growable: true);
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
@@ -384,7 +384,7 @@ class ApiService {
         List<TransactionInput>.empty(growable: true);
     TransactionInputsResponse transactionInputsResponse =
         TransactionInputsResponse();
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
@@ -417,7 +417,7 @@ class ApiService {
     final Completer<Transaction> completer = Completer<Transaction>();
     Transaction? transaction;
 
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
@@ -453,7 +453,7 @@ class ApiService {
   /// @param {Object} tx Transaction to estimate fees
   Future<TransactionFee> getTransactionFee(Transaction transaction) async {
     final Completer<TransactionFee> completer = Completer<TransactionFee>();
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
@@ -476,7 +476,7 @@ class ApiService {
   Future<List<Ownership>> getTransactionOwnerships(String address) async {
     final Completer<List<Ownership>> completer = Completer<List<Ownership>>();
 
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
@@ -554,7 +554,7 @@ class ApiService {
 
     final Uint8List encryptedSecretKey = ecEncrypt(aesKey, keypair.publicKey);
 
-    final List<AuthorizedKey> authorizedKeys = [
+    final List<AuthorizedKey> authorizedKeys = <AuthorizedKey>[
       AuthorizedKey(
           publicKey: uint8ListToHex(keypair.publicKey),
           encryptedSecretKey: uint8ListToHex(encryptedSecretKey))
@@ -608,12 +608,13 @@ class ApiService {
       {String authorizedPublicKey = kOriginPublicKey,
       String privateKey = kOriginPrivateKey}) async {
     final Completer<String> completer = Completer<String>();
-    final Map<String, String> requestHeaders = {
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
 
-    final String body = jsonEncode({'origin_public_key': authorizedPublicKey});
+    final String body =
+        jsonEncode(<String, String>{'origin_public_key': authorizedPublicKey});
     final http.Response responseHttp = await http.post(
         Uri.parse('${endpoint!}/api/origin_key'),
         body: body,

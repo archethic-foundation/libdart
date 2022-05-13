@@ -13,10 +13,11 @@ class Errors {
   factory Errors.fromJson(Map<String, dynamic> json) => Errors(
         errors: json['errors'] == null
             ? null
-            : List<Error>.from(json['errors'].map((x) => Error.fromJson(x))),
+            : List<Error>.from(
+                json['errors'].map((dynamic x) => Error.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'errors': List<dynamic>.from(errors!.map((Error x) => x.toJson())),
       };
 }

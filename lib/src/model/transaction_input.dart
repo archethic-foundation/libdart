@@ -40,7 +40,7 @@ class TransactionInput {
         type: json['type'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'amount': amount,
         'from': from,
         'nftAddress': nftAddress,

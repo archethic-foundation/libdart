@@ -39,7 +39,7 @@ class ValidationStamp {
         timestamp: json['timestamp'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'ledgerOperations': ledgerOperations!.toJson(),
         'proofOfIntegrity': proofOfIntegrity,
         'proofOfWork': proofOfWork,

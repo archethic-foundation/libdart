@@ -15,7 +15,7 @@ class Service {
         hashAlgo: json['hashAlgo'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'derivationPath': derivationPath,
         'curve': curve,
         'hashAlgo': hashAlgo,

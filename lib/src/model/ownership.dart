@@ -17,11 +17,11 @@ class Ownership {
         authorizedPublicKeys: json['authorizedPublicKeys'] == null
             ? null
             : List<AuthorizedKey>.from(
-                json['authorizedPublicKeys'].map((x) => x)),
+                json['authorizedPublicKeys'].map((dynamic x) => x)),
         secret: json['secret'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'authorizedPublicKeys': List<dynamic>.from(
             authorizedPublicKeys!.map((AuthorizedKey x) => x)),
         'secret': secret,

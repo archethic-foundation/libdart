@@ -19,7 +19,7 @@ class CrossValidationStamp {
         signature: json['signature'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'nodePublicKey': nodePublicKey,
         'signature': signature,
       };

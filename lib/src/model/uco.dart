@@ -14,7 +14,7 @@ class Uco {
         usd: json['usd']?.toDouble(),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'eur': eur,
         'usd': usd,
       };

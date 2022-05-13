@@ -27,13 +27,14 @@ class TransactionsResponse {
             : TransactionsResponseData.fromJson(json['data']),
         errors: json['errors'] == null
             ? null
-            : List<Errors>.from(json['errors'].map((x) => Errors.fromJson(x))),
+            : List<Errors>.from(
+                json['errors'].map((dynamic x) => Errors.fromJson(x))),
       );
 
   TransactionsResponseData? data;
   List<Errors>? errors;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'data': data!.toJson(),
         'errors': List<dynamic>.from(errors!.map((Errors x) => x.toJson())),
       };
@@ -46,13 +47,13 @@ class TransactionsResponseData {
 
   factory TransactionsResponseData.fromJson(Map<String, dynamic> json) =>
       TransactionsResponseData(
-        transactionChain: List<TransactionChain>.from(
-            json['transactionChain'].map((x) => TransactionChain.fromJson(x))),
+        transactionChain: List<TransactionChain>.from(json['transactionChain']
+            .map((dynamic x) => TransactionChain.fromJson(x))),
       );
 
   List<TransactionChain>? transactionChain;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'transactionChain': List<dynamic>.from(
             transactionChain!.map((TransactionChain x) => x.toJson())),
       };
@@ -78,7 +79,7 @@ class TransactionChain {
   TransactionChainData? data;
   String? type;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'address': address,
         'data': data!.toJson(),
         'type': type,
@@ -97,7 +98,7 @@ class TransactionChainData {
 
   Ledger? ledger;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'ledger': ledger!.toJson(),
       };
 }

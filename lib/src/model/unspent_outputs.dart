@@ -29,7 +29,7 @@ class UnspentOutputs {
         from: json['from'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'amount': amount,
         'nftAddress': nftAddress,
         'type': type,

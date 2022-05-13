@@ -3,10 +3,6 @@ library test.hosting_test;
 // Package imports:
 import 'package:test/test.dart';
 
-// Project imports:
-import 'package:archethic_lib_dart/src/services/hosting_service.dart';
-import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
-
 void main() {
   group('archive test', () {
     /*test('should analyze Archive lib', () {
@@ -24,5 +20,5 @@ void main() {
           archive);
       expect(true, true);
     });*/
-  }, tags: ['noCI']);
+  }, tags: <String>['noCI']);
 }
