@@ -1,6 +1,11 @@
 Changelog
 =========
 
+#### Version 1.0.9 (2022-05-13)
+* Expose API to get the origin key
+* Migration to dart 2.17
+* Improve codefactor score
+
 #### Version 1.0.8 (2022-05-10)
 * Improve README readability
 * Add transaction building from the keychain
