@@ -9,7 +9,7 @@ class AuthorizedKey {
       publicKey: json['publicKey'],
       encryptedSecretKey: json['encryptedSecretKey']);
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'publicKey': publicKey,
         'encryptedSecretKey': encryptedSecretKey,
       };

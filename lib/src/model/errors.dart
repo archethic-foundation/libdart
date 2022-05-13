@@ -17,6 +17,6 @@ class Errors {
       );
 
   Map<String, dynamic> toJson() => {
-        'errors': List<dynamic>.from(errors!.map((x) => x.toJson())),
+        'errors': List<dynamic>.from(errors!.map((Error x) => x.toJson())),
       };
 }

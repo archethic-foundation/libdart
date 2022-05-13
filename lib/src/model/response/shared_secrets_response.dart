@@ -37,6 +37,6 @@ class SharedSecretsResponse {
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
-        'errors': List<dynamic>.from(errors!.map((x) => x.toJson())),
+        'errors': List<dynamic>.from(errors!.map((Errors x) => x.toJson())),
       };
 }

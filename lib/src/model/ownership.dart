@@ -22,8 +22,8 @@ class Ownership {
       );
 
   Map<String, dynamic> toJson() => {
-        'authorizedPublicKeys':
-            List<dynamic>.from(authorizedPublicKeys!.map((x) => x)),
+        'authorizedPublicKeys': List<dynamic>.from(
+            authorizedPublicKeys!.map((AuthorizedKey x) => x)),
         'secret': secret,
       };
 }

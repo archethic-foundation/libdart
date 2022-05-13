@@ -10,8 +10,8 @@ import 'package:pinenacl/encoding.dart' show HexCoder;
 /// Determines if a string is an hexadecimal
 /// @param {String} inputString Potential hexadecimal string
 bool isHex(String inputString) {
-  final RegExp _hexadecimal = RegExp(r'^[0-9a-fA-F]+$');
-  if (!_hexadecimal.hasMatch(inputString)) {
+  final RegExp hexadecimal = RegExp(r'^[0-9a-fA-F]+$');
+  if (!hexadecimal.hasMatch(inputString)) {
     return false;
   }
   return true;
@@ -46,12 +46,12 @@ Uint8List encodeInt32(int number) {
 /// ASN.1 (8 bytes)
 /// @param {Number} number Number to encode
 Uint8List encodeBigInt(BigInt number) {
-  final BigInt _byteMask = BigInt.from(0xff);
+  final BigInt byteMask = BigInt.from(0xff);
   final Uint8List result = Uint8List(8);
   BigInt work = number;
   // big-endian
   for (int i = 0; i < 8; i++) {
-    result[8 - i - 1] = (work & _byteMask).toInt();
+    result[8 - i - 1] = (work & byteMask).toInt();
     work = work >> 8;
   }
   return result;

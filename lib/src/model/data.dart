@@ -45,8 +45,8 @@ class Data {
   Map<String, dynamic> toJson() => {
         'code': code,
         'content': content,
-        'ownerships': List<dynamic>.from(ownerships!.map((x) => x)),
+        'ownerships': List<dynamic>.from(ownerships!.map((Ownership x) => x)),
         'ledger': ledger!.toJson(),
-        'recipients': List<dynamic>.from(recipients!.map((x) => x)),
+        'recipients': List<dynamic>.from(recipients!.map((String x) => x)),
       };
 }

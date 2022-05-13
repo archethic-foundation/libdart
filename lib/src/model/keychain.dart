@@ -133,7 +133,7 @@ class Keychain {
           'publicKeyJwk': keyToJWK(keyPair.publicKey).toJson()
         });
       } else {
-        throw 'Purpose \'' + purpose + '\' is not yet supported';
+        throw 'Purpose \'$purpose\' is not yet supported';
       }
     });
 

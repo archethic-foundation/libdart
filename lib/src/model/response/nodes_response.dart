@@ -36,7 +36,7 @@ class NodesResponse {
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
-        'errors': List<dynamic>.from(errors!.map((x) => x.toJson())),
+        'errors': List<dynamic>.from(errors!.map((Errors x) => x.toJson())),
       };
 }
 
@@ -55,6 +55,6 @@ class NodesResponseData {
   List<Node>? nodes;
 
   Map<String, dynamic> toJson() => {
-        'nodes': List<dynamic>.from(nodes!.map((x) => x.toJson())),
+        'nodes': List<dynamic>.from(nodes!.map((Node x) => x.toJson())),
       };
 }

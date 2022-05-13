@@ -693,38 +693,38 @@ Uint8List aesAuthDecrypt(
 /// @param {String} address to control
 bool addressFormatControl(String? address) {
   if (address != null && address.length > 1 && isHex(address)) {
-    int _digestSize = 0;
+    int digestSize = 0;
     switch (address.substring(2, 4)) {
 
       /// 00 = sha256
       case '00':
-        _digestSize = Digest('SHA-256').digestSize;
+        digestSize = Digest('SHA-256').digestSize;
         break;
 
       /// 01 = sha512
       case '01':
-        _digestSize = Digest('SHA-512').digestSize;
+        digestSize = Digest('SHA-512').digestSize;
         break;
 
       /// 02 = sha3-256
       case '02':
-        _digestSize = Digest('SHA3-256').digestSize;
+        digestSize = Digest('SHA3-256').digestSize;
         break;
 
       /// 03 = sha3-512
       case '03':
-        _digestSize = Digest('SHA3-512').digestSize;
+        digestSize = Digest('SHA3-512').digestSize;
         break;
 
       /// 04 = blake2b
       case '04':
-        _digestSize = Digest('Blake2b').digestSize;
+        digestSize = Digest('Blake2b').digestSize;
         break;
       default:
         return false;
     }
     try {
-      if (hexToUint8List(address.substring(4)).length != _digestSize) {
+      if (hexToUint8List(address.substring(4)).length != digestSize) {
         return false;
       } else {
         return true;

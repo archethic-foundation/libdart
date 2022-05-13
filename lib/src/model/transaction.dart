@@ -124,10 +124,11 @@ class Transaction {
         'address': address,
         'balance': balance!.toJson(),
         'chainLength': chainLength,
-        'crossValidationStamps':
-            List<dynamic>.from(crossValidationStamps!.map((x) => x.toJson())),
+        'crossValidationStamps': List<dynamic>.from(
+            crossValidationStamps!.map((CrossValidationStamp x) => x.toJson())),
         'data': data!.toJson(),
-        'inputs': List<dynamic>.from(inputs!.map((x) => x.toJson())),
+        'inputs':
+            List<dynamic>.from(inputs!.map((TransactionInput x) => x.toJson())),
         'originSignature': originSignature,
         'previousPublicKey': previousPublicKey,
         'previousSignature': previousSignature,
@@ -186,7 +187,7 @@ class Transaction {
       secret = uint8ListToHex(secret);
     }
 
-    for (var authorizedKey in authorizedKeys) {
+    for (AuthorizedKey authorizedKey in authorizedKeys) {
       if (!isHex(authorizedKey.publicKey!)) {
         throw "'Authorized public key' must be an hexadecimal string";
       }
@@ -362,11 +363,11 @@ class Transaction {
 
     Uint8List ownershipsBuffer = Uint8List.fromList([]);
 
-    for (var ownership in data!.ownerships!) {
+    for (Ownership ownership in data!.ownerships!) {
       final List<Uint8List> authorizedKeysBuffer = [
         Uint8List.fromList([ownership.authorizedPublicKeys!.length])
       ];
-      for (var authorizedKey in ownership.authorizedPublicKeys!) {
+      for (AuthorizedKey authorizedKey in ownership.authorizedPublicKeys!) {
         authorizedKeysBuffer.add(hexToUint8List(authorizedKey.publicKey!));
         authorizedKeysBuffer
             .add(hexToUint8List(authorizedKey.encryptedSecretKey!));
@@ -382,7 +383,7 @@ class Transaction {
 
     Uint8List ucoTransfersBuffers = Uint8List(0);
     if (data!.ledger!.uco!.transfers!.isNotEmpty) {
-      for (var ucoTransfer in data!.ledger!.uco!.transfers!) {
+      for (UCOTransfer ucoTransfer in data!.ledger!.uco!.transfers!) {
         ucoTransfersBuffers = concatUint8List(<Uint8List>[
           ucoTransfersBuffers,
           hexToUint8List(ucoTransfer.to!),
@@ -393,19 +394,18 @@ class Transaction {
 
     Uint8List nftTransfersBuffers = Uint8List(0);
     if (data!.ledger!.nft!.transfers!.isNotEmpty) {
-      // ignore: non_constant_identifier_names, unused_local_variable
-      for (var NFTTransfer in data!.ledger!.nft!.transfers!) {
+      for (NFTTransfer nftTransfer in data!.ledger!.nft!.transfers!) {
         nftTransfersBuffers = concatUint8List(<Uint8List>[
           nftTransfersBuffers,
-          hexToUint8List(data!.ledger!.nft!.transfers![0].nft!),
-          hexToUint8List(data!.ledger!.nft!.transfers![0].to!),
-          encodeBigInt(data!.ledger!.nft!.transfers![0].amount!)
+          hexToUint8List(nftTransfer.nft!),
+          hexToUint8List(nftTransfer.to!),
+          encodeBigInt(nftTransfer.amount!)
         ]);
       }
     }
 
     Uint8List recipients = Uint8List(0);
-    for (var recipient in data!.recipients!) {
+    for (String recipient in data!.recipients!) {
       recipients =
           concatUint8List(<Uint8List>[recipients, hexToUint8List(recipient)]);
     }
@@ -431,7 +431,7 @@ class Transaction {
 
   /// Convert the transaction in JSON
   String convertToJSON() {
-    final String _json = jsonEncode({
+    final String json = jsonEncode({
       'version': version,
       'address': address == null ? '' : address!,
       'type': type,
@@ -439,7 +439,7 @@ class Transaction {
         'content':
             uint8ListToHex(Uint8List.fromList(utf8.encode(data!.content!))),
         'code': data == null || data!.code == null ? '' : data!.code!,
-        'ownerships': List<dynamic>.from(data!.ownerships!.map((x) {
+        'ownerships': List<dynamic>.from(data!.ownerships!.map((Ownership x) {
           return {
             'secret': x.secret == null ? '' : x.secret!,
             'authorizedKey': x.authorizedPublicKeys,
@@ -447,8 +447,8 @@ class Transaction {
         })),
         'ledger': {
           'uco': {
-            'transfers':
-                List<dynamic>.from(data!.ledger!.uco!.transfers!.map((x) {
+            'transfers': List<dynamic>.from(
+                data!.ledger!.uco!.transfers!.map((UCOTransfer x) {
               return {
                 'to': x.to == null ? '' : x.to!,
                 'amount': x.amount == null ? 0 : x.amount!.toInt(),
@@ -456,8 +456,8 @@ class Transaction {
             }))
           },
           'nft': {
-            'transfers':
-                List<dynamic>.from(data!.ledger!.nft!.transfers!.map((x) {
+            'transfers': List<dynamic>.from(
+                data!.ledger!.nft!.transfers!.map((NFTTransfer x) {
               return {
                 'to': x.to == null ? '' : x.to!,
                 'amount': x.amount == null ? 0 : x.amount!.toInt(),
@@ -466,13 +466,14 @@ class Transaction {
             }))
           },
         },
-        'recipients': List<dynamic>.from(data!.recipients!.map((x) => x)),
+        'recipients':
+            List<dynamic>.from(data!.recipients!.map((String x) => x)),
       },
       'previousPublicKey': previousPublicKey == null ? '' : previousPublicKey!,
       'previousSignature': previousSignature == null ? '' : previousSignature!,
       'originSignature': originSignature == null ? '' : originSignature!
     });
-    return _json;
+    return json;
   }
 
   static Data initData() {

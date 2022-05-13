@@ -82,10 +82,7 @@ class ApiCoinsService {
     try {
       final http.Response responseHttp = await http.get(
           Uri.parse(
-              'https://api.coingecko.com/api/v3/coins/archethic/market_chart?vs_currency=' +
-                  currency +
-                  '&days=' +
-                  nbDays.toString()),
+              'https://api.coingecko.com/api/v3/coins/archethic/market_chart?vs_currency=$currency&days=$nbDays'),
           headers: requestHeaders);
       if (responseHttp.statusCode == 200) {
         coinsPriceResponse = coinsPriceResponseFromJson(responseHttp.body);
@@ -108,8 +105,7 @@ class ApiCoinsService {
     try {
       final http.Response responseHttp = await http.get(
           Uri.parse(
-              'https://api.coingecko.com/api/v3/simple/price?ids=archethic&vs_currencies=' +
-                  currency),
+              'https://api.coingecko.com/api/v3/simple/price?ids=archethic&vs_currencies=$currency'),
           headers: requestHeaders);
       if (responseHttp.statusCode == 200) {
         switch (currency.toUpperCase()) {

@@ -35,11 +35,11 @@ class CoinsPriceResponse {
   List<List<double>>? totalVolumes;
 
   Map<String, dynamic> toJson() => {
-        'prices': List<dynamic>.from(
-            prices!.map((x) => List<dynamic>.from(x.map((x) => x)))),
-        'market_caps': List<dynamic>.from(
-            marketCaps!.map((x) => List<dynamic>.from(x.map((x) => x)))),
-        'total_volumes': List<dynamic>.from(
-            totalVolumes!.map((x) => List<dynamic>.from(x.map((x) => x)))),
+        'prices': List<dynamic>.from(prices!.map(
+            (List<double> x) => List<dynamic>.from(x.map((double x) => x)))),
+        'market_caps': List<dynamic>.from(marketCaps!.map(
+            (List<double> x) => List<dynamic>.from(x.map((double x) => x)))),
+        'total_volumes': List<dynamic>.from(totalVolumes!.map(
+            (List<double> x) => List<dynamic>.from(x.map((double x) => x)))),
       };
 }

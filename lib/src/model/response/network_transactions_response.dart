@@ -35,7 +35,7 @@ class NetworkTransactionsResponse {
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
-        'errors': List<dynamic>.from(errors!.map((x) => x.toJson())),
+        'errors': List<dynamic>.from(errors!.map((Errors x) => x.toJson())),
       };
 }
 
@@ -55,7 +55,7 @@ class TransactionsResponseData {
   List<Transaction>? networkTransactions;
 
   Map<String, dynamic> toJson() => {
-        'networkTransactions':
-            List<Transaction>.from(networkTransactions!.map((x) => x.toJson())),
+        'networkTransactions': List<Transaction>.from(
+            networkTransactions!.map((Transaction x) => x.toJson())),
       };
 }

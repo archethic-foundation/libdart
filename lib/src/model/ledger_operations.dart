@@ -45,11 +45,11 @@ class LedgerOperations {
 
   Map<String, dynamic> toJson() => {
         'fee': fee,
-        'nodeMovements':
-            List<dynamic>.from(nodeMovements!.map((x) => x.toJson())),
-        'transactionMovements':
-            List<dynamic>.from(transactionMovements!.map((x) => x.toJson())),
-        'unspentOutputs':
-            List<dynamic>.from(unspentOutputs!.map((x) => x.toJson())),
+        'nodeMovements': List<dynamic>.from(
+            nodeMovements!.map((NodeMovement x) => x.toJson())),
+        'transactionMovements': List<dynamic>.from(
+            transactionMovements!.map((TransactionMovement x) => x.toJson())),
+        'unspentOutputs': List<dynamic>.from(
+            unspentOutputs!.map((UnspentOutputs x) => x.toJson())),
       };
 }

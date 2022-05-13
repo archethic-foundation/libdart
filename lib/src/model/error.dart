@@ -26,8 +26,9 @@ class Error {
       );
 
   Map<String, dynamic> toJson() => {
-        'locations': List<dynamic>.from(locations!.map((x) => x.toJson())),
+        'locations':
+            List<dynamic>.from(locations!.map((Location x) => x.toJson())),
         'message': message,
-        'path': List<dynamic>.from(path!.map((x) => x)),
+        'path': List<dynamic>.from(path!.map((String x) => x)),
       };
 }

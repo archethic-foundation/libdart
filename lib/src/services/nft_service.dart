@@ -20,7 +20,7 @@ class NFTService {
       String? hashAlgo}) {
     String content = 'initial supply: $initialSupply\nname: $name';
     if (typeMime != null && documentHex != null) {
-      content = content + '\ntypeMime: $typeMime\ndocument: $documentHex';
+      content = '$content\ntypeMime: $typeMime\ndocument: $documentHex';
     }
     if (curve != null && hashAlgo != null) {
       return Transaction(type: 'nft', data: Transaction.initData())

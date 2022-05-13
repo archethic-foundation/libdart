@@ -121,7 +121,7 @@ class CoinsResponse {
         'asset_platform_id': assetPlatformId,
         'block_time_in_minutes': blockTimeInMinutes,
         'hashing_algorithm': hashingAlgorithm,
-        'categories': List<dynamic>.from(categories!.map((x) => x)),
+        'categories': List<dynamic>.from(categories!.map((String x) => x)),
         'public_notice': publicNotice,
         'localization': localization!.toJson(),
         'description': description!.toJson(),
@@ -144,7 +144,8 @@ class CoinsResponse {
         'public_interest_stats': publicInterestStats!.toJson(),
         'status_updates': List<dynamic>.from(statusUpdates!.map((x) => x)),
         'last_updated': lastUpdated!.toIso8601String(),
-        'tickers': List<dynamic>.from(tickers!.map((x) => x.toJson())),
+        'tickers':
+            List<dynamic>.from(tickers!.map((CoinsTicker x) => x.toJson())),
       };
 }
 
@@ -435,12 +436,14 @@ class CoinsLinks {
   CoinsLinksReposUrl? reposUrl;
 
   Map<String, dynamic> toJson() => {
-        'homepage': List<dynamic>.from(homepage!.map((x) => x)),
-        'blockchain_site': List<dynamic>.from(blockchainSite!.map((x) => x)),
+        'homepage': List<dynamic>.from(homepage!.map((String x) => x)),
+        'blockchain_site':
+            List<dynamic>.from(blockchainSite!.map((String x) => x)),
         'official_forum_url':
-            List<dynamic>.from(officialForumUrl!.map((x) => x)),
-        'chat_url': List<dynamic>.from(chatUrl!.map((x) => x)),
-        'announcement_url': List<dynamic>.from(announcementUrl!.map((x) => x)),
+            List<dynamic>.from(officialForumUrl!.map((String x) => x)),
+        'chat_url': List<dynamic>.from(chatUrl!.map((String x) => x)),
+        'announcement_url':
+            List<dynamic>.from(announcementUrl!.map((String x) => x)),
         'twitter_screen_name': twitterScreenName,
         'facebook_username': facebookUsername,
         'bitcointalk_thread_identifier': bitcointalkThreadIdentifier,
@@ -466,7 +469,7 @@ class CoinsLinksReposUrl {
   List<dynamic>? bitbucket;
 
   Map<String, dynamic> toJson() => {
-        'github': List<dynamic>.from(github!.map((x) => x)),
+        'github': List<dynamic>.from(github!.map((String x) => x)),
         'bitbucket': List<dynamic>.from(bitbucket!.map((x) => x)),
       };
 }

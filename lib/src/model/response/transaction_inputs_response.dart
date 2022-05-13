@@ -46,7 +46,7 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        'transactionInputs':
-            List<dynamic>.from(transactionInputs!.map((x) => x.toJson())),
+        'transactionInputs': List<dynamic>.from(
+            transactionInputs!.map((TransactionInput x) => x.toJson())),
       };
 }

@@ -25,7 +25,7 @@ class Balance {
       );
 
   Map<String, dynamic> toJson() => {
-        'nft': List<dynamic>.from(nft!.map((x) => x.toJson())),
+        'nft': List<dynamic>.from(nft!.map((NftBalance x) => x.toJson())),
         'uco': uco,
       };
 }
