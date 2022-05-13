@@ -203,6 +203,31 @@ It supports the Archethic Cryptography rules which are:
    <summary>Remote Endpoint calls</summary>
    <br/>
 
+   #### getOriginKey(authorizedPublicKey, privateKey)
+   Query a node to get the origin private key encrypted by the `authorizedPublicKey`. This origin private key is used to sign the transaction (see originSign).
+
+   - `authorizedPublicKey` is the public key which encode the origin private key. Default value is set to the genesis origin public key of the network.
+   - `privateKey` is the private key corresponding to the `authorizedPublicKey` needed to decrypt the origin private key secret. Default value is set to the genesis origin private key of the network.
+
+   Return is the origin private key.
+
+   Getting the default origin Key :
+   ```dart
+   final String originPrivateKey = await ApiService('https://testnet.archethic.net').getOriginKey();
+   final Transaction tx = Transaction(type: 'transfer', data: Transaction.initData());
+   ...
+   tx.originSign(originPrivateKey);
+   ```
+   Getting another origin key :
+   ```dart
+   final String authPublicKey = '0001be992817b7db9807b1df5faa6bb23036e1f2189eeaab0e1f1260ede8642ecc76'
+   final String privateKey = '0001621d7c3bb971a245959679bf0879822a4df60c95c8f7f2193352d85498840b7d'
+   final String originPrivateKey = await ApiService('https://testnet.archethic.net').getOriginKey(authPublicKey, privateKey);
+   final Transaction tx = Transaction(type: 'transfer', data: Transaction.initData());
+   ...
+   tx.originSign(originPrivateKey);
+   ```
+
   #### getTransactionIndex(address)
   Query a node to find the length of the chain to retrieve the transaction index
 

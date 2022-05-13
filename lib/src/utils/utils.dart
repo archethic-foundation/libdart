@@ -7,6 +7,14 @@ import 'dart:typed_data' show Uint8List, Endian;
 // Package imports:
 import 'package:pinenacl/encoding.dart' show HexCoder;
 
+/// Return the Initial Origin Public Key
+const String kOriginPublicKey =
+    '010104AB41291F847A601055AEDD1AF24FF76FA970D6441E2DCA3818A8319B004C96B27B8FEB1DA31A044BA0A4800B4353359735719EBB3A05F98393A9CC599C3FAFD6';
+
+/// Return the Initial Origin Private Key
+const String kOriginPrivateKey =
+    '01019280BDB84B8F8AEDBA205FE3552689964A5626EE2C60AA10E3BF22A91A036009';
+
 /// Determines if a string is an hexadecimal
 /// @param {String} inputString Potential hexadecimal string
 bool isHex(String inputString) {
