@@ -255,10 +255,10 @@ class ApiService {
 
   /// Query the network to find a transaction chain
   /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  /// @param {int} The page
+  /// @param {String} The address of the last transaction in the page which act as a paginate_state for next page
   /// Returns the content scalar type represents transaction content [List<Transaction>]. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
-  Future<List<Transaction>> getTransactionChain(
-      String address, int page) async {
+  Future<List<Transaction>> getTransactionChain(String address,
+      {String pagingAddress = ''}) async {
     final Completer<List<Transaction>> completer =
         Completer<List<Transaction>>();
     TransactionChainResponse? transactionChainResponse =
@@ -270,8 +270,14 @@ class ApiService {
       'Accept': 'application/json',
     };
 
-    final String body =
-        '{"query":"query { transactionChain(address: \\"$address\\", page: $page) { ${Transaction.getQLFields()} } }"}';
+    String body = '';
+    if (pagingAddress.isEmpty) {
+      body =
+          '{"query":"query { transactionChain(address: \\"$address\\") { ${Transaction.getQLFields()} } }"}';
+    } else {
+      body =
+          '{"query":"query { transactionChain(address: \\"$address\\", pagingAddress: \\"$pagingAddress\\") { ${Transaction.getQLFields()} } }"}';
+    }
     dev.log('getTransactionChain: requestHttp.body=$body');
 
     try {
