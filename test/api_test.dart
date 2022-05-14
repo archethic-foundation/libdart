@@ -1,5 +1,8 @@
 library test.api_test;
 
+// Package imports:
+import 'package:test/test.dart';
+
 // Project imports:
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/node.dart';
@@ -7,9 +10,6 @@ import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-
-// Package imports:
-import 'package:test/test.dart';
 
 void main() {
   group('api', () {
@@ -62,8 +62,7 @@ void main() {
     test('getTransactions', () async {
       final List<Transaction> transactionChain =
           await ApiService('http://localhost:4000').getTransactionChain(
-              '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
-              0);
+              '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D');
 
       expect(
         transactionChain[0].address,

@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+
+// Dart imports:
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -13,9 +15,10 @@ import 'package:archethic_lib_dart/src/model/ownership.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
 import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
+import 'package:archethic_lib_dart/src/utils/utils.dart';
+
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
     show deriveKeyPair, sign, deriveAddress;
-import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 const int cVersion = 1;
 

@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 1.0.10 (2022-05-14)
+* TransactionChain : Pagination based on paging_state as last page last transaction address GraphQl API
+
 #### Version 1.0.9 (2022-05-13)
 * Expose API to get the origin key
 * Migration to dart 2.17
