@@ -2,15 +2,8 @@
 /// Package archEthic aims to provide a easy way to create Archethic transaction and to send them over the network.
 ///
 /// This implementation is based on Official Archethic Javascript library for Node and Browser.
-
-// Dart imports:
 import 'dart:convert';
 import 'dart:typed_data';
-
-// Package imports:
-import 'package:crypto/crypto.dart' as crypto_lib show Hmac, sha512, Digest;
-import 'package:jwk/jwk.dart';
-import 'package:pointycastle/api.dart';
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
@@ -18,6 +11,11 @@ import 'package:archethic_lib_dart/src/model/service.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+
+// Package imports:
+import 'package:crypto/crypto.dart' as crypto_lib show Hmac, sha512, Digest;
+import 'package:jwk/jwk.dart';
+import 'package:pointycastle/api.dart';
 
 const int keychainOriginId = 0;
 
@@ -113,8 +111,10 @@ class Keychain {
 
   Map<String, dynamic> toDID() {
     final String address = crypto.deriveAddress(utf8.decode(seed!), 0);
-    final List<Map<String, dynamic>> servicesMetadata =
+    final List<Map<String, dynamic>> verificationMethods =
         List<Map<String, dynamic>>.empty(growable: true);
+    final List<String> authentications = List<String>.empty(growable: true);
+
     services!.forEach((String serviceName, Service service) {
       final String purpose = service.derivationPath!
           .split('/')
@@ -127,11 +127,14 @@ class Keychain {
             seed, service.derivationPath!, 0,
             curve: service.curve!);
 
-        servicesMetadata.add(<String, dynamic>{
-          'id': 'did:archethic:$address#key${servicesMetadata.length}',
+        verificationMethods.add(<String, dynamic>{
+          'id': 'did:archethic:$address#$serviceName',
           'type': 'JsonWebKey2020',
-          'publicKeyJwk': keyToJWK(keyPair.publicKey).toJson()
+          'publicKeyJwk': keyToJWK(keyPair.publicKey, serviceName).toJson(),
+          'controller': 'did:archethic:$address'
         });
+
+        authentications.add('did:archethic:$address#$service');
       } else {
         throw 'Purpose \'$purpose\' is not yet supported';
       }
@@ -142,8 +145,8 @@ class Keychain {
         'https://www.w3.org/ns/did/v1',
       ],
       'id': 'did:archethic:$address',
-      'authentication': servicesMetadata,
-      'verificationMethod': servicesMetadata
+      'authentication': authentications,
+      'verificationMethod': verificationMethods
     };
   }
 }
@@ -205,7 +208,7 @@ String replaceDerivationPathIndex(String path, int index) {
   return newPath.join('/');
 }
 
-Jwk keyToJWK(Uint8List publicKey) {
+Jwk keyToJWK(Uint8List publicKey, String keyId) {
   final int curveID = publicKey[0];
   final Uint8List key = publicKey.sublist(2, publicKey.length);
 
@@ -214,7 +217,8 @@ Jwk keyToJWK(Uint8List publicKey) {
       return Jwk.fromJson(<dynamic, dynamic>{
         'kty': 'OKP',
         'crv': 'Ed25519',
-        'x': base64Url.encode(key)
+        'x': base64Url.encode(key),
+        'kid': keyId
       });
     case 1:
       final Uint8List x = key.sublist(16);
@@ -223,7 +227,8 @@ Jwk keyToJWK(Uint8List publicKey) {
         'kty': 'EC',
         'crv': 'P-256',
         'x': base64Url.encode(x),
-        'y': base64Url.encode(y)
+        'y': base64Url.encode(y),
+        'kid': keyId
       });
     case 2:
       final Uint8List x = key.sublist(16);
@@ -232,7 +237,8 @@ Jwk keyToJWK(Uint8List publicKey) {
         'kty': 'EC',
         'crv': 'secp256k1',
         'x': base64Url.encode(x),
-        'y': base64Url.encode(y)
+        'y': base64Url.encode(y),
+        'kid': keyId
       });
     default:
       throw 'Curve not supported';

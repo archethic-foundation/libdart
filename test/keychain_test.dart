@@ -4,15 +4,15 @@ library test.keychain_test;
 import 'dart:convert';
 import 'dart:typed_data';
 
-// Package imports:
-import 'package:test/test.dart';
-
 // Project imports:
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/keychain.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+
+// Package imports:
+import 'package:test/test.dart';
 
 void main() {
   group('keychain to DID', () {
@@ -34,9 +34,10 @@ void main() {
 
       final List<Map<String, dynamic>> expected = <Map<String, dynamic>>[
         <String, dynamic>{
-          'id': 'did:archethic:$address#key0',
+          'id': 'did:archethic:$address#uco',
           'type': 'JsonWebKey2020',
-          'publicKeyJwk': keyToJWK(keyPair.publicKey).toJson()
+          'publicKeyJwk': keyToJWK(keyPair.publicKey, 'uco').toJson(),
+          'controller': 'did:archethic:$address'
         }
       ];
 

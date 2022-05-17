@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 1.0.11 (2022-05-17)
+* Fix Keychain DID document to be conform
+
 #### Version 1.0.10 (2022-05-14)
 * TransactionChain : Pagination based on paging_state as last page last transaction address GraphQl API
 
