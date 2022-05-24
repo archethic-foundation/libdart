@@ -443,7 +443,7 @@ class Transaction {
         'ownerships': List<dynamic>.from(data!.ownerships!.map((Ownership x) {
           return <String, Object?>{
             'secret': x.secret == null ? '' : x.secret!,
-            'authorizedKey': x.authorizedPublicKeys,
+            'authorizedKeys': x.authorizedPublicKeys,
           };
         })),
         'ledger': {

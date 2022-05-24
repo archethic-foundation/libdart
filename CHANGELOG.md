@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 1.0.13 (2022-05-24)
+* Fix authorizedKeys naming in transaction.convertToJSON method
+
 #### Version 1.0.12 (2022-05-24)
 * Fix type transaction in newKeychainTransaction
 

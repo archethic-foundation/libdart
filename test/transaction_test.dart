@@ -57,7 +57,7 @@ void main() {
             ]).build('seed', 0, curve: 'P256');
         final dynamic parsedTx = json.decode(tx.convertToJSON());
         expect(
-            parsedTx['data']['ownerships'][0]['authorizedKey'],
+            parsedTx['data']['ownerships'][0]['authorizedKeys'],
             <Map<String, String>>[
               <String, String>{
                 'publicKey':
@@ -388,7 +388,7 @@ void main() {
         expect(parsedTx['previousSignature'], uint8ListToHex(previousSig));
         expect(parsedTx['originSignature'], uint8ListToHex(originSig));
         expect(
-            parsedTx['data']['ownerships'][0]['authorizedKey'],
+            parsedTx['data']['ownerships'][0]['authorizedKeys'],
             <Map<String, String>>[
               <String, String>{
                 'publicKey':
