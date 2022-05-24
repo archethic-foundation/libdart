@@ -542,7 +542,7 @@ class ApiService {
           publicKey: key));
     }
 
-    return Transaction(type: 'hosting', data: Transaction.initData())
+    return Transaction(type: 'keychain', data: Transaction.initData())
         .setContent(jsonEncode(keychain.toDID()))
         .addOwnership(aesEncrypt(keychain.encode(), aesKey), authorizedKeys)
         .build(seed, 0)

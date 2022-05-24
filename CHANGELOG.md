@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 1.0.12 (2022-05-24)
+* Fix type transaction in newKeychainTransaction
+
 #### Version 1.0.11 (2022-05-17)
 * Fix Keychain DID document to be conform
 
