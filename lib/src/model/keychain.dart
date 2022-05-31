@@ -28,7 +28,7 @@ class Keychain {
   }
 
   Keychain.serviceUCO(this.seed, {this.version = 1}) {
-    addService('uco', 'm/650\'/0\'/0\'');
+    addService('uco', 'm/650\'/0/0');
   }
 
   Uint8List? seed;

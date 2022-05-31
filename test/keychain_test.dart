@@ -58,8 +58,8 @@ void main() {
         Uint8List.fromList(<int>[1]), // Nb of services
         Uint8List.fromList(<int>[3]), // Service name length: "UCO",
         Uint8List.fromList(utf8.encode('uco')),
-        Uint8List.fromList(<int>[12]), // Derivation path length,
-        Uint8List.fromList(utf8.encode('m/650\'/0\'/0\'')),
+        Uint8List.fromList(<int>[10]), // Derivation path length,
+        Uint8List.fromList(utf8.encode('m/650\'/0/0')),
         Uint8List.fromList(<int>[0]), // Ed25519 curve
         Uint8List.fromList(<int>[0]) // SHA256 hash algo
       ]);
@@ -75,8 +75,8 @@ void main() {
         Uint8List.fromList(<int>[1]), // Nb of services
         Uint8List.fromList(<int>[3]), // Service name length: "UCO",
         Uint8List.fromList(utf8.encode('uco')),
-        Uint8List.fromList(<int>[12]), // Derivation path length,
-        Uint8List.fromList(utf8.encode('m/650\'/0\'/0\'')),
+        Uint8List.fromList(<int>[10]), // Derivation path length,
+        Uint8List.fromList(utf8.encode('m/650\'/0/0')),
         Uint8List.fromList(<int>[0]), // Ed25519 curve
         Uint8List.fromList(<int>[0]) // SHA256 hash algo
       ]);
@@ -87,7 +87,7 @@ void main() {
       expect(
           json.encode({
             'uco': {
-              'derivationPath': 'm/650\'/0\'/0\'',
+              'derivationPath': 'm/650\'/0/0',
               'curve': 'ed25519',
               'hashAlgo': 'sha256'
             }
@@ -109,10 +109,11 @@ void main() {
 
       keychain.buildTransaction(tx, 'uco', 0);
 
-      expect(tx.address,
-          '0000a396a0dd89acf0767c3bd497a8d9c427080e1a2447065b001260f53513537174');
-      expect(tx.previousPublicKey,
-          '0000267377b086539c78a374bce8858f00bcc3f4124ae71bd61b87cc0edc60c2cceb');
+      final KeyPair keypair = keychain.deriveKeypair('uco');
+      final Uint8List address = keychain.deriveAddress('uco', index: 1);
+      expect(tx.address, uint8ListToHex(address));
+      expect(tx.previousPublicKey, uint8ListToHex(keypair.publicKey));
+
       expect(
           crypto.verify(tx.previousSignature, tx.previousSignaturePayload(),
               tx.previousPublicKey),
@@ -127,8 +128,8 @@ void main() {
         Uint8List.fromList(<int>[1]), // Nb of services
         Uint8List.fromList(<int>[3]), // Service name length: "UCO",
         Uint8List.fromList(utf8.encode('uco')),
-        Uint8List.fromList(<int>[12]), // Derivation path length,
-        Uint8List.fromList(utf8.encode('m/650\'/0\'/0\'')),
+        Uint8List.fromList(<int>[10]), // Derivation path length,
+        Uint8List.fromList(utf8.encode('m/650\'/0/0')),
         Uint8List.fromList(<int>[0]), // Ed25519 curve
         Uint8List.fromList(<int>[0]) // SHA256 hash algo
       ]);
@@ -139,7 +140,7 @@ void main() {
       expect(
           json.encode({
             'uco': {
-              'derivationPath': 'm/650\'/0\'/0\'',
+              'derivationPath': 'm/650\'/0/0',
               'curve': 'ed25519',
               'hashAlgo': 'sha256'
             }
