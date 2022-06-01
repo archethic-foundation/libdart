@@ -362,8 +362,7 @@ class Transaction {
     int contentSize = data!.content!.length;
     final Uint8List bufContentSize = encodeInt32(contentSize);
 
-    Uint8List ownershipsBuffer = Uint8List.fromList(<int>[]);
-
+    Uint8List ownershipsBuffers = Uint8List(0);
     for (Ownership ownership in data!.ownerships!) {
       final List<Uint8List> authorizedKeysBuffer = <Uint8List>[
         Uint8List.fromList(<int>[ownership.authorizedPublicKeys!.length])
@@ -374,10 +373,10 @@ class Transaction {
             .add(hexToUint8List(authorizedKey.encryptedSecretKey!));
       }
 
-      ownershipsBuffer = concatUint8List(<Uint8List>[
-        encodeInt32(
-            Uint8List.fromList(utf8.encode(ownership.secret!)).lengthInBytes),
-        Uint8List.fromList(utf8.encode(ownership.secret!)),
+      ownershipsBuffers = concatUint8List(<Uint8List>[
+        ownershipsBuffers,
+        encodeInt32(hexToUint8List(ownership.secret!).lengthInBytes),
+        hexToUint8List(ownership.secret!),
         concatUint8List(authorizedKeysBuffer)
       ]);
     }
@@ -420,7 +419,7 @@ class Transaction {
       bufContentSize,
       Uint8List.fromList(utf8.encode(data!.content!)),
       Uint8List.fromList(<int>[data!.ownerships!.length]),
-      ownershipsBuffer,
+      ownershipsBuffers,
       Uint8List.fromList(<int>[data!.ledger!.uco!.transfers!.length]),
       ucoTransfersBuffers,
       Uint8List.fromList(<int>[data!.ledger!.nft!.transfers!.length]),

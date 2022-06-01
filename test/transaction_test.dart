@@ -117,7 +117,8 @@ void main() {
             ''';
         const String content =
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
-        const String secret = 'mysecret';
+        final String secret =
+            uint8ListToHex(Uint8List.fromList('mysecret'.codeUnits));
         final Transaction tx = Transaction(
                 type: 'transfer', data: Transaction.initData())
             .addOwnership(secret, <AuthorizedKey>[
@@ -159,8 +160,8 @@ void main() {
           //Nb of ownerships
           Uint8List.fromList(<int>[1]),
           //Secret size
-          encodeInt32(secret.length),
-          Uint8List.fromList(utf8.encode(secret)),
+          encodeInt32(hexToUint8List(secret).lengthInBytes),
+          Uint8List.fromList(hexToUint8List(secret)),
           // Nb of authorized keys
           Uint8List.fromList(<int>[1]),
           // Authorized keys encoding
@@ -257,7 +258,8 @@ void main() {
       ''';
         const String content =
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
-        const String secret = 'mysecret';
+        final String secret =
+            uint8ListToHex(Uint8List.fromList('mysecret'.codeUnits));
         final Transaction tx = Transaction(
                 type: 'transfer', data: Transaction.initData())
             .addOwnership(secret, <AuthorizedKey>[
@@ -299,8 +301,8 @@ void main() {
           //Nb of ownerships
           Uint8List.fromList(<int>[1]),
           //Secret size
-          encodeInt32(secret.length),
-          Uint8List.fromList(utf8.encode(secret)),
+          encodeInt32(hexToUint8List(secret).lengthInBytes),
+          Uint8List.fromList(hexToUint8List(secret)),
           // Nb of authorized keys
           Uint8List.fromList(<int>[1]),
           // Authorized keys encoding

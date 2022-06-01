@@ -16,8 +16,8 @@ class Ownership {
   factory Ownership.fromJson(Map<String, dynamic> json) => Ownership(
         authorizedPublicKeys: json['authorizedPublicKeys'] == null
             ? null
-            : List<AuthorizedKey>.from(
-                json['authorizedPublicKeys'].map((dynamic x) => x)),
+            : List<AuthorizedKey>.from(json['authorizedPublicKeys']
+                .map((dynamic x) => AuthorizedKey.fromJson(x))),
         secret: json['secret'],
       );
 

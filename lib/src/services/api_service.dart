@@ -589,7 +589,8 @@ class ApiService {
     final Ownership ownership = ownerships[0];
     final AuthorizedKey authorizedPublicKey = ownership.authorizedPublicKeys!
         .firstWhere((AuthorizedKey authKey) =>
-            authKey.publicKey!.toUpperCase() == utf8.decode(keypair.publicKey));
+            authKey.publicKey!.toUpperCase() ==
+            uint8ListToHex(keypair.publicKey).toUpperCase());
 
     final Uint8List aesKey =
         ecDecrypt(authorizedPublicKey.encryptedSecretKey, keypair.privateKey);
@@ -602,7 +603,7 @@ class ApiService {
     final AuthorizedKey authorizedPublicKey2 = ownership2.authorizedPublicKeys!
         .firstWhere((AuthorizedKey publicKey) =>
             publicKey.publicKey!.toUpperCase() ==
-            utf8.decode(keypair.publicKey));
+            uint8ListToHex(keypair.publicKey).toUpperCase());
     final Uint8List aesKey2 =
         ecDecrypt(authorizedPublicKey2.encryptedSecretKey, keypair.privateKey);
     final Uint8List keychain = aesDecrypt(ownership2.secret, aesKey2);

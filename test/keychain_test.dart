@@ -2,6 +2,8 @@ library test.keychain_test;
 
 // Dart imports:
 import 'dart:convert';
+import 'dart:developer' as dev;
+import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
@@ -11,6 +13,8 @@ import 'package:test/test.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/keychain.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
+import 'package:archethic_lib_dart/src/model/transaction_status.dart';
+import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 
@@ -97,6 +101,62 @@ void main() {
   });
 
   group('buildTransaction', () {
+    test('should create a keychain', () async {
+      const String walletSeed =
+          '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA1';
+      final KeyPair walletKeyPair = crypto.deriveKeyPair(walletSeed, 0);
+
+      /// Generate keyChain Seed from random value
+      final String keychainSeed = uint8ListToHex(Uint8List.fromList(
+          List<int>.generate(32, (int i) => Random.secure().nextInt(256))));
+      dev.log('keychainSeed: $keychainSeed');
+
+      /// Default service for wallet
+      const String kServiceName = 'main-uco';
+      const String kDerivationPathWithoutIndex = 'm/650/$kServiceName/';
+      const String index = '0';
+      const String kDerivationPath = '$kDerivationPathWithoutIndex$index';
+      dev.log('kDerivationPath: $kDerivationPath');
+
+      final String originPrivateKey =
+          await ApiService('http://localhost:4000').getOriginKey();
+      dev.log('originPrivateKey: $originPrivateKey');
+
+      /// Create Keychain from keyChain seed and wallet public key to encrypt secret
+      final Transaction keychainTransaction =
+          ApiService('http://localhost:4000').newKeychainTransaction(
+              keychainSeed,
+              <String>[uint8ListToHex(walletKeyPair.publicKey)],
+              hexToUint8List(originPrivateKey),
+              serviceName: kServiceName,
+              derivationPath: kDerivationPath);
+      dev.log('keychainTransaction: ${keychainTransaction.convertToJSON()}');
+
+      /// Create Keychain Access for wallet
+      final Transaction accessKeychainTx = ApiService('http://localhost:4000')
+          .newAccessKeychainTransaction(
+              walletSeed,
+              hexToUint8List(keychainTransaction.address!),
+              hexToUint8List(originPrivateKey));
+      dev.log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
+
+      // ignore: unused_local_variable
+      final TransactionStatus transactionStatusKeychain =
+          await ApiService('http://localhost:4000').sendTx(keychainTransaction);
+
+      //await Future<void>.delayed(const Duration(seconds: 5));
+
+      // ignore: unused_local_variable
+      final TransactionStatus transactionStatusKeychainAccess =
+          await ApiService('http://localhost:4000').sendTx(accessKeychainTx);
+
+      /// Get KeyChain Wallet
+      final Keychain keychain =
+          await ApiService('http://localhost:4000').getKeychain(walletSeed);
+
+      expect(keychain.services!.keys.elementAt(0), 'main-uco');
+    }, tags: <String>['noCI']);
+
     test('should build the transaction and the related signature', () {
       final Uint8List seed = Uint8List.fromList(utf8.encode('seed'));
 

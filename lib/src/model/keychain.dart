@@ -112,7 +112,7 @@ class Keychain {
   }
 
   Map<String, dynamic> toDID() {
-    final String address = crypto.deriveAddress(utf8.decode(seed!), 0);
+    final String address = crypto.deriveAddress(uint8ListToHex(seed!), 0);
     final List<Map<String, dynamic>> verificationMethods =
         List<Map<String, dynamic>>.empty(growable: true);
     final List<String> authentications = List<String>.empty(growable: true);
@@ -136,7 +136,7 @@ class Keychain {
           'controller': 'did:archethic:$address'
         });
 
-        authentications.add('did:archethic:$address#$service');
+        authentications.add('did:archethic:$address#$serviceName');
       } else {
         throw 'Purpose \'$purpose\' is not yet supported';
       }

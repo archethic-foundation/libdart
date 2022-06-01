@@ -1,8 +1,9 @@
 Changelog
 =========
 
-#### Version 1.0.14 (2022-05-31)
+#### Version 1.0.14 (2022-06-01)
 * Simplify the derivation path for the Archethic purpose
+* Fix Keychain management
 
 #### Version 1.0.13 (2022-05-24)
 * Fix authorizedKeys naming in transaction.convertToJSON method

@@ -35,7 +35,8 @@ class Data {
         content: json['content'],
         ownerships: json['ownerships'] == null
             ? null
-            : List<Ownership>.from(json['ownerships'].map((dynamic x) => x)),
+            : List<Ownership>.from(
+                json['ownerships'].map((dynamic x) => Ownership.fromJson(x))),
         ledger: json['ledger'] == null ? null : Ledger.fromJson(json['ledger']),
         recipients: json['recipients'] == null
             ? null
