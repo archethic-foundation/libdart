@@ -236,8 +236,8 @@ It supports the Archethic Cryptography rules which are:
   ```dart
   import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
-  int index = await ApiService('https://testnet.archethic.net').getTransactionIndex(
-          '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
+  int index = (await ApiService('https://testnet.archethic.net').getTransactionIndex(
+          '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646').chainLength);
   // 0
   ``` 
 
@@ -335,7 +335,7 @@ It supports the Archethic Cryptography rules which are:
 
   final Transaction tx = Transaction(type: 'transfer', data: Transaction.initData()).addUCOTransfert(...);
   final Keychain keychain = await ApiService('https://testnet.archethic.net').getKeychain(accessKeychainSeed);
-  final int index = await ApiService('https://testnet.archethic.net').getTransactionIndex(keychain.deriveAddress('uco', 0));
+  final int index = (await ApiService('https://testnet.archethic.net').getTransactionIndex(keychain.deriveAddress('uco', 0))).chainLength);
   Transaction signedTx = keychain.buildTransaction(tx, 'uco', index);
   ```
 
