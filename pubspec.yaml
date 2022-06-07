@@ -3,7 +3,7 @@ name: archethic_lib_dart
 description: Archethic dart library for Flutter for Node and Browser. This library aims to provide a easy way to create Archethic transaction and to send them over the network
 homepage: https://github.com/archethic-foundation/libdart
 
-version: 1.0.14
+version: 1.0.15
 
 environment:
   sdk: '>=2.17.0 <3.0.0'
@@ -14,7 +14,7 @@ dependencies:
   # archive: ^3.2.1
 
   # Utilities for converting between data representations. Provides a number of Sink, Codec, Decoder, and Encoder types
-  convert: ^3.0.1
+  convert: ^3.0.2
 
   # Implementations of SHA, MD5, and HMAC cryptographic functions
   crypto: ^3.0.2
