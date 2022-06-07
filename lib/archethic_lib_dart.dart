@@ -45,7 +45,6 @@ export 'src/model/validation_stamp.dart';
 export 'src/services/address_service.dart';
 export 'src/services/api_coins_service.dart';
 export 'src/services/api_service.dart';
-export 'src/services/nft_service.dart';
 export 'src/services/oracle_service.dart';
 export 'src/utils/crypto.dart';
 export 'src/utils/utils.dart';
