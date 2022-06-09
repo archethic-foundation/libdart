@@ -113,7 +113,7 @@ void main() {
 
       /// Default service for wallet
       const String kServiceName = 'main-uco';
-      const String kDerivationPathWithoutIndex = 'm/650/$kServiceName/';
+      const String kDerivationPathWithoutIndex = 'm/650\'/$kServiceName/';
       const String index = '0';
       const String kDerivationPath = '$kDerivationPathWithoutIndex$index';
       dev.log('kDerivationPath: $kDerivationPath');

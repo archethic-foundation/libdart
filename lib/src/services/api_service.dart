@@ -526,7 +526,7 @@ class ApiService {
   Transaction newKeychainTransaction(String seed,
       List<String> authorizedPublicKeys, Uint8List originPrivateKey,
       {String? serviceName, String? derivationPath}) {
-    final Keychain keychain = Keychain(Uint8List.fromList(utf8.encode(seed)));
+    final Keychain keychain = Keychain(hexToUint8List(seed));
     if (serviceName!.isNotEmpty && derivationPath!.isNotEmpty) {
       keychain.addService(serviceName, derivationPath);
     }
