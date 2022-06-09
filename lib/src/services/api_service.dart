@@ -595,9 +595,14 @@ class ApiService {
     final Uint8List aesKey =
         ecDecrypt(authorizedPublicKey.encryptedSecretKey, keypair.privateKey);
     final Uint8List keychainAddress = aesDecrypt(ownership.secret, aesKey);
+    dev.log(
+        'keychainAddress (getKeychain): ${uint8ListToHex(keychainAddress)}');
+
+    final Transaction lastTransactionKeychain =
+        await getLastTransaction(uint8ListToHex(keychainAddress));
 
     final List<Ownership> ownerships2 =
-        await getTransactionOwnerships(uint8ListToHex(keychainAddress));
+        await getTransactionOwnerships(lastTransactionKeychain.address!);
     final Ownership ownership2 = ownerships2[0];
 
     final AuthorizedKey authorizedPublicKey2 = ownership2.authorizedPublicKeys!

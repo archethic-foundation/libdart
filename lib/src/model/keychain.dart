@@ -45,16 +45,17 @@ class Keychain {
   }
 
   Uint8List encode() {
-    List<int> servicesBuffer = List<int>.empty(growable: true);
+    Uint8List servicesBuffer = Uint8List(0);
     services!.forEach((String serviceName, Service service) {
       servicesBuffer = concatUint8List(<Uint8List>[
+        servicesBuffer,
         Uint8List.fromList(<int>[serviceName.length]),
         Uint8List.fromList(serviceName.codeUnits),
         Uint8List.fromList(<int>[service.derivationPath!.length]),
         Uint8List.fromList(service.derivationPath!.codeUnits),
         Uint8List.fromList(<int>[crypto.curveToID(service.curve!)]),
         Uint8List.fromList(<int>[crypto.hashAlgoToID(service.hashAlgo!)])
-      ]).toList();
+      ]);
     });
 
     return concatUint8List(<Uint8List>[
