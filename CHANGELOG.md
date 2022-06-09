@@ -1,6 +1,12 @@
 Changelog
 =========
 
+#### Version 1.0.16 (2022-06-09)
+* Fix bugs in Keychain management
+
+#### Version 1.0.15 (2022-06-07)
+* Remove NFTService class
+
 #### Version 1.0.14 (2022-06-01)
 * Simplify the derivation path for the Archethic purpose
 * Fix Keychain management
