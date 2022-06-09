@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 1.0.17 (2022-06-09)
+* Use lastAdress from address store in keychainAccess to get a keychain
+
 #### Version 1.0.16 (2022-06-09)
 * Fix bugs in Keychain management
 
