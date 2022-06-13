@@ -16,9 +16,12 @@ jobs:
       - uses: dart-lang/setup-dart@v1
         with:
           sdk: stable
+      - uses: subosito/flutter-action@v1
+        with:
+          sdk: stable
 
       - name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
 
       - name: Tests
         run: dart test --exclude-tags noCI
