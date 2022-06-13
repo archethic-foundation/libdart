@@ -615,20 +615,25 @@ class ApiService {
     return decodeKeychain(keychain);
   }
 
-  /// Get the origin private keys
-  /// @param {String} authorizedPublicKey Authorized public key in origin shared secrets chain
-  /// @param {String} privateKey Private Key to decode secrets key
-  Future<String> getOriginKey(
-      {String authorizedPublicKey = kOriginPublicKey,
-      String privateKey = kOriginPrivateKey}) async {
+  String getOriginKey() {
+    return kOriginPrivateKey;
+  }
+
+  /// Add a new origin key
+  /// @param {String} originPublicKey origin public key to be added
+  /// @param {String} certificate certificate of the origin public key
+  Future<String> addOriginKey(
+      {String? originPublicKey, String? certificate}) async {
     final Completer<String> completer = Completer<String>();
     final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
 
-    final String body =
-        jsonEncode(<String, String>{'origin_public_key': authorizedPublicKey});
+    final String body = jsonEncode(<String, String>{
+      'origin_public_key': originPublicKey!,
+      'certificate': certificate!
+    });
     final http.Response responseHttp = await http.post(
         Uri.parse('${endpoint!}/api/origin_key'),
         body: body,
@@ -639,15 +644,7 @@ class ApiService {
     final OriginKeyResponse originKey =
         originKeyResponseFromJson(responseHttp.body);
 
-    try {
-      final Uint8List secretKey =
-          ecDecrypt(originKey.encryptedSecretKey, privateKey);
-      final Uint8List originPrivateKey =
-          aesDecrypt(originKey.encryptedOriginPrivateKeys, secretKey);
-      completer.complete(uint8ListToHex(originPrivateKey));
-    } catch (e) {
-      throw 'Invalid pair of public/private key';
-    }
+    completer.complete(originKey.toString());
     return completer.future;
   }
 }

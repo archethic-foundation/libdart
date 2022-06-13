@@ -121,7 +121,7 @@ void main() {
       dev.log('kDerivationPath: $kDerivationPath');
 
       final String originPrivateKey =
-          await ApiService('http://localhost:4000').getOriginKey();
+          ApiService('http://localhost:4000').getOriginKey();
       dev.log('originPrivateKey: $originPrivateKey');
 
       /// Create Keychain from keyChain seed and wallet public key to encrypt secret
@@ -231,7 +231,7 @@ void main() {
       dev.log('kDerivationPath: $kDerivationPath');
 
       final String originPrivateKey =
-          await ApiService('http://localhost:4000').getOriginKey();
+          ApiService('http://localhost:4000').getOriginKey();
       dev.log('originPrivateKey: $originPrivateKey');
 
       /// Create Keychain from keyChain seed and wallet public key to encrypt secret
