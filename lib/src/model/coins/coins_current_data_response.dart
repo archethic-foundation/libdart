@@ -64,10 +64,18 @@ class CoinsCurrentDataResponse {
         publicNotice: json['public_notice'],
         additionalNotices: List<dynamic>.from(
             json['additional_notices'].map((dynamic x) => x)),
-        localization: CoinsCurrentTion.fromJson(json['localization']),
-        description: CoinsCurrentTion.fromJson(json['description']),
-        links: CoinsCurrentLinks.fromJson(json['links']),
-        image: CoinsCurrentImage.fromJson(json['image']),
+        localization: json['localization'] == null
+            ? null
+            : CoinsCurrentTion.fromJson(json['localization']),
+        description: json['description'] == null
+            ? null
+            : CoinsCurrentTion.fromJson(json['description']),
+        links: json['links'] == null
+            ? null
+            : CoinsCurrentLinks.fromJson(json['links']),
+        image: json['image'] == null
+            ? null
+            : CoinsCurrentImage.fromJson(json['image']),
         countryOrigin: json['country_origin'],
         genesisDate: json['genesis_date'],
         contractAddress: json['contract_address'],
@@ -82,18 +90,26 @@ class CoinsCurrentDataResponse {
         communityScore: json['community_score']?.toDouble(),
         liquidityScore: json['liquidity_score']?.toDouble(),
         publicInterestScore: json['public_interest_score']?.toDouble(),
-        marketData: CoinsCurrentMarketData.fromJson(json['market_data']),
-        communityData:
-            CoinsCurrentCommunityData.fromJson(json['community_data']),
-        developerData:
-            CoinsCurrentDeveloperData.fromJson(json['developer_data']),
-        publicInterestStats: CoinsCurrentPublicInterestStats.fromJson(
-            json['public_interest_stats']),
+        marketData: json['market_data'] == null
+            ? null
+            : CoinsCurrentMarketData.fromJson(json['market_data']),
+        communityData: json['community_data'] == null
+            ? null
+            : CoinsCurrentCommunityData.fromJson(json['community_data']),
+        developerData: json['developer_data'] == null
+            ? null
+            : CoinsCurrentDeveloperData.fromJson(json['developer_data']),
+        publicInterestStats: json['image'] == null
+            ? null
+            : CoinsCurrentPublicInterestStats.fromJson(
+                json['public_interest_stats']),
         statusUpdates:
             List<dynamic>.from(json['status_updates'].map((dynamic x) => x)),
         lastUpdated: DateTime.parse(json['last_updated']),
-        tickers: List<CoinsCurrentTicker>.from(
-            json['tickers'].map((dynamic x) => CoinsCurrentTicker.fromJson(x))),
+        tickers: json['tickers'] == null
+            ? null
+            : List<CoinsCurrentTicker>.from(json['tickers']
+                .map((dynamic x) => CoinsCurrentTicker.fromJson(x))),
       );
 
   String? id;

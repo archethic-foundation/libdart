@@ -18,23 +18,30 @@ class CoinsPriceResponse {
     this.prices,
     this.marketCaps,
     this.totalVolumes,
+    this.error,
   });
 
   factory CoinsPriceResponse.fromJson(Map<String, dynamic> json) =>
       CoinsPriceResponse(
-        prices: List<List<double>>.from(json['prices'].map((dynamic x) =>
-            List<double>.from(x.map((dynamic x) => x.toDouble())))),
-        marketCaps: List<List<double>>.from(json['market_caps'].map(
-            (dynamic x) =>
+        prices: json['prices'] == null
+            ? null
+            : List<List<double>>.from(json['prices'].map((dynamic x) =>
                 List<double>.from(x.map((dynamic x) => x.toDouble())))),
-        totalVolumes: List<List<double>>.from(json['total_volumes'].map(
-            (dynamic x) =>
+        marketCaps: json['market_caps'] == null
+            ? null
+            : List<List<double>>.from(json['market_caps'].map((dynamic x) =>
                 List<double>.from(x.map((dynamic x) => x.toDouble())))),
+        totalVolumes: json['total_volumes'] == null
+            ? null
+            : List<List<double>>.from(json['total_volumes'].map((dynamic x) =>
+                List<double>.from(x.map((dynamic x) => x.toDouble())))),
+        error: json['error'],
       );
 
   List<List<double>>? prices;
   List<List<double>>? marketCaps;
   List<List<double>>? totalVolumes;
+  String? error;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'prices': List<dynamic>.from(prices!.map(
@@ -43,5 +50,6 @@ class CoinsPriceResponse {
             (List<double> x) => List<dynamic>.from(x.map((double x) => x)))),
         'total_volumes': List<dynamic>.from(totalVolumes!.map(
             (List<double> x) => List<dynamic>.from(x.map((double x) => x)))),
+        'error': error,
       };
 }
