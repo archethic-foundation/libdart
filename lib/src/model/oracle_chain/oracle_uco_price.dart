@@ -19,12 +19,15 @@ String oracleUcoPriceToJson(OracleUcoPrice data) => json.encode(data.toJson());
 class OracleUcoPrice {
   OracleUcoPrice({
     this.uco,
+    this.timestamp,
   });
 
   Uco? uco;
+  int? timestamp;
 
   factory OracleUcoPrice.fromJson(Map<String, dynamic> json) => OracleUcoPrice(
-        uco: Uco.fromJson(json['uco']),
+        timestamp: int.tryParse(json.keys.first),
+        uco: Uco.fromJson(json.values.first['uco']),
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
