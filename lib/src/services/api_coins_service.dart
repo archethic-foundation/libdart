@@ -342,7 +342,13 @@ class ApiCoinsService {
   }
 
   /// Get Archethic Coin infos (name, price, market, ... including exchange tickers)
-  Future<CoinsCurrentDataResponse> getCoinsCurrentData() async {
+  Future<CoinsCurrentDataResponse> getCoinsCurrentData(
+      bool localization,
+      bool tickers,
+      bool marketData,
+      bool communityData,
+      bool developerData,
+      bool sparkline) async {
     CoinsCurrentDataResponse? coinsCurrentDataResponse;
     final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json'
@@ -350,7 +356,8 @@ class ApiCoinsService {
 
     try {
       final http.Response responseHttp = await http.get(
-          Uri.parse('https://api.coingecko.com/api/v3/coins/archethic'),
+          Uri.parse(
+              'https://api.coingecko.com/api/v3/coins/archethic?localization=$localization&tickers=$tickers&market_data=$marketData&community_data=$communityData&developer_data=$developerData&sparkline=$sparkline'),
           headers: requestHeaders);
       if (responseHttp.statusCode == 200) {
         coinsCurrentDataResponse =
