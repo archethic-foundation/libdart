@@ -43,11 +43,11 @@ dependencies:
   # JWK (JSON Web Key) encoding and decoding
   jwk: ^0.1.1
 
-  # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
-  pinenacl: ^0.3.4
-
   # PhoenixSocket provides a feature-complete implementation of Phoenix Sockets, using a single API based on StreamChannels compatible with any deployment of Flutter.
   phoenix_socket: ^0.5.3
+  
+  # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
+  pinenacl: ^0.3.4
 
   # A Dart library implementing cryptographic algorithms and primitives, modeled on the BouncyCastle library
   pointycastle: ^3.6.0
@@ -62,4 +62,4 @@ dev_dependencies:
   flutter_lints: ^2.0.1
   # Automatically organize your dart imports
   import_sorter: ^4.6.0
-  test: ^1.21.1
+  test: ^1.21.2
