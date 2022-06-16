@@ -16,8 +16,8 @@ class OracleService {
   /// @param {String} seed TransactionChain seed
   /// @param {String} request List of informations to retrieve in the GraphQL Query
   Future<OracleUcoPrice> getLastOracleUcoPrice() async {
-    final List<Transaction> txList =
-        await ApiService(endpoint).networkTransactions('oracle', 1);
+    final List<Transaction> txList = await ApiService(endpoint)
+        .networkTransactions('oracle', 1, request: 'address');
     if (txList.isNotEmpty) {
       final Transaction transaction = await ApiService(endpoint)
           .getLastTransaction(txList[0].address!, request: 'data { content }');
