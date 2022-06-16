@@ -343,12 +343,12 @@ class ApiCoinsService {
 
   /// Get Archethic Coin infos (name, price, market, ... including exchange tickers)
   Future<CoinsCurrentDataResponse> getCoinsCurrentData(
-      bool localization,
-      bool tickers,
-      bool marketData,
-      bool communityData,
-      bool developerData,
-      bool sparkline) async {
+      {bool localization = false,
+      bool tickers = false,
+      bool marketData = false,
+      bool communityData = false,
+      bool developerData = false,
+      bool sparkline = false}) async {
     CoinsCurrentDataResponse? coinsCurrentDataResponse;
     final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json'
