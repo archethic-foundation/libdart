@@ -608,8 +608,9 @@ class ApiService {
     dev.log(
         'keychainAddress (getKeychain): ${uint8ListToHex(keychainAddress)}');
 
-    final Transaction lastTransactionKeychain =
-        await getLastTransaction(uint8ListToHex(keychainAddress));
+    final Transaction lastTransactionKeychain = await getLastTransaction(
+        uint8ListToHex(keychainAddress),
+        request: 'address');
 
     final List<Ownership> ownerships2 =
         await getTransactionOwnerships(lastTransactionKeychain.address!);

@@ -15,13 +15,12 @@ class OracleService {
   /// return the last value of Oracle Uco_Price in {OracleUcoPrice}
   /// @param {String} seed TransactionChain seed
   /// @param {String} request List of informations to retrieve in the GraphQL Query
-  Future<OracleUcoPrice> getLastOracleUcoPrice(
-      {String request = Transaction.kTransactionQueryAllFields}) async {
+  Future<OracleUcoPrice> getLastOracleUcoPrice() async {
     final List<Transaction> txList =
         await ApiService(endpoint).networkTransactions('oracle', 1);
     if (txList.isNotEmpty) {
       final Transaction transaction = await ApiService(endpoint)
-          .getLastTransaction(txList[0].address!, request: request);
+          .getLastTransaction(txList[0].address!, request: 'data { content }');
       return oracleUcoPriceFromJson(transaction.data!.content!);
     } else {
       return OracleUcoPrice(uco: Uco(eur: 0, usd: 0));
