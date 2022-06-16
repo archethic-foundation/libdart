@@ -9,7 +9,6 @@ import 'package:http/http.dart' as http show Response, get;
 // Project imports:
 import 'package:archethic_lib_dart/src/model/coins/coins_current_data_response.dart';
 import 'package:archethic_lib_dart/src/model/coins/coins_price_response.dart';
-import 'package:archethic_lib_dart/src/model/coins/coins_response.dart';
 import 'package:archethic_lib_dart/src/model/coins/simple_price_response.dart';
 import 'package:archethic_lib_dart/src/model/coins/simple_price_response_aed.dart';
 import 'package:archethic_lib_dart/src/model/coins/simple_price_response_ars.dart';
@@ -50,26 +49,6 @@ import 'package:archethic_lib_dart/src/model/coins/simple_price_response_usd.dar
 import 'package:archethic_lib_dart/src/model/coins/simple_price_response_zar.dart';
 
 class ApiCoinsService {
-  /// Get Archethic Coin info
-  Future<CoinsResponse> getCoinsResponse() async {
-    CoinsResponse? coinsResponse;
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json'
-    };
-
-    try {
-      final http.Response responseHttp = await http.get(
-          Uri.parse('https://api.coingecko.com/api/v3/coins/archethic'),
-          headers: requestHeaders);
-      if (responseHttp.statusCode == 200) {
-        coinsResponse = coinsResponseFromJson(responseHttp.body);
-      }
-    } catch (e) {
-      dev.log(e.toString());
-    }
-    return coinsResponse!;
-  }
-
   /// Get Archethic Coin infos (Prices, Marketcaps, Total Volumes)
   /// @param {String} currency
   /// @param {int} nbDays

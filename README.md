@@ -424,9 +424,6 @@ It supports the Archethic Cryptography rules which are:
    <summary>Coingecko functions</summary>
    <br/>
 
-  #### getCoinsResponse()
-  Get all Archethic Coin infos with http request https://api.coingecko.com/api/v3/coins/archethic
-
   #### getCoinsChart(currency, nbDays)
   Get Archethic Coin infos (Prices, Marketcaps, Total Volumes) for a period with http request https://api.coingecko.com/api/v3/coins/archethic/market_chart?vs_currency=currency&days=nbDays
 

@@ -8,7 +8,6 @@ export 'src/model/authorized_key.dart';
 export 'src/model/balance.dart';
 export 'src/model/coins/coins_current_data_response.dart';
 export 'src/model/coins/coins_price_response.dart';
-export 'src/model/coins/coins_response.dart';
 export 'src/model/coins/simple_price_response.dart';
 export 'src/model/cross_validation_stamp.dart';
 export 'src/model/crypto/aes_auth_encrypt_infos.dart';
