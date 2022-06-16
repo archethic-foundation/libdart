@@ -1,6 +1,13 @@
 Changelog
 =========
 
+#### Version 1.0.20 (2022-06-16)
+* Optimize graphQL requests to limit the transfer of informations
+
+#### Version 1.0.19 (2022-06-16)
+* Add tests for CoinGecko APIs
+* Fix nullpointerException in CoinGecko APIs
+
 #### Version 1.0.18 (2022-06-13)
 * Add waitConfirmations function to listen acks
 * Managing Origin Key
