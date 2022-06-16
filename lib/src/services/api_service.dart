@@ -391,7 +391,9 @@ class ApiService {
 
   /// Query the network to list the transaction inputs from an address
   /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  Future<List<TransactionInput>> getTransactionInputs(String address) async {
+  /// @param {String} request List of informations to retrieve in the GraphQL Query
+  Future<List<TransactionInput>> getTransactionInputs(String address,
+      {String request = Transaction.kTransactionQueryAllFields}) async {
     final Completer<List<TransactionInput>> completer =
         Completer<List<TransactionInput>>();
     List<TransactionInput> transactionInputs =
@@ -404,7 +406,7 @@ class ApiService {
     };
     try {
       final String body =
-          '{"query":"query { transactionInputs(address: \\"$address\\") { amount, from, nftAddress, spent, timestamp, type } }"}';
+          '{"query":"query { transactionInputs(address: \\"$address\\") { $request } }"}';
       dev.log('getTransactionInputs: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
