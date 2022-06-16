@@ -44,13 +44,6 @@ void main() {
         expect(uint8ListToHex(crypto.hash('myfakedata', algo: 'blake2b')),
             '04f4101890104371a4d673ed717e824c80634edf3cb39e3eeff555049c0a025e5f13a6aa938c7501a98471cad9c13870c13e8691e97229e4a4b4e1930221c02ab8');
       });
-
-      test('should generate a blake2b hash with an algo id at the beginning',
-          () {
-        print(uint8ListToHex(crypto.hash(
-            'archethic://transfer/0000430994d68cbeb13529d25421f6537d6528ce9cc1c6fb7a8dd29ed7bf6a87e85f,00006B06736E2BA5875EF9D9442AAD7C4D9E16CE97B71D1419302B63BBCB482DC4FD/100/',
-            algo: 'blake2b')));
-      });
     });
 
     group('deriveKeyPair', () {

@@ -116,5 +116,16 @@ void main() {
         '0.17',
       );
     });
+
+    test('addOriginKey', () async {
+      final String json = await ApiService('http://localhost:4000').addOriginKey(
+          originPublicKey:
+              '010104AB41291F847A601055AEDD1AF24FF76FA970D6441E2DCA3818A8319B004C96B27B8FEB1DA31A044BA0A4800B4353359735719EBB3A05F98393A9CC599C3FAFD6',
+          certificate: '0x');
+      expect(
+        true,
+        true,
+      );
+    });
   }, tags: <String>['noCI']);
 }

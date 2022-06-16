@@ -2,7 +2,7 @@
 
 // To parse this JSON data, do
 //
-//     final originKey = originKeyFromJson(jsonString);
+//     final originKeyResponse = originKeyResponseFromJson(jsonString);
 
 // Dart imports:
 import 'dart:convert';
@@ -14,22 +14,18 @@ String originKeyResponseToJson(OriginKeyResponse data) =>
     json.encode(data.toJson());
 
 class OriginKeyResponse {
-  OriginKeyResponse({
-    this.encryptedOriginPrivateKeys,
-    this.encryptedSecretKey,
-  });
+  OriginKeyResponse({this.status, this.transactionAddress});
 
-  String? encryptedOriginPrivateKeys;
-  String? encryptedSecretKey;
+  String? status;
+  String? transactionAddress;
 
   factory OriginKeyResponse.fromJson(Map<String, dynamic> json) =>
       OriginKeyResponse(
-        encryptedOriginPrivateKeys: json['encrypted_origin_private_keys'],
-        encryptedSecretKey: json['encrypted_secret_key'],
-      );
+          status: json['status'],
+          transactionAddress: json['transaction_address']);
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'encrypted_origin_private_keys': encryptedOriginPrivateKeys,
-        'encrypted_secret_key': encryptedSecretKey,
+        'status': status,
+        'transaction_address': transactionAddress
       };
 }

@@ -646,8 +646,8 @@ class ApiService {
         Uri.parse('${endpoint!}/api/origin_key'),
         body: body,
         headers: requestHeaders);
-    dev.log('getOriginKey: requestHttp.body=$body');
-    dev.log('getOriginKey: responseHttp.body=${responseHttp.body}');
+    dev.log('addOriginKey: requestHttp.body=$body');
+    dev.log('addOriginKey: responseHttp.body=${responseHttp.body}');
 
     final OriginKeyResponse originKey =
         originKeyResponseFromJson(responseHttp.body);

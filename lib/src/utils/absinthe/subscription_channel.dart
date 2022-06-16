@@ -2,9 +2,11 @@
 import 'dart:async';
 
 // Package imports:
-import 'package:archethic_lib_dart/src/utils/absinthe/phoenix_link.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
+
+// Project imports:
+import 'package:archethic_lib_dart/src/utils/absinthe/phoenix_link.dart';
 
 class SubscriptionChannel {
   PhoenixSocket? socket;
