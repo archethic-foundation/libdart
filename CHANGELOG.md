@@ -1,6 +1,13 @@
 Changelog
 =========
 
+#### Version 1.0.18 (2022-06-13)
+* Add waitConfirmations function to listen acks
+* Managing Origin Key
+* getLastOracleUcoPrice method : fix nullPointerException
+* getCoinsCurrentData method : add params to specify which informations should be retrieve
+* Optimize graphQL requests to limit the transfer of informations
+
 #### Version 1.0.17 (2022-06-09)
 * Use lastAdress from address store in keychainAccess to get a keychain
 

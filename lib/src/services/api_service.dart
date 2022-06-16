@@ -68,7 +68,9 @@ class ApiService {
 
   /// Query the network to find the last transaction from an address
   /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  Future<Transaction> getLastTransaction(String address) async {
+  /// @param {String} request List of informations to retrieve in the GraphQL Query
+  Future<Transaction> getLastTransaction(String address,
+      {String request = Transaction.kTransactionQueryAllFields}) async {
     final Completer<Transaction> completer = Completer<Transaction>();
     TransactionLastResponse transactionLastResponse = TransactionLastResponse();
     Transaction? lastTransaction = Transaction(
@@ -79,7 +81,7 @@ class ApiService {
     };
     try {
       final String body =
-          '{"query": "query {lastTransaction(address: \\"$address\\") { ${Transaction.getQLFields()} } }"}';
+          '{"query": "query {lastTransaction(address: \\"$address\\") { $request } }"}';
       dev.log('getLastTransaction: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
@@ -258,9 +260,11 @@ class ApiService {
   /// Query the network to find a transaction chain
   /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   /// @param {String} The address of the last transaction in the page which act as a paginate_state for next page
+  /// @param {String} request List of informations to retrieve in the GraphQL Query
   /// Returns the content scalar type represents transaction content [List<Transaction>]. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
   Future<List<Transaction>> getTransactionChain(String address,
-      {String pagingAddress = ''}) async {
+      {String pagingAddress = '',
+      String request = Transaction.kTransactionQueryAllFields}) async {
     final Completer<List<Transaction>> completer =
         Completer<List<Transaction>>();
     TransactionChainResponse? transactionChainResponse =
@@ -275,10 +279,10 @@ class ApiService {
     String body = '';
     if (pagingAddress.isEmpty) {
       body =
-          '{"query":"query { transactionChain(address: \\"$address\\") { ${Transaction.getQLFields()} } }"}';
+          '{"query":"query { transactionChain(address: \\"$address\\") { $request } }"}';
     } else {
       body =
-          '{"query":"query { transactionChain(address: \\"$address\\", pagingAddress: \\"$pagingAddress\\") { ${Transaction.getQLFields()} } }"}';
+          '{"query":"query { transactionChain(address: \\"$address\\", pagingAddress: \\"$pagingAddress\\") { $request } }"}';
     }
     dev.log('getTransactionChain: requestHttp.body=$body');
 
@@ -343,8 +347,10 @@ class ApiService {
   /// Query the network to list the transaction on the type
   /// @param {String} The type of transaction
   /// @param {int} The page
+  /// @param {String} request List of informations to retrieve in the GraphQL Query
   /// Returns the content scalar type represents transaction content [List<Transaction>]. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
-  Future<List<Transaction>> networkTransactions(String type, int page) async {
+  Future<List<Transaction>> networkTransactions(String type, int page,
+      {String request = Transaction.kTransactionQueryAllFields}) async {
     final Completer<List<Transaction>> completer =
         Completer<List<Transaction>>();
     NetworkTransactionsResponse? networkTransactionsResponse =
@@ -357,7 +363,7 @@ class ApiService {
     };
 
     final String body =
-        '{"query":"query { networkTransactions(type: \\"$type\\", page: $page) { ${Transaction.getQLFields()} } }"}';
+        '{"query":"query { networkTransactions(type: \\"$type\\", page: $page) { $request } }"}';
     dev.log('networkTransactions: requestHttp.body=$body');
 
     try {
@@ -420,8 +426,10 @@ class ApiService {
 
   /// Query the network to find a transaction
   /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+  /// @param {String} request List of informations to retrieve in the GraphQL Query
   /// Returns all informations represent transaction content.
-  Future<Transaction> getTransactionAllInfos(String address) async {
+  Future<Transaction> getTransactionAllInfos(String address,
+      {String request = Transaction.kTransactionQueryAllFields}) async {
     final Completer<Transaction> completer = Completer<Transaction>();
     Transaction? transaction;
 
@@ -431,7 +439,7 @@ class ApiService {
     };
 
     final String body =
-        '{"query":"query { transaction(address: \\"$address\\") {${Transaction.getQLFields()}} }"}';
+        '{"query":"query { transaction(address: \\"$address\\") {$request} }"}';
     dev.log('getTransactionAllInfos: requestHttp.body=$body');
 
     try {
