@@ -481,8 +481,8 @@ class ApiService {
         body: transaction.convertToJSON(),
         headers: requestHeaders);
     dev.log(
-        'getTransactionFees: requestHttp.body=${transaction.convertToJSON()}');
-    dev.log('getTransactionFees: responseHttp.body=${responseHttp.body}');
+        'getTransactionFee: requestHttp.body=${transaction.convertToJSON()}');
+    dev.log('getTransactionFee: responseHttp.body=${responseHttp.body}');
     transactionFee = transactionFeeFromJson(responseHttp.body);
 
     completer.complete(transactionFee);
