@@ -94,7 +94,7 @@ void main() {
     test('getTransactionFees', () async {
       final Transaction tx = Transaction(
               address:
-                  '009e059e8171643b959284fe542909f3b32198b8fc25b3e50447589b84341c1d67',
+                  '0000b426c48c85f7d04e3bb222dabc7e5aa17680c1932755cd7ad21f5d870c0c54f9',
               type: 'transfer',
               data: Transaction.initData(),
               originSignature:
@@ -105,13 +105,15 @@ void main() {
                   '9b209dd92c6caffbb5c39d12263f05baebc9fe3c36cb0f4dde04c96f1237b75a3a2973405c6d9d5e65d8a970a37bafea57b919febad46b0cceb04a7ffa4b6b00',
               version: 1)
           .addUCOTransfer(
-              '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-              toBigInt(10.03));
+              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              toBigInt(10.03))
+          .build('myseed', 0)
+          .originSign(kOriginPrivateKey);
       final TransactionFee transactionFee =
           await ApiService('http://localhost:4000').getTransactionFee(tx);
       expect(
-        transactionFee.fee!,
-        0.71883831,
+        transactionFee.fee!.toStringAsPrecision(2),
+        '0.17',
       );
     });
   }, tags: <String>['noCI']);
