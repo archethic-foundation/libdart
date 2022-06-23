@@ -10,8 +10,8 @@ import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/cross_validation_stamp.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/data.dart';
-import 'package:archethic_lib_dart/src/model/nft_transfer.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';
+import 'package:archethic_lib_dart/src/model/token_transfer.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
 import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
@@ -28,7 +28,7 @@ const Map<String, int> txTypes = <String, int>{
   'keychain': 255,
   'transfer': 253,
   'hosting': 252,
-  'nft': 251,
+  'token': 251,
 
   /// Network based transaction types
   'node': 0,
@@ -222,13 +222,13 @@ class Transaction {
     return this;
   }
 
-  /// Add a NFT transfer to the transaction
+  /// Add a token transfer to the transaction
   /// @param {String | Uint8List} to Address of the recipient (hexadecimal or binary buffer)
-  /// @param {BigInt} amount Amount of NFT to transfer
-  /// @param {String | Uint8List} nftAddress Address of NFT to spend (hexadecimal or binary buffer)
-  /// @param {int} nftId ID of the NFT to use (default to 0)
-  Transaction addNFTTransfer(dynamic to, BigInt amount, dynamic nftAddress,
-      {int nftId = 0}) {
+  /// @param {BigInt} amount Amount of token to transfer
+  /// @param {String | Uint8List} tokenAddress Address of token to spend (hexadecimal or binary buffer)
+  /// @param {int} tokenId ID of the token to use (default to 0)
+  Transaction addTokenTransfer(dynamic to, BigInt amount, dynamic tokenAddress,
+      {int tokenId = 0}) {
     if (to is! Uint8List && to is! String) {
       throw "'to' must be a string or Uint8List";
     }
@@ -241,25 +241,25 @@ class Transaction {
       to = uint8ListToHex(to);
     }
 
-    if (nftAddress is! Uint8List && nftAddress is! String) {
-      throw "'nftAddress' must be a string or Uint8List";
+    if (tokenAddress is! Uint8List && tokenAddress is! String) {
+      throw "'tokenAddress' must be a string or Uint8List";
     }
 
-    if (nftAddress is String) {
-      if (!isHex(nftAddress)) {
-        throw "'nftAddress' must be an hexadecimal string";
+    if (tokenAddress is String) {
+      if (!isHex(tokenAddress)) {
+        throw "'tokenAddress' must be an hexadecimal string";
       }
     } else {
-      nftAddress = uint8ListToHex(nftAddress);
+      tokenAddress = uint8ListToHex(tokenAddress);
     }
 
-    if (nftId.isNaN && nftId < 0) {
-      throw "'nftId' must be a valid integer >= 0";
+    if (tokenId.isNaN && tokenId < 0) {
+      throw "'tokenId' must be a valid integer >= 0";
     }
 
-    final NFTTransfer nftTransfer =
-        NFTTransfer(amount: amount, nft: nftAddress, to: to, nftId: nftId);
-    data!.ledger!.nft!.transfers!.add(nftTransfer);
+    final TokenTransfer tokenTransfer = TokenTransfer(
+        amount: amount, token: tokenAddress, to: to, tokenId: tokenId);
+    data!.ledger!.token!.transfers!.add(tokenTransfer);
     return this;
   }
 
@@ -399,15 +399,15 @@ class Transaction {
       }
     }
 
-    Uint8List nftTransfersBuffers = Uint8List(0);
-    if (data!.ledger!.nft!.transfers!.isNotEmpty) {
-      for (NFTTransfer nftTransfer in data!.ledger!.nft!.transfers!) {
-        nftTransfersBuffers = concatUint8List(<Uint8List>[
-          nftTransfersBuffers,
-          hexToUint8List(nftTransfer.nft!),
-          hexToUint8List(nftTransfer.to!),
-          encodeBigInt(nftTransfer.amount!),
-          Uint8List.fromList(<int>[nftTransfer.nftId!])
+    Uint8List tokenTransfersBuffers = Uint8List(0);
+    if (data!.ledger!.token!.transfers!.isNotEmpty) {
+      for (TokenTransfer tokenTransfer in data!.ledger!.token!.transfers!) {
+        tokenTransfersBuffers = concatUint8List(<Uint8List>[
+          tokenTransfersBuffers,
+          hexToUint8List(tokenTransfer.token!),
+          hexToUint8List(tokenTransfer.to!),
+          encodeBigInt(tokenTransfer.amount!),
+          Uint8List.fromList(<int>[tokenTransfer.tokenId!])
         ]);
       }
     }
@@ -430,8 +430,8 @@ class Transaction {
       ownershipsBuffers,
       Uint8List.fromList(<int>[data!.ledger!.uco!.transfers!.length]),
       ucoTransfersBuffers,
-      Uint8List.fromList(<int>[data!.ledger!.nft!.transfers!.length]),
-      nftTransfersBuffers,
+      Uint8List.fromList(<int>[data!.ledger!.token!.transfers!.length]),
+      tokenTransfersBuffers,
       Uint8List.fromList(<int>[data!.recipients!.length]),
       recipients
     ]);
@@ -463,14 +463,14 @@ class Transaction {
               };
             }))
           },
-          'nft': {
+          'token': {
             'transfers': List<dynamic>.from(
-                data!.ledger!.nft!.transfers!.map((NFTTransfer x) {
+                data!.ledger!.token!.transfers!.map((TokenTransfer x) {
               return {
                 'to': x.to == null ? '' : x.to!,
                 'amount': x.amount == null ? 0 : x.amount!.toInt(),
-                'nft': x.nft!,
-                'nft_id': x.nftId
+                'token': x.token!,
+                'token_id': x.tokenId
               };
             }))
           },
@@ -492,14 +492,14 @@ class Transaction {
       'ownerships': [],
       'ledger': {
         'uco': {'transfers': []},
-        'nft': {'transfers': []}
+        'token': {'transfers': []}
       },
       'recipients': []
     });
   }
 
   static const String kTransactionQueryAllFields =
-      ' address, balance { nft { address, amount }, uco }, chainLength, crossValidationStamps { nodePublicKey, signature }, data { content,  ownerships {  authorizedPublicKeys { encryptedSecretKey, publicKey } secret } ledger { uco { transfers { amount, to } }, nft { transfers { amount, to, nft } } } recipients } inputs { amount, from, nftAddress, spent, timestamp, type, }, originSignature, previousPublicKey, previousSignature, type, validationStamp { proofOfIntegrity, proofOfWork, signature, timestamp, ledgerOperations { fee } }, version';
+      ' address, balance { token { address, amount }, uco }, chainLength, crossValidationStamps { nodePublicKey, signature }, data { content,  ownerships {  authorizedPublicKeys { encryptedSecretKey, publicKey } secret } ledger { uco { transfers { amount, to } }, token { transfers { amount, to, token, token_id } } } recipients } inputs { amount, from, tokenAddress, spent, timestamp, type, }, originSignature, previousPublicKey, previousSignature, type, validationStamp { proofOfIntegrity, proofOfWork, signature, timestamp, ledgerOperations { fee } }, version';
 }
 
 String transactionEncoding() {
@@ -521,9 +521,9 @@ String transactionEncoding() {
   ///     - UCO Ledger
   ///       - Transfers length: 1 byte
   ///       - Transfers: recipient | amount * 10^8 [8 bytes]
-  ///     - NFT Ledger
+  ///     - Token Ledger
   ///       - Transfers length: 1 byte
-  ///       - Transfers: nft_address | recipient | amount * 10^8 [8 bytes]
+  ///       - Transfers: token | recipient | amount * 10^8 [8 bytes]
   ///   - Recipients (size): 1 byte
   ///   - Recipients: X bytes
   ///   - Previous public key: curve_type [1 byte] | origin_type [1 byte] | raw_key 04xy [bytes]

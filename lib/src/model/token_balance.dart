@@ -1,20 +1,20 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
-/// [NftBalance] represents a NFT ledger balance.
+/// [TokenBalance] represents a token ledger balance.
 
-class NftBalance {
-  NftBalance({
+class TokenBalance {
+  TokenBalance({
     this.address,
     this.amount,
   });
 
-  /// NFT: address of the NFT
+  /// token: address of the token
   String? address;
 
-  /// Amount: amount of NFT
+  /// Amount: amount of token
   double? amount;
 
-  factory NftBalance.fromJson(Map<String, dynamic> json) => NftBalance(
+  factory TokenBalance.fromJson(Map<String, dynamic> json) => TokenBalance(
         address: json['address'],
         amount: json['amount']?.toDouble(),
       );

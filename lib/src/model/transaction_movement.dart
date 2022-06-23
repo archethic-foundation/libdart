@@ -4,7 +4,7 @@
 class TransactionMovement {
   TransactionMovement({
     this.amount,
-    this.nftAddress,
+    this.tokenAddress,
     this.to,
     this.type,
   });
@@ -12,26 +12,26 @@ class TransactionMovement {
   /// Amount: asset amount
   double? amount;
 
-  /// NFT address: address of the NFT if the type is NFT
-  String? nftAddress;
+  /// Token address: address of the token if the type is token
+  String? tokenAddress;
 
   /// To: asset transfer recipient
   String? to;
 
-  /// Type: UCO/NFT
+  /// Type: UCO/Token
   String? type;
 
   factory TransactionMovement.fromJson(Map<String, dynamic> json) =>
       TransactionMovement(
         amount: json['amount']?.toDouble(),
-        nftAddress: json['nftAddress'],
+        tokenAddress: json['tokenAddress'],
         to: json['to'],
         type: json['type'],
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'amount': amount,
-        'nftAddress': nftAddress,
+        'tokenAddress': tokenAddress,
         'to': to,
         'type': type,
       };

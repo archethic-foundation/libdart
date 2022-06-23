@@ -118,7 +118,7 @@ It supports the Archethic Cryptography rules which are:
   
   `new Transaction(type)` creates a new instance of the transaction
   
-  `type` is the string defining the type of transaction to generate ("keychain", "keychain_access", "transfer", "hosting", "code_proposal", "code_approval", "nft")
+  `type` is the string defining the type of transaction to generate ("keychain", "keychain_access", "transfer", "hosting", "code_proposal", "code_approval", "token")
   
   The transaction instance contains the following methods:
   
@@ -143,12 +143,12 @@ It supports the Archethic Cryptography rules which are:
   - `to` is hexadecimal encoding or Uint8List representing the transaction address (recipient) to receive the funds
   - `amount` is the number of uco to send (BigInt)
 
-  #### addNFTTransfer(to, amount, nftAddress, nftId)
-  Add a NFT transfer to the `data.ledger.nft.transfers` section of the transaction
+  #### addTokenTransfer(to, amount, tokenAddress, tokenId)
+  Add a token transfer to the `data.ledger.token.transfers` section of the transaction
   - `to` is hexadecimal encoding or Uint8List representing the transaction address (recipient) to receive the funds
   - `amount` is the number of uco to send (double)
-  - `nftAddress` is hexadecimal encoding or Uint8List representing the NFT address to spend
-  - `nftId` is the ID of the NFT to use (default to 0)
+  - `tokenAddress` is hexadecimal encoding or Uint8List representing the token address to spend
+  - `tokenId` is the ID of the token to use (default to 0)
 
   #### addRecipient(to)
   Add a recipient (for non UCO transfers, ie. smart contract interaction) to the `data.recipient` section of the transaction

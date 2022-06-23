@@ -85,19 +85,19 @@ void main() {
         expect(tx.data!.ledger!.uco!.transfers![0].amount, toBigInt(10.03));
       });
     });
-    group('addNFTTransfer', () {
-      test('should add an nft transfer to the transaction data', () {
+    group('addTokenTransfer', () {
+      test('should add a token transfer to the transaction data', () {
         final Transaction tx = Transaction(
                 type: 'transfer', data: Transaction.initData())
-            .addNFTTransfer(
+            .addTokenTransfer(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(10.03),
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
-        expect(tx.data!.ledger!.nft!.transfers!.length, 1);
-        expect(tx.data!.ledger!.nft!.transfers![0].to,
+        expect(tx.data!.ledger!.token!.transfers!.length, 1);
+        expect(tx.data!.ledger!.token!.transfers![0].to,
             '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
-        expect(tx.data!.ledger!.nft!.transfers![0].amount, toBigInt(10.03));
-        expect(tx.data!.ledger!.nft!.transfers![0].nft,
+        expect(tx.data!.ledger!.token!.transfers![0].amount, toBigInt(10.03));
+        expect(tx.data!.ledger!.token!.transfers![0].token,
             '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
       });
     });
@@ -131,7 +131,7 @@ void main() {
             .addUCOTransfer(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(0.2020))
-            .addNFTTransfer(
+            .addTokenTransfer(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(100),
                 '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
@@ -178,7 +178,7 @@ void main() {
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
             encodeBigInt(toBigInt(0.2020))
           ]),
-          // Nb of NFT transfers
+          // Nb of token transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
             hexToUint8List(
@@ -273,7 +273,7 @@ void main() {
             .addUCOTransfer(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(0.2020))
-            .addNFTTransfer(
+            .addTokenTransfer(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 toBigInt(100),
                 '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
@@ -320,7 +320,7 @@ void main() {
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
             encodeBigInt(toBigInt(0.2020))
           ]),
-          // Nb of NFT transfers
+          // Nb of token transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
             hexToUint8List(

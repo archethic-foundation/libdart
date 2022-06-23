@@ -1,31 +1,31 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 // Project imports:
-import 'package:archethic_lib_dart/src/model/nft_balance.dart';
+import 'package:archethic_lib_dart/src/model/token_balance.dart';
 
 /// [Balance] represents a ledger balance.
 class Balance {
   Balance({
-    this.nft,
+    this.token,
     this.uco,
   });
 
-  /// NFT: NFT balances
-  List<NftBalance>? nft;
+  /// Token: Token balances
+  List<TokenBalance>? token;
 
   /// UCO: uco balance
   double? uco;
 
   factory Balance.fromJson(Map<String, dynamic> json) => Balance(
-        nft: json['nft'] == null
+        token: json['token'] == null
             ? null
-            : List<NftBalance>.from(
-                json['nft'].map((dynamic x) => NftBalance.fromJson(x))),
+            : List<TokenBalance>.from(
+                json['token'].map((dynamic x) => TokenBalance.fromJson(x))),
         uco: json['uco']?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'nft': List<dynamic>.from(nft!.map((NftBalance x) => x.toJson())),
+        'token': List<dynamic>.from(token!.map((TokenBalance x) => x.toJson())),
         'uco': uco,
       };
 }

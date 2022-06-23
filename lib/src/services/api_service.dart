@@ -178,7 +178,7 @@ class ApiService {
 
   /// Query the network to find a balance from an address
   /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  /// Returns [Balance] represents a ledger balance. It includes: UCO: uco balance & NFT: NFT balances
+  /// Returns [Balance] represents a ledger balance. It includes: UCO: uco balance & Token: token balances
   Future<Balance> fetchBalance(String address) async {
     final Completer<Balance> completer = Completer<Balance>();
     BalanceResponse? balanceResponse;
@@ -190,7 +190,7 @@ class ApiService {
     };
 
     final String body =
-        '{"query": "query {balance(address: \\"$address\\") {uco, nft {address, amount}}}"}';
+        '{"query": "query {balance(address: \\"$address\\") {uco, token {address, amount}}}"}';
     dev.log('fetchBalance: requestHttp.body=$body');
 
     try {
