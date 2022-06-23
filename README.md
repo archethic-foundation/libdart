@@ -143,11 +143,12 @@ It supports the Archethic Cryptography rules which are:
   - `to` is hexadecimal encoding or Uint8List representing the transaction address (recipient) to receive the funds
   - `amount` is the number of uco to send (BigInt)
 
-  #### addNFTTransfer(to, amount, nft_address)
+  #### addNFTTransfer(to, amount, nftAddress, nftId)
   Add a NFT transfer to the `data.ledger.nft.transfers` section of the transaction
   - `to` is hexadecimal encoding or Uint8List representing the transaction address (recipient) to receive the funds
   - `amount` is the number of uco to send (double)
-  - `nft_address` is hexadecimal encoding or Uint8List representing the NFT address to spend
+  - `nftAddress` is hexadecimal encoding or Uint8List representing the NFT address to spend
+  - `nftId` is the ID of the NFT to use (default to 0)
 
   #### addRecipient(to)
   Add a recipient (for non UCO transfers, ie. smart contract interaction) to the `data.recipient` section of the transaction

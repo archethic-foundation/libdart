@@ -185,7 +185,8 @@ void main() {
                 '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
             hexToUint8List(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
-            encodeBigInt(toBigInt(100))
+            encodeBigInt(toBigInt(100)),
+            Uint8List.fromList(<int>[0])
           ]),
           // Nb of recipients
           Uint8List.fromList(<int>[1]),
@@ -326,7 +327,8 @@ void main() {
                 '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
             hexToUint8List(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
-            encodeBigInt(toBigInt(100))
+            encodeBigInt(toBigInt(100)),
+            Uint8List.fromList(<int>[0]),
           ]),
           // Nb of recipients
           Uint8List.fromList(<int>[1]),

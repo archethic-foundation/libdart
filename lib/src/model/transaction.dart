@@ -226,7 +226,9 @@ class Transaction {
   /// @param {String | Uint8List} to Address of the recipient (hexadecimal or binary buffer)
   /// @param {BigInt} amount Amount of NFT to transfer
   /// @param {String | Uint8List} nftAddress Address of NFT to spend (hexadecimal or binary buffer)
-  Transaction addNFTTransfer(dynamic to, BigInt amount, dynamic nftAddress) {
+  /// @param {int} nftId ID of the NFT to use (default to 0)
+  Transaction addNFTTransfer(dynamic to, BigInt amount, dynamic nftAddress,
+      {int nftId = 0}) {
     if (to is! Uint8List && to is! String) {
       throw "'to' must be a string or Uint8List";
     }
@@ -250,8 +252,13 @@ class Transaction {
     } else {
       nftAddress = uint8ListToHex(nftAddress);
     }
+
+    if (nftId.isNaN && nftId < 0) {
+      throw "'nftId' must be a valid integer >= 0";
+    }
+
     final NFTTransfer nftTransfer =
-        NFTTransfer(amount: amount, nft: nftAddress, to: to);
+        NFTTransfer(amount: amount, nft: nftAddress, to: to, nftId: nftId);
     data!.ledger!.nft!.transfers!.add(nftTransfer);
     return this;
   }
@@ -399,7 +406,8 @@ class Transaction {
           nftTransfersBuffers,
           hexToUint8List(nftTransfer.nft!),
           hexToUint8List(nftTransfer.to!),
-          encodeBigInt(nftTransfer.amount!)
+          encodeBigInt(nftTransfer.amount!),
+          Uint8List.fromList(<int>[nftTransfer.nftId!])
         ]);
       }
     }
@@ -461,7 +469,8 @@ class Transaction {
               return {
                 'to': x.to == null ? '' : x.to!,
                 'amount': x.amount == null ? 0 : x.amount!.toInt(),
-                'nft': x.nft!
+                'nft': x.nft!,
+                'nft_id': x.nftId
               };
             }))
           },
