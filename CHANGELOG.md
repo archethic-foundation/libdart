@@ -1,6 +1,10 @@
 Changelog
 =========
 
+#### Version 1.0.21 (2022-06-23)
+* Rename NFT to Token
+* Add token id
+
 #### Version 1.0.20 (2022-06-16)
 * Optimize graphQL requests to limit the transfer of informations
 
