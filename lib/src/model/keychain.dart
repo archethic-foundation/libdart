@@ -206,8 +206,8 @@ KeyPair deriveArchethicKeypair(dynamic seed, String derivationPath, int index,
 }
 
 String replaceDerivationPathIndex(String path, int index) {
-  final List<String> newPath = path.split('/').sublist(0, 3);
-  newPath.add('$index\'');
+  final List<String> newPath = path.split('/');
+  newPath.last = index.toString();
   return newPath.join('/');
 }
 
