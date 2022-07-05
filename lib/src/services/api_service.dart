@@ -82,12 +82,14 @@ class ApiService {
     try {
       final String body =
           '{"query": "query {lastTransaction(address: \\"$address\\") { $request } }"}';
-      dev.log('getLastTransaction: requestHttp.body=$body');
+      dev.log('getLastTransaction: requestHttp.body=$body',
+          time: DateTime.now());
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
           headers: requestHeaders);
-      dev.log('getLastTransaction: responseHttp.body=${responseHttp.body}');
+      dev.log('getLastTransaction: responseHttp.body=${responseHttp.body}',
+          time: DateTime.now());
       if (responseHttp.statusCode == 200) {
         transactionLastResponse =
             transactionLastResponseFromJson(responseHttp.body);
@@ -97,7 +99,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      dev.log('getLastTransaction: error=$e');
+      dev.log('getLastTransaction: error=$e', time: DateTime.now());
     }
 
     completer.complete(lastTransaction);
