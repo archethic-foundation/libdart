@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 1.0.22 (2022-07-05)
+* Add timestamp in logs
+
 #### Version 1.0.21 (2022-06-23)
 * Rename NFT to Token
 * Add token id

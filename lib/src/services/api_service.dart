@@ -3,11 +3,11 @@
 // Dart imports:
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer' as dev;
 import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
+import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
@@ -49,18 +49,18 @@ class ApiService {
       'Accept': 'application/json',
     };
     TransactionStatus transactionStatus = TransactionStatus();
-    dev.log('sendTx: requestHttp.body=${transaction.convertToJSON()}');
+    log('sendTx: requestHttp.body=${transaction.convertToJSON()}');
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api/transaction'),
           body: transaction.convertToJSON(),
           headers: requestHeaders);
-      dev.log('sendTx: responseHttp.body=${responseHttp.body}');
+      log('sendTx: responseHttp.body=${responseHttp.body}');
       transactionStatus = transactionStatusFromJson(responseHttp.body);
 
       completer.complete(transactionStatus);
     } catch (e) {
-      dev.log(e.toString());
+      log(e.toString());
     }
 
     return completer.future;
@@ -82,14 +82,12 @@ class ApiService {
     try {
       final String body =
           '{"query": "query {lastTransaction(address: \\"$address\\") { $request } }"}';
-      dev.log('getLastTransaction: requestHttp.body=$body',
-          time: DateTime.now());
+      log('getLastTransaction: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
           headers: requestHeaders);
-      dev.log('getLastTransaction: responseHttp.body=${responseHttp.body}',
-          time: DateTime.now());
+      log('getLastTransaction: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
         transactionLastResponse =
             transactionLastResponseFromJson(responseHttp.body);
@@ -99,7 +97,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      dev.log('getLastTransaction: error=$e', time: DateTime.now());
+      log('getLastTransaction: error=$e');
     }
 
     completer.complete(lastTransaction);
@@ -118,12 +116,12 @@ class ApiService {
     try {
       final String body =
           '{"query": "query {lastTransaction(address: \\"$address\\") { chainLength } }"}';
-      dev.log('getTransactionIndex: requestHttp.body=$body');
+      log('getTransactionIndex: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
           headers: requestHeaders);
-      dev.log('getTransactionIndex: responseHttp.body=${responseHttp.body}');
+      log('getTransactionIndex: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
         transactionLastResponse =
             transactionLastResponseFromJson(responseHttp.body);
@@ -133,7 +131,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      dev.log('getTransactionIndex: error=$e');
+      log('getTransactionIndex: error=$e');
     }
 
     completer.complete(lastTransaction);
@@ -154,13 +152,12 @@ class ApiService {
     try {
       const String body =
           '{"query": "query {sharedSecrets {storageNoncePublicKey}}"}';
-      dev.log('getStorageNoncePublicKey: requestHttp.body=$body');
+      log('getStorageNoncePublicKey: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
           headers: requestHeaders);
-      dev.log(
-          'getStorageNoncePublicKey: responseHttp.body=${responseHttp.body}');
+      log('getStorageNoncePublicKey: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
         sharedSecretsResponse =
             sharedSecretsResponseFromJson(responseHttp.body);
@@ -171,7 +168,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      dev.log('getStorageNoncePublicKey: error=$e');
+      log('getStorageNoncePublicKey: error=$e');
     }
 
     completer.complete(storageNoncePublicKey);
@@ -193,14 +190,14 @@ class ApiService {
 
     final String body =
         '{"query": "query {balance(address: \\"$address\\") {uco, token {address, amount}}}"}';
-    dev.log('fetchBalance: requestHttp.body=$body');
+    log('fetchBalance: requestHttp.body=$body');
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
           headers: requestHeaders);
-      dev.log('fetchBalance: responseHttp.body=${responseHttp.body}');
+      log('fetchBalance: responseHttp.body=${responseHttp.body}');
 
       if (responseHttp.statusCode == 200) {
         balanceResponse = balanceResponseFromJson(responseHttp.body);
@@ -209,7 +206,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      dev.log('fetchBalance: error=$e');
+      log('fetchBalance: error=$e');
     }
 
     completer.complete(balance);
@@ -232,14 +229,14 @@ class ApiService {
 
     final String body =
         '{"query":"query { transaction(address: \\"$address\\") { data { content }} }"}';
-    dev.log('getTransactionContent: requestHttp.body=$body');
+    log('getTransactionContent: requestHttp.body=$body');
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
           headers: requestHeaders);
-      dev.log('getTransactionContent: responseHttp.body=${responseHttp.body}');
+      log('getTransactionContent: responseHttp.body=${responseHttp.body}');
 
       if (responseHttp.statusCode == 200) {
         transactionContentResponse =
@@ -252,7 +249,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      dev.log('getTransactionContent: error=$e');
+      log('getTransactionContent: error=$e');
     }
 
     completer.complete(content);
@@ -286,14 +283,14 @@ class ApiService {
       body =
           '{"query":"query { transactionChain(address: \\"$address\\", pagingAddress: \\"$pagingAddress\\") { $request } }"}';
     }
-    dev.log('getTransactionChain: requestHttp.body=$body');
+    log('getTransactionChain: requestHttp.body=$body');
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
           headers: requestHeaders);
-      dev.log('getTransactionChain: responseHttp.body=${responseHttp.body}');
+      log('getTransactionChain: responseHttp.body=${responseHttp.body}');
 
       if (responseHttp.statusCode == 200) {
         transactionChainResponse =
@@ -304,7 +301,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      dev.log('getTransactionChain: error=$e');
+      log('getTransactionChain: error=$e');
     }
 
     completer.complete(transactionChain);
@@ -326,12 +323,12 @@ class ApiService {
     try {
       const String body =
           '{"query": "query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress authorizationDate enrollmentDate}}"}';
-      dev.log('getNodeList: requestHttp.body=$body');
+      log('getNodeList: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
           headers: requestHeaders);
-      dev.log('getNodeList: responseHttp.body=${responseHttp.body}');
+      log('getNodeList: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
         nodesResponse = nodesResponseFromJson(responseHttp.body);
         if (nodesResponse.data != null) {
@@ -339,7 +336,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      dev.log('getNodeList: error=$e');
+      log('getNodeList: error=$e');
     }
 
     completer.complete(nodesList);
@@ -366,14 +363,14 @@ class ApiService {
 
     final String body =
         '{"query":"query { networkTransactions(type: \\"$type\\", page: $page) { $request } }"}';
-    dev.log('networkTransactions: requestHttp.body=$body');
+    log('networkTransactions: requestHttp.body=$body');
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
           headers: requestHeaders);
-      dev.log('networkTransactions: responseHttp.body=${responseHttp.body}');
+      log('networkTransactions: responseHttp.body=${responseHttp.body}');
 
       if (responseHttp.statusCode == 200) {
         networkTransactionsResponse =
@@ -384,7 +381,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      dev.log('networkTransactions: error=$e');
+      log('networkTransactions: error=$e');
     }
 
     completer.complete(transactionsList);
@@ -409,19 +406,19 @@ class ApiService {
     try {
       final String body =
           '{"query":"query { transactionInputs(address: \\"$address\\") { $request } }"}';
-      dev.log('getTransactionInputs: requestHttp.body=$body');
+      log('getTransactionInputs: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
           headers: requestHeaders);
-      dev.log('getTransactionInputs: responseHttp.body=${responseHttp.body}');
+      log('getTransactionInputs: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
         transactionInputsResponse =
             transactionInputsResponseFromJson(responseHttp.body);
         transactionInputs = transactionInputsResponse.data!.transactionInputs!;
       }
     } catch (e) {
-      dev.log('getTransactionInputs: error=$e');
+      log('getTransactionInputs: error=$e');
     }
 
     completer.complete(transactionInputs);
@@ -444,14 +441,14 @@ class ApiService {
 
     final String body =
         '{"query":"query { transaction(address: \\"$address\\") {$request} }"}';
-    dev.log('getTransactionAllInfos: requestHttp.body=$body');
+    log('getTransactionAllInfos: requestHttp.body=$body');
 
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
           headers: requestHeaders);
-      dev.log('getTransactionAllInfos: responseHttp.body=${responseHttp.body}');
+      log('getTransactionAllInfos: responseHttp.body=${responseHttp.body}');
 
       if (responseHttp.statusCode == 200) {
         final TransactionContentResponse transactionResponse =
@@ -462,7 +459,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      dev.log('getTransactionAllInfos: error=$e');
+      log('getTransactionAllInfos: error=$e');
     }
 
     completer.complete(transaction);
@@ -482,9 +479,8 @@ class ApiService {
         Uri.parse('${endpoint!}/api/transaction_fee'),
         body: transaction.convertToJSON(),
         headers: requestHeaders);
-    dev.log(
-        'getTransactionFee: requestHttp.body=${transaction.convertToJSON()}');
-    dev.log('getTransactionFee: responseHttp.body=${responseHttp.body}');
+    log('getTransactionFee: requestHttp.body=${transaction.convertToJSON()}');
+    log('getTransactionFee: responseHttp.body=${responseHttp.body}');
     transactionFee = transactionFeeFromJson(responseHttp.body);
 
     completer.complete(transactionFee);
@@ -505,13 +501,12 @@ class ApiService {
     try {
       final String body =
           '{"query": "query { transaction(address: \\"$address\\") { data { ownerships { secret, authorizedPublicKeys { encryptedSecretKey, publicKey } } } } }"}';
-      dev.log('getTransactionOwnerships: requestHttp.body=$body');
+      log('getTransactionOwnerships: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
           headers: requestHeaders);
-      dev.log(
-          'getTransactionOwnerships: responseHttp.body=${responseHttp.body}');
+      log('getTransactionOwnerships: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
         final TransactionContentResponse transactionResponse =
             transactionContentResponseFromJson(responseHttp.body);
@@ -522,7 +517,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      dev.log('getTransactionOwnerships: error=$e');
+      log('getTransactionOwnerships: error=$e');
     }
 
     completer.complete(ownerships);
@@ -607,8 +602,7 @@ class ApiService {
     final Uint8List aesKey =
         ecDecrypt(authorizedPublicKey.encryptedSecretKey, keypair.privateKey);
     final Uint8List keychainAddress = aesDecrypt(ownership.secret, aesKey);
-    dev.log(
-        'keychainAddress (getKeychain): ${uint8ListToHex(keychainAddress)}');
+    log('keychainAddress (getKeychain): ${uint8ListToHex(keychainAddress)}');
 
     final Transaction lastTransactionKeychain = await getLastTransaction(
         uint8ListToHex(keychainAddress),
@@ -651,8 +645,8 @@ class ApiService {
         Uri.parse('${endpoint!}/api/origin_key'),
         body: body,
         headers: requestHeaders);
-    dev.log('addOriginKey: requestHttp.body=$body');
-    dev.log('addOriginKey: responseHttp.body=${responseHttp.body}');
+    log('addOriginKey: requestHttp.body=$body');
+    log('addOriginKey: responseHttp.body=${responseHttp.body}');
 
     final OriginKeyResponse originKey =
         originKeyResponseFromJson(responseHttp.body);

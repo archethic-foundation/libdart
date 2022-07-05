@@ -2,11 +2,11 @@ library test.keychain_test;
 
 // Dart imports:
 import 'dart:convert';
-import 'dart:developer' as dev;
 import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
+import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:test/test.dart';
 
 // Project imports:
@@ -111,18 +111,18 @@ void main() {
       /// Generate keyChain Seed from random value
       final String keychainSeed = uint8ListToHex(Uint8List.fromList(
           List<int>.generate(32, (int i) => Random.secure().nextInt(256))));
-      dev.log('keychainSeed: $keychainSeed');
+      log('keychainSeed: $keychainSeed');
 
       /// Default service for wallet
       const String kServiceName = 'main-uco';
       const String kDerivationPathWithoutIndex = 'm/650\'/$kServiceName/';
       const String index = '0';
       const String kDerivationPath = '$kDerivationPathWithoutIndex$index';
-      dev.log('kDerivationPath: $kDerivationPath');
+      log('kDerivationPath: $kDerivationPath');
 
       final String originPrivateKey =
           ApiService('http://localhost:4000').getOriginKey();
-      dev.log('originPrivateKey: $originPrivateKey');
+      log('originPrivateKey: $originPrivateKey');
 
       /// Create Keychain from keyChain seed and wallet public key to encrypt secret
       final Transaction keychainTransaction =
@@ -132,7 +132,7 @@ void main() {
               hexToUint8List(originPrivateKey),
               serviceName: kServiceName,
               derivationPath: kDerivationPath);
-      dev.log('keychainTransaction: ${keychainTransaction.convertToJSON()}');
+      log('keychainTransaction: ${keychainTransaction.convertToJSON()}');
 
       /// Create Keychain Access for wallet
       final Transaction accessKeychainTx = ApiService('http://localhost:4000')
@@ -140,7 +140,7 @@ void main() {
               walletSeed,
               hexToUint8List(keychainTransaction.address!),
               hexToUint8List(originPrivateKey));
-      dev.log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
+      log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
 
       // ignore: unused_local_variable
       final TransactionStatus transactionStatusKeychain =
@@ -158,8 +158,7 @@ void main() {
 
       final Keychain keychainToUpdate =
           await ApiService('http://localhost:4000').getKeychain(walletSeed);
-      dev.log(
-          'keychain seed (add Account) : ${uint8ListToHex(keychainToUpdate.seed!)}');
+      log('keychain seed (add Account) : ${uint8ListToHex(keychainToUpdate.seed!)}');
 
       final String genesisAddressKeychain =
           crypto.deriveAddress(uint8ListToHex(keychainToUpdate.seed!), 0);
@@ -221,18 +220,18 @@ void main() {
       /// Generate keyChain Seed from random value
       final String keychainSeed = uint8ListToHex(Uint8List.fromList(
           List<int>.generate(32, (int i) => Random.secure().nextInt(256))));
-      dev.log('keychainSeed: $keychainSeed');
+      log('keychainSeed: $keychainSeed');
 
       /// Default service for wallet
       const String kServiceName = 'main-uco';
       const String kDerivationPathWithoutIndex = 'm/650\'/$kServiceName/';
       const String index = '0';
       const String kDerivationPath = '$kDerivationPathWithoutIndex$index';
-      dev.log('kDerivationPath: $kDerivationPath');
+      log('kDerivationPath: $kDerivationPath');
 
       final String originPrivateKey =
           ApiService('http://localhost:4000').getOriginKey();
-      dev.log('originPrivateKey: $originPrivateKey');
+      log('originPrivateKey: $originPrivateKey');
 
       /// Create Keychain from keyChain seed and wallet public key to encrypt secret
       final Transaction keychainTransaction =
@@ -242,7 +241,7 @@ void main() {
               hexToUint8List(originPrivateKey),
               serviceName: kServiceName,
               derivationPath: kDerivationPath);
-      dev.log('keychainTransaction: ${keychainTransaction.convertToJSON()}');
+      log('keychainTransaction: ${keychainTransaction.convertToJSON()}');
 
       /// Create Keychain Access for wallet
       final Transaction accessKeychainTx = ApiService('http://localhost:4000')
@@ -250,7 +249,7 @@ void main() {
               walletSeed,
               hexToUint8List(keychainTransaction.address!),
               hexToUint8List(originPrivateKey));
-      dev.log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
+      log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
 
       // ignore: unused_local_variable
       final TransactionStatus transactionStatusKeychain =

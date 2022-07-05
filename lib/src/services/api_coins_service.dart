@@ -1,9 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
-// Dart imports:
-import 'dart:developer' as dev;
-
 // Package imports:
+import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:http/http.dart' as http show Response, get;
 
 // Project imports:
@@ -66,7 +64,7 @@ class ApiCoinsService {
 
       coinsPriceResponse = coinsPriceResponseFromJson(responseHttp.body);
     } catch (e) {
-      dev.log(e.toString());
+      log(e.toString());
     }
     return coinsPriceResponse!;
   }
@@ -313,7 +311,7 @@ class ApiCoinsService {
         }
       }
     } catch (e) {
-      dev.log(e.toString());
+      log(e.toString());
     }
 
     return simplePriceResponse;
@@ -342,7 +340,7 @@ class ApiCoinsService {
             coinsCurrentDataResponseFromJson(responseHttp.body);
       }
     } catch (e) {
-      dev.log(e.toString());
+      log(e.toString());
     }
 
     return coinsCurrentDataResponse!;
