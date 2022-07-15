@@ -444,7 +444,7 @@ class Transaction {
       'address': address == null ? '' : address!,
       'type': type,
       'data': {
-        'content': uint8ListToHex(Uint8List.fromList(data!.content!.codeUnits)),
+        'content': data!.content!.codeUnits,
         'code': data == null || data!.code == null ? '' : data!.code!,
         'ownerships': List<dynamic>.from(data!.ownerships!.map((Ownership x) {
           return <String, Object?>{
