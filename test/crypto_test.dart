@@ -134,7 +134,7 @@ void main() {
           List<int>.generate(32, (int i) => Random.secure().nextInt(256)));
       final Uint8List encrypted = crypto.aesEncrypt('hello', key);
       expect(crypto.aesDecrypt(encrypted, key),
-          Uint8List.fromList(utf8.encode('hello')));
+          Uint8List.fromList('hello'.codeUnits));
     });
   });
 

@@ -23,12 +23,13 @@ void main() {
   group('keychain to DID', () {
     test('should encode the key material metadata', () {
       final Uint8List seed =
-          Uint8List.fromList(utf8.encode('abcdefghijklmnopqrstuvwxyz'));
+          Uint8List.fromList('abcdefghijklmnopqrstuvwxyz'.codeUnits);
 
       final Keychain keychain = Keychain.serviceUCO(seed);
       final KeyPair keyPair = keychain.deriveKeypair('uco');
 
-      final String address = crypto.deriveAddress(utf8.decode(seed), 0);
+      final String address =
+          crypto.deriveAddress(String.fromCharCodes(seed), 0);
 
       final Map<String, dynamic> json = keychain.toDID();
       final String id = json['id'];
@@ -52,19 +53,19 @@ void main() {
 
   group('keychain encode', () {
     test('should encode the keychain into a binary', () {
-      final Uint8List seed = Uint8List.fromList(utf8.encode('myseed'));
+      final Uint8List seed = Uint8List.fromList('myseed'.codeUnits);
 
       final Keychain keychain = Keychain.serviceUCO(seed);
 
       final Uint8List expectedBinary = concatUint8List(<Uint8List>[
         Uint8List.fromList(<int>[0, 0, 0, 1]), // Version
         Uint8List.fromList(<int>[6]), // Seed size
-        Uint8List.fromList(utf8.encode('myseed')),
+        Uint8List.fromList('myseed'.codeUnits),
         Uint8List.fromList(<int>[1]), // Nb of services
         Uint8List.fromList(<int>[3]), // Service name length: "UCO",
-        Uint8List.fromList(utf8.encode('uco')),
+        Uint8List.fromList('uco'.codeUnits),
         Uint8List.fromList(<int>[10]), // Derivation path length,
-        Uint8List.fromList(utf8.encode('m/650\'/0/0')),
+        Uint8List.fromList('m/650\'/0/0'.codeUnits),
         Uint8List.fromList(<int>[0]), // Ed25519 curve
         Uint8List.fromList(<int>[0]) // SHA256 hash algo
       ]);
@@ -76,19 +77,19 @@ void main() {
       final Uint8List binary = concatUint8List(<Uint8List>[
         Uint8List.fromList(<int>[0, 0, 0, 1]), // Version
         Uint8List.fromList(<int>[6]), // Seed size
-        Uint8List.fromList(utf8.encode('myseed')),
+        Uint8List.fromList('myseed'.codeUnits),
         Uint8List.fromList(<int>[1]), // Nb of services
         Uint8List.fromList(<int>[3]), // Service name length: "UCO",
-        Uint8List.fromList(utf8.encode('uco')),
+        Uint8List.fromList('uco'.codeUnits),
         Uint8List.fromList(<int>[10]), // Derivation path length,
-        Uint8List.fromList(utf8.encode('m/650\'/0/0')),
+        Uint8List.fromList('m/650\'/0/0'.codeUnits),
         Uint8List.fromList(<int>[0]), // Ed25519 curve
         Uint8List.fromList(<int>[0]) // SHA256 hash algo
       ]);
 
       final Keychain keychain = decodeKeychain(binary);
 
-      expect(Uint8List.fromList(utf8.encode('myseed')), keychain.seed);
+      expect(Uint8List.fromList('myseed'.codeUnits), keychain.seed);
       expect(
           json.encode({
             'uco': {
@@ -105,7 +106,7 @@ void main() {
     test('should add service in a keychain', () async {
       /// Create keychain
       const String walletSeed =
-          '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA1';
+          '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA6';
       final KeyPair walletKeyPair = crypto.deriveKeyPair(walletSeed, 0);
 
       /// Generate keyChain Seed from random value
@@ -114,7 +115,7 @@ void main() {
       log('keychainSeed: $keychainSeed');
 
       /// Default service for wallet
-      const String kServiceName = 'main-uco';
+      const String kServiceName = 'main-u·co🎉';
       const String kDerivationPathWithoutIndex = 'm/650\'/$kServiceName/';
       const String index = '0';
       const String kDerivationPath = '$kDerivationPathWithoutIndex$index';
@@ -269,7 +270,7 @@ void main() {
     }, tags: <String>['noCI']);
 
     test('should build the transaction and the related signature', () {
-      final Uint8List seed = Uint8List.fromList(utf8.encode('seed'));
+      final Uint8List seed = Uint8List.fromList('seed'.codeUnits);
 
       final Keychain keychain = Keychain.serviceUCO(seed);
       final Transaction tx = Transaction(
@@ -295,19 +296,19 @@ void main() {
       final Uint8List binary = concatUint8List(<Uint8List>[
         Uint8List.fromList(<int>[0, 0, 0, 1]), // Version
         Uint8List.fromList(<int>[6]), // Seed size
-        Uint8List.fromList(utf8.encode('myseed')),
+        Uint8List.fromList('myseed'.codeUnits),
         Uint8List.fromList(<int>[1]), // Nb of services
         Uint8List.fromList(<int>[3]), // Service name length: "UCO",
-        Uint8List.fromList(utf8.encode('uco')),
+        Uint8List.fromList('uco'.codeUnits),
         Uint8List.fromList(<int>[10]), // Derivation path length,
-        Uint8List.fromList(utf8.encode('m/650\'/0/0')),
+        Uint8List.fromList('m/650\'/0/0'.codeUnits),
         Uint8List.fromList(<int>[0]), // Ed25519 curve
         Uint8List.fromList(<int>[0]) // SHA256 hash algo
       ]);
 
       final Keychain keychain = decodeKeychain(binary);
 
-      expect(Uint8List.fromList(utf8.encode('myseed')), keychain.seed);
+      expect(Uint8List.fromList('myseed'.codeUnits), keychain.seed);
       expect(
           json.encode({
             'uco': {

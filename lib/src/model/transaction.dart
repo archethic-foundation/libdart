@@ -169,7 +169,7 @@ class Transaction {
     }
 
     if (content is Uint8List) {
-      content = utf8.decode(content);
+      content = String.fromCharCodes(content);
     }
     data!.content = content;
     return this;
@@ -365,8 +365,8 @@ class Transaction {
 
   /// Generate the payload for the previous signature by encoding address, type and data
   Uint8List previousSignaturePayload() {
-    final Uint8List bufCodeSize = encodeInt32(data!.code!.length);
-    int contentSize = data!.content!.length;
+    final Uint8List bufCodeSize = encodeInt32(data!.code!.codeUnits.length);
+    int contentSize = data!.content!.codeUnits.length;
     final Uint8List bufContentSize = encodeInt32(contentSize);
 
     Uint8List ownershipsBuffers = Uint8List(0);
@@ -423,9 +423,9 @@ class Transaction {
       hexToUint8List(address!),
       Uint8List.fromList(<int>[txTypes[type]!]),
       bufCodeSize,
-      Uint8List.fromList(utf8.encode(data!.code!)),
+      Uint8List.fromList(data!.code!.codeUnits),
       bufContentSize,
-      Uint8List.fromList(utf8.encode(data!.content!)),
+      Uint8List.fromList(data!.content!.codeUnits),
       Uint8List.fromList(<int>[data!.ownerships!.length]),
       ownershipsBuffers,
       Uint8List.fromList(<int>[data!.ledger!.uco!.transfers!.length]),
@@ -444,8 +444,7 @@ class Transaction {
       'address': address == null ? '' : address!,
       'type': type,
       'data': {
-        'content':
-            uint8ListToHex(Uint8List.fromList(utf8.encode(data!.content!))),
+        'content': uint8ListToHex(Uint8List.fromList(data!.content!.codeUnits)),
         'code': data == null || data!.code == null ? '' : data!.code!,
         'ownerships': List<dynamic>.from(data!.ownerships!.map((Ownership x) {
           return <String, Object?>{

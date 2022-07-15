@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 // Dart imports:
-import 'dart:convert' show utf8;
 import 'dart:math' show Random;
 
 // Package imports:
@@ -127,7 +126,7 @@ Uint8List hash(dynamic content, {String algo = 'sha256'}) {
     if (isHex(content)) {
       content = hexToUint8List(content);
     } else {
-      content = Uint8List.fromList(utf8.encode(content));
+      content = Uint8List.fromList(content.codeUnits);
     }
   }
 
@@ -237,7 +236,7 @@ Uint8List sign(dynamic data, dynamic privateKey) {
     if (isHex(data)) {
       data = hexToUint8List(data);
     } else {
-      data = Uint8List.fromList(utf8.encode(data));
+      data = Uint8List.fromList(data.codeUnits);
     }
   }
 
@@ -245,7 +244,7 @@ Uint8List sign(dynamic data, dynamic privateKey) {
     if (isHex(privateKey)) {
       privateKey = hexToUint8List(privateKey);
     } else {
-      privateKey = Uint8List.fromList(utf8.encode(privateKey));
+      privateKey = Uint8List.fromList(privateKey.codeUnits);
     }
   }
 
@@ -304,7 +303,7 @@ bool verify(dynamic sig, dynamic data, dynamic publicKey) {
     if (isHex(data)) {
       data = hexToUint8List(data);
     } else {
-      data = Uint8List.fromList(utf8.encode(data));
+      data = Uint8List.fromList(data.codeUnits);
     }
   }
 
@@ -363,7 +362,7 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
     if (isHex(data)) {
       data = hexToUint8List(data);
     } else {
-      data = Uint8List.fromList(utf8.encode(data));
+      data = Uint8List.fromList(data.codeUnits);
     }
   }
 
@@ -455,7 +454,7 @@ Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
     if (isHex(cipherText)) {
       cipherText = hexToUint8List(cipherText);
     } else {
-      cipherText = Uint8List.fromList(utf8.encode(cipherText));
+      cipherText = Uint8List.fromList(cipherText.codeUnits);
     }
   }
 
@@ -539,7 +538,7 @@ Uint8List aesEncrypt(dynamic data, dynamic key) {
     if (isHex(data)) {
       data = hexToUint8List(data);
     } else {
-      data = Uint8List.fromList(utf8.encode(data));
+      data = Uint8List.fromList(data.codeUnits);
     }
   }
 
@@ -610,7 +609,7 @@ Uint8List derivePrivateKey(dynamic seed, int index) {
     if (isHex(seed)) {
       seed = hexToUint8List(seed);
     } else {
-      seed = Uint8List.fromList(utf8.encode(seed));
+      seed = Uint8List.fromList(seed.codeUnits);
     }
   }
 
@@ -649,11 +648,11 @@ Secret deriveSecret(dynamic sharedKey) {
   final Uint8List pseudoRandomKey = sha256.process(sharedKey);
 
   crypto.Hmac hmac = crypto.Hmac(crypto.sha256, pseudoRandomKey);
-  crypto.Digest digest = hmac.convert(utf8.encode('0'));
+  crypto.Digest digest = hmac.convert('0'.codeUnits);
   final Uint8List iv = Uint8List.fromList(digest.bytes.sublist(0, 32));
 
   hmac = crypto.Hmac(crypto.sha256, iv);
-  digest = hmac.convert(utf8.encode('1'));
+  digest = hmac.convert('1'.codeUnits);
   final Uint8List aesKey = Uint8List.fromList(digest.bytes.sublist(0, 32));
 
   return Secret(iv: iv, aesKey: aesKey);

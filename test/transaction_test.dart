@@ -152,11 +152,11 @@ void main() {
           hexToUint8List(tx.address!),
           Uint8List.fromList(<int>[253]),
           //Code size
-          encodeInt32(code.length),
-          Uint8List.fromList(utf8.encode(code)),
+          encodeInt32(code.codeUnits.length),
+          Uint8List.fromList(code.codeUnits),
           //Content size
-          encodeInt32(content.length),
-          Uint8List.fromList(utf8.encode(content)),
+          encodeInt32(content.codeUnits.length),
+          Uint8List.fromList(content.codeUnits),
           //Nb of ownerships
           Uint8List.fromList(<int>[1]),
           //Secret size
@@ -294,11 +294,11 @@ void main() {
           hexToUint8List(tx.address!),
           Uint8List.fromList(<int>[253]),
           //Code size
-          encodeInt32(code.length),
-          Uint8List.fromList(utf8.encode(code)),
+          encodeInt32(code.codeUnits.length),
+          Uint8List.fromList(code.codeUnits),
           //Content size
-          encodeInt32(content.length),
-          Uint8List.fromList(utf8.encode(content)),
+          encodeInt32(content.codeUnits.length),
+          Uint8List.fromList(content.codeUnits),
           //Nb of ownerships
           Uint8List.fromList(<int>[1]),
           //Secret size
