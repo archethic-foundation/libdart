@@ -444,7 +444,7 @@ class Transaction {
       'address': address == null ? '' : address!,
       'type': type,
       'data': {
-        'content': data!.content!.codeUnits,
+        'content': data!.content!,
         'code': data == null || data!.code == null ? '' : data!.code!,
         'ownerships': List<dynamic>.from(data!.ownerships!.map((Ownership x) {
           return <String, Object?>{
