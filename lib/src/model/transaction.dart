@@ -485,7 +485,7 @@ class Transaction {
 
   static Data initData() {
     return Data.fromJson(<String, dynamic>{
-      'content': '',
+      'content': Uint8List(0),
       'code': '',
       'ownerships': [],
       'ledger': {
