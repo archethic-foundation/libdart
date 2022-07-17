@@ -16,7 +16,6 @@ import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
 import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
     show deriveKeyPair, sign, deriveAddress;
 
@@ -168,10 +167,11 @@ class Transaction {
       throw "'content' must be a string or Uint8List";
     }
 
-    if (content is Uint8List) {
-      content = String.fromCharCodes(content);
+    if (content is String) {
+      data!.content = Uint8List.fromList(content.codeUnits);
+    } else {
+      data!.content = content;
     }
-    data!.content = content;
     return this;
   }
 
@@ -366,8 +366,7 @@ class Transaction {
   /// Generate the payload for the previous signature by encoding address, type and data
   Uint8List previousSignaturePayload() {
     final Uint8List bufCodeSize = encodeInt32(data!.code!.codeUnits.length);
-    int contentSize = data!.content!.codeUnits.length;
-    final Uint8List bufContentSize = encodeInt32(contentSize);
+    final Uint8List bufContentSize = encodeInt32(data!.content!.length);
 
     Uint8List ownershipsBuffers = Uint8List(0);
     for (Ownership ownership in data!.ownerships!) {
@@ -425,7 +424,7 @@ class Transaction {
       bufCodeSize,
       Uint8List.fromList(data!.code!.codeUnits),
       bufContentSize,
-      Uint8List.fromList(data!.content!.codeUnits),
+      data!.content!,
       Uint8List.fromList(<int>[data!.ownerships!.length]),
       ownershipsBuffers,
       Uint8List.fromList(<int>[data!.ledger!.uco!.transfers!.length]),
@@ -444,7 +443,7 @@ class Transaction {
       'address': address == null ? '' : address!,
       'type': type,
       'data': {
-        'content': uint8ListToHex(Uint8List.fromList(data!.content!.codeUnits)),
+        'content': uint8ListToHex(data!.content!),
         'code': data == null || data!.code == null ? '' : data!.code!,
         'ownerships': List<dynamic>.from(data!.ownerships!.map((Ownership x) {
           return <String, Object?>{

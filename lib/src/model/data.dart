@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 // Project imports:
+import 'dart:typed_data';
 import 'package:archethic_lib_dart/src/model/ledger.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';
 
@@ -19,7 +20,7 @@ class Data {
   String? code;
 
   /// Content: free zone for data hosting (string or hexadecimal)
-  String? content;
+  Uint8List? content;
 
   /// Ownership: authorization/delegations containing list of secrets and their authorized public keys to proof the ownership
   List<Ownership>? ownerships;

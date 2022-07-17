@@ -244,8 +244,8 @@ class ApiService {
         if (transactionContentResponse.data != null &&
             transactionContentResponse.data!.transaction != null &&
             transactionContentResponse.data!.transaction!.data != null) {
-          content =
-              transactionContentResponse.data!.transaction!.data!.content!;
+          content = String.fromCharCodes(
+              transactionContentResponse.data!.transaction!.data!.content!);
         }
       }
     } catch (e) {
