@@ -5,7 +5,7 @@ import 'dart:math';
 import 'dart:typed_data' show Uint8List, Endian;
 
 // Package imports:
-import 'package:pinenacl/encoding.dart' show HexCoder;
+import 'package:pinenacl/encoding.dart' show Base16Encoder;
 
 /// Return the Initial Origin Private Key
 const String kOriginPrivateKey =
@@ -24,14 +24,14 @@ bool isHex(String inputString) {
 /// Encode an hexadecimal string into a Uint8List
 /// @param {Uint8List} hexString Hexadecimal string
 Uint8List hexToUint8List(String hexString) {
-  final List<int> bytes = HexCoder.instance.decode(hexString);
+  final List<int> bytes = Base16Encoder.instance.decode(hexString);
   return Uint8List.fromList(bytes);
 }
 
 /// Encode an Uint8List into an hexadecimal string
 /// @param {Uint8List} bytes Uint8List
 String uint8ListToHex(Uint8List bytes) {
-  return HexCoder.instance.encode(Uint8List.fromList(bytes));
+  return Base16Encoder.instance.encode(Uint8List.fromList(bytes));
 }
 
 /// Concat a list of Uint8List

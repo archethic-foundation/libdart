@@ -44,7 +44,7 @@ packages:
     source: hosted
     version: "2.1.0"
   characters:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: characters
       url: "https://pub.dartlang.org"
@@ -507,7 +507,7 @@ packages:
       name: pinenacl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.4"
+    version: "0.5.1"
   platform:
     dependency: transitive
     description:
@@ -659,21 +659,21 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.21.2"
+    version: "1.21.4"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.10"
+    version: "0.4.12"
   test_core:
     dependency: transitive
     description:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.14"
+    version: "0.4.16"
   tint:
     dependency: transitive
     description:
