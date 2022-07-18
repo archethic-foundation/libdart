@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 // Package imports:
-import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:http/http.dart' as http show Response, get;
 
 // Project imports:
@@ -45,6 +44,7 @@ import 'package:archethic_lib_dart/src/model/coins/simple_price_response_try.dar
 import 'package:archethic_lib_dart/src/model/coins/simple_price_response_twd.dart';
 import 'package:archethic_lib_dart/src/model/coins/simple_price_response_usd.dart';
 import 'package:archethic_lib_dart/src/model/coins/simple_price_response_zar.dart';
+import 'package:archethic_lib_dart/src/utils/logs.dart';
 
 class ApiCoinsService {
   /// Get Archethic Coin infos (Prices, Marketcaps, Total Volumes)

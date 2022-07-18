@@ -44,7 +44,7 @@ packages:
     source: hosted
     version: "2.1.0"
   characters:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: characters
       url: "https://pub.dartlang.org"
@@ -107,7 +107,7 @@ packages:
     source: hosted
     version: "1.2.2"
   convert:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: convert
       url: "https://pub.dartlang.org"
@@ -291,6 +291,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.1.1-beta.3"
+  hex:
+    dependency: "direct main"
+    description:
+      name: hex
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   hive:
     dependency: transitive
     description:

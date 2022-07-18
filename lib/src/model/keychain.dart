@@ -49,9 +49,9 @@ class Keychain {
     services!.forEach((String serviceName, Service service) {
       servicesBuffer = concatUint8List(<Uint8List>[
         servicesBuffer,
-        Uint8List.fromList(<int>[serviceName.codeUnits.length]),
+        Uint8List.fromList(<int>[serviceName.length]),
         Uint8List.fromList(serviceName.codeUnits),
-        Uint8List.fromList(<int>[service.derivationPath!.codeUnits.length]),
+        Uint8List.fromList(<int>[service.derivationPath!.length]),
         Uint8List.fromList(service.derivationPath!.codeUnits),
         Uint8List.fromList(<int>[crypto.curveToID(service.curve!)]),
         Uint8List.fromList(<int>[crypto.hashAlgoToID(service.hashAlgo!)])
@@ -182,8 +182,7 @@ Keychain decodeKeychain(Uint8List binary) {
     final int hashAlgoId = binary.sublist(pos, pos + 1)[0].toInt();
     pos++;
 
-    keychain.addService(
-        String.fromCharCodes(serviceName), String.fromCharCodes(derivationPath),
+    keychain.addService(utf8.decode(serviceName), utf8.decode(derivationPath),
         curve: crypto.idToCurve(curveId),
         hashAlgo: crypto.idToHashAlgo(hashAlgoId));
   }

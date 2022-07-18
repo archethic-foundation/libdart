@@ -11,6 +11,8 @@ import 'package:test/test.dart';
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
+import 'package:archethic_lib_dart/src/model/transaction_status.dart';
+import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 
@@ -149,49 +151,49 @@ void main() {
         final Uint8List payload = tx.previousSignaturePayload();
         final Uint8List expectedBinary = concatUint8List(<Uint8List>[
           encodeInt32(1),
-          hexToUint8List(tx.address!),
+          Uint8List.fromList(hexToUint8List(tx.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
-          encodeInt32(code.codeUnits.length),
-          Uint8List.fromList(code.codeUnits),
+          encodeInt32(code.length),
+          Uint8List.fromList(utf8.encode(code)),
           //Content size
-          encodeInt32(content.codeUnits.length),
-          Uint8List.fromList(content.codeUnits),
+          encodeInt32(content.length),
+          Uint8List.fromList(utf8.encode(content)),
           //Nb of ownerships
           Uint8List.fromList(<int>[1]),
           //Secret size
-          encodeInt32(hexToUint8List(secret).lengthInBytes),
-          Uint8List.fromList(hexToUint8List(secret)),
+          encodeInt32(Uint8List.fromList(hexToUint8List(secret)).lengthInBytes),
+          Uint8List.fromList(Uint8List.fromList(hexToUint8List(secret))),
           // Nb of authorized keys
           Uint8List.fromList(<int>[1]),
           // Authorized keys encoding
           concatUint8List(<Uint8List>[
-            hexToUint8List(
-                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
-            hexToUint8List(
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+            Uint8List.fromList(hexToUint8List(
+                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
+            Uint8List.fromList(hexToUint8List(
+                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'))
           ]),
           // Nb of uco transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
-            hexToUint8List(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
+            Uint8List.fromList(hexToUint8List(
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
             encodeBigInt(toBigInt(0.2020))
           ]),
           // Nb of token transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
-            hexToUint8List(
-                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
-            hexToUint8List(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
+            Uint8List.fromList(hexToUint8List(
+                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')),
+            Uint8List.fromList(hexToUint8List(
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
             encodeBigInt(toBigInt(100)),
             Uint8List.fromList(<int>[0])
           ]),
           // Nb of recipients
           Uint8List.fromList(<int>[1]),
-          hexToUint8List(
-              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+          Uint8List.fromList(hexToUint8List(
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'))
         ]);
         expect(payload, expectedBinary);
       });
@@ -291,49 +293,49 @@ void main() {
         final Uint8List expectedBinary = concatUint8List(<Uint8List>[
           // Version
           encodeInt32(1),
-          hexToUint8List(tx.address!),
+          Uint8List.fromList(hexToUint8List(tx.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
-          encodeInt32(code.codeUnits.length),
-          Uint8List.fromList(code.codeUnits),
+          encodeInt32(code.length),
+          Uint8List.fromList(utf8.encode(code)),
           //Content size
-          encodeInt32(content.codeUnits.length),
-          Uint8List.fromList(content.codeUnits),
+          encodeInt32(content.length),
+          Uint8List.fromList(utf8.encode(content)),
           //Nb of ownerships
           Uint8List.fromList(<int>[1]),
           //Secret size
-          encodeInt32(hexToUint8List(secret).lengthInBytes),
-          Uint8List.fromList(hexToUint8List(secret)),
+          encodeInt32(Uint8List.fromList(hexToUint8List(secret)).lengthInBytes),
+          Uint8List.fromList(Uint8List.fromList(hexToUint8List(secret))),
           // Nb of authorized keys
           Uint8List.fromList(<int>[1]),
           // Authorized keys encoding
           concatUint8List(<Uint8List>[
-            hexToUint8List(
-                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
-            hexToUint8List(
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+            Uint8List.fromList(hexToUint8List(
+                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
+            Uint8List.fromList(hexToUint8List(
+                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'))
           ]),
           // Nb of uco transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
-            hexToUint8List(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
+            Uint8List.fromList(hexToUint8List(
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
             encodeBigInt(toBigInt(0.2020))
           ]),
           // Nb of token transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
-            hexToUint8List(
-                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
-            hexToUint8List(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'),
+            Uint8List.fromList(hexToUint8List(
+                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')),
+            Uint8List.fromList(hexToUint8List(
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
             encodeBigInt(toBigInt(100)),
             Uint8List.fromList(<int>[0]),
           ]),
           // Nb of recipients
           Uint8List.fromList(<int>[1]),
-          hexToUint8List(
-              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'),
+          Uint8List.fromList(hexToUint8List(
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')),
           transactionKeyPair.publicKey,
           Uint8List.fromList(<int>[previousSig.length]),
           previousSig
@@ -410,4 +412,35 @@ void main() {
       });
     });
   });
+
+  group('send tx', () {
+    test('should send transaction with special characters', () async {
+      const String seed =
+          '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA1';
+      final String originPrivateKey =
+          ApiService('http://localhost:4000').getOriginKey();
+      final String genesisAddress = crypto.deriveAddress(seed, 0);
+
+      const String text = 'Hello👋';
+      //String toto = uint8ListToHex(utf8.encode(text));
+      //Uint8List titi = Uint8List.fromList(hexToUint8List(toto));
+
+      final Transaction tx = Transaction(
+              type: 'transfer', data: Transaction.initData())
+          .setContent(text)
+          .addUCOTransfer(
+              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              toBigInt(0.00000001))
+          .build(seed, 0)
+          .originSign(originPrivateKey);
+
+      final TransactionStatus transactionStatusKeychain =
+          await ApiService('http://localhost:4000').sendTx(tx);
+
+      final String result = await ApiService('http://localhost:4000')
+          .getTransactionContent(
+              '000057cb7d188385325a30fddf5bca487ee1db525b7a3dc31a595d6f3425c06c93ce');
+      expect(true, true);
+    });
+  }, tags: <String>['noCI']);
 }

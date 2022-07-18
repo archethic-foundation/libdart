@@ -21,7 +21,7 @@ void main() {
 
   group('hexToUint8List', () {
     test('should convert an hexadecimal to Uint8List', () {
-      expect(hexToUint8List('025381ef'),
+      expect(Uint8List.fromList(hexToUint8List('025381ef')),
           Uint8List.fromList(<int>[2, 83, 129, 239]));
     });
   });

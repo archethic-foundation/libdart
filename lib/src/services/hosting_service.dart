@@ -60,7 +60,7 @@ class HostingService {
     }*/
 /*
     for (int i = 0; i < archive.files.length; i++) {
-      crypto.Hmac hmac = crypto.Hmac(crypto.sha256, hexToUint8List(seed));
+      crypto.Hmac hmac = crypto.Hmac(crypto.sha256, Uint8List.fromList(hexToUint8List(seed));
       crypto.Digest digest = hmac.convert(archive.files[i].name.codeUnits);
       Uint8List _seed = Uint8List.fromList(digest.bytes);
       String _address = deriveAddress(uint8ListToHex(_seed), 0,
@@ -115,7 +115,7 @@ class HostingService {
 
     for (int i = 0; i < arrayFiles.length; i++) {
       if (arrayFiles[i] == 'index.html') {
-        crypto.Hmac hmac = crypto.Hmac(crypto.sha256, hexToUint8List(seed));
+        crypto.Hmac hmac = crypto.Hmac(crypto.sha256, Uint8List.fromList(hexToUint8List(seed));
         crypto.Digest digest = hmac.convert('folder' + 'index.html');
         Uint8List _seed = Uint8List.fromList(digest.bytes);
         String _address = AddressService(endpoint).deriveAddress(

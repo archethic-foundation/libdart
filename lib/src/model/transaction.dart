@@ -4,6 +4,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+// Package imports:
+import 'package:hex/hex.dart';
+
 // Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
@@ -16,6 +19,7 @@ import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
 import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
     show deriveKeyPair, sign, deriveAddress;
 
@@ -167,11 +171,10 @@ class Transaction {
       throw "'content' must be a string or Uint8List";
     }
 
-    if (content is String) {
-      data!.content = Uint8List.fromList(content.codeUnits);
-    } else {
-      data!.content = content;
+    if (content is Uint8List) {
+      content = utf8.decode(content);
     }
+    data!.content = content;
     return this;
   }
 
@@ -357,16 +360,18 @@ class Transaction {
     final Uint8List payloadForPreviousSignature = previousSignaturePayload();
     return concatUint8List(<Uint8List>[
       payloadForPreviousSignature,
-      hexToUint8List(previousPublicKey!),
-      Uint8List.fromList(<int>[hexToUint8List(previousSignature!).length]),
-      hexToUint8List(previousSignature!),
+      Uint8List.fromList(hexToUint8List(previousPublicKey!)),
+      Uint8List.fromList(
+          <int>[Uint8List.fromList(hexToUint8List(previousSignature!)).length]),
+      Uint8List.fromList(hexToUint8List(previousSignature!)),
     ]);
   }
 
   /// Generate the payload for the previous signature by encoding address, type and data
   Uint8List previousSignaturePayload() {
-    final Uint8List bufCodeSize = encodeInt32(data!.code!.codeUnits.length);
-    final Uint8List bufContentSize = encodeInt32(data!.content!.length);
+    final Uint8List bufCodeSize = encodeInt32(data!.code!.length);
+    int contentSize = utf8.encode(data!.content!).length;
+    final Uint8List bufContentSize = encodeInt32(contentSize);
 
     Uint8List ownershipsBuffers = Uint8List(0);
     for (Ownership ownership in data!.ownerships!) {
@@ -374,15 +379,17 @@ class Transaction {
         Uint8List.fromList(<int>[ownership.authorizedPublicKeys!.length])
       ];
       for (AuthorizedKey authorizedKey in ownership.authorizedPublicKeys!) {
-        authorizedKeysBuffer.add(hexToUint8List(authorizedKey.publicKey!));
         authorizedKeysBuffer
-            .add(hexToUint8List(authorizedKey.encryptedSecretKey!));
+            .add(Uint8List.fromList(hexToUint8List(authorizedKey.publicKey!)));
+        authorizedKeysBuffer.add(Uint8List.fromList(
+            hexToUint8List(authorizedKey.encryptedSecretKey!)));
       }
 
       ownershipsBuffers = concatUint8List(<Uint8List>[
         ownershipsBuffers,
-        encodeInt32(hexToUint8List(ownership.secret!).lengthInBytes),
-        hexToUint8List(ownership.secret!),
+        encodeInt32(Uint8List.fromList(hexToUint8List(ownership.secret!))
+            .lengthInBytes),
+        Uint8List.fromList(hexToUint8List(ownership.secret!)),
         concatUint8List(authorizedKeysBuffer)
       ]);
     }
@@ -392,7 +399,7 @@ class Transaction {
       for (UCOTransfer ucoTransfer in data!.ledger!.uco!.transfers!) {
         ucoTransfersBuffers = concatUint8List(<Uint8List>[
           ucoTransfersBuffers,
-          hexToUint8List(ucoTransfer.to!),
+          Uint8List.fromList(hexToUint8List(ucoTransfer.to!)),
           encodeBigInt(ucoTransfer.amount!)
         ]);
       }
@@ -403,8 +410,8 @@ class Transaction {
       for (TokenTransfer tokenTransfer in data!.ledger!.token!.transfers!) {
         tokenTransfersBuffers = concatUint8List(<Uint8List>[
           tokenTransfersBuffers,
-          hexToUint8List(tokenTransfer.token!),
-          hexToUint8List(tokenTransfer.to!),
+          Uint8List.fromList(hexToUint8List(tokenTransfer.token!)),
+          Uint8List.fromList(hexToUint8List(tokenTransfer.to!)),
           encodeBigInt(tokenTransfer.amount!),
           Uint8List.fromList(<int>[tokenTransfer.tokenId!])
         ]);
@@ -413,18 +420,20 @@ class Transaction {
 
     Uint8List recipients = Uint8List(0);
     for (String recipient in data!.recipients!) {
-      recipients =
-          concatUint8List(<Uint8List>[recipients, hexToUint8List(recipient)]);
+      recipients = concatUint8List(<Uint8List>[
+        recipients,
+        Uint8List.fromList(hexToUint8List(recipient))
+      ]);
     }
 
     return concatUint8List(<Uint8List>[
       encodeInt32(version!),
-      hexToUint8List(address!),
+      Uint8List.fromList(hexToUint8List(address!)),
       Uint8List.fromList(<int>[txTypes[type]!]),
       bufCodeSize,
-      Uint8List.fromList(data!.code!.codeUnits),
+      Uint8List.fromList(utf8.encode(data!.code!)),
       bufContentSize,
-      data!.content!,
+      Uint8List.fromList(utf8.encode(data!.content!)),
       Uint8List.fromList(<int>[data!.ownerships!.length]),
       ownershipsBuffers,
       Uint8List.fromList(<int>[data!.ledger!.uco!.transfers!.length]),
@@ -443,7 +452,7 @@ class Transaction {
       'address': address == null ? '' : address!,
       'type': type,
       'data': {
-        'content': uint8ListToHex(data!.content!),
+        'content': HEX.encode(Uint16List.fromList(utf8.encode(data!.content!))),
         'code': data == null || data!.code == null ? '' : data!.code!,
         'ownerships': List<dynamic>.from(data!.ownerships!.map((Ownership x) {
           return <String, Object?>{
@@ -485,7 +494,7 @@ class Transaction {
 
   static Data initData() {
     return Data.fromJson(<String, dynamic>{
-      'content': Uint8List(0),
+      'content': '',
       'code': '',
       'ownerships': [],
       'ledger': {

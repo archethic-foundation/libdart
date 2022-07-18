@@ -73,8 +73,8 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
 
   /// IV encrypting Onchain Wallet (SHA256(SHA256(Wallet Key)))[0:16]
   print('IV encrypting Onchain Wallet (SHA256(SHA256(Wallet Key)))[0:16]');
-  final Uint8List walletEncryptionKeyEncrypted =
-      sha256.process(sha256.process(hexToUint8List(walletEncryptionKey)));
+  final Uint8List walletEncryptionKeyEncrypted = sha256.process(
+      sha256.process(Uint8List.fromList(hexToUint8List(walletEncryptionKey))));
   final String walletEncryptionIv =
       uint8ListToHex(walletEncryptionKeyEncrypted.sublist(0, 16)).toUpperCase();
   print(walletEncryptionIv);
@@ -85,10 +85,12 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
     ..init(
         false,
         pc.ParametersWithIV(
-            pc.KeyParameter(hexToUint8List(walletEncryptionKey)),
-            hexToUint8List(walletEncryptionIv)));
-  final String encryptedWallet =
-      uint8ListToHex(ctr.process(hexToUint8List(encodedWallet))).toUpperCase();
+            pc.KeyParameter(
+                Uint8List.fromList(hexToUint8List(walletEncryptionKey))),
+            Uint8List.fromList(hexToUint8List(walletEncryptionIv))));
+  final String encryptedWallet = uint8ListToHex(
+          ctr.process(Uint8List.fromList(hexToUint8List(encodedWallet))))
+      .toUpperCase();
   print(encryptedWallet);
 
   /// ECDH Curve (0:ed25519, 1:nistp256, 2:secp256k1)
@@ -139,13 +141,19 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
     ..init(
         true,
         pc.ParametersWithIV(
-            pc.KeyParameter(hexToUint8List(aesKey)), hexToUint8List(iv)));
-  final Uint8List encryptedWalletKey =
-      Uint8List(hexToUint8List(walletEncryptionKey).length); // allocate space
+            pc.KeyParameter(Uint8List.fromList(hexToUint8List(aesKey))),
+            Uint8List.fromList(hexToUint8List(iv))));
+  final Uint8List encryptedWalletKey = Uint8List(
+      Uint8List.fromList(hexToUint8List(walletEncryptionKey))
+          .length); // allocate space
   var offset = 0;
-  while (offset < hexToUint8List(walletEncryptionKey).length) {
-    offset += cbc.processBlock(hexToUint8List(walletEncryptionKey), offset,
-        encryptedWalletKey, offset);
+  while (
+      offset < Uint8List.fromList(hexToUint8List(walletEncryptionKey)).length) {
+    offset += cbc.processBlock(
+        Uint8List.fromList(hexToUint8List(walletEncryptionKey)),
+        offset,
+        encryptedWalletKey,
+        offset);
   }
 
   print(uint8ListToHex(encryptedWalletKey));
@@ -158,7 +166,8 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
 
   /// Authentication Key: SHA256(Authentication Seed)
   print('Authentication Key: SHA256(Authentication Seed)');
-  final Uint8List authKey = sha256.process(hexToUint8List(authSeed));
+  final Uint8List authKey =
+      sha256.process(Uint8List.fromList(hexToUint8List(authSeed)));
   print(uint8ListToHex(authKey));
 
   /// Authentication Tag: HMAC256(Authentication Key, Encrypted Wallet Key)[0:16]
@@ -182,11 +191,11 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
       encodedWalletKey: encodedWalletKey, encryptedWallet: encryptedWallet);
 
   Uint8List payload = concatUint8List(<Uint8List>[
-    hexToUint8List(onChainWalletData.encodedWalletKey!),
-    hexToUint8List(onChainWalletData.encryptedWallet!)
+    Uint8List.fromList(hexToUint8List(onChainWalletData.encodedWalletKey!)),
+    Uint8List.fromList(hexToUint8List(onChainWalletData.encryptedWallet!))
   ]);
-  Uint8List payloadLength =
-      hexToUint8List(payload.lengthInBytes.toRadixString(16));
+  Uint8List payloadLength = Uint8List.fromList(
+      hexToUint8List(payload.lengthInBytes.toRadixString(16)));
   final Uint8List addressPayload =
       concatUint8List(<Uint8List>[payloadLength, payload]);
   print('addressPayload: ${uint8ListToHex(addressPayload)}');
@@ -196,7 +205,8 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
   print('txHash: ${uint8ListToHex(txHash)}');
 
   payload = concatUint8List(<Uint8List>[txHash, payload]);
-  payloadLength = hexToUint8List(payload.lengthInBytes.toRadixString(16));
+  payloadLength = Uint8List.fromList(
+      hexToUint8List(payload.lengthInBytes.toRadixString(16)));
   final Uint8List signPayload =
       concatUint8List(<Uint8List>[payloadLength, payload]);
   print('signPayload: ${uint8ListToHex(signPayload)}');

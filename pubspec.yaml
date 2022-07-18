@@ -13,12 +13,6 @@ dependencies:
   # A Dart library to encode and decode various archive and compression formats.
   # archive: ^3.2.1
 
-  # String replacement with operations that are Unicode/grapheme cluster aware
-  characters: ^1.2.0
-
-  # Utilities for converting between data representations. Provides a number of Sink, Codec, Decoder, and Encoder types
-  convert: ^3.0.2
-
   # Implementations of SHA, MD5, and HMAC cryptographic functions
   crypto: ^3.0.2
 
@@ -39,6 +33,9 @@ dependencies:
 
   # A GraphQL client for Flutter, bringing all the features from a modern GraphQL client to one easy to use package
   graphql_flutter: ^5.1.1-beta.3
+
+  # Easy hexadecimal convertion using dart:convert API.
+  hex: ^0.2.0
 
   # A composable, multi-platform, Future-based API for HTTP requests
   http: ^0.13.4

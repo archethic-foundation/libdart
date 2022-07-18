@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 // Dart imports:
+import 'dart:convert' show utf8;
 import 'dart:math' show Random;
 
 // Package imports:
@@ -124,7 +125,7 @@ Uint8List hash(dynamic content, {String algo = 'sha256'}) {
 
   if (content is String) {
     if (isHex(content)) {
-      content = hexToUint8List(content);
+      content = Uint8List.fromList(utf8.encode(content));
     } else {
       content = Uint8List.fromList(content.codeUnits);
     }
@@ -207,14 +208,16 @@ KeyPair getKeypair(Uint8List pvKey, String curve) {
           elliptic.PrivateKey.fromBytes(ec, pvKey);
       final elliptic.PublicKey publicKey = ec.privateToPublicKey(privateKey);
       return KeyPair(
-          privateKey: pvKey, publicKey: hexToUint8List(publicKey.toHex()));
+          privateKey: pvKey,
+          publicKey: Uint8List.fromList(hexToUint8List(publicKey.toHex())));
     case 'secp256k1':
       final elliptic.Curve ec = elliptic.getSecp256k1();
       final elliptic.PrivateKey privateKey =
           elliptic.PrivateKey.fromBytes(ec, pvKey);
       final elliptic.PublicKey publicKey = ec.privateToPublicKey(privateKey);
       return KeyPair(
-          privateKey: pvKey, publicKey: hexToUint8List(publicKey.toHex()));
+          privateKey: pvKey,
+          publicKey: Uint8List.fromList(hexToUint8List(publicKey.toHex())));
     default:
       throw 'Curve not supported';
   }
@@ -234,17 +237,17 @@ Uint8List sign(dynamic data, dynamic privateKey) {
 
   if (data is String) {
     if (isHex(data)) {
-      data = hexToUint8List(data);
+      data = Uint8List.fromList(hexToUint8List(data));
     } else {
-      data = Uint8List.fromList(data.codeUnits);
+      data = Uint8List.fromList(utf8.encode(data));
     }
   }
 
   if (privateKey is String) {
     if (isHex(privateKey)) {
-      privateKey = hexToUint8List(privateKey);
+      privateKey = Uint8List.fromList(hexToUint8List(privateKey));
     } else {
-      privateKey = Uint8List.fromList(privateKey.codeUnits);
+      privateKey = Uint8List.fromList(utf8.encode(privateKey));
     }
   }
 
@@ -293,7 +296,7 @@ bool verify(dynamic sig, dynamic data, dynamic publicKey) {
 
   if (sig is String) {
     if (isHex(sig)) {
-      sig = hexToUint8List(sig);
+      sig = Uint8List.fromList(hexToUint8List(sig));
     } else {
       throw "'signature' must be an hexadecimal string";
     }
@@ -301,15 +304,15 @@ bool verify(dynamic sig, dynamic data, dynamic publicKey) {
 
   if (data is String) {
     if (isHex(data)) {
-      data = hexToUint8List(data);
+      data = Uint8List.fromList(hexToUint8List(data));
     } else {
-      data = Uint8List.fromList(data.codeUnits);
+      data = Uint8List.fromList(utf8.encode(data));
     }
   }
 
   if (publicKey is String) {
     if (isHex(publicKey)) {
-      publicKey = hexToUint8List(publicKey);
+      publicKey = Uint8List.fromList(hexToUint8List(publicKey));
     } else {
       throw "'publicKey' must be an hexadecimal string";
     }
@@ -360,15 +363,15 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
 
   if (data is String) {
     if (isHex(data)) {
-      data = hexToUint8List(data);
+      data = Uint8List.fromList(hexToUint8List(data));
     } else {
-      data = Uint8List.fromList(data.codeUnits);
+      data = Uint8List.fromList(utf8.encode(data));
     }
   }
 
   if (publicKey is String) {
     if (isHex(publicKey)) {
-      publicKey = hexToUint8List(publicKey);
+      publicKey = Uint8List.fromList(hexToUint8List(publicKey));
     } else {
       throw "'publicKey' must be an hexadecimal string";
     }
@@ -412,7 +415,7 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
       final AesAuthEncryptInfos aesAuthEncryptInfos =
           aesAuthEncrypt(data, secret.aesKey, secret.iv);
       return concatUint8List(<Uint8List>[
-        hexToUint8List(privateKey.publicKey.toHex()),
+        Uint8List.fromList(hexToUint8List(privateKey.publicKey.toHex())),
         aesAuthEncryptInfos.tag,
         aesAuthEncryptInfos.encrypted
       ]);
@@ -428,7 +431,7 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
       final AesAuthEncryptInfos aesAuthEncryptInfos =
           aesAuthEncrypt(data, secret.aesKey, secret.iv);
       return concatUint8List(<Uint8List>[
-        hexToUint8List(privateKey.publicKey.toHex()),
+        Uint8List.fromList(hexToUint8List(privateKey.publicKey.toHex())),
         aesAuthEncryptInfos.tag,
         aesAuthEncryptInfos.encrypted
       ]);
@@ -452,15 +455,15 @@ Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
 
   if (cipherText is String) {
     if (isHex(cipherText)) {
-      cipherText = hexToUint8List(cipherText);
+      cipherText = Uint8List.fromList(hexToUint8List(cipherText));
     } else {
-      cipherText = Uint8List.fromList(cipherText.codeUnits);
+      cipherText = Uint8List.fromList(utf8.encode(cipherText));
     }
   }
 
   if (privateKey is String) {
     if (isHex(privateKey)) {
-      privateKey = hexToUint8List(privateKey);
+      privateKey = Uint8List.fromList(hexToUint8List(privateKey));
     } else {
       throw "'privateKey' must be an hexadecimal string";
     }
@@ -536,15 +539,15 @@ Uint8List aesEncrypt(dynamic data, dynamic key) {
 
   if (data is String) {
     if (isHex(data)) {
-      data = hexToUint8List(data);
+      data = Uint8List.fromList(hexToUint8List(data));
     } else {
-      data = Uint8List.fromList(data.codeUnits);
+      data = Uint8List.fromList(utf8.encode(data));
     }
   }
 
   if (key is String) {
     if (isHex(key)) {
-      key = hexToUint8List(key);
+      key = Uint8List.fromList(hexToUint8List(key));
     } else {
       throw "'key' must be an hexadecimal string";
     }
@@ -575,7 +578,7 @@ Uint8List aesDecrypt(dynamic cipherText, dynamic key) {
 
   if (cipherText is String) {
     if (isHex(cipherText)) {
-      cipherText = hexToUint8List(cipherText);
+      cipherText = Uint8List.fromList(hexToUint8List(cipherText));
     } else {
       throw "'cipherText' must be an hexadecimal string";
     }
@@ -583,7 +586,7 @@ Uint8List aesDecrypt(dynamic cipherText, dynamic key) {
 
   if (key is String) {
     if (isHex(key)) {
-      key = hexToUint8List(key);
+      key = Uint8List.fromList(hexToUint8List(key));
     } else {
       throw "'key' must be an hexadecimal string";
     }
@@ -607,9 +610,9 @@ Uint8List aesDecrypt(dynamic cipherText, dynamic key) {
 Uint8List derivePrivateKey(dynamic seed, int index) {
   if (seed is String) {
     if (isHex(seed)) {
-      seed = hexToUint8List(seed);
+      seed = Uint8List.fromList(hexToUint8List(seed));
     } else {
-      seed = Uint8List.fromList(seed.codeUnits);
+      seed = Uint8List.fromList(utf8.encode(seed));
     }
   }
 
@@ -638,7 +641,7 @@ Secret deriveSecret(dynamic sharedKey) {
 
   if (sharedKey is String) {
     if (isHex(sharedKey)) {
-      sharedKey = hexToUint8List(sharedKey);
+      sharedKey = Uint8List.fromList(hexToUint8List(sharedKey));
     } else {
       throw "'sharedKey' must be an hexadecimal string";
     }
@@ -648,11 +651,11 @@ Secret deriveSecret(dynamic sharedKey) {
   final Uint8List pseudoRandomKey = sha256.process(sharedKey);
 
   crypto.Hmac hmac = crypto.Hmac(crypto.sha256, pseudoRandomKey);
-  crypto.Digest digest = hmac.convert('0'.codeUnits);
+  crypto.Digest digest = hmac.convert(utf8.encode('0'));
   final Uint8List iv = Uint8List.fromList(digest.bytes.sublist(0, 32));
 
   hmac = crypto.Hmac(crypto.sha256, iv);
-  digest = hmac.convert('1'.codeUnits);
+  digest = hmac.convert(utf8.encode('1'));
   final Uint8List aesKey = Uint8List.fromList(digest.bytes.sublist(0, 32));
 
   return Secret(iv: iv, aesKey: aesKey);
@@ -723,7 +726,8 @@ bool addressFormatControl(String? address) {
         return false;
     }
     try {
-      if (hexToUint8List(address.substring(4)).length != digestSize) {
+      if (Uint8List.fromList(hexToUint8List(address.substring(4))).length !=
+          digestSize) {
         return false;
       } else {
         return true;

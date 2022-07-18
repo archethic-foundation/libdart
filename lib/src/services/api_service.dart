@@ -7,7 +7,6 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
-import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
@@ -31,6 +30,7 @@ import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/transaction_status.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart';
+import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 class ApiService {
@@ -244,8 +244,8 @@ class ApiService {
         if (transactionContentResponse.data != null &&
             transactionContentResponse.data!.transaction != null &&
             transactionContentResponse.data!.transaction!.data != null) {
-          content = String.fromCharCodes(
-              transactionContentResponse.data!.transaction!.data!.content!);
+          content =
+              transactionContentResponse.data!.transaction!.data!.content!;
         }
       }
     } catch (e) {
@@ -533,7 +533,8 @@ class ApiService {
   Transaction newKeychainTransaction(String seed,
       List<String> authorizedPublicKeys, Uint8List originPrivateKey,
       {String? serviceName, String? derivationPath}) {
-    final Keychain keychain = Keychain(hexToUint8List(seed));
+    final Keychain keychain =
+        Keychain(Uint8List.fromList(hexToUint8List(seed)));
     if (serviceName!.isNotEmpty && derivationPath!.isNotEmpty) {
       keychain.addService(serviceName, derivationPath);
     }
