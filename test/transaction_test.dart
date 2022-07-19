@@ -419,12 +419,8 @@ void main() {
           '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA1';
       final String originPrivateKey =
           ApiService('http://localhost:4000').getOriginKey();
-      final String genesisAddress = crypto.deriveAddress(seed, 0);
 
       const String text = 'Hello👋';
-      //String toto = uint8ListToHex(utf8.encode(text));
-      //Uint8List titi = Uint8List.fromList(hexToUint8List(toto));
-
       final Transaction tx = Transaction(
               type: 'transfer', data: Transaction.initData())
           .setContent(text)
