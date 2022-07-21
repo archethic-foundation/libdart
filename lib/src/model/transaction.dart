@@ -375,9 +375,14 @@ class Transaction {
 
     Uint8List ownershipsBuffers = Uint8List(0);
     for (Ownership ownership in data!.ownerships!) {
+      final Uint8List bufAuthKeyLength = Uint8List.fromList(
+          toByteArray(ownership.authorizedPublicKeys!.length));
+
       final List<Uint8List> authorizedKeysBuffer = <Uint8List>[
-        Uint8List.fromList(<int>[ownership.authorizedPublicKeys!.length])
+        Uint8List.fromList(<int>[bufAuthKeyLength.length]),
+        bufAuthKeyLength
       ];
+
       for (AuthorizedKey authorizedKey in ownership.authorizedPublicKeys!) {
         authorizedKeysBuffer
             .add(Uint8List.fromList(hexToUint8List(authorizedKey.publicKey!)));
@@ -426,6 +431,15 @@ class Transaction {
       ]);
     }
 
+    final Uint8List bufOwnershipLength =
+        Uint8List.fromList(toByteArray(data!.ownerships!.length));
+    final Uint8List bufUCOTransferLength =
+        Uint8List.fromList(toByteArray(data!.ledger!.uco!.transfers!.length));
+    final Uint8List bufTokenTransferLength =
+        Uint8List.fromList(toByteArray(data!.ledger!.token!.transfers!.length));
+    final Uint8List bufRecipientLength =
+        Uint8List.fromList(toByteArray(data!.recipients!.length));
+
     return concatUint8List(<Uint8List>[
       encodeInt32(version!),
       Uint8List.fromList(hexToUint8List(address!)),
@@ -434,13 +448,17 @@ class Transaction {
       Uint8List.fromList(utf8.encode(data!.code!)),
       bufContentSize,
       Uint8List.fromList(utf8.encode(data!.content!)),
-      Uint8List.fromList(<int>[data!.ownerships!.length]),
+      Uint8List.fromList(<int>[bufOwnershipLength.length]),
+      bufOwnershipLength,
       ownershipsBuffers,
-      Uint8List.fromList(<int>[data!.ledger!.uco!.transfers!.length]),
+      Uint8List.fromList(<int>[bufUCOTransferLength.length]),
+      bufUCOTransferLength,
       ucoTransfersBuffers,
-      Uint8List.fromList(<int>[data!.ledger!.token!.transfers!.length]),
+      Uint8List.fromList(<int>[bufTokenTransferLength.length]),
+      bufTokenTransferLength,
       tokenTransfersBuffers,
-      Uint8List.fromList(<int>[data!.recipients!.length]),
+      Uint8List.fromList(<int>[bufRecipientLength.length]),
+      bufRecipientLength,
       recipients
     ]);
   }

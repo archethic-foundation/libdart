@@ -63,4 +63,14 @@ void main() {
       expect(toBigInt(1.234567), BigInt.from(123456700));
     });
   });
+
+  group('toByteArray', () {
+    test('should encode an integer into a Uint8List', () {
+      expect(toByteArray(0), <int>[0]);
+      expect(toByteArray(123), <int>[123]);
+      expect(toByteArray(258), <int>[1, 2]);
+      expect(toByteArray(65535), <int>[255, 255]);
+      expect(toByteArray(65536), <int>[1, 0, 0]);
+    });
+  });
 }

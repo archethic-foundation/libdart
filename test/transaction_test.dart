@@ -159,11 +159,15 @@ void main() {
           //Content size
           encodeInt32(content.length),
           Uint8List.fromList(utf8.encode(content)),
+          //Nb of bytes to encode nb of ownerships
+          Uint8List.fromList(<int>[1]),
           //Nb of ownerships
           Uint8List.fromList(<int>[1]),
           //Secret size
           encodeInt32(Uint8List.fromList(hexToUint8List(secret)).lengthInBytes),
           Uint8List.fromList(Uint8List.fromList(hexToUint8List(secret))),
+          // Nb of byte to encode nb of authorized keys
+          Uint8List.fromList(<int>[1]),
           // Nb of authorized keys
           Uint8List.fromList(<int>[1]),
           // Authorized keys encoding
@@ -173,6 +177,8 @@ void main() {
             Uint8List.fromList(hexToUint8List(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'))
           ]),
+          // Nb of bytes to encode nb of uco transfers
+          Uint8List.fromList(<int>[1]),
           // Nb of uco transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
@@ -180,6 +186,8 @@ void main() {
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
             encodeBigInt(toBigInt(0.2020))
           ]),
+          // Nb of byte to encode nb of Token transfers
+          Uint8List.fromList(<int>[1]),
           // Nb of token transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
@@ -190,6 +198,8 @@ void main() {
             encodeBigInt(toBigInt(100)),
             Uint8List.fromList(<int>[0])
           ]),
+          // Nb of byte to encode nb of recipients
+          Uint8List.fromList(<int>[1]),
           // Nb of recipients
           Uint8List.fromList(<int>[1]),
           Uint8List.fromList(hexToUint8List(
@@ -301,11 +311,15 @@ void main() {
           //Content size
           encodeInt32(content.length),
           Uint8List.fromList(utf8.encode(content)),
+          // Nb of byte to encode nb of ownerships
+          Uint8List.fromList(<int>[1]),
           //Nb of ownerships
           Uint8List.fromList(<int>[1]),
           //Secret size
           encodeInt32(Uint8List.fromList(hexToUint8List(secret)).lengthInBytes),
           Uint8List.fromList(Uint8List.fromList(hexToUint8List(secret))),
+          // Nb of bytes to encode nb of authorized key
+          Uint8List.fromList(<int>[1]),
           // Nb of authorized keys
           Uint8List.fromList(<int>[1]),
           // Authorized keys encoding
@@ -315,6 +329,8 @@ void main() {
             Uint8List.fromList(hexToUint8List(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'))
           ]),
+          // Nb of bytes to encode nb of uco transfers
+          Uint8List.fromList(<int>[1]),
           // Nb of uco transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
@@ -322,6 +338,8 @@ void main() {
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
             encodeBigInt(toBigInt(0.2020))
           ]),
+          // Nb of bytes to encode nb of Token transfers
+          Uint8List.fromList(<int>[1]),
           // Nb of token transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
@@ -332,6 +350,8 @@ void main() {
             encodeBigInt(toBigInt(100)),
             Uint8List.fromList(<int>[0]),
           ]),
+          // Nb of bytes to encode nb of recipients
+          Uint8List.fromList(<int>[1]),
           // Nb of recipients
           Uint8List.fromList(<int>[1]),
           Uint8List.fromList(hexToUint8List(

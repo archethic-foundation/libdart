@@ -81,3 +81,21 @@ BigInt toBigInt(double? number) {
   number = number * pow(10, 8);
   return BigInt.from(number.toInt());
 }
+
+/// Convert any number into a byte array
+Uint8List toByteArray(int value) {
+  final BigInt byteMask = BigInt.from(0xff);
+  BigInt number = BigInt.from(value);
+  // Not handling negative numbers. Decide how you want to do that.
+  final int size = (number.bitLength + 7) >> 3;
+  if (size == 0) {
+    return Uint8List.fromList([0]);
+  }
+
+  Uint8List result = Uint8List(size);
+  for (int i = 0; i < size; i++) {
+    result[size - i - 1] = (number & byteMask).toInt();
+    number = number >> 8;
+  }
+  return result;
+}
