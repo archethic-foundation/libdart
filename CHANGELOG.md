@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 1.0.23 (2022-07-21)
+* BREAKING-CHANGE - Implement VarInt when getting signature payload
+
 #### Version 1.0.22 (2022-07-05)
 * Add timestamp in logs
 * Manage the coding of the transaction's content to hexadecimal with 16 bytes instead 8 bytes

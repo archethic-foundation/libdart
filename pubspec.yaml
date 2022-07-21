@@ -3,7 +3,7 @@ name: archethic_lib_dart
 description: Archethic dart library for Flutter for Node and Browser. This library aims to provide a easy way to create Archethic transaction and to send them over the network
 homepage: https://github.com/archethic-foundation/libdart
 
-version: 1.0.22
+version: 1.0.23
 
 environment:
   sdk: '>=2.17.0 <3.0.0'
@@ -50,7 +50,7 @@ dependencies:
   pinenacl: ^0.5.1
 
   # A Dart library implementing cryptographic algorithms and primitives, modeled on the BouncyCastle library
-  pointycastle: ^3.6.0
+  pointycastle: ^3.6.1
 
   # Pure secp256k1 signature algorithm implement for dart language which uses pure dart and basic types to represent all matters
   secp256k1: ^0.3.0
