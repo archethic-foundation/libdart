@@ -7,7 +7,7 @@ class TokenNonFungible extends Token {
   static const String kType = 'non-fungible';
 
   TokenNonFungible(
-      {required super.address,
+      {super.address,
       required super.name,
       required super.supply,
       super.type = kType,

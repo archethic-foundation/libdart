@@ -15,7 +15,7 @@ String tokenToJsonForTxDataContent(Token data) =>
 
 class Token {
   Token(
-      {required this.address,
+      {this.address,
       required this.name,
       required this.supply,
       required this.type,
