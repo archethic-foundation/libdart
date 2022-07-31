@@ -12,12 +12,14 @@ String tokenToJson(Token data) => json.encode(data.toJson());
 
 class Token {
   Token(
-      {required this.name,
+      {required this.address,
+      required this.name,
       required this.supply,
       required this.type,
       required this.symbol,
       this.tokenProperties});
 
+  String? address;
   String? name;
   double? supply;
   String? type;
@@ -25,6 +27,7 @@ class Token {
   List<TokenProperty>? tokenProperties = <TokenProperty>[];
 
   factory Token.fromJson(Map<String, dynamic> json) => Token(
+        address: json['address'],
         name: json['name'],
         supply: json['supply']?.toDouble(),
         type: json['type'],
@@ -35,6 +38,7 @@ class Token {
       );
 
   Map<String, dynamic> toJson() => {
+        'address': address,
         'name': name,
         'supply': supply,
         'type': type,

@@ -7,7 +7,8 @@ class TokenFungible extends Token {
   static const String kType = 'fungible';
 
   TokenFungible(
-      {required super.name,
+      {required super.address,
+      required super.name,
       required super.supply,
       super.type = kType,
       required super.symbol,
