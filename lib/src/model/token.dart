@@ -43,7 +43,9 @@ class Token {
         'supply': supply,
         'type': type,
         'symbol': symbol,
-        'properties': List<dynamic>.from(tokenProperties!.map((x) => x)),
+        'properties': tokenProperties == null
+            ? null
+            : List<dynamic>.from(tokenProperties!.map((x) => x)),
       };
 }
 
