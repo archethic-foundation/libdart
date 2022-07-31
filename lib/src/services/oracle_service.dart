@@ -17,11 +17,9 @@ class OracleService {
   /// @param {String} request List of informations to retrieve in the GraphQL Query
   Future<OracleUcoPrice> getLastOracleUcoPrice() async {
     final List<Transaction> txList = await ApiService(endpoint)
-        .networkTransactions('oracle', 1, request: 'address');
+        .networkTransactions('oracle', 1, request: 'address, data { content }');
     if (txList.isNotEmpty) {
-      final Transaction transaction = await ApiService(endpoint)
-          .getLastTransaction(txList[0].address!, request: 'data { content }');
-      return oracleUcoPriceFromJson(transaction.data!.content!);
+      return oracleUcoPriceFromJson(txList[0].data!.content!);
     } else {
       return OracleUcoPrice(uco: Uco(eur: 0, usd: 0));
     }
