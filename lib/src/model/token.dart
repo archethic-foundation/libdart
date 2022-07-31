@@ -10,6 +10,9 @@ Token tokenFromJson(String str) => Token.fromJson(json.decode(str));
 
 String tokenToJson(Token data) => json.encode(data.toJson());
 
+String tokenToJsonForTxDataContent(Token data) =>
+    json.encode(data.toJsonForTxDataContent());
+
 class Token {
   Token(
       {required this.address,
@@ -44,7 +47,17 @@ class Token {
         'type': type,
         'symbol': symbol,
         'properties': tokenProperties == null
-            ? null
+            ? []
+            : List<dynamic>.from(tokenProperties!.map((x) => x)),
+      };
+
+  Map<String, dynamic> toJsonForTxDataContent() => {
+        'name': name,
+        'supply': supply,
+        'type': type,
+        'symbol': symbol,
+        'properties': tokenProperties == null
+            ? []
             : List<dynamic>.from(tokenProperties!.map((x) => x)),
       };
 }
