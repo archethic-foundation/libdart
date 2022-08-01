@@ -12,8 +12,9 @@ Token tokenFromJson(String str) => Token.fromJson(json.decode(str));
 
 String tokenToJson(Token data) => json.encode(data.toJson());
 
-String tokenToJsonForTxDataContent(Token data) =>
-    json.encode(data.toJsonForTxDataContent());
+String tokenToJsonForTxDataContent(Token data) {
+  return '{"name": "${data.name!}", "supply": ${data.supply}, "type": "${data.type!}", "symbol": "${data.symbol!}", "properties":[]';
+}
 
 class Token {
   Token(
