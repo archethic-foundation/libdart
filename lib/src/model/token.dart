@@ -39,7 +39,7 @@ class Token {
     return Token(
       address: json['address'],
       name: json['name'],
-      supply: _BigIntSerializer.deserialize(json['supply']),
+      supply: json['supply'] == null ? null : BigInt.parse(json['supply']),
       type: json['type'],
       symbol: json['symbol'],
       tokenProperties: json['properties'] == null
@@ -51,7 +51,7 @@ class Token {
   Map<String, dynamic> toJson() => <String, dynamic>{
         'address': address,
         'name': name,
-        'supply': _BigIntSerializer.serialize(supply!),
+        'supply': supply == null ? null : supply!.toString(),
         'type': type,
         'symbol': symbol,
         'properties': tokenProperties == null
@@ -61,7 +61,7 @@ class Token {
 
   Map<String, dynamic> toJsonForTxDataContent() => <String, dynamic>{
         'name': name,
-        'supply': _BigIntSerializer.serialize(supply!),
+        'supply': supply == null ? null : supply!.toString(),
         'type': type,
         'symbol': symbol,
         'properties': tokenProperties == null
@@ -73,15 +73,4 @@ class Token {
 class TokenProperty {
   String? name;
   String? value;
-}
-
-class _BigIntSerializer {
-  static BigInt deserialize(Object? value) {
-    final String json = value as String;
-    return BigInt.parse(json);
-  }
-
-  static String? serialize(BigInt value) {
-    return value.toString();
-  }
 }
