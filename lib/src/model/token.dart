@@ -8,15 +8,10 @@ import 'dart:convert';
 
 Token tokenFromJson(String str) => Token.fromJson(json.decode(str));
 
-String tokenToJson(Token data) => jsonEncode(data.toJson())
-    .replaceAll('supply":"', 'supply":')
-    .replaceAll('","type"', ',"type"');
+String tokenToJson(Token data) => jsonEncode(data.toJson());
 
 String tokenToJsonForTxDataContent(Token data) {
-  // Sorry for that....
-  return jsonEncode(data.toJsonForTxDataContent())
-      .replaceAll('supply":"', 'supply":')
-      .replaceAll('","type"', ',"type"');
+  return jsonEncode(data.toJsonForTxDataContent());
 }
 
 class Token {
@@ -30,7 +25,7 @@ class Token {
 
   String? address;
   String? name;
-  BigInt? supply;
+  int? supply;
   String? type;
   String? symbol;
   List<TokenProperty>? tokenProperties = <TokenProperty>[];
@@ -41,7 +36,7 @@ class Token {
       name: json['name'],
       supply: json['supply'] == null
           ? null
-          : BigInt.parse(json['supply'].toString()),
+          : int.tryParse(json['supply'].toString()),
       type: json['type'],
       symbol: json['symbol'],
       tokenProperties: json['properties'] == null
@@ -53,7 +48,7 @@ class Token {
   Map<String, dynamic> toJson() => <String, dynamic>{
         'address': address,
         'name': name,
-        'supply': supply == null ? null : supply!.toString(),
+        'supply': supply,
         'type': type,
         'symbol': symbol,
         'properties': tokenProperties == null
@@ -63,7 +58,7 @@ class Token {
 
   Map<String, dynamic> toJsonForTxDataContent() => <String, dynamic>{
         'name': name,
-        'supply': supply == null ? null : supply!.toString(),
+        'supply': supply,
         'type': type,
         'symbol': symbol,
         'properties': tokenProperties == null
