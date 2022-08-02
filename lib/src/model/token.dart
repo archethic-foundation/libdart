@@ -39,7 +39,9 @@ class Token {
     return Token(
       address: json['address'],
       name: json['name'],
-      supply: json['supply'] == null ? null : BigInt.parse(json['supply']),
+      supply: json['supply'] == null
+          ? null
+          : BigInt.parse(json['supply'].toString()),
       type: json['type'],
       symbol: json['symbol'],
       tokenProperties: json['properties'] == null
