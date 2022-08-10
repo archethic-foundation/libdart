@@ -150,21 +150,22 @@ void main() {
         tx.previousPublicKey = uint8ListToHex(keypair.publicKey);
         final Uint8List payload = tx.previousSignaturePayload();
         final Uint8List expectedBinary = concatUint8List(<Uint8List>[
-          encodeInt32(1),
+          toByteArray(1, length: 4),
           Uint8List.fromList(hexToUint8List(tx.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
-          encodeInt32(code.length),
+          toByteArray(code.length, length: 4),
           Uint8List.fromList(utf8.encode(code)),
           //Content size
-          encodeInt32(content.length),
+          toByteArray(content.length, length: 4),
           Uint8List.fromList(utf8.encode(content)),
           //Nb of bytes to encode nb of ownerships
           Uint8List.fromList(<int>[1]),
           //Nb of ownerships
           Uint8List.fromList(<int>[1]),
           //Secret size
-          encodeInt32(Uint8List.fromList(hexToUint8List(secret)).lengthInBytes),
+          toByteArray(Uint8List.fromList(hexToUint8List(secret)).lengthInBytes,
+              length: 4),
           Uint8List.fromList(Uint8List.fromList(hexToUint8List(secret))),
           // Nb of byte to encode nb of authorized keys
           Uint8List.fromList(<int>[1]),
@@ -184,7 +185,7 @@ void main() {
           concatUint8List(<Uint8List>[
             Uint8List.fromList(hexToUint8List(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
-            encodeBigInt(toBigInt(0.2020))
+            toByteArray(toBigInt(0.2020), length: 8)
           ]),
           // Nb of byte to encode nb of Token transfers
           Uint8List.fromList(<int>[1]),
@@ -195,7 +196,7 @@ void main() {
                 '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')),
             Uint8List.fromList(hexToUint8List(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
-            encodeBigInt(toBigInt(100)),
+            toByteArray(toBigInt(100), length: 8),
             Uint8List.fromList(<int>[0])
           ]),
           // Nb of byte to encode nb of recipients
@@ -302,21 +303,22 @@ void main() {
         final Uint8List payload = tx.originSignaturePayload();
         final Uint8List expectedBinary = concatUint8List(<Uint8List>[
           // Version
-          encodeInt32(1),
+          toByteArray(1, length: 4),
           Uint8List.fromList(hexToUint8List(tx.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
-          encodeInt32(code.length),
+          toByteArray(code.length, length: 4),
           Uint8List.fromList(utf8.encode(code)),
           //Content size
-          encodeInt32(content.length),
+          toByteArray(content.length, length: 4),
           Uint8List.fromList(utf8.encode(content)),
           // Nb of byte to encode nb of ownerships
           Uint8List.fromList(<int>[1]),
           //Nb of ownerships
           Uint8List.fromList(<int>[1]),
           //Secret size
-          encodeInt32(Uint8List.fromList(hexToUint8List(secret)).lengthInBytes),
+          toByteArray(Uint8List.fromList(hexToUint8List(secret)).lengthInBytes,
+              length: 4),
           Uint8List.fromList(Uint8List.fromList(hexToUint8List(secret))),
           // Nb of bytes to encode nb of authorized key
           Uint8List.fromList(<int>[1]),
@@ -336,7 +338,7 @@ void main() {
           concatUint8List(<Uint8List>[
             Uint8List.fromList(hexToUint8List(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
-            encodeBigInt(toBigInt(0.2020))
+            toByteArray(toBigInt(0.2020), length: 8)
           ]),
           // Nb of bytes to encode nb of Token transfers
           Uint8List.fromList(<int>[1]),
@@ -347,7 +349,7 @@ void main() {
                 '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')),
             Uint8List.fromList(hexToUint8List(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
-            encodeBigInt(toBigInt(100)),
+            toByteArray(toBigInt(100), length: 8),
             Uint8List.fromList(<int>[0]),
           ]),
           // Nb of bytes to encode nb of recipients

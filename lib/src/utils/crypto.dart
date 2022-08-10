@@ -624,7 +624,7 @@ Uint8List derivePrivateKey(dynamic seed, int index) {
 
   /// Derive the final seed
   final crypto.Hmac hmac = crypto.Hmac(crypto.sha512, masterEntropy);
-  final Uint8List indexBuf = encodeInt32(index);
+  final Uint8List indexBuf = toByteArray(index, length: 4);
   final Uint8List extendedSeed =
       concatUint8List(<Uint8List>[masterKey, indexBuf]);
   final crypto.Digest digest = hmac.convert(extendedSeed);

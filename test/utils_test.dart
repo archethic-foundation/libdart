@@ -44,23 +44,9 @@ void main() {
     });
   });
 
-  group('encodeInt32', () {
-    test('should encode an integer', () {
-      expect(encodeInt32(212323839823),
-          Uint8List.fromList(<int>[111, 124, 175, 79]));
-    });
-  });
-
-  group('encodeBigInt', () {
-    test('should encode an integer into a big integer on 8 bytes', () {
-      expect(encodeBigInt(BigInt.from(212323839821021)),
-          Uint8List.fromList(<int>[0, 0, 193, 27, 127, 12, 196, 221]));
-    });
-  });
-
   group('toBigInt', () {
     test('should convert a double into a big integer with 10^8', () {
-      expect(toBigInt(1.234567), BigInt.from(123456700));
+      expect(toBigInt(1.234567), 123456700);
     });
   });
 

@@ -1,8 +1,9 @@
 Changelog
 =========
 
-#### Version 1.0.24 (2022-08)
+#### Version 1.0.25 (2022-08)
 * Implementation of tokens management
+* Serialization - int management
 
 #### Version 1.0.23 (2022-07-21)
 * BREAKING-CHANGE - Implement VarInt when getting signature payload

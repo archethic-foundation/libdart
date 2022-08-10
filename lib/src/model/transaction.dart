@@ -207,8 +207,8 @@ class Transaction {
 
   /// Add a UCO transfer to the transaction
   /// @param {String | Uint8List} to Address of the recipient (hexadecimal or binary buffer)
-  /// @param {BigInt} amount Amount of UCO to transfer
-  Transaction addUCOTransfer(dynamic to, BigInt amount) {
+  /// @param {int} amount Amount of UCO to transfer
+  Transaction addUCOTransfer(dynamic to, int amount) {
     if (to is! Uint8List && to is! String) {
       throw "'to' must be a string or Uint8List";
     }
@@ -227,10 +227,10 @@ class Transaction {
 
   /// Add a token transfer to the transaction
   /// @param {String | Uint8List} to Address of the recipient (hexadecimal or binary buffer)
-  /// @param {BigInt} amount Amount of token to transfer
+  /// @param {int} amount Amount of token to transfer
   /// @param {String | Uint8List} tokenAddress Address of token to spend (hexadecimal or binary buffer)
   /// @param {int} tokenId ID of the token to use (default to 0)
-  Transaction addTokenTransfer(dynamic to, BigInt amount, dynamic tokenAddress,
+  Transaction addTokenTransfer(dynamic to, int amount, dynamic tokenAddress,
       {int tokenId = 0}) {
     if (to is! Uint8List && to is! String) {
       throw "'to' must be a string or Uint8List";
@@ -369,9 +369,10 @@ class Transaction {
 
   /// Generate the payload for the previous signature by encoding address, type and data
   Uint8List previousSignaturePayload() {
-    final Uint8List bufCodeSize = encodeInt32(data!.code!.length);
+    final Uint8List bufCodeSize = toByteArray(data!.code!.length, length: 4);
+    // ignore: prefer_final_locals
     int contentSize = utf8.encode(data!.content!).length;
-    final Uint8List bufContentSize = encodeInt32(contentSize);
+    final Uint8List bufContentSize = toByteArray(contentSize, length: 4);
 
     Uint8List ownershipsBuffers = Uint8List(0);
     for (Ownership ownership in data!.ownerships!) {
@@ -392,8 +393,9 @@ class Transaction {
 
       ownershipsBuffers = concatUint8List(<Uint8List>[
         ownershipsBuffers,
-        encodeInt32(Uint8List.fromList(hexToUint8List(ownership.secret!))
-            .lengthInBytes),
+        toByteArray(
+            Uint8List.fromList(hexToUint8List(ownership.secret!)).lengthInBytes,
+            length: 4),
         Uint8List.fromList(hexToUint8List(ownership.secret!)),
         concatUint8List(authorizedKeysBuffer)
       ]);
@@ -405,7 +407,7 @@ class Transaction {
         ucoTransfersBuffers = concatUint8List(<Uint8List>[
           ucoTransfersBuffers,
           Uint8List.fromList(hexToUint8List(ucoTransfer.to!)),
-          encodeBigInt(ucoTransfer.amount!)
+          toByteArray(ucoTransfer.amount!, length: 8)
         ]);
       }
     }
@@ -417,7 +419,7 @@ class Transaction {
           tokenTransfersBuffers,
           Uint8List.fromList(hexToUint8List(tokenTransfer.token!)),
           Uint8List.fromList(hexToUint8List(tokenTransfer.to!)),
-          encodeBigInt(tokenTransfer.amount!),
+          toByteArray(tokenTransfer.amount!, length: 8),
           Uint8List.fromList(<int>[tokenTransfer.tokenId!])
         ]);
       }
@@ -441,7 +443,7 @@ class Transaction {
         Uint8List.fromList(toByteArray(data!.recipients!.length));
 
     return concatUint8List(<Uint8List>[
-      encodeInt32(version!),
+      toByteArray(version!, length: 4),
       Uint8List.fromList(hexToUint8List(address!)),
       Uint8List.fromList(<int>[txTypes[type]!]),
       bufCodeSize,

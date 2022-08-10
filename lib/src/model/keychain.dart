@@ -59,7 +59,7 @@ class Keychain {
     });
 
     return concatUint8List(<Uint8List>[
-      encodeInt32(version!),
+      toByteArray(version!, length: 4),
       Uint8List.fromList(<int>[seed!.length]),
       seed!,
       Uint8List.fromList(<int>[services!.length]),

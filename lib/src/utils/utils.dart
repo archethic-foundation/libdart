@@ -39,59 +39,31 @@ String uint8ListToHex(Uint8List bytes) {
 Uint8List concatUint8List(Iterable<Uint8List> list) =>
     Uint8List.fromList(list.expand((Uint8List element) => element).toList());
 
-/// Encode a integer into a Uint8List (4 bytes)
-/// @param {Number} number Number to encode
-Uint8List encodeInt32(int number) {
-  return Uint8List(4)..buffer.asByteData().setInt32(0, number, Endian.big);
-}
-
-/// Encode a BigInt into bytes using big-endian encoding.
-/// It encodes the integer to a minimal twos-compliment integer as defined by
-/// ASN.1 (8 bytes)
-/// @param {Number} number Number to encode
-Uint8List encodeBigInt(BigInt number) {
-  final BigInt byteMask = BigInt.from(0xff);
-  final Uint8List result = Uint8List(8);
-  BigInt work = number;
-  // big-endian
-  for (int i = 0; i < 8; i++) {
-    result[8 - i - 1] = (work & byteMask).toInt();
-    work = work >> 8;
-  }
-  return result;
-}
-
-/// Decode a BigInt from bytes in big-endian encoding.
-/// @param {Uint8List} Uint8List to decode
-BigInt decodeBigInt(Uint8List bytes) {
-  BigInt result = BigInt.from(0);
-  //
-  for (int i = 0; i < bytes.length; i++) {
-    result += BigInt.from(bytes[bytes.length - i - 1]) << (8 * i);
-  }
-  return result;
-}
-
 /// Convert any number into a big int for 10^8 decimals
-/// @param {BigInt} Number to convert
-BigInt toBigInt(double? number) {
+/// @param {num} Number to convert
+int toBigInt(num? number) {
   if (number == null) {
-    return BigInt.from(0);
+    return 0;
   }
-  number = number * pow(10, 8);
-  return BigInt.from(number.toInt());
+  return (number * pow(10, 8)).round();
 }
 
 /// Convert any number into a byte array
-Uint8List toByteArray(int value) {
+Uint8List toByteArray(int value, {int length = 0}) {
   final BigInt byteMask = BigInt.from(0xff);
   BigInt number = BigInt.from(value);
   // Not handling negative numbers. Decide how you want to do that.
-  final int size = (number.bitLength + 7) >> 3;
+  int size;
+  if (length > 0) {
+    size = length;
+  } else {
+    size = (number.bitLength + 7) >> 3;
+  }
   if (size == 0) {
-    return Uint8List.fromList([0]);
+    return Uint8List.fromList(<int>[0]);
   }
 
+  // ignore: prefer_final_locals
   Uint8List result = Uint8List(size);
   for (int i = 0; i < size; i++) {
     result[size - i - 1] = (number & byteMask).toInt();
