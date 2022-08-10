@@ -141,12 +141,12 @@ It supports the Archethic Cryptography rules which are:
   #### addUCOTransfer(to, amount)
   Add a UCO transfer to the `data.ledger.uco.transfers` section of the transaction
   - `to` is hexadecimal encoding or Uint8List representing the transaction address (recipient) to receive the funds
-  - `amount` is the number of uco to send (BigInt)
+  - `amount` is the number of uco to send (int)
 
   #### addTokenTransfer(to, amount, tokenAddress, tokenId)
   Add a token transfer to the `data.ledger.token.transfers` section of the transaction
   - `to` is hexadecimal encoding or Uint8List representing the transaction address (recipient) to receive the funds
-  - `amount` is the number of uco to send (double)
+  - `amount` is the number of uco to send (int)
   - `tokenAddress` is hexadecimal encoding or Uint8List representing the token address to spend
   - `tokenId` is the ID of the token to use (default to 0)
 
