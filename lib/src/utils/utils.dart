@@ -45,7 +45,16 @@ int toBigInt(num? number) {
   if (number == null) {
     return 0;
   }
-  return (number * pow(10, 8)).round();
+  return (number * 100000000).round();
+}
+
+/// Convert big int of 10^8 decimals to any number
+/// @param {int} Number to convert
+num fromBigInt(int? number) {
+  if (number == null) {
+    return 0;
+  }
+  return (number / 100000000).round();
 }
 
 /// Convert any number into a byte array
