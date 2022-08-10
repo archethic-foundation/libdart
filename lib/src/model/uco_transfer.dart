@@ -11,7 +11,7 @@ class UCOTransfer {
   String? to;
 
   factory UCOTransfer.fromJson(Map<String, dynamic> json) => UCOTransfer(
-        amount: json['amount']?.toDouble(),
+        amount: json['amount']?.toInt(),
         to: json['to'],
       );
 
