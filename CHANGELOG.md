@@ -4,6 +4,7 @@ Changelog
 #### Version 1.0.25 (2022-08)
 * Implementation of tokens management
 * Serialization - int management
+* Coingecko: Get historical market data include price, market cap, and 24h volume within a range of timestamp
 
 #### Version 1.0.23 (2022-07-21)
 * BREAKING-CHANGE - Implement VarInt when getting signature payload

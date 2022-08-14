@@ -69,6 +69,29 @@ class ApiCoinsService {
     return coinsPriceResponse!;
   }
 
+  /// Get historical market data include price, market cap, and 24h volume within a range of timestamp (granularity auto)
+  /// @param {int} from
+  /// @param {int} to
+  Future<CoinsPriceResponse> getCoinsChartRange(
+      String currency, int from, int to) async {
+    CoinsPriceResponse? coinsPriceResponse;
+    final Map<String, String> requestHeaders = <String, String>{
+      'Content-type': 'application/json'
+    };
+
+    try {
+      final http.Response responseHttp = await http.get(
+          Uri.parse(
+              'https://api.coingecko.com/api/v3/coins/archethic/market_chart?vs_currency=$currency&from=$from&to=$to'),
+          headers: requestHeaders);
+
+      coinsPriceResponse = coinsPriceResponseFromJson(responseHttp.body);
+    } catch (e) {
+      log(e.toString());
+    }
+    return coinsPriceResponse!;
+  }
+
   /// Get Archethic Coin infos (BTC Price, Local Currency Price)
   /// @param {String} currency
   Future<SimplePriceResponse> getSimplePrice(String currency) async {
