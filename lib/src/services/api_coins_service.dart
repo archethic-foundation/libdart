@@ -82,7 +82,7 @@ class ApiCoinsService {
     try {
       final http.Response responseHttp = await http.get(
           Uri.parse(
-              'https://api.coingecko.com/api/v3/coins/archethic/market_chart?vs_currency=$currency&from=$from&to=$to'),
+              'https://api.coingecko.com/api/v3/coins/archethic/market_chart/range??vs_currency=$currency&from=$from&to=$to'),
           headers: requestHeaders);
 
       coinsPriceResponse = coinsPriceResponseFromJson(responseHttp.body);
