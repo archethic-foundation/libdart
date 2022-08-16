@@ -23,12 +23,16 @@ class TransactionFee {
 
   factory TransactionFee.fromJson(Map<String, dynamic> json) => TransactionFee(
         fee: json['fee']?.toDouble(),
-        rates: Rates.fromJson(json['rates']),
+        rates: json['rates'] == null ? null : Rates.fromJson(json['rates']),
+        errors: json['errors'] == null
+            ? null
+            : TransactionFeeErrors.fromJson(json['errors']),
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'fee': fee,
         'rates': rates!.toJson(),
+        'errors': errors!.toJson()
       };
 }
 
