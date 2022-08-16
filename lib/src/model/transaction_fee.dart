@@ -7,19 +7,19 @@
 // Dart imports:
 import 'dart:convert';
 
+import 'package:archethic_lib_dart/src/model/data.dart';
+
 TransactionFee transactionFeeFromJson(String str) =>
     TransactionFee.fromJson(json.decode(str));
 
 String transactionFeeToJson(TransactionFee data) => json.encode(data.toJson());
 
 class TransactionFee {
-  TransactionFee({
-    this.fee,
-    this.rates,
-  });
+  TransactionFee({this.fee, this.rates, this.errors});
 
   double? fee;
   Rates? rates;
+  TransactionFeeErrors? errors;
 
   factory TransactionFee.fromJson(Map<String, dynamic> json) => TransactionFee(
         fee: json['fee']?.toDouble(),
@@ -49,5 +49,22 @@ class Rates {
   Map<String, dynamic> toJson() => <String, dynamic>{
         'eur': eur,
         'usd': usd,
+      };
+}
+
+class TransactionFeeErrors {
+  TransactionFeeErrors({
+    this.data,
+  });
+
+  Data? data;
+
+  factory TransactionFeeErrors.fromJson(Map<String, dynamic> json) =>
+      TransactionFeeErrors(
+        data: Data.fromJson(json['data']),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'data': data!.toJson(),
       };
 }
