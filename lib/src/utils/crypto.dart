@@ -694,7 +694,11 @@ Uint8List aesAuthDecrypt(
 /// Verify the structure of an address
 /// @param {String} address to control
 bool addressFormatControl(String? address) {
-  if (address != null && address.length > 1 && isHex(address)) {
+  if (address != null && address.length >= 4 && isHex(address)) {
+    final String curveType = address.substring(0, 2);
+    if (curveType != '00' && curveType != '01' && curveType != '02') {
+      return false;
+    }
     int digestSize = 0;
     switch (address.substring(2, 4)) {
 
