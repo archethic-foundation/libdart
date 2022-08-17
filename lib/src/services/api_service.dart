@@ -189,7 +189,7 @@ class ApiService {
     };
 
     final String body =
-        '{"query": "query {balance(address: \\"$address\\") {uco, token {address, amount}}}"}';
+        '{"query": "query {balance(address: \\"$address\\") {uco, token {address, amount, tokenId }}}"}';
     log('fetchBalance: requestHttp.body=$body');
 
     try {
