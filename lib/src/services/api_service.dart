@@ -7,6 +7,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
+import 'package:archethic_lib_dart/src/model/response/token_response.dart';
 import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
@@ -653,6 +654,48 @@ class ApiService {
         originKeyResponseFromJson(responseHttp.body);
 
     completer.complete(originKey.toString());
+    return completer.future;
+  }
+
+  /// Query the network to find a token's data
+  /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
+  /// @param {String} request List of informations to retrieve in the GraphQL Query
+  Future<Token> getToken(String address,
+      {String request = 'genesis, name, supply, symbol, type'}) async {
+    final Completer<Token> completer = Completer<Token>();
+
+    // ignore: prefer_final_locals
+    Token token = Token();
+
+    final Map<String, String> requestHeaders = <String, String>{
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    try {
+      final String body =
+          '{"query":"query { token(address: \\"$address\\") { $request } }"}';
+      log('getToken: requestHttp.body=$body');
+      final http.Response responseHttp = await http.post(
+          Uri.parse('${endpoint!}/api'),
+          body: body,
+          headers: requestHeaders);
+      log('getToken: responseHttp.body=${responseHttp.body}');
+      if (responseHttp.statusCode == 200) {
+        final TokenResponse tokenResponse =
+            tokenResponseFromJson(responseHttp.body);
+        if (tokenResponse.data != null) {
+          token.name = tokenResponse.data!.token!.name!;
+          token.genesis = tokenResponse.data!.token!.genesis!;
+          token.supply = tokenResponse.data!.token!.supply!;
+          token.symbol = tokenResponse.data!.token!.symbol!;
+          token.type = tokenResponse.data!.token!.type!;
+        }
+      }
+    } catch (e) {
+      log('getToken: error=$e');
+    }
+
+    completer.complete(token);
     return completer.future;
   }
 }

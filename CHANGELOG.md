@@ -6,6 +6,9 @@ Changelog
 * Serialization - int management
 * Coingecko: Get historical market data include price, market cap, and 24h volume within a range of timestamp
 * Check curve type in addressFormatControl method
+* Add error field in transactionFee message
+* Add field tokenId in fetchBalance method
+* Add getToken method to query the network to find a token's data
 
 #### Version 1.0.23 (2022-07-21)
 * BREAKING-CHANGE - Implement VarInt when getting signature payload
