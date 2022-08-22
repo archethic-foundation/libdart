@@ -22,7 +22,6 @@ class Token {
       required this.supply,
       required this.type,
       required this.symbol,
-      this.tokenId,
       this.tokenProperties});
 
   String? address;
@@ -30,7 +29,6 @@ class Token {
   int? supply;
   String? type;
   String? symbol;
-  int? tokenId;
   List<List<TokenProperty>>? tokenProperties;
 
   factory Token.fromJson(Map<String, dynamic> json) {
@@ -42,7 +40,6 @@ class Token {
           : int.tryParse(json['supply'].toString()),
       type: json['type'],
       symbol: json['symbol'],
-      tokenId: json['tokenId'] == null ? 0 : json['tokenId'].toInt(),
       tokenProperties: json['properties'] == null
           ? null
           : List<List<TokenProperty>>.from(json['properties'].map((x) =>
@@ -57,7 +54,6 @@ class Token {
         'supply': supply,
         'type': type,
         'symbol': symbol,
-        'tokenId': tokenId,
         'properties': tokenProperties == null
             ? []
             : List<dynamic>.from(tokenProperties!
@@ -69,7 +65,6 @@ class Token {
         'supply': supply,
         'type': type,
         'symbol': symbol,
-        'tokenId': tokenId,
         'properties': tokenProperties == null
             ? []
             : List<dynamic>.from(tokenProperties!
