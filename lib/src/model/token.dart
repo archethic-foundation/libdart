@@ -74,6 +74,8 @@ class Token {
 }
 
 class TokenProperty {
+  TokenProperty({required this.name, required this.value});
+
   String? name;
   String? value;
 }
