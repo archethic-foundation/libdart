@@ -31,7 +31,7 @@ class Token {
   String? type;
   String? symbol;
   int? tokenId;
-  List<TokenProperty>? tokenProperties = <TokenProperty>[];
+  List<List<TokenProperty>>? tokenProperties;
 
   factory Token.fromJson(Map<String, dynamic> json) {
     return Token(
@@ -45,7 +45,9 @@ class Token {
       tokenId: json['tokenId'] == null ? 0 : json['tokenId'].toInt(),
       tokenProperties: json['properties'] == null
           ? null
-          : List<TokenProperty>.from(json['properties'].map((x) => x)),
+          : List<List<TokenProperty>>.from(json['properties'].map((x) =>
+              List<TokenProperty>.from(
+                  x.map((x) => TokenProperty.fromJson(x))))),
     );
   }
 
@@ -58,7 +60,8 @@ class Token {
         'tokenId': tokenId,
         'properties': tokenProperties == null
             ? []
-            : List<dynamic>.from(tokenProperties!.map((TokenProperty x) => x)),
+            : List<dynamic>.from(tokenProperties!
+                .map((x) => List<dynamic>.from(x.map((x) => x.toJson())))),
       };
 
   Map<String, dynamic> toJsonForTxDataContent() => <String, dynamic>{
@@ -69,13 +72,27 @@ class Token {
         'tokenId': tokenId,
         'properties': tokenProperties == null
             ? []
-            : List<dynamic>.from(tokenProperties!.map((TokenProperty x) => x)),
+            : List<dynamic>.from(tokenProperties!
+                .map((x) => List<dynamic>.from(x.map((x) => x.toJson())))),
       };
 }
 
 class TokenProperty {
-  TokenProperty({required this.name, required this.value});
+  TokenProperty({
+    this.name,
+    this.value,
+  });
 
   String? name;
   String? value;
+
+  factory TokenProperty.fromJson(Map<String, dynamic> json) => TokenProperty(
+        name: json['name'],
+        value: json['value'],
+      );
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'value': value,
+      };
 }
