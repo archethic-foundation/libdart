@@ -9,16 +9,12 @@ import 'package:archethic_lib_dart/src/model/unspent_outputs.dart';
 class LedgerOperations {
   LedgerOperations({
     this.fee,
-    this.nodeMovements,
     this.transactionMovements,
     this.unspentOutputs,
   });
 
   /// Fee: transaction fee (distributed over the node rewards)
   double? fee;
-
-  /// Node movements: node rewards
-  List<NodeMovement>? nodeMovements;
 
   /// Transaction movements: assets transfers
   List<TransactionMovement>? transactionMovements;
@@ -29,10 +25,6 @@ class LedgerOperations {
   factory LedgerOperations.fromJson(Map<String, dynamic> json) =>
       LedgerOperations(
         fee: json['fee']?.toDouble(),
-        nodeMovements: json['nodeMovements'] == null
-            ? null
-            : List<NodeMovement>.from(json['nodeMovements']
-                .map((dynamic x) => NodeMovement.fromJson(x))),
         transactionMovements: json['transactionMovements'] == null
             ? null
             : List<TransactionMovement>.from(json['transactionMovements']
@@ -45,8 +37,6 @@ class LedgerOperations {
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'fee': fee,
-        'nodeMovements': List<dynamic>.from(
-            nodeMovements!.map((NodeMovement x) => x.toJson())),
         'transactionMovements': List<dynamic>.from(
             transactionMovements!.map((TransactionMovement x) => x.toJson())),
         'unspentOutputs': List<dynamic>.from(

@@ -21,7 +21,6 @@ export 'src/model/ledger.dart';
 export 'src/model/ledger_operations.dart';
 export 'src/model/location.dart';
 export 'src/model/node.dart';
-export 'src/model/node_movement.dart';
 export 'src/model/on_chain_wallet_data.dart';
 export 'src/model/oracle_chain/oracle_uco_price.dart';
 export 'src/model/ownership.dart';

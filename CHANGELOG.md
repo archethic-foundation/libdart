@@ -9,6 +9,7 @@ Changelog
 * Add error field in transactionFee message
 * Add field tokenId in fetchBalance method
 * Add getToken method to query the network to find a token's data
+* Remove NodeMovement class
 
 #### Version 1.0.23 (2022-07-21)
 * BREAKING-CHANGE - Implement VarInt when getting signature payload
