@@ -13,14 +13,14 @@ class TokenBalance {
   String? address;
 
   /// Amount: amount of token
-  double? amount;
+  int? amount;
 
   /// Token ID: ID of the token
   int? tokenId;
 
   factory TokenBalance.fromJson(Map<String, dynamic> json) => TokenBalance(
         address: json['address'],
-        amount: json['amount']?.toDouble(),
+        amount: json['amount']?.toInt(),
         tokenId: json['tokenId']?.toInt(),
       );
 

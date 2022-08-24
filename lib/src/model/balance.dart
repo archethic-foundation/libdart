@@ -14,14 +14,14 @@ class Balance {
   List<TokenBalance>? token;
 
   /// UCO: uco balance
-  double? uco;
+  int? uco;
 
   factory Balance.fromJson(Map<String, dynamic> json) => Balance(
         token: json['token'] == null
             ? null
             : List<TokenBalance>.from(
                 json['token'].map((dynamic x) => TokenBalance.fromJson(x))),
-        uco: json['uco']?.toDouble(),
+        uco: json['uco']?.toInt(),
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{

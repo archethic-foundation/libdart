@@ -3,17 +3,17 @@
 /// [TransactionInput] represents the inputs from the transaction.
 
 class TransactionInput {
-  TransactionInput({
-    this.amount,
-    this.from,
-    this.tokenAddress,
-    this.spent,
-    this.timestamp,
-    this.type,
-  });
+  TransactionInput(
+      {this.amount,
+      this.from,
+      this.tokenAddress,
+      this.spent,
+      this.timestamp,
+      this.type,
+      this.tokenId});
 
   /// Amount: asset amount
-  double? amount;
+  int? amount;
 
   /// From: transaction which send the amount of assets
   String? from;
@@ -30,14 +30,18 @@ class TransactionInput {
   /// Type: UCO/Token/Call
   String? type;
 
+  /// Token id: It is the id for a token which is allocated when the token is minted.
+  int? tokenId;
+
   factory TransactionInput.fromJson(Map<String, dynamic> json) =>
       TransactionInput(
-        amount: json['amount']?.toDouble(),
+        amount: json['amount']?.toInt(),
         from: json['from'],
         tokenAddress: json['tokenAddress'],
         spent: json['spent'],
         timestamp: json['timestamp'],
         type: json['type'],
+        tokenId: json['tokenId']?.toInt(),
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -47,5 +51,6 @@ class TransactionInput {
         'spent': spent,
         'timestamp': timestamp,
         'type': type,
+        'tokenId': tokenId
       };
 }

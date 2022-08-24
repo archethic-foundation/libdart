@@ -7,6 +7,7 @@
 // Dart imports:
 import 'dart:convert';
 
+// Project imports:
 import 'package:archethic_lib_dart/src/model/data.dart';
 
 TransactionFee transactionFeeFromJson(String str) =>
