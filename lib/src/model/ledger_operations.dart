@@ -13,7 +13,7 @@ class LedgerOperations {
   });
 
   /// Fee: transaction fee (distributed over the node rewards)
-  double? fee;
+  int? fee;
 
   /// Transaction movements: assets transfers
   List<TransactionMovement>? transactionMovements;
@@ -23,7 +23,7 @@ class LedgerOperations {
 
   factory LedgerOperations.fromJson(Map<String, dynamic> json) =>
       LedgerOperations(
-        fee: json['fee']?.toDouble(),
+        fee: json['fee']?.toInt(),
         transactionMovements: json['transactionMovements'] == null
             ? null
             : List<TransactionMovement>.from(json['transactionMovements']

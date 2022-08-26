@@ -18,12 +18,12 @@ String transactionFeeToJson(TransactionFee data) => json.encode(data.toJson());
 class TransactionFee {
   TransactionFee({this.fee, this.rates, this.errors});
 
-  double? fee;
+  int? fee;
   Rates? rates;
   TransactionFeeErrors? errors;
 
   factory TransactionFee.fromJson(Map<String, dynamic> json) => TransactionFee(
-        fee: json['fee']?.toDouble(),
+        fee: json['fee']?.toInt(),
         rates: json['rates'] == null ? null : Rates.fromJson(json['rates']),
         errors: json['errors'] == null
             ? null
