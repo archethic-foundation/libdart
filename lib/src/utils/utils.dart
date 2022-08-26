@@ -54,7 +54,7 @@ num fromBigInt(int? number) {
   if (number == null) {
     return 0;
   }
-  return (number / 100000000).round();
+  return number / 100000000;
 }
 
 /// Convert any number into a byte array
