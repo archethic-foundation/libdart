@@ -11,6 +11,7 @@ Changelog
 * Add getToken method to query the network to find a token's data
 * Remove NodeMovement class
 * Amount management. Int format (10^8) from end to end
+* Add API to get last oracle value
 
 #### Version 1.0.23 (2022-07-21)
 * BREAKING-CHANGE - Implement VarInt when getting signature payload

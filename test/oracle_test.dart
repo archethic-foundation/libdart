@@ -11,8 +11,13 @@ void main() {
   group('oracle', () {
     test('getLastOracleUcoPrice', () async {
       final OracleUcoPrice oracleUcoPrice =
-          await OracleService('http://localhost:4000').getLastOracleUcoPrice();
-      expect(oracleUcoPrice.uco!.eur, oracleUcoPrice.uco!.usd);
+          await OracleService('http://localhost:4000').getOracleData();
+      final OracleUcoPrice oracleUcoPrice2 =
+          await OracleService('http://localhost:4000').getOracleData(
+              timestamp: DateTime.now().millisecondsSinceEpoch ~/
+                  Duration.millisecondsPerSecond);
+      expect(oracleUcoPrice.uco!.eur, oracleUcoPrice2.uco!.eur);
+      expect(oracleUcoPrice.uco!.usd, oracleUcoPrice2.uco!.usd);
     });
   }, tags: <String>['noCI']);
 }
