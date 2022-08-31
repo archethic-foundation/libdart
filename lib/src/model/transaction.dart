@@ -384,6 +384,9 @@ class Transaction {
         bufAuthKeyLength
       ];
 
+      ownership.authorizedPublicKeys!.sort((AuthorizedKey a, AuthorizedKey b) =>
+          a.publicKey!.compareTo(b.publicKey!));
+
       for (AuthorizedKey authorizedKey in ownership.authorizedPublicKeys!) {
         authorizedKeysBuffer
             .add(Uint8List.fromList(hexToUint8List(authorizedKey.publicKey!)));

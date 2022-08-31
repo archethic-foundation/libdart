@@ -12,6 +12,7 @@ Changelog
 * Remove NodeMovement class
 * Amount management. Int format (10^8) from end to end
 * Add API to get last oracle value
+* Sort authorizedPublicKeys in ownerships
 
 #### Version 1.0.23 (2022-07-21)
 * BREAKING-CHANGE - Implement VarInt when getting signature payload
