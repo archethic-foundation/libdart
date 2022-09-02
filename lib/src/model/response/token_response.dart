@@ -9,6 +9,7 @@ import 'dart:convert';
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/errors.dart';
+import 'package:archethic_lib_dart/src/model/token.dart';
 
 TokenResponse tokenResponseFromJson(String str) =>
     TokenResponse.fromJson(json.decode(str));
@@ -48,37 +49,5 @@ class Data {
 
   Map<String, dynamic> toJson() => {
         'token': token!.toJson(),
-      };
-}
-
-class Token {
-  Token({
-    this.genesis,
-    this.name,
-    this.supply,
-    this.symbol,
-    this.type,
-  });
-
-  String? genesis;
-  String? name;
-  int? supply;
-  String? symbol;
-  String? type;
-
-  factory Token.fromJson(Map<String, dynamic> json) => Token(
-        genesis: json['genesis'],
-        name: json['name'],
-        supply: json['supply'],
-        symbol: json['symbol'],
-        type: json['type'],
-      );
-
-  Map<String, dynamic> toJson() => {
-        'genesis': genesis,
-        'name': name,
-        'supply': supply,
-        'symbol': symbol,
-        'type': type,
       };
 }

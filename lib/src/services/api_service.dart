@@ -7,6 +7,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
+import 'package:archethic_lib_dart/src/model/token.dart';
 import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
@@ -661,7 +662,8 @@ class ApiService {
   /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
   /// @param {String} request List of informations to retrieve in the GraphQL Query
   Future<Token> getToken(String address,
-      {String request = 'genesis, name, supply, symbol, type'}) async {
+      {String request =
+          'genesis, name, supply, symbol, type, properties { name, value }'}) async {
     final Completer<Token> completer = Completer<Token>();
 
     // ignore: prefer_final_locals
