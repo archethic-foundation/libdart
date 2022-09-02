@@ -686,11 +686,7 @@ class ApiService {
         final TokenResponse tokenResponse =
             tokenResponseFromJson(responseHttp.body);
         if (tokenResponse.data != null) {
-          token.name = tokenResponse.data!.token!.name!;
-          token.genesis = tokenResponse.data!.token!.genesis!;
-          token.supply = tokenResponse.data!.token!.supply!;
-          token.symbol = tokenResponse.data!.token!.symbol!;
-          token.type = tokenResponse.data!.token!.type!;
+          token = tokenResponse.data!.token!;
         }
       }
     } catch (e) {
