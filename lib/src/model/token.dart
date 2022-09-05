@@ -20,6 +20,7 @@ class Token {
       {this.address,
       this.genesis,
       this.name,
+      this.id,
       this.supply,
       this.type,
       this.symbol,
@@ -28,6 +29,7 @@ class Token {
   String? address;
   String? genesis;
   String? name;
+  String? id;
   int? supply;
   String? type;
   String? symbol;
@@ -38,6 +40,7 @@ class Token {
       address: json['address'],
       genesis: json['genesis'],
       name: json['name'],
+      id: json['id'],
       supply: json['supply'] == null
           ? null
           : int.tryParse(json['supply'].toString()),
@@ -55,6 +58,7 @@ class Token {
         'address': address,
         'genesis': genesis,
         'name': name,
+        'id': id,
         'supply': supply,
         'type': type,
         'symbol': symbol,
@@ -66,6 +70,7 @@ class Token {
 
   Map<String, dynamic> toJsonForTxDataContent() => <String, dynamic>{
         'name': name,
+        'id': id,
         'supply': supply,
         'type': type,
         'symbol': symbol,

@@ -663,7 +663,7 @@ class ApiService {
   /// @param {String} request List of informations to retrieve in the GraphQL Query
   Future<Token> getToken(String address,
       {String request =
-          'genesis, name, supply, symbol, type, properties { name, value }'}) async {
+          'genesis, name, id, supply, symbol, type, properties { name, value }'}) async {
     final Completer<Token> completer = Completer<Token>();
 
     // ignore: prefer_final_locals
