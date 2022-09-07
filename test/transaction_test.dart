@@ -99,7 +99,7 @@ void main() {
         expect(tx.data!.ledger!.token!.transfers![0].to,
             '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
         expect(tx.data!.ledger!.token!.transfers![0].amount, toBigInt(10.03));
-        expect(tx.data!.ledger!.token!.transfers![0].token,
+        expect(tx.data!.ledger!.token!.transfers![0].tokenAddress,
             '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
       });
     });
