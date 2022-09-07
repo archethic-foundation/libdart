@@ -7,7 +7,6 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
-import 'package:archethic_lib_dart/src/model/token.dart';
 import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
@@ -27,6 +26,7 @@ import 'package:archethic_lib_dart/src/model/response/transaction_chain_response
 import 'package:archethic_lib_dart/src/model/response/transaction_content_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transaction_inputs_response.dart';
 import 'package:archethic_lib_dart/src/model/response/transaction_last_response.dart';
+import 'package:archethic_lib_dart/src/model/token.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';

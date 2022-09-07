@@ -3,8 +3,10 @@
 //
 //     final oracleData = oracleDataFromJson(jsonString);
 
+// Dart imports:
 import 'dart:convert';
 
+// Project imports:
 import 'package:archethic_lib_dart/src/model/uco.dart';
 
 OracleDataResponse oracleDataResponseFromJson(String str) =>
