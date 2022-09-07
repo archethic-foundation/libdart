@@ -261,7 +261,7 @@ class Transaction {
     }
 
     final TokenTransfer tokenTransfer = TokenTransfer(
-        amount: amount, token: tokenAddress, to: to, tokenId: tokenId);
+        amount: amount, tokenAddress: tokenAddress, to: to, tokenId: tokenId);
     data!.ledger!.token!.transfers!.add(tokenTransfer);
     return this;
   }
@@ -420,7 +420,7 @@ class Transaction {
       for (TokenTransfer tokenTransfer in data!.ledger!.token!.transfers!) {
         tokenTransfersBuffers = concatUint8List(<Uint8List>[
           tokenTransfersBuffers,
-          Uint8List.fromList(hexToUint8List(tokenTransfer.token!)),
+          Uint8List.fromList(hexToUint8List(tokenTransfer.tokenAddress!)),
           Uint8List.fromList(hexToUint8List(tokenTransfer.to!)),
           toByteArray(tokenTransfer.amount!, length: 8),
           Uint8List.fromList(<int>[tokenTransfer.tokenId!])
@@ -499,8 +499,8 @@ class Transaction {
               return {
                 'to': x.to == null ? '' : x.to!,
                 'amount': x.amount == null ? 0 : x.amount!.toInt(),
-                'token': x.token!,
-                'token_id': x.tokenId
+                'tokenAddress': x.tokenAddress!,
+                'tokenId': x.tokenId
               };
             }))
           },
@@ -529,7 +529,13 @@ class Transaction {
   }
 
   static const String kTransactionQueryAllFields =
-      ' address, balance { token { address, amount }, uco }, chainLength, crossValidationStamps { nodePublicKey, signature }, data { content,  ownerships {  authorizedPublicKeys { encryptedSecretKey, publicKey } secret } ledger { uco { transfers { amount, to } }, token { transfers { amount, to, token, token_id } } } recipients } inputs { amount, from, tokenAddress, spent, timestamp, type, }, originSignature, previousPublicKey, previousSignature, type, validationStamp { proofOfIntegrity, proofOfWork, signature, timestamp, ledgerOperations { fee } }, version';
+      ''' address, balance { token { address, amount }, uco }, chainLength, 
+      crossValidationStamps { nodePublicKey, signature }, data { content,  
+      ownerships {  authorizedPublicKeys { encryptedSecretKey, publicKey } secret }
+       ledger { uco { transfers { amount, to } }, token { transfers
+        { amount, to, tokenAddress, tokenId } } } recipients } inputs { amount, from, tokenAddress, spent, 
+        timestamp, type, }, originSignature, previousPublicKey, previousSignature, type, validationStamp
+         { proofOfIntegrity, proofOfWork, signature, timestamp, ledgerOperations { fee } }, version''';
 }
 
 String transactionEncoding() {

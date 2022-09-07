@@ -2,24 +2,24 @@
 
 /// [TokenTransfer] represents the an asset transfer
 class TokenTransfer {
-  TokenTransfer({this.amount, this.to, this.token, this.tokenId});
+  TokenTransfer({this.amount, this.to, this.tokenAddress, this.tokenId});
 
   int? amount;
   String? to;
-  String? token;
+  String? tokenAddress;
   int? tokenId;
 
   factory TokenTransfer.fromJson(Map<String, dynamic> json) => TokenTransfer(
         amount: json['amount']?.toInt(),
         to: json['to'],
-        token: json['token'],
+        tokenAddress: json['tokenAddress'],
         tokenId: json['tokenId']?.toInt(),
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'amount': amount,
         'to': to,
-        'token': token,
+        'tokenAddress': tokenAddress,
         'tokenId': tokenId
       };
 }

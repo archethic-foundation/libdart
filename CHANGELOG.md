@@ -3,6 +3,7 @@ Changelog
 
 #### Version 1.0.26 (2022-09-02)
 * Reuse Token class in TokenResponse class
+* Rename token naming in the API calls
 
 #### Version 1.0.25 (2022-09)
 * Implementation of tokens management
