@@ -70,7 +70,6 @@ class Token {
 
   Map<String, dynamic> toJsonForTxDataContent() => <String, dynamic>{
         'name': name,
-        'id': id,
         'supply': supply,
         'type': type,
         'symbol': symbol,
