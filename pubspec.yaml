@@ -3,7 +3,7 @@ name: archethic_lib_dart
 description: Archethic dart library for Flutter for Node and Browser. This library aims to provide a easy way to create Archethic transaction and to send them over the network
 homepage: https://github.com/archethic-foundation/libdart
 
-version: 1.0.25
+version: 1.0.26
 
 environment:
   sdk: '>=2.17.0 <3.0.0'
@@ -25,15 +25,6 @@ dependencies:
   # basic elliptic curves
   elliptic: ^0.3.8
 
-  # Basis for GraphQL execution layer to support Link and Client
-  gql_exec: ^0.4.0
-
-  # A simple and modular AST-based GraphQL request execution interface.
-  gql_link: ^0.4.2
-
-  # A GraphQL client for Flutter, bringing all the features from a modern GraphQL client to one easy to use package
-  graphql_flutter: ^5.1.1-beta.3
-
   # Easy hexadecimal convertion using dart:convert API.
   hex: ^0.2.0
 
@@ -42,9 +33,6 @@ dependencies:
 
   # JWK (JSON Web Key) encoding and decoding
   jwk: ^0.1.1
-
-  # PhoenixSocket provides a feature-complete implementation of Phoenix Sockets, using a single API based on StreamChannels compatible with any deployment of Flutter.
-  phoenix_socket: ^0.5.3
   
   # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
   pinenacl: ^0.5.1
