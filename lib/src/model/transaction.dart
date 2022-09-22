@@ -418,12 +418,16 @@ class Transaction {
     Uint8List tokenTransfersBuffers = Uint8List(0);
     if (data!.ledger!.token!.transfers!.isNotEmpty) {
       for (TokenTransfer tokenTransfer in data!.ledger!.token!.transfers!) {
+        final Uint8List bufTokenId =
+            Uint8List.fromList(toByteArray(tokenTransfer.tokenId!));
+
         tokenTransfersBuffers = concatUint8List(<Uint8List>[
           tokenTransfersBuffers,
           Uint8List.fromList(hexToUint8List(tokenTransfer.tokenAddress!)),
           Uint8List.fromList(hexToUint8List(tokenTransfer.to!)),
           toByteArray(tokenTransfer.amount!, length: 8),
-          Uint8List.fromList(<int>[tokenTransfer.tokenId!])
+          Uint8List.fromList(<int>[bufTokenId.length]),
+          bufTokenId
         ]);
       }
     }

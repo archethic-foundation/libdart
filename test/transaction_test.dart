@@ -197,6 +197,7 @@ void main() {
             Uint8List.fromList(hexToUint8List(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
             toByteArray(toBigInt(100), length: 8),
+            Uint8List.fromList(<int>[1]),
             Uint8List.fromList(<int>[0])
           ]),
           // Nb of byte to encode nb of recipients
@@ -350,6 +351,7 @@ void main() {
             Uint8List.fromList(hexToUint8List(
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
             toByteArray(toBigInt(100), length: 8),
+            Uint8List.fromList(<int>[1]),
             Uint8List.fromList(<int>[0]),
           ]),
           // Nb of bytes to encode nb of recipients
