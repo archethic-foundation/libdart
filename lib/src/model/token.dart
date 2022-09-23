@@ -46,7 +46,7 @@ class Token {
           : int.tryParse(json['supply'].toString()),
       type: json['type'],
       symbol: json['symbol'],
-      tokenProperties: jsonDecode(json['properties']),
+      tokenProperties: jsonDecode(json['properties'].toString()),
     );
   }
 
