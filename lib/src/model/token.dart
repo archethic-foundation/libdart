@@ -35,20 +35,21 @@ class Token {
   String? symbol;
   Map<String, dynamic>? tokenProperties;
 
-  factory Token.fromJson(Map<String, dynamic> json) {
+  factory Token.fromJson(Map<String, dynamic> map) {
+    final Map<String, dynamic> data =
+        json.decode(map['properties'].toString()) as Map<String, dynamic>;
     return Token(
-      address: json['address'],
-      genesis: json['genesis'],
-      name: json['name'],
-      id: json['id'],
-      supply: json['supply'] == null
-          ? null
-          : int.tryParse(json['supply'].toString()),
-      type: json['type'],
-      symbol: json['symbol'],
-      tokenProperties:
-          jsonDecode(json['properties'].toString()) as Map<String, dynamic>,
-    );
+        address: map['address'],
+        genesis: map['genesis'],
+        name: map['name'],
+        id: map['id'],
+        supply: map['supply'] == null
+            ? null
+            : int.tryParse(map['supply'].toString()),
+        type: map['type'],
+        symbol: map['symbol'],
+        tokenProperties: data.map((dynamic key, dynamic value) =>
+            MapEntry<String, dynamic>(key, value)));
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
