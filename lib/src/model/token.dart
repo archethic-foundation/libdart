@@ -33,7 +33,7 @@ class Token {
   int? supply;
   String? type;
   String? symbol;
-  Map<String, String>? tokenProperties;
+  Map<String, dynamic>? tokenProperties;
 
   factory Token.fromJson(Map<String, dynamic> json) {
     return Token(
@@ -46,7 +46,8 @@ class Token {
           : int.tryParse(json['supply'].toString()),
       type: json['type'],
       symbol: json['symbol'],
-      tokenProperties: jsonDecode(json['properties'].toString()),
+      tokenProperties:
+          jsonDecode(json['properties'].toString()) as Map<String, dynamic>,
     );
   }
 
