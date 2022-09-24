@@ -36,8 +36,6 @@ class Token {
   Map<String, dynamic>? tokenProperties;
 
   factory Token.fromJson(Map<String, dynamic> map) {
-    final Map<String, dynamic> data =
-        json.decode(map['properties'].toString()) as Map<String, dynamic>;
     return Token(
         address: map['address'],
         genesis: map['genesis'],
@@ -48,8 +46,7 @@ class Token {
             : int.tryParse(map['supply'].toString()),
         type: map['type'],
         symbol: map['symbol'],
-        tokenProperties: data.map((dynamic key, dynamic value) =>
-            MapEntry<String, dynamic>(key, value)));
+        tokenProperties: map['properties']);
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
