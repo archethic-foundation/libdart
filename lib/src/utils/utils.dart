@@ -14,7 +14,7 @@ const String kOriginPrivateKey =
 /// Determines if a string is an hexadecimal
 /// @param {String} inputString Potential hexadecimal string
 bool isHex(String inputString) {
-  final RegExp hexadecimal = RegExp(r'^[0-9a-fA-F]+$');
+  final RegExp hexadecimal = RegExp(r'^([0-9A-Fa-f])*$');
   if (!hexadecimal.hasMatch(inputString)) {
     return false;
   }
