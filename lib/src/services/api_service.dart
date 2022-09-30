@@ -636,7 +636,7 @@ class ApiService {
           authorizedPublicKey2.encryptedSecretKey, keypair.privateKey);
       final Uint8List keychain = aesDecrypt(ownership2.secret, aesKey2);
       return decodeKeychain(keychain);
-    } on Exception catch (e) {
+    } catch (e) {
       throw ArchethicConnectionException(e.toString());
     }
   }
