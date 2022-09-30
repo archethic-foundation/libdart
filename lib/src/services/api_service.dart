@@ -8,13 +8,13 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
-import 'package:archethic_lib_dart/src/model/exception/archethic_connection_exception.dart';
 import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
+import 'package:archethic_lib_dart/src/model/exception/archethic_connection_exception.dart';
 import 'package:archethic_lib_dart/src/model/keychain.dart';
 import 'package:archethic_lib_dart/src/model/node.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';
