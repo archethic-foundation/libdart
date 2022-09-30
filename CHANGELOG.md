@@ -1,11 +1,12 @@
 Changelog
 =========
 
-#### Version 1.0.26 (2022-09-02)
+#### Version 1.0.26 (2022-09-30)
 * Reuse Token class in TokenResponse class
 * Rename token naming in the API calls
 * Remove GraphQL references
 * Add varint for token_id
+* Manage conection exceptions
 
 #### Version 1.0.25 (2022-09)
 * Implementation of tokens management

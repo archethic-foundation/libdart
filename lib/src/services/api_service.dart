@@ -3,10 +3,12 @@
 // Dart imports:
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
+import 'package:archethic_lib_dart/src/model/exception/archethic_connection_exception.dart';
 import 'package:http/http.dart' as http show Response, post;
 
 // Project imports:
@@ -518,6 +520,15 @@ class ApiService {
           ownerships = transactionResponse.data!.transaction!.data!.ownerships!;
         }
       }
+    } on SocketException {
+      log('getTransactionOwnerships: responseHttp.body=No Internet connection');
+      throw 'SocketException';
+    } on HttpException {
+      log('getTransactionOwnerships: responseHttp.body=Couldn\'t find the post');
+      throw 'HttpException';
+    } on FormatException {
+      log('getTransactionOwnerships: responseHttp.body=Bad response format');
+      throw 'FormatException';
     } catch (e) {
       log('getTransactionOwnerships: error=$e');
     }
@@ -590,39 +601,44 @@ class ApiService {
     final KeyPair keypair = deriveKeyPair(seed, 0);
     final String accessKeychainAddress = deriveAddress(seed, 1);
 
-    final List<Ownership> ownerships =
-        await getTransactionOwnerships(accessKeychainAddress);
-    if (ownerships.isEmpty) {
-      throw 'Keychain doesn\'t exists';
+    try {
+      final List<Ownership> ownerships =
+          await getTransactionOwnerships(accessKeychainAddress);
+      if (ownerships.isEmpty) {
+        throw 'Keychain doesn\'t exists';
+      }
+
+      final Ownership ownership = ownerships[0];
+      final AuthorizedKey authorizedPublicKey = ownership.authorizedPublicKeys!
+          .firstWhere((AuthorizedKey authKey) =>
+              authKey.publicKey!.toUpperCase() ==
+              uint8ListToHex(keypair.publicKey).toUpperCase());
+
+      final Uint8List aesKey =
+          ecDecrypt(authorizedPublicKey.encryptedSecretKey, keypair.privateKey);
+      final Uint8List keychainAddress = aesDecrypt(ownership.secret, aesKey);
+      log('keychainAddress (getKeychain): ${uint8ListToHex(keychainAddress)}');
+
+      final Transaction lastTransactionKeychain = await getLastTransaction(
+          uint8ListToHex(keychainAddress),
+          request: 'address');
+
+      final List<Ownership> ownerships2 =
+          await getTransactionOwnerships(lastTransactionKeychain.address!);
+      final Ownership ownership2 = ownerships2[0];
+
+      final AuthorizedKey authorizedPublicKey2 = ownership2
+          .authorizedPublicKeys!
+          .firstWhere((AuthorizedKey publicKey) =>
+              publicKey.publicKey!.toUpperCase() ==
+              uint8ListToHex(keypair.publicKey).toUpperCase());
+      final Uint8List aesKey2 = ecDecrypt(
+          authorizedPublicKey2.encryptedSecretKey, keypair.privateKey);
+      final Uint8List keychain = aesDecrypt(ownership2.secret, aesKey2);
+      return decodeKeychain(keychain);
+    } on Exception catch (e) {
+      throw ArchethicConnectionException(e.toString());
     }
-
-    final Ownership ownership = ownerships[0];
-    final AuthorizedKey authorizedPublicKey = ownership.authorizedPublicKeys!
-        .firstWhere((AuthorizedKey authKey) =>
-            authKey.publicKey!.toUpperCase() ==
-            uint8ListToHex(keypair.publicKey).toUpperCase());
-
-    final Uint8List aesKey =
-        ecDecrypt(authorizedPublicKey.encryptedSecretKey, keypair.privateKey);
-    final Uint8List keychainAddress = aesDecrypt(ownership.secret, aesKey);
-    log('keychainAddress (getKeychain): ${uint8ListToHex(keychainAddress)}');
-
-    final Transaction lastTransactionKeychain = await getLastTransaction(
-        uint8ListToHex(keychainAddress),
-        request: 'address');
-
-    final List<Ownership> ownerships2 =
-        await getTransactionOwnerships(lastTransactionKeychain.address!);
-    final Ownership ownership2 = ownerships2[0];
-
-    final AuthorizedKey authorizedPublicKey2 = ownership2.authorizedPublicKeys!
-        .firstWhere((AuthorizedKey publicKey) =>
-            publicKey.publicKey!.toUpperCase() ==
-            uint8ListToHex(keypair.publicKey).toUpperCase());
-    final Uint8List aesKey2 =
-        ecDecrypt(authorizedPublicKey2.encryptedSecretKey, keypair.privateKey);
-    final Uint8List keychain = aesDecrypt(ownership2.secret, aesKey2);
-    return decodeKeychain(keychain);
   }
 
   String getOriginKey() {
