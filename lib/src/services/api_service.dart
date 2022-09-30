@@ -637,7 +637,11 @@ class ApiService {
       final Uint8List keychain = aesDecrypt(ownership2.secret, aesKey2);
       return decodeKeychain(keychain);
     } catch (e) {
-      throw ArchethicConnectionException(e.toString());
+      if (e.toString() == 'Keychain doesn\'t exists') {
+        throw Exception(e.toString());
+      } else {
+        throw ArchethicConnectionException(e.toString());
+      }
     }
   }
 
