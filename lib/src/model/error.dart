@@ -10,20 +10,20 @@ class Error {
     this.path,
   });
 
-  List<Location>? locations;
-  String? message;
-  List<String>? path;
-
   factory Error.fromJson(Map<String, dynamic> json) => Error(
         locations: json['locations'] == null
             ? null
             : List<Location>.from(
-                json['locations'].map((dynamic x) => Location.fromJson(x))),
+                json['locations'].map(Location.fromJson),),
         message: json['message'],
         path: json['path'] == null
             ? null
             : List<String>.from(json['path'].map((dynamic x) => x)),
       );
+
+  List<Location>? locations;
+  String? message;
+  List<String>? path;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'locations':

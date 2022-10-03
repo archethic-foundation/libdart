@@ -26,15 +26,15 @@ class CoinsPriceResponse {
         prices: json['prices'] == null
             ? null
             : List<List<double>>.from(json['prices'].map((dynamic x) =>
-                List<double>.from(x.map((dynamic x) => x.toDouble())))),
+                List<double>.from(x.map((dynamic x) => x.toDouble())),),),
         marketCaps: json['market_caps'] == null
             ? null
             : List<List<double>>.from(json['market_caps'].map((dynamic x) =>
-                List<double>.from(x.map((dynamic x) => x.toDouble())))),
+                List<double>.from(x.map((dynamic x) => x.toDouble())),),),
         totalVolumes: json['total_volumes'] == null
             ? null
             : List<List<double>>.from(json['total_volumes'].map((dynamic x) =>
-                List<double>.from(x.map((dynamic x) => x.toDouble())))),
+                List<double>.from(x.map((dynamic x) => x.toDouble())),),),
         error: json['error'],
       );
 
@@ -45,11 +45,11 @@ class CoinsPriceResponse {
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'prices': List<dynamic>.from(prices!.map(
-            (List<double> x) => List<dynamic>.from(x.map((double x) => x)))),
+            (List<double> x) => List<dynamic>.from(x.map((double x) => x)),),),
         'market_caps': List<dynamic>.from(marketCaps!.map(
-            (List<double> x) => List<dynamic>.from(x.map((double x) => x)))),
+            (List<double> x) => List<dynamic>.from(x.map((double x) => x)),),),
         'total_volumes': List<dynamic>.from(totalVolumes!.map(
-            (List<double> x) => List<dynamic>.from(x.map((double x) => x)))),
+            (List<double> x) => List<dynamic>.from(x.map((double x) => x)),),),
         'error': error,
       };
 }

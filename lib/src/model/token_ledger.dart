@@ -9,14 +9,14 @@ class TokenLedger {
     this.transfers,
   });
 
-  List<TokenTransfer>? transfers;
-
   factory TokenLedger.fromJson(Map<String, dynamic> json) => TokenLedger(
         transfers: json['transfers'] == null
             ? null
             : List<TokenTransfer>.from(json['transfers']
-                .map((dynamic x) => TokenTransfer.fromJson(x))),
+                .map(TokenTransfer.fromJson),),
       );
+
+  List<TokenTransfer>? transfers;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'transfers':

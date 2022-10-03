@@ -13,6 +13,17 @@ class ValidationStamp {
     this.timestamp,
   });
 
+  factory ValidationStamp.fromJson(Map<String, dynamic> json) =>
+      ValidationStamp(
+        ledgerOperations: json['ledgerOperations'] == null
+            ? null
+            : LedgerOperations.fromJson(json['ledgerOperations']),
+        proofOfIntegrity: json['proofOfIntegrity'],
+        proofOfWork: json['proofOfWork'],
+        signature: json['signature'],
+        timestamp: json['timestamp'],
+      );
+
   /// Ledger operations: All the operations performed by the transaction
   LedgerOperations? ledgerOperations;
 
@@ -27,17 +38,6 @@ class ValidationStamp {
 
   /// Timestamp
   int? timestamp;
-
-  factory ValidationStamp.fromJson(Map<String, dynamic> json) =>
-      ValidationStamp(
-        ledgerOperations: json['ledgerOperations'] == null
-            ? null
-            : LedgerOperations.fromJson(json['ledgerOperations']),
-        proofOfIntegrity: json['proofOfIntegrity'],
-        proofOfWork: json['proofOfWork'],
-        signature: json['signature'],
-        timestamp: json['timestamp'],
-      );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'ledgerOperations': ledgerOperations!.toJson(),

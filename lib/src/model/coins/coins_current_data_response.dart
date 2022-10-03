@@ -63,7 +63,8 @@ class CoinsCurrentDataResponse {
             List<dynamic>.from(json['categories'].map((dynamic x) => x)),
         publicNotice: json['public_notice'],
         additionalNotices: List<dynamic>.from(
-            json['additional_notices'].map((dynamic x) => x)),
+          json['additional_notices'].map((dynamic x) => x),
+        ),
         localization: json['localization'] == null
             ? null
             : CoinsCurrentTion.fromJson(json['localization']),
@@ -102,14 +103,16 @@ class CoinsCurrentDataResponse {
         publicInterestStats: json['image'] == null
             ? null
             : CoinsCurrentPublicInterestStats.fromJson(
-                json['public_interest_stats']),
+                json['public_interest_stats'],
+              ),
         statusUpdates:
             List<dynamic>.from(json['status_updates'].map((dynamic x) => x)),
         lastUpdated: DateTime.parse(json['last_updated']),
         tickers: json['tickers'] == null
             ? null
-            : List<CoinsCurrentTicker>.from(json['tickers']
-                .map((dynamic x) => CoinsCurrentTicker.fromJson(x))),
+            : List<CoinsCurrentTicker>.from(
+                json['tickers'].map(CoinsCurrentTicker.fromJson),
+              ),
       );
 
   String? id;
@@ -182,7 +185,8 @@ class CoinsCurrentDataResponse {
             List<dynamic>.from(statusUpdates!.map((dynamic x) => x)),
         'last_updated': lastUpdated!.toIso8601String(),
         'tickers': List<dynamic>.from(
-            tickers!.map((CoinsCurrentTicker x) => x.toJson())),
+          tickers!.map((CoinsCurrentTicker x) => x.toJson()),
+        ),
       };
 }
 
@@ -350,10 +354,12 @@ class CoinsCurrentDeveloperData {
         pullRequestContributors: json['pull_request_contributors'],
         codeAdditionsDeletions4Weeks:
             CoinsCurrentCodeAdditionsDeletions4Weeks.fromJson(
-                json['code_additions_deletions_4_weeks']),
+          json['code_additions_deletions_4_weeks'],
+        ),
         commitCount4Weeks: json['commit_count_4_weeks'],
         last4WeeksCommitActivitySeries: List<dynamic>.from(
-            json['last_4_weeks_commit_activity_series'].map((dynamic x) => x)),
+          json['last_4_weeks_commit_activity_series'].map((dynamic x) => x),
+        ),
       );
 
   int? forks;
@@ -379,7 +385,8 @@ class CoinsCurrentDeveloperData {
             codeAdditionsDeletions4Weeks!.toJson(),
         'commit_count_4_weeks': commitCount4Weeks,
         'last_4_weeks_commit_activity_series': List<dynamic>.from(
-            last4WeeksCommitActivitySeries!.map((dynamic x) => x)),
+          last4WeeksCommitActivitySeries!.map((dynamic x) => x),
+        ),
       };
 }
 
@@ -390,7 +397,8 @@ class CoinsCurrentCodeAdditionsDeletions4Weeks {
   });
 
   factory CoinsCurrentCodeAdditionsDeletions4Weeks.fromJson(
-          Map<String, dynamic> json) =>
+    Map<String, dynamic> json,
+  ) =>
       CoinsCurrentCodeAdditionsDeletions4Weeks(
         additions: json['additions'],
         deletions: json['deletions'],
@@ -563,47 +571,49 @@ class CoinsCurrentMarketData {
   factory CoinsCurrentMarketData.fromJson(Map<String, dynamic> json) =>
       CoinsCurrentMarketData(
         currentPrice: Map<dynamic, dynamic>.from(json['current_price']).map(
-            (dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         totalValueLocked: json['total_value_locked'],
         mcapToTvlRatio: json['mcap_to_tvl_ratio'],
         fdvToTvlRatio: json['fdv_to_tvl_ratio'],
         roi: json['roi'],
         ath: Map<dynamic, dynamic>.from(json['ath']).map(
-            (dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         athChangePercentage:
             Map<dynamic, dynamic>.from(json['ath_change_percentage']).map(
-                (dynamic k, dynamic v) =>
-                    MapEntry<String, double>(k, v.toDouble())),
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         athDate: Map<dynamic, dynamic>.from(json['ath_date']).map(
-            (dynamic k, dynamic v) =>
-                MapEntry<String, DateTime>(k, DateTime.parse(v))),
+          (dynamic k, dynamic v) =>
+              MapEntry<String, DateTime>(k, DateTime.parse(v)),
+        ),
         atl: Map<dynamic, dynamic>.from(json['atl']).map(
-            (dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         atlChangePercentage:
             Map<dynamic, dynamic>.from(json['atl_change_percentage']).map(
-                (dynamic k, dynamic v) =>
-                    MapEntry<String, double>(k, v.toDouble())),
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         atlDate: Map<dynamic, dynamic>.from(json['atl_date']).map(
-            (dynamic k, dynamic v) =>
-                MapEntry<String, DateTime>(k, DateTime.parse(v))),
+          (dynamic k, dynamic v) =>
+              MapEntry<String, DateTime>(k, DateTime.parse(v)),
+        ),
         marketCap: Map<dynamic, dynamic>.from(json['market_cap']).map(
-            (dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         marketCapRank: json['market_cap_rank'],
         fullyDilutedValuation:
             CoinsCurrentMarketFullyDilutedValuation.fromJson(),
         totalVolume: Map<dynamic, dynamic>.from(json['total_volume']).map(
-            (dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         high24H: Map<dynamic, dynamic>.from(json['high_24h']).map(
-            (dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         low24H: Map<dynamic, dynamic>.from(json['low_24h']).map(
-            (dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         priceChange24H: json['price_change_24h']?.toDouble(),
         priceChangePercentage24H:
             json['price_change_percentage_24h']?.toDouble(),
@@ -622,48 +632,59 @@ class CoinsCurrentMarketData {
             json['market_cap_change_percentage_24h']?.toDouble(),
         priceChange24HInCurrency:
             Map<dynamic, dynamic>.from(json['price_change_24h_in_currency'])
-                .map((dynamic k, dynamic v) =>
-                    MapEntry<String, double>(k, v.toDouble())),
+                .map(
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         priceChangePercentage1HInCurrency: Map<dynamic, dynamic>.from(
-                json['price_change_percentage_1h_in_currency'])
-            .map((dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          json['price_change_percentage_1h_in_currency'],
+        ).map(
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         priceChangePercentage24HInCurrency: Map<dynamic, dynamic>.from(
-                json['price_change_percentage_24h_in_currency'])
-            .map((dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          json['price_change_percentage_24h_in_currency'],
+        ).map(
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         priceChangePercentage7DInCurrency: Map<dynamic, dynamic>.from(
-                json['price_change_percentage_7d_in_currency'])
-            .map((dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          json['price_change_percentage_7d_in_currency'],
+        ).map(
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         priceChangePercentage14DInCurrency: Map<dynamic, dynamic>.from(
-                json['price_change_percentage_14d_in_currency'])
-            .map((dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          json['price_change_percentage_14d_in_currency'],
+        ).map(
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         priceChangePercentage30DInCurrency: Map<dynamic, dynamic>.from(
-                json['price_change_percentage_30d_in_currency'])
-            .map((dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          json['price_change_percentage_30d_in_currency'],
+        ).map(
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         priceChangePercentage60DInCurrency: Map<dynamic, dynamic>.from(
-                json['price_change_percentage_60d_in_currency'])
-            .map((dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          json['price_change_percentage_60d_in_currency'],
+        ).map(
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         priceChangePercentage200DInCurrency: Map<dynamic, dynamic>.from(
-                json['price_change_percentage_200d_in_currency'])
-            .map((dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          json['price_change_percentage_200d_in_currency'],
+        ).map(
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         priceChangePercentage1YInCurrency: Map<dynamic, dynamic>.from(
-                json['price_change_percentage_1y_in_currency'])
-            .map((dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          json['price_change_percentage_1y_in_currency'],
+        ).map(
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         marketCapChange24HInCurrency: Map<dynamic, dynamic>.from(
-                json['market_cap_change_24h_in_currency'])
-            .map((dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          json['market_cap_change_24h_in_currency'],
+        ).map(
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         marketCapChangePercentage24HInCurrency: Map<dynamic, dynamic>.from(
-                json['market_cap_change_percentage_24h_in_currency'])
-            .map((dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          json['market_cap_change_percentage_24h_in_currency'],
+        ).map(
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         totalSupply: json['total_supply']?.toDouble(),
         maxSupply: json['max_supply'],
         circulatingSupply: json['circulating_supply']?.toDouble(),
@@ -714,38 +735,38 @@ class CoinsCurrentMarketData {
   DateTime? lastUpdated;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'current_price': Map<dynamic, dynamic>.from(currentPrice!)
-            .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+        'current_price': Map<String, dynamic>.from(currentPrice!)
+            .map(MapEntry<String, dynamic>.new),
         'total_value_locked': totalValueLocked,
         'mcap_to_tvl_ratio': mcapToTvlRatio,
         'fdv_to_tvl_ratio': fdvToTvlRatio,
         'roi': roi,
-        'ath': Map<dynamic, dynamic>.from(ath!)
-            .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
-        'ath_change_percentage':
-            Map<dynamic, dynamic>.from(athChangePercentage!)
-                .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
-        'ath_date': Map<dynamic, dynamic>.from(athDate!).map(
-            (dynamic k, dynamic v) =>
-                MapEntry<String, dynamic>(k, v.toIso8601String())),
-        'atl': Map<dynamic, dynamic>.from(atl!)
-            .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
-        'atl_change_percentage':
-            Map<dynamic, dynamic>.from(atlChangePercentage!)
-                .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
-        'atl_date': Map<dynamic, dynamic>.from(atlDate!).map(
-            (dynamic k, dynamic v) =>
-                MapEntry<String, dynamic>(k, v.toIso8601String())),
-        'market_cap': Map<dynamic, dynamic>.from(marketCap!)
-            .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+        'ath':
+            Map<String, dynamic>.from(ath!).map(MapEntry<String, dynamic>.new),
+        'ath_change_percentage': Map<String, dynamic>.from(athChangePercentage!)
+            .map(MapEntry<String, dynamic>.new),
+        'ath_date': Map<String, dynamic>.from(athDate!).map(
+          (dynamic k, dynamic v) =>
+              MapEntry<String, dynamic>(k, v.toIso8601String()),
+        ),
+        'atl':
+            Map<String, dynamic>.from(atl!).map(MapEntry<String, dynamic>.new),
+        'atl_change_percentage': Map<String, dynamic>.from(atlChangePercentage!)
+            .map(MapEntry<String, dynamic>.new),
+        'atl_date': Map<String, dynamic>.from(atlDate!).map(
+          (dynamic k, dynamic v) =>
+              MapEntry<String, dynamic>(k, v.toIso8601String()),
+        ),
+        'market_cap': Map<String, dynamic>.from(marketCap!)
+            .map(MapEntry<String, dynamic>.new),
         'market_cap_rank': marketCapRank,
         'fully_diluted_valuation': fullyDilutedValuation!.toJson(),
-        'total_volume': Map<dynamic, dynamic>.from(totalVolume!)
-            .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
-        'high_24h': Map<dynamic, dynamic>.from(high24H!)
-            .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
-        'low_24h': Map<dynamic, dynamic>.from(low24H!)
-            .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+        'total_volume': Map<String, dynamic>.from(totalVolume!)
+            .map(MapEntry<String, dynamic>.new),
+        'high_24h': Map<String, dynamic>.from(high24H!)
+            .map(MapEntry<String, dynamic>.new),
+        'low_24h': Map<String, dynamic>.from(low24H!)
+            .map(MapEntry<String, dynamic>.new),
         'price_change_24h': priceChange24H,
         'price_change_percentage_24h': priceChangePercentage24H,
         'price_change_percentage_7d': priceChangePercentage7D,
@@ -757,38 +778,38 @@ class CoinsCurrentMarketData {
         'market_cap_change_24h': marketCapChange24H,
         'market_cap_change_percentage_24h': marketCapChangePercentage24H,
         'price_change_24h_in_currency':
-            Map<dynamic, dynamic>.from(priceChange24HInCurrency!)
-                .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+            Map<String, dynamic>.from(priceChange24HInCurrency!)
+                .map(MapEntry<String, dynamic>.new),
         'price_change_percentage_1h_in_currency':
-            Map<dynamic, dynamic>.from(priceChangePercentage1HInCurrency!)
-                .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+            Map<String, dynamic>.from(priceChangePercentage1HInCurrency!)
+                .map(MapEntry<String, dynamic>.new),
         'price_change_percentage_24h_in_currency':
-            Map<dynamic, dynamic>.from(priceChangePercentage24HInCurrency!)
-                .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+            Map<String, dynamic>.from(priceChangePercentage24HInCurrency!)
+                .map(MapEntry<String, dynamic>.new),
         'price_change_percentage_7d_in_currency':
-            Map<dynamic, dynamic>.from(priceChangePercentage7DInCurrency!)
-                .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+            Map<String, dynamic>.from(priceChangePercentage7DInCurrency!)
+                .map(MapEntry<String, dynamic>.new),
         'price_change_percentage_14d_in_currency':
-            Map<dynamic, dynamic>.from(priceChangePercentage14DInCurrency!)
-                .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+            Map<String, dynamic>.from(priceChangePercentage14DInCurrency!)
+                .map(MapEntry<String, dynamic>.new),
         'price_change_percentage_30d_in_currency':
-            Map<dynamic, dynamic>.from(priceChangePercentage30DInCurrency!)
-                .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+            Map<String, dynamic>.from(priceChangePercentage30DInCurrency!)
+                .map(MapEntry<String, dynamic>.new),
         'price_change_percentage_60d_in_currency':
-            Map<dynamic, dynamic>.from(priceChangePercentage60DInCurrency!)
-                .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+            Map<String, dynamic>.from(priceChangePercentage60DInCurrency!)
+                .map(MapEntry<String, dynamic>.new),
         'price_change_percentage_200d_in_currency':
-            Map<dynamic, dynamic>.from(priceChangePercentage200DInCurrency!)
-                .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+            Map<String, dynamic>.from(priceChangePercentage200DInCurrency!)
+                .map(MapEntry<String, dynamic>.new),
         'price_change_percentage_1y_in_currency':
-            Map<dynamic, dynamic>.from(priceChangePercentage1YInCurrency!)
-                .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+            Map<String, dynamic>.from(priceChangePercentage1YInCurrency!)
+                .map(MapEntry<String, dynamic>.new),
         'market_cap_change_24h_in_currency':
-            Map<dynamic, dynamic>.from(marketCapChange24HInCurrency!)
-                .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+            Map<String, dynamic>.from(marketCapChange24HInCurrency!)
+                .map(MapEntry<String, dynamic>.new),
         'market_cap_change_percentage_24h_in_currency':
-            Map<dynamic, dynamic>.from(marketCapChangePercentage24HInCurrency!)
-                .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+            Map<String, dynamic>.from(marketCapChangePercentage24HInCurrency!)
+                .map(MapEntry<String, dynamic>.new),
         'total_supply': totalSupply,
         'max_supply': maxSupply,
         'circulating_supply': circulatingSupply,
@@ -872,11 +893,12 @@ class CoinsCurrentTicker {
         last: json['last']?.toDouble(),
         volume: json['volume']?.toDouble(),
         convertedLast: Map<dynamic, dynamic>.from(json['converted_last']).map(
-            (dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
-        convertedVolume: Map<dynamic, dynamic>.from(json['converted_volume'])
-            .map((dynamic k, dynamic v) =>
-                MapEntry<String, double>(k, v.toDouble())),
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
+        convertedVolume:
+            Map<dynamic, dynamic>.from(json['converted_volume']).map(
+          (dynamic k, dynamic v) => MapEntry<String, double>(k, v.toDouble()),
+        ),
         trustScore: json['trust_score'],
         bidAskSpreadPercentage: json['bid_ask_spread_percentage']?.toDouble(),
         timestamp: DateTime.parse(json['timestamp']),
@@ -915,10 +937,10 @@ class CoinsCurrentTicker {
         'market': market!.toJson(),
         'last': last,
         'volume': volume,
-        'converted_last': Map<dynamic, dynamic>.from(convertedLast!)
-            .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
-        'converted_volume': Map<dynamic, dynamic>.from(convertedVolume!)
-            .map((dynamic k, dynamic v) => MapEntry<String, dynamic>(k, v)),
+        'converted_last': Map<String, dynamic>.from(convertedLast!)
+            .map(MapEntry<String, dynamic>.new),
+        'converted_volume': Map<String, dynamic>.from(convertedVolume!)
+            .map(MapEntry<String, dynamic>.new),
         'trust_score': trustScore,
         'bid_ask_spread_percentage': bidAskSpreadPercentage,
         'timestamp': timestamp!.toIso8601String(),

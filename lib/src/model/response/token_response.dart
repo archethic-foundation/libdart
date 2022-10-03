@@ -19,16 +19,16 @@ String tokenResponseToJson(TokenResponse data) => json.encode(data.toJson());
 class TokenResponse {
   TokenResponse({this.data, this.errors});
 
-  Data? data;
-  List<Errors>? errors;
-
   factory TokenResponse.fromJson(Map<String, dynamic> json) => TokenResponse(
         data: json['data'] == null ? null : Data.fromJson(json['data']),
         errors: json['errors'] == null
             ? null
             : List<Errors>.from(
-                json['errors'].map((dynamic x) => Errors.fromJson(x))),
+                json['errors'].map(Errors.fromJson),),
       );
+
+  Data? data;
+  List<Errors>? errors;
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
@@ -41,11 +41,11 @@ class Data {
     this.token,
   });
 
-  Token? token;
-
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         token: Token.fromJson(json['token']),
       );
+
+  Token? token;
 
   Map<String, dynamic> toJson() => {
         'token': token!.toJson(),

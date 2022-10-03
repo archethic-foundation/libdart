@@ -10,20 +10,20 @@ class Ownership {
     this.secret,
   });
 
-  List<AuthorizedKey>? authorizedPublicKeys;
-  String? secret;
-
   factory Ownership.fromJson(Map<String, dynamic> json) => Ownership(
         authorizedPublicKeys: json['authorizedPublicKeys'] == null
             ? null
             : List<AuthorizedKey>.from(json['authorizedPublicKeys']
-                .map((dynamic x) => AuthorizedKey.fromJson(x))),
+                .map(AuthorizedKey.fromJson),),
         secret: json['secret'],
       );
 
+  List<AuthorizedKey>? authorizedPublicKeys;
+  String? secret;
+
   Map<String, dynamic> toJson() => <String, dynamic>{
         'authorizedPublicKeys': List<dynamic>.from(
-            authorizedPublicKeys!.map((AuthorizedKey x) => x)),
+            authorizedPublicKeys!.map((AuthorizedKey x) => x),),
         'secret': secret,
       };
 }

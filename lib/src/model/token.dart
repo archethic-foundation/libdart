@@ -24,16 +24,7 @@ class Token {
       this.supply,
       this.type,
       this.symbol,
-      this.tokenProperties});
-
-  String? address;
-  String? genesis;
-  String? name;
-  String? id;
-  int? supply;
-  String? type;
-  String? symbol;
-  Map<String, dynamic>? tokenProperties;
+      this.tokenProperties,});
 
   factory Token.fromJson(Map<String, dynamic> map) {
     return Token(
@@ -46,8 +37,17 @@ class Token {
             : int.tryParse(map['supply'].toString()),
         type: map['type'],
         symbol: map['symbol'],
-        tokenProperties: map['properties']);
+        tokenProperties: map['properties'],);
   }
+
+  String? address;
+  String? genesis;
+  String? name;
+  String? id;
+  int? supply;
+  String? type;
+  String? symbol;
+  Map<String, dynamic>? tokenProperties;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'address': address,

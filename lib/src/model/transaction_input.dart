@@ -10,7 +10,18 @@ class TransactionInput {
       this.spent,
       this.timestamp,
       this.type,
-      this.tokenId});
+      this.tokenId,});
+
+  factory TransactionInput.fromJson(Map<String, dynamic> json) =>
+      TransactionInput(
+        amount: json['amount']?.toInt(),
+        from: json['from'],
+        tokenAddress: json['tokenAddress'],
+        spent: json['spent'],
+        timestamp: json['timestamp'],
+        type: json['type'],
+        tokenId: json['tokenId']?.toInt(),
+      );
 
   /// Amount: asset amount
   int? amount;
@@ -32,17 +43,6 @@ class TransactionInput {
 
   /// Token id: It is the id for a token which is allocated when the token is minted.
   int? tokenId;
-
-  factory TransactionInput.fromJson(Map<String, dynamic> json) =>
-      TransactionInput(
-        amount: json['amount']?.toInt(),
-        from: json['from'],
-        tokenAddress: json['tokenAddress'],
-        spent: json['spent'],
-        timestamp: json['timestamp'],
-        type: json['type'],
-        tokenId: json['tokenId']?.toInt(),
-      );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'amount': amount,

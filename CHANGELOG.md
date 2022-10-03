@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 1.0.27 (2022-10-04)
+* Lint and warnings management
+
 #### Version 1.0.26 (2022-09-30)
 * Reuse Token class in TokenResponse class
 * Rename token naming in the API calls

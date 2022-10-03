@@ -11,14 +11,14 @@ class Ledger {
     this.uco,
   });
 
-  TokenLedger? token;
-  UCOLedger? uco;
-
   factory Ledger.fromJson(Map<String, dynamic> json) => Ledger(
         token:
             json['token'] == null ? null : TokenLedger.fromJson(json['token']),
         uco: json['uco'] == null ? null : UCOLedger.fromJson(json['uco']),
       );
+
+  TokenLedger? token;
+  UCOLedger? uco;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'token': token!.toJson(),

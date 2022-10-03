@@ -21,12 +21,12 @@ class TransactionInputsResponse {
     this.data,
   });
 
-  Data? data;
-
   factory TransactionInputsResponse.fromJson(Map<String, dynamic> json) =>
       TransactionInputsResponse(
         data: Data.fromJson(json['data']),
       );
+
+  Data? data;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'data': data!.toJson(),
@@ -38,15 +38,15 @@ class Data {
     this.transactionInputs,
   });
 
-  List<TransactionInput>? transactionInputs;
-
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         transactionInputs: List<TransactionInput>.from(json['transactionInputs']
-            .map((dynamic x) => TransactionInput.fromJson(x))),
+            .map(TransactionInput.fromJson),),
       );
+
+  List<TransactionInput>? transactionInputs;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'transactionInputs': List<dynamic>.from(
-            transactionInputs!.map((TransactionInput x) => x.toJson())),
+            transactionInputs!.map((TransactionInput x) => x.toJson()),),
       };
 }

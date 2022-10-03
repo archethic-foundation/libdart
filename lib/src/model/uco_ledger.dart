@@ -9,14 +9,14 @@ class UCOLedger {
     this.transfers,
   });
 
-  List<UCOTransfer>? transfers;
-
   factory UCOLedger.fromJson(Map<String, dynamic> json) => UCOLedger(
         transfers: json['transfers'] == null
             ? null
             : List<UCOTransfer>.from(
-                json['transfers'].map((dynamic x) => UCOTransfer.fromJson(x))),
+                json['transfers'].map(UCOTransfer.fromJson),),
       );
+
+  List<UCOTransfer>? transfers;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'transfers':

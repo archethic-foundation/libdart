@@ -23,9 +23,6 @@ class TransactionLastResponse {
     this.errors,
   });
 
-  TransactionLastResponseData? data;
-  List<Errors>? errors;
-
   factory TransactionLastResponse.fromJson(Map<String, dynamic> json) =>
       TransactionLastResponse(
         data: json['data'] == null
@@ -34,8 +31,11 @@ class TransactionLastResponse {
         errors: json['errors'] == null
             ? null
             : List<Errors>.from(
-                json['errors'].map((dynamic x) => Errors.fromJson(x))),
+                json['errors'].map(Errors.fromJson),),
       );
+
+  TransactionLastResponseData? data;
+  List<Errors>? errors;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'data': data!.toJson(),
@@ -48,14 +48,14 @@ class TransactionLastResponseData {
     this.lastTransaction,
   });
 
-  Transaction? lastTransaction;
-
   factory TransactionLastResponseData.fromJson(Map<String, dynamic> json) =>
       TransactionLastResponseData(
         lastTransaction: json['lastTransaction'] == null
             ? null
             : Transaction.fromJson(json['lastTransaction']),
       );
+
+  Transaction? lastTransaction;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'lastTransaction': lastTransaction!.toJson(),

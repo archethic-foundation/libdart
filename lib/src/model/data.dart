@@ -4,7 +4,7 @@
 import 'package:archethic_lib_dart/src/model/ledger.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';
 
-/// [TransactionData] represents the data section for every transaction.
+/// TransactionData represents the data section for every transaction.
 
 class Data {
   Data({
@@ -14,6 +14,20 @@ class Data {
     this.ledger,
     this.recipients,
   });
+
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        code: json['code'],
+        content: json['content'],
+        ownerships: json['ownerships'] == null
+            ? null
+            : List<Ownership>.from(
+                json['ownerships'].map(Ownership.fromJson),
+              ),
+        ledger: json['ledger'] == null ? null : Ledger.fromJson(json['ledger']),
+        recipients: json['recipients'] == null
+            ? null
+            : List<String>.from(json['recipients'].map((dynamic x) => x)),
+      );
 
   /// Code: smart contract code (hexadecimal),
   String? code;
@@ -29,19 +43,6 @@ class Data {
 
   /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
   List<String>? recipients;
-
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        code: json['code'],
-        content: json['content'],
-        ownerships: json['ownerships'] == null
-            ? null
-            : List<Ownership>.from(
-                json['ownerships'].map((dynamic x) => Ownership.fromJson(x))),
-        ledger: json['ledger'] == null ? null : Ledger.fromJson(json['ledger']),
-        recipients: json['recipients'] == null
-            ? null
-            : List<String>.from(json['recipients'].map((dynamic x) => x)),
-      );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'code': code,

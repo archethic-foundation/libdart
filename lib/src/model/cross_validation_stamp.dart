@@ -7,17 +7,17 @@ class CrossValidationStamp {
     this.signature,
   });
 
-  /// Node: node public key
-  String? nodePublicKey;
-
-  /// Signature: signature of the validation stamp
-  String? signature;
-
   factory CrossValidationStamp.fromJson(Map<String, dynamic> json) =>
       CrossValidationStamp(
         nodePublicKey: json['nodePublicKey'],
         signature: json['signature'],
       );
+
+  /// Node: node public key
+  String? nodePublicKey;
+
+  /// Signature: signature of the validation stamp
+  String? signature;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'nodePublicKey': nodePublicKey,
