@@ -28,7 +28,8 @@ class TransactionsResponse {
         errors: json['errors'] == null
             ? null
             : List<Errors>.from(
-                json['errors'].map(Errors.fromJson),),
+                json['errors'].map(Errors.fromJson),
+              ),
       );
 
   TransactionsResponseData? data;
@@ -47,15 +48,17 @@ class TransactionsResponseData {
 
   factory TransactionsResponseData.fromJson(Map<String, dynamic> json) =>
       TransactionsResponseData(
-        transactionChain: List<TransactionChain>.from(json['transactionChain']
-            .map(TransactionChain.fromJson),),
+        transactionChain: List<TransactionChain>.from(
+          json['transactionChain'].map(TransactionChain.fromJson),
+        ),
       );
 
   List<TransactionChain>? transactionChain;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'transactionChain': List<dynamic>.from(
-            transactionChain!.map((TransactionChain x) => x.toJson()),),
+          transactionChain!.map((TransactionChain x) => x.toJson()),
+        ),
       };
 }
 

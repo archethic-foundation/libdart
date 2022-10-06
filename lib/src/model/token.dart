@@ -1,64 +1,31 @@
-// Dart imports:
-import 'dart:convert';
-
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
-// To parse this JSON data, do
-//
-//     final token = tokenFromJson(jsonString);
+// Dart imports:
+import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-Token tokenFromJson(String str) => Token.fromJson(json.decode(str));
+part 'token.freezed.dart';
+part 'token.g.dart';
 
-String tokenToJson(Token data) => jsonEncode(data.toJson());
+@freezed
+class Token with _$Token {
+  const factory Token({
+    String? address,
+    String? genesis,
+    String? name,
+    String? id,
+    int? supply,
+    String? type,
+    String? symbol,
+    @Default({}) final Map<String, dynamic> tokenProperties,
+  }) = _Token;
+  const Token._();
 
-String tokenToJsonForTxDataContent(Token data) {
-  return jsonEncode(data.toJsonForTxDataContent());
-}
+  factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
 
-class Token {
-  Token(
-      {this.address,
-      this.genesis,
-      this.name,
-      this.id,
-      this.supply,
-      this.type,
-      this.symbol,
-      this.tokenProperties,});
-
-  factory Token.fromJson(Map<String, dynamic> map) {
-    return Token(
-        address: map['address'],
-        genesis: map['genesis'],
-        name: map['name'],
-        id: map['id'],
-        supply: map['supply'] == null
-            ? null
-            : int.tryParse(map['supply'].toString()),
-        type: map['type'],
-        symbol: map['symbol'],
-        tokenProperties: map['properties'],);
+  String tokenToJsonForTxDataContent(Token data) {
+    return jsonEncode(data.toJsonForTxDataContent());
   }
-
-  String? address;
-  String? genesis;
-  String? name;
-  String? id;
-  int? supply;
-  String? type;
-  String? symbol;
-  Map<String, dynamic>? tokenProperties;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'address': address,
-        'genesis': genesis,
-        'name': name,
-        'id': id,
-        'supply': supply,
-        'type': type,
-        'symbol': symbol,
-        'properties': tokenProperties,
-      };
 
   Map<String, dynamic> toJsonForTxDataContent() => <String, dynamic>{
         'name': name,

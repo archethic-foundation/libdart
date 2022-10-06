@@ -20,7 +20,7 @@ class OracleService {
   /// @param {int} timestamp
   Future<OracleUcoPrice> getOracleData({int timestamp = 0}) async {
     final completer = Completer<OracleUcoPrice>();
-    var oracleUcoPrice = OracleUcoPrice(uco: Uco(eur: 0, usd: 0));
+    var oracleUcoPrice = const OracleUcoPrice(uco: Uco(eur: 0, usd: 0));
     final requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',

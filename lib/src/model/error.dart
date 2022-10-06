@@ -2,33 +2,19 @@
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/location.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Error {
-  Error({
-    this.locations,
-    this.message,
-    this.path,
-  });
+part 'error.freezed.dart';
+part 'error.g.dart';
 
-  factory Error.fromJson(Map<String, dynamic> json) => Error(
-        locations: json['locations'] == null
-            ? null
-            : List<Location>.from(
-                json['locations'].map(Location.fromJson),),
-        message: json['message'],
-        path: json['path'] == null
-            ? null
-            : List<String>.from(json['path'].map((dynamic x) => x)),
-      );
+@freezed
+class Error with _$Error {
+  const factory Error({
+    @Default([]) final List<Location> locations,
+    String? message,
+    @Default([]) final List<String> path,
+  }) = _Error;
+  const Error._();
 
-  List<Location>? locations;
-  String? message;
-  List<String>? path;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'locations':
-            List<dynamic>.from(locations!.map((Location x) => x.toJson())),
-        'message': message,
-        'path': List<dynamic>.from(path!.map((String x) => x)),
-      };
+  factory Error.fromJson(Map<String, dynamic> json) => _$ErrorFromJson(json);
 }

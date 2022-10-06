@@ -11,26 +11,24 @@ import 'dart:convert';
 // Project imports:
 import 'package:archethic_lib_dart/src/model/uco.dart';
 
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'oracle_uco_price.freezed.dart';
+part 'oracle_uco_price.g.dart';
+
 OracleUcoPrice oracleUcoPriceFromJson(String str) =>
     OracleUcoPrice.fromJson(json.decode(str));
 
 String oracleUcoPriceToJson(OracleUcoPrice data) => json.encode(data.toJson());
 
-class OracleUcoPrice {
-  OracleUcoPrice({
-    this.uco,
-    this.timestamp,
-  });
+@freezed
+class OracleUcoPrice with _$OracleUcoPrice {
+  const factory OracleUcoPrice({
+    Uco? uco,
+    int? timestamp,
+  }) = _OracleUcoPrice;
+  const OracleUcoPrice._();
 
-  factory OracleUcoPrice.fromJson(Map<String, dynamic> json) => OracleUcoPrice(
-        timestamp: int.tryParse(json.keys.first),
-        uco: Uco.fromJson(json.values.first['uco']),
-      );
-
-  Uco? uco;
-  int? timestamp;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'uco': uco!.toJson(),
-      };
+  factory OracleUcoPrice.fromJson(Map<String, dynamic> json) =>
+      _$OracleUcoPriceFromJson(json);
 }

@@ -1,21 +1,17 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
-class Uco {
-  Uco({
-    this.eur,
-    this.usd,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  factory Uco.fromJson(Map<String, dynamic> json) => Uco(
-        eur: json['eur']?.toDouble(),
-        usd: json['usd']?.toDouble(),
-      );
+part 'uco.freezed.dart';
+part 'uco.g.dart';
 
-  double? eur;
-  double? usd;
+@freezed
+class Uco with _$Uco {
+  const factory Uco({
+    double? eur,
+    double? usd,
+  }) = _Uco;
+  const Uco._();
 
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'eur': eur,
-        'usd': usd,
-      };
+  factory Uco.fromJson(Map<String, dynamic> json) => _$UcoFromJson(json);
 }

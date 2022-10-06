@@ -30,7 +30,8 @@ class SharedSecretsResponse {
         errors: json['errors'] == null
             ? null
             : List<Errors>.from(
-                json['errors'].map(Errors.fromJson),),
+                json['errors'].map(Errors.fromJson),
+              ),
       );
 
   SharedSecrets? data;

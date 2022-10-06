@@ -1,7 +1,6 @@
 dart pub outdated
 dart analyze
 dart format lib test
-dart run import_sorter:main
 dart test --exclude-tags noCI
 dart pub publish --dry-run
 dart pub publish

@@ -6,31 +6,36 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 // Project imports:
+import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
+import 'package:archethic_lib_dart/src/model/exception/service_not_in_keychain.dart';
 import 'package:archethic_lib_dart/src/model/service.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
+import 'package:archethic_lib_dart/src/utils/uint8List_converter.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 // Package imports:
 import 'package:crypto/crypto.dart' as crypto_lib show Hmac, sha512;
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jwk/jwk.dart';
 import 'package:pointycastle/api.dart';
 
+part 'keychain.freezed.dart';
+part 'keychain.g.dart';
+
 const int keychainOriginId = 0;
 
-class Keychain {
-  Keychain(this.seed, {this.version, this.services}) {
-    version = 1;
-    services ??= <String, Service>{};
-  }
+@Freezed(makeCollectionsUnmodifiable: false)
+class Keychain with _$Keychain {
+  const factory Keychain({
+    @Uint8ListConverter() Uint8List? seed,
+    @Default(1) final int version,
+    @Default({}) final Map<String, Service>? services,
+  }) = _Keychain;
+  const Keychain._();
 
-  Keychain.serviceUCO(this.seed, {this.version = 1}) {
-    addService('uco', "m/650'/0/0");
-  }
-
-  Uint8List? seed;
-  int? version;
-  Map<String, Service>? services;
+  factory Keychain.fromJson(Map<String, dynamic> json) =>
+      _$KeychainFromJson(json);
 
   void addService(
     String name,
@@ -38,14 +43,16 @@ class Keychain {
     String curve = 'ed25519',
     String hashAlgo = 'sha256',
   }) {
-    services ??= <String, Service>{};
-    services!.addAll(<String, Service>{
-      name: Service(
-        derivationPath: derivationPath,
-        curve: curve,
-        hashAlgo: hashAlgo,
-      )
-    });
+    copyWith(
+      services: services!
+        ..addAll(<String, Service>{
+          name: Service(
+            derivationPath: derivationPath,
+            curve: curve,
+            hashAlgo: hashAlgo,
+          )
+        }),
+    );
   }
 
   Uint8List encode() {
@@ -63,7 +70,7 @@ class Keychain {
     });
 
     return concatUint8List(<Uint8List>[
-      toByteArray(version!, length: 4),
+      toByteArray(version, length: 4),
       Uint8List.fromList(<int>[seed!.length]),
       seed!,
       Uint8List.fromList(<int>[services!.length]),
@@ -73,7 +80,9 @@ class Keychain {
 
   KeyPair deriveKeypair(String serviceName, {int index = 0}) {
     if (services![serviceName] == null) {
-      throw "Service doesn't exist in the keychain";
+      throw ServiceNotInKeychainException(
+        "Service doesn't exist in the keychain",
+      );
     }
     return deriveArchethicKeypair(
       seed,
@@ -85,7 +94,9 @@ class Keychain {
 
   Uint8List deriveAddress(String serviceName, {int index = 0}) {
     if (services![serviceName] == null) {
-      throw "Service doesn't exist in the keychain";
+      throw ServiceNotInKeychainException(
+        "Service doesn't exist in the keychain",
+      );
     }
 
     final keyPair = deriveArchethicKeypair(
@@ -113,17 +124,20 @@ class Keychain {
     String? hashAlgo = 'sha256',
   }) {
     final keypair = deriveKeypair(serviceName, index: index);
-    transaction.address =
-        uint8ListToHex(deriveAddress(serviceName, index: index + 1));
-
     final payloadForPreviousSignature = transaction.previousSignaturePayload();
     final previousSignature =
         crypto.sign(payloadForPreviousSignature, keypair.privateKey);
-
-    transaction.setPreviousSignatureAndPreviousPublicKey(
-      previousSignature,
-      keypair.publicKey,
-    );
+    transaction
+        .copyWith(
+          address: Address(
+            address:
+                uint8ListToHex(deriveAddress(serviceName, index: index + 1)),
+          ),
+        )
+        .setPreviousSignatureAndPreviousPublicKey(
+          uint8ListToHex(previousSignature),
+          uint8ListToHex(keypair.publicKey),
+        );
     return transaction;
   }
 
@@ -157,7 +171,7 @@ class Keychain {
 
         authentications.add('did:archethic:$address#$serviceName');
       } else {
-        throw "Purpose '$purpose' is not yet supported";
+        throw Exception("Purpose '$purpose' is not yet supported");
       }
     });
 
@@ -183,7 +197,7 @@ Keychain decodeKeychain(Uint8List binary) {
   final nbServices = binary.sublist(pos, pos + 1)[0];
   pos++;
 
-  final keychain = Keychain(seed, version: version);
+  final keychain = Keychain(seed: seed, version: version);
   for (var i = 0; i < nbServices; i++) {
     final serviceNameLength = binary.sublist(pos, pos + 1)[0];
     pos++;
@@ -272,6 +286,6 @@ Jwk keyToJWK(Uint8List publicKey, String keyId) {
         'kid': keyId
       });
     default:
-      throw 'Curve not supported';
+      throw Exception('Curve not supported');
   }
 }

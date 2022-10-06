@@ -40,7 +40,7 @@ int hashAlgoToID(String hashAlgo) {
     case 'blake2b':
       return 4;
     default:
-      throw 'Hash algorithm not supported';
+      throw Exception('Hash algorithm not supported');
   }
 }
 
@@ -59,7 +59,7 @@ String idToHashAlgo(int id) {
     case 4:
       return 'blake2b';
     default:
-      throw 'Hash algorithm ID not supported';
+      throw Exception('Hash algorithm ID not supported');
   }
 }
 
@@ -74,7 +74,7 @@ int curveToID(String curve) {
     case 'secp256k1':
       return 2;
     default:
-      throw 'Curve not supported';
+      throw Exception('Curve not supported');
   }
 }
 
@@ -89,7 +89,7 @@ String idToCurve(int id) {
     case 2:
       return 'secp256k1';
     default:
-      throw 'Curve ID not supported';
+      throw Exception('Curve ID not supported');
   }
 }
 
@@ -121,7 +121,7 @@ String deriveAddress(
 /// @param {String} algo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
 Uint8List hash(dynamic content, {String algo = 'sha256'}) {
   if (content is! Uint8List && content is! String) {
-    throw "'content' must be a string or Uint8List";
+    throw const FormatException("'content' must be a string or Uint8List");
   }
 
   if (content is String) {
@@ -159,7 +159,7 @@ Uint8List getHashDigest(dynamic content, dynamic algo) {
       final blake2b = Digest('Blake2b');
       return blake2b.process(content);
     default:
-      throw 'Hash algorithm not supported';
+      throw Exception('Hash algorithm not supported');
   }
 }
 
@@ -169,7 +169,7 @@ Uint8List getHashDigest(dynamic content, dynamic algo) {
 /// @param {String} curve Elliptic curve to use ("P256", "secp256k1", "ed25519")
 KeyPair deriveKeyPair(String seed, int index, {String curve = 'ed25519'}) {
   if (index < 0) {
-    throw "index' must be a positive number";
+    throw Exception("index' must be a positive number");
   }
 
   final pvBuf = derivePrivateKey(seed, index);
@@ -224,7 +224,7 @@ KeyPair getKeypair(Uint8List pvKey, String curve) {
         publicKey: Uint8List.fromList(hexToUint8List(publicKey.toHex())),
       );
     default:
-      throw 'Curve not supported';
+      throw Exception('Curve not supported');
   }
 }
 
@@ -233,11 +233,11 @@ KeyPair getKeypair(Uint8List pvKey, String curve) {
 /// @param {String | Uint8List} privateKey Private key to use to sign the data
 Uint8List sign(dynamic data, dynamic privateKey) {
   if (data is! Uint8List && data is! String) {
-    throw "'data' must be a string or Uint8List";
+    throw Exception("'data' must be a string or Uint8List");
   }
 
   if (privateKey is! Uint8List && privateKey is! String) {
-    throw "'privateKey' must be a string or Uint8List";
+    throw Exception("'privateKey' must be a string or Uint8List");
   }
 
   if (data is String) {
@@ -280,28 +280,28 @@ Uint8List sign(dynamic data, dynamic privateKey) {
       final sig = ecdsa.deterministicSign(privateKey, msgHash);
       return Uint8List.fromList(sig.toDER());
     default:
-      throw 'Curve not supported';
+      throw Exception('Curve not supported');
   }
 }
 
 bool verify(dynamic sig, dynamic data, dynamic publicKey) {
   if (sig is! Uint8List && sig is! String) {
-    throw "'sig' must be a string or Uint8List";
+    throw const FormatException("'sig' must be a string or Uint8List");
   }
 
   if (data is! Uint8List && data is! String) {
-    throw "'data' must be a string or Uint8List";
+    throw const FormatException("'data' must be a string or Uint8List");
   }
 
   if (publicKey is! Uint8List && publicKey is! String) {
-    throw "'publicKey' must be a string or Uint8List";
+    throw const FormatException("'publicKey' must be a string or Uint8List");
   }
 
   if (sig is String) {
     if (isHex(sig)) {
       sig = Uint8List.fromList(hexToUint8List(sig));
     } else {
-      throw "'signature' must be an hexadecimal string";
+      throw const FormatException("'signature' must be an hexadecimal string");
     }
   }
 
@@ -317,7 +317,7 @@ bool verify(dynamic sig, dynamic data, dynamic publicKey) {
     if (isHex(publicKey)) {
       publicKey = Uint8List.fromList(hexToUint8List(publicKey));
     } else {
-      throw "'publicKey' must be an hexadecimal string";
+      throw const FormatException("'publicKey' must be an hexadecimal string");
     }
   }
 
@@ -346,7 +346,7 @@ bool verify(dynamic sig, dynamic data, dynamic publicKey) {
       return ecdsa.verify(publicKey, msgHash, signature);
 
     default:
-      throw 'Curve not supported';
+      throw Exception('Curve not supported');
   }
 }
 
@@ -355,11 +355,11 @@ bool verify(dynamic sig, dynamic data, dynamic publicKey) {
 /// @param {String | Uint8List} publicKey Public key for the shared secret encryption
 Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
   if (data is! Uint8List && data is! String) {
-    throw "'data' must be a string or Uint8List";
+    throw const FormatException("'data' must be a string or Uint8List");
   }
 
   if (publicKey is! Uint8List && publicKey is! String) {
-    throw "'publicKey' must be a string or Uint8List";
+    throw const FormatException("'publicKey' must be a string or Uint8List");
   }
 
   if (data is String) {
@@ -374,7 +374,7 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
     if (isHex(publicKey)) {
       publicKey = Uint8List.fromList(hexToUint8List(publicKey));
     } else {
-      throw "'publicKey' must be an hexadecimal string";
+      throw const FormatException("'publicKey' must be an hexadecimal string");
     }
   }
 
@@ -435,7 +435,7 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
       ]);
 
     default:
-      throw 'Curve not supported';
+      throw Exception('Curve not supported');
   }
 }
 
@@ -444,11 +444,11 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
 /// @param {String | Uint8List} privateKey Private key for the shared secret encryption
 Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
   if (cipherText is! Uint8List && cipherText is! String) {
-    throw "'cipherText' must be a string or Uint8List";
+    throw const FormatException("'cipherText' must be a string or Uint8List");
   }
 
   if (privateKey is! Uint8List && privateKey is! String) {
-    throw "'publicKey' must be a string or Uint8List";
+    throw const FormatException("'publicKey' must be a string or Uint8List");
   }
 
   if (cipherText is String) {
@@ -463,7 +463,7 @@ Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
     if (isHex(privateKey)) {
       privateKey = Uint8List.fromList(hexToUint8List(privateKey));
     } else {
-      throw "'privateKey' must be an hexadecimal string";
+      throw const FormatException("'privateKey' must be an hexadecimal string");
     }
   }
 
@@ -519,7 +519,7 @@ Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
       return aesAuthDecrypt(encrypted, secret.aesKey, secret.iv, tag);
 
     default:
-      throw 'Curve not supported';
+      throw Exception('Curve not supported');
   }
 }
 
@@ -528,11 +528,11 @@ Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
 /// @param {String | Uint8List} key Symmetric key
 Uint8List aesEncrypt(dynamic data, dynamic key) {
   if (data is! Uint8List && data is! String) {
-    throw "'data' must be a string or Uint8List";
+    throw const FormatException("'data' must be a string or Uint8List");
   }
 
   if (key is! Uint8List && key is! String) {
-    throw "'key' must be a string or Uint8List";
+    throw const FormatException("'key' must be a string or Uint8List");
   }
 
   if (data is String) {
@@ -547,7 +547,7 @@ Uint8List aesEncrypt(dynamic data, dynamic key) {
     if (isHex(key)) {
       key = Uint8List.fromList(hexToUint8List(key));
     } else {
-      throw "'key' must be an hexadecimal string";
+      throw const FormatException("'key' must be an hexadecimal string");
     }
   }
 
@@ -569,18 +569,18 @@ Uint8List aesEncrypt(dynamic data, dynamic key) {
 
 Uint8List aesDecrypt(dynamic cipherText, dynamic key) {
   if (cipherText is! Uint8List && cipherText is! String) {
-    throw "'cipherText' must be a string or Uint8List";
+    throw const FormatException("'cipherText' must be a string or Uint8List");
   }
 
   if (key is! Uint8List && key is! String) {
-    throw "'key' must be a string or Uint8List";
+    throw const FormatException("'key' must be a string or Uint8List");
   }
 
   if (cipherText is String) {
     if (isHex(cipherText)) {
       cipherText = Uint8List.fromList(hexToUint8List(cipherText));
     } else {
-      throw "'cipherText' must be an hexadecimal string";
+      throw const FormatException("'cipherText' must be an hexadecimal string");
     }
   }
 
@@ -588,7 +588,7 @@ Uint8List aesDecrypt(dynamic cipherText, dynamic key) {
     if (isHex(key)) {
       key = Uint8List.fromList(hexToUint8List(key));
     } else {
-      throw "'key' must be an hexadecimal string";
+      throw const FormatException("'key' must be an hexadecimal string");
     }
   }
 
@@ -639,14 +639,14 @@ Uint8List derivePrivateKey(dynamic seed, int index) {
 
 Secret deriveSecret(dynamic sharedKey) {
   if (sharedKey is! Uint8List && sharedKey is! String) {
-    throw "'sharedKey' must be a string or Uint8List";
+    throw const FormatException("'sharedKey' must be a string or Uint8List");
   }
 
   if (sharedKey is String) {
     if (isHex(sharedKey)) {
       sharedKey = Uint8List.fromList(hexToUint8List(sharedKey));
     } else {
-      throw "'sharedKey' must be an hexadecimal string";
+      throw const FormatException("'sharedKey' must be an hexadecimal string");
     }
   }
 

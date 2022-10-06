@@ -3,23 +3,19 @@
 // Project imports:
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
 
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 /// [UCOLedger] represents the transfers to perform on the UCO ledger
-class UCOLedger {
-  UCOLedger({
-    this.transfers,
-  });
+part 'uco_ledger.freezed.dart';
+part 'uco_ledger.g.dart';
 
-  factory UCOLedger.fromJson(Map<String, dynamic> json) => UCOLedger(
-        transfers: json['transfers'] == null
-            ? null
-            : List<UCOTransfer>.from(
-                json['transfers'].map(UCOTransfer.fromJson),),
-      );
+@Freezed(makeCollectionsUnmodifiable: false)
+class UCOLedger with _$UCOLedger {
+  const factory UCOLedger({
+    @Default([]) final List<UCOTransfer> transfers,
+  }) = _UCOLedger;
+  const UCOLedger._();
 
-  List<UCOTransfer>? transfers;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'transfers':
-            List<dynamic>.from(transfers!.map((UCOTransfer x) => x.toJson())),
-      };
+  factory UCOLedger.fromJson(Map<String, dynamic> json) =>
+      _$UCOLedgerFromJson(json);
 }

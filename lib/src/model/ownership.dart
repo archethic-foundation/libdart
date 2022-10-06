@@ -2,28 +2,21 @@
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// [Ownership] represents a block to set a secret and the authorized public keys able to decrypt the secret
-class Ownership {
-  Ownership({
-    this.authorizedPublicKeys,
-    this.secret,
-  });
 
-  factory Ownership.fromJson(Map<String, dynamic> json) => Ownership(
-        authorizedPublicKeys: json['authorizedPublicKeys'] == null
-            ? null
-            : List<AuthorizedKey>.from(json['authorizedPublicKeys']
-                .map(AuthorizedKey.fromJson),),
-        secret: json['secret'],
-      );
+part 'ownership.freezed.dart';
+part 'ownership.g.dart';
 
-  List<AuthorizedKey>? authorizedPublicKeys;
-  String? secret;
+@Freezed(makeCollectionsUnmodifiable: false)
+class Ownership with _$Ownership {
+  const factory Ownership({
+    @Default([]) final List<AuthorizedKey> authorizedPublicKeys,
+    String? secret,
+  }) = _Ownership;
+  const Ownership._();
 
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'authorizedPublicKeys': List<dynamic>.from(
-            authorizedPublicKeys!.map((AuthorizedKey x) => x),),
-        'secret': secret,
-      };
+  factory Ownership.fromJson(Map<String, dynamic> json) =>
+      _$OwnershipFromJson(json);
 }

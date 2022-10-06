@@ -1,22 +1,19 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 /// [UCOTransfer] represents the an asset transfer
-class UCOTransfer {
-  UCOTransfer({
-    this.amount,
-    this.to,
-  });
+part 'uco_transfer.freezed.dart';
+part 'uco_transfer.g.dart';
 
-  factory UCOTransfer.fromJson(Map<String, dynamic> json) => UCOTransfer(
-        amount: json['amount']?.toInt(),
-        to: json['to'],
-      );
+@Freezed(makeCollectionsUnmodifiable: false)
+class UCOTransfer with _$UCOTransfer {
+  const factory UCOTransfer({
+    int? amount,
+    String? to,
+  }) = _UCOTransfer;
+  const UCOTransfer._();
 
-  int? amount;
-  String? to;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'amount': amount,
-        'to': to,
-      };
+  factory UCOTransfer.fromJson(Map<String, dynamic> json) =>
+      _$UCOTransferFromJson(json);
 }

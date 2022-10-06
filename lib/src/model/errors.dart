@@ -2,22 +2,17 @@
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/error.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Errors {
-  Errors({
-    this.errors,
-  });
+part 'errors.freezed.dart';
+part 'errors.g.dart';
 
-  factory Errors.fromJson(Map<String, dynamic> json) => Errors(
-        errors: json['errors'] == null
-            ? null
-            : List<Error>.from(
-                json['errors'].map(Error.fromJson),),
-      );
+@freezed
+class Errors with _$Errors {
+  const factory Errors({
+    @Default([]) final List<Error> errors,
+  }) = _Errors;
+  const Errors._();
 
-  List<Error>? errors;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'errors': List<dynamic>.from(errors!.map((Error x) => x.toJson())),
-      };
+  factory Errors.fromJson(Map<String, dynamic> json) => _$ErrorsFromJson(json);
 }

@@ -4,8 +4,10 @@ library test.hosting_test;
 import 'package:test/test.dart';
 
 void main() {
-  group('archive test', () {
-    /*test('should analyze Archive lib', () {
+  group(
+    'archive test',
+    () {
+      /*test('should analyze Archive lib', () {
       //String endpoint = 'https://testnet.archethic.net';
       String endpoint = 'http://127.0.0.1:4000';
       String seed =
@@ -20,5 +22,7 @@ void main() {
           archive);
       expect(true, true);
     });*/
-  }, tags: <String>['noCI'],);
+    },
+    tags: <String>['noCI'],
+  );
 }

@@ -31,7 +31,7 @@ void main(List<String> args) {
         toBigInt(0.420),
       )
       .build('mysuperpassphraseorseed', 0, curve: 'P256')
-      .originSign(originKeypair.privateKey);
+      .originSign(uint8ListToHex(originKeypair.privateKey));
   transaction2.convertToJSON();
 
   /// Export the transaction generated into JSON

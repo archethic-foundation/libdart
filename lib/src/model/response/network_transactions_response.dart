@@ -28,7 +28,8 @@ class NetworkTransactionsResponse {
         errors: json['errors'] == null
             ? null
             : List<Errors>.from(
-                json['errors'].map(Errors.fromJson),),
+                json['errors'].map(Errors.fromJson),
+              ),
       );
 
   TransactionsResponseData? data;
@@ -49,14 +50,16 @@ class TransactionsResponseData {
       TransactionsResponseData(
         networkTransactions: json['networkTransactions'] == null
             ? null
-            : List<Transaction>.from(json['networkTransactions']
-                .map(Transaction.fromJson),),
+            : List<Transaction>.from(
+                json['networkTransactions'].map(Transaction.fromJson),
+              ),
       );
 
   List<Transaction>? networkTransactions;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'networkTransactions': List<Transaction>.from(
-            networkTransactions!.map((Transaction x) => x.toJson()),),
+          networkTransactions!.map((Transaction x) => x.toJson()),
+        ),
       };
 }

@@ -29,7 +29,8 @@ class NodesResponse {
         errors: json['errors'] == null
             ? null
             : List<Errors>.from(
-                json['errors'].map(Errors.fromJson),),
+                json['errors'].map(Errors.fromJson),
+              ),
       );
 
   NodesResponseData? data;
@@ -51,7 +52,8 @@ class NodesResponseData {
         nodes: json['nodes'] == null
             ? null
             : List<Node>.from(
-                json['nodes'].map(Node.fromJson),),
+                json['nodes'].map(Node.fromJson),
+              ),
       );
 
   List<Node>? nodes;

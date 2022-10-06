@@ -2,6 +2,7 @@
 
 // Project imports:
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/src/model/address.dart';
 
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
     show deriveAddress;
@@ -16,15 +17,16 @@ class AddressService {
   /// @param {String} seed TransactionChain seed
   Future<String> lastAddressFromSeed(String seed) async {
     final genesisAddress = crypto.deriveAddress(seed, 0);
-    final lastAddress = await lastAddressFromAddress(genesisAddress);
+    final lastAddress =
+        await lastAddressFromAddress(Address(address: genesisAddress));
     return lastAddress;
   }
 
   /// Get the last address from address
   /// @param {String} address TransactionChain address
-  Future<String> lastAddressFromAddress(String address) async {
-    final transaction = await ApiService(endpoint!)
-        .getLastTransaction(address, request: ' address ');
-    return transaction.address == null ? '' : transaction.address!;
+  Future<String> lastAddressFromAddress(Address address) async {
+    final transaction = await ApiService(endpoint)
+        .getLastTransaction(address.address!, request: ' address ');
+    return transaction.address == null ? '' : transaction.address!.address!;
   }
 }

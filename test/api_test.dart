@@ -1,5 +1,6 @@
 library test.api_test;
 
+import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
@@ -7,119 +8,130 @@ import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('api', () {
-    test('getTransactionIndex', () async {
-      final transaction = await ApiService('http://localhost:4000')
-          .getTransactionIndex(
-              '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',);
-      expect(transaction.chainLength, 1);
-    });
+  group(
+    'api',
+    () {
+      test('getTransactionIndex', () async {
+        final transaction =
+            await ApiService('http://localhost:4000').getTransactionIndex(
+          '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
+        );
+        expect(transaction.chainLength, 1);
+      });
 
-    test('getLastTransaction', () async {
-      final transaction = await ApiService('http://localhost:4000')
-          .getLastTransaction(
-              '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',);
-      expect(transaction.chainLength, 1);
-    });
+      test('getLastTransaction', () async {
+        final transaction =
+            await ApiService('http://localhost:4000').getLastTransaction(
+          '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
+        );
+        expect(transaction.chainLength, 1);
+      });
 
-    test('getStorageNoncePublicKey', () async {
-      final storageNoncePublicKey =
-          await ApiService('http://localhost:4000').getStorageNoncePublicKey();
+      test('getStorageNoncePublicKey', () async {
+        final storageNoncePublicKey = await ApiService('http://localhost:4000')
+            .getStorageNoncePublicKey();
 
-      expect(
-        storageNoncePublicKey,
-        '00004BA72C106818CC3A75961559CA03B10ECCFFCD6684062F4BE0355C153055595D',
-      );
-    });
+        expect(
+          storageNoncePublicKey,
+          '00004BA72C106818CC3A75961559CA03B10ECCFFCD6684062F4BE0355C153055595D',
+        );
+      });
 
-    test('fetchBalance', () async {
-      final balance = await ApiService('http://localhost:4000')
-          .fetchBalance(
-              '00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D',);
+      test('fetchBalance', () async {
+        final balance = await ApiService('http://localhost:4000').fetchBalance(
+          '00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D',
+        );
 
-      expect(
-        balance.uco,
-        0,
-      );
-    });
+        expect(
+          balance.uco,
+          0,
+        );
+      });
 
-    test('getTransactionContent', () async {
-      final content = await ApiService('http://localhost:4000')
-          .getTransactionContent(
-              '00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D',);
+      test('getTransactionContent', () async {
+        final content =
+            await ApiService('http://localhost:4000').getTransactionContent(
+          '00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D',
+        );
 
-      expect(
-        content,
-        'B0B116A90BBA010076A5A8A4B33AE08D325CD509D6DBEBD336364999D5357D6DD6392B07AD64E0EE0047304502207A6663334659C8FFB7695433B93D18EC5ECF487AB1CF2324573974028E5DBE71022100AB52E547E945B59EB850E586A0CFD2F1378938E8EAFFF8C9F283A607DC517B75',
-      );
-    });
+        expect(
+          content,
+          'B0B116A90BBA010076A5A8A4B33AE08D325CD509D6DBEBD336364999D5357D6DD6392B07AD64E0EE0047304502207A6663334659C8FFB7695433B93D18EC5ECF487AB1CF2324573974028E5DBE71022100AB52E547E945B59EB850E586A0CFD2F1378938E8EAFFF8C9F283A607DC517B75',
+        );
+      });
 
-    test('getTransactions', () async {
-      final transactionChain =
-          await ApiService('http://localhost:4000').getTransactionChain(
-              '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',);
+      test('getTransactions', () async {
+        final transactionChain =
+            await ApiService('http://localhost:4000').getTransactionChain(
+          '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
+        );
 
-      expect(
-        transactionChain[0].address,
-        '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
-      );
-    });
+        expect(
+          transactionChain[0].address,
+          '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
+        );
+      });
 
-    test('getNodeList', () async {
-      final nodes =
-          await ApiService('http://localhost:4000').getNodeList();
+      test('getNodeList', () async {
+        final nodes = await ApiService('http://localhost:4000').getNodeList();
 
-      expect(
-        nodes[0].ip,
-        '127.0.0.1',
-      );
-    });
+        expect(
+          nodes[0].ip,
+          '127.0.0.1',
+        );
+      });
 
-    test('networkTransactions', () async {
-      final transactionsList =
-          await ApiService('http://localhost:4000')
-              .networkTransactions('oracle_summary', 1);
+      test('networkTransactions', () async {
+        final transactionsList = await ApiService('http://localhost:4000')
+            .networkTransactions('oracle_summary', 1);
 
-      expect(
-        transactionsList[0].type,
-        'oracle_summary',
-      );
-    });
+        expect(
+          transactionsList[0].type,
+          'oracle_summary',
+        );
+      });
 
-    test('getTransactionFees', () async {
-      final tx = Transaction(
-              address:
-                  '0000b426c48c85f7d04e3bb222dabc7e5aa17680c1932755cd7ad21f5d870c0c54f9',
-              type: 'transfer',
-              data: Transaction.initData(),
-              originSignature:
-                  '3045022024f8d254671af93f8b9c11b5a2781a4a7535d2e89bad69d6b1f142f8f4bcf489022100c364e10f5f846b2534a7ace4aeaa1b6c8cb674f842b9f8bc78225dfa61cabec6',
-              previousPublicKey:
-                  '000071e1b5d4b89eddf2322c69bbf1c5591f7361b24cb3c4c464f6b5eb688fe50f7a',
-              previousSignature:
-                  '9b209dd92c6caffbb5c39d12263f05baebc9fe3c36cb0f4dde04c96f1237b75a3a2973405c6d9d5e65d8a970a37bafea57b919febad46b0cceb04a7ffa4b6b00',)
-          .addUCOTransfer(
+      test('getTransactionFees', () async {
+        final tx = Transaction(
+          address: const Address(
+            address:
+                '0000b426c48c85f7d04e3bb222dabc7e5aa17680c1932755cd7ad21f5d870c0c54f9',
+          ),
+          type: 'transfer',
+          data: Transaction.initData(),
+          originSignature:
+              '3045022024f8d254671af93f8b9c11b5a2781a4a7535d2e89bad69d6b1f142f8f4bcf489022100c364e10f5f846b2534a7ace4aeaa1b6c8cb674f842b9f8bc78225dfa61cabec6',
+          previousPublicKey:
+              '000071e1b5d4b89eddf2322c69bbf1c5591f7361b24cb3c4c464f6b5eb688fe50f7a',
+          previousSignature:
+              '9b209dd92c6caffbb5c39d12263f05baebc9fe3c36cb0f4dde04c96f1237b75a3a2973405c6d9d5e65d8a970a37bafea57b919febad46b0cceb04a7ffa4b6b00',
+        )
+            .addUCOTransfer(
               '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-              toBigInt(10.03),)
-          .build('myseed', 0)
-          .originSign(kOriginPrivateKey);
-      final transactionFee =
-          await ApiService('http://localhost:4000').getTransactionFee(tx);
-      expect(
-        transactionFee.fee!.toStringAsPrecision(2),
-        '0.17',
-      );
-    });
+              toBigInt(10.03),
+            )
+            .build('myseed', 0)
+            .originSign(kOriginPrivateKey);
+        final transactionFee =
+            await ApiService('http://localhost:4000').getTransactionFee(tx);
+        expect(
+          transactionFee.fee!.toStringAsPrecision(2),
+          '0.17',
+        );
+      });
 
-    test('addOriginKey', () async {
-      final json = await ApiService('http://localhost:4000').addOriginKey(
+      test('addOriginKey', () async {
+        await ApiService('http://localhost:4000').addOriginKey(
           originPublicKey:
               '010104AB41291F847A601055AEDD1AF24FF76FA970D6441E2DCA3818A8319B004C96B27B8FEB1DA31A044BA0A4800B4353359735719EBB3A05F98393A9CC599C3FAFD6',
-          certificate: '0x',);
-      expect(
-        true,
-        true,
-      );
-    });
-  }, tags: <String>['noCI'],);
+          certificate: '0x',
+        );
+        expect(
+          true,
+          true,
+        );
+      });
+    },
+    tags: <String>['noCI'],
+  );
 }

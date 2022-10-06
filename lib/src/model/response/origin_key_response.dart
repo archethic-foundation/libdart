@@ -18,8 +18,9 @@ class OriginKeyResponse {
 
   factory OriginKeyResponse.fromJson(Map<String, dynamic> json) =>
       OriginKeyResponse(
-          status: json['status'],
-          transactionAddress: json['transaction_address'],);
+        status: json['status'],
+        transactionAddress: json['transaction_address'],
+      );
 
   String? status;
   String? transactionAddress;

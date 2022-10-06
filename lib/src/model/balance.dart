@@ -2,30 +2,23 @@
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/token_balance.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// [Balance] represents a ledger balance.
-class Balance {
-  Balance({
-    this.token,
-    this.uco,
-  });
+part 'balance.freezed.dart';
+part 'balance.g.dart';
 
-  factory Balance.fromJson(Map<String, dynamic> json) => Balance(
-        token: json['token'] == null
-            ? null
-            : List<TokenBalance>.from(
-                json['token'].map(TokenBalance.fromJson),),
-        uco: json['uco']?.toInt(),
-      );
+@freezed
+class Balance with _$Balance {
+  const factory Balance({
+    /// Token: Token balances
+    @Default([]) final List<TokenBalance> token,
 
-  /// Token: Token balances
-  List<TokenBalance>? token;
+    /// UCO: uco balance
+    int? uco,
+  }) = _Balance;
+  const Balance._();
 
-  /// UCO: uco balance
-  int? uco;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'token': List<dynamic>.from(token!.map((TokenBalance x) => x.toJson())),
-        'uco': uco,
-      };
+  factory Balance.fromJson(Map<String, dynamic> json) =>
+      _$BalanceFromJson(json);
 }

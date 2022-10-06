@@ -14,8 +14,7 @@ void main() {
     });
 
     test('getSimplePrice', () async {
-      final simplePriceResponse =
-          await ApiCoinsService().getSimplePrice('EUR');
+      final simplePriceResponse = await ApiCoinsService().getSimplePrice('EUR');
 
       expect(simplePriceResponse.currency, 'EUR');
     });

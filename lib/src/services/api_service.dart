@@ -6,6 +6,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Project imports:
+import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/exception/archethic_connection_exception.dart';
@@ -47,7 +48,7 @@ class ApiService {
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
-    var transactionStatus = TransactionStatus();
+    var transactionStatus = const TransactionStatus();
     log('sendTx: requestHttp.body=${transaction.convertToJSON()}');
     try {
       final responseHttp = await http.post(
@@ -79,7 +80,7 @@ class ApiService {
       type: '',
       chainLength: 0,
       data: Transaction.initData(),
-      address: '',
+      address: const Address(address: ''),
     );
     final requestHeaders = <String, String>{
       'Content-type': 'application/json',
@@ -118,7 +119,7 @@ class ApiService {
       type: '',
       chainLength: 0,
       data: Transaction.initData(),
-      address: '',
+      address: const Address(address: ''),
     );
     final requestHeaders = <String, String>{
       'Content-type': 'application/json',
@@ -193,7 +194,7 @@ class ApiService {
   Future<Balance> fetchBalance(String address) async {
     final completer = Completer<Balance>();
     BalanceResponse? balanceResponse;
-    Balance? balance = Balance();
+    Balance? balance = const Balance();
 
     final requestHeaders = <String, String>{
       'Content-type': 'application/json',
@@ -495,7 +496,7 @@ class ApiService {
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
-    var transactionFee = TransactionFee();
+    var transactionFee = const TransactionFee();
     final responseHttp = await http.post(
       Uri.parse('${endpoint!}/api/transaction_fee'),
       body: transaction.convertToJSON(),
@@ -503,7 +504,7 @@ class ApiService {
     );
     log('getTransactionFee: requestHttp.body=${transaction.convertToJSON()}');
     log('getTransactionFee: responseHttp.body=${responseHttp.body}');
-    transactionFee = transactionFeeFromJson(responseHttp.body);
+    transactionFee = TransactionFee.fromJson(json.decode(responseHttp.body));
 
     completer.complete(transactionFee);
     return completer.future;
@@ -536,18 +537,24 @@ class ApiService {
         if (transactionResponse.data != null &&
             transactionResponse.data!.transaction != null &&
             transactionResponse.data!.transaction!.data != null) {
-          ownerships = transactionResponse.data!.transaction!.data!.ownerships!;
+          ownerships = transactionResponse.data!.transaction!.data!.ownerships;
         }
       }
     } on SocketException {
       log('getTransactionOwnerships: responseHttp.body=No Internet connection');
-      throw 'SocketException';
+      throw const SocketException(
+        'getTransactionOwnerships: responseHttp.body=No Internet connection',
+      );
     } on HttpException {
       log("getTransactionOwnerships: responseHttp.body=Couldn't find the post");
-      throw 'HttpException';
+      throw const HttpException(
+        "getTransactionOwnerships: responseHttp.body=Couldn't find the post",
+      );
     } on FormatException {
       log('getTransactionOwnerships: responseHttp.body=Bad response format');
-      throw 'FormatException';
+      throw const FormatException(
+        'getTransactionOwnerships: responseHttp.body=Bad response format',
+      );
     } catch (e) {
       log('getTransactionOwnerships: error=$e');
     }
@@ -569,7 +576,7 @@ class ApiService {
     String? serviceName,
     String? derivationPath,
   }) {
-    final keychain = Keychain(Uint8List.fromList(hexToUint8List(seed)));
+    final keychain = Keychain(seed: hexToUint8List(seed));
     if (serviceName!.isNotEmpty && derivationPath!.isNotEmpty) {
       keychain.addService(serviceName, derivationPath);
     }
@@ -592,9 +599,12 @@ class ApiService {
 
     return Transaction(type: 'keychain', data: Transaction.initData())
         .setContent(jsonEncode(keychain.toDID()))
-        .addOwnership(aesEncrypt(keychain.encode(), aesKey), authorizedKeys)
+        .addOwnership(
+          uint8ListToHex(aesEncrypt(keychain.encode(), aesKey)),
+          authorizedKeys,
+        )
         .build(seed, 0)
-        .originSign(originPrivateKey);
+        .originSign(uint8ListToHex(originPrivateKey));
   }
 
   /// Create a new access keychain and build a transaction
@@ -624,9 +634,12 @@ class ApiService {
     ];
 
     return Transaction(type: 'keychain_access', data: Transaction.initData())
-        .addOwnership(aesEncrypt(keychainAddress, aesKey), authorizedKeys)
+        .addOwnership(
+          uint8ListToHex(aesEncrypt(keychainAddress, aesKey)),
+          authorizedKeys,
+        )
         .build(seed, 0)
-        .originSign(originPrivateKey);
+        .originSign(uint8ListToHex(originPrivateKey));
   }
 
   /// Retrieve a keychain by using keychain access seed
@@ -638,11 +651,11 @@ class ApiService {
     try {
       final ownerships = await getTransactionOwnerships(accessKeychainAddress);
       if (ownerships.isEmpty) {
-        throw "Keychain doesn't exists";
+        throw Exception("Keychain doesn't exists");
       }
 
       final ownership = ownerships[0];
-      final authorizedPublicKey = ownership.authorizedPublicKeys!.firstWhere(
+      final authorizedPublicKey = ownership.authorizedPublicKeys.firstWhere(
         (AuthorizedKey authKey) =>
             authKey.publicKey!.toUpperCase() ==
             uint8ListToHex(keypair.publicKey).toUpperCase(),
@@ -658,11 +671,12 @@ class ApiService {
         request: 'address',
       );
 
-      final ownerships2 =
-          await getTransactionOwnerships(lastTransactionKeychain.address!);
+      final ownerships2 = await getTransactionOwnerships(
+        lastTransactionKeychain.address!.address!,
+      );
       final ownership2 = ownerships2[0];
 
-      final authorizedPublicKey2 = ownership2.authorizedPublicKeys!.firstWhere(
+      final authorizedPublicKey2 = ownership2.authorizedPublicKeys.firstWhere(
         (AuthorizedKey publicKey) =>
             publicKey.publicKey!.toUpperCase() ==
             uint8ListToHex(keypair.publicKey).toUpperCase(),
@@ -727,7 +741,7 @@ class ApiService {
     final completer = Completer<Token>();
 
     // ignore: prefer_final_locals
-    var token = Token();
+    var token = const Token();
 
     final requestHeaders = <String, String>{
       'Content-type': 'application/json',
