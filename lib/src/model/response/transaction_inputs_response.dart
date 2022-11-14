@@ -1,52 +1,19 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
-// To parse this JSON data, do
-//
-//     final transactionInputsResponse = transactionInputsResponseFromJson(jsonString);
-
-// Dart imports:
-import 'dart:convert';
-
-// Project imports:
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-TransactionInputsResponse transactionInputsResponseFromJson(String str) =>
-    TransactionInputsResponse.fromJson(json.decode(str));
+part 'transaction_inputs_response.freezed.dart';
+part 'transaction_inputs_response.g.dart';
 
-String transactionInputsResponseToJson(TransactionInputsResponse data) =>
-    json.encode(data.toJson());
-
-class TransactionInputsResponse {
-  TransactionInputsResponse({
-    this.data,
-  });
-
-  Data? data;
+@freezed
+abstract class TransactionInputsResponse with _$TransactionInputsResponse {
+  const factory TransactionInputsResponse({
+    Map<String, List<TransactionInput>>? data,
+    Map<String, dynamic>? error,
+  }) = _TransactionInputsResponse;
+  const TransactionInputsResponse._();
 
   factory TransactionInputsResponse.fromJson(Map<String, dynamic> json) =>
-      TransactionInputsResponse(
-        data: Data.fromJson(json['data']),
-      );
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'data': data!.toJson(),
-      };
-}
-
-class Data {
-  Data({
-    this.transactionInputs,
-  });
-
-  List<TransactionInput>? transactionInputs;
-
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        transactionInputs: List<TransactionInput>.from(json['transactionInputs']
-            .map((dynamic x) => TransactionInput.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'transactionInputs': List<dynamic>.from(
-            transactionInputs!.map((TransactionInput x) => x.toJson())),
-      };
+      _$TransactionInputsResponseFromJson(json);
 }

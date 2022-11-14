@@ -1,6 +1,7 @@
 library test.api_test;
 
 // Package imports:
+import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:test/test.dart';
 
 // Project imports:
@@ -60,13 +61,16 @@ void main() {
     });
 
     test('getTransactions', () async {
-      final List<Transaction> transactionChain =
-          await ApiService('http://localhost:4000').getTransactionChain(
-              '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D');
+      final Map<String, List<Transaction>> transactionChainList =
+          await ApiService('https://mainnet.archethic.net')
+              .getTransactionChain([
+        '00002069A888AC669759D7415589AA5BDADDF556C2042C38C0C9F04C44041DA590E1',
+        '0000D41D014920B1C9D8D207604F2C60AA3AB7728F11F93284A662A024508A99E92C'
+      ]);
 
       expect(
-        transactionChain[0].address,
-        '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D',
+        transactionChainList.keys.first,
+        '_00002069A888AC669759D7415589AA5BDADDF556C2042C38C0C9F04C44041DA590E1',
       );
     });
 
@@ -88,6 +92,20 @@ void main() {
       expect(
         transactionsList[0].type,
         'oracle_summary',
+      );
+    });
+
+    test('transactionInputs', () async {
+      final Map<String, List<TransactionInput>> transactionInputsList =
+          await ApiService('https://mainnet.archethic.net')
+              .getTransactionInputs([
+        '00002069A888AC669759D7415589AA5BDADDF556C2042C38C0C9F04C44041DA590E1',
+        '0000D41D014920B1C9D8D207604F2C60AA3AB7728F11F93284A662A024508A99E92C'
+      ]);
+
+      expect(
+        transactionInputsList.keys.first,
+        '_00002069A888AC669759D7415589AA5BDADDF556C2042C38C0C9F04C44041DA590E1',
       );
     });
 
