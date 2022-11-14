@@ -1,16 +1,10 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// Dart imports:
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-// Package imports:
-import 'package:http/http.dart' as http show Response, post;
-
-// Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
@@ -36,6 +30,7 @@ import 'package:archethic_lib_dart/src/model/transaction_status.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart';
 import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+import 'package:http/http.dart' as http show Response, post;
 
 class ApiService {
   ApiService(this.endpoint);
@@ -70,22 +65,21 @@ class ApiService {
     return completer.future;
   }
 
-  /// Query the network to find the last transaction from an address
-  /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  /// @param {String} request List of informations to retrieve in the GraphQL Query
-  Future<Transaction> getLastTransaction(String address,
+  /// Query the network to find the last transaction from a liste of addresses
+  Future<Map<String, Transaction>> getLastTransaction(List<String> addresses,
       {String request = Transaction.kTransactionQueryAllFields}) async {
-    final Completer<Transaction> completer = Completer<Transaction>();
-    TransactionLastResponse transactionLastResponse = TransactionLastResponse();
-    Transaction? lastTransaction = Transaction(
-        type: '', chainLength: 0, data: Transaction.initData(), address: '');
     final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
     try {
-      final String body =
-          '{"query": "query {lastTransaction(address: \\"$address\\") { $request } }"}';
+      final String fragment = 'fragment fields on Transaction { $request }';
+      String body = '{"query":"query {';
+      for (final String address in addresses) {
+        body =
+            '$body _$address: lastTransaction(address:\\"$address\\") { ...fields }';
+      }
+      body = '$body } $fragment "}';
       log('getLastTransaction: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
@@ -93,53 +87,30 @@ class ApiService {
           headers: requestHeaders);
       log('getLastTransaction: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
-        transactionLastResponse =
-            transactionLastResponseFromJson(responseHttp.body);
-        if (transactionLastResponse.data != null &&
-            transactionLastResponse.data!.lastTransaction != null) {
-          lastTransaction = transactionLastResponse.data!.lastTransaction;
-        }
+        final TransactionLastResponse transactionLastResponse =
+            TransactionLastResponse.fromJson(json.decode(responseHttp.body));
+
+        return transactionLastResponse.data ?? {};
       }
     } catch (e) {
       log('getLastTransaction: error=$e');
     }
 
-    completer.complete(lastTransaction);
-    return completer.future;
+    return {};
   }
 
-  Future<Transaction> getTransactionIndex(String address) async {
-    final Completer<Transaction> completer = Completer<Transaction>();
-    TransactionLastResponse transactionLastResponse = TransactionLastResponse();
-    Transaction? lastTransaction = Transaction(
-        type: '', chainLength: 0, data: Transaction.initData(), address: '');
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-    try {
-      final String body =
-          '{"query": "query {lastTransaction(address: \\"$address\\") { chainLength } }"}';
-      log('getTransactionIndex: requestHttp.body=$body');
-      final http.Response responseHttp = await http.post(
-          Uri.parse('${endpoint!}/api'),
-          body: body,
-          headers: requestHeaders);
-      log('getTransactionIndex: responseHttp.body=${responseHttp.body}');
-      if (responseHttp.statusCode == 200) {
-        transactionLastResponse =
-            transactionLastResponseFromJson(responseHttp.body);
-        if (transactionLastResponse.data != null &&
-            transactionLastResponse.data!.lastTransaction != null) {
-          lastTransaction = transactionLastResponse.data!.lastTransaction;
-        }
-      }
-    } catch (e) {
-      log('getTransactionIndex: error=$e');
-    }
+  Future<Map<String, int>> getTransactionIndex(List<String> addresses) async {
+    final Map<String, Transaction> lastTransactionMap =
+        await getLastTransaction(addresses, request: 'chainLength');
 
-    completer.complete(lastTransaction);
-    return completer.future;
+    if (lastTransactionMap == {}) {
+      return {};
+    }
+    final Map<String, int> lastTransactionIndexMap = {};
+    lastTransactionMap.forEach((key, value) {
+      lastTransactionIndexMap[key] = value.chainLength ?? 0;
+    });
+    return lastTransactionIndexMap;
   }
 
   /// getStorageNoncePublicKey
@@ -260,56 +231,46 @@ class ApiService {
     return completer.future;
   }
 
-  /// Query the network to find a transaction chain
-  /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  /// @param {String} The address of the last transaction in the page which act as a paginate_state for next page
-  /// @param {String} request List of informations to retrieve in the GraphQL Query
+  /// Query the network to find transaction chains from a list of addresses
   /// Returns the content scalar type represents transaction content [List<Transaction>]. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
-  Future<List<Transaction>> getTransactionChain(String address,
-      {String pagingAddress = '',
-      String request = Transaction.kTransactionQueryAllFields}) async {
-    final Completer<List<Transaction>> completer =
-        Completer<List<Transaction>>();
-    TransactionChainResponse? transactionChainResponse =
-        TransactionChainResponse();
-    List<Transaction> transactionChain =
-        List<Transaction>.empty(growable: true);
+  Future<Map<String, List<Transaction>>> getTransactionChain(
+      List<String> addresses,
+      {String request = Transaction.kTransactionQueryAllFields}) async {
+    if (addresses.isEmpty) {
+      return {};
+    }
+
     final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
 
-    String body = '';
-    if (pagingAddress.isEmpty) {
-      body =
-          '{"query":"query { transactionChain(address: \\"$address\\") { $request } }"}';
-    } else {
-      body =
-          '{"query":"query { transactionChain(address: \\"$address\\", pagingAddress: \\"$pagingAddress\\") { $request } }"}';
-    }
-    log('getTransactionChain: requestHttp.body=$body');
-
     try {
+      final String fragment = 'fragment fields on Transaction { $request }';
+      String body = '{"query":"query {';
+      // TODO(@reddwarf03): Not good the '_' system to define alias but adress format is not accepted by graphQL
+      for (final String address in addresses) {
+        body =
+            '$body _$address: transactionChain(address:\\"$address\\") { ...fields }';
+      }
+      body = '$body } $fragment "}';
+      log('getTransactionChain: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
           headers: requestHeaders);
       log('getTransactionChain: responseHttp.body=${responseHttp.body}');
-
       if (responseHttp.statusCode == 200) {
-        transactionChainResponse =
-            transactionChainResponseFromJson(responseHttp.body);
-        if (transactionChainResponse.data != null &&
-            transactionChainResponse.data!.transactionChain != null) {
-          transactionChain = transactionChainResponse.data!.transactionChain!;
-        }
+        final TransactionChainResponse transactionChainResponse =
+            TransactionChainResponse.fromJson(json.decode(responseHttp.body));
+
+        return transactionChainResponse.data ?? {};
       }
     } catch (e) {
       log('getTransactionChain: error=$e');
     }
 
-    completer.complete(transactionChain);
-    return completer.future;
+    return {};
   }
 
   /// Query the node infos
@@ -392,24 +353,28 @@ class ApiService {
     return completer.future;
   }
 
-  /// Query the network to list the transaction inputs from an address
-  /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  /// @param {String} request List of informations to retrieve in the GraphQL Query
-  Future<List<TransactionInput>> getTransactionInputs(String address,
-      {String request = Transaction.kTransactionQueryAllFields}) async {
-    final Completer<List<TransactionInput>> completer =
-        Completer<List<TransactionInput>>();
-    List<TransactionInput> transactionInputs =
-        List<TransactionInput>.empty(growable: true);
-    TransactionInputsResponse transactionInputsResponse =
-        TransactionInputsResponse();
+  /// Query the network to list the transaction inputs from a list of addresses
+  Future<Map<String, List<TransactionInput>>> getTransactionInputs(
+      List<String> addresses,
+      {String request = Transaction.kTransactionInputQueryAllFields}) async {
+    if (addresses.isEmpty) {
+      return {};
+    }
+
     final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
+
     try {
-      final String body =
-          '{"query":"query { transactionInputs(address: \\"$address\\") { $request } }"}';
+      final String fragment =
+          'fragment fields on TransactionInput { $request }';
+      String body = '{"query":"query {';
+      for (final String address in addresses) {
+        body =
+            '$body _$address: transactionInputs(address:\\"$address\\") { ...fields }';
+      }
+      body = '$body } $fragment "}';
       log('getTransactionInputs: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
@@ -417,16 +382,16 @@ class ApiService {
           headers: requestHeaders);
       log('getTransactionInputs: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
-        transactionInputsResponse =
-            transactionInputsResponseFromJson(responseHttp.body);
-        transactionInputs = transactionInputsResponse.data!.transactionInputs!;
+        final TransactionInputsResponse transactionInputsResponse =
+            TransactionInputsResponse.fromJson(json.decode(responseHttp.body));
+
+        return transactionInputsResponse.data ?? {};
       }
     } catch (e) {
       log('getTransactionInputs: error=$e');
     }
 
-    completer.complete(transactionInputs);
-    return completer.future;
+    return {};
   }
 
   /// Query the network to find a transaction
@@ -493,19 +458,23 @@ class ApiService {
 
   /// getTransactionOwnerships
   /// @param {String} address
-  Future<List<Ownership>> getTransactionOwnerships(String address) async {
-    final Completer<List<Ownership>> completer = Completer<List<Ownership>>();
-
+  Future<List<Ownership>> getTransactionOwnerships(
+      List<String> addresses) async {
     final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
 
-    List<Ownership> ownerships = List<Ownership>.empty(growable: true);
     try {
-      final String body =
-          '{"query": "query { transaction(address: \\"$address\\") { data { ownerships { secret, authorizedPublicKeys { encryptedSecretKey, publicKey } } } } }"}';
-      log('getTransactionOwnerships: requestHttp.body=$body');
+      const String fragment =
+          'fragment fields on Transaction { { data { ownerships { secret, authorizedPublicKeys { encryptedSecretKey, publicKey } } } } } }';
+      String body = 'query {';
+      for (final String address in addresses) {
+        body =
+            '$body a$address: transaction(address:\\"$address\\") { ...fields }';
+      }
+      body = '$body } $fragment';
+
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
@@ -517,24 +486,14 @@ class ApiService {
         if (transactionResponse.data != null &&
             transactionResponse.data!.transaction != null &&
             transactionResponse.data!.transaction!.data != null) {
-          ownerships = transactionResponse.data!.transaction!.data!.ownerships!;
+          return transactionResponse.data!.transaction!.data!.ownerships!;
         }
       }
-    } on SocketException {
-      log('getTransactionOwnerships: responseHttp.body=No Internet connection');
-      throw 'SocketException';
-    } on HttpException {
-      log('getTransactionOwnerships: responseHttp.body=Couldn\'t find the post');
-      throw 'HttpException';
-    } on FormatException {
-      log('getTransactionOwnerships: responseHttp.body=Bad response format');
-      throw 'FormatException';
     } catch (e) {
       log('getTransactionOwnerships: error=$e');
     }
 
-    completer.complete(ownerships);
-    return completer.future;
+    return [];
   }
 
   /// Create a new keychain and build a transaction
@@ -603,7 +562,7 @@ class ApiService {
 
     try {
       final List<Ownership> ownerships =
-          await getTransactionOwnerships(accessKeychainAddress);
+          await getTransactionOwnerships([accessKeychainAddress]);
       if (ownerships.isEmpty) {
         throw 'Keychain doesn\'t exists';
       }
@@ -619,12 +578,12 @@ class ApiService {
       final Uint8List keychainAddress = aesDecrypt(ownership.secret, aesKey);
       log('keychainAddress (getKeychain): ${uint8ListToHex(keychainAddress)}');
 
-      final Transaction lastTransactionKeychain = await getLastTransaction(
-          uint8ListToHex(keychainAddress),
-          request: 'address');
+      final Map<String, Transaction> lastTransactionKeychain =
+          await getLastTransaction([uint8ListToHex(keychainAddress)],
+              request: 'address');
 
-      final List<Ownership> ownerships2 =
-          await getTransactionOwnerships(lastTransactionKeychain.address!);
+      final List<Ownership> ownerships2 = await getTransactionOwnerships(
+          [lastTransactionKeychain.values.first.address!]);
       final Ownership ownership2 = ownerships2[0];
 
       final AuthorizedKey authorizedPublicKey2 = ownership2
@@ -678,24 +637,22 @@ class ApiService {
     return completer.future;
   }
 
-  /// Query the network to find a token's data
-  /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  /// @param {String} request List of informations to retrieve in the GraphQL Query
-  Future<Token> getToken(String address,
+  /// Query the network to find a token's data from a list of token addresses
+  Future<List<Token>> getToken(List<String> addresses,
       {String request =
           'genesis, name, id, supply, symbol, type, properties'}) async {
-    final Completer<Token> completer = Completer<Token>();
-
-    // ignore: prefer_final_locals
-    Token token = Token();
-
     final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
     try {
-      final String body =
-          '{"query":"query { token(address: \\"$address\\") { $request } }"}';
+      final String fragment = 'fragment fields on Token { $request }';
+      String body = 'query {';
+      for (final String address in addresses) {
+        body = '$body a$address: token(address:\\"$address\\") { ...fields }';
+      }
+      body = '$body } $fragment';
+
       log('getToken: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
@@ -706,14 +663,13 @@ class ApiService {
         final TokenResponse tokenResponse =
             tokenResponseFromJson(responseHttp.body);
         if (tokenResponse.data != null) {
-          token = tokenResponse.data!.token!;
+          return [tokenResponse.data!.token!];
         }
       }
     } catch (e) {
       log('getToken: error=$e');
     }
 
-    completer.complete(token);
-    return completer.future;
+    return [];
   }
 }

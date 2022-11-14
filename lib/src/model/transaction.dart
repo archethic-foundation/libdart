@@ -534,6 +534,9 @@ class Transaction {
 
   static const String kTransactionQueryAllFields =
       ' address, balance { token { address, amount }, uco }, chainLength, crossValidationStamps { nodePublicKey, signature }, data { content,  ownerships {  authorizedPublicKeys { encryptedSecretKey, publicKey } secret } ledger { uco { transfers { amount, to } }, token { transfers { amount, to, tokenAddress, tokenId } } } recipients } inputs { amount, from, tokenAddress, spent, timestamp, type, }, originSignature, previousPublicKey, previousSignature, type, validationStamp { proofOfIntegrity, proofOfWork, signature, timestamp, ledgerOperations { fee } }, version';
+
+  static const String kTransactionInputQueryAllFields =
+      'amount, from, tokenAddress, spent, timestamp, type';
 }
 
 String transactionEncoding() {
