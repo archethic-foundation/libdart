@@ -638,38 +638,42 @@ class ApiService {
   }
 
   /// Query the network to find a token's data from a list of token addresses
-  Future<List<Token>> getToken(List<String> addresses,
+  Future<Map<String, List<Token>>> getToken(List<String> addresses,
       {String request =
           'genesis, name, id, supply, symbol, type, properties'}) async {
     final Map<String, String> requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
+
+    if (addresses.isEmpty) {
+      return {};
+    }
+
     try {
       final String fragment = 'fragment fields on Token { $request }';
-      String body = 'query {';
+      String body = '{"query":"query {';
       for (final String address in addresses) {
         body = '$body a$address: token(address:\\"$address\\") { ...fields }';
       }
-      body = '$body } $fragment';
-
+      body = '$body } $fragment "}';
       log('getToken: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
           headers: requestHeaders);
       log('getToken: responseHttp.body=${responseHttp.body}');
+
       if (responseHttp.statusCode == 200) {
         final TokenResponse tokenResponse =
-            tokenResponseFromJson(responseHttp.body);
-        if (tokenResponse.data != null) {
-          return [tokenResponse.data!.token!];
-        }
+            TokenResponse.fromJson(json.decode(responseHttp.body));
+
+        return tokenResponse.data ?? {};
       }
     } catch (e) {
       log('getToken: error=$e');
     }
 
-    return [];
+    return {};
   }
 }
