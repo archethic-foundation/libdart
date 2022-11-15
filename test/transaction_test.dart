@@ -457,9 +457,10 @@ void main() {
       final TransactionStatus transactionStatusKeychain =
           await ApiService('http://localhost:4000').sendTx(tx);
 
-      final String result = await ApiService('http://localhost:4000')
-          .getTransactionContent(
-              '000057cb7d188385325a30fddf5bca487ee1db525b7a3dc31a595d6f3425c06c93ce');
+      final Map<String, String> result =
+          await ApiService('http://localhost:4000').getTransactionContent([
+        '000057cb7d188385325a30fddf5bca487ee1db525b7a3dc31a595d6f3425c06c93ce'
+      ]);
       expect(true, true);
     });
   }, tags: <String>['noCI']);
