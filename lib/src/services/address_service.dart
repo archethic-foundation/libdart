@@ -23,8 +23,11 @@ class AddressService {
   /// Get the last address from address
   /// @param {String} address TransactionChain address
   Future<String> lastAddressFromAddress(String address) async {
-    final Map<String, Transaction> transaction = await ApiService(endpoint!)
+    final Map<String, Transaction> transactionMap = await ApiService(endpoint!)
         .getLastTransaction([address], request: ' address ');
-    return transaction.values.first.address!;
+    if (transactionMap[address] == null) {
+      return '';
+    }
+    return transactionMap[address]!.address ?? '';
   }
 }
