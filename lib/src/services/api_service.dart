@@ -161,7 +161,7 @@ class ApiService {
           ' _$address: balance(address:\\"$address\\") { ...fields }',
         );
       }
-      body.write('$body } $fragment "}');
+      body.write('} $fragment "}');
       log('fetchBalance: requestHttp.body=$body');
       final responseHttp = await http.post(
         Uri.parse('${endpoint!}/api'),
@@ -235,7 +235,7 @@ class ApiService {
           ' _$address: transactionChain(address:\\"$address\\") { ...fields }',
         );
       }
-      body.write('$body } $fragment "}');
+      body.write('} $fragment "}');
       log('getTransactionChain: requestHttp.body=$body');
       final responseHttp = await http.post(
         Uri.parse('${endpoint!}/api'),
@@ -340,7 +340,7 @@ class ApiService {
           ' _$address: transactionInputs(address:\\"$address\\") { ...fields }',
         );
       }
-      body.write('$body } $fragment "}');
+      body.write('} $fragment "}');
       log('getTransactionInputs: requestHttp.body=$body');
       final responseHttp = await http.post(
         Uri.parse('${endpoint!}/api'),
@@ -382,7 +382,7 @@ class ApiService {
           ' _$address: transaction(address:\\"$address\\") { ...fields }',
         );
       }
-      body.write('$body } $fragment "}');
+      body.write('} $fragment "}');
       log('getTransaction: requestHttp.body=$body');
       final responseHttp = await http.post(
         Uri.parse('${endpoint!}/api'),
@@ -627,7 +627,7 @@ class ApiService {
           ' _$address: token(address:\\"$address\\") { ...fields }',
         );
       }
-      body.write('$body } $fragment "}');
+      body.write('} $fragment "}');
       log('getToken: requestHttp.body=$body');
       final responseHttp = await http.post(
         Uri.parse('${endpoint!}/api'),
