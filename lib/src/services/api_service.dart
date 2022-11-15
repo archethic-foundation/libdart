@@ -638,7 +638,7 @@ class ApiService {
   }
 
   /// Query the network to find a token's data from a list of token addresses
-  Future<Map<String, List<Token>>> getToken(List<String> addresses,
+  Future<Map<String, Token>> getToken(List<String> addresses,
       {String request =
           'genesis, name, id, supply, symbol, type, properties'}) async {
     final Map<String, String> requestHeaders = <String, String>{
