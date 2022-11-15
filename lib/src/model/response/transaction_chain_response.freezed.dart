@@ -21,7 +21,7 @@ TransactionChainResponse _$TransactionChainResponseFromJson(
 
 /// @nodoc
 mixin _$TransactionChainResponse {
-  Map<String, List<Transaction>>? get data =>
+  Map<String, List<Transaction>?>? get data =>
       throw _privateConstructorUsedError;
   Map<String, dynamic>? get error => throw _privateConstructorUsedError;
 
@@ -38,7 +38,7 @@ abstract class $TransactionChainResponseCopyWith<$Res> {
       _$TransactionChainResponseCopyWithImpl<$Res, TransactionChainResponse>;
   @useResult
   $Res call(
-      {Map<String, List<Transaction>>? data, Map<String, dynamic>? error});
+      {Map<String, List<Transaction>?>? data, Map<String, dynamic>? error});
 }
 
 /// @nodoc
@@ -62,7 +62,7 @@ class _$TransactionChainResponseCopyWithImpl<$Res,
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<Transaction>>?,
+              as Map<String, List<Transaction>?>?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -81,7 +81,7 @@ abstract class _$$_TransactionChainResponseCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {Map<String, List<Transaction>>? data, Map<String, dynamic>? error});
+      {Map<String, List<Transaction>?>? data, Map<String, dynamic>? error});
 }
 
 /// @nodoc
@@ -103,7 +103,7 @@ class __$$_TransactionChainResponseCopyWithImpl<$Res>
       data: freezed == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<Transaction>>?,
+              as Map<String, List<Transaction>?>?,
       error: freezed == error
           ? _value._error
           : error // ignore: cast_nullable_to_non_nullable
@@ -116,7 +116,7 @@ class __$$_TransactionChainResponseCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TransactionChainResponse extends _TransactionChainResponse {
   const _$_TransactionChainResponse(
-      {final Map<String, List<Transaction>>? data,
+      {final Map<String, List<Transaction>?>? data,
       final Map<String, dynamic>? error})
       : _data = data,
         _error = error,
@@ -125,9 +125,9 @@ class _$_TransactionChainResponse extends _TransactionChainResponse {
   factory _$_TransactionChainResponse.fromJson(Map<String, dynamic> json) =>
       _$$_TransactionChainResponseFromJson(json);
 
-  final Map<String, List<Transaction>>? _data;
+  final Map<String, List<Transaction>?>? _data;
   @override
-  Map<String, List<Transaction>>? get data {
+  Map<String, List<Transaction>?>? get data {
     final value = _data;
     if (value == null) return null;
     // ignore: implicit_dynamic_type
@@ -181,7 +181,7 @@ class _$_TransactionChainResponse extends _TransactionChainResponse {
 
 abstract class _TransactionChainResponse extends TransactionChainResponse {
   const factory _TransactionChainResponse(
-      {final Map<String, List<Transaction>>? data,
+      {final Map<String, List<Transaction>?>? data,
       final Map<String, dynamic>? error}) = _$_TransactionChainResponse;
   const _TransactionChainResponse._() : super._();
 
@@ -189,7 +189,7 @@ abstract class _TransactionChainResponse extends TransactionChainResponse {
       _$_TransactionChainResponse.fromJson;
 
   @override
-  Map<String, List<Transaction>>? get data;
+  Map<String, List<Transaction>?>? get data;
   @override
   Map<String, dynamic>? get error;
   @override

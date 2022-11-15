@@ -10,7 +10,8 @@ _$_TransactionLastResponse _$$_TransactionLastResponseFromJson(
         Map<String, dynamic> json) =>
     _$_TransactionLastResponse(
       data: (json['data'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, Transaction.fromJson(e as Map<String, dynamic>)),
+        (k, e) => MapEntry(k,
+            e == null ? null : Transaction.fromJson(e as Map<String, dynamic>)),
       ),
       error: json['error'] as Map<String, dynamic>?,
     );

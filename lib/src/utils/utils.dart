@@ -81,13 +81,15 @@ Uint8List toByteArray(int value, {int length = 0}) {
 }
 
 /// Remove alias prefix (underscore) used in graphQL requests
-Map<String, T>? removeAliasPrefix<T>(Map<String, T>? map) {
+Map<String, T>? removeAliasPrefix<T>(Map<String, T?>? map) {
   if (map == null) {
     return null;
   }
   final mapResult = <String, T>{};
   map.forEach((key, value) {
-    mapResult[key.replaceFirst('_', '')] = value;
+    if (value != null) {
+      mapResult[key.replaceFirst('_', '')] = value;
+    }
   });
   return mapResult;
 }

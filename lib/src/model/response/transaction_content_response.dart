@@ -7,9 +7,9 @@ part 'transaction_content_response.freezed.dart';
 part 'transaction_content_response.g.dart';
 
 @freezed
-abstract class TransactionContentResponse with _$TransactionContentResponse {
+class TransactionContentResponse with _$TransactionContentResponse {
   const factory TransactionContentResponse({
-    Map<String, Transaction>? data,
+    Map<String, Transaction?>? data,
     Map<String, dynamic>? error,
   }) = _TransactionContentResponse;
   const TransactionContentResponse._();

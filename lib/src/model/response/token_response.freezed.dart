@@ -20,7 +20,7 @@ TokenResponse _$TokenResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TokenResponse {
-  Map<String, Token>? get data => throw _privateConstructorUsedError;
+  Map<String, Token?>? get data => throw _privateConstructorUsedError;
   Map<String, dynamic>? get error => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +35,7 @@ abstract class $TokenResponseCopyWith<$Res> {
           TokenResponse value, $Res Function(TokenResponse) then) =
       _$TokenResponseCopyWithImpl<$Res, TokenResponse>;
   @useResult
-  $Res call({Map<String, Token>? data, Map<String, dynamic>? error});
+  $Res call({Map<String, Token?>? data, Map<String, dynamic>? error});
 }
 
 /// @nodoc
@@ -58,7 +58,7 @@ class _$TokenResponseCopyWithImpl<$Res, $Val extends TokenResponse>
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, Token>?,
+              as Map<String, Token?>?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -75,7 +75,7 @@ abstract class _$$_TokenResponseCopyWith<$Res>
       __$$_TokenResponseCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<String, Token>? data, Map<String, dynamic>? error});
+  $Res call({Map<String, Token?>? data, Map<String, dynamic>? error});
 }
 
 /// @nodoc
@@ -96,7 +96,7 @@ class __$$_TokenResponseCopyWithImpl<$Res>
       data: freezed == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, Token>?,
+              as Map<String, Token?>?,
       error: freezed == error
           ? _value._error
           : error // ignore: cast_nullable_to_non_nullable
@@ -109,7 +109,7 @@ class __$$_TokenResponseCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TokenResponse extends _TokenResponse {
   const _$_TokenResponse(
-      {final Map<String, Token>? data, final Map<String, dynamic>? error})
+      {final Map<String, Token?>? data, final Map<String, dynamic>? error})
       : _data = data,
         _error = error,
         super._();
@@ -117,9 +117,9 @@ class _$_TokenResponse extends _TokenResponse {
   factory _$_TokenResponse.fromJson(Map<String, dynamic> json) =>
       _$$_TokenResponseFromJson(json);
 
-  final Map<String, Token>? _data;
+  final Map<String, Token?>? _data;
   @override
-  Map<String, Token>? get data {
+  Map<String, Token?>? get data {
     final value = _data;
     if (value == null) return null;
     // ignore: implicit_dynamic_type
@@ -172,7 +172,7 @@ class _$_TokenResponse extends _TokenResponse {
 
 abstract class _TokenResponse extends TokenResponse {
   const factory _TokenResponse(
-      {final Map<String, Token>? data,
+      {final Map<String, Token?>? data,
       final Map<String, dynamic>? error}) = _$_TokenResponse;
   const _TokenResponse._() : super._();
 
@@ -180,7 +180,7 @@ abstract class _TokenResponse extends TokenResponse {
       _$_TokenResponse.fromJson;
 
   @override
-  Map<String, Token>? get data;
+  Map<String, Token?>? get data;
   @override
   Map<String, dynamic>? get error;
   @override

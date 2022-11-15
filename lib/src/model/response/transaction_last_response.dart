@@ -7,9 +7,9 @@ part 'transaction_last_response.freezed.dart';
 part 'transaction_last_response.g.dart';
 
 @freezed
-abstract class TransactionLastResponse with _$TransactionLastResponse {
+class TransactionLastResponse with _$TransactionLastResponse {
   const factory TransactionLastResponse({
-    Map<String, Transaction>? data,
+    Map<String, Transaction?>? data,
     Map<String, dynamic>? error,
   }) = _TransactionLastResponse;
   const TransactionLastResponse._();

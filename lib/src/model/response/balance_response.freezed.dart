@@ -20,7 +20,7 @@ BalanceResponse _$BalanceResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BalanceResponse {
-  Map<String, Balance>? get data => throw _privateConstructorUsedError;
+  Map<String, Balance?>? get data => throw _privateConstructorUsedError;
   Map<String, dynamic>? get error => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +35,7 @@ abstract class $BalanceResponseCopyWith<$Res> {
           BalanceResponse value, $Res Function(BalanceResponse) then) =
       _$BalanceResponseCopyWithImpl<$Res, BalanceResponse>;
   @useResult
-  $Res call({Map<String, Balance>? data, Map<String, dynamic>? error});
+  $Res call({Map<String, Balance?>? data, Map<String, dynamic>? error});
 }
 
 /// @nodoc
@@ -58,7 +58,7 @@ class _$BalanceResponseCopyWithImpl<$Res, $Val extends BalanceResponse>
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, Balance>?,
+              as Map<String, Balance?>?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -75,7 +75,7 @@ abstract class _$$_BalanceResponseCopyWith<$Res>
       __$$_BalanceResponseCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<String, Balance>? data, Map<String, dynamic>? error});
+  $Res call({Map<String, Balance?>? data, Map<String, dynamic>? error});
 }
 
 /// @nodoc
@@ -96,7 +96,7 @@ class __$$_BalanceResponseCopyWithImpl<$Res>
       data: freezed == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, Balance>?,
+              as Map<String, Balance?>?,
       error: freezed == error
           ? _value._error
           : error // ignore: cast_nullable_to_non_nullable
@@ -109,7 +109,7 @@ class __$$_BalanceResponseCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_BalanceResponse extends _BalanceResponse {
   const _$_BalanceResponse(
-      {final Map<String, Balance>? data, final Map<String, dynamic>? error})
+      {final Map<String, Balance?>? data, final Map<String, dynamic>? error})
       : _data = data,
         _error = error,
         super._();
@@ -117,9 +117,9 @@ class _$_BalanceResponse extends _BalanceResponse {
   factory _$_BalanceResponse.fromJson(Map<String, dynamic> json) =>
       _$$_BalanceResponseFromJson(json);
 
-  final Map<String, Balance>? _data;
+  final Map<String, Balance?>? _data;
   @override
-  Map<String, Balance>? get data {
+  Map<String, Balance?>? get data {
     final value = _data;
     if (value == null) return null;
     // ignore: implicit_dynamic_type
@@ -172,7 +172,7 @@ class _$_BalanceResponse extends _BalanceResponse {
 
 abstract class _BalanceResponse extends BalanceResponse {
   const factory _BalanceResponse(
-      {final Map<String, Balance>? data,
+      {final Map<String, Balance?>? data,
       final Map<String, dynamic>? error}) = _$_BalanceResponse;
   const _BalanceResponse._() : super._();
 
@@ -180,7 +180,7 @@ abstract class _BalanceResponse extends BalanceResponse {
       _$_BalanceResponse.fromJson;
 
   @override
-  Map<String, Balance>? get data;
+  Map<String, Balance?>? get data;
   @override
   Map<String, dynamic>? get error;
   @override

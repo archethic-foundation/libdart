@@ -21,7 +21,7 @@ TransactionInputsResponse _$TransactionInputsResponseFromJson(
 
 /// @nodoc
 mixin _$TransactionInputsResponse {
-  Map<String, List<TransactionInput>>? get data =>
+  Map<String, List<TransactionInput>?>? get data =>
       throw _privateConstructorUsedError;
   Map<String, dynamic>? get error => throw _privateConstructorUsedError;
 
@@ -38,7 +38,8 @@ abstract class $TransactionInputsResponseCopyWith<$Res> {
       _$TransactionInputsResponseCopyWithImpl<$Res, TransactionInputsResponse>;
   @useResult
   $Res call(
-      {Map<String, List<TransactionInput>>? data, Map<String, dynamic>? error});
+      {Map<String, List<TransactionInput>?>? data,
+      Map<String, dynamic>? error});
 }
 
 /// @nodoc
@@ -62,7 +63,7 @@ class _$TransactionInputsResponseCopyWithImpl<$Res,
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<TransactionInput>>?,
+              as Map<String, List<TransactionInput>?>?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -81,7 +82,8 @@ abstract class _$$_TransactionInputsResponseCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {Map<String, List<TransactionInput>>? data, Map<String, dynamic>? error});
+      {Map<String, List<TransactionInput>?>? data,
+      Map<String, dynamic>? error});
 }
 
 /// @nodoc
@@ -104,7 +106,7 @@ class __$$_TransactionInputsResponseCopyWithImpl<$Res>
       data: freezed == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<TransactionInput>>?,
+              as Map<String, List<TransactionInput>?>?,
       error: freezed == error
           ? _value._error
           : error // ignore: cast_nullable_to_non_nullable
@@ -117,7 +119,7 @@ class __$$_TransactionInputsResponseCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TransactionInputsResponse extends _TransactionInputsResponse {
   const _$_TransactionInputsResponse(
-      {final Map<String, List<TransactionInput>>? data,
+      {final Map<String, List<TransactionInput>?>? data,
       final Map<String, dynamic>? error})
       : _data = data,
         _error = error,
@@ -126,9 +128,9 @@ class _$_TransactionInputsResponse extends _TransactionInputsResponse {
   factory _$_TransactionInputsResponse.fromJson(Map<String, dynamic> json) =>
       _$$_TransactionInputsResponseFromJson(json);
 
-  final Map<String, List<TransactionInput>>? _data;
+  final Map<String, List<TransactionInput>?>? _data;
   @override
-  Map<String, List<TransactionInput>>? get data {
+  Map<String, List<TransactionInput>?>? get data {
     final value = _data;
     if (value == null) return null;
     // ignore: implicit_dynamic_type
@@ -182,7 +184,7 @@ class _$_TransactionInputsResponse extends _TransactionInputsResponse {
 
 abstract class _TransactionInputsResponse extends TransactionInputsResponse {
   const factory _TransactionInputsResponse(
-      {final Map<String, List<TransactionInput>>? data,
+      {final Map<String, List<TransactionInput>?>? data,
       final Map<String, dynamic>? error}) = _$_TransactionInputsResponse;
   const _TransactionInputsResponse._() : super._();
 
@@ -190,7 +192,7 @@ abstract class _TransactionInputsResponse extends TransactionInputsResponse {
       _$_TransactionInputsResponse.fromJson;
 
   @override
-  Map<String, List<TransactionInput>>? get data;
+  Map<String, List<TransactionInput>?>? get data;
   @override
   Map<String, dynamic>? get error;
   @override
