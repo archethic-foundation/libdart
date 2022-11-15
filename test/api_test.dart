@@ -41,23 +41,28 @@ void main() {
     });
 
     test('fetchBalance', () async {
-      final Balance balance = await ApiService('http://localhost:4000')
-          .fetchBalance(
-              '00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D');
+      final Map<String, Balance> balanceMap =
+          await ApiService('http://localhost:4000').fetchBalance([
+        '00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D'
+      ]);
 
       expect(
-        balance.uco,
+        balanceMap[
+                '_00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D']!
+            .uco,
         0,
       );
     });
 
     test('getTransactionContent', () async {
-      final String content = await ApiService('http://localhost:4000')
-          .getTransactionContent(
-              '00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D');
+      final Map<String, String> contentMap =
+          await ApiService('http://localhost:4000').getTransactionContent([
+        '00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D'
+      ]);
 
       expect(
-        content,
+        contentMap[
+            '_00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D'],
         'B0B116A90BBA010076A5A8A4B33AE08D325CD509D6DBEBD336364999D5357D6DD6392B07AD64E0EE0047304502207A6663334659C8FFB7695433B93D18EC5ECF487AB1CF2324573974028E5DBE71022100AB52E547E945B59EB850E586A0CFD2F1378938E8EAFFF8C9F283A607DC517B75',
       );
     });

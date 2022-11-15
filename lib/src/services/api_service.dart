@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -32,6 +31,11 @@ import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:http/http.dart' as http show Response, post;
 
+const Map<String, String> kRequestHeaders = <String, String>{
+  'Content-type': 'application/json',
+  'Accept': 'application/json',
+};
+
 class ApiService {
   ApiService(this.endpoint);
 
@@ -43,17 +47,14 @@ class ApiService {
   Future<TransactionStatus> sendTx(Transaction transaction) async {
     final Completer<TransactionStatus> completer =
         Completer<TransactionStatus>();
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
+
     TransactionStatus transactionStatus = TransactionStatus();
     log('sendTx: requestHttp.body=${transaction.convertToJSON()}');
     try {
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api/transaction'),
           body: transaction.convertToJSON(),
-          headers: requestHeaders);
+          headers: kRequestHeaders);
       log('sendTx: responseHttp.body=${responseHttp.body}');
       transactionStatus = transactionStatusFromJson(responseHttp.body);
 
@@ -68,10 +69,10 @@ class ApiService {
   /// Query the network to find the last transaction from a liste of addresses
   Future<Map<String, Transaction>> getLastTransaction(List<String> addresses,
       {String request = Transaction.kTransactionQueryAllFields}) async {
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
+    if (addresses.isEmpty) {
+      return {};
+    }
+
     try {
       final String fragment = 'fragment fields on Transaction { $request }';
       String body = '{"query":"query {';
@@ -84,7 +85,7 @@ class ApiService {
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
-          headers: requestHeaders);
+          headers: kRequestHeaders);
       log('getLastTransaction: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
         final TransactionLastResponse transactionLastResponse =
@@ -100,12 +101,13 @@ class ApiService {
   }
 
   Future<Map<String, int>> getTransactionIndex(List<String> addresses) async {
+    if (addresses.isEmpty) {
+      return {};
+    }
+
     final Map<String, Transaction> lastTransactionMap =
         await getLastTransaction(addresses, request: 'chainLength');
 
-    if (lastTransactionMap == {}) {
-      return {};
-    }
     final Map<String, int> lastTransactionIndexMap = {};
     lastTransactionMap.forEach((key, value) {
       lastTransactionIndexMap[key] = value.chainLength ?? 0;
@@ -113,17 +115,7 @@ class ApiService {
     return lastTransactionIndexMap;
   }
 
-  /// getStorageNoncePublicKey
   Future<String> getStorageNoncePublicKey() async {
-    final Completer<String> completer = Completer<String>();
-    String storageNoncePublicKey = '';
-    SharedSecretsResponse sharedSecretsResponse = SharedSecretsResponse();
-
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-
     try {
       const String body =
           '{"query": "query {sharedSecrets {storageNoncePublicKey}}"}';
@@ -131,104 +123,88 @@ class ApiService {
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
-          headers: requestHeaders);
+          headers: kRequestHeaders);
       log('getStorageNoncePublicKey: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
+        SharedSecretsResponse sharedSecretsResponse = SharedSecretsResponse();
         sharedSecretsResponse =
             sharedSecretsResponseFromJson(responseHttp.body);
         if (sharedSecretsResponse.data != null &&
             sharedSecretsResponse.data!.storageNoncePublicKey != null) {
-          storageNoncePublicKey =
-              sharedSecretsResponse.data!.storageNoncePublicKey!;
+          return sharedSecretsResponse.data!.storageNoncePublicKey!;
         }
       }
     } catch (e) {
       log('getStorageNoncePublicKey: error=$e');
     }
 
-    completer.complete(storageNoncePublicKey);
-    return completer.future;
+    return '';
   }
 
-  /// Query the network to find a balance from an address
-  /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  /// Returns [Balance] represents a ledger balance. It includes: UCO: uco balance & Token: token balances
-  Future<Balance> fetchBalance(String address) async {
-    final Completer<Balance> completer = Completer<Balance>();
-    BalanceResponse? balanceResponse;
-    Balance? balance = Balance();
-
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-
-    final String body =
-        '{"query": "query {balance(address: \\"$address\\") {uco, token {address, amount, tokenId }}}"}';
-    log('fetchBalance: requestHttp.body=$body');
+  /// Query the network to find a balance from a list of addresses
+  Future<Map<String, Balance>> fetchBalance(List<String> addresses) async {
+    if (addresses.isEmpty) {
+      return {};
+    }
 
     try {
+      const String fragment =
+          'fragment fields on Balance { uco, token {address, amount, tokenId } }';
+      String body = '{"query":"query {';
+      for (final String address in addresses) {
+        body = '$body _$address: balance(address:\\"$address\\") { ...fields }';
+      }
+      body = '$body } $fragment "}';
+      log('fetchBalance: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
-          headers: requestHeaders);
+          headers: kRequestHeaders);
       log('fetchBalance: responseHttp.body=${responseHttp.body}');
 
       if (responseHttp.statusCode == 200) {
-        balanceResponse = balanceResponseFromJson(responseHttp.body);
-        if (balanceResponse.data != null) {
-          balance = balanceResponse.data!.balance;
-        }
+        final BalanceResponse balanceResponse =
+            BalanceResponse.fromJson(json.decode(responseHttp.body));
+
+        return balanceResponse.data ?? {};
       }
     } catch (e) {
       log('fetchBalance: error=$e');
     }
 
-    completer.complete(balance);
-    return completer.future;
+    return {};
   }
 
-  /// Query the network to find a transaction
-  /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  /// Returns the content scalar type represents transaction content. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
-  Future<String> getTransactionContent(String address) async {
-    final Completer<String> completer = Completer<String>();
-    String content = '';
-    TransactionContentResponse? transactionContentResponse =
-        TransactionContentResponse();
-
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-
-    final String body =
-        '{"query":"query { transaction(address: \\"$address\\") { data { content }} }"}';
-    log('getTransactionContent: requestHttp.body=$body');
+  /// Query the network to find a transaction from a list of addresses
+  Future<Map<String, String>> getTransactionContent(
+      List<String> addresses) async {
+    if (addresses.isEmpty) {
+      return {};
+    }
 
     try {
-      final http.Response responseHttp = await http.post(
-          Uri.parse('${endpoint!}/api'),
-          body: body,
-          headers: requestHeaders);
-      log('getTransactionContent: responseHttp.body=${responseHttp.body}');
+      final Map<String, List<Transaction>> transactionChainMap =
+          await getTransactionChain(addresses, request: 'content');
 
-      if (responseHttp.statusCode == 200) {
-        transactionContentResponse =
-            transactionContentResponseFromJson(responseHttp.body);
-        if (transactionContentResponse.data != null &&
-            transactionContentResponse.data!.transaction != null &&
-            transactionContentResponse.data!.transaction!.data != null) {
-          content =
-              transactionContentResponse.data!.transaction!.data!.content!;
+      final Map<String, String> contentMap = {};
+
+      transactionChainMap.forEach((key, value) {
+        final List<Transaction>? transactionList = transactionChainMap[key];
+        if (transactionList != null) {
+          transactionList.forEach((element) {
+            if (element.data != null && element.data!.content != null) {
+              contentMap[key] = element.data!.content!;
+            }
+          });
         }
-      }
+      });
+
+      return contentMap;
     } catch (e) {
       log('getTransactionContent: error=$e');
     }
 
-    completer.complete(content);
-    return completer.future;
+    return {};
   }
 
   /// Query the network to find transaction chains from a list of addresses
@@ -240,15 +216,10 @@ class ApiService {
       return {};
     }
 
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-
     try {
       final String fragment = 'fragment fields on Transaction { $request }';
       String body = '{"query":"query {';
-      // TODO(@reddwarf03): Not good the '_' system to define alias but adress format is not accepted by graphQL
+      // TODO(@reddwarf03): Not good the '_' system to define alias but address format is not accepted by graphQL
       for (final String address in addresses) {
         body =
             '$body _$address: transactionChain(address:\\"$address\\") { ...fields }';
@@ -258,7 +229,7 @@ class ApiService {
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
-          headers: requestHeaders);
+          headers: kRequestHeaders);
       log('getTransactionChain: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
         final TransactionChainResponse transactionChainResponse =
@@ -276,15 +247,6 @@ class ApiService {
   /// Query the node infos
   /// Returns a [List<Node>] with infos
   Future<List<Node>> getNodeList() async {
-    final Completer<List<Node>> completer = Completer<List<Node>>();
-    NodesResponse nodesResponse = NodesResponse();
-    List<Node> nodesList = List<Node>.empty(growable: true);
-
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-
     try {
       const String body =
           '{"query": "query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress authorizationDate enrollmentDate}}"}';
@@ -292,20 +254,19 @@ class ApiService {
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
-          headers: requestHeaders);
+          headers: kRequestHeaders);
       log('getNodeList: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
+        NodesResponse nodesResponse = NodesResponse();
         nodesResponse = nodesResponseFromJson(responseHttp.body);
         if (nodesResponse.data != null) {
-          nodesList = nodesResponse.data!.nodes!;
+          return nodesResponse.data!.nodes!;
         }
       }
     } catch (e) {
       log('getNodeList: error=$e');
     }
-
-    completer.complete(nodesList);
-    return completer.future;
+    return [];
   }
 
   /// Query the network to list the transaction on the type
@@ -315,17 +276,6 @@ class ApiService {
   /// Returns the content scalar type represents transaction content [List<Transaction>]. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
   Future<List<Transaction>> networkTransactions(String type, int page,
       {String request = Transaction.kTransactionQueryAllFields}) async {
-    final Completer<List<Transaction>> completer =
-        Completer<List<Transaction>>();
-    NetworkTransactionsResponse? networkTransactionsResponse =
-        NetworkTransactionsResponse();
-    List<Transaction> transactionsList =
-        List<Transaction>.empty(growable: true);
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-
     final String body =
         '{"query":"query { networkTransactions(type: \\"$type\\", page: $page) { $request } }"}';
     log('networkTransactions: requestHttp.body=$body');
@@ -334,23 +284,23 @@ class ApiService {
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
-          headers: requestHeaders);
+          headers: kRequestHeaders);
       log('networkTransactions: responseHttp.body=${responseHttp.body}');
 
       if (responseHttp.statusCode == 200) {
+        NetworkTransactionsResponse? networkTransactionsResponse =
+            NetworkTransactionsResponse();
         networkTransactionsResponse =
             networkTransactionsResponseFromJson(responseHttp.body);
         if (networkTransactionsResponse.data != null) {
-          transactionsList =
-              networkTransactionsResponse.data!.networkTransactions!;
+          return networkTransactionsResponse.data!.networkTransactions!;
         }
       }
     } catch (e) {
       log('networkTransactions: error=$e');
     }
 
-    completer.complete(transactionsList);
-    return completer.future;
+    return [];
   }
 
   /// Query the network to list the transaction inputs from a list of addresses
@@ -360,11 +310,6 @@ class ApiService {
     if (addresses.isEmpty) {
       return {};
     }
-
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
 
     try {
       final String fragment =
@@ -379,7 +324,7 @@ class ApiService {
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
-          headers: requestHeaders);
+          headers: kRequestHeaders);
       log('getTransactionInputs: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
         final TransactionInputsResponse transactionInputsResponse =
@@ -395,105 +340,81 @@ class ApiService {
   }
 
   /// Query the network to find a transaction
-  /// @param {String} The address scalar type represents a cryptographic hash used in the Archethic network with an identification byte to specify from which algorithm the hash was generated. The Hash appears in a JSON response as Base16 formatted string. The parsed hash will be converted to a binary and any invalid hash with an invalid algorithm or invalid size will be rejected
-  /// @param {String} request List of informations to retrieve in the GraphQL Query
   /// Returns all informations represent transaction content.
-  Future<Transaction> getTransactionAllInfos(String address,
+  Future<Map<String, Transaction>> getTransaction(List<String> addresses,
       {String request = Transaction.kTransactionQueryAllFields}) async {
-    final Completer<Transaction> completer = Completer<Transaction>();
-    Transaction? transaction;
-
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-
-    final String body =
-        '{"query":"query { transaction(address: \\"$address\\") {$request} }"}';
-    log('getTransactionAllInfos: requestHttp.body=$body');
-
-    try {
-      final http.Response responseHttp = await http.post(
-          Uri.parse('${endpoint!}/api'),
-          body: body,
-          headers: requestHeaders);
-      log('getTransactionAllInfos: responseHttp.body=${responseHttp.body}');
-
-      if (responseHttp.statusCode == 200) {
-        final TransactionContentResponse transactionResponse =
-            transactionContentResponseFromJson(responseHttp.body);
-        if (transactionResponse.data != null &&
-            transactionResponse.data!.transaction != null) {
-          transaction = transactionResponse.data!.transaction;
-        }
-      }
-    } catch (e) {
-      log('getTransactionAllInfos: error=$e');
+    if (addresses.isEmpty) {
+      return {};
     }
 
-    completer.complete(transaction);
-    return completer.future;
-  }
-
-  /// Get transaction fees
-  /// @param {Object} tx Transaction to estimate fees
-  Future<TransactionFee> getTransactionFee(Transaction transaction) async {
-    final Completer<TransactionFee> completer = Completer<TransactionFee>();
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-    TransactionFee transactionFee = TransactionFee();
-    final http.Response responseHttp = await http.post(
-        Uri.parse('${endpoint!}/api/transaction_fee'),
-        body: transaction.convertToJSON(),
-        headers: requestHeaders);
-    log('getTransactionFee: requestHttp.body=${transaction.convertToJSON()}');
-    log('getTransactionFee: responseHttp.body=${responseHttp.body}');
-    transactionFee = transactionFeeFromJson(responseHttp.body);
-
-    completer.complete(transactionFee);
-    return completer.future;
-  }
-
-  /// getTransactionOwnerships
-  /// @param {String} address
-  Future<List<Ownership>> getTransactionOwnerships(
-      List<String> addresses) async {
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-
     try {
-      const String fragment =
-          'fragment fields on Transaction { { data { ownerships { secret, authorizedPublicKeys { encryptedSecretKey, publicKey } } } } } }';
+      final String fragment = 'fragment fields on Transaction { $request }';
       String body = 'query {';
       for (final String address in addresses) {
         body =
             '$body a$address: transaction(address:\\"$address\\") { ...fields }';
       }
       body = '$body } $fragment';
-
+      log('getTransaction: requestHttp.body=$body');
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
-          headers: requestHeaders);
-      log('getTransactionOwnerships: responseHttp.body=${responseHttp.body}');
+          headers: kRequestHeaders);
+      log('getTransaction: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
-        final TransactionContentResponse transactionResponse =
-            transactionContentResponseFromJson(responseHttp.body);
-        if (transactionResponse.data != null &&
-            transactionResponse.data!.transaction != null &&
-            transactionResponse.data!.transaction!.data != null) {
-          return transactionResponse.data!.transaction!.data!.ownerships!;
-        }
+        final TransactionContentResponse transactionContentResponse =
+            TransactionContentResponse.fromJson(json.decode(responseHttp.body));
+        return transactionContentResponse.data ?? {};
       }
+    } catch (e) {
+      log('getTransaction: error=$e');
+    }
+
+    return {};
+  }
+
+  /// Get transaction fees
+  /// @param {Object} tx Transaction to estimate fees
+  Future<TransactionFee> getTransactionFee(Transaction transaction) async {
+    log('getTransactionFee: requestHttp.body=${transaction.convertToJSON()}');
+    final http.Response responseHttp = await http.post(
+        Uri.parse('${endpoint!}/api/transaction_fee'),
+        body: transaction.convertToJSON(),
+        headers: kRequestHeaders);
+    log('getTransactionFee: responseHttp.body=${responseHttp.body}');
+    return transactionFeeFromJson(responseHttp.body);
+  }
+
+  /// getTransactionOwnerships
+  /// @param {List<String>} addresses
+  Future<Map<String, List<Ownership>>> getTransactionOwnerships(
+      List<String> addresses) async {
+    if (addresses.isEmpty) {
+      return {};
+    }
+
+    try {
+      final Map<String, Transaction> transactionMap = await getTransaction(
+          addresses,
+          request:
+              'data { ownerships { secret, authorizedPublicKeys { encryptedSecretKey, publicKey } } }');
+
+      final Map<String, List<Ownership>> ownershipsMap = {};
+
+      transactionMap.forEach(
+        (key, value) {
+          if (value.data != null && value.data!.ownerships != null) {
+            ownershipsMap[key] = value.data!.ownerships!;
+          }
+        },
+      );
+
+      return ownershipsMap;
     } catch (e) {
       log('getTransactionOwnerships: error=$e');
     }
 
-    return [];
+    return {};
   }
 
   /// Create a new keychain and build a transaction
@@ -561,13 +482,14 @@ class ApiService {
     final String accessKeychainAddress = deriveAddress(seed, 1);
 
     try {
-      final List<Ownership> ownerships =
+      final ownershipsMap =
           await getTransactionOwnerships([accessKeychainAddress]);
-      if (ownerships.isEmpty) {
+      if (ownershipsMap[accessKeychainAddress] == null ||
+          ownershipsMap[accessKeychainAddress]!.isEmpty) {
         throw 'Keychain doesn\'t exists';
       }
 
-      final Ownership ownership = ownerships[0];
+      final Ownership ownership = ownershipsMap[accessKeychainAddress]![0];
       final AuthorizedKey authorizedPublicKey = ownership.authorizedPublicKeys!
           .firstWhere((AuthorizedKey authKey) =>
               authKey.publicKey!.toUpperCase() ==
@@ -582,9 +504,11 @@ class ApiService {
           await getLastTransaction([uint8ListToHex(keychainAddress)],
               request: 'address');
 
-      final List<Ownership> ownerships2 = await getTransactionOwnerships(
+      final ownerships2Map = await getTransactionOwnerships(
           [lastTransactionKeychain.values.first.address!]);
-      final Ownership ownership2 = ownerships2[0];
+
+      final Ownership ownership2 =
+          ownerships2Map[lastTransactionKeychain.values.first.address!]![0];
 
       final AuthorizedKey authorizedPublicKey2 = ownership2
           .authorizedPublicKeys!
@@ -641,11 +565,6 @@ class ApiService {
   Future<Map<String, Token>> getToken(List<String> addresses,
       {String request =
           'genesis, name, id, supply, symbol, type, properties'}) async {
-    final Map<String, String> requestHeaders = <String, String>{
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-
     if (addresses.isEmpty) {
       return {};
     }
@@ -661,7 +580,7 @@ class ApiService {
       final http.Response responseHttp = await http.post(
           Uri.parse('${endpoint!}/api'),
           body: body,
-          headers: requestHeaders);
+          headers: kRequestHeaders);
       log('getToken: responseHttp.body=${responseHttp.body}');
 
       if (responseHttp.statusCode == 200) {
