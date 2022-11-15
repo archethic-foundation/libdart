@@ -91,7 +91,9 @@ class ApiService {
         final TransactionLastResponse transactionLastResponse =
             TransactionLastResponse.fromJson(json.decode(responseHttp.body));
 
-        return transactionLastResponse.data ?? {};
+        return removeAliasPrefix(transactionLastResponse.data)
+                as Map<String, Transaction>? ??
+            {};
       }
     } catch (e) {
       log('getLastTransaction: error=$e');
@@ -112,7 +114,9 @@ class ApiService {
     lastTransactionMap.forEach((key, value) {
       lastTransactionIndexMap[key] = value.chainLength ?? 0;
     });
-    return lastTransactionIndexMap;
+
+    return removeAliasPrefix(lastTransactionIndexMap) as Map<String, int>? ??
+        {};
   }
 
   Future<String> getStorageNoncePublicKey() async {
@@ -166,7 +170,9 @@ class ApiService {
         final BalanceResponse balanceResponse =
             BalanceResponse.fromJson(json.decode(responseHttp.body));
 
-        return balanceResponse.data ?? {};
+        return removeAliasPrefix(balanceResponse.data)
+                as Map<String, Balance>? ??
+            {};
       }
     } catch (e) {
       log('fetchBalance: error=$e');
@@ -199,7 +205,7 @@ class ApiService {
         }
       });
 
-      return contentMap;
+      return removeAliasPrefix(contentMap) as Map<String, String>? ?? {};
     } catch (e) {
       log('getTransactionContent: error=$e');
     }
@@ -235,7 +241,9 @@ class ApiService {
         final TransactionChainResponse transactionChainResponse =
             TransactionChainResponse.fromJson(json.decode(responseHttp.body));
 
-        return transactionChainResponse.data ?? {};
+        return removeAliasPrefix(transactionChainResponse.data)
+                as Map<String, List<Transaction>>? ??
+            {};
       }
     } catch (e) {
       log('getTransactionChain: error=$e');
@@ -330,7 +338,9 @@ class ApiService {
         final TransactionInputsResponse transactionInputsResponse =
             TransactionInputsResponse.fromJson(json.decode(responseHttp.body));
 
-        return transactionInputsResponse.data ?? {};
+        return removeAliasPrefix(transactionInputsResponse.data)
+                as Map<String, List<TransactionInput>>? ??
+            {};
       }
     } catch (e) {
       log('getTransactionInputs: error=$e');
@@ -352,7 +362,7 @@ class ApiService {
       String body = 'query {';
       for (final String address in addresses) {
         body =
-            '$body a$address: transaction(address:\\"$address\\") { ...fields }';
+            '$body _$address: transaction(address:\\"$address\\") { ...fields }';
       }
       body = '$body } $fragment';
       log('getTransaction: requestHttp.body=$body');
@@ -364,7 +374,10 @@ class ApiService {
       if (responseHttp.statusCode == 200) {
         final TransactionContentResponse transactionContentResponse =
             TransactionContentResponse.fromJson(json.decode(responseHttp.body));
-        return transactionContentResponse.data ?? {};
+
+        return removeAliasPrefix(transactionContentResponse.data)
+                as Map<String, Transaction>? ??
+            {};
       }
     } catch (e) {
       log('getTransaction: error=$e');
@@ -409,7 +422,9 @@ class ApiService {
         },
       );
 
-      return ownershipsMap;
+      return removeAliasPrefix(ownershipsMap)
+              as Map<String, List<Ownership>>? ??
+          {};
     } catch (e) {
       log('getTransactionOwnerships: error=$e');
     }
@@ -573,7 +588,7 @@ class ApiService {
       final String fragment = 'fragment fields on Token { $request }';
       String body = '{"query":"query {';
       for (final String address in addresses) {
-        body = '$body a$address: token(address:\\"$address\\") { ...fields }';
+        body = '$body _$address: token(address:\\"$address\\") { ...fields }';
       }
       body = '$body } $fragment "}';
       log('getToken: requestHttp.body=$body');
@@ -587,7 +602,8 @@ class ApiService {
         final TokenResponse tokenResponse =
             TokenResponse.fromJson(json.decode(responseHttp.body));
 
-        return tokenResponse.data ?? {};
+        return removeAliasPrefix(tokenResponse.data) as Map<String, Token>? ??
+            {};
       }
     } catch (e) {
       log('getToken: error=$e');

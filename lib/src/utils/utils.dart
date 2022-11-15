@@ -1,8 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 // Dart imports:
-import 'dart:math';
-import 'dart:typed_data' show Uint8List, Endian;
+import 'dart:typed_data' show Uint8List;
 
 // Package imports:
 import 'package:pinenacl/encoding.dart' show Base16Encoder;
@@ -79,4 +78,16 @@ Uint8List toByteArray(int value, {int length = 0}) {
     number = number >> 8;
   }
   return result;
+}
+
+/// Remove alias prefix (underscore) used in graphQL requests
+Map<String, dynamic>? removeAliasPrefix(Map<String, dynamic>? map) {
+  if (map == null) {
+    return null;
+  }
+  Map<String, dynamic> mapResult = {};
+  map.forEach((key, value) {
+    mapResult[key.replaceFirst('_', '')] = value;
+  });
+  return mapResult;
 }
