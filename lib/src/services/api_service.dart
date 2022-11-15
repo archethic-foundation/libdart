@@ -79,7 +79,7 @@ class ApiService {
       final body = StringBuffer()..write('{"query":"query {');
       for (final address in addresses) {
         body.write(
-          '$body _$address: lastTransaction(address:\\"$address\\") { ...fields }',
+          ' _$address: lastTransaction(address:\\"$address\\") { ...fields }',
         );
       }
       body.write('$body } $fragment "}');
@@ -158,7 +158,7 @@ class ApiService {
       final body = StringBuffer()..write('{"query":"query {');
       for (final address in addresses) {
         body.write(
-          '$body _$address: balance(address:\\"$address\\") { ...fields }',
+          ' _$address: balance(address:\\"$address\\") { ...fields }',
         );
       }
       body.write('$body } $fragment "}');
@@ -232,7 +232,7 @@ class ApiService {
       // TODO(reddwarf03): Not good the '_' system to define alias but address format is not accepted by graphQL
       for (final address in addresses) {
         body.write(
-          '$body _$address: transactionChain(address:\\"$address\\") { ...fields }',
+          ' _$address: transactionChain(address:\\"$address\\") { ...fields }',
         );
       }
       body.write('$body } $fragment "}');
@@ -337,7 +337,7 @@ class ApiService {
       final body = StringBuffer()..write('{"query":"query {');
       for (final address in addresses) {
         body.write(
-          '$body _$address: transactionInputs(address:\\"$address\\") { ...fields }',
+          ' _$address: transactionInputs(address:\\"$address\\") { ...fields }',
         );
       }
       body.write('$body } $fragment "}');
@@ -379,7 +379,7 @@ class ApiService {
       final body = StringBuffer()..write('{"query":"query {');
       for (final address in addresses) {
         body.write(
-          '$body _$address: transaction(address:\\"$address\\") { ...fields }',
+          ' _$address: transaction(address:\\"$address\\") { ...fields }',
         );
       }
       body.write('$body } $fragment "}');
@@ -624,7 +624,7 @@ class ApiService {
       final body = StringBuffer()..write('{"query":"query {');
       for (final address in addresses) {
         body.write(
-          '$body _$address: token(address:\\"$address\\") { ...fields }',
+          ' _$address: token(address:\\"$address\\") { ...fields }',
         );
       }
       body.write('$body } $fragment "}');
