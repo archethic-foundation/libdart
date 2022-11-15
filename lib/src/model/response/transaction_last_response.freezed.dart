@@ -21,7 +21,7 @@ TransactionLastResponse _$TransactionLastResponseFromJson(
 
 /// @nodoc
 mixin _$TransactionLastResponse {
-  Map<String, Transaction>? get data => throw _privateConstructorUsedError;
+  Map<String, Transaction?>? get data => throw _privateConstructorUsedError;
   Map<String, dynamic>? get error => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ abstract class $TransactionLastResponseCopyWith<$Res> {
           $Res Function(TransactionLastResponse) then) =
       _$TransactionLastResponseCopyWithImpl<$Res, TransactionLastResponse>;
   @useResult
-  $Res call({Map<String, Transaction>? data, Map<String, dynamic>? error});
+  $Res call({Map<String, Transaction?>? data, Map<String, dynamic>? error});
 }
 
 /// @nodoc
@@ -60,7 +60,7 @@ class _$TransactionLastResponseCopyWithImpl<$Res,
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, Transaction>?,
+              as Map<String, Transaction?>?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -77,7 +77,7 @@ abstract class _$$_TransactionLastResponseCopyWith<$Res>
       __$$_TransactionLastResponseCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<String, Transaction>? data, Map<String, dynamic>? error});
+  $Res call({Map<String, Transaction?>? data, Map<String, dynamic>? error});
 }
 
 /// @nodoc
@@ -99,7 +99,7 @@ class __$$_TransactionLastResponseCopyWithImpl<$Res>
       data: freezed == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, Transaction>?,
+              as Map<String, Transaction?>?,
       error: freezed == error
           ? _value._error
           : error // ignore: cast_nullable_to_non_nullable
@@ -112,7 +112,8 @@ class __$$_TransactionLastResponseCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TransactionLastResponse extends _TransactionLastResponse {
   const _$_TransactionLastResponse(
-      {final Map<String, Transaction>? data, final Map<String, dynamic>? error})
+      {final Map<String, Transaction?>? data,
+      final Map<String, dynamic>? error})
       : _data = data,
         _error = error,
         super._();
@@ -120,9 +121,9 @@ class _$_TransactionLastResponse extends _TransactionLastResponse {
   factory _$_TransactionLastResponse.fromJson(Map<String, dynamic> json) =>
       _$$_TransactionLastResponseFromJson(json);
 
-  final Map<String, Transaction>? _data;
+  final Map<String, Transaction?>? _data;
   @override
-  Map<String, Transaction>? get data {
+  Map<String, Transaction?>? get data {
     final value = _data;
     if (value == null) return null;
     // ignore: implicit_dynamic_type
@@ -177,7 +178,7 @@ class _$_TransactionLastResponse extends _TransactionLastResponse {
 
 abstract class _TransactionLastResponse extends TransactionLastResponse {
   const factory _TransactionLastResponse(
-      {final Map<String, Transaction>? data,
+      {final Map<String, Transaction?>? data,
       final Map<String, dynamic>? error}) = _$_TransactionLastResponse;
   const _TransactionLastResponse._() : super._();
 
@@ -185,7 +186,7 @@ abstract class _TransactionLastResponse extends TransactionLastResponse {
       _$_TransactionLastResponse.fromJson;
 
   @override
-  Map<String, Transaction>? get data;
+  Map<String, Transaction?>? get data;
   @override
   Map<String, dynamic>? get error;
   @override

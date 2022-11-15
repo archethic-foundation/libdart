@@ -12,8 +12,8 @@ _$_TransactionChainResponse _$$_TransactionChainResponseFromJson(
       data: (json['data'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(
             k,
-            (e as List<dynamic>)
-                .map((e) => Transaction.fromJson(e as Map<String, dynamic>))
+            (e as List<dynamic>?)
+                ?.map((e) => Transaction.fromJson(e as Map<String, dynamic>))
                 .toList()),
       ),
       error: json['error'] as Map<String, dynamic>?,

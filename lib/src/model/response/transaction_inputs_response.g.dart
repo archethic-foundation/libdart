@@ -12,8 +12,8 @@ _$_TransactionInputsResponse _$$_TransactionInputsResponseFromJson(
       data: (json['data'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(
             k,
-            (e as List<dynamic>)
-                .map(
+            (e as List<dynamic>?)
+                ?.map(
                     (e) => TransactionInput.fromJson(e as Map<String, dynamic>))
                 .toList()),
       ),

@@ -9,7 +9,7 @@ part 'transaction_inputs_response.g.dart';
 @freezed
 abstract class TransactionInputsResponse with _$TransactionInputsResponse {
   const factory TransactionInputsResponse({
-    Map<String, List<TransactionInput>>? data,
+    Map<String, List<TransactionInput>?>? data,
     Map<String, dynamic>? error,
   }) = _TransactionInputsResponse;
   const TransactionInputsResponse._();

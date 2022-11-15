@@ -9,7 +9,8 @@ part of 'balance_response.dart';
 _$_BalanceResponse _$$_BalanceResponseFromJson(Map<String, dynamic> json) =>
     _$_BalanceResponse(
       data: (json['data'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, Balance.fromJson(e as Map<String, dynamic>)),
+        (k, e) => MapEntry(
+            k, e == null ? null : Balance.fromJson(e as Map<String, dynamic>)),
       ),
       error: json['error'] as Map<String, dynamic>?,
     );

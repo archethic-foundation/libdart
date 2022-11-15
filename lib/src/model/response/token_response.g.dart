@@ -9,7 +9,8 @@ part of 'token_response.dart';
 _$_TokenResponse _$$_TokenResponseFromJson(Map<String, dynamic> json) =>
     _$_TokenResponse(
       data: (json['data'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, Token.fromJson(e as Map<String, dynamic>)),
+        (k, e) => MapEntry(
+            k, e == null ? null : Token.fromJson(e as Map<String, dynamic>)),
       ),
       error: json['error'] as Map<String, dynamic>?,
     );

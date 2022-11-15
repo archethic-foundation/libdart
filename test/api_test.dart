@@ -24,8 +24,8 @@ void main() {
 
     test('getLastTransaction', () async {
       final Map<String, Transaction> transaction =
-          await ApiService('http://localhost:4000').getLastTransaction([
-        '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D'
+          await ApiService('https://mainnet.archethic.net').getLastTransaction([
+        '0000b40c269574649a26d1c355109731fd22cb3dda3d7d23785e66d5bd84c2fd6d23'
       ]);
       expect(transaction.values.first, 1);
     });

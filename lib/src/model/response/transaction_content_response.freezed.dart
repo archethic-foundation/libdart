@@ -21,7 +21,7 @@ TransactionContentResponse _$TransactionContentResponseFromJson(
 
 /// @nodoc
 mixin _$TransactionContentResponse {
-  Map<String, Transaction>? get data => throw _privateConstructorUsedError;
+  Map<String, Transaction?>? get data => throw _privateConstructorUsedError;
   Map<String, dynamic>? get error => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ abstract class $TransactionContentResponseCopyWith<$Res> {
       _$TransactionContentResponseCopyWithImpl<$Res,
           TransactionContentResponse>;
   @useResult
-  $Res call({Map<String, Transaction>? data, Map<String, dynamic>? error});
+  $Res call({Map<String, Transaction?>? data, Map<String, dynamic>? error});
 }
 
 /// @nodoc
@@ -61,7 +61,7 @@ class _$TransactionContentResponseCopyWithImpl<$Res,
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, Transaction>?,
+              as Map<String, Transaction?>?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -79,7 +79,7 @@ abstract class _$$_TransactionContentResponseCopyWith<$Res>
       __$$_TransactionContentResponseCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<String, Transaction>? data, Map<String, dynamic>? error});
+  $Res call({Map<String, Transaction?>? data, Map<String, dynamic>? error});
 }
 
 /// @nodoc
@@ -102,7 +102,7 @@ class __$$_TransactionContentResponseCopyWithImpl<$Res>
       data: freezed == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, Transaction>?,
+              as Map<String, Transaction?>?,
       error: freezed == error
           ? _value._error
           : error // ignore: cast_nullable_to_non_nullable
@@ -115,7 +115,8 @@ class __$$_TransactionContentResponseCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TransactionContentResponse extends _TransactionContentResponse {
   const _$_TransactionContentResponse(
-      {final Map<String, Transaction>? data, final Map<String, dynamic>? error})
+      {final Map<String, Transaction?>? data,
+      final Map<String, dynamic>? error})
       : _data = data,
         _error = error,
         super._();
@@ -123,9 +124,9 @@ class _$_TransactionContentResponse extends _TransactionContentResponse {
   factory _$_TransactionContentResponse.fromJson(Map<String, dynamic> json) =>
       _$$_TransactionContentResponseFromJson(json);
 
-  final Map<String, Transaction>? _data;
+  final Map<String, Transaction?>? _data;
   @override
-  Map<String, Transaction>? get data {
+  Map<String, Transaction?>? get data {
     final value = _data;
     if (value == null) return null;
     // ignore: implicit_dynamic_type
@@ -179,7 +180,7 @@ class _$_TransactionContentResponse extends _TransactionContentResponse {
 
 abstract class _TransactionContentResponse extends TransactionContentResponse {
   const factory _TransactionContentResponse(
-      {final Map<String, Transaction>? data,
+      {final Map<String, Transaction?>? data,
       final Map<String, dynamic>? error}) = _$_TransactionContentResponse;
   const _TransactionContentResponse._() : super._();
 
@@ -187,7 +188,7 @@ abstract class _TransactionContentResponse extends TransactionContentResponse {
       _$_TransactionContentResponse.fromJson;
 
   @override
-  Map<String, Transaction>? get data;
+  Map<String, Transaction?>? get data;
   @override
   Map<String, dynamic>? get error;
   @override

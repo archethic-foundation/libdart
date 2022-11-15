@@ -9,7 +9,7 @@ part 'balance_response.g.dart';
 @freezed
 abstract class BalanceResponse with _$BalanceResponse {
   const factory BalanceResponse({
-    Map<String, Balance>? data,
+    Map<String, Balance?>? data,
     Map<String, dynamic>? error,
   }) = _BalanceResponse;
   const BalanceResponse._();
