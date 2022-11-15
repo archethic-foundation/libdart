@@ -15,17 +15,19 @@ import 'package:archethic_lib_dart/src/utils/utils.dart';
 void main() {
   group('api', () {
     test('getTransactionIndex', () async {
-      final Transaction transaction = await ApiService('http://localhost:4000')
-          .getTransactionIndex(
-              '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D');
-      expect(transaction.chainLength, 1);
+      final Map<String, int> transaction =
+          await ApiService('http://localhost:4000').getTransactionIndex([
+        '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D'
+      ]);
+      expect(transaction.values.first, 1);
     });
 
     test('getLastTransaction', () async {
-      final Transaction transaction = await ApiService('http://localhost:4000')
-          .getLastTransaction(
-              '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D');
-      expect(transaction.chainLength, 1);
+      final Map<String, Transaction> transaction =
+          await ApiService('http://localhost:4000').getLastTransaction([
+        '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D'
+      ]);
+      expect(transaction.values.first, 1);
     });
 
     test('getStorageNoncePublicKey', () async {
