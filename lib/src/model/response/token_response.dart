@@ -9,7 +9,7 @@ part 'token_response.g.dart';
 @freezed
 abstract class TokenResponse with _$TokenResponse {
   const factory TokenResponse({
-    Map<String, List<Token>>? data,
+    Map<String, Token>? data,
     Map<String, dynamic>? error,
   }) = _TokenResponse;
   const TokenResponse._();
