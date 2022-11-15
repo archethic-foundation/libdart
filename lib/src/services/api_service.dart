@@ -76,17 +76,17 @@ class ApiService {
 
     try {
       final fragment = 'fragment fields on Transaction { $request }';
-      final body = StringBuffer()..write('{"query":"query {');
+      final body = StringBuffer()..write('{"query" : "query { ');
       for (final address in addresses) {
         body.write(
-          ' _$address: lastTransaction(address:"$address") { ...fields }',
+          ' _$address: lastTransaction(address:\\"$address\\") { ...fields }',
         );
       }
-      body.write('$body } $fragment "}');
+      body.write(' } $fragment " }');
       log('getLastTransaction: requestHttp.body=$body');
       final responseHttp = await http.post(
         Uri.parse('${endpoint!}/api'),
-        body: body,
+        body: body.toString(),
         headers: kRequestHeaders,
       );
       log('getLastTransaction: responseHttp.body=${responseHttp.body}');
@@ -155,21 +155,20 @@ class ApiService {
     try {
       const fragment =
           'fragment fields on Balance { uco, token {address, amount, tokenId } }';
-      final body = StringBuffer()..write('{"query":"query {');
+      final body = StringBuffer()..write('{"query" : "query { ');
       for (final address in addresses) {
         body.write(
-          ' _$address: balance(address:"$address") { ...fields }',
+          ' _$address: balance(address:\\"$address\\") { ...fields }',
         );
       }
-      body.write('} $fragment "}');
+      body.write(' } $fragment " }');
       log('fetchBalance: requestHttp.body=$body');
       final responseHttp = await http.post(
         Uri.parse('${endpoint!}/api'),
-        body: body,
+        body: body.toString(),
         headers: kRequestHeaders,
       );
       log('fetchBalance: responseHttp.body=${responseHttp.body}');
-
       if (responseHttp.statusCode == 200) {
         final balanceResponse =
             BalanceResponse.fromJson(json.decode(responseHttp.body));
@@ -193,7 +192,7 @@ class ApiService {
 
     try {
       final transactionChainMap =
-          await getTransactionChain(addresses, request: 'content');
+          await getTransactionChain(addresses, request: 'data { content }');
 
       final contentMap = <String, String>{};
 
@@ -228,18 +227,18 @@ class ApiService {
 
     try {
       final fragment = 'fragment fields on Transaction { $request }';
-      final body = StringBuffer()..write('{"query":"query {');
+      final body = StringBuffer()..write('{"query" : "query { ');
       // TODO(reddwarf03): Not good the '_' system to define alias but address format is not accepted by graphQL
       for (final address in addresses) {
         body.write(
-          ' _$address: transactionChain(address:"$address") { ...fields }',
-        );
+            ' _$address: transactionChain(address:\\"$address\\") { ...fields }');
       }
       body.write('} $fragment "}');
       log('getTransactionChain: requestHttp.body=$body');
+
       final responseHttp = await http.post(
         Uri.parse('${endpoint!}/api'),
-        body: body,
+        body: body.toString(),
         headers: kRequestHeaders,
       );
       log('getTransactionChain: responseHttp.body=${responseHttp.body}');
@@ -334,17 +333,17 @@ class ApiService {
 
     try {
       final fragment = 'fragment fields on TransactionInput { $request }';
-      final body = StringBuffer()..write('{"query":"query {');
+      final body = StringBuffer()..write('{"query" : "query { ');
       for (final address in addresses) {
         body.write(
-          ' _$address: transactionInputs(address:"$address") { ...fields }',
+          ' _$address: transactionInputs(address:\\"$address\\") { ...fields } ',
         );
       }
-      body.write('} $fragment "}');
+      body.write(' } $fragment " }');
       log('getTransactionInputs: requestHttp.body=$body');
       final responseHttp = await http.post(
         Uri.parse('${endpoint!}/api'),
-        body: body,
+        body: body.toString(),
         headers: kRequestHeaders,
       );
       log('getTransactionInputs: responseHttp.body=${responseHttp.body}');
@@ -376,17 +375,17 @@ class ApiService {
 
     try {
       final fragment = 'fragment fields on Transaction { $request }';
-      final body = StringBuffer()..write('{"query":"query {');
+      final body = StringBuffer()..write('{"query" : "query { ');
       for (final address in addresses) {
         body.write(
-          ' _$address: transaction(address:"$address") { ...fields }',
+          ' _$address: transaction(address:\\"$address\\") { ...fields }',
         );
       }
       body.write('} $fragment "}');
       log('getTransaction: requestHttp.body=$body');
       final responseHttp = await http.post(
         Uri.parse('${endpoint!}/api'),
-        body: body,
+        body: body.toString(),
         headers: kRequestHeaders,
       );
       log('getTransaction: responseHttp.body=${responseHttp.body}');
@@ -621,17 +620,17 @@ class ApiService {
 
     try {
       final fragment = 'fragment fields on Token { $request }';
-      final body = StringBuffer()..write('{"query":"query {');
+      final body = StringBuffer()..write('{"query" : "query { ');
       for (final address in addresses) {
         body.write(
-          ' _$address: token(address:"$address") { ...fields }',
+          ' _$address: token(address:\\"$address\\") { ...fields }',
         );
       }
-      body.write('} $fragment "}');
+      body.write(' } $fragment " }');
       log('getToken: requestHttp.body=$body');
       final responseHttp = await http.post(
         Uri.parse('${endpoint!}/api'),
-        body: body,
+        body: body.toString(),
         headers: kRequestHeaders,
       );
       log('getToken: responseHttp.body=${responseHttp.body}');
