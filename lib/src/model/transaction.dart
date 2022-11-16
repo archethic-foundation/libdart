@@ -537,6 +537,9 @@ class Transaction {
 
   static const String kTransactionInputQueryAllFields =
       'amount, from, tokenAddress, spent, timestamp, type';
+
+  static const String kTransactionBalanceQueryAllFields =
+      'uco, token {address, amount, tokenId}';
 }
 
 String transactionEncoding() {

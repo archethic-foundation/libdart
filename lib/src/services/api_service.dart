@@ -147,14 +147,14 @@ class ApiService {
   }
 
   /// Query the network to find a balance from a list of addresses
-  Future<Map<String, Balance>> fetchBalance(List<String> addresses) async {
+  Future<Map<String, Balance>> fetchBalance(List<String> addresses,
+      {String request = Transaction.kTransactionBalanceQueryAllFields}) async {
     if (addresses.isEmpty) {
       return {};
     }
 
     try {
-      const fragment =
-          'fragment fields on Balance { uco, token {address, amount, tokenId } }';
+      var fragment = 'fragment fields on Balance { $request }';
       final body = StringBuffer()..write('{"query" : "query { ');
       for (final address in addresses) {
         body.write(
