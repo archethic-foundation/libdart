@@ -6,9 +6,6 @@ library archethic;
 
 export 'src/model/authorized_key.dart';
 export 'src/model/balance.dart';
-export 'src/model/coins/coins_current_data_response.dart';
-export 'src/model/coins/coins_price_response.dart';
-export 'src/model/coins/simple_price_response.dart';
 export 'src/model/cross_validation_stamp.dart';
 export 'src/model/crypto/aes_auth_encrypt_infos.dart';
 export 'src/model/crypto/key_pair.dart';
@@ -43,7 +40,6 @@ export 'src/model/uco_transfer.dart';
 export 'src/model/unspent_outputs.dart';
 export 'src/model/validation_stamp.dart';
 export 'src/services/address_service.dart';
-export 'src/services/api_coins_service.dart';
 export 'src/services/api_service.dart';
 export 'src/services/oracle_service.dart';
 export 'src/utils/crypto.dart';

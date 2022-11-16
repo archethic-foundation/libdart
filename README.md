@@ -423,25 +423,6 @@ It supports the Archethic Cryptography rules which are:
   }
   ```
 
-  </details>
-   <br/>
-   <details>
-   <summary>Coingecko functions</summary>
-   <br/>
-
-  #### getCoinsChart(currency, nbDays)
-  Get Archethic Coin infos (Prices, Marketcaps, Total Volumes) for a period with http request https://api.coingecko.com/api/v3/coins/archethic/market_chart?vs_currency=currency&days=nbDays
-
-  #### getCoinsChartRange(currency, from, to)
-  Get historical market data include price, market cap, and 24h volume within a range of timestamp (granularity auto) with http request https://api.coingecko.com/api/v3/coins/archethic/market_chart?vs_currency=currency&from=from&to=to
-
-  #### getSimplePrice(currency)
-  Get Archethic Coin infos (BTC Price, Local Currency Price) with https://api.coingecko.com/api/v3/simple/price?ids=archethic&vs_currencies=currency
-
-  #### getCoinsCurrentData()
-  Get Archethic Coin infos (name, price, market, ... including exchange tickers) with https://api.coingecko.com/api/v3/coins/archethic
-
-  </details>
    <br/>
 
 ## Running the tests
