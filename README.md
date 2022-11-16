@@ -239,29 +239,31 @@ It supports the Archethic Cryptography rules which are:
   tx.originSign(originPrivateKey);
   ```
 
-  #### getTransactionIndex(address)
+  #### getTransactionIndex(addresses)
   Query a node to find the length of the chain to retrieve the transaction index
 
-  - `address` Transaction address (in hexadecimal)
+  - `addresses` List of transaction addresses (in hexadecimal)
 
   ```dart
   import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
-  int index = (await ApiService('https://testnet.archethic.net').getTransactionIndex(
-          '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646').chainLength);
+  Map<String, int> indexMap = await ApiService('https://testnet.archethic.net').getTransactionIndex(
+         ['00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646']);
+  int index = indexMap['00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'];
   // 0
   ``` 
 
-  #### getLastTransaction(address)
-  Query a node to find the last transaction in the transaction chain from an address
+  #### getLastTransaction(addresses)
+  Query a node to find the last transaction in the transaction chain from a list of addresses
 
-  - `address` Transaction address (in hexadecimal)
+  - `addresses` List of transaction addresses (in hexadecimal)
 
   ```dart
   import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
-  Transaction transaction = await ApiService('https://testnet.archethic.net').getLastTransaction(
-          '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
+  Map<String, Transaction> transactionMap = await ApiService('https://testnet.archethic.net').getLastTransaction(
+          ['00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646']);
+  Transaction transaction = transactionMap['00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646'];
   ``` 
 
   #### getStorageNoncePublicKey()
@@ -287,16 +289,18 @@ It supports the Archethic Cryptography rules which are:
   TransactionFee transactionFee = await ApiService('https://testnet.archethic.net').getTransactionFee(tx);
   ```
 
-  #### getTransactionOwnerships(address)
-  Query a node to find the ownerships (secrets and authorized keys) to given transaction's address
+  #### getTransactionOwnerships(addresses)
+  Query a node to find the ownerships (secrets and authorized keys) to given transactions addresses
 
-  - `address`: Transaction's address
+  - `addresses`: List of transactions addresses
 
   ```dart
   import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
   String address = crypto.deriveAddress("mysuperpassphraseorseed", 0);
-  List<Ownership> ownerships = await ApiService('https://testnet.archethic.net').getTransactionOwnerships(address);
+  Map<String, List<Ownership>> ownershipsMap = await ApiService('https://testnet.archethic.net').getTransactionOwnerships([address]);
+  List<Ownership> ownerships = ownershipsMap[address];
+
   ```
 
   </details>
