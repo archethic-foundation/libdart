@@ -16,18 +16,28 @@ class AddressService {
   /// @param {String} seed TransactionChain seed
   Future<String> lastAddressFromSeed(String seed) async {
     final String genesisAddress = crypto.deriveAddress(seed, 0);
-    final String lastAddress = await lastAddressFromAddress(genesisAddress);
-    return lastAddress;
+    final Map<String, String> lastAddressMap =
+        await lastAddressFromAddress([genesisAddress]);
+
+    return lastAddressMap[genesisAddress] ?? '';
   }
 
-  /// Get the last address from address
+  /// Get the last addresses from a list of addresses
   /// @param {String} address TransactionChain address
-  Future<String> lastAddressFromAddress(String address) async {
-    final Map<String, Transaction> transactionMap = await ApiService(endpoint!)
-        .getLastTransaction([address], request: ' address ');
-    if (transactionMap[address] == null) {
-      return '';
+  Future<Map<String, String>> lastAddressFromAddress(
+      List<String> addresses) async {
+    if (addresses.isEmpty) {
+      return {};
     }
-    return transactionMap[address]!.address ?? '';
+
+    final Map<String, Transaction> transactionMap = await ApiService(endpoint!)
+        .getLastTransaction(addresses, request: ' address ');
+
+    final Map<String, String> lastAddressMap = <String, String>{};
+    transactionMap.forEach((String key, Transaction value) {
+      lastAddressMap[key] = value.address!;
+    });
+
+    return removeAliasPrefix<String>(lastAddressMap) ?? {};
   }
 }
