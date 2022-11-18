@@ -551,17 +551,18 @@ class ApiService {
       final keychainAddress = aesDecrypt(ownership.secret, aesKey);
       log('keychainAddress (getKeychain): ${uint8ListToHex(keychainAddress)}');
 
-      final lastTransactionKeychain = await getLastTransaction(
+      final lastTransactionKeychainMap = await getLastTransaction(
         [uint8ListToHex(keychainAddress)],
         request: 'address',
       );
 
       final ownerships2Map = await getTransactionOwnerships(
-        [lastTransactionKeychain.values.first.address!],
+        [lastTransactionKeychainMap[uint8ListToHex(keychainAddress)]!.address!],
       );
 
-      final ownership2 =
-          ownerships2Map[lastTransactionKeychain.values.first.address!]![0];
+      final ownership2 = ownerships2Map[
+          lastTransactionKeychainMap[uint8ListToHex(keychainAddress)]!
+              .address!]![0];
 
       final authorizedPublicKey2 = ownership2.authorizedPublicKeys!.firstWhere(
         (AuthorizedKey publicKey) =>

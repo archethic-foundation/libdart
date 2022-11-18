@@ -169,7 +169,7 @@ void main() {
       const String kDerivationPath2 = '$kDerivationPathWithoutIndex2$index2';
       keychainToUpdate.addService(kServiceName2, kDerivationPath2);
 
-      final Map<String, Transaction> lastTransactionKeychain =
+      final Map<String, Transaction> lastTransactionKeychainMap =
           await ApiService('http://localhost:4000')
               .getLastTransaction([genesisAddressKeychain]);
 
@@ -182,8 +182,11 @@ void main() {
 
       final List<AuthorizedKey> authorizedKeys =
           List<AuthorizedKey>.empty(growable: true);
-      final List<AuthorizedKey> la = lastTransactionKeychain
-          .values.first.data!.ownerships![0].authorizedPublicKeys!;
+      final List<AuthorizedKey> la =
+          lastTransactionKeychainMap[genesisAddressKeychain]!
+              .data!
+              .ownerships![0]
+              .authorizedPublicKeys!;
       la.forEach((AuthorizedKey ak) {
         authorizedKeys.add(AuthorizedKey(
             encryptedSecretKey:
@@ -196,7 +199,7 @@ void main() {
 
       keychainTransaction2
           .build(uint8ListToHex(keychainToUpdate.seed!),
-              lastTransactionKeychain.values.first.chainLength!)
+              lastTransactionKeychainMap[genesisAddressKeychain]!.chainLength!)
           .originSign(originPrivateKey);
 
       // ignore: unused_local_variable

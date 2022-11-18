@@ -69,7 +69,7 @@ void main() {
     });
 
     test('getTransactions', () async {
-      final Map<String, List<Transaction>> transactionChainList =
+      final Map<String, List<Transaction>> transactionChainListMap =
           await ApiService('https://mainnet.archethic.net')
               .getTransactionChain([
         '00002069A888AC669759D7415589AA5BDADDF556C2042C38C0C9F04C44041DA590E1',
@@ -77,7 +77,7 @@ void main() {
       ]);
 
       expect(
-        transactionChainList.keys.first,
+        transactionChainListMap.keys.first,
         '00002069A888AC669759D7415589AA5BDADDF556C2042C38C0C9F04C44041DA590E1',
       );
     });
