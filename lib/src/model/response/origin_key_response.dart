@@ -1,10 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// To parse this JSON data, do
-//
-//     final originKeyResponse = originKeyResponseFromJson(jsonString);
-
-// Dart imports:
 import 'dart:convert';
 
 OriginKeyResponse originKeyResponseFromJson(String str) =>
