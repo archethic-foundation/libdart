@@ -13,7 +13,7 @@ export 'src/model/crypto/secret.dart';
 export 'src/model/data.dart';
 export 'src/model/error.dart';
 export 'src/model/errors.dart';
-export 'src/model/exception/archethic_connection_exception.dart';
+export 'src/model/exception/archethic_exception.dart';
 export 'src/model/keychain.dart';
 export 'src/model/ledger.dart';
 export 'src/model/ledger_operations.dart';

@@ -1,9 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-// To parse this JSON data, do
-//
-//     final oracleData = oracleDataFromJson(jsonString);
-
-// Dart imports:
 import 'dart:convert';
 
 // Project imports:
