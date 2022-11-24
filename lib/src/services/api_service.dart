@@ -630,7 +630,7 @@ class ApiService {
     }
 
     final fragment = 'fragment fields on Token { $request }';
-    final body = StringBuffer()..write('"query { ');
+    final body = StringBuffer()..write('query { ');
     for (final address in addresses) {
       body.write(
         ' _$address: token(address:"$address") { ...fields }',
