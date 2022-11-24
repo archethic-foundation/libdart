@@ -1,14 +1,9 @@
 library test.keychain_test;
 
-// Dart imports:
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
-// Package imports:
-import 'package:test/test.dart';
-
-// Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/keychain.dart';
@@ -18,6 +13,7 @@ import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('keychain to DID', () {

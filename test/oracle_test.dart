@@ -1,11 +1,8 @@
 library test.oracle_test;
 
-// Package imports:
-import 'package:test/test.dart';
-
-// Project imports:
 import 'package:archethic_lib_dart/src/model/oracle_chain/oracle_uco_price.dart';
 import 'package:archethic_lib_dart/src/services/oracle_service.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('oracle', () {

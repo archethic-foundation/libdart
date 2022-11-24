@@ -1,16 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// Dart imports:
+import 'dart:developer' as dev;
 import 'dart:math';
 import 'dart:typed_data';
 
-// Package imports:
-import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
-
-// Project imports:
 import 'package:archethic_lib_dart/src/model/on_chain_wallet_data.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-
+import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
 import 'package:elliptic/elliptic.dart' as elliptic
     show Curve, getSecp256k1, PrivateKey, PublicKey;
 import 'package:pointycastle/export.dart' as pc
@@ -189,7 +184,7 @@ OnChainWalletData walletEncoder(String originPublicKey) {
       hexToUint8List(payload.lengthInBytes.toRadixString(16)));
   final Uint8List addressPayload =
       concatUint8List(<Uint8List>[payloadLength, payload]);
-  print('addressPayload: ${uint8ListToHex(addressPayload)}');
+  dev.log('addressPayload: ${uint8ListToHex(addressPayload)}');
 
   return onChainWalletData;
 }

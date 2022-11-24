@@ -1,30 +1,24 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// Dart imports:
 import 'dart:convert' show utf8;
 import 'dart:math' show Random;
 
-// Package imports:
-import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
-import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
-import 'package:pinenacl/api.dart';
-import 'package:pinenacl/tweetnacl.dart' as tweetnacl show TweetNaClExt;
-import 'package:pointycastle/export.dart' show Digest;
-
-// Project imports:
 import 'package:archethic_lib_dart/src/model/crypto/aes_auth_encrypt_infos.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/crypto/secret.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-
+import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512, Digest;
 import 'package:crypto_keys/crypto_keys.dart' as crypto_keys
     show EncryptionResult, SymmetricKey, KeyPair, Encrypter, algorithms, Key;
 import 'package:ecdsa/ecdsa.dart' as ecdsa
     show Signature, deterministicSign, verify;
+import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
 import 'package:elliptic/elliptic.dart' as elliptic
     show EllipticCurve, PrivateKey, PublicKey, Curve, getSecp256k1, getP256;
+import 'package:pinenacl/api.dart';
 import 'package:pinenacl/ed25519.dart' as ed25519
     show SigningKey, SignatureBase, VerifyKey, Signature;
+import 'package:pinenacl/tweetnacl.dart' as tweetnacl show TweetNaClExt;
+import 'package:pointycastle/export.dart' show Digest;
 import 'package:x25519/x25519.dart' as x25519
     show generateKeyPair, KeyPair, X25519;
 

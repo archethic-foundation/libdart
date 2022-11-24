@@ -1,20 +1,15 @@
 library test.transaction_test;
 
-// Dart imports:
 import 'dart:convert';
 import 'dart:typed_data';
 
-// Package imports:
-import 'package:test/test.dart';
-
-// Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
-import 'package:archethic_lib_dart/src/model/transaction_status.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('Transaction', () {
@@ -454,11 +449,9 @@ void main() {
           .build(seed, 0)
           .originSign(originPrivateKey);
 
-      final TransactionStatus transactionStatusKeychain =
-          await ApiService('http://localhost:4000').sendTx(tx);
+      await ApiService('http://localhost:4000').sendTx(tx);
 
-      final Map<String, String> result =
-          await ApiService('http://localhost:4000').getTransactionContent([
+      await ApiService('http://localhost:4000').getTransactionContent([
         '000057cb7d188385325a30fddf5bca487ee1db525b7a3dc31a595d6f3425c06c93ce'
       ]);
       expect(true, true);
