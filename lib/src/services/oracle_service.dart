@@ -1,16 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// Dart imports:
 import 'dart:async';
 
-// Package imports:
-import 'package:http/http.dart' as http show Response, post;
-
-// Project imports:
 import 'package:archethic_lib_dart/src/model/oracle_chain/oracle_uco_price.dart';
 import 'package:archethic_lib_dart/src/model/response/oracle_data_response.dart';
 import 'package:archethic_lib_dart/src/model/uco.dart';
 import 'package:archethic_lib_dart/src/utils/logs.dart';
+import 'package:http/http.dart' as http show Response, post;
 
 class OracleService {
   OracleService(this.endpoint);

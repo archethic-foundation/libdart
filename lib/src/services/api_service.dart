@@ -44,8 +44,6 @@ class ApiService {
   };
 
   static const _responseKeysToIgnore = ['__typename'];
-  static const _longTTL = const Duration(minutes: 5);
-  static const _shortTTL = const Duration(minutes: 1);
 
   final GraphQLClient _client;
 
@@ -99,7 +97,7 @@ class ApiService {
       QueryOptions(
         document: gql(body.toString()),
         parserFn: (data) {
-          final transactions = (data as Map<String, dynamic>).mapValues(
+          final transactions = data.mapValues(
             (value) => value == null
                 ? null
                 : Transaction.fromJson(value as Map<String, dynamic>),
@@ -142,8 +140,7 @@ class ApiService {
     final result = await _client.query(
       QueryOptions(
         document: gql(body),
-        parserFn: (object) =>
-            SharedSecrets.fromJson(object as Map<String, dynamic>),
+        parserFn: (object) => SharedSecrets.fromJson(object),
       ),
     );
 
@@ -177,7 +174,7 @@ class ApiService {
       QueryOptions(
         document: gql(body.toString()),
         parserFn: (object) {
-          final balances = (object as Map<String, dynamic>).mapValues(
+          final balances = object.mapValues(
             (value) => Balance.fromJson(value as Map<String, dynamic>),
             keysToIgnore: _responseKeysToIgnore,
           );
@@ -252,7 +249,7 @@ class ApiService {
       QueryOptions(
         document: gql(body.toString()),
         parserFn: (object) {
-          final transactions = (object as Map<String, dynamic>).mapValues(
+          final transactions = object.mapValues(
             (transactions) => (transactions as List<dynamic>)
                 .map(
                   (transaction) =>
@@ -285,8 +282,7 @@ class ApiService {
     final result = await _client.query(
       QueryOptions(
         document: gql(body),
-        parserFn: (json) =>
-            NodesResponseData.fromJson(json as Map<String, dynamic>).nodes!,
+        parserFn: (json) => NodesResponseData.fromJson(json).nodes!,
       ),
     );
 
@@ -317,8 +313,7 @@ class ApiService {
       QueryOptions(
         document: gql(body),
         parserFn: (json) {
-          return TransactionsResponseData.fromJson(json as Map<String, dynamic>)
-              .networkTransactions!;
+          return TransactionsResponseData.fromJson(json).networkTransactions!;
         },
       ),
     );
@@ -355,7 +350,7 @@ class ApiService {
       QueryOptions(
         document: gql(body.toString()),
         parserFn: (json) {
-          final transactionInputs = (json as Map<String, dynamic>).mapValues(
+          final transactionInputs = json.mapValues(
             (transactionInputs) => (transactionInputs as List<dynamic>)
                 .map(
                   (transactionInput) => TransactionInput.fromJson(
@@ -402,7 +397,7 @@ class ApiService {
       QueryOptions(
         document: gql(body.toString()),
         parserFn: (json) {
-          final transactions = (json as Map<String, dynamic>).mapValues(
+          final transactions = json.mapValues(
             (value) => Transaction.fromJson(value as Map<String, dynamic>),
             keysToIgnore: _responseKeysToIgnore,
           );
@@ -648,7 +643,7 @@ class ApiService {
       QueryOptions(
         document: gql(body.toString()),
         parserFn: (json) {
-          final tokens = (json as Map<String, dynamic>).mapValues(
+          final tokens = json.mapValues(
             (value) => Token.fromJson(value as Map<String, dynamic>),
             keysToIgnore: _responseKeysToIgnore,
           );
