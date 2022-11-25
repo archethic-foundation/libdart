@@ -244,7 +244,7 @@ class ApiService {
         body.write(' pagingAddress:"$value"');
       }
 
-      body.write(' { ...fields }');
+      body.write(') { ...fields }');
     });
     body.write('} $fragment');
     log('getTransactionChain: requestHttp.body=$body');
