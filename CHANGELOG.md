@@ -4,6 +4,8 @@ Changelog
 #### Version 1.0.27 (2022-11-16)
 * Optimization : Use graphql union requests. Breaking change
 * Remove coingecko references and API
+* Use GraphQL lib to manage GraphQL requests
+* Manage pagingAddress param in transactionChain method
 
 #### Version 1.0.26 (2022-09-30)
 * Reuse Token class in TokenResponse class
