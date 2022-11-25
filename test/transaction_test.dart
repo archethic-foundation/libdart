@@ -451,9 +451,10 @@ void main() {
 
       await ApiService('http://localhost:4000').sendTx(tx);
 
-      await ApiService('http://localhost:4000').getTransactionContent([
-        '000057cb7d188385325a30fddf5bca487ee1db525b7a3dc31a595d6f3425c06c93ce'
-      ]);
+      await ApiService('http://localhost:4000').getTransactionContent({
+        '000057cb7d188385325a30fddf5bca487ee1db525b7a3dc31a595d6f3425c06c93ce':
+            ''
+      });
       expect(true, true);
     });
   }, tags: <String>['noCI']);

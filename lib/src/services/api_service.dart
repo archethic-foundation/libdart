@@ -193,7 +193,7 @@ class ApiService {
 
   /// Query the network to find a transaction from a list of addresses
   Future<Map<String, String>> getTransactionContent(
-    List<String> addresses,
+    Map<String, String> addresses,
   ) async {
     if (addresses.isEmpty) {
       return {};
@@ -225,10 +225,10 @@ class ApiService {
     }
   }
 
-  /// Query the network to find transaction chains from a list of addresses
+  /// Query the network to find transaction chains from a map of addresses and pagingAddress
   /// Returns the content scalar type represents transaction content [List<Transaction>]. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
   Future<Map<String, List<Transaction>>> getTransactionChain(
-    List<String> addresses, {
+    Map<String, String> addresses, {
     String request = Transaction.kTransactionQueryAllFields,
   }) async {
     if (addresses.isEmpty) {
@@ -238,10 +238,14 @@ class ApiService {
     final fragment = 'fragment fields on Transaction { $request }';
     final body = StringBuffer()..write('query { ');
     // TODO(reddwarf03): Not good the '_' system to define alias but address format is not accepted by graphQL
-    for (final address in addresses) {
-      body.write(
-          ' _$address: transactionChain(address:"$address") { ...fields }');
-    }
+    addresses.forEach((key, value) {
+      body.write(' _$key: transactionChain(address:"$key" ');
+      if (value.isNotEmpty) {
+        body.write(' pagingAddress:"$value"');
+      }
+
+      body.write(' { ...fields }');
+    });
     body.write('} $fragment');
     log('getTransactionChain: requestHttp.body=$body');
 
