@@ -648,7 +648,11 @@ class ApiService {
         document: gql(body.toString()),
         parserFn: (json) {
           final tokens = json.mapValues(
-            (value) => Token.fromJson(value as Map<String, dynamic>),
+            (value) {
+              if (value != null) {
+                return Token.fromJson(value as Map<String, dynamic>);
+              }
+            },
             keysToIgnore: _responseKeysToIgnore,
           );
           return removeAliasPrefix<Token>(tokens) ?? {};
