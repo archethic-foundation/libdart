@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
+// Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// [TransactionInput] represents the inputs from the transaction.

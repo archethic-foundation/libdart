@@ -1,9 +1,13 @@
 library test.utils_test;
 
+// Dart imports:
 import 'dart:typed_data';
 
-import 'package:archethic_lib_dart/src/utils/utils.dart';
+// Package imports:
 import 'package:test/test.dart';
+
+// Project imports:
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 void main() {
   group('isHex', () {

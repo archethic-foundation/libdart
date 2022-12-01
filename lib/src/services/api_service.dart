@@ -1,9 +1,16 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+
+// Dart imports:
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
+// Package imports:
+import 'package:graphql/client.dart';
+import 'package:http/http.dart' as http;
+
+// Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/exception/archethic_exception.dart';
@@ -23,8 +30,6 @@ import 'package:archethic_lib_dart/src/utils/collection_utils.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart';
 import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-import 'package:graphql/client.dart';
-import 'package:http/http.dart' as http;
 
 class ApiService {
   ApiService(this.endpoint)
