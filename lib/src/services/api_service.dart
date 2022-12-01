@@ -26,6 +26,7 @@ import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/transaction_status.dart';
+import 'package:archethic_lib_dart/src/services/graph_ql_client_logger.dart';
 import 'package:archethic_lib_dart/src/utils/collection_utils.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart';
 import 'package:archethic_lib_dart/src/utils/logs.dart';
@@ -34,14 +35,15 @@ import 'package:archethic_lib_dart/src/utils/utils.dart';
 class ApiService {
   ApiService(this.endpoint)
       : _client = GraphQLClient(
-            link: HttpLink('$endpoint/api'),
-            cache: GraphQLCache(),
-            defaultPolicies: DefaultPolicies(
-              query: Policies(
-                fetch: FetchPolicy.noCache,
-                error: ErrorPolicy.all,
-              ),
-            ));
+          link: HttpLink('$endpoint/api'),
+          cache: GraphQLCache(),
+          defaultPolicies: DefaultPolicies(
+            query: Policies(
+              fetch: FetchPolicy.noCache,
+              error: ErrorPolicy.all,
+            ),
+          ),
+        );
 
   static const Map<String, String> kRequestHeaders = <String, String>{
     'Content-type': 'application/json',
@@ -96,22 +98,21 @@ class ApiService {
       );
     }
     body.write(' } $fragment');
-    log('getLastTransaction: requestHttp.body=$body');
 
-    final result = await _client.query(
-      QueryOptions(
-        document: gql(body.toString()),
-        parserFn: (data) {
-          final transactions = data.mapValues(
-            (value) => value == null
-                ? null
-                : Transaction.fromJson(value as Map<String, dynamic>),
-            keysToIgnore: _responseKeysToIgnore,
-          );
-          return removeAliasPrefix(transactions) ?? {};
-        },
-      ),
-    );
+    final result = await _client.withLogger('getLastTransaction').query(
+          QueryOptions(
+            document: gql(body.toString()),
+            parserFn: (data) {
+              final transactions = data.mapValues(
+                (value) => value == null
+                    ? null
+                    : Transaction.fromJson(value as Map<String, dynamic>),
+                keysToIgnore: _responseKeysToIgnore,
+              );
+              return removeAliasPrefix(transactions) ?? {};
+            },
+          ),
+        );
 
     if (result.exception?.linkException != null) {
       throw ArchethicConnectionException(
@@ -142,12 +143,12 @@ class ApiService {
     const body = 'query {sharedSecrets {storageNoncePublicKey}}';
     log('getStorageNoncePublicKey: requestHttp.body=$body');
 
-    final result = await _client.query(
-      QueryOptions(
-        document: gql(body),
-        parserFn: (object) => SharedSecrets.fromJson(object),
-      ),
-    );
+    final result = await _client.withLogger('getStorageNoncePublicKey').query(
+          QueryOptions(
+            document: gql(body),
+            parserFn: (object) => SharedSecrets.fromJson(object),
+          ),
+        );
 
     if (result.exception?.linkException != null) {
       throw ArchethicConnectionException(
@@ -173,20 +174,19 @@ class ApiService {
       );
     }
     body.write(' } $fragment');
-    log('fetchBalance: requestHttp.body=$body');
 
-    final result = await _client.query(
-      QueryOptions(
-        document: gql(body.toString()),
-        parserFn: (object) {
-          final balances = object.mapValues(
-            (value) => Balance.fromJson(value as Map<String, dynamic>),
-            keysToIgnore: _responseKeysToIgnore,
-          );
-          return removeAliasPrefix(balances) ?? {};
-        },
-      ),
-    );
+    final result = await _client.withLogger('fetchBalance').query(
+          QueryOptions(
+            document: gql(body.toString()),
+            parserFn: (object) {
+              final balances = object.mapValues(
+                (value) => Balance.fromJson(value as Map<String, dynamic>),
+                keysToIgnore: _responseKeysToIgnore,
+              );
+              return removeAliasPrefix(balances) ?? {};
+            },
+          ),
+        );
     if (result.exception?.linkException != null) {
       throw ArchethicConnectionException(
         result.exception!.linkException.toString(),
@@ -252,25 +252,24 @@ class ApiService {
       body.write(') { ...fields }');
     });
     body.write('} $fragment');
-    log('getTransactionChain: requestHttp.body=$body');
 
-    final result = await _client.query(
-      QueryOptions(
-        document: gql(body.toString()),
-        parserFn: (object) {
-          final transactions = object.mapValues(
-            (transactions) => (transactions as List<dynamic>)
-                .map(
-                  (transaction) =>
-                      Transaction.fromJson(transaction as Map<String, dynamic>),
-                )
-                .toList(),
-            keysToIgnore: _responseKeysToIgnore,
-          );
-          return removeAliasPrefix<List<Transaction>>(transactions) ?? {};
-        },
-      ),
-    );
+    final result = await _client.withLogger('getTransactionChain').query(
+          QueryOptions(
+            document: gql(body.toString()),
+            parserFn: (object) {
+              final transactions = object.mapValues(
+                (transactions) => (transactions as List<dynamic>)
+                    .map(
+                      (transaction) => Transaction.fromJson(
+                          transaction as Map<String, dynamic>),
+                    )
+                    .toList(),
+                keysToIgnore: _responseKeysToIgnore,
+              );
+              return removeAliasPrefix<List<Transaction>>(transactions) ?? {};
+            },
+          ),
+        );
 
     if (result.exception?.linkException != null) {
       throw ArchethicConnectionException(
@@ -286,14 +285,13 @@ class ApiService {
   Future<List<Node>> getNodeList() async {
     const body =
         'query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress authorizationDate enrollmentDate}}';
-    log('getNodeList: requestHttp.body=$body');
 
-    final result = await _client.query(
-      QueryOptions(
-        document: gql(body),
-        parserFn: (json) => NodesResponseData.fromJson(json).nodes!,
-      ),
-    );
+    final result = await _client.withLogger('getNodeList').query(
+          QueryOptions(
+            document: gql(body),
+            parserFn: (json) => NodesResponseData.fromJson(json).nodes!,
+          ),
+        );
 
     if (result.exception?.linkException != null) {
       throw ArchethicConnectionException(
@@ -316,16 +314,16 @@ class ApiService {
   }) async {
     final body =
         'query { networkTransactions(type: "$type", page: $page) { $request } }';
-    log('networkTransactions: requestHttp.body=$body');
 
-    final result = await _client.query(
-      QueryOptions(
-        document: gql(body),
-        parserFn: (json) {
-          return TransactionsResponseData.fromJson(json).networkTransactions!;
-        },
-      ),
-    );
+    final result = await _client.withLogger('networkTransactions').query(
+          QueryOptions(
+            document: gql(body),
+            parserFn: (json) {
+              return TransactionsResponseData.fromJson(json)
+                  .networkTransactions!;
+            },
+          ),
+        );
 
     if (result.exception?.linkException != null) {
       throw ArchethicConnectionException(
@@ -353,26 +351,26 @@ class ApiService {
       );
     }
     body.write(' } $fragment');
-    log('getTransactionInputs: requestHttp.body=$body');
 
-    final result = await _client.query(
-      QueryOptions(
-        document: gql(body.toString()),
-        parserFn: (json) {
-          final transactionInputs = json.mapValues(
-            (transactionInputs) => (transactionInputs as List<dynamic>)
-                .map(
-                  (transactionInput) => TransactionInput.fromJson(
-                      transactionInput as Map<String, dynamic>),
-                )
-                .toList(),
-            keysToIgnore: _responseKeysToIgnore,
-          );
-          return removeAliasPrefix<List<TransactionInput>>(transactionInputs) ??
-              {};
-        },
-      ),
-    );
+    final result = await _client.withLogger('getTransactionInputs').query(
+          QueryOptions(
+            document: gql(body.toString()),
+            parserFn: (json) {
+              final transactionInputs = json.mapValues(
+                (transactionInputs) => (transactionInputs as List<dynamic>)
+                    .map(
+                      (transactionInput) => TransactionInput.fromJson(
+                          transactionInput as Map<String, dynamic>),
+                    )
+                    .toList(),
+                keysToIgnore: _responseKeysToIgnore,
+              );
+              return removeAliasPrefix<List<TransactionInput>>(
+                      transactionInputs) ??
+                  {};
+            },
+          ),
+        );
 
     if (result.exception?.linkException != null) {
       throw ArchethicConnectionException(
@@ -401,19 +399,18 @@ class ApiService {
       );
     }
     body.write('} $fragment');
-    log('getTransaction: requestHttp.body=$body');
-    final result = await _client.query(
-      QueryOptions(
-        document: gql(body.toString()),
-        parserFn: (json) {
-          final transactions = json.mapValues(
-            (value) => Transaction.fromJson(value as Map<String, dynamic>),
-            keysToIgnore: _responseKeysToIgnore,
-          );
-          return removeAliasPrefix<Transaction>(transactions) ?? {};
-        },
-      ),
-    );
+    final result = await _client.withLogger('getTransaction').query(
+          QueryOptions(
+            document: gql(body.toString()),
+            parserFn: (json) {
+              final transactions = json.mapValues(
+                (value) => Transaction.fromJson(value as Map<String, dynamic>),
+                keysToIgnore: _responseKeysToIgnore,
+              );
+              return removeAliasPrefix<Transaction>(transactions) ?? {};
+            },
+          ),
+        );
 
     if (result.exception?.linkException != null) {
       throw ArchethicConnectionException(
@@ -646,24 +643,23 @@ class ApiService {
       );
     }
     body.write(' } $fragment');
-    log('getToken: requestHttp.body=$body');
 
-    final result = await _client.query(
-      QueryOptions(
-        document: gql(body.toString()),
-        parserFn: (json) {
-          final tokens = json.mapValues(
-            (value) {
-              if (value != null) {
-                return Token.fromJson(value as Map<String, dynamic>);
-              }
+    final result = await _client.withLogger('getToken').query(
+          QueryOptions(
+            document: gql(body.toString()),
+            parserFn: (json) {
+              final tokens = json.mapValues(
+                (value) {
+                  if (value != null) {
+                    return Token.fromJson(value as Map<String, dynamic>);
+                  }
+                },
+                keysToIgnore: _responseKeysToIgnore,
+              );
+              return removeAliasPrefix<Token>(tokens) ?? {};
             },
-            keysToIgnore: _responseKeysToIgnore,
-          );
-          return removeAliasPrefix<Token>(tokens) ?? {};
-        },
-      ),
-    );
+          ),
+        );
 
     if (result.exception?.linkException != null) {
       throw ArchethicConnectionException(

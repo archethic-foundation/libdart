@@ -29,6 +29,7 @@ dependencies:
   freezed_annotation: ^2.2.0
 
   # GraphQL client
+  gql: ^0.14.0
   graphql: ^5.1.1
 
   # Easy hexadecimal convertion using dart:convert API.
