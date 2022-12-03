@@ -338,6 +338,8 @@ class ApiService {
   Future<Map<String, List<TransactionInput>>> getTransactionInputs(
     List<String> addresses, {
     String request = Transaction.kTransactionInputQueryAllFields,
+    int limit = 0,
+    int pagingOffset = 0,
   }) async {
     if (addresses.isEmpty) {
       return {};
@@ -346,8 +348,19 @@ class ApiService {
     final fragment = 'fragment fields on TransactionInput { $request }';
     final body = StringBuffer()..write('query { ');
     for (final address in addresses) {
+      body.write(' _$address: transactionInputs(address:"$address" ');
+      if (limit > 0) {
+        body.write(
+          ' limit:$limit ',
+        );
+      }
+      if (pagingOffset > 0) {
+        body.write(
+          ' pagingOffset:$pagingOffset ',
+        );
+      }
       body.write(
-        ' _$address: transactionInputs(address:"$address") { ...fields } ',
+        '  ) { ...fields } ',
       );
     }
     body.write(' } $fragment');
