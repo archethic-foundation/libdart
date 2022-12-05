@@ -1,6 +1,8 @@
 // Dart imports:
 import 'dart:convert';
 
+import 'package:archethic_lib_dart/src/model/ownership.dart';
+
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 // To parse this JSON data, do
@@ -26,6 +28,7 @@ class Token {
     this.symbol,
     this.tokenProperties,
     this.aeip,
+    this.ownerships,
   });
 
   String? address;
@@ -37,6 +40,7 @@ class Token {
   String? symbol;
   TokenProperty? tokenProperties;
   List<int>? aeip;
+  List<Ownership>? ownerships;
 
   factory Token.fromJson(Map<String, dynamic> map) {
     return Token(
@@ -50,6 +54,7 @@ class Token {
         type: map['type'],
         symbol: map['symbol'],
         aeip: map['aeip'],
+        ownerships: map['ownerships'],
         tokenProperties: map['properties']);
   }
 
@@ -62,6 +67,7 @@ class Token {
         'type': type,
         'symbol': symbol,
         'aeip': aeip,
+        'ownerships': ownerships,
         'properties': tokenProperties,
       };
 
@@ -71,6 +77,7 @@ class Token {
         'type': type,
         'symbol': symbol,
         'aeip': aeip,
+        'ownerships': ownerships,
         'properties': tokenProperties,
       };
 }

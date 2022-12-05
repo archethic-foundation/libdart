@@ -642,7 +642,8 @@ class ApiService {
   /// Query the network to find a token's data from a list of token addresses
   Future<Map<String, Token>> getToken(
     List<String> addresses, {
-    String request = 'genesis, name, id, supply, symbol, type, properties',
+    String request =
+        'genesis, name, id, supply, symbol, type, properties, ownerships { authorizedPublicKeys { encryptedSecretKey,  publicKey }, secret }',
   }) async {
     if (addresses.isEmpty) {
       return {};
