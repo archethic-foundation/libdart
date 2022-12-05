@@ -16,15 +16,17 @@ String tokenToJsonForTxDataContent(Token data) {
 }
 
 class Token {
-  Token(
-      {this.address,
-      this.genesis,
-      this.name,
-      this.id,
-      this.supply,
-      this.type,
-      this.symbol,
-      this.tokenProperties});
+  Token({
+    this.address,
+    this.genesis,
+    this.name,
+    this.id,
+    this.supply,
+    this.type,
+    this.symbol,
+    this.tokenProperties,
+    this.aeip,
+  });
 
   String? address;
   String? genesis;
@@ -34,6 +36,7 @@ class Token {
   String? type;
   String? symbol;
   Map<String, dynamic>? tokenProperties;
+  List<int>? aeip;
 
   factory Token.fromJson(Map<String, dynamic> map) {
     return Token(
@@ -46,6 +49,7 @@ class Token {
             : int.tryParse(map['supply'].toString()),
         type: map['type'],
         symbol: map['symbol'],
+        aeip: map['aeip'],
         tokenProperties: map['properties']);
   }
 
@@ -57,6 +61,7 @@ class Token {
         'supply': supply,
         'type': type,
         'symbol': symbol,
+        'aeip': aeip,
         'properties': tokenProperties,
       };
 
@@ -65,6 +70,7 @@ class Token {
         'supply': supply,
         'type': type,
         'symbol': symbol,
+        'aeip': aeip,
         'properties': tokenProperties,
       };
 }
