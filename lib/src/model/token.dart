@@ -67,7 +67,6 @@ class Token {
         'type': type,
         'symbol': symbol,
         'aeip': aeip,
-        'ownerships': ownerships,
         'properties': tokenProperties,
       };
 
@@ -77,7 +76,6 @@ class Token {
         'type': type,
         'symbol': symbol,
         'aeip': aeip,
-        'ownerships': ownerships,
         'properties': tokenProperties,
       };
 }
