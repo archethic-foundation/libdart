@@ -53,7 +53,9 @@ class Token {
             : int.tryParse(map['supply'].toString()),
         type: map['type'],
         symbol: map['symbol'],
-        aeip: map['aeip'],
+        aeip: map['aeip'] == null
+            ? null
+            : List<int>.from(map['aeip'].map((x) => x)),
         ownerships: map['ownerships'] == null
             ? null
             : List<Ownership>.from(
