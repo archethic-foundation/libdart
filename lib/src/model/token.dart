@@ -90,10 +90,10 @@ class TokenProperty {
     this.description,
   });
 
-  final String? typeMime;
-  final TokenPropertyContent? content;
-  final String? name;
-  final String? description;
+  String? typeMime;
+  TokenPropertyContent? content;
+  String? name;
+  String? description;
 
   factory TokenProperty.fromMap(Map<String, dynamic> json) => TokenProperty(
         typeMime: json['type_mime'],
@@ -118,10 +118,10 @@ class TokenPropertyContent {
     this.aeweb,
   });
 
-  final String? raw;
-  final String? ipfsUrl;
-  final String? httpUrl;
-  final String? aeweb;
+  String? raw;
+  String? ipfsUrl;
+  String? httpUrl;
+  String? aeweb;
 
   factory TokenPropertyContent.fromMap(Map<String, dynamic> json) =>
       TokenPropertyContent(
