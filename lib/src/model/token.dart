@@ -38,7 +38,7 @@ class Token {
   int? supply;
   String? type;
   String? symbol;
-  TokenProperty? tokenProperties;
+  Map<String, dynamic>? tokenProperties;
   List<int>? aeip;
   List<Ownership>? ownerships;
 
@@ -79,62 +79,5 @@ class Token {
         'aeip': aeip,
         'ownerships': ownerships,
         'properties': tokenProperties,
-      };
-}
-
-class TokenProperty {
-  TokenProperty({
-    this.typeMime,
-    this.content,
-    this.name,
-    this.description,
-  });
-
-  String? typeMime;
-  TokenPropertyContent? content;
-  String? name;
-  String? description;
-
-  factory TokenProperty.fromMap(Map<String, dynamic> json) => TokenProperty(
-        typeMime: json['type_mime'],
-        content: TokenPropertyContent.fromMap(json['content']),
-        name: json['name'],
-        description: json['description'],
-      );
-
-  Map<String, dynamic> toMap() => {
-        'type_mime': typeMime,
-        'content': content == null ? null : content!.toMap(),
-        'name': name,
-        'description': description,
-      };
-}
-
-class TokenPropertyContent {
-  TokenPropertyContent({
-    this.raw,
-    this.ipfsUrl,
-    this.httpUrl,
-    this.aeweb,
-  });
-
-  String? raw;
-  String? ipfsUrl;
-  String? httpUrl;
-  String? aeweb;
-
-  factory TokenPropertyContent.fromMap(Map<String, dynamic> json) =>
-      TokenPropertyContent(
-        raw: json['raw'],
-        ipfsUrl: json['ipfs_url'],
-        httpUrl: json['http_url'],
-        aeweb: json['aeweb'],
-      );
-
-  Map<String, dynamic> toMap() => {
-        'raw': raw,
-        'ipfs_url': ipfsUrl,
-        'http_url': httpUrl,
-        'aeweb': aeweb,
       };
 }
