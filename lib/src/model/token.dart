@@ -54,7 +54,10 @@ class Token {
         type: map['type'],
         symbol: map['symbol'],
         aeip: map['aeip'],
-        ownerships: map['ownerships'],
+        ownerships: map['ownerships'] == null
+            ? null
+            : List<Ownership>.from(
+                map['ownerships'].map((dynamic x) => Ownership.fromJson(x))),
         tokenProperties: map['properties']);
   }
 
