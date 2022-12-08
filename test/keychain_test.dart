@@ -22,7 +22,8 @@ void main() {
       final seed =
           Uint8List.fromList(utf8.encode('abcdefghijklmnopqrstuvwxyz'));
 
-      final keychain = Keychain.serviceUCO(seed);
+      final keychain =
+          Keychain(seed: seed).copyWithService('uco', "m/650'/0/0");
       final keyPair = keychain.deriveKeypair('uco');
 
       final address = crypto.deriveAddress(utf8.decode(seed), 0);
@@ -38,7 +39,8 @@ void main() {
         <String, dynamic>{
           'id': 'did:archethic:$address#uco',
           'type': 'JsonWebKey2020',
-          'publicKeyJwk': keyToJWK(keyPair.publicKey, 'uco').toJson(),
+          'publicKeyJwk':
+              keyToJWK(Uint8List.fromList(keyPair.publicKey!), 'uco').toJson(),
           'controller': 'did:archethic:$address'
         }
       ];
@@ -51,7 +53,8 @@ void main() {
     test('should encode the keychain into a binary', () {
       final seed = Uint8List.fromList(utf8.encode('myseed'));
 
-      final keychain = Keychain.serviceUCO(seed);
+      final keychain =
+          Keychain(seed: seed).copyWithService('uco', "m/650'/0/0");
 
       final expectedBinary = concatUint8List(<Uint8List>[
         Uint8List.fromList(<int>[0, 0, 0, 1]), // Version
@@ -131,7 +134,11 @@ void main() {
         final keychainTransaction =
             ApiService('http://localhost:4000').newKeychainTransaction(
           keychainSeed,
-          <String>[uint8ListToHex(walletKeyPair.publicKey)],
+          <String>[
+            uint8ListToHex(
+              Uint8List.fromList(walletKeyPair.publicKey!),
+            )
+          ],
           Uint8List.fromList(hexToUint8List(originPrivateKey)),
           serviceName: kServiceName,
           derivationPath: kDerivationPath,
@@ -142,7 +149,9 @@ void main() {
         final accessKeychainTx =
             ApiService('http://localhost:4000').newAccessKeychainTransaction(
           walletSeed,
-          Uint8List.fromList(hexToUint8List(keychainTransaction.address!)),
+          Uint8List.fromList(
+            hexToUint8List(keychainTransaction.address!.address!),
+          ),
           Uint8List.fromList(hexToUint8List(originPrivateKey)),
         );
         log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
@@ -173,7 +182,7 @@ void main() {
         const kDerivationPathWithoutIndex2 = "m/650'/$kServiceName2/";
         const index2 = '0';
         const kDerivationPath2 = '$kDerivationPathWithoutIndex2$index2';
-        keychainToUpdate.addService(kServiceName2, kDerivationPath2);
+        keychainToUpdate.copyWithService(kServiceName2, kDerivationPath2);
 
         final lastTransactionKeychainMap =
             await ApiService('http://localhost:4000')
@@ -192,8 +201,8 @@ void main() {
         final authorizedKeys = List<AuthorizedKey>.empty(growable: true);
         final la = lastTransactionKeychainMap[genesisAddressKeychain]!
             .data!
-            .ownerships![0]
-            .authorizedPublicKeys!;
+            .ownerships[0]
+            .authorizedPublicKeys;
         for (final ak in la) {
           authorizedKeys.add(
             AuthorizedKey(
@@ -205,7 +214,7 @@ void main() {
         }
 
         keychainTransaction2.addOwnership(
-          crypto.aesEncrypt(keychainToUpdate.encode(), aesKey),
+          uint8ListToHex(crypto.aesEncrypt(keychainToUpdate.encode(), aesKey)),
           authorizedKeys,
         );
 
@@ -259,7 +268,11 @@ void main() {
         final keychainTransaction =
             ApiService('http://localhost:4000').newKeychainTransaction(
           keychainSeed,
-          <String>[uint8ListToHex(walletKeyPair.publicKey)],
+          <String>[
+            uint8ListToHex(
+              Uint8List.fromList(walletKeyPair.publicKey!),
+            )
+          ],
           Uint8List.fromList(hexToUint8List(originPrivateKey)),
           serviceName: kServiceName,
           derivationPath: kDerivationPath,
@@ -270,7 +283,9 @@ void main() {
         final accessKeychainTx =
             ApiService('http://localhost:4000').newAccessKeychainTransaction(
           walletSeed,
-          Uint8List.fromList(hexToUint8List(keychainTransaction.address!)),
+          Uint8List.fromList(
+            hexToUint8List(keychainTransaction.address!.address!),
+          ),
           Uint8List.fromList(hexToUint8List(originPrivateKey)),
         );
         log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
@@ -290,7 +305,7 @@ void main() {
         final keychain =
             await ApiService('http://localhost:4000').getKeychain(walletSeed);
 
-        expect(keychain.services!.keys.elementAt(0), 'main-uco');
+        expect(keychain.services.keys.elementAt(0), 'main-uco');
       },
       tags: <String>['noCI'],
     );
@@ -298,25 +313,29 @@ void main() {
     test('should build the transaction and the related signature', () {
       final seed = Uint8List.fromList(utf8.encode('seed'));
 
-      final keychain = Keychain.serviceUCO(seed);
+      final keychain =
+          Keychain(seed: seed).copyWithService('uco', "m/650'/0/0");
       final tx = Transaction(type: 'transfer', data: Transaction.initData())
           .addUCOTransfer(
         '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
         toBigInt(10.0),
       );
 
-      keychain.buildTransaction(tx, 'uco', 0);
+      final txBuilt = keychain.buildTransaction(tx, 'uco', 0);
 
       final keypair = keychain.deriveKeypair('uco');
       final address = keychain.deriveAddress('uco', index: 1);
-      expect(tx.address, uint8ListToHex(address));
-      expect(tx.previousPublicKey, uint8ListToHex(keypair.publicKey));
+      expect(txBuilt.address!.address, uint8ListToHex(address));
+      expect(
+        txBuilt.previousPublicKey,
+        uint8ListToHex(Uint8List.fromList(keypair.publicKey!)),
+      );
 
       expect(
         crypto.verify(
-          tx.previousSignature,
-          tx.previousSignaturePayload(),
-          tx.previousPublicKey,
+          txBuilt.previousSignature,
+          txBuilt.previousSignaturePayload(),
+          txBuilt.previousPublicKey,
         ),
         true,
       );

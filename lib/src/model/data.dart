@@ -3,52 +3,32 @@
 // Project imports:
 import 'package:archethic_lib_dart/src/model/ledger.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// TransactionData represents the data section for every transaction.
 
-class Data {
-  Data({
-    this.code,
-    this.content,
-    this.ownerships,
-    this.ledger,
-    this.recipients,
-  });
+part 'data.freezed.dart';
+part 'data.g.dart';
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        code: json['code'],
-        content: json['content'],
-        ownerships: json['ownerships'] == null
-            ? null
-            : List<Ownership>.from(
-                json['ownerships'].map((dynamic x) => Ownership.fromJson(x)),
-              ),
-        ledger: json['ledger'] == null ? null : Ledger.fromJson(json['ledger']),
-        recipients: json['recipients'] == null
-            ? null
-            : List<String>.from(json['recipients'].map((dynamic x) => x)),
-      );
+@Freezed(makeCollectionsUnmodifiable: false)
+class Data with _$Data {
+  const factory Data({
+    /// Code: smart contract code (hexadecimal),
+    String? code,
 
-  /// Code: smart contract code (hexadecimal),
-  String? code;
+    /// Content: free zone for data hosting (string or hexadecimal)
+    String? content,
 
-  /// Content: free zone for data hosting (string or hexadecimal)
-  String? content;
+    /// Ownership: authorization/delegations containing list of secrets and their authorized public keys to proof the ownership
+    @Default([]) final List<Ownership> ownerships,
 
-  /// Ownership: authorization/delegations containing list of secrets and their authorized public keys to proof the ownership
-  List<Ownership>? ownerships;
+    /// Ledger: asset transfers
+    Ledger? ledger,
 
-  /// Ledger: asset transfers
-  Ledger? ledger;
+    /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
+    @Default([]) final List<String> recipients,
+  }) = _Data;
+  const Data._();
 
-  /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
-  List<String>? recipients;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'code': code,
-        'content': content,
-        'ownerships': List<dynamic>.from(ownerships!.map((Ownership x) => x)),
-        'ledger': ledger!.toJson(),
-        'recipients': List<dynamic>.from(recipients!.map((String x) => x)),
-      };
+  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 }

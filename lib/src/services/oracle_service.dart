@@ -20,7 +20,7 @@ class OracleService {
   /// @param {int} timestamp
   Future<OracleUcoPrice> getOracleData({int timestamp = 0}) async {
     final completer = Completer<OracleUcoPrice>();
-    var oracleUcoPrice = OracleUcoPrice(uco: Uco(eur: 0, usd: 0));
+    var oracleUcoPrice = const OracleUcoPrice(uco: Uco(eur: 0, usd: 0));
     final requestHeaders = <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -37,8 +37,11 @@ class OracleService {
       }
 
       log('getOracleData: requestHttp.body=$body');
-      final responseHttp = await http.post(Uri.parse('${endpoint!}/api'),
-          body: body, headers: requestHeaders,);
+      final responseHttp = await http.post(
+        Uri.parse('${endpoint!}/api'),
+        body: body,
+        headers: requestHeaders,
+      );
       log('getOracleData: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
         final oracleDataResponse =
@@ -48,10 +51,11 @@ class OracleService {
             oracleDataResponse.data!.oracleData!.services != null &&
             oracleDataResponse.data!.oracleData!.services!.uco != null) {
           oracleUcoPrice = OracleUcoPrice(
-              uco: Uco(
-                  eur: oracleDataResponse.data!.oracleData!.services!.uco!.eur,
-                  usd:
-                      oracleDataResponse.data!.oracleData!.services!.uco!.usd,),);
+            uco: Uco(
+              eur: oracleDataResponse.data!.oracleData!.services!.uco!.eur,
+              usd: oracleDataResponse.data!.oracleData!.services!.uco!.usd,
+            ),
+          );
         }
       }
     } catch (e) {

@@ -3,8 +3,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
-
-// Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/exception/archethic_exception.dart';
@@ -25,7 +23,6 @@ import 'package:archethic_lib_dart/src/utils/collection_utils.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart';
 import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-// Package imports:
 import 'package:graphql/client.dart';
 import 'package:http/http.dart' as http;
 
@@ -59,7 +56,7 @@ class ApiService {
   Future<TransactionStatus> sendTx(Transaction transaction) async {
     final completer = Completer<TransactionStatus>();
 
-    var transactionStatus = TransactionStatus();
+    var transactionStatus = const TransactionStatus();
     log('sendTx: requestHttp.body=${transaction.convertToJSON()}');
     try {
       final responseHttp = await http.post(
@@ -343,7 +340,7 @@ class ApiService {
   /// Query the network to list the transaction inputs from a list of addresses
   Future<Map<String, List<TransactionInput>>> getTransactionInputs(
     List<String> addresses, {
-    String request = Transaction.kTransactionInputQueryAllFields,
+    String request = Transaction.kTransactionQueryAllFields,
     int limit = 0,
     int pagingOffset = 0,
   }) async {
@@ -456,7 +453,7 @@ class ApiService {
       headers: kRequestHeaders,
     );
     log('getTransactionFee: responseHttp.body=${responseHttp.body}');
-    return transactionFeeFromJson(responseHttp.body);
+    return TransactionFee.fromJson(json.decode(responseHttp.body));
   }
 
   /// getTransactionOwnerships
@@ -479,8 +476,8 @@ class ApiService {
 
       transactionMap.forEach(
         (key, value) {
-          if (value.data != null && value.data!.ownerships != null) {
-            ownershipsMap[key] = value.data!.ownerships!;
+          if (value.data != null) {
+            ownershipsMap[key] = value.data!.ownerships;
           }
         },
       );
@@ -506,9 +503,9 @@ class ApiService {
     String? serviceName,
     String? derivationPath,
   }) {
-    final keychain = Keychain(Uint8List.fromList(hexToUint8List(seed)));
+    final keychain = Keychain(seed: hexToUint8List(seed));
     if (serviceName!.isNotEmpty && derivationPath!.isNotEmpty) {
-      keychain.addService(serviceName, derivationPath);
+      keychain.copyWithService(serviceName, derivationPath);
     }
 
     final aesKey = uint8ListToHex(
@@ -529,9 +526,12 @@ class ApiService {
 
     return Transaction(type: 'keychain', data: Transaction.initData())
         .setContent(jsonEncode(keychain.toDID()))
-        .addOwnership(aesEncrypt(keychain.encode(), aesKey), authorizedKeys)
+        .addOwnership(
+          uint8ListToHex(aesEncrypt(keychain.encode(), aesKey)),
+          authorizedKeys,
+        )
         .build(seed, 0)
-        .originSign(originPrivateKey);
+        .originSign(uint8ListToHex(originPrivateKey));
   }
 
   /// Create a new access keychain and build a transaction
@@ -555,15 +555,20 @@ class ApiService {
 
     final authorizedKeys = <AuthorizedKey>[
       AuthorizedKey(
-        publicKey: uint8ListToHex(keypair.publicKey),
+        publicKey: uint8ListToHex(
+          Uint8List.fromList(keypair.publicKey!),
+        ),
         encryptedSecretKey: uint8ListToHex(encryptedSecretKey),
       )
     ];
 
     return Transaction(type: 'keychain_access', data: Transaction.initData())
-        .addOwnership(aesEncrypt(keychainAddress, aesKey), authorizedKeys)
+        .addOwnership(
+          uint8ListToHex(aesEncrypt(keychainAddress, aesKey)),
+          authorizedKeys,
+        )
         .build(seed, 0)
-        .originSign(originPrivateKey);
+        .originSign(uint8ListToHex(originPrivateKey));
   }
 
   /// Retrieve a keychain by using keychain access seed
@@ -581,10 +586,12 @@ class ApiService {
       }
 
       final ownership = ownershipsMap[accessKeychainAddress]![0];
-      final authorizedPublicKey = ownership.authorizedPublicKeys!.firstWhere(
+      final authorizedPublicKey = ownership.authorizedPublicKeys.firstWhere(
         (AuthorizedKey authKey) =>
             authKey.publicKey!.toUpperCase() ==
-            uint8ListToHex(keypair.publicKey).toUpperCase(),
+            uint8ListToHex(
+              Uint8List.fromList(keypair.publicKey!),
+            ).toUpperCase(),
       );
 
       final aesKey =
@@ -598,17 +605,20 @@ class ApiService {
       );
 
       final ownerships2Map = await getTransactionOwnerships(
-        [lastTransactionKeychainMap[uint8ListToHex(keychainAddress)]!.address!],
-      );
-
-      final ownership2 = ownerships2Map[
+        [
           lastTransactionKeychainMap[uint8ListToHex(keychainAddress)]!
-              .address!]![0];
+              .address!
+              .address!
+        ],
+      );
+      final ownership2 = ownerships2Map[uint8ListToHex(keychainAddress)]![0];
 
-      final authorizedPublicKey2 = ownership2.authorizedPublicKeys!.firstWhere(
+      final authorizedPublicKey2 = ownership2.authorizedPublicKeys.firstWhere(
         (AuthorizedKey publicKey) =>
             publicKey.publicKey!.toUpperCase() ==
-            uint8ListToHex(keypair.publicKey).toUpperCase(),
+            uint8ListToHex(
+              Uint8List.fromList(keypair.publicKey!),
+            ).toUpperCase(),
       );
       final aesKey2 = ecDecrypt(
         authorizedPublicKey2.encryptedSecretKey,

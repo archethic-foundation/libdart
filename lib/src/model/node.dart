@@ -1,59 +1,26 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Node {
-  Node(
-      {this.authorized,
-      this.available,
-      this.averageAvailability,
-      this.firstPublicKey,
-      this.geoPatch,
-      this.ip,
-      this.lastPublicKey,
-      this.networkPatch,
-      this.port,
-      this.rewardAddress,
-      this.authorizationDate,
-      this.enrollmentDate,});
+part 'node.freezed.dart';
+part 'node.g.dart';
 
-  factory Node.fromJson(Map<String, dynamic> json) => Node(
-      authorized: json['authorized'],
-      available: json['available'],
-      averageAvailability: json['averageAvailability']?.toDouble(),
-      firstPublicKey: json['firstPublicKey'],
-      geoPatch: json['geoPatch'],
-      ip: json['ip'],
-      lastPublicKey: json['lastPublicKey'],
-      networkPatch: json['networkPatch'],
-      port: json['port'],
-      rewardAddress: json['rewardAddress'],
-      authorizationDate: json['authorizationDate'],
-      enrollmentDate: json['enrollmentDate'],);
+@freezed
+class Node with _$Node {
+  const factory Node({
+    bool? authorized,
+    bool? available,
+    double? averageAvailability,
+    String? firstPublicKey,
+    String? geoPatch,
+    String? ip,
+    String? lastPublicKey,
+    String? networkPatch,
+    int? port,
+    String? rewardAddress,
+    int? enrollmentDate,
+    int? authorizationDate,
+  }) = _Node;
+  const Node._();
 
-  bool? authorized;
-  bool? available;
-  double? averageAvailability;
-  String? firstPublicKey;
-  String? geoPatch;
-  String? ip;
-  String? lastPublicKey;
-  String? networkPatch;
-  int? port;
-  String? rewardAddress;
-  int? enrollmentDate;
-  int? authorizationDate;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'authorized': authorized,
-        'available': available,
-        'averageAvailability': averageAvailability,
-        'firstPublicKey': firstPublicKey,
-        'geoPatch': geoPatch,
-        'ip': ip,
-        'lastPublicKey': lastPublicKey,
-        'networkPatch': networkPatch,
-        'port': port,
-        'rewardAddress': rewardAddress,
-        'authorizationDate': authorizationDate,
-        'enrollmentDate': enrollmentDate,
-      };
+  factory Node.fromJson(Map<String, dynamic> json) => _$NodeFromJson(json);
 }

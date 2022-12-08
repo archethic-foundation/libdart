@@ -1,56 +1,33 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// UnspentOutput represents the remaining unspent output of the transaction.
+part 'unspent_outputs.freezed.dart';
+part 'unspent_outputs.g.dart';
 
-class UnspentOutputs {
-  UnspentOutputs({
-    this.amount,
-    this.tokenAddress,
-    this.type,
-    this.from,
-    this.tokenId,
-    this.timestamp,
-    this.version,
-  });
+@freezed
+class UnspentOutputs with _$UnspentOutputs {
+  const factory UnspentOutputs({
+    /// Amount: asset amount
+    int? amount,
 
-  factory UnspentOutputs.fromJson(Map<String, dynamic> json) => UnspentOutputs(
-        amount: json['amount']?.toInt(),
-        tokenAddress: json['tokenAddress'],
-        type: json['type'],
-        from: json['from'],
-        tokenId: json['tokenId']?.toInt(),
-        timestamp: json['timestamp']?.toInt(),
-        version: json['version']?.toInt(),
-      );
+    /// Token address: address of the token if the type is token
+    String? tokenAddress,
 
-  /// Amount: asset amount
-  int? amount;
+    /// Type: UCO/Token
+    String? type,
 
-  /// Token address: address of the token if the type is token
-  String? tokenAddress;
+    /// From: transaction which send the amount of assets
+    String? from,
 
-  /// Type: UCO/Token
-  String? type;
+    /// Token id: It is the id for a token which is allocated when the token is minted.
+    int? tokenId,
 
-  /// From: transaction which send the amount of assets
-  String? from;
+    /// Date time when the UTXO created/manipulated
+    int? timestamp,
 
-  /// Token id: It is the id for a token which is allocated when the token is minted.
-  int? tokenId;
-
-  /// Date time when the UTXO created/manipulated
-  int? timestamp;
-
-  /// Version of the UTXO data structure
-  int? version;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'amount': amount,
-        'tokenAddress': tokenAddress,
-        'type': type,
-        'from': from,
-        'tokenId': tokenId,
-        'timestamp': timestamp,
-        'version': version,
-      };
+    /// Version of the UTXO data structure
+    int? version,
+  }) = _UnspentOutputs;
+  const UnspentOutputs._();
 }

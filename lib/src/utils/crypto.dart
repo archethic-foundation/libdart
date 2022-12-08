@@ -98,23 +98,29 @@ String idToCurve(int id) {
 /// @param {int} index Number to identify the order of keys to generate
 /// @param {String} curve Elliptic curve to use ("ed25519", "P256", "secp256k1")
 /// @param {String} hashAlgo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
-String deriveAddress(String seed, int index,
-    {String curve = 'ed25519', String hashAlgo = 'sha256',}) {
+String deriveAddress(
+  String seed,
+  int index, {
+  String curve = 'ed25519',
+  String hashAlgo = 'sha256',
+}) {
   final keypair = deriveKeyPair(seed, index, curve: curve);
 
   final curveID = curveToID(curve);
   final hashedPublicKey = hash(keypair.publicKey, algo: hashAlgo);
-  return uint8ListToHex(concatUint8List(<Uint8List>[
-    Uint8List.fromList(<int>[curveID]),
-    hashedPublicKey
-  ]),);
+  return uint8ListToHex(
+    concatUint8List(<Uint8List>[
+      Uint8List.fromList(<int>[curveID]),
+      hashedPublicKey
+    ]),
+  );
 }
 
 /// Create a hash digest from the data with an hash algorithm identification prepending the digest
 /// @param {String | Uint8List} content Data to hash (string or buffer)
 /// @param {String} algo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
 Uint8List hash(dynamic content, {String algo = 'sha256'}) {
-  if (content is! Uint8List && content is! String) {
+  if (content is! List<int> && content is! String) {
     throw "'content' must be a string or Uint8List";
   }
 
@@ -139,19 +145,19 @@ Uint8List getHashDigest(dynamic content, dynamic algo) {
   switch (algo) {
     case 'sha256':
       final sha256 = Digest('SHA-256');
-      return sha256.process(content);
+      return sha256.process(Uint8List.fromList(content));
     case 'sha512':
       final sha512 = Digest('SHA-512');
-      return sha512.process(content);
+      return sha512.process(Uint8List.fromList(content));
     case 'sha3-256':
       final sha3_256 = Digest('SHA3-256');
-      return sha3_256.process(content);
+      return sha3_256.process(Uint8List.fromList(content));
     case 'sha3-512':
       final sha3_512 = Digest('SHA3-512');
-      return sha3_512.process(content);
+      return sha3_512.process(Uint8List.fromList(content));
     case 'blake2b':
       final blake2b = Digest('Blake2b');
-      return blake2b.process(content);
+      return blake2b.process(Uint8List.fromList(content));
     default:
       throw 'Hash algorithm not supported';
   }
@@ -175,20 +181,24 @@ KeyPair deriveKeyPair(String seed, int index, {String curve = 'ed25519'}) {
 /// @params {String} curve Elliptic curve
 /// @params {int} originID Origin identification
 KeyPair generateDeterministicKeyPair(
-    Uint8List pvKey, String curve, int originID,) {
+  Uint8List pvKey,
+  String curve,
+  int originID,
+) {
   final curveID = curveToID(curve);
   final keyPair = getKeypair(pvKey, curve);
   return KeyPair(
-      privateKey: concatUint8List(<Uint8List>[
-        Uint8List.fromList(<int>[curveID]),
-        Uint8List.fromList(<int>[originID]),
-        keyPair.privateKey
-      ]),
-      publicKey: concatUint8List(<Uint8List>[
-        Uint8List.fromList(<int>[curveID]),
-        Uint8List.fromList(<int>[originID]),
-        keyPair.publicKey
-      ]),);
+    privateKey: concatUint8List(<Uint8List>[
+      Uint8List.fromList(<int>[curveID]),
+      Uint8List.fromList(<int>[originID]),
+      Uint8List.fromList(keyPair.privateKey!),
+    ]),
+    publicKey: concatUint8List(<Uint8List>[
+      Uint8List.fromList(<int>[curveID]),
+      Uint8List.fromList(<int>[originID]),
+      Uint8List.fromList(keyPair.publicKey!),
+    ]),
+  );
 }
 
 KeyPair getKeypair(Uint8List pvKey, String curve) {
@@ -202,15 +212,17 @@ KeyPair getKeypair(Uint8List pvKey, String curve) {
       final privateKey = elliptic.PrivateKey.fromBytes(ec, pvKey);
       final publicKey = ec.privateToPublicKey(privateKey);
       return KeyPair(
-          privateKey: pvKey,
-          publicKey: Uint8List.fromList(hexToUint8List(publicKey.toHex())),);
+        privateKey: pvKey,
+        publicKey: hexToUint8List(publicKey.toHex()),
+      );
     case 'secp256k1':
       final ec = elliptic.getSecp256k1();
       final privateKey = elliptic.PrivateKey.fromBytes(ec, pvKey);
       final publicKey = ec.privateToPublicKey(privateKey);
       return KeyPair(
-          privateKey: pvKey,
-          publicKey: Uint8List.fromList(hexToUint8List(publicKey.toHex())),);
+        privateKey: pvKey,
+        publicKey: hexToUint8List(publicKey.toHex()),
+      );
     default:
       throw 'Curve not supported';
   }
@@ -224,7 +236,7 @@ Uint8List sign(dynamic data, dynamic privateKey) {
     throw "'data' must be a string or Uint8List";
   }
 
-  if (privateKey is! Uint8List && privateKey is! String) {
+  if (privateKey is! List<int> && privateKey is! String) {
     throw "'privateKey' must be a string or Uint8List";
   }
 
@@ -244,8 +256,10 @@ Uint8List sign(dynamic data, dynamic privateKey) {
     }
   }
 
-  final Uint8List curveBuf = privateKey.sublist(0, 1);
-  final Uint8List pvBuf = privateKey.sublist(2, privateKey.length);
+  final curveBuf = Uint8List.fromList(
+    privateKey.sublist(0, 1),
+  );
+  final pvBuf = Uint8List.fromList(privateKey.sublist(2, privateKey.length));
 
   switch (curveBuf[0]) {
     case 0:
@@ -281,7 +295,7 @@ bool verify(dynamic sig, dynamic data, dynamic publicKey) {
     throw "'data' must be a string or Uint8List";
   }
 
-  if (publicKey is! Uint8List && publicKey is! String) {
+  if (publicKey is! List<int> && publicKey is! String) {
     throw "'publicKey' must be a string or Uint8List";
   }
 
@@ -309,8 +323,8 @@ bool verify(dynamic sig, dynamic data, dynamic publicKey) {
     }
   }
 
-  final Uint8List curveBuf = publicKey.sublist(0, 1);
-  final Uint8List pubBuf = publicKey.sublist(2, publicKey.length);
+  final curveBuf = Uint8List.fromList(publicKey.sublist(0, 1));
+  final pubBuf = Uint8List.fromList(publicKey.sublist(2, publicKey.length));
 
   switch (curveBuf[0]) {
     case 0:
@@ -346,7 +360,7 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
     throw "'data' must be a string or Uint8List";
   }
 
-  if (publicKey is! Uint8List && publicKey is! String) {
+  if (publicKey is! List<int> && publicKey is! String) {
     throw "'publicKey' must be a string or Uint8List";
   }
 
@@ -366,8 +380,8 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
     }
   }
 
-  final Uint8List curveBuf = publicKey.sublist(0, 1);
-  final Uint8List pubBuf = publicKey.sublist(2, publicKey.length);
+  final curveBuf = Uint8List.fromList(publicKey.sublist(0, 1));
+  final pubBuf = Uint8List.fromList(publicKey.sublist(2, publicKey.length));
 
   switch (curveBuf[0]) {
     case 0:
@@ -377,18 +391,23 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
 
       final curve25519Pub = Uint8List(32);
       tweetnacl.TweetNaClExt.crypto_sign_ed25519_pk_to_x25519_pk(
-          curve25519Pub, pubBuf,);
+        curve25519Pub,
+        pubBuf,
+      );
 
       final sharedKey = x25519.X25519(ephemeralPrivateKey, curve25519Pub);
 
       final secret = deriveSecret(sharedKey);
-      final aesAuthEncryptInfos =
-          aesAuthEncrypt(data, secret.aesKey, secret.iv);
+      final aesAuthEncryptInfos = aesAuthEncrypt(
+        data,
+        Uint8List.fromList(secret.aesKey!),
+        Uint8List.fromList(secret.iv!),
+      );
 
       return concatUint8List(<Uint8List>[
         ephemeralPublicKey,
-        aesAuthEncryptInfos.tag,
-        aesAuthEncryptInfos.encrypted
+        Uint8List.fromList(aesAuthEncryptInfos.tag!),
+        Uint8List.fromList(aesAuthEncryptInfos.encrypted!),
       ]);
     case 1:
       final ec = elliptic.getP256();
@@ -397,12 +416,15 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
       final sharedKey =
           Uint8List.fromList(ecdh.computeSecret(privateKey, publicKey));
       final secret = deriveSecret(sharedKey);
-      final aesAuthEncryptInfos =
-          aesAuthEncrypt(data, secret.aesKey, secret.iv);
+      final aesAuthEncryptInfos = aesAuthEncrypt(
+        data,
+        Uint8List.fromList(secret.aesKey!),
+        Uint8List.fromList(secret.iv!),
+      );
       return concatUint8List(<Uint8List>[
         Uint8List.fromList(hexToUint8List(privateKey.publicKey.toHex())),
-        aesAuthEncryptInfos.tag,
-        aesAuthEncryptInfos.encrypted
+        Uint8List.fromList(aesAuthEncryptInfos.tag!),
+        Uint8List.fromList(aesAuthEncryptInfos.encrypted!),
       ]);
 
     case 2:
@@ -412,12 +434,19 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
       final sharedKey =
           Uint8List.fromList(ecdh.computeSecret(privateKey, publicKey));
       final secret = deriveSecret(sharedKey);
-      final aesAuthEncryptInfos =
-          aesAuthEncrypt(data, secret.aesKey, secret.iv);
+      final aesAuthEncryptInfos = aesAuthEncrypt(
+        data,
+        Uint8List.fromList(secret.aesKey!),
+        Uint8List.fromList(
+          secret.iv!,
+        ),
+      );
       return concatUint8List(<Uint8List>[
         Uint8List.fromList(hexToUint8List(privateKey.publicKey.toHex())),
-        aesAuthEncryptInfos.tag,
-        aesAuthEncryptInfos.encrypted
+        Uint8List.fromList(
+          aesAuthEncryptInfos.tag!,
+        ),
+        Uint8List.fromList(aesAuthEncryptInfos.encrypted!),
       ]);
 
     default:
@@ -433,7 +462,7 @@ Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
     throw "'cipherText' must be a string or Uint8List";
   }
 
-  if (privateKey is! Uint8List && privateKey is! String) {
+  if (privateKey is! List<int> && privateKey is! String) {
     throw "'publicKey' must be a string or Uint8List";
   }
 
@@ -453,8 +482,8 @@ Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
     }
   }
 
-  final Uint8List curveBuf = privateKey.sublist(0, 1);
-  final Uint8List pvBuf = privateKey.sublist(2, privateKey.length);
+  final curveBuf = Uint8List.fromList(privateKey.sublist(0, 1));
+  final pvBuf = Uint8List.fromList(privateKey.sublist(2, privateKey.length));
 
   switch (curveBuf[0]) {
     case 0:
@@ -465,12 +494,19 @@ Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
 
       final curve25519pv = Uint8List(32);
       tweetnacl.TweetNaClExt.crypto_sign_ed25519_sk_to_x25519_sk(
-          curve25519pv, pvBuf,);
+        curve25519pv,
+        pvBuf,
+      );
 
       final sharedKey = x25519.X25519(curve25519pv, ephemeralPubKey);
       final secret = deriveSecret(sharedKey);
 
-      return aesAuthDecrypt(encrypted, secret.aesKey, secret.iv, tag);
+      return aesAuthDecrypt(
+        encrypted,
+        Uint8List.fromList(secret.aesKey!),
+        Uint8List.fromList(secret.iv!),
+        tag,
+      );
     case 1:
       final Uint8List ephemeralPubKey = cipherText.sublist(0, 65);
       final Uint8List tag = cipherText.sublist(65, 65 + 16);
@@ -484,7 +520,12 @@ Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
           Uint8List.fromList(ecdh.computeSecret(privateKey, publicKey));
       final secret = deriveSecret(sharedKey);
 
-      return aesAuthDecrypt(encrypted, secret.aesKey, secret.iv, tag);
+      return aesAuthDecrypt(
+        encrypted,
+        Uint8List.fromList(secret.aesKey!),
+        Uint8List.fromList(secret.iv!),
+        tag,
+      );
 
     case 2:
       final Uint8List ephemeralPubKey = cipherText.sublist(0, 65);
@@ -500,7 +541,12 @@ Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
           Uint8List.fromList(ecdh.computeSecret(privateKey, publicKey));
       final secret = deriveSecret(sharedKey);
 
-      return aesAuthDecrypt(encrypted, secret.aesKey, secret.iv, tag);
+      return aesAuthDecrypt(
+        encrypted,
+        Uint8List.fromList(secret.aesKey!),
+        Uint8List.fromList(secret.iv!),
+        tag,
+      );
 
     default:
       throw 'Curve not supported';
@@ -536,15 +582,18 @@ Uint8List aesEncrypt(dynamic data, dynamic key) {
   }
 
   final keyPair = crypto_keys.KeyPair.symmetric(
-      crypto_keys.SymmetricKey(keyValue: Uint8List.fromList(key)),);
+    crypto_keys.SymmetricKey(keyValue: Uint8List.fromList(key)),
+  );
   final iv = Uint8List.fromList(
-      List<int>.generate(12, (int i) => Random.secure().nextInt(256)),);
+    List<int>.generate(12, (int i) => Random.secure().nextInt(256)),
+  );
   final encrypter = keyPair.publicKey!
       .createEncrypter(crypto_keys.algorithms.encryption.aes.gcm);
   final v = encrypter.encrypt(data, initializationVector: iv);
 
   final result = concatUint8List(
-      <Uint8List>[v.initializationVector!, v.authenticationTag!, v.data],);
+    <Uint8List>[v.initializationVector!, v.authenticationTag!, v.data],
+  );
   return result;
 }
 
@@ -574,14 +623,20 @@ Uint8List aesDecrypt(dynamic cipherText, dynamic key) {
   }
 
   final keyPair = crypto_keys.KeyPair.symmetric(
-      crypto_keys.SymmetricKey(keyValue: Uint8List.fromList(key)),);
+    crypto_keys.SymmetricKey(keyValue: Uint8List.fromList(key)),
+  );
   final Uint8List iv = cipherText.sublist(0, 12);
   final Uint8List tag = cipherText.sublist(12, 12 + 16);
   final Uint8List encrypted = cipherText.sublist(28, cipherText.length);
   final encrypter = keyPair.privateKey!
       .createEncrypter(crypto_keys.algorithms.encryption.aes.gcm);
-  final decrypted = encrypter.decrypt(crypto_keys.EncryptionResult(encrypted,
-      initializationVector: iv, authenticationTag: tag,),);
+  final decrypted = encrypter.decrypt(
+    crypto_keys.EncryptionResult(
+      encrypted,
+      initializationVector: iv,
+      authenticationTag: tag,
+    ),
+  );
 
   return decrypted;
 }
@@ -640,7 +695,10 @@ Secret deriveSecret(dynamic sharedKey) {
 }
 
 AesAuthEncryptInfos aesAuthEncrypt(
-    Uint8List data, Uint8List aesKey, Uint8List iv,) {
+  Uint8List data,
+  Uint8List aesKey,
+  Uint8List iv,
+) {
   final keyPair =
       crypto_keys.KeyPair.symmetric(crypto_keys.SymmetricKey(keyValue: aesKey));
 
@@ -649,19 +707,28 @@ AesAuthEncryptInfos aesAuthEncrypt(
 
   final v = encrypter.encrypt(data, initializationVector: iv);
 
-  return AesAuthEncryptInfos(tag: v.authenticationTag!, encrypted: v.data);
+  return AesAuthEncryptInfos(tag: v.authenticationTag, encrypted: v.data);
 }
 
 Uint8List aesAuthDecrypt(
-    Uint8List encrypted, Uint8List aesKey, Uint8List iv, Uint8List tag,) {
+  Uint8List encrypted,
+  Uint8List aesKey,
+  Uint8List iv,
+  Uint8List tag,
+) {
   final keyPair =
       crypto_keys.KeyPair.symmetric(crypto_keys.SymmetricKey(keyValue: aesKey));
 
   final encrypter = keyPair.publicKey!
       .createEncrypter(crypto_keys.algorithms.encryption.aes.gcm);
 
-  final decrypted = encrypter.decrypt(crypto_keys.EncryptionResult(encrypted,
-      initializationVector: iv, authenticationTag: tag,),);
+  final decrypted = encrypter.decrypt(
+    crypto_keys.EncryptionResult(
+      encrypted,
+      initializationVector: iv,
+      authenticationTag: tag,
+    ),
+  );
 
   return decrypted;
 }

@@ -1,20 +1,20 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 /// [SharedSecrets] represents the public shared secret information
-class SharedSecrets {
-  SharedSecrets({
-    this.storageNoncePublicKey,
-  });
+part 'shared_secrets.freezed.dart';
+part 'shared_secrets.g.dart';
 
-  factory SharedSecrets.fromJson(Map<String, dynamic> json) => SharedSecrets(
-        storageNoncePublicKey: json['storageNoncePublicKey'],
-      );
+@freezed
+class SharedSecrets with _$SharedSecrets {
+  const factory SharedSecrets({
+    /// The storage nonce public key: Public Key to encrypt data for the node,
+    /// so they will be able to decrypt it (mostly for smart contract authorized key)
+    String? storageNoncePublicKey,
+  }) = _SharedSecrets;
+  const SharedSecrets._();
 
-  /// The storage nonce public key: Public Key to encrypt data for the node,
-  /// so they will be able to decrypt it (mostly for smart contract authorized key)
-  String? storageNoncePublicKey;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'storageNoncePublicKey': storageNoncePublicKey,
-      };
+  factory SharedSecrets.fromJson(Map<String, dynamic> json) =>
+      _$SharedSecretsFromJson(json);
 }

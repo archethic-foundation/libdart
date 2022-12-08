@@ -1,15 +1,16 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// Dart imports:
-import 'dart:typed_data' show Uint8List;
+import 'dart:typed_data';
+import 'package:archethic_lib_dart/src/utils/uint8List_converter.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// Holds a key pair (private and public key)
-class KeyPair {
-  KeyPair({
-    required this.privateKey,
-    required this.publicKey,
-  });
 
-  Uint8List privateKey;
-  Uint8List publicKey;
+part 'key_pair.freezed.dart';
+
+@freezed
+class KeyPair with _$KeyPair {
+  const factory KeyPair({
+    @Uint8ListConverter() Uint8List? privateKey,
+    @Uint8ListConverter() Uint8List? publicKey,
+  }) = _KeyPair;
+  const KeyPair._();
 }

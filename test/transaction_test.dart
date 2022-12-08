@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 // Project imports:
+import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
@@ -44,7 +45,7 @@ void main() {
             .addOwnership(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
                 <AuthorizedKey>[
-              AuthorizedKey(
+              const AuthorizedKey(
                 publicKey:
                     '0001B1D3750EDB9381C96B1A975A55B5B4E4FB37BFAB104C10B0B6C9A00433EC4646',
                 encryptedSecretKey:
@@ -64,7 +65,7 @@ void main() {
             ]);
 
         expect(
-          tx.data!.ownerships![0].secret,
+          tx.data!.ownerships[0].secret,
           '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
         );
       });
@@ -77,12 +78,12 @@ void main() {
           '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
           toBigInt(10.03),
         );
-        expect(tx.data!.ledger!.uco!.transfers!.length, 1);
+        expect(tx.data!.ledger!.uco!.transfers.length, 1);
         expect(
-          tx.data!.ledger!.uco!.transfers![0].to,
+          tx.data!.ledger!.uco!.transfers[0].to,
           '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
         );
-        expect(tx.data!.ledger!.uco!.transfers![0].amount, toBigInt(10.03));
+        expect(tx.data!.ledger!.uco!.transfers[0].amount, toBigInt(10.03));
       });
     });
     group('addTokenTransfer', () {
@@ -93,14 +94,14 @@ void main() {
           toBigInt(10.03),
           '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
         );
-        expect(tx.data!.ledger!.token!.transfers!.length, 1);
+        expect(tx.data!.ledger!.token!.transfers.length, 1);
         expect(
-          tx.data!.ledger!.token!.transfers![0].to,
+          tx.data!.ledger!.token!.transfers[0].to,
           '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
         );
-        expect(tx.data!.ledger!.token!.transfers![0].amount, toBigInt(10.03));
+        expect(tx.data!.ledger!.token!.transfers[0].amount, toBigInt(10.03));
         expect(
-          tx.data!.ledger!.token!.transfers![0].tokenAddress,
+          tx.data!.ledger!.token!.transfers[0].tokenAddress,
           '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
         );
       });
@@ -122,9 +123,19 @@ void main() {
         const content =
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
         final secret = uint8ListToHex(Uint8List.fromList('mysecret'.codeUnits));
-        final tx = Transaction(type: 'transfer', data: Transaction.initData())
+        final keypair = crypto.deriveKeyPair('seed', 0);
+        final nextKeypair = crypto.deriveKeyPair('seed', 1);
+        final address = crypto.hash(nextKeypair.publicKey);
+
+        final tx = Transaction(
+          type: 'transfer',
+          data: Transaction.initData(),
+          address: Address(address: uint8ListToHex(address)),
+          previousPublicKey:
+              uint8ListToHex(Uint8List.fromList(keypair.publicKey!)),
+        )
             .addOwnership(secret, <AuthorizedKey>[
-              AuthorizedKey(
+              const AuthorizedKey(
                 publicKey:
                     '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 encryptedSecretKey:
@@ -146,16 +157,10 @@ void main() {
               '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
             );
 
-        final keypair = crypto.deriveKeyPair('seed', 0);
-        final nextKeypair = crypto.deriveKeyPair('seed', 1);
-        final address = crypto.hash(nextKeypair.publicKey);
-
-        tx.address = uint8ListToHex(address);
-        tx.previousPublicKey = uint8ListToHex(keypair.publicKey);
         final payload = tx.previousSignaturePayload();
         final expectedBinary = concatUint8List(<Uint8List>[
           toByteArray(1, length: 4),
-          Uint8List.fromList(hexToUint8List(tx.address!)),
+          Uint8List.fromList(hexToUint8List(tx.address!.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
           toByteArray(code.length, length: 4),
@@ -259,8 +264,8 @@ void main() {
         const exampleAddress =
             '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88';
         final tx = Transaction(type: 'transfer', data: Transaction.initData())
-            .setAddress(exampleAddress);
-        expect(tx.address, exampleAddress);
+            .setAddress(const Address(address: exampleAddress));
+        expect(tx.address!.address, exampleAddress);
       });
     });
 
@@ -273,7 +278,7 @@ void main() {
             )
             .build('seed', 0);
         expect(
-          tx.address,
+          tx.address!.address,
           '00001ff1733caa91336976ee7cef5aff6bb26c7682213b8e6770ab82272f966dac35',
         );
         expect(
@@ -309,7 +314,7 @@ condition inherit: [
         final secret = uint8ListToHex(Uint8List.fromList('mysecret'.codeUnits));
         final tx = Transaction(type: 'transfer', data: Transaction.initData())
             .addOwnership(secret, <AuthorizedKey>[
-              AuthorizedKey(
+              const AuthorizedKey(
                 publicKey:
                     '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 encryptedSecretKey:
@@ -342,7 +347,7 @@ condition inherit: [
         final expectedBinary = concatUint8List(<Uint8List>[
           // Version
           toByteArray(1, length: 4),
-          Uint8List.fromList(hexToUint8List(tx.address!)),
+          Uint8List.fromList(hexToUint8List(tx.address!.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
           toByteArray(code.length, length: 4),
@@ -417,7 +422,7 @@ condition inherit: [
               '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
             ),
           ),
-          transactionKeyPair.publicKey,
+          Uint8List.fromList(transactionKeyPair.publicKey!),
           Uint8List.fromList(<int>[previousSig.length]),
           previousSig
         ]);
@@ -431,7 +436,9 @@ condition inherit: [
 
         final tx = Transaction(type: 'transfer', data: Transaction.initData())
             .build('seed', 0)
-            .originSign(originKeypair.privateKey);
+            .originSign(
+              uint8ListToHex(Uint8List.fromList(originKeypair.privateKey!)),
+            );
         expect(
           crypto.verify(
             tx.originSignature,
@@ -454,18 +461,21 @@ condition inherit: [
               toBigInt(0.2193),
             )
             .addOwnership(
-                Uint8List.fromList(<int>[0, 1, 2, 3, 4]), <AuthorizedKey>[
-              AuthorizedKey(
-                publicKey:
-                    '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                encryptedSecretKey:
-                    '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
-              )
-            ])
+                uint8ListToHex(Uint8List.fromList(<int>[0, 1, 2, 3, 4])),
+                <AuthorizedKey>[
+                  const AuthorizedKey(
+                    publicKey:
+                        '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                    encryptedSecretKey:
+                        '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+                  )
+                ])
             .build('seed', 0)
-            .originSign(originKeypair.privateKey);
+            .originSign(
+              uint8ListToHex(Uint8List.fromList(originKeypair.privateKey!)),
+            );
 
-        final dynamic parsedTx = json.decode(tx.convertToJSON());
+        final Map<String, dynamic> parsedTx = json.decode(tx.convertToJSON());
 
         final previousSig = crypto.sign(
           tx.previousSignaturePayload(),
@@ -474,11 +484,11 @@ condition inherit: [
         final originSig =
             crypto.sign(tx.originSignaturePayload(), originKeypair.privateKey);
 
-        expect(parsedTx['address'], crypto.deriveAddress('seed', 1));
+        expect(parsedTx['address']['address'], crypto.deriveAddress('seed', 1));
         expect(parsedTx['type'], 'transfer');
         expect(
           parsedTx['previousPublicKey'],
-          uint8ListToHex(transactionKeyPair.publicKey),
+          uint8ListToHex(Uint8List.fromList(transactionKeyPair.publicKey!)),
         );
         expect(parsedTx['previousSignature'], uint8ListToHex(previousSig));
         expect(parsedTx['originSignature'], uint8ListToHex(originSig));
