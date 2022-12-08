@@ -18,12 +18,12 @@ class TransactionStatus {
     this.status,
   });
 
-  String? status;
-
   factory TransactionStatus.fromJson(Map<String, dynamic> json) =>
       TransactionStatus(
         status: json['status'],
       );
+
+  String? status;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'status': status,

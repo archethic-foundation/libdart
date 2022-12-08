@@ -7,13 +7,13 @@ class Location {
     this.line,
   });
 
-  int? column;
-  int? line;
-
   factory Location.fromJson(Map<String, dynamic> json) => Location(
         column: json['column'],
         line: json['line'],
       );
+
+  int? column;
+  int? line;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'column': column,

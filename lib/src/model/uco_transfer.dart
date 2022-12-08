@@ -7,13 +7,13 @@ class UCOTransfer {
     this.to,
   });
 
-  int? amount;
-  String? to;
-
   factory UCOTransfer.fromJson(Map<String, dynamic> json) => UCOTransfer(
         amount: json['amount']?.toInt(),
         to: json['to'],
       );
+
+  int? amount;
+  String? to;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'amount': amount,

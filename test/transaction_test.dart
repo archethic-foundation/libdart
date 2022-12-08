@@ -4,40 +4,35 @@ library test.transaction_test;
 import 'dart:convert';
 import 'dart:typed_data';
 
-// Package imports:
-import 'package:test/test.dart';
-
 // Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
-import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+// Package imports:
+import 'package:test/test.dart';
 
 void main() {
   group('Transaction', () {
     test('should assign type when create a new transaction instance', () {
-      final Transaction tx =
-          Transaction(type: 'transfer', data: Transaction.initData());
+      final tx = Transaction(type: 'transfer', data: Transaction.initData());
       expect(tx.type, 'transfer');
     });
 
     group('setCode', () {
       test('should insert the code into the transaction data', () {
-        final Transaction tx =
-            Transaction(type: 'transfer', data: Transaction.initData())
-                .setCode('my smart contract code');
-        expect(tx.data!.code!, 'my smart contract code');
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
+            .setCode('my smart contract code');
+        expect(tx.data!.code, 'my smart contract code');
       });
     });
 
     group('setContent', () {
       test('should insert the content into the transaction data', () {
-        final Transaction tx =
-            Transaction(type: 'transfer', data: Transaction.initData())
-                .setContent('my super content');
-        expect(tx.data!.content!, 'my super content');
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
+            .setContent('my super content');
+        expect(tx.data!.content, 'my super content');
       });
     });
 
@@ -45,16 +40,16 @@ void main() {
       test(
           'should add an ownership with a secret and its authorized keys into the transaction data',
           () {
-        final Transaction tx = Transaction(
-                type: 'transfer', data: Transaction.initData())
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
             .addOwnership(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
                 <AuthorizedKey>[
               AuthorizedKey(
-                  publicKey:
-                      '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                  encryptedSecretKey:
-                      '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+                publicKey:
+                    '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                encryptedSecretKey:
+                    '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+              )
             ]).build('seed', 0, curve: 'P256');
         final dynamic parsedTx = json.decode(tx.convertToJSON());
         expect(
@@ -68,45 +63,53 @@ void main() {
               }
             ]);
 
-        expect(tx.data!.ownerships![0].secret!,
-            '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
+        expect(
+          tx.data!.ownerships![0].secret,
+          '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+        );
       });
     });
 
     group('addUCOTransfer', () {
       test('should add an uco transfer to the transaction data', () {
-        final Transaction tx = Transaction(
-                type: 'transfer', data: Transaction.initData())
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
             .addUCOTransfer(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                toBigInt(10.03));
+          '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+          toBigInt(10.03),
+        );
         expect(tx.data!.ledger!.uco!.transfers!.length, 1);
-        expect(tx.data!.ledger!.uco!.transfers![0].to,
-            '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
+        expect(
+          tx.data!.ledger!.uco!.transfers![0].to,
+          '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+        );
         expect(tx.data!.ledger!.uco!.transfers![0].amount, toBigInt(10.03));
       });
     });
     group('addTokenTransfer', () {
       test('should add a token transfer to the transaction data', () {
-        final Transaction tx = Transaction(
-                type: 'transfer', data: Transaction.initData())
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
             .addTokenTransfer(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                toBigInt(10.03),
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
+          '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+          toBigInt(10.03),
+          '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+        );
         expect(tx.data!.ledger!.token!.transfers!.length, 1);
-        expect(tx.data!.ledger!.token!.transfers![0].to,
-            '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
+        expect(
+          tx.data!.ledger!.token!.transfers![0].to,
+          '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+        );
         expect(tx.data!.ledger!.token!.transfers![0].amount, toBigInt(10.03));
-        expect(tx.data!.ledger!.token!.transfers![0].tokenAddress,
-            '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
+        expect(
+          tx.data!.ledger!.token!.transfers![0].tokenAddress,
+          '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+        );
       });
     });
 
     group('previousSignaturePayload', () {
       test('should generate binary encoding of the transaction before signing',
           () {
-        const String code = '''
+        const code = '''
               condition inherit: [
                 uco_transferred: 0.020
               ]
@@ -116,39 +119,41 @@ void main() {
                   add_uco_ledger to: "000056E763190B28B4CF9AAF3324CF379F27DE9EF7850209FB59AA002D71BA09788A", amount: 0.020
               end
             ''';
-        const String content =
+        const content =
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
-        final String secret =
-            uint8ListToHex(Uint8List.fromList('mysecret'.codeUnits));
-        final Transaction tx = Transaction(
-                type: 'transfer', data: Transaction.initData())
+        final secret = uint8ListToHex(Uint8List.fromList('mysecret'.codeUnits));
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
             .addOwnership(secret, <AuthorizedKey>[
               AuthorizedKey(
-                  publicKey:
-                      '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                  encryptedSecretKey:
-                      '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+                publicKey:
+                    '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                encryptedSecretKey:
+                    '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+              )
             ])
             .addUCOTransfer(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                toBigInt(0.2020))
+              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              toBigInt(0.2020),
+            )
             .addTokenTransfer(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                toBigInt(100),
-                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              toBigInt(100),
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+            )
             .setCode(code)
             .setContent(content)
             .addRecipient(
-                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88');
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+            );
 
-        final KeyPair keypair = crypto.deriveKeyPair('seed', 0);
-        final KeyPair nextKeypair = crypto.deriveKeyPair('seed', 1);
-        final Uint8List address = crypto.hash(nextKeypair.publicKey);
+        final keypair = crypto.deriveKeyPair('seed', 0);
+        final nextKeypair = crypto.deriveKeyPair('seed', 1);
+        final address = crypto.hash(nextKeypair.publicKey);
 
         tx.address = uint8ListToHex(address);
         tx.previousPublicKey = uint8ListToHex(keypair.publicKey);
-        final Uint8List payload = tx.previousSignaturePayload();
-        final Uint8List expectedBinary = concatUint8List(<Uint8List>[
+        final payload = tx.previousSignaturePayload();
+        final expectedBinary = concatUint8List(<Uint8List>[
           toByteArray(1, length: 4),
           Uint8List.fromList(hexToUint8List(tx.address!)),
           Uint8List.fromList(<int>[253]),
@@ -163,8 +168,10 @@ void main() {
           //Nb of ownerships
           Uint8List.fromList(<int>[1]),
           //Secret size
-          toByteArray(Uint8List.fromList(hexToUint8List(secret)).lengthInBytes,
-              length: 4),
+          toByteArray(
+            Uint8List.fromList(hexToUint8List(secret)).lengthInBytes,
+            length: 4,
+          ),
           Uint8List.fromList(Uint8List.fromList(hexToUint8List(secret))),
           // Nb of byte to encode nb of authorized keys
           Uint8List.fromList(<int>[1]),
@@ -172,18 +179,27 @@ void main() {
           Uint8List.fromList(<int>[1]),
           // Authorized keys encoding
           concatUint8List(<Uint8List>[
-            Uint8List.fromList(hexToUint8List(
-                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
-            Uint8List.fromList(hexToUint8List(
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'))
+            Uint8List.fromList(
+              hexToUint8List(
+                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              ),
+            ),
+            Uint8List.fromList(
+              hexToUint8List(
+                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+              ),
+            )
           ]),
           // Nb of bytes to encode nb of uco transfers
           Uint8List.fromList(<int>[1]),
           // Nb of uco transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
-            Uint8List.fromList(hexToUint8List(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
+            Uint8List.fromList(
+              hexToUint8List(
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              ),
+            ),
             toByteArray(toBigInt(0.2020), length: 8)
           ]),
           // Nb of byte to encode nb of Token transfers
@@ -191,10 +207,16 @@ void main() {
           // Nb of token transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
-            Uint8List.fromList(hexToUint8List(
-                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')),
-            Uint8List.fromList(hexToUint8List(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
+            Uint8List.fromList(
+              hexToUint8List(
+                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+              ),
+            ),
+            Uint8List.fromList(
+              hexToUint8List(
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              ),
+            ),
             toByteArray(toBigInt(100), length: 8),
             Uint8List.fromList(<int>[1]),
             Uint8List.fromList(<int>[0])
@@ -203,8 +225,11 @@ void main() {
           Uint8List.fromList(<int>[1]),
           // Nb of recipients
           Uint8List.fromList(<int>[1]),
-          Uint8List.fromList(hexToUint8List(
-              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'))
+          Uint8List.fromList(
+            hexToUint8List(
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+            ),
+          )
         ]);
         expect(payload, expectedBinary);
       });
@@ -214,15 +239,16 @@ void main() {
       test(
           'should set previous signature and previous public key in transaction builder',
           () {
-        const String examplePublicKey =
+        const examplePublicKey =
             '0101044d91a0a1a7cf06a2902d3842f82d2791bcbf3ee6f6dc8de0f90e53e9991c3cb33684b7b9e66f26e7c9f5302f73c69897be5f301de9a63521a08ac4ef34c18728';
-        const String exampleSignature =
+        const exampleSignature =
             '3044022009ed5124c35feb3449f4287eb5a885dec06f10491146bf73d44684f5a2ced8d7022049e1fb29fcd6e622a8cd2e120931ab038987edbdc44e7a9ec12e5a290599a97e';
 
-        final Transaction tx =
-            Transaction(type: 'transfer', data: Transaction.initData())
-                .setPreviousSignatureAndPreviousPublicKey(
-                    exampleSignature, examplePublicKey);
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
+            .setPreviousSignatureAndPreviousPublicKey(
+          exampleSignature,
+          examplePublicKey,
+        );
         expect(tx.previousPublicKey, examplePublicKey);
         expect(tx.previousSignature, exampleSignature);
       });
@@ -230,38 +256,46 @@ void main() {
 
     group('setAddress', () {
       test('should set this.address in transaction builder', () {
-        const String exampleAddress =
+        const exampleAddress =
             '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88';
-        final Transaction tx =
-            Transaction(type: 'transfer', data: Transaction.initData())
-                .setAddress(exampleAddress);
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
+            .setAddress(exampleAddress);
         expect(tx.address, exampleAddress);
       });
     });
 
     group('build', () {
       test('should build the transaction and the related signature', () {
-        final Transaction tx = Transaction(
-                type: 'transfer', data: Transaction.initData())
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
             .addUCOTransfer(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                toBigInt(10.0))
-            .build('seed', 0, curve: 'ed25519', hashAlgo: 'sha256');
-        expect(tx.address,
-            '00001ff1733caa91336976ee7cef5aff6bb26c7682213b8e6770ab82272f966dac35');
-        expect(tx.previousPublicKey,
-            '000161d6cd8da68207bd01198909c139c130a3df3a8bd20f4bacb123c46354ccd52c');
+              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              toBigInt(10.0),
+            )
+            .build('seed', 0);
         expect(
-            crypto.verify(tx.previousSignature, tx.previousSignaturePayload(),
-                tx.previousPublicKey),
-            true);
+          tx.address,
+          '00001ff1733caa91336976ee7cef5aff6bb26c7682213b8e6770ab82272f966dac35',
+        );
+        expect(
+          tx.previousPublicKey,
+          '000161d6cd8da68207bd01198909c139c130a3df3a8bd20f4bacb123c46354ccd52c',
+        );
+        expect(
+          crypto.verify(
+            tx.previousSignature,
+            tx.previousSignaturePayload(),
+            tx.previousPublicKey,
+          ),
+          true,
+        );
       });
     });
 
     group('originSignaturePayload', () {
       test('should generate binary encoding of the transaction before signing',
           () {
-        const String code = '''condition inherit: [
+        const code = '''
+condition inherit: [
                             uco_transferred: 0.020
                           ]
                           
@@ -270,38 +304,42 @@ void main() {
                               add_uco_ledger to: "000056E763190B28B4CF9AAF3324CF379F27DE9EF7850209FB59AA002D71BA09788A", amount: 0.020
                           end
       ''';
-        const String content =
+        const content =
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
-        final String secret =
-            uint8ListToHex(Uint8List.fromList('mysecret'.codeUnits));
-        final Transaction tx = Transaction(
-                type: 'transfer', data: Transaction.initData())
+        final secret = uint8ListToHex(Uint8List.fromList('mysecret'.codeUnits));
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
             .addOwnership(secret, <AuthorizedKey>[
               AuthorizedKey(
-                  publicKey:
-                      '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                  encryptedSecretKey:
-                      '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+                publicKey:
+                    '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                encryptedSecretKey:
+                    '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+              )
             ])
             .addUCOTransfer(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                toBigInt(0.2020))
+              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              toBigInt(0.2020),
+            )
             .addTokenTransfer(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                toBigInt(100),
-                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              toBigInt(100),
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+            )
             .setCode(code)
             .setContent(content)
             .addRecipient(
-                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+            )
             .build('seed', 0, curve: 'P256');
 
-        final KeyPair transactionKeyPair =
+        final transactionKeyPair =
             crypto.deriveKeyPair('seed', 0, curve: 'P256');
-        final Uint8List previousSig = crypto.sign(
-            tx.previousSignaturePayload(), transactionKeyPair.privateKey);
-        final Uint8List payload = tx.originSignaturePayload();
-        final Uint8List expectedBinary = concatUint8List(<Uint8List>[
+        final previousSig = crypto.sign(
+          tx.previousSignaturePayload(),
+          transactionKeyPair.privateKey,
+        );
+        final payload = tx.originSignaturePayload();
+        final expectedBinary = concatUint8List(<Uint8List>[
           // Version
           toByteArray(1, length: 4),
           Uint8List.fromList(hexToUint8List(tx.address!)),
@@ -317,8 +355,10 @@ void main() {
           //Nb of ownerships
           Uint8List.fromList(<int>[1]),
           //Secret size
-          toByteArray(Uint8List.fromList(hexToUint8List(secret)).lengthInBytes,
-              length: 4),
+          toByteArray(
+            Uint8List.fromList(hexToUint8List(secret)).lengthInBytes,
+            length: 4,
+          ),
           Uint8List.fromList(Uint8List.fromList(hexToUint8List(secret))),
           // Nb of bytes to encode nb of authorized key
           Uint8List.fromList(<int>[1]),
@@ -326,18 +366,27 @@ void main() {
           Uint8List.fromList(<int>[1]),
           // Authorized keys encoding
           concatUint8List(<Uint8List>[
-            Uint8List.fromList(hexToUint8List(
-                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
-            Uint8List.fromList(hexToUint8List(
-                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'))
+            Uint8List.fromList(
+              hexToUint8List(
+                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              ),
+            ),
+            Uint8List.fromList(
+              hexToUint8List(
+                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+              ),
+            )
           ]),
           // Nb of bytes to encode nb of uco transfers
           Uint8List.fromList(<int>[1]),
           // Nb of uco transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
-            Uint8List.fromList(hexToUint8List(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
+            Uint8List.fromList(
+              hexToUint8List(
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              ),
+            ),
             toByteArray(toBigInt(0.2020), length: 8)
           ]),
           // Nb of bytes to encode nb of Token transfers
@@ -345,10 +394,16 @@ void main() {
           // Nb of token transfers
           Uint8List.fromList(<int>[1]),
           concatUint8List(<Uint8List>[
-            Uint8List.fromList(hexToUint8List(
-                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')),
-            Uint8List.fromList(hexToUint8List(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646')),
+            Uint8List.fromList(
+              hexToUint8List(
+                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+              ),
+            ),
+            Uint8List.fromList(
+              hexToUint8List(
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              ),
+            ),
             toByteArray(toBigInt(100), length: 8),
             Uint8List.fromList(<int>[1]),
             Uint8List.fromList(<int>[0]),
@@ -357,8 +412,11 @@ void main() {
           Uint8List.fromList(<int>[1]),
           // Nb of recipients
           Uint8List.fromList(<int>[1]),
-          Uint8List.fromList(hexToUint8List(
-              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')),
+          Uint8List.fromList(
+            hexToUint8List(
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+            ),
+          ),
           transactionKeyPair.publicKey,
           Uint8List.fromList(<int>[previousSig.length]),
           previousSig
@@ -369,51 +427,59 @@ void main() {
 
     group('originSign', () {
       test('should sign the transaction with a origin private key', () {
-        final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
+        final originKeypair = crypto.deriveKeyPair('origin_seed', 0);
 
-        final Transaction tx =
-            Transaction(type: 'transfer', data: Transaction.initData())
-                .build('seed', 0)
-                .originSign(originKeypair.privateKey);
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
+            .build('seed', 0)
+            .originSign(originKeypair.privateKey);
         expect(
-            crypto.verify(tx.originSignature, tx.originSignaturePayload(),
-                originKeypair.publicKey),
-            true);
+          crypto.verify(
+            tx.originSignature,
+            tx.originSignaturePayload(),
+            originKeypair.publicKey,
+          ),
+          true,
+        );
       });
     });
 
     group('toJSON', () {
       test('should return a JSON from the transaction', () {
-        final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
-        final KeyPair transactionKeyPair = crypto.deriveKeyPair('seed', 0);
+        final originKeypair = crypto.deriveKeyPair('origin_seed', 0);
+        final transactionKeyPair = crypto.deriveKeyPair('seed', 0);
 
-        final Transaction tx = Transaction(
-                type: 'transfer', data: Transaction.initData())
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
             .addUCOTransfer(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                toBigInt(0.2193))
+              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              toBigInt(0.2193),
+            )
             .addOwnership(
                 Uint8List.fromList(<int>[0, 1, 2, 3, 4]), <AuthorizedKey>[
               AuthorizedKey(
-                  publicKey:
-                      '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                  encryptedSecretKey:
-                      '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88')
+                publicKey:
+                    '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                encryptedSecretKey:
+                    '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+              )
             ])
             .build('seed', 0)
             .originSign(originKeypair.privateKey);
 
         final dynamic parsedTx = json.decode(tx.convertToJSON());
 
-        final Uint8List previousSig = crypto.sign(
-            tx.previousSignaturePayload(), transactionKeyPair.privateKey);
-        final Uint8List originSig =
+        final previousSig = crypto.sign(
+          tx.previousSignaturePayload(),
+          transactionKeyPair.privateKey,
+        );
+        final originSig =
             crypto.sign(tx.originSignaturePayload(), originKeypair.privateKey);
 
         expect(parsedTx['address'], crypto.deriveAddress('seed', 1));
         expect(parsedTx['type'], 'transfer');
-        expect(parsedTx['previousPublicKey'],
-            uint8ListToHex(transactionKeyPair.publicKey));
+        expect(
+          parsedTx['previousPublicKey'],
+          uint8ListToHex(transactionKeyPair.publicKey),
+        );
         expect(parsedTx['previousSignature'], uint8ListToHex(previousSig));
         expect(parsedTx['originSignature'], uint8ListToHex(originSig));
         expect(
@@ -430,36 +496,40 @@ void main() {
             parsedTx['data']['ledger']['uco']['transfers'][0], <String, Object>{
           'to':
               '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-          'amount': toBigInt(0.2193).toInt()
+          'amount': toBigInt(0.2193)
         });
       });
     });
   });
 
-  group('send tx', () {
-    test('should send transaction with special characters', () async {
-      const String seed =
-          '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA1';
-      final String originPrivateKey =
-          ApiService('http://localhost:4000').getOriginKey();
+  group(
+    'send tx',
+    () {
+      test('should send transaction with special characters', () async {
+        const seed =
+            '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA1';
+        final originPrivateKey =
+            ApiService('http://localhost:4000').getOriginKey();
 
-      const String text = 'Hello👋';
-      final Transaction tx = Transaction(
-              type: 'transfer', data: Transaction.initData())
-          .setContent(text)
-          .addUCOTransfer(
+        const text = 'Hello👋';
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
+            .setContent(text)
+            .addUCOTransfer(
               '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-              toBigInt(0.00000001))
-          .build(seed, 0)
-          .originSign(originPrivateKey);
+              toBigInt(0.00000001),
+            )
+            .build(seed, 0)
+            .originSign(originPrivateKey);
 
-      await ApiService('http://localhost:4000').sendTx(tx);
+        await ApiService('http://localhost:4000').sendTx(tx);
 
-      await ApiService('http://localhost:4000').getTransactionContent({
-        '000057cb7d188385325a30fddf5bca487ee1db525b7a3dc31a595d6f3425c06c93ce':
-            ''
+        await ApiService('http://localhost:4000').getTransactionContent({
+          '000057cb7d188385325a30fddf5bca487ee1db525b7a3dc31a595d6f3425c06c93ce':
+              ''
+        });
+        expect(true, true);
       });
-      expect(true, true);
-    });
-  }, tags: <String>['noCI']);
+    },
+    tags: <String>['noCI'],
+  );
 }

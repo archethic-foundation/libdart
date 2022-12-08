@@ -18,10 +18,6 @@ String transactionFeeToJson(TransactionFee data) => json.encode(data.toJson());
 class TransactionFee {
   TransactionFee({this.fee, this.rates, this.errors});
 
-  int? fee;
-  Rates? rates;
-  TransactionFeeErrors? errors;
-
   factory TransactionFee.fromJson(Map<String, dynamic> json) => TransactionFee(
         fee: json['fee']?.toInt(),
         rates: json['rates'] == null ? null : Rates.fromJson(json['rates']),
@@ -29,6 +25,10 @@ class TransactionFee {
             ? null
             : TransactionFeeErrors.fromJson(json['errors']),
       );
+
+  int? fee;
+  Rates? rates;
+  TransactionFeeErrors? errors;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'fee': fee,
@@ -43,13 +43,13 @@ class Rates {
     this.usd,
   });
 
-  double? eur;
-  double? usd;
-
   factory Rates.fromJson(Map<String, dynamic> json) => Rates(
         eur: json['eur']?.toDouble(),
         usd: json['usd']?.toDouble(),
       );
+
+  double? eur;
+  double? usd;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'eur': eur,
@@ -62,12 +62,12 @@ class TransactionFeeErrors {
     this.data,
   });
 
-  Data? data;
-
   factory TransactionFeeErrors.fromJson(Map<String, dynamic> json) =>
       TransactionFeeErrors(
         data: Data.fromJson(json['data']),
       );
+
+  Data? data;
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),

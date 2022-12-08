@@ -1,21 +1,16 @@
 library test.api_test;
 
-// Package imports:
-import 'package:test/test.dart';
-
 // Project imports:
-import 'package:archethic_lib_dart/src/model/balance.dart';
-import 'package:archethic_lib_dart/src/model/node.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
-import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
-import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+// Package imports:
+import 'package:test/test.dart';
 
 void main() {
   group('api', () {
     test('getTransactionIndex', () async {
-      final Map<String, int> transaction =
+      final transaction =
           await ApiService('http://localhost:4000').getTransactionIndex([
         '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D'
       ]);
@@ -23,7 +18,7 @@ void main() {
     });
 
     test('getLastTransaction', () async {
-      final Map<String, Transaction> transaction =
+      final transaction =
           await ApiService('https://mainnet.archethic.net').getLastTransaction([
         '0000b40c269574649a26d1c355109731fd22cb3dda3d7d23785e66d5bd84c2fd6d23'
       ]);
@@ -31,7 +26,7 @@ void main() {
     });
 
     test('getStorageNoncePublicKey', () async {
-      final String storageNoncePublicKey =
+      final storageNoncePublicKey =
           await ApiService('http://localhost:4000').getStorageNoncePublicKey();
 
       expect(
@@ -41,7 +36,7 @@ void main() {
     });
 
     test('fetchBalance', () async {
-      final Map<String, Balance> balanceMap =
+      final balanceMap =
           await ApiService('http://localhost:4000').fetchBalance([
         '00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D'
       ]);
@@ -55,7 +50,7 @@ void main() {
     });
 
     test('getTransactionContent', () async {
-      final Map<String, String> contentMap =
+      final contentMap =
           await ApiService('https://mainnet.archethic.net')
               .getTransactionContent({
         '00002069A888AC669759D7415589AA5BDADDF556C2042C38C0C9F04C44041DA590E1':
@@ -70,7 +65,7 @@ void main() {
     });
 
     test('getTransactions', () async {
-      final Map<String, List<Transaction>> transactionChainListMap =
+      final transactionChainListMap =
           await ApiService('https://mainnet.archethic.net')
               .getTransactionChain({
         '00002069A888AC669759D7415589AA5BDADDF556C2042C38C0C9F04C44041DA590E1':
@@ -86,7 +81,7 @@ void main() {
     });
 
     test('getNodeList', () async {
-      final List<Node> nodes =
+      final nodes =
           await ApiService('http://localhost:4000').getNodeList();
 
       expect(
@@ -96,7 +91,7 @@ void main() {
     });
 
     test('networkTransactions', () async {
-      final List<Transaction> transactionsList =
+      final transactionsList =
           await ApiService('http://localhost:4000')
               .networkTransactions('oracle_summary', 1);
 
@@ -107,7 +102,7 @@ void main() {
     });
 
     test('transactionInputs', () async {
-      final Map<String, List<TransactionInput>> transactionInputsList =
+      final transactionInputsList =
           await ApiService('https://mainnet.archethic.net')
               .getTransactionInputs([
         '00002069A888AC669759D7415589AA5BDADDF556C2042C38C0C9F04C44041DA590E1',
@@ -121,7 +116,7 @@ void main() {
     });
 
     test('getTransactionFees', () async {
-      final Transaction tx = Transaction(
+      final tx = Transaction(
               address:
                   '0000b426c48c85f7d04e3bb222dabc7e5aa17680c1932755cd7ad21f5d870c0c54f9',
               type: 'transfer',
@@ -131,14 +126,13 @@ void main() {
               previousPublicKey:
                   '000071e1b5d4b89eddf2322c69bbf1c5591f7361b24cb3c4c464f6b5eb688fe50f7a',
               previousSignature:
-                  '9b209dd92c6caffbb5c39d12263f05baebc9fe3c36cb0f4dde04c96f1237b75a3a2973405c6d9d5e65d8a970a37bafea57b919febad46b0cceb04a7ffa4b6b00',
-              version: 1)
+                  '9b209dd92c6caffbb5c39d12263f05baebc9fe3c36cb0f4dde04c96f1237b75a3a2973405c6d9d5e65d8a970a37bafea57b919febad46b0cceb04a7ffa4b6b00',)
           .addUCOTransfer(
               '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-              toBigInt(10.03))
+              toBigInt(10.03),)
           .build('myseed', 0)
           .originSign(kOriginPrivateKey);
-      final TransactionFee transactionFee =
+      final transactionFee =
           await ApiService('http://localhost:4000').getTransactionFee(tx);
       expect(
         transactionFee.fee!.toStringAsPrecision(2),
@@ -147,14 +141,14 @@ void main() {
     });
 
     test('addOriginKey', () async {
-      final String json = await ApiService('http://localhost:4000').addOriginKey(
+      await ApiService('http://localhost:4000').addOriginKey(
           originPublicKey:
               '010104AB41291F847A601055AEDD1AF24FF76FA970D6441E2DCA3818A8319B004C96B27B8FEB1DA31A044BA0A4800B4353359735719EBB3A05F98393A9CC599C3FAFD6',
-          certificate: '0x');
+          certificate: '0x',);
       expect(
         true,
         true,
       );
     });
-  }, tags: <String>['noCI']);
+  }, tags: <String>['noCI'],);
 }

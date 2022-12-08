@@ -20,5 +20,5 @@ void main() {
           archive);
       expect(true, true);
     });*/
-  }, tags: <String>['noCI']);
+  }, tags: <String>['noCI'],);
 }

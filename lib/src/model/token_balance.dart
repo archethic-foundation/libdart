@@ -9,6 +9,12 @@ class TokenBalance {
     this.tokenId,
   });
 
+  factory TokenBalance.fromJson(Map<String, dynamic> json) => TokenBalance(
+        address: json['address'],
+        amount: json['amount']?.toInt(),
+        tokenId: json['tokenId']?.toInt(),
+      );
+
   /// token: address of the token
   String? address;
 
@@ -17,12 +23,6 @@ class TokenBalance {
 
   /// Token ID: ID of the token
   int? tokenId;
-
-  factory TokenBalance.fromJson(Map<String, dynamic> json) => TokenBalance(
-        address: json['address'],
-        amount: json['amount']?.toInt(),
-        tokenId: json['tokenId']?.toInt(),
-      );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'address': address,

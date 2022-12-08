@@ -13,7 +13,7 @@ class Node {
       this.port,
       this.rewardAddress,
       this.authorizationDate,
-      this.enrollmentDate});
+      this.enrollmentDate,});
 
   factory Node.fromJson(Map<String, dynamic> json) => Node(
       authorized: json['authorized'],
@@ -27,7 +27,7 @@ class Node {
       port: json['port'],
       rewardAddress: json['rewardAddress'],
       authorizationDate: json['authorizationDate'],
-      enrollmentDate: json['enrollmentDate']);
+      enrollmentDate: json['enrollmentDate'],);
 
   bool? authorized;
   bool? available;

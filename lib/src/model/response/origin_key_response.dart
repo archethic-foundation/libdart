@@ -12,13 +12,13 @@ String originKeyResponseToJson(OriginKeyResponse data) =>
 class OriginKeyResponse {
   OriginKeyResponse({this.status, this.transactionAddress});
 
-  String? status;
-  String? transactionAddress;
-
   factory OriginKeyResponse.fromJson(Map<String, dynamic> json) =>
       OriginKeyResponse(
           status: json['status'],
-          transactionAddress: json['transaction_address']);
+          transactionAddress: json['transaction_address'],);
+
+  String? status;
+  String? transactionAddress;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'status': status,

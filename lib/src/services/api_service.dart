@@ -1,14 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// Dart imports:
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
-
-// Package imports:
-import 'package:graphql/client.dart';
-import 'package:http/http.dart' as http;
 
 // Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
@@ -31,6 +25,9 @@ import 'package:archethic_lib_dart/src/utils/collection_utils.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart';
 import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+// Package imports:
+import 'package:graphql/client.dart';
+import 'package:http/http.dart' as http;
 
 class ApiService {
   ApiService(this.endpoint)
@@ -161,7 +158,7 @@ class ApiService {
 
   /// Query the network to find a balance from a list of addresses
   Future<Map<String, Balance>> fetchBalance(List<String> addresses,
-      {String request = Transaction.kTransactionBalanceQueryAllFields}) async {
+      {String request = Transaction.kTransactionBalanceQueryAllFields,}) async {
     if (addresses.isEmpty) {
       return {};
     }
@@ -261,7 +258,7 @@ class ApiService {
                 (transactions) => (transactions as List<dynamic>)
                     .map(
                       (transaction) => Transaction.fromJson(
-                          transaction as Map<String, dynamic>),
+                          transaction as Map<String, dynamic>,),
                     )
                     .toList(),
                 keysToIgnore: _responseKeysToIgnore,
@@ -373,13 +370,13 @@ class ApiService {
                 (transactionInputs) => (transactionInputs as List<dynamic>)
                     .map(
                       (transactionInput) => TransactionInput.fromJson(
-                          transactionInput as Map<String, dynamic>),
+                          transactionInput as Map<String, dynamic>,),
                     )
                     .toList(),
                 keysToIgnore: _responseKeysToIgnore,
               );
               return removeAliasPrefix<List<TransactionInput>>(
-                      transactionInputs) ??
+                      transactionInputs,) ??
                   {};
             },
           ),

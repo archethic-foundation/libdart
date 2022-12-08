@@ -13,13 +13,13 @@ class TransactionsResponseData {
         networkTransactions: json['networkTransactions'] == null
             ? null
             : List<Transaction>.from(json['networkTransactions']
-                .map((dynamic x) => Transaction.fromJson(x))),
+                .map((dynamic x) => Transaction.fromJson(x)),),
       );
 
   List<Transaction>? networkTransactions;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'networkTransactions': List<Transaction>.from(
-            networkTransactions!.map((Transaction x) => x.toJson())),
+            networkTransactions!.map((Transaction x) => x.toJson()),),
       };
 }

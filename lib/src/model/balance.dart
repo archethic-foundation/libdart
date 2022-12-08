@@ -10,19 +10,20 @@ class Balance {
     this.uco,
   });
 
+  factory Balance.fromJson(Map<String, dynamic> json) => Balance(
+        token: json['token'] == null
+            ? null
+            : List<TokenBalance>.from(
+                json['token'].map(TokenBalance.fromJson),
+              ),
+        uco: json['uco']?.toInt(),
+      );
+
   /// Token: Token balances
   List<TokenBalance>? token;
 
   /// UCO: uco balance
   int? uco;
-
-  factory Balance.fromJson(Map<String, dynamic> json) => Balance(
-        token: json['token'] == null
-            ? null
-            : List<TokenBalance>.from(
-                json['token'].map((dynamic x) => TokenBalance.fromJson(x))),
-        uco: json['uco']?.toInt(),
-      );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'token': List<dynamic>.from(token!.map((TokenBalance x) => x.toJson())),

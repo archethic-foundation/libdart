@@ -13,7 +13,7 @@ class NodesResponseData {
         nodes: json['nodes'] == null
             ? null
             : List<Node>.from(
-                json['nodes'].map((dynamic x) => Node.fromJson(x))),
+                json['nodes'].map((dynamic x) => Node.fromJson(x)),),
       );
 
   List<Node>? nodes;

@@ -10,6 +10,6 @@ extension MapExt<K, V> on Map<K, V> {
         }).map((entry) => MapEntry(
               entry.key,
               valueToJson(entry.value),
-            )),
+            ),),
       );
 }
