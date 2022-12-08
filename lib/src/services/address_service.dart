@@ -1,8 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// Project imports:
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
     show deriveAddress;
 
@@ -16,8 +13,7 @@ class AddressService {
   /// @param {String} seed TransactionChain seed
   Future<String> lastAddressFromSeed(String seed) async {
     final genesisAddress = crypto.deriveAddress(seed, 0);
-    final lastAddressMap =
-        await lastAddressFromAddress([genesisAddress]);
+    final lastAddressMap = await lastAddressFromAddress([genesisAddress]);
 
     return lastAddressMap[genesisAddress] ?? '';
   }
@@ -25,7 +21,8 @@ class AddressService {
   /// Get the last addresses from a list of addresses
   /// @param {String} address TransactionChain address
   Future<Map<String, String>> lastAddressFromAddress(
-      List<String> addresses,) async {
+    List<String> addresses,
+  ) async {
     if (addresses.isEmpty) {
       return {};
     }
@@ -35,7 +32,7 @@ class AddressService {
 
     final lastAddressMap = <String, String>{};
     transactionMap.forEach((String key, Transaction value) {
-      lastAddressMap[key] = value.address!;
+      lastAddressMap[key] = value.address!.address!;
     });
 
     return removeAliasPrefix<String>(lastAddressMap) ?? {};

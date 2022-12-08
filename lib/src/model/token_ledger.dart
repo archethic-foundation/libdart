@@ -1,25 +1,18 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-// Project imports:
 import 'package:archethic_lib_dart/src/model/token_transfer.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// [TokenLedger] represents the transfers to perform on the token ledger
-class TokenLedger {
-  TokenLedger({
-    this.transfers,
-  });
+part 'token_ledger.freezed.dart';
+part 'token_ledger.g.dart';
 
-  factory TokenLedger.fromJson(Map<String, dynamic> json) => TokenLedger(
-        transfers: json['transfers'] == null
-            ? null
-            : List<TokenTransfer>.from(json['transfers']
-                .map((dynamic x) => TokenTransfer.fromJson(x)),),
-      );
+@Freezed(makeCollectionsUnmodifiable: false)
+class TokenLedger with _$TokenLedger {
+  const factory TokenLedger({
+    @Default([]) final List<TokenTransfer> transfers,
+  }) = _TokenLedger;
+  const TokenLedger._();
 
-  List<TokenTransfer>? transfers;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'transfers':
-            List<dynamic>.from(transfers!.map((TokenTransfer x) => x.toJson())),
-      };
+  factory TokenLedger.fromJson(Map<String, dynamic> json) =>
+      _$TokenLedgerFromJson(json);
 }

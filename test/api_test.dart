@@ -1,6 +1,7 @@
 library test.api_test;
 
 // Project imports:
+import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
@@ -12,42 +13,19 @@ void main() {
     'api',
     () {
       test('getTransactionIndex', () async {
-        final transaction =
-            await ApiService('http://localhost:4000').getTransactionIndex([
-          '00004AB785A4C65FCC0135BC7404EF5B96A05648628574F2F271572CFBF5B642168A',
-          '00007EF37307218C30D7E65A50A0F630CE15E0979FB3F6E3721704E7CB964BC041A8',
-          '00008687AA0EFBB73FEFF98781BD6A51F4343DDBBC562D753CBF69AE5FBAA1272246',
+        final transaction = await ApiService('http://localhost:4000')
+            .getTransactionIndex([
+          '009D337E3557833E116750524738E07063256F27ECA993AF8011DAFE4E69A37A7D'
         ]);
-        expect(transaction.values.first, 3);
-      });
-
-      test('getTransactionOwnerships', () async {
-        final ownerships =
-            await ApiService('http://localhost:4000').getTransactionOwnerships([
-          '00004AB785A4C65FCC0135BC7404EF5B96A05648628574F2F271572CFBF5B642168A',
-          '00007EF37307218C30D7E65A50A0F630CE15E0979FB3F6E3721704E7CB964BC041A8',
-          '00008687AA0EFBB73FEFF98781BD6A51F4343DDBBC562D753CBF69AE5FBAA1276246'
-        ]);
-        expect(
-          ownerships[
-                  '00004AB785A4C65FCC0135BC7404EF5B96A05648628574F2F271572CFBF5B642168A']!
-              .length,
-          1,
-        );
+        expect(transaction.values.first, 1);
       });
 
       test('getLastTransaction', () async {
-        final transaction =
-            await ApiService('http://localhost:4000').getLastTransaction([
-          '00004AB785A4C65FCC0135BC7404EF5B96A05648628574F2F271572CFBF5B642168A',
-          '00007EF37307218C30D7E65A50A0F630CE15E0979FB3F6E3721704E7CB964BC041A8',
-          '00008687AA0EFBB73FEFF98781BD6A51F4343DDBBC562D753CBF69AE5FBAA1272246',
+        final transaction = await ApiService('https://mainnet.archethic.net')
+            .getLastTransaction([
+          '0000b40c269574649a26d1c355109731fd22cb3dda3d7d23785e66d5bd84c2fd6d23'
         ]);
-        expect(
-            transaction[
-                    '00004AB785A4C65FCC0135BC7404EF5B96A05648628574F2F271572CFBF5B642168A']!
-                .address,
-            '00004AB785A4C65FCC0135BC7404EF5B96A05648628574F2F271572CFBF5B642168A');
+        expect(transaction.values.first, 1);
       });
 
       test('getStorageNoncePublicKey', () async {
@@ -61,53 +39,46 @@ void main() {
       });
 
       test('fetchBalance', () async {
-        final balanceMap =
-            await ApiService('http://localhost:4000').fetchBalance([
-          '00004AB785A4C65FCC0135BC7404EF5B96A05648628574F2F271572CFBF5B642168A',
-          '00007EF37307218C30D7E65A50A0F630CE15E0979FB3F6E3721704E7CB964BC041A8',
-          '00008687AA0EFBB73FEFF98781BD6A51F4343DDBBC562D753CBF69AE5FBAA0272246',
+        final balanceMap = await ApiService('http://localhost:4000')
+            .fetchBalance([
+          '000068A9CC4F77F39C3CAAB4B38302B1ED61117BFD6F937FF9892599F5C78E893B4D'
         ]);
 
         expect(
           balanceMap[
-                  '00004AB785A4C65FCC0135BC7404EF5B96A05648628574F2F271572CFBF5B642168A']!
+                  '_000068A9CC4F77F39C3CAAB4B38302B1ED61117BFD6F937FF9892599F5C78E893B4D']!
               .uco,
-          20164322739,
+          999989992178126,
         );
       });
 
       test('getTransactionContent', () async {
-        final contentMap =
-            await ApiService('http://localhost:4000').getTransactionContent({
-          '00004AB785A4C65FCC0135BC7404EF5B96A05648628574F2F271572CFBF5B642168A':
-              '',
-          '00007EF37307218C30D7E65A50A0F630CE15E0979FB3F6E3721704E7CB964BC041A8':
-              '',
-          '00008687AA0EFBB73FEFF98781BD6A51F4343DDBBC562D753CBF69AE5FBAA0272246':
-              '',
+        final contentMap = await ApiService('https://mainnet.archethic.net')
+            .getTransactionContent({
+          '00002069A888AC669759D7415589AA5BDADDF556C2042C38C0C9F04C44041DA590E1':
+              ''
         });
 
         expect(
           contentMap[
-              '00004AB785A4C65FCC0135BC7404EF5B96A05648628574F2F271572CFBF5B642168A'],
+              '00AE1C7EABBB5282B1DFEA4A330947D5D9A954F942700C28A06BCA8F2A1CDF800D'],
           'B0B116A90BBA010076A5A8A4B33AE08D325CD509D6DBEBD336364999D5357D6DD6392B07AD64E0EE0047304502207A6663334659C8FFB7695433B93D18EC5ECF487AB1CF2324573974028E5DBE71022100AB52E547E945B59EB850E586A0CFD2F1378938E8EAFFF8C9F283A607DC517B75',
         );
       });
 
       test('getTransactions', () async {
         final transactionChainListMap =
-            await ApiService('http://localhost:4000').getTransactionChain({
-          '00004AB785A4C65FCC0135BC7404EF5B96A05648628574F2F271572CFBF5B642168A':
+            await ApiService('https://mainnet.archethic.net')
+                .getTransactionChain({
+          '00002069A888AC669759D7415589AA5BDADDF556C2042C38C0C9F04C44041DA590E1':
               '',
-          '00007EF37307218C30D7E65A50A0F630CE15E0979FB3F6E3721704E7CB964BC041A8':
-              '',
-          '00008687AA0EFBB73FEFF98781BD6A51F4343DDBBC562D753CBF69AE5FBAA0272246':
-              '',
+          '0000D41D014920B1C9D8D207604F2C60AA3AB7728F11F93284A662A024508A99E92C':
+              ''
         });
 
         expect(
           transactionChainListMap.keys.first,
-          '00004AB785A4C65FCC0135BC7404EF5B96A05648628574F2F271572CFBF5B642168A',
+          '00002069A888AC669759D7415589AA5BDADDF556C2042C38C0C9F04C44041DA590E1',
         );
       });
 
@@ -132,10 +103,10 @@ void main() {
 
       test('transactionInputs', () async {
         final transactionInputsList =
-            await ApiService('http://localhost:4000').getTransactionInputs([
-          '00004AB785A4C65FCC0135BC7404EF5B96A05648628574F2F271572CFBF5B642168A',
-          '00007EF37307218C30D7E65A50A0F630CE15E0979FB3F6E3721704E7CB964BC041A8',
-          '00008687AA0EFBB73FEFF98781BD6A51F4343DDBBC562D753CBF69AE5FBAA1272246',
+            await ApiService('https://mainnet.archethic.net')
+                .getTransactionInputs([
+          '00002069A888AC669759D7415589AA5BDADDF556C2042C38C0C9F04C44041DA590E1',
+          '0000D41D014920B1C9D8D207604F2C60AA3AB7728F11F93284A662A024508A99E92C'
         ]);
 
         expect(
@@ -146,8 +117,10 @@ void main() {
 
       test('getTransactionFees', () async {
         final tx = Transaction(
-          address:
-              '0000b426c48c85f7d04e3bb222dabc7e5aa17680c1932755cd7ad21f5d870c0c54f9',
+          address: const Address(
+            address:
+                '0000b426c48c85f7d04e3bb222dabc7e5aa17680c1932755cd7ad21f5d870c0c54f9',
+          ),
           type: 'transfer',
           data: Transaction.initData(),
           originSignature:

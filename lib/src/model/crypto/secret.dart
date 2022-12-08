@@ -1,14 +1,14 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:typed_data';
+import 'package:archethic_lib_dart/src/utils/uint8List_converter.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-// Dart imports:
-import 'dart:typed_data' show Uint8List;
+part 'secret.freezed.dart';
 
-class Secret {
-  Secret({
-    required this.iv,
-    required this.aesKey,
-  });
-
-  Uint8List iv;
-  Uint8List aesKey;
+@freezed
+class Secret with _$Secret {
+  const factory Secret({
+    @Uint8ListConverter() Uint8List? iv,
+    @Uint8ListConverter() Uint8List? aesKey,
+  }) = _Secret;
+  const Secret._();
 }

@@ -4,87 +4,107 @@
 /// This implementation is based on Official Archethic Javascript library for Node and Browser.
 import 'dart:convert';
 import 'dart:typed_data';
-
-// Project imports:
+import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/service.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
+import 'package:archethic_lib_dart/src/utils/uint8List_converter.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-// Package imports:
 import 'package:crypto/crypto.dart' as crypto_lib show Hmac, sha512;
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jwk/jwk.dart';
 import 'package:pointycastle/api.dart';
 
+part 'keychain.freezed.dart';
+part 'keychain.g.dart';
+
 const int keychainOriginId = 0;
 
-class Keychain {
-  Keychain(this.seed, {this.version, this.services}) {
-    version = 1;
-    services ??= <String, Service>{};
-  }
+@freezed
+class Keychain with _$Keychain {
+  const factory Keychain({
+    @Uint8ListConverter() Uint8List? seed,
+    @Default(1) final int version,
+    @Default({}) final Map<String, Service> services,
+  }) = _Keychain;
+  const Keychain._();
 
-  Keychain.serviceUCO(this.seed, {this.version = 1}) {
-    addService('uco', "m/650'/0/0");
-  }
+  factory Keychain.fromJson(Map<String, dynamic> json) =>
+      _$KeychainFromJson(json);
 
-  Uint8List? seed;
-  int? version;
-  Map<String, Service>? services;
-
-  void addService(String name, String derivationPath,
-      {String curve = 'ed25519', String hashAlgo = 'sha256',}) {
-    services ??= <String, Service>{};
-    services!.addAll(<String, Service>{
-      name: Service(
-          derivationPath: derivationPath, curve: curve, hashAlgo: hashAlgo,)
-    });
+  Keychain copyWithService(
+    String name,
+    String derivationPath, {
+    String curve = 'ed25519',
+    String hashAlgo = 'sha256',
+  }) {
+    return copyWith(
+      services: <String, Service>{
+        ...services,
+        name: Service(
+          derivationPath: derivationPath,
+          curve: curve,
+          hashAlgo: hashAlgo,
+        )
+      },
+    );
   }
 
   Uint8List encode() {
     var servicesBuffer = Uint8List(0);
-    services!.forEach((String serviceName, Service service) {
+    services.forEach((String serviceName, Service service) {
       servicesBuffer = concatUint8List(<Uint8List>[
         servicesBuffer,
         Uint8List.fromList(<int>[serviceName.length]),
         Uint8List.fromList(serviceName.codeUnits),
-        Uint8List.fromList(<int>[service.derivationPath!.length]),
-        Uint8List.fromList(service.derivationPath!.codeUnits),
-        Uint8List.fromList(<int>[crypto.curveToID(service.curve!)]),
-        Uint8List.fromList(<int>[crypto.hashAlgoToID(service.hashAlgo!)])
+        Uint8List.fromList(<int>[service.derivationPath.length]),
+        Uint8List.fromList(service.derivationPath.codeUnits),
+        Uint8List.fromList(<int>[crypto.curveToID(service.curve)]),
+        Uint8List.fromList(<int>[crypto.hashAlgoToID(service.hashAlgo)])
       ]);
     });
 
     return concatUint8List(<Uint8List>[
-      toByteArray(version!, length: 4),
+      toByteArray(version, length: 4),
       Uint8List.fromList(<int>[seed!.length]),
       seed!,
-      Uint8List.fromList(<int>[services!.length]),
+      Uint8List.fromList(<int>[services.length]),
       Uint8List.fromList(servicesBuffer)
     ]);
   }
 
   KeyPair deriveKeypair(String serviceName, {int index = 0}) {
-    if (services![serviceName] == null) {
-      throw "Service doesn't exist in the keychain";
+    if (services[serviceName] == null) {
+      throw Exception(
+        "Service doesn't exist in the keychain",
+      );
     }
     return deriveArchethicKeypair(
-        seed, services![serviceName]!.derivationPath!, index,
-        curve: services![serviceName]!.curve!,);
+      seed,
+      services[serviceName]!.derivationPath,
+      index,
+      curve: services[serviceName]!.curve,
+    );
   }
 
   Uint8List deriveAddress(String serviceName, {int index = 0}) {
-    if (services![serviceName] == null) {
-      throw "Service doesn't exist in the keychain";
+    if (services[serviceName] == null) {
+      throw Exception(
+        "Service doesn't exist in the keychain",
+      );
     }
 
     final keyPair = deriveArchethicKeypair(
-        seed, services![serviceName]!.derivationPath!, index,
-        curve: services![serviceName]!.curve!,);
-    final curveID = crypto.curveToID(services![serviceName]!.curve!);
+      seed,
+      services[serviceName]!.derivationPath,
+      index,
+      curve: services[serviceName]!.curve,
+    );
+    final curveID = crypto.curveToID(services[serviceName]!.curve);
 
     final hashedPublicKey =
-        crypto.hash(keyPair.publicKey, algo: services![serviceName]!.hashAlgo!);
+        crypto.hash(keyPair.publicKey, algo: services[serviceName]!.hashAlgo);
 
     return concatUint8List(<Uint8List>[
       Uint8List.fromList(<int>[curveID]),
@@ -93,19 +113,32 @@ class Keychain {
   }
 
   Transaction buildTransaction(
-      Transaction transaction, String serviceName, int index,
-      {String? curve = 'ed25519', String? hashAlgo = 'sha256',}) {
+    Transaction transaction,
+    String serviceName,
+    int index, {
+    String? curve = 'ed25519',
+    String? hashAlgo = 'sha256',
+  }) {
     final keypair = deriveKeypair(serviceName, index: index);
-    transaction.address =
-        uint8ListToHex(deriveAddress(serviceName, index: index + 1));
-
-    final payloadForPreviousSignature = transaction.previousSignaturePayload();
+    final transactionWithAddress = transaction.copyWith(
+      address: Address(
+        address: uint8ListToHex(deriveAddress(serviceName, index: index + 1)),
+      ),
+      previousPublicKey: uint8ListToHex(
+        Uint8List.fromList(keypair.publicKey!),
+      ),
+    );
+    final payloadForPreviousSignature =
+        transactionWithAddress.previousSignaturePayload();
     final previousSignature =
         crypto.sign(payloadForPreviousSignature, keypair.privateKey);
 
-    transaction.setPreviousSignatureAndPreviousPublicKey(
-        previousSignature, keypair.publicKey,);
-    return transaction;
+    return transactionWithAddress.setPreviousSignatureAndPreviousPublicKey(
+      uint8ListToHex(previousSignature),
+      uint8ListToHex(
+        Uint8List.fromList(keypair.publicKey!),
+      ),
+    );
   }
 
   Map<String, dynamic> toDID() {
@@ -114,27 +147,33 @@ class Keychain {
         List<Map<String, dynamic>>.empty(growable: true);
     final authentications = List<String>.empty(growable: true);
 
-    services!.forEach((String serviceName, Service service) {
-      final purpose = service.derivationPath!
+    services.forEach((String serviceName, Service service) {
+      final purpose = service.derivationPath
           .split('/')
           .map((String e) => e.replaceAll("'", ''))
           .elementAt(1);
 
       // Only support of archethic derivation scheme for now
       if (purpose == '650') {
-        final keyPair = deriveArchethicKeypair(seed, service.derivationPath!, 0,
-            curve: service.curve!,);
+        final keyPair = deriveArchethicKeypair(
+          seed,
+          service.derivationPath,
+          0,
+          curve: service.curve,
+        );
 
         verificationMethods.add(<String, dynamic>{
           'id': 'did:archethic:$address#$serviceName',
           'type': 'JsonWebKey2020',
-          'publicKeyJwk': keyToJWK(keyPair.publicKey, serviceName).toJson(),
+          'publicKeyJwk':
+              keyToJWK(Uint8List.fromList(keyPair.publicKey!), serviceName)
+                  .toJson(),
           'controller': 'did:archethic:$address'
         });
 
         authentications.add('did:archethic:$address#$serviceName');
       } else {
-        throw "Purpose '$purpose' is not yet supported";
+        throw Exception("Purpose '$purpose' is not yet supported");
       }
     });
 
@@ -160,7 +199,7 @@ Keychain decodeKeychain(Uint8List binary) {
   final nbServices = binary.sublist(pos, pos + 1)[0];
   pos++;
 
-  final keychain = Keychain(seed, version: version);
+  final services = <String, Service>{};
   for (var i = 0; i < nbServices; i++) {
     final serviceNameLength = binary.sublist(pos, pos + 1)[0];
     pos++;
@@ -175,26 +214,42 @@ Keychain decodeKeychain(Uint8List binary) {
     final hashAlgoId = binary.sublist(pos, pos + 1)[0];
     pos++;
 
-    keychain.addService(utf8.decode(serviceName), utf8.decode(derivationPath),
-        curve: crypto.idToCurve(curveId),
-        hashAlgo: crypto.idToHashAlgo(hashAlgoId),);
+    services[utf8.decode(serviceName)] = Service(
+      derivationPath: utf8.decode(derivationPath),
+      curve: crypto.idToCurve(curveId),
+      hashAlgo: crypto.idToHashAlgo(hashAlgoId),
+    );
   }
-  return keychain;
+  return Keychain(
+    seed: seed,
+    version: version,
+    services: services,
+  );
 }
 
-KeyPair deriveArchethicKeypair(dynamic seed, String derivationPath, int index,
-    {String curve = 'ed25519',}) {
+KeyPair deriveArchethicKeypair(
+  dynamic seed,
+  String derivationPath,
+  int index, {
+  String curve = 'ed25519',
+}) {
   // Hash the derivation path
   final sha256 = Digest('SHA-256');
-  final hashedPath = sha256.process(Uint8List.fromList(
-      replaceDerivationPathIndex(derivationPath, index).codeUnits,),);
+  final hashedPath = sha256.process(
+    Uint8List.fromList(
+      replaceDerivationPathIndex(derivationPath, index).codeUnits,
+    ),
+  );
 
   final hmac = crypto_lib.Hmac(crypto_lib.sha512, seed);
   final digest = hmac.convert(hashedPath);
   final extendedSeed = Uint8List.fromList(digest.bytes.sublist(0, 32));
 
   return crypto.generateDeterministicKeyPair(
-      extendedSeed, curve, keychainOriginId,);
+    extendedSeed,
+    curve,
+    keychainOriginId,
+  );
 }
 
 String replaceDerivationPathIndex(String path, int index) {
@@ -236,6 +291,6 @@ Jwk keyToJWK(Uint8List publicKey, String keyId) {
         'kid': keyId
       });
     default:
-      throw 'Curve not supported';
+      throw Exception('Curve not supported');
   }
 }

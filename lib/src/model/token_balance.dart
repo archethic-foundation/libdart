@@ -1,32 +1,26 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 /// [TokenBalance] represents a token ledger balance.
 
-class TokenBalance {
-  TokenBalance({
-    this.address,
-    this.amount,
-    this.tokenId,
-  });
+part 'token_balance.freezed.dart';
+part 'token_balance.g.dart';
 
-  factory TokenBalance.fromJson(Map<String, dynamic> json) => TokenBalance(
-        address: json['address'],
-        amount: json['amount']?.toInt(),
-        tokenId: json['tokenId']?.toInt(),
-      );
+@freezed
+class TokenBalance with _$TokenBalance {
+  const factory TokenBalance({
+    /// token: address of the token
+    String? address,
 
-  /// token: address of the token
-  String? address;
+    /// Amount: amount of token
+    int? amount,
 
-  /// Amount: amount of token
-  int? amount;
+    /// Token ID: ID of the token
+    int? tokenId,
+  }) = _TokenBalance;
+  const TokenBalance._();
 
-  /// Token ID: ID of the token
-  int? tokenId;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'address': address,
-        'amount': amount,
-        'tokenId': tokenId
-      };
+  factory TokenBalance.fromJson(Map<String, dynamic> json) =>
+      _$TokenBalanceFromJson(json);
 }

@@ -1,14 +1,16 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:typed_data';
+import 'package:archethic_lib_dart/src/utils/uint8List_converter.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-// Dart imports:
-import 'dart:typed_data' show Uint8List;
+/// Holds a key pair (private and public key)
 
-class AesAuthEncryptInfos {
-  AesAuthEncryptInfos({
-    required this.tag,
-    required this.encrypted,
-  });
+part 'aes_auth_encrypt_infos.freezed.dart';
 
-  Uint8List tag;
-  Uint8List encrypted;
+@freezed
+class AesAuthEncryptInfos with _$AesAuthEncryptInfos {
+  const factory AesAuthEncryptInfos({
+    @Uint8ListConverter() Uint8List? tag,
+    @Uint8ListConverter() Uint8List? encrypted,
+  }) = _AesAuthEncryptInfos;
+  const AesAuthEncryptInfos._();
 }

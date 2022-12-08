@@ -1,31 +1,21 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
-// To parse this JSON data, do
-//
-//     final transactionStatus = transactionStatusFromJson(jsonString);
-
-// Dart imports:
 import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'transaction_status.freezed.dart';
+part 'transaction_status.g.dart';
 
 TransactionStatus transactionStatusFromJson(String str) =>
     TransactionStatus.fromJson(json.decode(str));
 
-String transactionStatusToJson(TransactionStatus data) =>
-    json.encode(data.toJson());
-
-class TransactionStatus {
-  TransactionStatus({
-    this.status,
-  });
+@freezed
+class TransactionStatus with _$TransactionStatus {
+  const factory TransactionStatus({
+    String? status,
+  }) = _TransactionStatus;
+  const TransactionStatus._();
 
   factory TransactionStatus.fromJson(Map<String, dynamic> json) =>
-      TransactionStatus(
-        status: json['status'],
-      );
-
-  String? status;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'status': status,
-      };
+      _$TransactionStatusFromJson(json);
 }
