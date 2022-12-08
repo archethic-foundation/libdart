@@ -3,11 +3,10 @@ library test.utils_test;
 // Dart imports:
 import 'dart:typed_data';
 
-// Package imports:
-import 'package:test/test.dart';
-
 // Project imports:
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+// Package imports:
+import 'package:test/test.dart';
 
 void main() {
   group('isHex', () {
@@ -22,14 +21,14 @@ void main() {
   group('hexToUint8List', () {
     test('should convert an hexadecimal to Uint8List', () {
       expect(Uint8List.fromList(hexToUint8List('025381ef')),
-          Uint8List.fromList(<int>[2, 83, 129, 239]));
+          Uint8List.fromList(<int>[2, 83, 129, 239]),);
     });
   });
 
   group('uint8ListToHex', () {
     test('should convert a Uint8List to hex', () {
       expect(uint8ListToHex(Uint8List.fromList(<int>[2, 83, 129, 239])),
-          '025381ef');
+          '025381ef',);
     });
   });
 
@@ -40,7 +39,7 @@ void main() {
             Uint8List.fromList(<int>[1, 2, 3]),
             Uint8List.fromList(<int>[4, 5, 6])
           ]),
-          Uint8List.fromList(<int>[1, 2, 3, 4, 5, 6]));
+          Uint8List.fromList(<int>[1, 2, 3, 4, 5, 6]),);
     });
   });
 

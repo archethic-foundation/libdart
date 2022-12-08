@@ -4,17 +4,17 @@
 class TokenTransfer {
   TokenTransfer({this.amount, this.to, this.tokenAddress, this.tokenId});
 
-  int? amount;
-  String? to;
-  String? tokenAddress;
-  int? tokenId;
-
   factory TokenTransfer.fromJson(Map<String, dynamic> json) => TokenTransfer(
         amount: json['amount']?.toInt(),
         to: json['to'],
         tokenAddress: json['tokenAddress'],
         tokenId: json['tokenId']?.toInt(),
       );
+
+  int? amount;
+  String? to;
+  String? tokenAddress;
+  int? tokenId;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'amount': amount,

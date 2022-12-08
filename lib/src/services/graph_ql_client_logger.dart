@@ -14,15 +14,14 @@ extension GraphQLClientWithLogger on GraphQLClient {
 
 /// [GraphQLClient] proxy that logs [query].
 class GraphQLClientLogger implements GraphQLClient {
-  final GraphQLClient client;
-  final String logName;
-
-  final JsonEncoder _jsonEncoder = const JsonEncoder.withIndent('  ');
-
   GraphQLClientLogger({
     required this.client,
     required this.logName,
   });
+  final GraphQLClient client;
+  final String logName;
+
+  final JsonEncoder _jsonEncoder = const JsonEncoder.withIndent('  ');
 
   @override
   GraphQLCache get cache => client.cache;
@@ -106,9 +105,9 @@ class GraphQLClientLogger implements GraphQLClient {
   }
 
   @override
-  readFragment(
-    fragmentRequest, {
-    optimistic = true,
+  Map<String, dynamic>? readFragment(
+    FragmentRequest fragmentRequest, {
+    bool optimistic = true,
   }) =>
       client.readFragment(
         fragmentRequest,
@@ -116,9 +115,9 @@ class GraphQLClientLogger implements GraphQLClient {
       );
 
   @override
-  readQuery(
-    request, {
-    optimistic = true,
+  Map<String, dynamic>? readQuery(
+    Request request, {
+    bool optimistic = true,
   }) =>
       client.readQuery(
         request,
@@ -151,9 +150,9 @@ class GraphQLClientLogger implements GraphQLClient {
 
   @override
   void writeFragment(
-    fragmentRequest, {
-    broadcast = true,
-    required data,
+    FragmentRequest fragmentRequest, {
+    bool? broadcast = true,
+    required Map<String, dynamic> data,
   }) =>
       client.writeFragment(
         fragmentRequest,
@@ -162,9 +161,9 @@ class GraphQLClientLogger implements GraphQLClient {
 
   @override
   void writeQuery(
-    request, {
-    required data,
-    broadcast = true,
+    Request request, {
+    required Map<String, dynamic> data,
+    bool? broadcast = true,
   }) =>
       client.writeQuery(
         request,

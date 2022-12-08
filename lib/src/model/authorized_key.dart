@@ -7,7 +7,7 @@ class AuthorizedKey {
 
   factory AuthorizedKey.fromJson(Map<String, dynamic> json) => AuthorizedKey(
       publicKey: json['publicKey'],
-      encryptedSecretKey: json['encryptedSecretKey']);
+      encryptedSecretKey: json['encryptedSecretKey'],);
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'publicKey': publicKey,

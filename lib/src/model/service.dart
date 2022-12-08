@@ -5,15 +5,15 @@
 class Service {
   Service({this.derivationPath, this.curve, this.hashAlgo});
 
-  String? derivationPath;
-  String? curve;
-  String? hashAlgo;
-
   factory Service.fromJson(Map<String, dynamic> json) => Service(
         derivationPath: json['derivationPath'],
         curve: json['curve'],
         hashAlgo: json['hashAlgo'],
       );
+
+  String? derivationPath;
+  String? curve;
+  String? hashAlgo;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'derivationPath': derivationPath,

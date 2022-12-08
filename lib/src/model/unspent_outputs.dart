@@ -1,10 +1,18 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
-/// [UnspentOutput] represents the remaining unspent output of the transaction.
+/// UnspentOutput represents the remaining unspent output of the transaction.
 
 class UnspentOutputs {
   UnspentOutputs(
-      {this.amount, this.tokenAddress, this.type, this.from, this.tokenId});
+      {this.amount, this.tokenAddress, this.type, this.from, this.tokenId,});
+
+  factory UnspentOutputs.fromJson(Map<String, dynamic> json) => UnspentOutputs(
+        amount: json['amount']?.toInt(),
+        tokenAddress: json['tokenAddress'],
+        type: json['type'],
+        from: json['from'],
+        tokenId: json['tokenId']?.toInt(),
+      );
 
   /// Amount: asset amount
   int? amount;
@@ -20,14 +28,6 @@ class UnspentOutputs {
 
   /// Token id: It is the id for a token which is allocated when the token is minted.
   int? tokenId;
-
-  factory UnspentOutputs.fromJson(Map<String, dynamic> json) => UnspentOutputs(
-        amount: json['amount']?.toInt(),
-        tokenAddress: json['tokenAddress'],
-        type: json['type'],
-        from: json['from'],
-        tokenId: json['tokenId']?.toInt(),
-      );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'amount': amount,

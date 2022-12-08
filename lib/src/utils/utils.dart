@@ -13,7 +13,7 @@ const String kOriginPrivateKey =
 /// Determines if a string is an hexadecimal
 /// @param {String} inputString Potential hexadecimal string
 bool isHex(String inputString) {
-  final RegExp hexadecimal = RegExp(r'^([0-9A-Fa-f])*$');
+  final hexadecimal = RegExp(r'^([0-9A-Fa-f])*$');
   if (!hexadecimal.hasMatch(inputString)) {
     return false;
   }
@@ -58,8 +58,8 @@ num fromBigInt(int? number) {
 
 /// Convert any number into a byte array
 Uint8List toByteArray(int value, {int length = 0}) {
-  final BigInt byteMask = BigInt.from(0xff);
-  BigInt number = BigInt.from(value);
+  final byteMask = BigInt.from(0xff);
+  var number = BigInt.from(value);
   // Not handling negative numbers. Decide how you want to do that.
   int size;
   if (length > 0) {
@@ -72,8 +72,8 @@ Uint8List toByteArray(int value, {int length = 0}) {
   }
 
   // ignore: prefer_final_locals
-  Uint8List result = Uint8List(size);
-  for (int i = 0; i < size; i++) {
+  var result = Uint8List(size);
+  for (var i = 0; i < size; i++) {
     result[size - i - 1] = (number & byteMask).toInt();
     number = number >> 8;
   }

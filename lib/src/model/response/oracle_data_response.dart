@@ -17,12 +17,12 @@ class OracleDataResponse {
     this.data,
   });
 
-  OracleData? data;
-
   factory OracleDataResponse.fromJson(Map<String, dynamic> json) =>
       OracleDataResponse(
         data: OracleData.fromJson(json['data']),
       );
+
+  OracleData? data;
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
@@ -34,11 +34,11 @@ class OracleData {
     this.oracleData,
   });
 
-  OracleDataClass? oracleData;
-
   factory OracleData.fromJson(Map<String, dynamic> json) => OracleData(
         oracleData: OracleDataClass.fromJson(json['oracleData']),
       );
+
+  OracleDataClass? oracleData;
 
   Map<String, dynamic> toJson() => {
         'oracleData': oracleData!.toJson(),
@@ -51,14 +51,14 @@ class OracleDataClass {
     this.timestamp,
   });
 
-  OracleServices? services;
-  int? timestamp;
-
   factory OracleDataClass.fromJson(Map<String, dynamic> json) =>
       OracleDataClass(
         services: OracleServices.fromJson(json['services']),
         timestamp: json['timestamp'],
       );
+
+  OracleServices? services;
+  int? timestamp;
 
   Map<String, dynamic> toJson() => {
         'services': services!.toJson(),
@@ -71,11 +71,11 @@ class OracleServices {
     this.uco,
   });
 
-  Uco? uco;
-
   factory OracleServices.fromJson(Map<String, dynamic> json) => OracleServices(
         uco: Uco.fromJson(json['uco']),
       );
+
+  Uco? uco;
 
   Map<String, dynamic> toJson() => {
         'uco': uco!.toJson(),

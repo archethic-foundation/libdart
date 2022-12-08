@@ -31,17 +31,6 @@ class Token {
     this.ownerships,
   });
 
-  String? address;
-  String? genesis;
-  String? name;
-  String? id;
-  int? supply;
-  String? type;
-  String? symbol;
-  Map<String, dynamic>? tokenProperties;
-  List<int>? aeip;
-  List<Ownership>? ownerships;
-
   factory Token.fromJson(Map<String, dynamic> map) {
     return Token(
         address: map['address'],
@@ -59,9 +48,20 @@ class Token {
         ownerships: map['ownerships'] == null
             ? null
             : List<Ownership>.from(
-                map['ownerships'].map((dynamic x) => Ownership.fromJson(x))),
-        tokenProperties: map['properties']);
+                map['ownerships'].map((dynamic x) => Ownership.fromJson(x)),),
+        tokenProperties: map['properties'],);
   }
+
+  String? address;
+  String? genesis;
+  String? name;
+  String? id;
+  int? supply;
+  String? type;
+  String? symbol;
+  Map<String, dynamic>? tokenProperties;
+  List<int>? aeip;
+  List<Ownership>? ownerships;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'address': address,
