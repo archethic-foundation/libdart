@@ -16,8 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AesAuthEncryptInfos {
-  List<int>? get tag => throw _privateConstructorUsedError;
-  List<int>? get encrypted => throw _privateConstructorUsedError;
+  @Uint8ListConverter()
+  Uint8List? get tag => throw _privateConstructorUsedError;
+  @Uint8ListConverter()
+  Uint8List? get encrypted => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AesAuthEncryptInfosCopyWith<AesAuthEncryptInfos> get copyWith =>
@@ -30,7 +32,9 @@ abstract class $AesAuthEncryptInfosCopyWith<$Res> {
           AesAuthEncryptInfos value, $Res Function(AesAuthEncryptInfos) then) =
       _$AesAuthEncryptInfosCopyWithImpl<$Res, AesAuthEncryptInfos>;
   @useResult
-  $Res call({List<int>? tag, List<int>? encrypted});
+  $Res call(
+      {@Uint8ListConverter() Uint8List? tag,
+      @Uint8ListConverter() Uint8List? encrypted});
 }
 
 /// @nodoc
@@ -53,11 +57,11 @@ class _$AesAuthEncryptInfosCopyWithImpl<$Res, $Val extends AesAuthEncryptInfos>
       tag: freezed == tag
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
+              as Uint8List?,
       encrypted: freezed == encrypted
           ? _value.encrypted
           : encrypted // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
+              as Uint8List?,
     ) as $Val);
   }
 }
@@ -70,7 +74,9 @@ abstract class _$$_AesAuthEncryptInfosCopyWith<$Res>
       __$$_AesAuthEncryptInfosCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<int>? tag, List<int>? encrypted});
+  $Res call(
+      {@Uint8ListConverter() Uint8List? tag,
+      @Uint8ListConverter() Uint8List? encrypted});
 }
 
 /// @nodoc
@@ -89,13 +95,13 @@ class __$$_AesAuthEncryptInfosCopyWithImpl<$Res>
   }) {
     return _then(_$_AesAuthEncryptInfos(
       tag: freezed == tag
-          ? _value._tag
+          ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
+              as Uint8List?,
       encrypted: freezed == encrypted
-          ? _value._encrypted
+          ? _value.encrypted
           : encrypted // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
+              as Uint8List?,
     ));
   }
 }
@@ -104,30 +110,15 @@ class __$$_AesAuthEncryptInfosCopyWithImpl<$Res>
 
 class _$_AesAuthEncryptInfos extends _AesAuthEncryptInfos {
   const _$_AesAuthEncryptInfos(
-      {final List<int>? tag, final List<int>? encrypted})
-      : _tag = tag,
-        _encrypted = encrypted,
-        super._();
+      {@Uint8ListConverter() this.tag, @Uint8ListConverter() this.encrypted})
+      : super._();
 
-  final List<int>? _tag;
   @override
-  List<int>? get tag {
-    final value = _tag;
-    if (value == null) return null;
-    if (_tag is EqualUnmodifiableListView) return _tag;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<int>? _encrypted;
+  @Uint8ListConverter()
+  final Uint8List? tag;
   @override
-  List<int>? get encrypted {
-    final value = _encrypted;
-    if (value == null) return null;
-    if (_encrypted is EqualUnmodifiableListView) return _encrypted;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+  @Uint8ListConverter()
+  final Uint8List? encrypted;
 
   @override
   String toString() {
@@ -139,16 +130,15 @@ class _$_AesAuthEncryptInfos extends _AesAuthEncryptInfos {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AesAuthEncryptInfos &&
-            const DeepCollectionEquality().equals(other._tag, _tag) &&
-            const DeepCollectionEquality()
-                .equals(other._encrypted, _encrypted));
+            const DeepCollectionEquality().equals(other.tag, tag) &&
+            const DeepCollectionEquality().equals(other.encrypted, encrypted));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_tag),
-      const DeepCollectionEquality().hash(_encrypted));
+      const DeepCollectionEquality().hash(tag),
+      const DeepCollectionEquality().hash(encrypted));
 
   @JsonKey(ignore: true)
   @override
@@ -160,14 +150,17 @@ class _$_AesAuthEncryptInfos extends _AesAuthEncryptInfos {
 
 abstract class _AesAuthEncryptInfos extends AesAuthEncryptInfos {
   const factory _AesAuthEncryptInfos(
-      {final List<int>? tag,
-      final List<int>? encrypted}) = _$_AesAuthEncryptInfos;
+          {@Uint8ListConverter() final Uint8List? tag,
+          @Uint8ListConverter() final Uint8List? encrypted}) =
+      _$_AesAuthEncryptInfos;
   const _AesAuthEncryptInfos._() : super._();
 
   @override
-  List<int>? get tag;
+  @Uint8ListConverter()
+  Uint8List? get tag;
   @override
-  List<int>? get encrypted;
+  @Uint8ListConverter()
+  Uint8List? get encrypted;
   @override
   @JsonKey(ignore: true)
   _$$_AesAuthEncryptInfosCopyWith<_$_AesAuthEncryptInfos> get copyWith =>

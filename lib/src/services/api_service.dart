@@ -152,13 +152,14 @@ class ApiService {
       );
     }
 
-    return result.parsedData?.storageNoncePublicKey ?? '';
+    return result.parsedData!.storageNoncePublicKey!['storageNoncePublicKey'] ??
+        '';
   }
 
   /// Query the network to find a balance from a list of addresses
   Future<Map<String, Balance>> fetchBalance(
     List<String> addresses, {
-    String request = Transaction.kTransactionBalanceQueryAllFields,
+    String request = Transaction.kBalanceQueryAllFields,
   }) async {
     if (addresses.isEmpty) {
       return {};

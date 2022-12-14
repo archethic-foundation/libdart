@@ -7,6 +7,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'ownership.freezed.dart';
 part 'ownership.g.dart';
 
+// TODO(reddwarf03): Check makeCollectionsUnmodifiable
 @Freezed(makeCollectionsUnmodifiable: false)
 class Ownership with _$Ownership {
   const factory Ownership({
