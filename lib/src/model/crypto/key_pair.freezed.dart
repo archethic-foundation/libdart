@@ -16,8 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$KeyPair {
-  List<int>? get privateKey => throw _privateConstructorUsedError;
-  List<int>? get publicKey => throw _privateConstructorUsedError;
+  @Uint8ListConverter()
+  Uint8List? get privateKey => throw _privateConstructorUsedError;
+  @Uint8ListConverter()
+  Uint8List? get publicKey => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $KeyPairCopyWith<KeyPair> get copyWith => throw _privateConstructorUsedError;
@@ -28,7 +30,9 @@ abstract class $KeyPairCopyWith<$Res> {
   factory $KeyPairCopyWith(KeyPair value, $Res Function(KeyPair) then) =
       _$KeyPairCopyWithImpl<$Res, KeyPair>;
   @useResult
-  $Res call({List<int>? privateKey, List<int>? publicKey});
+  $Res call(
+      {@Uint8ListConverter() Uint8List? privateKey,
+      @Uint8ListConverter() Uint8List? publicKey});
 }
 
 /// @nodoc
@@ -51,11 +55,11 @@ class _$KeyPairCopyWithImpl<$Res, $Val extends KeyPair>
       privateKey: freezed == privateKey
           ? _value.privateKey
           : privateKey // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
+              as Uint8List?,
       publicKey: freezed == publicKey
           ? _value.publicKey
           : publicKey // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
+              as Uint8List?,
     ) as $Val);
   }
 }
@@ -67,7 +71,9 @@ abstract class _$$_KeyPairCopyWith<$Res> implements $KeyPairCopyWith<$Res> {
       __$$_KeyPairCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<int>? privateKey, List<int>? publicKey});
+  $Res call(
+      {@Uint8ListConverter() Uint8List? privateKey,
+      @Uint8ListConverter() Uint8List? publicKey});
 }
 
 /// @nodoc
@@ -85,13 +91,13 @@ class __$$_KeyPairCopyWithImpl<$Res>
   }) {
     return _then(_$_KeyPair(
       privateKey: freezed == privateKey
-          ? _value._privateKey
+          ? _value.privateKey
           : privateKey // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
+              as Uint8List?,
       publicKey: freezed == publicKey
-          ? _value._publicKey
+          ? _value.publicKey
           : publicKey // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
+              as Uint8List?,
     ));
   }
 }
@@ -99,30 +105,17 @@ class __$$_KeyPairCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_KeyPair extends _KeyPair {
-  const _$_KeyPair({final List<int>? privateKey, final List<int>? publicKey})
-      : _privateKey = privateKey,
-        _publicKey = publicKey,
-        super._();
+  const _$_KeyPair(
+      {@Uint8ListConverter() this.privateKey,
+      @Uint8ListConverter() this.publicKey})
+      : super._();
 
-  final List<int>? _privateKey;
   @override
-  List<int>? get privateKey {
-    final value = _privateKey;
-    if (value == null) return null;
-    if (_privateKey is EqualUnmodifiableListView) return _privateKey;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<int>? _publicKey;
+  @Uint8ListConverter()
+  final Uint8List? privateKey;
   @override
-  List<int>? get publicKey {
-    final value = _publicKey;
-    if (value == null) return null;
-    if (_publicKey is EqualUnmodifiableListView) return _publicKey;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+  @Uint8ListConverter()
+  final Uint8List? publicKey;
 
   @override
   String toString() {
@@ -135,16 +128,15 @@ class _$_KeyPair extends _KeyPair {
         (other.runtimeType == runtimeType &&
             other is _$_KeyPair &&
             const DeepCollectionEquality()
-                .equals(other._privateKey, _privateKey) &&
-            const DeepCollectionEquality()
-                .equals(other._publicKey, _publicKey));
+                .equals(other.privateKey, privateKey) &&
+            const DeepCollectionEquality().equals(other.publicKey, publicKey));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_privateKey),
-      const DeepCollectionEquality().hash(_publicKey));
+      const DeepCollectionEquality().hash(privateKey),
+      const DeepCollectionEquality().hash(publicKey));
 
   @JsonKey(ignore: true)
   @override
@@ -155,13 +147,16 @@ class _$_KeyPair extends _KeyPair {
 
 abstract class _KeyPair extends KeyPair {
   const factory _KeyPair(
-      {final List<int>? privateKey, final List<int>? publicKey}) = _$_KeyPair;
+      {@Uint8ListConverter() final Uint8List? privateKey,
+      @Uint8ListConverter() final Uint8List? publicKey}) = _$_KeyPair;
   const _KeyPair._() : super._();
 
   @override
-  List<int>? get privateKey;
+  @Uint8ListConverter()
+  Uint8List? get privateKey;
   @override
-  List<int>? get publicKey;
+  @Uint8ListConverter()
+  Uint8List? get publicKey;
   @override
   @JsonKey(ignore: true)
   _$$_KeyPairCopyWith<_$_KeyPair> get copyWith =>

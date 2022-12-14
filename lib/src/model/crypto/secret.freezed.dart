@@ -16,8 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Secret {
-  List<int>? get iv => throw _privateConstructorUsedError;
-  List<int>? get aesKey => throw _privateConstructorUsedError;
+  @Uint8ListConverter()
+  Uint8List? get iv => throw _privateConstructorUsedError;
+  @Uint8ListConverter()
+  Uint8List? get aesKey => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SecretCopyWith<Secret> get copyWith => throw _privateConstructorUsedError;
@@ -28,7 +30,9 @@ abstract class $SecretCopyWith<$Res> {
   factory $SecretCopyWith(Secret value, $Res Function(Secret) then) =
       _$SecretCopyWithImpl<$Res, Secret>;
   @useResult
-  $Res call({List<int>? iv, List<int>? aesKey});
+  $Res call(
+      {@Uint8ListConverter() Uint8List? iv,
+      @Uint8ListConverter() Uint8List? aesKey});
 }
 
 /// @nodoc
@@ -51,11 +55,11 @@ class _$SecretCopyWithImpl<$Res, $Val extends Secret>
       iv: freezed == iv
           ? _value.iv
           : iv // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
+              as Uint8List?,
       aesKey: freezed == aesKey
           ? _value.aesKey
           : aesKey // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
+              as Uint8List?,
     ) as $Val);
   }
 }
@@ -66,7 +70,9 @@ abstract class _$$_SecretCopyWith<$Res> implements $SecretCopyWith<$Res> {
       __$$_SecretCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<int>? iv, List<int>? aesKey});
+  $Res call(
+      {@Uint8ListConverter() Uint8List? iv,
+      @Uint8ListConverter() Uint8List? aesKey});
 }
 
 /// @nodoc
@@ -84,13 +90,13 @@ class __$$_SecretCopyWithImpl<$Res>
   }) {
     return _then(_$_Secret(
       iv: freezed == iv
-          ? _value._iv
+          ? _value.iv
           : iv // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
+              as Uint8List?,
       aesKey: freezed == aesKey
-          ? _value._aesKey
+          ? _value.aesKey
           : aesKey // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
+              as Uint8List?,
     ));
   }
 }
@@ -98,30 +104,16 @@ class __$$_SecretCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Secret extends _Secret {
-  const _$_Secret({final List<int>? iv, final List<int>? aesKey})
-      : _iv = iv,
-        _aesKey = aesKey,
-        super._();
+  const _$_Secret(
+      {@Uint8ListConverter() this.iv, @Uint8ListConverter() this.aesKey})
+      : super._();
 
-  final List<int>? _iv;
   @override
-  List<int>? get iv {
-    final value = _iv;
-    if (value == null) return null;
-    if (_iv is EqualUnmodifiableListView) return _iv;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<int>? _aesKey;
+  @Uint8ListConverter()
+  final Uint8List? iv;
   @override
-  List<int>? get aesKey {
-    final value = _aesKey;
-    if (value == null) return null;
-    if (_aesKey is EqualUnmodifiableListView) return _aesKey;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+  @Uint8ListConverter()
+  final Uint8List? aesKey;
 
   @override
   String toString() {
@@ -133,15 +125,15 @@ class _$_Secret extends _Secret {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Secret &&
-            const DeepCollectionEquality().equals(other._iv, _iv) &&
-            const DeepCollectionEquality().equals(other._aesKey, _aesKey));
+            const DeepCollectionEquality().equals(other.iv, iv) &&
+            const DeepCollectionEquality().equals(other.aesKey, aesKey));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_iv),
-      const DeepCollectionEquality().hash(_aesKey));
+      const DeepCollectionEquality().hash(iv),
+      const DeepCollectionEquality().hash(aesKey));
 
   @JsonKey(ignore: true)
   @override
@@ -151,14 +143,17 @@ class _$_Secret extends _Secret {
 }
 
 abstract class _Secret extends Secret {
-  const factory _Secret({final List<int>? iv, final List<int>? aesKey}) =
-      _$_Secret;
+  const factory _Secret(
+      {@Uint8ListConverter() final Uint8List? iv,
+      @Uint8ListConverter() final Uint8List? aesKey}) = _$_Secret;
   const _Secret._() : super._();
 
   @override
-  List<int>? get iv;
+  @Uint8ListConverter()
+  Uint8List? get iv;
   @override
-  List<int>? get aesKey;
+  @Uint8ListConverter()
+  Uint8List? get aesKey;
   @override
   @JsonKey(ignore: true)
   _$$_SecretCopyWith<_$_Secret> get copyWith =>
