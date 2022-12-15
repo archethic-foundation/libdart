@@ -14,7 +14,7 @@ class Balance {
         token: json['token'] == null
             ? null
             : List<TokenBalance>.from(
-                json['token'].map(TokenBalance.fromJson),
+                json['token'].map((dynamic x) => TokenBalance.fromJson(x)),
               ),
         uco: json['uco']?.toInt(),
       );
