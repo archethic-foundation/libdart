@@ -1,9 +1,14 @@
 Changelog
 =========
 
+#### Version 2.0.1 (2022-12-16)
+* Fix bugs (null Exception in appService)
+* Add lints
+  
 #### Version 2.0.0 (2022-12-08)
 * Change Token structure : add aeip information / add ownerships / add content informations
 * Version for the Mainnet Launch
+  
 #### Version 1.0.27 (2022-11-16)
 * Optimization : Use graphql union requests. BREAKING CHANGE
 * Remove coingecko references and API
