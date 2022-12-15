@@ -101,9 +101,11 @@ class ApiService {
             document: gql(body.toString()),
             parserFn: (data) {
               final transactions = data.mapValues(
-                (value) => value == null
-                    ? null
-                    : Transaction.fromJson(value as Map<String, dynamic>),
+                (value) {
+                  if (value != null) {
+                    return Transaction.fromJson(value as Map<String, dynamic>);
+                  }
+                },
                 keysToIgnore: _responseKeysToIgnore,
               );
               return removeAliasPrefix(transactions) ?? {};
@@ -157,8 +159,10 @@ class ApiService {
   }
 
   /// Query the network to find a balance from a list of addresses
-  Future<Map<String, Balance>> fetchBalance(List<String> addresses,
-      {String request = Transaction.kTransactionBalanceQueryAllFields,}) async {
+  Future<Map<String, Balance>> fetchBalance(
+    List<String> addresses, {
+    String request = Transaction.kTransactionBalanceQueryAllFields,
+  }) async {
     if (addresses.isEmpty) {
       return {};
     }
@@ -177,7 +181,11 @@ class ApiService {
             document: gql(body.toString()),
             parserFn: (object) {
               final balances = object.mapValues(
-                (value) => Balance.fromJson(value as Map<String, dynamic>),
+                (value) {
+                  if (value != null) {
+                    return Balance.fromJson(value as Map<String, dynamic>);
+                  }
+                },
                 keysToIgnore: _responseKeysToIgnore,
               );
               return removeAliasPrefix(balances) ?? {};
@@ -258,7 +266,8 @@ class ApiService {
                 (transactions) => (transactions as List<dynamic>)
                     .map(
                       (transaction) => Transaction.fromJson(
-                          transaction as Map<String, dynamic>,),
+                        transaction as Map<String, dynamic>,
+                      ),
                     )
                     .toList(),
                 keysToIgnore: _responseKeysToIgnore,
@@ -370,13 +379,15 @@ class ApiService {
                 (transactionInputs) => (transactionInputs as List<dynamic>)
                     .map(
                       (transactionInput) => TransactionInput.fromJson(
-                          transactionInput as Map<String, dynamic>,),
+                        transactionInput as Map<String, dynamic>,
+                      ),
                     )
                     .toList(),
                 keysToIgnore: _responseKeysToIgnore,
               );
               return removeAliasPrefix<List<TransactionInput>>(
-                      transactionInputs,) ??
+                    transactionInputs,
+                  ) ??
                   {};
             },
           ),
@@ -414,7 +425,11 @@ class ApiService {
             document: gql(body.toString()),
             parserFn: (json) {
               final transactions = json.mapValues(
-                (value) => Transaction.fromJson(value as Map<String, dynamic>),
+                (value) {
+                  if (value != null) {
+                    return Transaction.fromJson(value as Map<String, dynamic>);
+                  }
+                },
                 keysToIgnore: _responseKeysToIgnore,
               );
               return removeAliasPrefix<Transaction>(transactions) ?? {};
