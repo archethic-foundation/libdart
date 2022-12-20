@@ -3,8 +3,15 @@
 /// UnspentOutput represents the remaining unspent output of the transaction.
 
 class UnspentOutputs {
-  UnspentOutputs(
-      {this.amount, this.tokenAddress, this.type, this.from, this.tokenId,});
+  UnspentOutputs({
+    this.amount,
+    this.tokenAddress,
+    this.type,
+    this.from,
+    this.tokenId,
+    this.timestamp,
+    this.version,
+  });
 
   factory UnspentOutputs.fromJson(Map<String, dynamic> json) => UnspentOutputs(
         amount: json['amount']?.toInt(),
@@ -12,6 +19,8 @@ class UnspentOutputs {
         type: json['type'],
         from: json['from'],
         tokenId: json['tokenId']?.toInt(),
+        timestamp: json['timestamp']?.toInt(),
+        version: json['version']?.toInt(),
       );
 
   /// Amount: asset amount
@@ -29,11 +38,19 @@ class UnspentOutputs {
   /// Token id: It is the id for a token which is allocated when the token is minted.
   int? tokenId;
 
+  /// Date time when the UTXO created/manipulated
+  int? timestamp;
+
+  /// Version of the UTXO data structure
+  int? version;
+
   Map<String, dynamic> toJson() => <String, dynamic>{
         'amount': amount,
         'tokenAddress': tokenAddress,
         'type': type,
         'from': from,
-        'tokenId': tokenId
+        'tokenId': tokenId,
+        'timestamp': timestamp,
+        'version': version,
       };
 }
