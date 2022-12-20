@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 2.0.2 (2022-12-20)
+* Add timestamp, version properties in UnspentOutput model
+
 #### Version 2.0.1 (2022-12-16)
 * Fix bugs (null Exception in appService)
 * Add lints
