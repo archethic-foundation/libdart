@@ -46,7 +46,7 @@ void main() {
                 <AuthorizedKey>[
               AuthorizedKey(
                 publicKey:
-                    '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                    '0001B1D3750EDB9381C96B1A975A55B5B4E4FB37BFAB104C10B0B6C9A00433EC4646',
                 encryptedSecretKey:
                     '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
               )
@@ -57,7 +57,7 @@ void main() {
             <Map<String, String>>[
               <String, String>{
                 'publicKey':
-                    '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                    '0001B1D3750EDB9381C96B1A975A55B5B4E4FB37BFAB104C10B0B6C9A00433EC4646',
                 'encryptedSecretKey':
                     '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'
               }
@@ -368,7 +368,7 @@ condition inherit: [
           concatUint8List(<Uint8List>[
             Uint8List.fromList(
               hexToUint8List(
-                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                '0001B1D3750EDB9381C96B1A975A55B5B4E4FB37BFAB104C10B0B6C9A00433EC4646',
               ),
             ),
             Uint8List.fromList(
@@ -487,7 +487,7 @@ condition inherit: [
             <Map<String, String>>[
               <String, String>{
                 'publicKey':
-                    '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                    '0001B1D3750EDB9381C96B1A975A55B5B4E4FB37BFAB104C10B0B6C9A00433EC4646',
                 'encryptedSecretKey':
                     '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'
               }
