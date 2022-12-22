@@ -406,7 +406,7 @@ class Transaction {
 
       ownership.authorizedPublicKeys!.sort(
         (AuthorizedKey a, AuthorizedKey b) =>
-            a.publicKey!.toUpperCase().compareTo(b.publicKey!.toUpperCase()),
+            a.publicKey!.compareTo(b.publicKey!),
       );
 
       for (final authorizedKey in ownership.authorizedPublicKeys!) {
