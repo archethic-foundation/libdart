@@ -11,7 +11,7 @@ class AuthorizedKey {
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'publicKey': publicKey == null ? null : publicKey!.toUpperCase(),
+        'publicKey': publicKey,
         'encryptedSecretKey': encryptedSecretKey,
       };
 

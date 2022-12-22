@@ -404,6 +404,12 @@ class Transaction {
         bufAuthKeyLength
       ];
 
+      for (final element in ownership.authorizedPublicKeys!) {
+        if (element.publicKey != null) {
+          element.publicKey = element.publicKey!.toUpperCase();
+        }
+      }
+
       ownership.authorizedPublicKeys!.sort(
         (AuthorizedKey a, AuthorizedKey b) =>
             a.publicKey!.compareTo(b.publicKey!),
