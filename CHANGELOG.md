@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 2.0.3 (2022-12-22)
+* Fix sort public keys in authorizedPublicKeys
+
 #### Version 2.0.2 (2022-12-20)
 * Add timestamp, version properties in UnspentOutput model
 
