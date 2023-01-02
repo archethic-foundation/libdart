@@ -30,4 +30,7 @@ class UnspentOutputs with _$UnspentOutputs {
     int? version,
   }) = _UnspentOutputs;
   const UnspentOutputs._();
+
+  factory UnspentOutputs.fromJson(Map<String, dynamic> json) =>
+      _$UnspentOutputsFromJson(json);
 }
