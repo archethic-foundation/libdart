@@ -1,17 +1,13 @@
 library test.transaction_test;
 
-// Dart imports:
 import 'dart:convert';
 import 'dart:typed_data';
-
-// Project imports:
 import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-// Package imports:
 import 'package:test/test.dart';
 
 void main() {
@@ -519,7 +515,7 @@ condition inherit: [
         const seed =
             '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA1';
         final originPrivateKey =
-            ApiService('http://localhost:4000').getOriginKey();
+            ApiService('https://mainnet.archethic.net').getOriginKey();
 
         const text = 'Hello👋';
         final tx = Transaction(type: 'transfer', data: Transaction.initData())
@@ -531,9 +527,10 @@ condition inherit: [
             .build(seed, 0)
             .originSign(originPrivateKey);
 
-        await ApiService('http://localhost:4000').sendTx(tx);
+        await ApiService('https://mainnet.archethic.net').sendTx(tx);
 
-        await ApiService('http://localhost:4000').getTransactionContent({
+        await ApiService('https://mainnet.archethic.net')
+            .getTransactionContent({
           '000057cb7d188385325a30fddf5bca487ee1db525b7a3dc31a595d6f3425c06c93ce':
               ''
         });

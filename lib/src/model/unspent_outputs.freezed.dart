@@ -35,6 +35,12 @@ mixin _$UnspentOutputs {
   /// Token id: It is the id for a token which is allocated when the token is minted.
   int? get tokenId => throw _privateConstructorUsedError;
 
+  /// Date time when the UTXO created/manipulated
+  int? get timestamp => throw _privateConstructorUsedError;
+
+  /// Version of the UTXO data structure
+  int? get version => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $UnspentOutputsCopyWith<UnspentOutputs> get copyWith =>
@@ -52,7 +58,9 @@ abstract class $UnspentOutputsCopyWith<$Res> {
       String? tokenAddress,
       String? type,
       String? from,
-      int? tokenId});
+      int? tokenId,
+      int? timestamp,
+      int? version});
 }
 
 /// @nodoc
@@ -73,6 +81,8 @@ class _$UnspentOutputsCopyWithImpl<$Res, $Val extends UnspentOutputs>
     Object? type = freezed,
     Object? from = freezed,
     Object? tokenId = freezed,
+    Object? timestamp = freezed,
+    Object? version = freezed,
   }) {
     return _then(_value.copyWith(
       amount: freezed == amount
@@ -95,6 +105,14 @@ class _$UnspentOutputsCopyWithImpl<$Res, $Val extends UnspentOutputs>
           ? _value.tokenId
           : tokenId // ignore: cast_nullable_to_non_nullable
               as int?,
+      timestamp: freezed == timestamp
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as int?,
+      version: freezed == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -112,7 +130,9 @@ abstract class _$$_UnspentOutputsCopyWith<$Res>
       String? tokenAddress,
       String? type,
       String? from,
-      int? tokenId});
+      int? tokenId,
+      int? timestamp,
+      int? version});
 }
 
 /// @nodoc
@@ -131,6 +151,8 @@ class __$$_UnspentOutputsCopyWithImpl<$Res>
     Object? type = freezed,
     Object? from = freezed,
     Object? tokenId = freezed,
+    Object? timestamp = freezed,
+    Object? version = freezed,
   }) {
     return _then(_$_UnspentOutputs(
       amount: freezed == amount
@@ -153,6 +175,14 @@ class __$$_UnspentOutputsCopyWithImpl<$Res>
           ? _value.tokenId
           : tokenId // ignore: cast_nullable_to_non_nullable
               as int?,
+      timestamp: freezed == timestamp
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as int?,
+      version: freezed == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -161,7 +191,13 @@ class __$$_UnspentOutputsCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_UnspentOutputs extends _UnspentOutputs {
   const _$_UnspentOutputs(
-      {this.amount, this.tokenAddress, this.type, this.from, this.tokenId})
+      {this.amount,
+      this.tokenAddress,
+      this.type,
+      this.from,
+      this.tokenId,
+      this.timestamp,
+      this.version})
       : super._();
 
   factory _$_UnspentOutputs.fromJson(Map<String, dynamic> json) =>
@@ -187,9 +223,17 @@ class _$_UnspentOutputs extends _UnspentOutputs {
   @override
   final int? tokenId;
 
+  /// Date time when the UTXO created/manipulated
+  @override
+  final int? timestamp;
+
+  /// Version of the UTXO data structure
+  @override
+  final int? version;
+
   @override
   String toString() {
-    return 'UnspentOutputs(amount: $amount, tokenAddress: $tokenAddress, type: $type, from: $from, tokenId: $tokenId)';
+    return 'UnspentOutputs(amount: $amount, tokenAddress: $tokenAddress, type: $type, from: $from, tokenId: $tokenId, timestamp: $timestamp, version: $version)';
   }
 
   @override
@@ -202,13 +246,16 @@ class _$_UnspentOutputs extends _UnspentOutputs {
                 other.tokenAddress == tokenAddress) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.from, from) || other.from == from) &&
-            (identical(other.tokenId, tokenId) || other.tokenId == tokenId));
+            (identical(other.tokenId, tokenId) || other.tokenId == tokenId) &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp) &&
+            (identical(other.version, version) || other.version == version));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, amount, tokenAddress, type, from, tokenId);
+  int get hashCode => Object.hash(runtimeType, amount, tokenAddress, type, from,
+      tokenId, timestamp, version);
 
   @JsonKey(ignore: true)
   @override
@@ -230,7 +277,9 @@ abstract class _UnspentOutputs extends UnspentOutputs {
       final String? tokenAddress,
       final String? type,
       final String? from,
-      final int? tokenId}) = _$_UnspentOutputs;
+      final int? tokenId,
+      final int? timestamp,
+      final int? version}) = _$_UnspentOutputs;
   const _UnspentOutputs._() : super._();
 
   factory _UnspentOutputs.fromJson(Map<String, dynamic> json) =
@@ -256,6 +305,14 @@ abstract class _UnspentOutputs extends UnspentOutputs {
 
   /// Token id: It is the id for a token which is allocated when the token is minted.
   int? get tokenId;
+  @override
+
+  /// Date time when the UTXO created/manipulated
+  int? get timestamp;
+  @override
+
+  /// Version of the UTXO data structure
+  int? get version;
   @override
   @JsonKey(ignore: true)
   _$$_UnspentOutputsCopyWith<_$_UnspentOutputs> get copyWith =>

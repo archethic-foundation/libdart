@@ -182,8 +182,21 @@ class Transaction with _$Transaction {
       }
     }
 
+    final newAuthorizedPublicKeys = <AuthorizedKey>[];
+    for (final element in authorizedKeys) {
+      if (element.publicKey != null) {
+        newAuthorizedPublicKeys.add(
+          AuthorizedKey(
+            encryptedSecretKey: element.encryptedSecretKey,
+            publicKey: element.publicKey!.toUpperCase(),
+          ),
+        );
+      }
+    }
+
     final newOwnership = data!.ownerships
-      ..add(Ownership(secret: secret, authorizedPublicKeys: authorizedKeys));
+      ..add(Ownership(
+          secret: secret, authorizedPublicKeys: newAuthorizedPublicKeys,),);
 
     return copyWith.data!(
       ownerships: newOwnership,
@@ -326,12 +339,24 @@ class Transaction with _$Transaction {
         bufAuthKeyLength
       ];
 
-      ownership.authorizedPublicKeys.sort(
+      final newAuthorizedPublicKeys = <AuthorizedKey>[];
+      for (final element in ownership.authorizedPublicKeys) {
+        if (element.publicKey != null) {
+          newAuthorizedPublicKeys.add(
+            AuthorizedKey(
+              encryptedSecretKey: element.encryptedSecretKey,
+              publicKey: element.publicKey!.toUpperCase(),
+            ),
+          );
+        }
+      }
+
+      newAuthorizedPublicKeys.sort(
         (AuthorizedKey a, AuthorizedKey b) =>
             a.publicKey!.compareTo(b.publicKey!),
       );
 
-      for (final authorizedKey in ownership.authorizedPublicKeys) {
+      for (final authorizedKey in newAuthorizedPublicKeys) {
         authorizedKeysBuffer
             .add(Uint8List.fromList(hexToUint8List(authorizedKey.publicKey!)));
         authorizedKeysBuffer.add(

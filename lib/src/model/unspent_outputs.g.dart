@@ -13,6 +13,8 @@ _$_UnspentOutputs _$$_UnspentOutputsFromJson(Map<String, dynamic> json) =>
       type: json['type'] as String?,
       from: json['from'] as String?,
       tokenId: json['tokenId'] as int?,
+      timestamp: json['timestamp'] as int?,
+      version: json['version'] as int?,
     );
 
 Map<String, dynamic> _$$_UnspentOutputsToJson(_$_UnspentOutputs instance) =>
@@ -22,4 +24,6 @@ Map<String, dynamic> _$$_UnspentOutputsToJson(_$_UnspentOutputs instance) =>
       'type': instance.type,
       'from': instance.from,
       'tokenId': instance.tokenId,
+      'timestamp': instance.timestamp,
+      'version': instance.version,
     };
