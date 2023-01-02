@@ -127,12 +127,12 @@ void main() {
         log('kDerivationPath: $kDerivationPath');
 
         final originPrivateKey =
-            ApiService('http://localhost:4000').getOriginKey();
+            ApiService('https://mainnet.archethic.net').getOriginKey();
         log('originPrivateKey: $originPrivateKey');
 
         /// Create Keychain from keyChain seed and wallet public key to encrypt secret
         final keychainTransaction =
-            ApiService('http://localhost:4000').newKeychainTransaction(
+            ApiService('https://mainnet.archethic.net').newKeychainTransaction(
           keychainSeed,
           <String>[
             uint8ListToHex(
@@ -146,8 +146,8 @@ void main() {
         log('keychainTransaction: ${keychainTransaction.convertToJSON()}');
 
         /// Create Keychain Access for wallet
-        final accessKeychainTx =
-            ApiService('http://localhost:4000').newAccessKeychainTransaction(
+        final accessKeychainTx = ApiService('https://mainnet.archethic.net')
+            .newAccessKeychainTransaction(
           walletSeed,
           Uint8List.fromList(
             hexToUint8List(keychainTransaction.address!.address!),
@@ -158,21 +158,23 @@ void main() {
 
         // ignore: unused_local_variable
         final transactionStatusKeychain =
-            await ApiService('http://localhost:4000')
+            await ApiService('https://mainnet.archethic.net')
                 .sendTx(keychainTransaction);
 
         await Future<void>.delayed(const Duration(seconds: 2));
 
         // ignore: unused_local_variable
         final transactionStatusKeychainAccess =
-            await ApiService('http://localhost:4000').sendTx(accessKeychainTx);
+            await ApiService('https://mainnet.archethic.net')
+                .sendTx(accessKeychainTx);
 
         await Future<void>.delayed(const Duration(seconds: 2));
 
         /// Add service in keychain
 
         final keychainToUpdate =
-            await ApiService('http://localhost:4000').getKeychain(walletSeed);
+            await ApiService('https://mainnet.archethic.net')
+                .getKeychain(walletSeed);
         log('keychain seed (add Account) : ${uint8ListToHex(keychainToUpdate.seed!)}');
 
         final genesisAddressKeychain =
@@ -185,7 +187,7 @@ void main() {
         keychainToUpdate.copyWithService(kServiceName2, kDerivationPath2);
 
         final lastTransactionKeychainMap =
-            await ApiService('http://localhost:4000')
+            await ApiService('https://mainnet.archethic.net')
                 .getLastTransaction([genesisAddressKeychain]);
 
         final aesKey = uint8ListToHex(
@@ -227,11 +229,12 @@ void main() {
 
         // ignore: unused_local_variable
         final transactionStatusKeychain2 =
-            await ApiService('http://localhost:4000')
+            await ApiService('https://mainnet.archethic.net')
                 .sendTx(keychainTransaction2);
 
         await Future<void>.delayed(const Duration(seconds: 2));
-        await ApiService('http://localhost:4000').getKeychain(walletSeed);
+        await ApiService('https://mainnet.archethic.net')
+            .getKeychain(walletSeed);
 
         expect(transactionStatusKeychain2.status, 'pending');
       },
@@ -261,12 +264,12 @@ void main() {
         log('kDerivationPath: $kDerivationPath');
 
         final originPrivateKey =
-            ApiService('http://localhost:4000').getOriginKey();
+            ApiService('https://mainnet.archethic.net').getOriginKey();
         log('originPrivateKey: $originPrivateKey');
 
         /// Create Keychain from keyChain seed and wallet public key to encrypt secret
         final keychainTransaction =
-            ApiService('http://localhost:4000').newKeychainTransaction(
+            ApiService('https://mainnet.archethic.net').newKeychainTransaction(
           keychainSeed,
           <String>[
             uint8ListToHex(
@@ -280,8 +283,8 @@ void main() {
         log('keychainTransaction: ${keychainTransaction.convertToJSON()}');
 
         /// Create Keychain Access for wallet
-        final accessKeychainTx =
-            ApiService('http://localhost:4000').newAccessKeychainTransaction(
+        final accessKeychainTx = ApiService('https://mainnet.archethic.net')
+            .newAccessKeychainTransaction(
           walletSeed,
           Uint8List.fromList(
             hexToUint8List(keychainTransaction.address!.address!),
@@ -292,18 +295,19 @@ void main() {
 
         // ignore: unused_local_variable
         final transactionStatusKeychain =
-            await ApiService('http://localhost:4000')
+            await ApiService('https://mainnet.archethic.net')
                 .sendTx(keychainTransaction);
 
         await Future<void>.delayed(const Duration(seconds: 2));
 
         // ignore: unused_local_variable
         final transactionStatusKeychainAccess =
-            await ApiService('http://localhost:4000').sendTx(accessKeychainTx);
+            await ApiService('https://mainnet.archethic.net')
+                .sendTx(accessKeychainTx);
 
         /// Get KeyChain Wallet
-        final keychain =
-            await ApiService('http://localhost:4000').getKeychain(walletSeed);
+        final keychain = await ApiService('https://mainnet.archethic.net')
+            .getKeychain(walletSeed);
 
         expect(keychain.services.keys.elementAt(0), 'main-uco');
       },
