@@ -29,6 +29,8 @@ mixin _$Token {
   String? get symbol => throw _privateConstructorUsedError;
   Map<String, dynamic> get tokenProperties =>
       throw _privateConstructorUsedError;
+  List<int>? get aeip => throw _privateConstructorUsedError;
+  List<Ownership>? get ownerships => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,7 +50,9 @@ abstract class $TokenCopyWith<$Res> {
       int? supply,
       String? type,
       String? symbol,
-      Map<String, dynamic> tokenProperties});
+      Map<String, dynamic> tokenProperties,
+      List<int>? aeip,
+      List<Ownership>? ownerships});
 }
 
 /// @nodoc
@@ -72,6 +76,8 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
     Object? type = freezed,
     Object? symbol = freezed,
     Object? tokenProperties = null,
+    Object? aeip = freezed,
+    Object? ownerships = freezed,
   }) {
     return _then(_value.copyWith(
       address: freezed == address
@@ -106,6 +112,14 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
           ? _value.tokenProperties
           : tokenProperties // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
+      aeip: freezed == aeip
+          ? _value.aeip
+          : aeip // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
+      ownerships: freezed == ownerships
+          ? _value.ownerships
+          : ownerships // ignore: cast_nullable_to_non_nullable
+              as List<Ownership>?,
     ) as $Val);
   }
 }
@@ -124,7 +138,9 @@ abstract class _$$_TokenCopyWith<$Res> implements $TokenCopyWith<$Res> {
       int? supply,
       String? type,
       String? symbol,
-      Map<String, dynamic> tokenProperties});
+      Map<String, dynamic> tokenProperties,
+      List<int>? aeip,
+      List<Ownership>? ownerships});
 }
 
 /// @nodoc
@@ -144,6 +160,8 @@ class __$$_TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res, _$_Token>
     Object? type = freezed,
     Object? symbol = freezed,
     Object? tokenProperties = null,
+    Object? aeip = freezed,
+    Object? ownerships = freezed,
   }) {
     return _then(_$_Token(
       address: freezed == address
@@ -178,6 +196,14 @@ class __$$_TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res, _$_Token>
           ? _value._tokenProperties
           : tokenProperties // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
+      aeip: freezed == aeip
+          ? _value._aeip
+          : aeip // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
+      ownerships: freezed == ownerships
+          ? _value._ownerships
+          : ownerships // ignore: cast_nullable_to_non_nullable
+              as List<Ownership>?,
     ));
   }
 }
@@ -193,8 +219,12 @@ class _$_Token extends _Token {
       this.supply,
       this.type,
       this.symbol,
-      final Map<String, dynamic> tokenProperties = const {}})
+      final Map<String, dynamic> tokenProperties = const {},
+      final List<int>? aeip = const [],
+      final List<Ownership>? ownerships = const []})
       : _tokenProperties = tokenProperties,
+        _aeip = aeip,
+        _ownerships = ownerships,
         super._();
 
   factory _$_Token.fromJson(Map<String, dynamic> json) =>
@@ -223,9 +253,31 @@ class _$_Token extends _Token {
     return EqualUnmodifiableMapView(_tokenProperties);
   }
 
+  final List<int>? _aeip;
+  @override
+  @JsonKey()
+  List<int>? get aeip {
+    final value = _aeip;
+    if (value == null) return null;
+    if (_aeip is EqualUnmodifiableListView) return _aeip;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<Ownership>? _ownerships;
+  @override
+  @JsonKey()
+  List<Ownership>? get ownerships {
+    final value = _ownerships;
+    if (value == null) return null;
+    if (_ownerships is EqualUnmodifiableListView) return _ownerships;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'Token(address: $address, genesis: $genesis, name: $name, id: $id, supply: $supply, type: $type, symbol: $symbol, tokenProperties: $tokenProperties)';
+    return 'Token(address: $address, genesis: $genesis, name: $name, id: $id, supply: $supply, type: $type, symbol: $symbol, tokenProperties: $tokenProperties, aeip: $aeip, ownerships: $ownerships)';
   }
 
   @override
@@ -241,7 +293,10 @@ class _$_Token extends _Token {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             const DeepCollectionEquality()
-                .equals(other._tokenProperties, _tokenProperties));
+                .equals(other._tokenProperties, _tokenProperties) &&
+            const DeepCollectionEquality().equals(other._aeip, _aeip) &&
+            const DeepCollectionEquality()
+                .equals(other._ownerships, _ownerships));
   }
 
   @JsonKey(ignore: true)
@@ -255,7 +310,9 @@ class _$_Token extends _Token {
       supply,
       type,
       symbol,
-      const DeepCollectionEquality().hash(_tokenProperties));
+      const DeepCollectionEquality().hash(_tokenProperties),
+      const DeepCollectionEquality().hash(_aeip),
+      const DeepCollectionEquality().hash(_ownerships));
 
   @JsonKey(ignore: true)
   @override
@@ -280,7 +337,9 @@ abstract class _Token extends Token {
       final int? supply,
       final String? type,
       final String? symbol,
-      final Map<String, dynamic> tokenProperties}) = _$_Token;
+      final Map<String, dynamic> tokenProperties,
+      final List<int>? aeip,
+      final List<Ownership>? ownerships}) = _$_Token;
   const _Token._() : super._();
 
   factory _Token.fromJson(Map<String, dynamic> json) = _$_Token.fromJson;
@@ -301,6 +360,10 @@ abstract class _Token extends Token {
   String? get symbol;
   @override
   Map<String, dynamic> get tokenProperties;
+  @override
+  List<int>? get aeip;
+  @override
+  List<Ownership>? get ownerships;
   @override
   @JsonKey(ignore: true)
   _$$_TokenCopyWith<_$_Token> get copyWith =>

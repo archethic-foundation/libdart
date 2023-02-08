@@ -16,6 +16,12 @@ _$_Token _$$_TokenFromJson(Map<String, dynamic> json) => _$_Token(
       symbol: json['symbol'] as String?,
       tokenProperties:
           json['tokenProperties'] as Map<String, dynamic>? ?? const {},
+      aeip: (json['aeip'] as List<dynamic>?)?.map((e) => e as int).toList() ??
+          const [],
+      ownerships: (json['ownerships'] as List<dynamic>?)
+              ?.map((e) => Ownership.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_TokenToJson(_$_Token instance) => <String, dynamic>{
@@ -27,4 +33,6 @@ Map<String, dynamic> _$$_TokenToJson(_$_Token instance) => <String, dynamic>{
       'type': instance.type,
       'symbol': instance.symbol,
       'tokenProperties': instance.tokenProperties,
+      'aeip': instance.aeip,
+      'ownerships': instance.ownerships,
     };

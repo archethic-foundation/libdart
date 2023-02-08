@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'token.freezed.dart';
@@ -16,6 +17,8 @@ class Token with _$Token {
     String? type,
     String? symbol,
     @Default({}) final Map<String, dynamic> tokenProperties,
+    @Default([]) final List<int>? aeip,
+    @Default([]) final List<Ownership>? ownerships,
   }) = _Token;
   const Token._();
 
@@ -31,5 +34,8 @@ class Token with _$Token {
         'type': type,
         'symbol': symbol,
         'properties': tokenProperties,
+        'aeip': aeip,
+        'ownerships':
+            List<dynamic>.from(ownerships!.map((Ownership x) => x.toJson())),
       };
 }
