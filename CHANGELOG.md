@@ -1,6 +1,10 @@
 Changelog
 =========
 
+#### Version 2.0.4 (2023-02-08)
+* BREAKING-CHANGE - Dart SDK model classes migrate to immutable classes with freezed.
+* BREAKING-CHANGE - Change Address().isConform() to Address().isValid() method
+
 #### Version 2.0.3 (2022-12-22)
 * Fix sort public keys in authorizedPublicKeys
 
@@ -32,7 +36,7 @@ Changelog
 * Implementation of tokens management
 * Serialization - int management
 * Coingecko: Get historical market data include price, market cap, and 24h volume within a range of timestamp
-* Check curve type in addressFormatControl method
+* Check curve type in  method
 * Add error field in transactionFee message
 * Add field tokenId in fetchBalance method
 * Add getToken method to query the network to find a token's data
