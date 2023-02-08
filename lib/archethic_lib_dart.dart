@@ -4,6 +4,7 @@
 /// This implementation is based on Official Archethic Javascript library for Node and Browser.
 library archethic;
 
+export 'src/model/address.dart';
 export 'src/model/authorized_key.dart';
 export 'src/model/balance.dart';
 export 'src/model/cross_validation_stamp.dart';
