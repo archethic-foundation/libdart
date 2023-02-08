@@ -195,8 +195,12 @@ class Transaction with _$Transaction {
     }
 
     final newOwnership = data!.ownerships
-      ..add(Ownership(
-          secret: secret, authorizedPublicKeys: newAuthorizedPublicKeys,),);
+      ..add(
+        Ownership(
+          secret: secret,
+          authorizedPublicKeys: newAuthorizedPublicKeys,
+        ),
+      );
 
     return copyWith.data!(
       ownerships: newOwnership,
@@ -289,7 +293,7 @@ class Transaction with _$Transaction {
   /// Set the transaction builder with address (required for originSign)
   /// @param {Address} to Address
   Transaction setAddress(Address address) {
-    if (!address.isConform()) {
+    if (!address.isValid()) {
       throw const FormatException(
         "'address' must contain an hexadecimal string",
       );

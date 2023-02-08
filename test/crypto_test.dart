@@ -2,6 +2,7 @@ library test.crypto_test;
 
 import 'dart:math';
 import 'dart:typed_data';
+import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:archethic_lib_dart/src/utils/wallet_encoder.dart';
@@ -149,30 +150,34 @@ void main() {
     test('should control the format of an address', () {
       // Valid address
       expect(
-        crypto.addressFormatControl(
-          '0100035910490caa7e3d48b8f80b82a1d02102baa5fd5491dd97534f4af458638362',
-        ),
+        const Address(
+          address:
+              '0100035910490caa7e3d48b8f80b82a1d02102baa5fd5491dd97534f4af458638362',
+        ).isValid(),
         true,
       );
       // Wrong address (too short)
       expect(
-        crypto.addressFormatControl(
-          '0100035910490caa7e3d48b8f80b82a1d02102baa5fd5491dd97534f4af4586383',
-        ),
+        const Address(
+          address:
+              '0100035910490caa7e3d48b8f80b82a1d02102baa5fd5491dd97534f4af4586383',
+        ).isValid(),
         false,
       );
       // Not hex
       expect(
-        crypto.addressFormatControl(
-          '0100035910490caa7e3d48b8f80b82a1d02102baa5fd5491dd97534f4af458638M',
-        ),
+        const Address(
+          address:
+              '0100035910490caa7e3d48b8f80b82a1d02102baa5fd5491dd97534f4af458638M',
+        ).isValid(),
         false,
       );
       // Hash ko
       expect(
-        crypto.addressFormatControl(
-          '0109035910490caa7e3d48b8f80b82a1d02102baa5fd5491dd97534f4af458638362',
-        ),
+        const Address(
+          address:
+              '0109035910490caa7e3d48b8f80b82a1d02102baa5fd5491dd97534f4af458638362',
+        ).isValid(),
         false,
       );
     });
