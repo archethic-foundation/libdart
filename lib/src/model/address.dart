@@ -10,11 +10,18 @@ import 'package:pointycastle/export.dart' show Digest;
 /// with an invalid algorithm or invalid size will be rejected
 
 part 'address.freezed.dart';
-part 'address.g.dart';
 
 const kAddressLength = 68;
 const kCurveType = <int>[0, 1, 2];
 const kHashType = <int>[0, 1, 2, 3, 4];
+
+class AddressJsonConverter extends JsonConverter<Address, String> {
+  const AddressJsonConverter();
+  @override
+  Address fromJson(String json) => Address(address: json);
+  @override
+  String toJson(Address object) => object.address ?? '';
+}
 
 @freezed
 class Address with _$Address {
@@ -22,9 +29,6 @@ class Address with _$Address {
     String? address,
   }) = _Address;
   const Address._();
-
-  factory Address.fromJson(Map<String, dynamic> json) =>
-      _$AddressFromJson(json);
 
   /// Verify the structure of an address
   /// @param {String} address to control

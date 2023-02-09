@@ -14,15 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Address _$AddressFromJson(Map<String, dynamic> json) {
-  return _Address.fromJson(json);
-}
-
 /// @nodoc
 mixin _$Address {
   String? get address => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $AddressCopyWith<Address> get copyWith => throw _privateConstructorUsedError;
 }
@@ -91,12 +86,9 @@ class __$$_AddressCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$_Address extends _Address {
   const _$_Address({this.address}) : super._();
-
-  factory _$_Address.fromJson(Map<String, dynamic> json) =>
-      _$$_AddressFromJson(json);
 
   @override
   final String? address;
@@ -114,7 +106,6 @@ class _$_Address extends _Address {
             (identical(other.address, address) || other.address == address));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, address);
 
@@ -123,20 +114,11 @@ class _$_Address extends _Address {
   @pragma('vm:prefer-inline')
   _$$_AddressCopyWith<_$_Address> get copyWith =>
       __$$_AddressCopyWithImpl<_$_Address>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_AddressToJson(
-      this,
-    );
-  }
 }
 
 abstract class _Address extends Address {
   const factory _Address({final String? address}) = _$_Address;
   const _Address._() : super._();
-
-  factory _Address.fromJson(Map<String, dynamic> json) = _$_Address.fromJson;
 
   @override
   String? get address;

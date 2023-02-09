@@ -21,6 +21,7 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Transaction {
   ///  - Address: hash of the new generated public key for the given transaction
+  @AddressJsonConverter()
   Address? get address => throw _privateConstructorUsedError;
 
   /// - [Balance] represents a ledger balance
@@ -70,7 +71,7 @@ abstract class $TransactionCopyWith<$Res> {
       _$TransactionCopyWithImpl<$Res, Transaction>;
   @useResult
   $Res call(
-      {Address? address,
+      {@AddressJsonConverter() Address? address,
       Balance? balance,
       int? chainLength,
       List<CrossValidationStamp> crossValidationStamps,
@@ -225,7 +226,7 @@ abstract class _$$_TransactionCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {Address? address,
+      {@AddressJsonConverter() Address? address,
       Balance? balance,
       int? chainLength,
       List<CrossValidationStamp> crossValidationStamps,
@@ -329,7 +330,7 @@ class __$$_TransactionCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Transaction extends _Transaction {
   const _$_Transaction(
-      {this.address,
+      {@AddressJsonConverter() this.address,
       this.balance,
       this.chainLength,
       final List<CrossValidationStamp> crossValidationStamps = const [],
@@ -350,6 +351,7 @@ class _$_Transaction extends _Transaction {
 
   ///  - Address: hash of the new generated public key for the given transaction
   @override
+  @AddressJsonConverter()
   final Address? address;
 
   /// - [Balance] represents a ledger balance
@@ -477,7 +479,7 @@ class _$_Transaction extends _Transaction {
 
 abstract class _Transaction extends Transaction {
   const factory _Transaction(
-      {final Address? address,
+      {@AddressJsonConverter() final Address? address,
       final Balance? balance,
       final int? chainLength,
       final List<CrossValidationStamp> crossValidationStamps,
@@ -497,6 +499,7 @@ abstract class _Transaction extends Transaction {
   @override
 
   ///  - Address: hash of the new generated public key for the given transaction
+  @AddressJsonConverter()
   Address? get address;
   @override
 

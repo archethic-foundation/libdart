@@ -8,9 +8,8 @@ part of 'transaction.dart';
 
 _$_Transaction _$$_TransactionFromJson(Map<String, dynamic> json) =>
     _$_Transaction(
-      address: json['address'] == null
-          ? null
-          : Address.fromJson(json['address'] as Map<String, dynamic>),
+      address: _$JsonConverterFromJson<String, Address>(
+          json['address'], const AddressJsonConverter().fromJson),
       balance: json['balance'] == null
           ? null
           : Balance.fromJson(json['balance'] as Map<String, dynamic>),
@@ -40,7 +39,8 @@ _$_Transaction _$$_TransactionFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_TransactionToJson(_$_Transaction instance) =>
     <String, dynamic>{
-      'address': instance.address,
+      'address': _$JsonConverterToJson<String, Address>(
+          instance.address, const AddressJsonConverter().toJson),
       'balance': instance.balance,
       'chainLength': instance.chainLength,
       'crossValidationStamps': instance.crossValidationStamps,
@@ -53,3 +53,15 @@ Map<String, dynamic> _$$_TransactionToJson(_$_Transaction instance) =>
       'validationStamp': instance.validationStamp,
       'version': instance.version,
     };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) =>
+    json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) =>
+    value == null ? null : toJson(value);

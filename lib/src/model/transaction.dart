@@ -44,11 +44,15 @@ const Map<String, int> txTypes = <String, int>{
   'node_rewards': 9,
 };
 
+String? addressToJson(Address? address) => address?.address;
+
+Address addressFromJson(String json) => Address(address: json);
+
 @freezed
 class Transaction with _$Transaction {
   const factory Transaction({
     ///  - Address: hash of the new generated public key for the given transaction
-    Address? address,
+    @AddressJsonConverter() Address? address,
 
     /// - [Balance] represents a ledger balance
     Balance? balance,
@@ -88,7 +92,7 @@ class Transaction with _$Transaction {
   factory Transaction.fromJson(Map<String, dynamic> json) =>
       _$TransactionFromJson(json);
 
-  @override
+  /* @override
   Map<String, dynamic> toJson() => <String, dynamic>{
         'address': address!.address,
         'balance': balance!.toJson(),
@@ -105,7 +109,7 @@ class Transaction with _$Transaction {
         'type': type,
         'validationStamp': validationStamp!.toJson(),
         'version': version,
-      };
+      };*/
 
   /// Generate the transaction address, keys and signatures
   /// @param {String} seed Transaction chain seed (hexadecimal or binary buffer)
