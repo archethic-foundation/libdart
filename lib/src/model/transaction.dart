@@ -453,7 +453,7 @@ class Transaction with _$Transaction {
   String convertToJSON() {
     final json = jsonEncode(<String, Object?>{
       'version': version,
-      'address': address == null ? '' : address!,
+      'address': address == null ? '' : address!.address,
       'type': type,
       'data': {
         'content': HEX.encode(Uint16List.fromList(utf8.encode(data!.content!))),
