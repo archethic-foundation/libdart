@@ -504,9 +504,9 @@ class ApiService {
     String? serviceName,
     String? derivationPath,
   }) {
-    final keychain = Keychain(seed: hexToUint8List(seed));
+    var keychain = Keychain(seed: hexToUint8List(seed));
     if (serviceName!.isNotEmpty && derivationPath!.isNotEmpty) {
-      keychain.copyWithService(serviceName, derivationPath);
+      keychain = keychain.copyWithService(serviceName, derivationPath);
     }
 
     final aesKey = uint8ListToHex(
