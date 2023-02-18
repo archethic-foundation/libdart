@@ -6,12 +6,9 @@ import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/cross_validation_stamp.dart';
 import 'package:archethic_lib_dart/src/model/data.dart';
-import 'package:archethic_lib_dart/src/model/ledger.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';
-import 'package:archethic_lib_dart/src/model/token_ledger.dart';
 import 'package:archethic_lib_dart/src/model/token_transfer.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
-import 'package:archethic_lib_dart/src/model/uco_ledger.dart';
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
 import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
@@ -141,8 +138,7 @@ class Transaction with _$Transaction {
         ),
       ),
     );
-    final newTransactionWithAddressAndPPK =
-        transactionWithAddressAndPPK.copyWith(
+    return transactionWithAddressAndPPK.copyWith(
       previousSignature: uint8ListToHex(
         crypto.sign(
           transactionWithAddressAndPPK.previousSignaturePayload(),
@@ -150,16 +146,14 @@ class Transaction with _$Transaction {
         ),
       ),
     );
-    return newTransactionWithAddressAndPPK;
   }
 
   /// Add smart contract code to the transaction
   /// @param {String} code Smart contract code
   Transaction setCode(String code) {
-    final newData =
-        data == null ? Data(code: code) : data!.copyWith(code: code);
-    final newTransaction = copyWith(data: newData);
-    return newTransaction;
+    return copyWith.data!(
+      code: code,
+    );
   }
 
   /// Add a content to the transaction
@@ -212,11 +206,9 @@ class Transaction with _$Transaction {
         ),
       );
 
-    final newData = data == null
-        ? Data(ownerships: newOwnership)
-        : data!.copyWith(ownerships: newOwnership);
-    final newTransaction = copyWith(data: newData);
-    return newTransaction;
+    return copyWith.data!(
+      ownerships: newOwnership,
+    );
   }
 
   /// Add a UCO transfer to the transaction
@@ -229,21 +221,9 @@ class Transaction with _$Transaction {
 
     final newUCOTransfer = data!.ledger!.uco!.transfers
       ..add(UCOTransfer(to: to, amount: amount));
-
-    final newUco = data!.ledger!.uco == null
-        ? UCOLedger(transfers: newUCOTransfer)
-        : data!.ledger!.uco!.copyWith(transfers: newUCOTransfer);
-
-    final newLedger = data!.ledger == null
-        ? Ledger(uco: newUco)
-        : data!.ledger!.copyWith(uco: newUco);
-
-    final newData = data == null
-        ? Data(ledger: newLedger)
-        : data!.copyWith(ledger: newLedger);
-
-    final newTransaction = copyWith(data: newData);
-    return newTransaction;
+    return copyWith.data!.ledger!.uco!(
+      transfers: newUCOTransfer,
+    );
   }
 
   /// Add a token transfer to the transaction
@@ -279,21 +259,9 @@ class Transaction with _$Transaction {
     );
 
     final newTokenTransfer = data!.ledger!.token!.transfers..add(tokenTransfer);
-
-    final newToken = data!.ledger!.token == null
-        ? TokenLedger(transfers: newTokenTransfer)
-        : data!.ledger!.token!.copyWith(transfers: newTokenTransfer);
-
-    final newLedger = data!.ledger == null
-        ? Ledger(token: newToken)
-        : data!.ledger!.copyWith(token: newToken);
-
-    final newData = data == null
-        ? Data(ledger: newLedger)
-        : data!.copyWith(ledger: newLedger);
-
-    final newTransaction = copyWith(data: newData);
-    return newTransaction;
+    return copyWith.data!.ledger!.token!(
+      transfers: newTokenTransfer,
+    );
   }
 
   /// Add recipient to the transaction
@@ -304,13 +272,9 @@ class Transaction with _$Transaction {
     }
 
     final newRecipient = data!.recipients..add(to);
-    final newData = data == null
-        ? Data(recipients: newRecipient)
-        : data!.copyWith(recipients: newRecipient);
-    final newTransaction = copyWith(
-      data: newData,
+    return copyWith.data!(
+      recipients: newRecipient,
     );
-    return newTransaction;
   }
 
   /// Set the transaction builder with Previous Publickey and Previous Signature
@@ -327,9 +291,7 @@ class Transaction with _$Transaction {
     if (!isHex(prevPubKey)) {
       throw const FormatException("'prevPubKey' must be an hexadecimal string");
     }
-    final newTransaction =
-        copyWith(previousSignature: prevSign, previousPublicKey: prevPubKey);
-    return newTransaction;
+    return copyWith(previousSignature: prevSign, previousPublicKey: prevPubKey);
   }
 
   /// Set the transaction builder with address (required for originSign)
@@ -340,8 +302,7 @@ class Transaction with _$Transaction {
         "'address' must contain an hexadecimal string",
       );
     }
-    final newTransaction = copyWith(address: address);
-    return newTransaction;
+    return copyWith(address: address);
   }
 
   /// Sign the transaction with an origin private key
@@ -350,11 +311,10 @@ class Transaction with _$Transaction {
     if (!isHex(privateKey)) {
       throw const FormatException("'privateKey' must be an hexadecimal string");
     }
-    final newTransaction = copyWith(
+    return copyWith(
       originSignature:
           uint8ListToHex(crypto.sign(originSignaturePayload(), privateKey)),
     );
-    return newTransaction;
   }
 
   Uint8List originSignaturePayload() {

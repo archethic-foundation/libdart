@@ -504,12 +504,9 @@ class ApiService {
     String? serviceName,
     String? derivationPath,
   }) {
-    final keychain = Keychain(seed: hexToUint8List(seed));
-    final Keychain newKeychain;
+    var keychain = Keychain(seed: hexToUint8List(seed));
     if (serviceName!.isNotEmpty && derivationPath!.isNotEmpty) {
-      newKeychain = keychain.copyWithService(serviceName, derivationPath);
-    } else {
-      newKeychain = keychain;
+      keychain = keychain.copyWithService(serviceName, derivationPath);
     }
 
     final aesKey = uint8ListToHex(
@@ -529,9 +526,9 @@ class ApiService {
     }
 
     return Transaction(type: 'keychain', data: Transaction.initData())
-        .setContent(jsonEncode(newKeychain.toDID()))
+        .setContent(jsonEncode(keychain.toDID()))
         .addOwnership(
-          uint8ListToHex(aesEncrypt(newKeychain.encode(), aesKey)),
+          uint8ListToHex(aesEncrypt(keychain.encode(), aesKey)),
           authorizedKeys,
         )
         .build(seed, 0)
