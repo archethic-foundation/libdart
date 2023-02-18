@@ -165,11 +165,9 @@ class Transaction with _$Transaction {
   /// Add a content to the transaction
   /// @param {String} content Hosted content
   Transaction setContent(String content) {
-    final newData = data == null
-        ? Data(content: content)
-        : data!.copyWith(content: content);
-    final newTransaction = copyWith(data: newData);
-    return newTransaction;
+    return copyWith.data!(
+      content: content,
+    );
   }
 
   /// Add an ownership with a secret and its authorized public keys
