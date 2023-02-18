@@ -39,7 +39,7 @@ class Keychain with _$Keychain {
     String curve = 'ed25519',
     String hashAlgo = 'sha256',
   }) {
-    return copyWith(
+    final newKeychain = copyWith(
       services: <String, Service>{
         ...services,
         name: Service(
@@ -49,6 +49,7 @@ class Keychain with _$Keychain {
         )
       },
     );
+    return newKeychain;
   }
 
   Uint8List encode() {

@@ -9,6 +9,7 @@ import 'package:archethic_lib_dart/src/model/data.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';
 import 'package:archethic_lib_dart/src/model/token_transfer.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
+import 'package:archethic_lib_dart/src/model/uco_ledger.dart';
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
 import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
@@ -138,7 +139,8 @@ class Transaction with _$Transaction {
         ),
       ),
     );
-    return transactionWithAddressAndPPK.copyWith(
+    final newTransactionWithAddressAndPPK =
+        transactionWithAddressAndPPK.copyWith(
       previousSignature: uint8ListToHex(
         crypto.sign(
           transactionWithAddressAndPPK.previousSignaturePayload(),
@@ -146,22 +148,25 @@ class Transaction with _$Transaction {
         ),
       ),
     );
+    return newTransactionWithAddressAndPPK;
   }
 
   /// Add smart contract code to the transaction
   /// @param {String} code Smart contract code
   Transaction setCode(String code) {
-    return copyWith.data!(
-      code: code,
-    );
+    final newData =
+        data == null ? Data(code: code) : data!.copyWith(code: code);
+    final newTransaction = copyWith(data: newData);
+    return newTransaction;
   }
 
   /// Add a content to the transaction
   /// @param {String} content Hosted content
   Transaction setContent(String content) {
-    return copyWith.data!(
-      content: content,
-    );
+    final newData =
+        data == null ? Data(content: content) : data!.copyWith(code: content);
+    final newTransaction = copyWith(data: newData);
+    return newTransaction;
   }
 
   /// Add an ownership with a secret and its authorized public keys
@@ -206,9 +211,11 @@ class Transaction with _$Transaction {
         ),
       );
 
-    return copyWith.data!(
-      ownerships: newOwnership,
-    );
+    final newData = data == null
+        ? Data(ownerships: newOwnership)
+        : data!.copyWith(ownerships: newOwnership);
+    final newTransaction = copyWith(data: newData);
+    return newTransaction;
   }
 
   /// Add a UCO transfer to the transaction
