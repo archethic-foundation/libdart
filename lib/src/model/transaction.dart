@@ -6,7 +6,9 @@ import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/cross_validation_stamp.dart';
 import 'package:archethic_lib_dart/src/model/data.dart';
+import 'package:archethic_lib_dart/src/model/ledger.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';
+import 'package:archethic_lib_dart/src/model/token_ledger.dart';
 import 'package:archethic_lib_dart/src/model/token_transfer.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/uco_ledger.dart';
@@ -229,9 +231,21 @@ class Transaction with _$Transaction {
 
     final newUCOTransfer = data!.ledger!.uco!.transfers
       ..add(UCOTransfer(to: to, amount: amount));
-    return copyWith.data!.ledger!.uco!(
-      transfers: newUCOTransfer,
-    );
+
+    final newUco = data!.ledger!.uco == null
+        ? UCOLedger(transfers: newUCOTransfer)
+        : data!.ledger!.uco!.copyWith(transfers: newUCOTransfer);
+
+    final newLedger = data!.ledger == null
+        ? Ledger(uco: newUco)
+        : data!.ledger!.copyWith(uco: newUco);
+
+    final newData = data == null
+        ? Data(ledger: newLedger)
+        : data!.copyWith(ledger: newLedger);
+
+    final newTransaction = copyWith(data: newData);
+    return newTransaction;
   }
 
   /// Add a token transfer to the transaction
@@ -267,9 +281,21 @@ class Transaction with _$Transaction {
     );
 
     final newTokenTransfer = data!.ledger!.token!.transfers..add(tokenTransfer);
-    return copyWith.data!.ledger!.token!(
-      transfers: newTokenTransfer,
-    );
+
+    final newToken = data!.ledger!.token == null
+        ? TokenLedger(transfers: newTokenTransfer)
+        : data!.ledger!.token!.copyWith(transfers: newTokenTransfer);
+
+    final newLedger = data!.ledger == null
+        ? Ledger(token: newToken)
+        : data!.ledger!.copyWith(token: newToken);
+
+    final newData = data == null
+        ? Data(ledger: newLedger)
+        : data!.copyWith(ledger: newLedger);
+
+    final newTransaction = copyWith(data: newData);
+    return newTransaction;
   }
 
   /// Add recipient to the transaction
@@ -280,9 +306,13 @@ class Transaction with _$Transaction {
     }
 
     final newRecipient = data!.recipients..add(to);
-    return copyWith.data!(
-      recipients: newRecipient,
+    final newData = data == null
+        ? Data(recipients: newRecipient)
+        : data!.copyWith(recipients: newRecipient);
+    final newTransaction = copyWith(
+      data: newData,
     );
+    return newTransaction;
   }
 
   /// Set the transaction builder with Previous Publickey and Previous Signature
@@ -299,7 +329,9 @@ class Transaction with _$Transaction {
     if (!isHex(prevPubKey)) {
       throw const FormatException("'prevPubKey' must be an hexadecimal string");
     }
-    return copyWith(previousSignature: prevSign, previousPublicKey: prevPubKey);
+    final newTransaction =
+        copyWith(previousSignature: prevSign, previousPublicKey: prevPubKey);
+    return newTransaction;
   }
 
   /// Set the transaction builder with address (required for originSign)
@@ -310,7 +342,8 @@ class Transaction with _$Transaction {
         "'address' must contain an hexadecimal string",
       );
     }
-    return copyWith(address: address);
+    final newTransaction = copyWith(address: address);
+    return newTransaction;
   }
 
   /// Sign the transaction with an origin private key
@@ -319,10 +352,11 @@ class Transaction with _$Transaction {
     if (!isHex(privateKey)) {
       throw const FormatException("'privateKey' must be an hexadecimal string");
     }
-    return copyWith(
+    final newTransaction = copyWith(
       originSignature:
           uint8ListToHex(crypto.sign(originSignaturePayload(), privateKey)),
     );
+    return newTransaction;
   }
 
   Uint8List originSignaturePayload() {
