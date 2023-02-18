@@ -612,8 +612,10 @@ class ApiService {
               .address!
         ],
       );
-      final ownership2 =
-          ownerships2Map[uint8ListToHex(keychainAddress).toUpperCase()]![0];
+      final ownership2 = ownerships2Map[
+          lastTransactionKeychainMap[uint8ListToHex(keychainAddress)]!
+              .address!
+              .address!]![0];
 
       final authorizedPublicKey2 = ownership2.authorizedPublicKeys.firstWhere(
         (AuthorizedKey publicKey) =>
