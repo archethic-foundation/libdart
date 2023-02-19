@@ -164,10 +164,11 @@ packages:
   crypto_keys:
     dependency: "direct main"
     description:
-      name: crypto_keys
-      sha256: acc19abf34623d990a0e8aec69463d74a824c31f137128f42e2810befc509ad0
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: gcm-web
+      resolved-ref: c377ba1f72548bf1a07c8332662e5592aa6a86d5
+      url: "https://github.com/redDwarf03/crypto_keys.git"
+    source: git
     version: "0.3.0+1"
   cryptography:
     dependency: transitive
@@ -500,10 +501,11 @@ packages:
   pointycastle:
     dependency: "direct main"
     description:
-      name: pointycastle
-      sha256: db7306cf0249f838d1a24af52b5a5887c5bf7f31d8bb4e827d071dc0939ad346
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: gcm-web
+      resolved-ref: aafaeb9a3d7cacab5c23e25d1a282aeb8ef9038d
+      url: "https://github.com/redDwarf03/pc-dart.git"
+    source: git
     version: "3.6.2"
   pool:
     dependency: transitive
