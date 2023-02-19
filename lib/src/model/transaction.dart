@@ -25,11 +25,13 @@ const int cVersion = 1;
 
 const Map<String, int> txTypes = <String, int>{
   /// User based transaction types
-  'keychain_access': 254,
   'keychain': 255,
+  'keychain_access': 254,
   'transfer': 253,
   'hosting': 252,
   'token': 251,
+  'data': 250,
+  'contract': 249,
 
   /// Network based transaction types
   'node': 0,
