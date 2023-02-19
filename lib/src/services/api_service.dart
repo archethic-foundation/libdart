@@ -5,10 +5,12 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
+import 'package:archethic_lib_dart/src/model/endpoint.dart';
 import 'package:archethic_lib_dart/src/model/exception/archethic_exception.dart';
 import 'package:archethic_lib_dart/src/model/keychain.dart';
 import 'package:archethic_lib_dart/src/model/node.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';
+import 'package:archethic_lib_dart/src/model/response/nearest_endpoints_response.dart';
 import 'package:archethic_lib_dart/src/model/response/network_transactions_response.dart';
 import 'package:archethic_lib_dart/src/model/response/nodes_response.dart';
 import 'package:archethic_lib_dart/src/model/response/origin_key_response.dart';
@@ -708,5 +710,27 @@ class ApiService {
     }
 
     return result.parsedData ?? {};
+  }
+
+  /// List the nearest endpoints nodes from the client's IP
+  /// Returns a [List<Endpoint>] with infos
+  Future<List<Endpoint>> getNearestEndpoints() async {
+    const body = 'query { nearestEndpoints { ip, port } }';
+
+    final result = await _client.withLogger('getNearestEndpoints').query(
+          QueryOptions(
+            document: gql(body),
+            parserFn: (json) =>
+                NearestEndpointsResponseData.fromJson(json).endpoints,
+          ),
+        );
+
+    if (result.exception?.linkException != null) {
+      throw ArchethicConnectionException(
+        result.exception!.linkException.toString(),
+      );
+    }
+
+    return result.parsedData ?? [];
   }
 }
