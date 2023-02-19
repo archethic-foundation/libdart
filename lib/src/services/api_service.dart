@@ -341,7 +341,7 @@ class ApiService {
   /// Query the network to list the transaction inputs from a list of addresses
   Future<Map<String, List<TransactionInput>>> getTransactionInputs(
     List<String> addresses, {
-    String request = Transaction.kTransactionQueryAllFields,
+    String request = Transaction.kTransactionInputQueryAllFields,
     int limit = 0,
     int pagingOffset = 0,
   }) async {
