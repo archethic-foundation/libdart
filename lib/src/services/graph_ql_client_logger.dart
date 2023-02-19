@@ -84,7 +84,7 @@ class GraphQLClientLogger implements GraphQLClient {
     QueryOptions<TParsed> options,
   ) async {
     log(
-      '${DateTime.now().toString()} requestHttp.body=${printNode(options.document)}',
+      '${DateTime.now()} requestHttp.body=${printNode(options.document)}',
       name: logName,
     );
 
@@ -92,12 +92,12 @@ class GraphQLClientLogger implements GraphQLClient {
 
     if (result.hasException) {
       log(
-        '${DateTime.now().toString()} responseHttp.error=${_jsonEncoder.convert(result.exception?.toJson)}',
+        '${DateTime.now()} responseHttp.error=${_jsonEncoder.convert(result.exception?.toJson)}',
         name: logName,
       );
     }
     log(
-      '${DateTime.now().toString()} responseHttp.body=${_jsonEncoder.convert(result.data)}',
+      '${DateTime.now()} responseHttp.body=${_jsonEncoder.convert(result.data)}',
       name: logName,
     );
 

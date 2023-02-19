@@ -93,7 +93,7 @@ class __$$_OwnershipCopyWithImpl<$Res>
   }) {
     return _then(_$_Ownership(
       authorizedPublicKeys: null == authorizedPublicKeys
-          ? _value.authorizedPublicKeys
+          ? _value._authorizedPublicKeys
           : authorizedPublicKeys // ignore: cast_nullable_to_non_nullable
               as List<AuthorizedKey>,
       secret: freezed == secret
@@ -107,15 +107,24 @@ class __$$_OwnershipCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Ownership extends _Ownership {
-  const _$_Ownership({this.authorizedPublicKeys = const [], this.secret})
-      : super._();
+  const _$_Ownership(
+      {final List<AuthorizedKey> authorizedPublicKeys = const [], this.secret})
+      : _authorizedPublicKeys = authorizedPublicKeys,
+        super._();
 
   factory _$_Ownership.fromJson(Map<String, dynamic> json) =>
       _$$_OwnershipFromJson(json);
 
+  final List<AuthorizedKey> _authorizedPublicKeys;
   @override
   @JsonKey()
-  final List<AuthorizedKey> authorizedPublicKeys;
+  List<AuthorizedKey> get authorizedPublicKeys {
+    if (_authorizedPublicKeys is EqualUnmodifiableListView)
+      return _authorizedPublicKeys;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_authorizedPublicKeys);
+  }
+
   @override
   final String? secret;
 
@@ -130,14 +139,14 @@ class _$_Ownership extends _Ownership {
         (other.runtimeType == runtimeType &&
             other is _$_Ownership &&
             const DeepCollectionEquality()
-                .equals(other.authorizedPublicKeys, authorizedPublicKeys) &&
+                .equals(other._authorizedPublicKeys, _authorizedPublicKeys) &&
             (identical(other.secret, secret) || other.secret == secret));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(authorizedPublicKeys), secret);
+      const DeepCollectionEquality().hash(_authorizedPublicKeys), secret);
 
   @JsonKey(ignore: true)
   @override

@@ -4,5 +4,5 @@
 import 'dart:developer' as dev;
 
 void log(String message) {
-  dev.log('${DateTime.now().toString()} $message');
+  dev.log('${DateTime.now()} $message');
 }
