@@ -96,7 +96,7 @@ void main() {
 
         expect(
           nodes[0].ip,
-          '127.0.0.1',
+          '188.166.234.20',
         );
       });
 
@@ -163,6 +163,16 @@ void main() {
         expect(
           true,
           true,
+        );
+      });
+
+      test('getNearestEndpoints', () async {
+        final endpoints = await ApiService('https://mainnet.archethic.net')
+            .getNearestEndpoints();
+
+        expect(
+          endpoints[0].ip,
+          '46.101.13.189',
         );
       });
     },
