@@ -7,7 +7,8 @@ import 'package:pinenacl/encoding.dart';
 
 void main(List<String> args) {
   /// It creates a new keypair into hexadecimal format
-  final keypair = deriveKeyPair('mysuperpassphraseorseed', 0);
+  final keypair =
+      deriveKeyPair('mysuperpassphraseorseed', 0, isSeedHexa: false);
 
   /// Generate `address`, `timestamp`, `previousPublicKey`, `previousSignature`, `originSignature` of the transaction and
   /// serialize it using a custom binary protocol.
@@ -23,7 +24,7 @@ void main(List<String> args) {
     ..convertToJSON();
 
   /// Sign the transaction with an origin device private key
-  final originKeypair = deriveKeyPair('origin_seed', 0);
+  final originKeypair = deriveKeyPair('origin_seed', 0, isSeedHexa: false);
   final transaction2 = Transaction(
     type: 'transfer',
     data: Transaction.initData(),

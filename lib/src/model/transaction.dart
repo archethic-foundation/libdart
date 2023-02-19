@@ -123,8 +123,14 @@ class Transaction with _$Transaction {
     int index, {
     String? curve = 'ed25519',
     String? hashAlgo = 'sha256',
+    bool isSeedHexa = true,
   }) {
-    final keypair = crypto.deriveKeyPair(seed, index, curve: curve!);
+    final keypair = crypto.deriveKeyPair(
+      seed,
+      index,
+      curve: curve!,
+      isSeedHexa: isSeedHexa,
+    );
     final transactionWithAddressAndPPK = copyWith(
       address: Address(
         address: crypto.deriveAddress(
@@ -132,6 +138,7 @@ class Transaction with _$Transaction {
           index + 1,
           curve: curve,
           hashAlgo: hashAlgo!,
+          isSeedHexa: isSeedHexa,
         ),
       ),
       previousPublicKey: uint8ListToHex(
