@@ -47,7 +47,7 @@ void main() {
                 encryptedSecretKey:
                     '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
               )
-            ]).build('seed', 0, curve: 'P256');
+            ]).build('seed', 0, curve: 'P256', isSeedHexa: false);
         final dynamic parsedTx = json.decode(tx.convertToJSON());
         expect(
             parsedTx['data']['ownerships'][0]['authorizedKeys'],
@@ -119,8 +119,8 @@ void main() {
         const content =
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
         final secret = uint8ListToHex(Uint8List.fromList('mysecret'.codeUnits));
-        final keypair = crypto.deriveKeyPair('seed', 0);
-        final nextKeypair = crypto.deriveKeyPair('seed', 1);
+        final keypair = crypto.deriveKeyPair('seed', 0, isSeedHexa: false);
+        final nextKeypair = crypto.deriveKeyPair('seed', 1, isSeedHexa: false);
         final address = crypto.hash(nextKeypair.publicKey);
 
         final tx = Transaction(
@@ -272,7 +272,7 @@ void main() {
               '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
               toBigInt(10.0),
             )
-            .build('seed', 0);
+            .build('seed', 0, isSeedHexa: false);
         expect(
           tx.address!.address,
           '00001ff1733caa91336976ee7cef5aff6bb26c7682213b8e6770ab82272f966dac35',
@@ -331,10 +331,10 @@ condition inherit: [
             .addRecipient(
               '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
             )
-            .build('seed', 0, curve: 'P256');
+            .build('seed', 0, curve: 'P256', isSeedHexa: false);
 
         final transactionKeyPair =
-            crypto.deriveKeyPair('seed', 0, curve: 'P256');
+            crypto.deriveKeyPair('seed', 0, curve: 'P256', isSeedHexa: false);
         final previousSig = crypto.sign(
           tx.previousSignaturePayload(),
           transactionKeyPair.privateKey,
@@ -428,10 +428,11 @@ condition inherit: [
 
     group('originSign', () {
       test('should sign the transaction with a origin private key', () {
-        final originKeypair = crypto.deriveKeyPair('origin_seed', 0);
+        final originKeypair =
+            crypto.deriveKeyPair('origin_seed', 0, isSeedHexa: false);
 
         final tx = Transaction(type: 'transfer', data: Transaction.initData())
-            .build('seed', 0)
+            .build('seed', 0, isSeedHexa: false)
             .originSign(
               uint8ListToHex(Uint8List.fromList(originKeypair.privateKey!)),
             );
@@ -448,8 +449,10 @@ condition inherit: [
 
     group('toJSON', () {
       test('should return a JSON from the transaction', () {
-        final originKeypair = crypto.deriveKeyPair('origin_seed', 0);
-        final transactionKeyPair = crypto.deriveKeyPair('seed', 0);
+        final originKeypair =
+            crypto.deriveKeyPair('origin_seed', 0, isSeedHexa: false);
+        final transactionKeyPair =
+            crypto.deriveKeyPair('seed', 0, isSeedHexa: false);
 
         final tx = Transaction(type: 'transfer', data: Transaction.initData())
             .addUCOTransfer(
@@ -466,7 +469,7 @@ condition inherit: [
                         '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
                   )
                 ])
-            .build('seed', 0)
+            .build('seed', 0, isSeedHexa: false)
             .originSign(
               uint8ListToHex(Uint8List.fromList(originKeypair.privateKey!)),
             );
@@ -480,7 +483,8 @@ condition inherit: [
         final originSig =
             crypto.sign(tx.originSignaturePayload(), originKeypair.privateKey);
 
-        expect(parsedTx['address'], crypto.deriveAddress('seed', 1));
+        expect(parsedTx['address'],
+            crypto.deriveAddress('seed', 1, isSeedHexa: false));
         expect(parsedTx['type'], 'transfer');
         expect(
           parsedTx['previousPublicKey'],

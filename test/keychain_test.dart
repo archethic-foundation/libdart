@@ -26,7 +26,8 @@ void main() {
           Keychain(seed: seed).copyWithService('uco', "m/650'/0/0");
       final keyPair = keychain.deriveKeypair('uco');
 
-      final address = crypto.deriveAddress(utf8.decode(seed), 0);
+      final address =
+          crypto.deriveAddress(utf8.decode(seed), 0, isSeedHexa: false);
 
       final json = keychain.toDID();
       final String id = json['id'];

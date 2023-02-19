@@ -57,27 +57,30 @@ It supports the Archethic Cryptography rules which are:
   <summary>Cryptographic functions</summary>
   <br/>
 
-  #### deriveKeyPair(seed, index, curve)
+  #### deriveKeyPair(seed, index, curve, isSeedHexa)
   It creates a new keypair into hexadecimal format
 
   - `seed` is hexadecimal encoding or Uint8Array representing the transaction chain seed to be able to derive and generate the keys
   - `index` is the number of transactions in the chain, to generate the actual and the next public key (see below the cryptography section)
   - `curve` is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1") - default to: "ed25519"
-
+  - `isSeedHexa` is a parameter used to specify whether the information is in hexadecimal format or not (and thus avoid conversion issues).
+  
   ```dart
   import 'package:archethic_lib_dart/archethic_lib_dart.dart';
   
-  KeyPair keypair = crypto.deriveKeyPair('mysuperpassphraseorseed', 0);
+  KeyPair keypair = crypto.deriveKeyPair('mysuperpassphraseorseed', 0, isSeedHexa: false);
   // uint8ListToHex(keypair.publicKey) => 0100048cac473e46edd109c3ef59eec22b9ece9f99a2d0dce1c4ccb31ce0bacec4a9ad246744889fb7c98ea75c0f0ecd60002c07fae92f23382669ca9aff1339f44216
   ```
 
-  #### deriveAddress(seed, index, curve, hashAlgo)
+  #### deriveAddress(seed, index, curve, hashAlgo, isSeedHexa)
   It creates a transaction address by extract the public key from the key derivation and hash it into a hexadecimal format
 
    - `seed` is hexadecimal encoding or Uint8Array representing the transaction chain seed to be able to derive and generate the keys
    - `index` is the number of transactions in the chain, to generate the actual and the next public key (see below the cryptography section)
    - `curve` is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1") - Default to "ed25519"
    - `hashAlgo` is the hash algorithm to create the address (can be "sha256", "sha512", "sha3-256", "sha3-512", "blake2b") - default to "sha256"
+   - `isSeedHexa` is a parameter used to specify whether the information is in hexadecimal format or not (and thus avoid conversion issues).
+    
 
    ```dart
    import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -86,11 +89,13 @@ It supports the Archethic Cryptography rules which are:
    // Address: 00004195d45987f33e5dcb71edfa63438d5e6add655b216acfdd31945d58210fe5d2
    ```
 
-  #### ecEncrypt(data, publicKey)
+  #### ecEncrypt(data, publicKey, isDataHexa, isPublicKeyHexa)
   Perform an ECIES encryption using a public key and a data
   
   - `data` Data to encrypt
   - `publicKey` Public key to derive a shared secret and for whom the content must be encrypted
+  - `isDataHexa` is a parameter used to specify whether the information is in hexadecimal format or not (and thus avoid conversion issues).
+  - `isPublicKeyHexa` is a parameter used to specify whether the information is in hexadecimal format or not (and thus avoid conversion issues).
   
   ```dart
   import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -98,11 +103,13 @@ It supports the Archethic Cryptography rules which are:
   Uint8List cipher = crypto.ecEncrypt('dataToEncrypt' '00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646');
   ```
 
-  #### aesEncrypt(data, publicKey)
+  #### aesEncrypt(data, publicKey, isDataHexa, isKeyHexa)
   Perform an AES encryption using a key and a data
 
   - `data` Data to encrypt
   - `key` Symmetric key
+  - `isDataHexa` is a parameter used to specify whether the information is in hexadecimal format or not (and thus avoid conversion issues).
+  - `isKeyHexa` is a parameter used to specify whether the information is in hexadecimal format or not (and thus avoid conversion issues).
 
   ```dart
   import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -118,7 +125,7 @@ It supports the Archethic Cryptography rules which are:
   
   `new Transaction(type)` creates a new instance of the transaction
   
-  `type` is the string defining the type of transaction to generate ("keychain", "keychain_access", "transfer", "hosting", "code_proposal", "code_approval", "token")
+  `type` is the string defining the type of transaction to generate ("keychain", "keychain_access", "transfer", "hosting", "code_proposal", "code_approval", "token", "contract", "data")
   
   The transaction instance contains the following methods:
   
@@ -154,7 +161,7 @@ It supports the Archethic Cryptography rules which are:
   Add a recipient (for non UCO transfers, ie. smart contract interaction) to the `data.recipient` section of the transaction
   - `to` is hexadecimal encoding or Uint8List representing the transaction address (recipient)
   
-  #### build(seed, index, curve, hashAlgo)
+  #### build(seed, index, curve, hashAlgo, isSeedHexa)
   Generate `address`, `timestamp`, `previousPublicKey`, `previousSignature` of the transaction and 
   serialize it using a custom binary protocol.
   
@@ -162,7 +169,8 @@ It supports the Archethic Cryptography rules which are:
   - `index` is the number of transactions in the chain, to generate the actual and the next public key (see below the cryptography section)
   - `curve` is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1") - default to "P256"
   - `hashAlgo` is the hash algorithm to use to generate the address (can be "sha256", "sha512", "sha3-256", "sha3-512", "bake2b") - default to "sha256"
-  
+  - `isSeedHexa` is a parameter used to specify whether the information is in hexadecimal format or not (and thus avoid conversion issues).
+ 
   ```dart
   import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
@@ -179,7 +187,7 @@ It supports the Archethic Cryptography rules which are:
   ```dart
   import 'package:archethic_lib_dart/archethic_lib_dart.dart';
   
-  final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0);
+  final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0, isSeedHexa: false);
   Transaction tx = Transaction(type: 'transfer', data: Transaction.initData())
     .addUCOTransfer('0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt((0.420)) 
     .build('mysuperpassphraseorseed', 0, 'P256') 
@@ -373,7 +381,7 @@ It supports the Archethic Cryptography rules which are:
   
   ```dart
   Keychain keychain = await ApiService('https://testnet.archethic.net').getKeychain(accessKeychainSeed);
-  KeyPair keyPair = keychain.deriveKeypair('uco', index: 0);
+  KeyPair keyPair = keychain.deriveKeypair('uco', index: 0, isSeedHexa: false);
   ``` 
 
   #### toDID()

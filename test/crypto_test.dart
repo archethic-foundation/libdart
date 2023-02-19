@@ -15,35 +15,51 @@ void main() {
       test('should generate a sha256 hash with an algo id at the beginning',
           () {
         expect(
-          uint8ListToHex(crypto.hash('myfakedata')),
+          uint8ListToHex(crypto.hash('myfakedata', isContentHexa: false)),
           '004e89e81096eb09c74a29bdf66e41fc118b6d17ac547223ca6629a71724e69f23',
         );
       });
       test('should generate a sha512 hash with an algo id at the beginning',
           () {
         expect(
-          uint8ListToHex(crypto.hash('myfakedata', algo: 'sha512')),
+          uint8ListToHex(
+            crypto.hash('myfakedata', algo: 'sha512', isContentHexa: false),
+          ),
           '01c09b378f954c39f8e3c2cc4ed9108937c6e6dbfa9f754a344bd395d2ba55aba9f071987a2c014f9c54d47931b243088aa2dd6c6d90ec92a67f8a9dfdd83eba58',
         );
       });
       test('should generate a sha3-256 hash with an algo id at the begining',
           () {
         expect(
-          uint8ListToHex(crypto.hash('myfakedata', algo: 'sha3-256')),
+          uint8ListToHex(
+            crypto.hash(
+              'myfakedata',
+              algo: 'sha3-256',
+              isContentHexa: false,
+            ),
+          ),
           '029ddb36eabafb047ad869b9e4d35e2c5e6893b6bd2d1cdbdaec13425779f0f9da',
         );
       });
       test('should generate a sha3-512 hash with an algo id at the beginning',
           () {
         expect(
-          uint8ListToHex(crypto.hash('myfakedata', algo: 'sha3-512')),
+          uint8ListToHex(
+            crypto.hash(
+              'myfakedata',
+              algo: 'sha3-512',
+              isContentHexa: false,
+            ),
+          ),
           '03f64fe5d472619d235212f843c1ed8ae43598c3a5973eead66d70f88f147a0aaabcbcdc6aed160b0ae5cdf5d48871602827b242c479f999647c377698cb8b7d4f',
         );
       });
       test('should generate a blake2b hash with an algo id at the beginning',
           () {
         expect(
-          uint8ListToHex(crypto.hash('myfakedata', algo: 'blake2b')),
+          uint8ListToHex(
+            crypto.hash('myfakedata', algo: 'blake2b', isContentHexa: false),
+          ),
           '04f4101890104371a4d673ed717e824c80634edf3cb39e3eeff555049c0a025e5f13a6aa938c7501a98471cad9c13870c13e8691e97229e4a4b4e1930221c02ab8',
         );
       });
@@ -51,21 +67,27 @@ void main() {
 
     group('deriveKeyPair', () {
       test('should generate an EC keypair using Ed25519 curve', () {
-        final keypair = crypto.deriveKeyPair('seed', 0);
+        final keypair = crypto.deriveKeyPair('seed', 0, isSeedHexa: false);
         expect(
           uint8ListToHex(Uint8List.fromList(keypair.publicKey!)),
           '000161d6cd8da68207bd01198909c139c130a3df3a8bd20f4bacb123c46354ccd52c',
         );
       });
       test('should generate an EC keypair using P256 curve', () {
-        final keypair = crypto.deriveKeyPair('seed', 0, curve: 'P256');
+        final keypair =
+            crypto.deriveKeyPair('seed', 0, curve: 'P256', isSeedHexa: false);
         expect(
           uint8ListToHex(Uint8List.fromList(keypair.publicKey!)),
           '0101044d91a0a1a7cf06a2902d3842f82d2791bcbf3ee6f6dc8de0f90e53e9991c3cb33684b7b9e66f26e7c9f5302f73c69897be5f301de9a63521a08ac4ef34c18728',
         );
       });
       test('should generate an EC keypair using secp256k1 curve', () {
-        final keypair = crypto.deriveKeyPair('seed', 0, curve: 'secp256k1');
+        final keypair = crypto.deriveKeyPair(
+          'seed',
+          0,
+          curve: 'secp256k1',
+          isSeedHexa: false,
+        );
         expect(
           uint8ListToHex(Uint8List.fromList(keypair.publicKey!)),
           '0201044d02d071e7e24348fc24951bded20c08409b075c7956348fef89e118370f382cf99c064b17ad950aaeb1ae04971afdc6a44d68e731b8d0a01a8f56eade92875a',
@@ -73,8 +95,8 @@ void main() {
       });
 
       test('should produce different key by changing the index', () {
-        final keypair1 = crypto.deriveKeyPair('seed', 0);
-        final keypair2 = crypto.deriveKeyPair('seed', 1);
+        final keypair1 = crypto.deriveKeyPair('seed', 0, isSeedHexa: false);
+        final keypair2 = crypto.deriveKeyPair('seed', 1, isSeedHexa: false);
         expect(keypair1, isNot(equals(keypair2)));
       });
     });
@@ -83,42 +105,66 @@ void main() {
       test(
           'should sign a message with an ed25519 key and create valid signature',
           () {
-        final keypair = crypto.deriveKeyPair('seed', 0);
-        final sig = crypto.sign('hello', keypair.privateKey);
-        expect(crypto.verify(sig, 'hello', keypair.publicKey), true);
+        final keypair = crypto.deriveKeyPair('seed', 0, isSeedHexa: false);
+        final sig = crypto.sign('hello', keypair.privateKey, isDataHexa: false);
+        expect(
+          crypto.verify(sig, 'hello', keypair.publicKey, isDataHexa: false),
+          true,
+        );
       });
       test('should sign a message with an P256 key', () {
-        final keypair = crypto.deriveKeyPair('seed', 0, curve: 'P256');
-        final sig = crypto.sign('hello', keypair.privateKey);
-        expect(crypto.verify(sig, 'hello', keypair.publicKey), true);
+        final keypair =
+            crypto.deriveKeyPair('seed', 0, curve: 'P256', isSeedHexa: false);
+        final sig = crypto.sign('hello', keypair.privateKey, isDataHexa: false);
+        expect(
+          crypto.verify(sig, 'hello', keypair.publicKey, isDataHexa: false),
+          true,
+        );
       });
       test('should sign a message with an secp256k1 key', () {
-        final keypair = crypto.deriveKeyPair('seed', 0, curve: 'secp256k1');
-        final sig = crypto.sign('hello', keypair.privateKey);
-        expect(crypto.verify(sig, 'hello', keypair.publicKey), true);
+        final keypair = crypto.deriveKeyPair(
+          'seed',
+          0,
+          curve: 'secp256k1',
+          isSeedHexa: false,
+        );
+        final sig = crypto.sign('hello', keypair.privateKey, isDataHexa: false);
+        expect(
+          crypto.verify(sig, 'hello', keypair.publicKey, isDataHexa: false),
+          true,
+        );
       });
     });
 
     group('ecEncrypt', () {
       test('should encrypt a data using a ed25519 public key', () {
-        final keypair = crypto.deriveKeyPair('seed', 0);
-        final cipherText = crypto.ecEncrypt('hello', keypair.publicKey);
+        final keypair = crypto.deriveKeyPair('seed', 0, isSeedHexa: false);
+        final cipherText =
+            crypto.ecEncrypt('hello', keypair.publicKey, isDataHexa: false);
         expect(
           crypto.ecDecrypt(cipherText, keypair.privateKey),
           'hello'.codeUnits,
         );
       });
       test('should encrypt a data using a P256 public key', () {
-        final keypair = crypto.deriveKeyPair('seed', 0, curve: 'P256');
-        final cipherText = crypto.ecEncrypt('hello', keypair.publicKey);
+        final keypair =
+            crypto.deriveKeyPair('seed', 0, curve: 'P256', isSeedHexa: false);
+        final cipherText =
+            crypto.ecEncrypt('hello', keypair.publicKey, isDataHexa: false);
         expect(
           crypto.ecDecrypt(cipherText, keypair.privateKey),
           'hello'.codeUnits,
         );
       });
       test('should encrypt a data using a secp256k1 public key', () {
-        final keypair = crypto.deriveKeyPair('seed', 0, curve: 'secp256k1');
-        final cipherText = crypto.ecEncrypt('hello', keypair.publicKey);
+        final keypair = crypto.deriveKeyPair(
+          'seed',
+          0,
+          curve: 'secp256k1',
+          isSeedHexa: false,
+        );
+        final cipherText =
+            crypto.ecEncrypt('hello', keypair.publicKey, isDataHexa: false);
         expect(
           crypto.ecDecrypt(cipherText, keypair.privateKey),
           'hello'.codeUnits,
@@ -126,7 +172,12 @@ void main() {
       });
       test('should encrypt blob', () {
         final blob = Uint8List.fromList(<int>[1, 2, 3, 4, 5]);
-        final keypair = crypto.deriveKeyPair('seed', 0, curve: 'secp256k1');
+        final keypair = crypto.deriveKeyPair(
+          'seed',
+          0,
+          curve: 'secp256k1',
+          isSeedHexa: false,
+        );
         final cipherText = crypto.ecEncrypt(blob, keypair.publicKey);
         expect(crypto.ecDecrypt(cipherText, keypair.privateKey), blob);
       });
@@ -138,7 +189,7 @@ void main() {
       final key = Uint8List.fromList(
         List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
       );
-      final encrypted = crypto.aesEncrypt('hello', key);
+      final encrypted = crypto.aesEncrypt('hello', key, isDataHexa: false);
       expect(
         crypto.aesDecrypt(encrypted, key),
         Uint8List.fromList('hello'.codeUnits),
@@ -204,7 +255,7 @@ void main() {
       test('should derive a address by using a seed and index with default',
           () {
         expect(
-          crypto.deriveAddress('mysuperseed', 0),
+          crypto.deriveAddress('mysuperseed', 0, isSeedHexa: false),
           '0000b0c17f85ca19e3db670992e79adb94fb560bd750fda06d45bc0a42912c89d31e',
         );
       });
@@ -212,7 +263,12 @@ void main() {
           'should derive a address by using a seed and index with Nist P256 curve and SHA256 hash algo',
           () {
         expect(
-          crypto.deriveAddress('mysuperseed', 0, curve: 'P256'),
+          crypto.deriveAddress(
+            'mysuperseed',
+            0,
+            curve: 'P256',
+            isSeedHexa: false,
+          ),
           '01001b35aff40ceaa9e77cb4411cf229b9bab90fab7ad23c955b52bc6dc0c8f7198c',
         );
       });
@@ -220,7 +276,12 @@ void main() {
           'should derive a address by using a seed and index with secp256k1 curve and SHA256 hash algo',
           () {
         expect(
-          crypto.deriveAddress('mysuperseed', 0, curve: 'secp256k1'),
+          crypto.deriveAddress(
+            'mysuperseed',
+            0,
+            curve: 'secp256k1',
+            isSeedHexa: false,
+          ),
           '02007b17c3962a41519c7745d6c16bcbc7f869df0458b563d500467319d6712b8659',
         );
       });
@@ -233,6 +294,7 @@ void main() {
             0,
             curve: 'secp256k1',
             hashAlgo: 'sha512',
+            isSeedHexa: false,
           ),
           '020181d1b48dc728b15284db73f316bfd2be12a122d287c5334708dc8785340dc240b86b2bd9b0f642a4e01541107950ad996ff472b4f122f14f59646c2034da9ed9',
         );
@@ -246,6 +308,7 @@ void main() {
             0,
             curve: 'secp256k1',
             hashAlgo: 'sha3-256',
+            isSeedHexa: false,
           ),
           '02022b6066277eda08508d51a447158659825630e479f8f9438d9a6fee60ed673276',
         );
@@ -259,6 +322,7 @@ void main() {
             0,
             curve: 'secp256k1',
             hashAlgo: 'sha3-512',
+            isSeedHexa: false,
           ),
           '020393fcff75b372d3a3f787add485285449d68193d02d4f5bb02459a3c6671d7d2a2bd21a06c10a58d7d8e0ee03a1cddbaea86224890e3b99935f2019ca99612634',
         );
@@ -272,6 +336,7 @@ void main() {
             0,
             curve: 'secp256k1',
             hashAlgo: 'blake2b',
+            isSeedHexa: false,
           ),
           '0204ca0f111a48aae4a1920f9f23c5ac6c80e8531efafac8e6cd2ab3f0846c3d2a2d153c79dfe8c690c223d7d9aec7fd341009bbcad4b63c75bd6e20b0a7e4deacf4',
         );
@@ -284,7 +349,9 @@ void main() {
         expect(
           uint8ListToHex(
             Uint8List.fromList(
-              crypto.deriveKeyPair('mysuperseed', 0).publicKey!,
+              crypto
+                  .deriveKeyPair('mysuperseed', 0, isSeedHexa: false)
+                  .publicKey!,
             ),
           ),
           '0001c184571c9329a3affd6b5cf7c4eb1bcf56774475d554468382c37d932c7a03f1',
@@ -296,7 +363,14 @@ void main() {
         expect(
           uint8ListToHex(
             Uint8List.fromList(
-              crypto.deriveKeyPair('mysuperseed', 0, curve: 'P256').publicKey!,
+              crypto
+                  .deriveKeyPair(
+                    'mysuperseed',
+                    0,
+                    curve: 'P256',
+                    isSeedHexa: false,
+                  )
+                  .publicKey!,
             ),
           ),
           '010104494a63b66df5442657affbc8c76b95ea1a19a756d1d9feb4b7a06f8373aff3f1666067d0c2082fe2dad8c77fa28010043608db7ab8a11479fb31056de3d1afbc',
@@ -308,7 +382,12 @@ void main() {
           uint8ListToHex(
             Uint8List.fromList(
               crypto
-                  .deriveKeyPair('mysuperseed', 0, curve: 'secp256k1')
+                  .deriveKeyPair(
+                    'mysuperseed',
+                    0,
+                    curve: 'secp256k1',
+                    isSeedHexa: false,
+                  )
                   .publicKey!,
             ),
           ),

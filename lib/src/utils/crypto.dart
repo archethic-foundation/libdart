@@ -103,8 +103,10 @@ String deriveAddress(
   int index, {
   String curve = 'ed25519',
   String hashAlgo = 'sha256',
+  bool isSeedHexa = true,
 }) {
-  final keypair = deriveKeyPair(seed, index, curve: curve);
+  final keypair =
+      deriveKeyPair(seed, index, curve: curve, isSeedHexa: isSeedHexa);
 
   final curveID = curveToID(curve);
   final hashedPublicKey = hash(keypair.publicKey, algo: hashAlgo);
@@ -119,13 +121,21 @@ String deriveAddress(
 /// Create a hash digest from the data with an hash algorithm identification prepending the digest
 /// @param {String | Uint8List} content Data to hash (string or buffer)
 /// @param {String} algo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
-Uint8List hash(dynamic content, {String algo = 'sha256'}) {
+Uint8List hash(
+  dynamic content, {
+  String algo = 'sha256',
+  bool isContentHexa = true,
+}) {
   if (content is! List<int> && content is! String) {
     throw "'content' must be a string or Uint8List";
   }
 
   if (content is String) {
-    if (isHex(content)) {
+    if (isContentHexa && !isHex(content)) {
+      throw const FormatException("'content' must be an hexadecimal string");
+    }
+
+    if (isContentHexa) {
       content = Uint8List.fromList(utf8.encode(content));
     } else {
       content = Uint8List.fromList(content.codeUnits);
@@ -167,12 +177,17 @@ Uint8List getHashDigest(dynamic content, dynamic algo) {
 /// @param {String} seed Keypair derivation seed
 /// @param {int} index Number to identify the order of keys to generate
 /// @param {String} curve Elliptic curve to use ("P256", "secp256k1", "ed25519")
-KeyPair deriveKeyPair(String seed, int index, {String curve = 'ed25519'}) {
+KeyPair deriveKeyPair(
+  String seed,
+  int index, {
+  String curve = 'ed25519',
+  bool isSeedHexa = true,
+}) {
   if (index < 0) {
     throw "index' must be a positive number";
   }
 
-  final pvBuf = derivePrivateKey(seed, index);
+  final pvBuf = derivePrivateKey(seed, index, isSeedHexa: isSeedHexa);
   return generateDeterministicKeyPair(pvBuf, curve, softwareId);
 }
 
@@ -231,7 +246,12 @@ KeyPair getKeypair(Uint8List pvKey, String curve) {
 /// Sign the data
 /// @param {String | Uint8List} data Data to sign
 /// @param {String | Uint8List} privateKey Private key to use to sign the data
-Uint8List sign(dynamic data, dynamic privateKey) {
+Uint8List sign(
+  dynamic data,
+  dynamic privateKey, {
+  bool isDataHexa = true,
+  bool isPrivateKeyHexa = true,
+}) {
   if (data is! Uint8List && data is! String) {
     throw "'data' must be a string or Uint8List";
   }
@@ -241,7 +261,11 @@ Uint8List sign(dynamic data, dynamic privateKey) {
   }
 
   if (data is String) {
-    if (isHex(data)) {
+    if (isDataHexa && !isHex(data)) {
+      throw const FormatException("'data' must be an hexadecimal string");
+    }
+
+    if (isDataHexa) {
       data = Uint8List.fromList(hexToUint8List(data));
     } else {
       data = Uint8List.fromList(utf8.encode(data));
@@ -249,7 +273,11 @@ Uint8List sign(dynamic data, dynamic privateKey) {
   }
 
   if (privateKey is String) {
-    if (isHex(privateKey)) {
+    if (isPrivateKeyHexa && !isHex(privateKey)) {
+      throw const FormatException("'privateKey' must be an hexadecimal string");
+    }
+
+    if (isPrivateKeyHexa) {
       privateKey = Uint8List.fromList(hexToUint8List(privateKey));
     } else {
       privateKey = Uint8List.fromList(utf8.encode(privateKey));
@@ -286,7 +314,14 @@ Uint8List sign(dynamic data, dynamic privateKey) {
   }
 }
 
-bool verify(dynamic sig, dynamic data, dynamic publicKey) {
+bool verify(
+  dynamic sig,
+  dynamic data,
+  dynamic publicKey, {
+  bool isSigHexa = true,
+  bool isDataHexa = true,
+  bool isPublicKeyHexa = true,
+}) {
   if (sig is! Uint8List && sig is! String) {
     throw "'sig' must be a string or Uint8List";
   }
@@ -300,7 +335,11 @@ bool verify(dynamic sig, dynamic data, dynamic publicKey) {
   }
 
   if (sig is String) {
-    if (isHex(sig)) {
+    if (isSigHexa && !isHex(sig)) {
+      throw const FormatException("'sig' must be an hexadecimal string");
+    }
+
+    if (isSigHexa) {
       sig = Uint8List.fromList(hexToUint8List(sig));
     } else {
       throw "'signature' must be an hexadecimal string";
@@ -308,7 +347,11 @@ bool verify(dynamic sig, dynamic data, dynamic publicKey) {
   }
 
   if (data is String) {
-    if (isHex(data)) {
+    if (isDataHexa && !isHex(data)) {
+      throw const FormatException("'data' must be an hexadecimal string");
+    }
+
+    if (isDataHexa) {
       data = Uint8List.fromList(hexToUint8List(data));
     } else {
       data = Uint8List.fromList(utf8.encode(data));
@@ -316,7 +359,11 @@ bool verify(dynamic sig, dynamic data, dynamic publicKey) {
   }
 
   if (publicKey is String) {
-    if (isHex(publicKey)) {
+    if (isPublicKeyHexa && !isHex(publicKey)) {
+      throw const FormatException("'publicKey' must be an hexadecimal string");
+    }
+
+    if (isPublicKeyHexa) {
       publicKey = Uint8List.fromList(hexToUint8List(publicKey));
     } else {
       throw "'publicKey' must be an hexadecimal string";
@@ -355,7 +402,12 @@ bool verify(dynamic sig, dynamic data, dynamic publicKey) {
 /// Encrypt a data for a given public key using ECIES algorithm
 /// @param {String | Uint8List} data Data to encrypt
 /// @param {String | Uint8List} publicKey Public key for the shared secret encryption
-Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
+Uint8List ecEncrypt(
+  dynamic data,
+  dynamic publicKey, {
+  bool isDataHexa = true,
+  bool isPublicKeyHexa = true,
+}) {
   if (data is! Uint8List && data is! String) {
     throw "'data' must be a string or Uint8List";
   }
@@ -365,7 +417,11 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
   }
 
   if (data is String) {
-    if (isHex(data)) {
+    if (isDataHexa && !isHex(data)) {
+      throw const FormatException("'data' must be an hexadecimal string");
+    }
+
+    if (isDataHexa) {
       data = Uint8List.fromList(hexToUint8List(data));
     } else {
       data = Uint8List.fromList(utf8.encode(data));
@@ -373,7 +429,11 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
   }
 
   if (publicKey is String) {
-    if (isHex(publicKey)) {
+    if (isPublicKeyHexa && !isHex(publicKey)) {
+      throw const FormatException("'publicKey' must be an hexadecimal string");
+    }
+
+    if (isPublicKeyHexa) {
       publicKey = Uint8List.fromList(hexToUint8List(publicKey));
     } else {
       throw "'publicKey' must be an hexadecimal string";
@@ -457,7 +517,12 @@ Uint8List ecEncrypt(dynamic data, dynamic publicKey) {
 /// Decrypt a ciphertext for a given private key using ECIES algorithm
 /// @param {String | Uint8List} ciphertext Ciphertext to decrypt
 /// @param {String | Uint8List} privateKey Private key for the shared secret encryption
-Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
+Uint8List ecDecrypt(
+  dynamic cipherText,
+  dynamic privateKey, {
+  bool isCipherTextHexa = true,
+  bool isPrivateKeyHexa = true,
+}) {
   if (cipherText is! Uint8List && cipherText is! String) {
     throw "'cipherText' must be a string or Uint8List";
   }
@@ -467,7 +532,11 @@ Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
   }
 
   if (cipherText is String) {
-    if (isHex(cipherText)) {
+    if (isCipherTextHexa && !isHex(cipherText)) {
+      throw const FormatException("'cipherText' must be an hexadecimal string");
+    }
+
+    if (isCipherTextHexa) {
       cipherText = Uint8List.fromList(hexToUint8List(cipherText));
     } else {
       cipherText = Uint8List.fromList(utf8.encode(cipherText));
@@ -475,7 +544,11 @@ Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
   }
 
   if (privateKey is String) {
-    if (isHex(privateKey)) {
+    if (isPrivateKeyHexa && !isHex(privateKey)) {
+      throw const FormatException("'privateKey' must be an hexadecimal string");
+    }
+
+    if (isPrivateKeyHexa) {
       privateKey = Uint8List.fromList(hexToUint8List(privateKey));
     } else {
       throw "'privateKey' must be an hexadecimal string";
@@ -556,7 +629,12 @@ Uint8List ecDecrypt(dynamic cipherText, dynamic privateKey) {
 /// Encrypt a data for a given public key using AES algorithm
 /// @param {String | Uint8List} data Data to encrypt
 /// @param {String | Uint8List} key Symmetric key
-Uint8List aesEncrypt(dynamic data, dynamic key) {
+Uint8List aesEncrypt(
+  dynamic data,
+  dynamic key, {
+  bool isDataHexa = true,
+  bool isKeyHexa = true,
+}) {
   if (data is! Uint8List && data is! String) {
     throw "'data' must be a string or Uint8List";
   }
@@ -566,7 +644,11 @@ Uint8List aesEncrypt(dynamic data, dynamic key) {
   }
 
   if (data is String) {
-    if (isHex(data)) {
+    if (isDataHexa && !isHex(data)) {
+      throw const FormatException("'data' must be an hexadecimal string");
+    }
+
+    if (isDataHexa) {
       data = Uint8List.fromList(hexToUint8List(data));
     } else {
       data = Uint8List.fromList(utf8.encode(data));
@@ -574,7 +656,11 @@ Uint8List aesEncrypt(dynamic data, dynamic key) {
   }
 
   if (key is String) {
-    if (isHex(key)) {
+    if (isKeyHexa && !isHex(key)) {
+      throw const FormatException("'key' must be an hexadecimal string");
+    }
+
+    if (isKeyHexa) {
       key = Uint8List.fromList(hexToUint8List(key));
     } else {
       throw "'key' must be an hexadecimal string";
@@ -597,7 +683,12 @@ Uint8List aesEncrypt(dynamic data, dynamic key) {
   return result;
 }
 
-Uint8List aesDecrypt(dynamic cipherText, dynamic key) {
+Uint8List aesDecrypt(
+  dynamic cipherText,
+  dynamic key, {
+  bool isCipherTextHexa = true,
+  bool isKeyHexa = true,
+}) {
   if (cipherText is! Uint8List && cipherText is! String) {
     throw "'cipherText' must be a string or Uint8List";
   }
@@ -607,7 +698,11 @@ Uint8List aesDecrypt(dynamic cipherText, dynamic key) {
   }
 
   if (cipherText is String) {
-    if (isHex(cipherText)) {
+    if (isCipherTextHexa && !isHex(cipherText)) {
+      throw const FormatException("'cipherText' must be an hexadecimal string");
+    }
+
+    if (isCipherTextHexa) {
       cipherText = Uint8List.fromList(hexToUint8List(cipherText));
     } else {
       throw "'cipherText' must be an hexadecimal string";
@@ -615,7 +710,11 @@ Uint8List aesDecrypt(dynamic cipherText, dynamic key) {
   }
 
   if (key is String) {
-    if (isHex(key)) {
+    if (isKeyHexa && !isHex(key)) {
+      throw const FormatException("'key' must be an hexadecimal string");
+    }
+
+    if (isKeyHexa) {
       key = Uint8List.fromList(hexToUint8List(key));
     } else {
       throw "'key' must be an hexadecimal string";
@@ -641,9 +740,13 @@ Uint8List aesDecrypt(dynamic cipherText, dynamic key) {
   return decrypted;
 }
 
-Uint8List derivePrivateKey(dynamic seed, int index) {
+Uint8List derivePrivateKey(dynamic seed, int index, {bool isSeedHexa = true}) {
   if (seed is String) {
-    if (isHex(seed)) {
+    if (isSeedHexa && !isHex(seed)) {
+      throw const FormatException("'seed' must be an hexadecimal string");
+    }
+
+    if (isSeedHexa) {
       seed = Uint8List.fromList(hexToUint8List(seed));
     } else {
       seed = Uint8List.fromList(utf8.encode(seed));
@@ -667,13 +770,17 @@ Uint8List derivePrivateKey(dynamic seed, int index) {
   return hmacBuf;
 }
 
-Secret deriveSecret(dynamic sharedKey) {
+Secret deriveSecret(dynamic sharedKey, {bool isSharedKey = true}) {
   if (sharedKey is! Uint8List && sharedKey is! String) {
     throw "'sharedKey' must be a string or Uint8List";
   }
 
   if (sharedKey is String) {
-    if (isHex(sharedKey)) {
+    if (isSharedKey && !isHex(sharedKey)) {
+      throw const FormatException("'sharedKey' must be an hexadecimal string");
+    }
+
+    if (isSharedKey) {
       sharedKey = Uint8List.fromList(hexToUint8List(sharedKey));
     } else {
       throw "'sharedKey' must be an hexadecimal string";
