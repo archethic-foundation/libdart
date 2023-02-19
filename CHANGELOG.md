@@ -1,6 +1,8 @@
 Changelog
 =========
 
+#### Version 3.0.1 (2023-02-19)
+* Add graphQL nearestEndpoints method
 #### Version 3.0.0 (2023-02-19)
 * BREAKING-CHANGE - Dart SDK model classes migrate to immutable classes with freezed.
 * BREAKING-CHANGE - Change Address().isConform() to Address().isValid() method
