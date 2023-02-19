@@ -1,7 +1,7 @@
 Changelog
 =========
 
-#### Version 2.0.4 (2023-02-08)
+#### Version 3.0.0 (2023-02-19)
 * BREAKING-CHANGE - Dart SDK model classes migrate to immutable classes with freezed.
 * BREAKING-CHANGE - Change Address().isConform() to Address().isValid() method
 

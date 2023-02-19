@@ -480,11 +480,11 @@ condition inherit: [
         final originSig =
             crypto.sign(tx.originSignaturePayload(), originKeypair.privateKey);
 
-        expect(parsedTx['address']['address'], crypto.deriveAddress('seed', 1));
+        expect(parsedTx['address'], crypto.deriveAddress('seed', 1));
         expect(parsedTx['type'], 'transfer');
         expect(
           parsedTx['previousPublicKey'],
-          uint8ListToHex(Uint8List.fromList(transactionKeyPair.publicKey!)),
+          uint8ListToHex(transactionKeyPair.publicKey!),
         );
         expect(parsedTx['previousSignature'], uint8ListToHex(previousSig));
         expect(parsedTx['originSignature'], uint8ListToHex(originSig));
