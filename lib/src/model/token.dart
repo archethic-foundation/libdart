@@ -33,7 +33,7 @@ class Token with _$Token {
         'supply': supply,
         'type': type,
         'symbol': symbol,
-        'properties': jsonEncode(properties),
+        'properties': properties,
         'aeip': aeip,
         'ownerships':
             List<dynamic>.from(ownerships!.map((Ownership x) => x.toJson())),
