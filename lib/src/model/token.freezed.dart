@@ -27,8 +27,7 @@ mixin _$Token {
   int? get supply => throw _privateConstructorUsedError;
   String? get type => throw _privateConstructorUsedError;
   String? get symbol => throw _privateConstructorUsedError;
-  Map<String, dynamic> get tokenProperties =>
-      throw _privateConstructorUsedError;
+  Map<String, dynamic> get properties => throw _privateConstructorUsedError;
   List<int>? get aeip => throw _privateConstructorUsedError;
   List<Ownership>? get ownerships => throw _privateConstructorUsedError;
 
@@ -50,7 +49,7 @@ abstract class $TokenCopyWith<$Res> {
       int? supply,
       String? type,
       String? symbol,
-      Map<String, dynamic> tokenProperties,
+      Map<String, dynamic> properties,
       List<int>? aeip,
       List<Ownership>? ownerships});
 }
@@ -75,7 +74,7 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
     Object? supply = freezed,
     Object? type = freezed,
     Object? symbol = freezed,
-    Object? tokenProperties = null,
+    Object? properties = null,
     Object? aeip = freezed,
     Object? ownerships = freezed,
   }) {
@@ -108,9 +107,9 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String?,
-      tokenProperties: null == tokenProperties
-          ? _value.tokenProperties
-          : tokenProperties // ignore: cast_nullable_to_non_nullable
+      properties: null == properties
+          ? _value.properties
+          : properties // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
       aeip: freezed == aeip
           ? _value.aeip
@@ -138,7 +137,7 @@ abstract class _$$_TokenCopyWith<$Res> implements $TokenCopyWith<$Res> {
       int? supply,
       String? type,
       String? symbol,
-      Map<String, dynamic> tokenProperties,
+      Map<String, dynamic> properties,
       List<int>? aeip,
       List<Ownership>? ownerships});
 }
@@ -159,7 +158,7 @@ class __$$_TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res, _$_Token>
     Object? supply = freezed,
     Object? type = freezed,
     Object? symbol = freezed,
-    Object? tokenProperties = null,
+    Object? properties = null,
     Object? aeip = freezed,
     Object? ownerships = freezed,
   }) {
@@ -192,9 +191,9 @@ class __$$_TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res, _$_Token>
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String?,
-      tokenProperties: null == tokenProperties
-          ? _value._tokenProperties
-          : tokenProperties // ignore: cast_nullable_to_non_nullable
+      properties: null == properties
+          ? _value._properties
+          : properties // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
       aeip: freezed == aeip
           ? _value._aeip
@@ -219,10 +218,10 @@ class _$_Token extends _Token {
       this.supply,
       this.type,
       this.symbol,
-      final Map<String, dynamic> tokenProperties = const {},
+      final Map<String, dynamic> properties = const {},
       final List<int>? aeip = const [],
       final List<Ownership>? ownerships = const []})
-      : _tokenProperties = tokenProperties,
+      : _properties = properties,
         _aeip = aeip,
         _ownerships = ownerships,
         super._();
@@ -244,13 +243,13 @@ class _$_Token extends _Token {
   final String? type;
   @override
   final String? symbol;
-  final Map<String, dynamic> _tokenProperties;
+  final Map<String, dynamic> _properties;
   @override
   @JsonKey()
-  Map<String, dynamic> get tokenProperties {
-    if (_tokenProperties is EqualUnmodifiableMapView) return _tokenProperties;
+  Map<String, dynamic> get properties {
+    if (_properties is EqualUnmodifiableMapView) return _properties;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_tokenProperties);
+    return EqualUnmodifiableMapView(_properties);
   }
 
   final List<int>? _aeip;
@@ -277,7 +276,7 @@ class _$_Token extends _Token {
 
   @override
   String toString() {
-    return 'Token(address: $address, genesis: $genesis, name: $name, id: $id, supply: $supply, type: $type, symbol: $symbol, tokenProperties: $tokenProperties, aeip: $aeip, ownerships: $ownerships)';
+    return 'Token(address: $address, genesis: $genesis, name: $name, id: $id, supply: $supply, type: $type, symbol: $symbol, properties: $properties, aeip: $aeip, ownerships: $ownerships)';
   }
 
   @override
@@ -293,7 +292,7 @@ class _$_Token extends _Token {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             const DeepCollectionEquality()
-                .equals(other._tokenProperties, _tokenProperties) &&
+                .equals(other._properties, _properties) &&
             const DeepCollectionEquality().equals(other._aeip, _aeip) &&
             const DeepCollectionEquality()
                 .equals(other._ownerships, _ownerships));
@@ -310,7 +309,7 @@ class _$_Token extends _Token {
       supply,
       type,
       symbol,
-      const DeepCollectionEquality().hash(_tokenProperties),
+      const DeepCollectionEquality().hash(_properties),
       const DeepCollectionEquality().hash(_aeip),
       const DeepCollectionEquality().hash(_ownerships));
 
@@ -337,7 +336,7 @@ abstract class _Token extends Token {
       final int? supply,
       final String? type,
       final String? symbol,
-      final Map<String, dynamic> tokenProperties,
+      final Map<String, dynamic> properties,
       final List<int>? aeip,
       final List<Ownership>? ownerships}) = _$_Token;
   const _Token._() : super._();
@@ -359,7 +358,7 @@ abstract class _Token extends Token {
   @override
   String? get symbol;
   @override
-  Map<String, dynamic> get tokenProperties;
+  Map<String, dynamic> get properties;
   @override
   List<int>? get aeip;
   @override

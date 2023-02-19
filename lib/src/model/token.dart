@@ -16,7 +16,7 @@ class Token with _$Token {
     int? supply,
     String? type,
     String? symbol,
-    @Default({}) final Map<String, dynamic> tokenProperties,
+    @Default({}) final Map<String, dynamic> properties,
     @Default([]) final List<int>? aeip,
     @Default([]) final List<Ownership>? ownerships,
   }) = _Token;
@@ -33,7 +33,7 @@ class Token with _$Token {
         'supply': supply,
         'type': type,
         'symbol': symbol,
-        'properties': jsonEncode(tokenProperties),
+        'properties': jsonEncode(properties),
         'aeip': aeip,
         'ownerships':
             List<dynamic>.from(ownerships!.map((Ownership x) => x.toJson())),
