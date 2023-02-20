@@ -1,11 +1,12 @@
 Changelog
 =========
 
-#### Version 3.0.1 (2023-02-19)
-* Add graphQL nearestEndpoints method
+#### Version 3.0.1 (2023-02-20)
 * Add New Types of Transaction to provide better meaning of the transaction (Contract & Data)
 * Add optional parameters to specify whether input method values are in hexadecimal format or not, in order to properly convert the values
-* Add order in transactionChain graphQL request
+* Add order in transactionChain graphQL method
+* Add genesisAddress graphQL method
+* Add nearestEndpoints graphQL method
 
 #### Version 3.0.0 (2023-02-19)
 * BREAKING-CHANGE - Dart SDK model classes migrate to immutable classes with freezed.

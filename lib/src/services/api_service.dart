@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
+import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/endpoint.dart';
@@ -10,6 +11,7 @@ import 'package:archethic_lib_dart/src/model/exception/archethic_exception.dart'
 import 'package:archethic_lib_dart/src/model/keychain.dart';
 import 'package:archethic_lib_dart/src/model/node.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';
+import 'package:archethic_lib_dart/src/model/response/genesis_address_response.dart';
 import 'package:archethic_lib_dart/src/model/response/nearest_endpoints_response.dart';
 import 'package:archethic_lib_dart/src/model/response/network_transactions_response.dart';
 import 'package:archethic_lib_dart/src/model/response/nodes_response.dart';
@@ -736,5 +738,27 @@ class ApiService {
     }
 
     return result.parsedData ?? [];
+  }
+
+  /// Query the network to find the genesis address of a transaction
+  /// Returns a [Address] with genesisAddress
+  Future<Address> getGenesisAddress(String address) async {
+    final body = 'query { genesisAddress (address:"$address") }';
+
+    final result = await _client.withLogger('getGenesisAddress').query(
+          QueryOptions(
+            document: gql(body),
+            parserFn: (json) =>
+                GenesisAddressResponseData.fromJson(json).address,
+          ),
+        );
+
+    if (result.exception?.linkException != null) {
+      throw ArchethicConnectionException(
+        result.exception!.linkException.toString(),
+      );
+    }
+
+    return result.parsedData ?? const Address(address: '');
   }
 }
