@@ -27,6 +27,8 @@ _$_Transaction _$$_TransactionFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       originSignature: json['originSignature'] as String?,
+      previousAddress: _$JsonConverterFromJson<String, Address>(
+          json['previousAddress'], const AddressJsonConverter().fromJson),
       previousPublicKey: json['previousPublicKey'] as String?,
       previousSignature: json['previousSignature'] as String?,
       type: json['type'] as String?,
@@ -47,6 +49,8 @@ Map<String, dynamic> _$$_TransactionToJson(_$_Transaction instance) =>
       'data': instance.data,
       'inputs': instance.inputs,
       'originSignature': instance.originSignature,
+      'previousAddress': _$JsonConverterToJson<String, Address>(
+          instance.previousAddress, const AddressJsonConverter().toJson),
       'previousPublicKey': instance.previousPublicKey,
       'previousSignature': instance.previousSignature,
       'type': instance.type,

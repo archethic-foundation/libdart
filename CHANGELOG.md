@@ -7,6 +7,7 @@ Changelog
 * Add order in transactionChain graphQL method
 * Add genesisAddress graphQL method
 * Add nearestEndpoints graphQL method
+* Add previous transaction address in graphQL transaction schema
 
 #### Version 3.0.0 (2023-02-19)
 * BREAKING-CHANGE - Dart SDK model classes migrate to immutable classes with freezed.

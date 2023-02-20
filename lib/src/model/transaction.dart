@@ -74,6 +74,9 @@ class Transaction with _$Transaction {
     /// - Origin signature: signature from the device which originated the transaction (used in the Proof of work)
     String? originSignature,
 
+    /// - Previous address
+    @AddressJsonConverter() Address? previousAddress,
+
     /// - Previous public key: previous generated public key matching the previous signature
     String? previousPublicKey,
 
@@ -526,7 +529,7 @@ class Transaction with _$Transaction {
   }
 
   static const String kTransactionQueryAllFields =
-      ' address, balance { token { address, amount }, uco }, chainLength, crossValidationStamps { nodePublicKey, signature }, data { content,  ownerships {  authorizedPublicKeys { encryptedSecretKey, publicKey } secret } ledger { uco { transfers { amount, to } }, token { transfers { amount, to, tokenAddress, tokenId } } } recipients } inputs { amount, from, tokenAddress, spent, timestamp, type, }, originSignature, previousPublicKey, previousSignature, type, validationStamp { proofOfIntegrity, proofOfWork, signature, timestamp, ledgerOperations { fee } }, version';
+      ' address, balance { token { address, amount }, uco }, chainLength, crossValidationStamps { nodePublicKey, signature }, data { content,  ownerships {  authorizedPublicKeys { encryptedSecretKey, publicKey } secret } ledger { uco { transfers { amount, to } }, token { transfers { amount, to, tokenAddress, tokenId } } } recipients } inputs { amount, from, tokenAddress, spent, timestamp, type, }, originSignature, previousAddress, previousPublicKey, previousSignature, type, validationStamp { proofOfIntegrity, proofOfWork, signature, timestamp, ledgerOperations { fee } }, version';
 
   static const String kTransactionInputQueryAllFields =
       'amount, from, tokenAddress, spent, timestamp, type';
