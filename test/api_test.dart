@@ -175,6 +175,17 @@ void main() {
           '46.101.13.189',
         );
       });
+
+      test('getGenesisAddress', () async {
+        final genesisAddress = await ApiService('https://mainnet.archethic.net')
+            .getGenesisAddress(
+                '000028EA842DFEB23513DB55329495635B547AB8E2AC11860A0C7231E225FCF6FECA');
+
+        expect(
+          genesisAddress.address,
+          '00006586369937206500EDB352063A6E5D5CF1650B9AAB89F453825F53EF8E44DEE3',
+        );
+      });
     },
     tags: <String>['noCI'],
   );
