@@ -177,9 +177,10 @@ void main() {
       });
 
       test('getGenesisAddress', () async {
-        final genesisAddress = await ApiService('https://mainnet.archethic.net')
-            .getGenesisAddress(
-                '000028EA842DFEB23513DB55329495635B547AB8E2AC11860A0C7231E225FCF6FECA');
+        final genesisAddress =
+            await ApiService('https://mainnet.archethic.net').getGenesisAddress(
+          '000028EA842DFEB23513DB55329495635B547AB8E2AC11860A0C7231E225FCF6FECA',
+        );
 
         expect(
           genesisAddress.address,

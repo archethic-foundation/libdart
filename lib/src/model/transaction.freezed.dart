@@ -43,6 +43,10 @@ mixin _$Transaction {
   /// - Origin signature: signature from the device which originated the transaction (used in the Proof of work)
   String? get originSignature => throw _privateConstructorUsedError;
 
+  /// - Previous address
+  @AddressJsonConverter()
+  Address? get previousAddress => throw _privateConstructorUsedError;
+
   /// - Previous public key: previous generated public key matching the previous signature
   String? get previousPublicKey => throw _privateConstructorUsedError;
 
@@ -78,6 +82,7 @@ abstract class $TransactionCopyWith<$Res> {
       Data? data,
       List<TransactionInput> inputs,
       String? originSignature,
+      @AddressJsonConverter() Address? previousAddress,
       String? previousPublicKey,
       String? previousSignature,
       String? type,
@@ -87,6 +92,7 @@ abstract class $TransactionCopyWith<$Res> {
   $AddressCopyWith<$Res>? get address;
   $BalanceCopyWith<$Res>? get balance;
   $DataCopyWith<$Res>? get data;
+  $AddressCopyWith<$Res>? get previousAddress;
   $ValidationStampCopyWith<$Res>? get validationStamp;
 }
 
@@ -110,6 +116,7 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
     Object? data = freezed,
     Object? inputs = null,
     Object? originSignature = freezed,
+    Object? previousAddress = freezed,
     Object? previousPublicKey = freezed,
     Object? previousSignature = freezed,
     Object? type = freezed,
@@ -145,6 +152,10 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
           ? _value.originSignature
           : originSignature // ignore: cast_nullable_to_non_nullable
               as String?,
+      previousAddress: freezed == previousAddress
+          ? _value.previousAddress
+          : previousAddress // ignore: cast_nullable_to_non_nullable
+              as Address?,
       previousPublicKey: freezed == previousPublicKey
           ? _value.previousPublicKey
           : previousPublicKey // ignore: cast_nullable_to_non_nullable
@@ -206,6 +217,18 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
 
   @override
   @pragma('vm:prefer-inline')
+  $AddressCopyWith<$Res>? get previousAddress {
+    if (_value.previousAddress == null) {
+      return null;
+    }
+
+    return $AddressCopyWith<$Res>(_value.previousAddress!, (value) {
+      return _then(_value.copyWith(previousAddress: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $ValidationStampCopyWith<$Res>? get validationStamp {
     if (_value.validationStamp == null) {
       return null;
@@ -233,6 +256,7 @@ abstract class _$$_TransactionCopyWith<$Res>
       Data? data,
       List<TransactionInput> inputs,
       String? originSignature,
+      @AddressJsonConverter() Address? previousAddress,
       String? previousPublicKey,
       String? previousSignature,
       String? type,
@@ -245,6 +269,8 @@ abstract class _$$_TransactionCopyWith<$Res>
   $BalanceCopyWith<$Res>? get balance;
   @override
   $DataCopyWith<$Res>? get data;
+  @override
+  $AddressCopyWith<$Res>? get previousAddress;
   @override
   $ValidationStampCopyWith<$Res>? get validationStamp;
 }
@@ -267,6 +293,7 @@ class __$$_TransactionCopyWithImpl<$Res>
     Object? data = freezed,
     Object? inputs = null,
     Object? originSignature = freezed,
+    Object? previousAddress = freezed,
     Object? previousPublicKey = freezed,
     Object? previousSignature = freezed,
     Object? type = freezed,
@@ -302,6 +329,10 @@ class __$$_TransactionCopyWithImpl<$Res>
           ? _value.originSignature
           : originSignature // ignore: cast_nullable_to_non_nullable
               as String?,
+      previousAddress: freezed == previousAddress
+          ? _value.previousAddress
+          : previousAddress // ignore: cast_nullable_to_non_nullable
+              as Address?,
       previousPublicKey: freezed == previousPublicKey
           ? _value.previousPublicKey
           : previousPublicKey // ignore: cast_nullable_to_non_nullable
@@ -337,6 +368,7 @@ class _$_Transaction extends _Transaction {
       this.data,
       final List<TransactionInput> inputs = const [],
       this.originSignature,
+      @AddressJsonConverter() this.previousAddress,
       this.previousPublicKey,
       this.previousSignature,
       this.type,
@@ -395,6 +427,11 @@ class _$_Transaction extends _Transaction {
   @override
   final String? originSignature;
 
+  /// - Previous address
+  @override
+  @AddressJsonConverter()
+  final Address? previousAddress;
+
   /// - Previous public key: previous generated public key matching the previous signature
   @override
   final String? previousPublicKey;
@@ -418,7 +455,7 @@ class _$_Transaction extends _Transaction {
 
   @override
   String toString() {
-    return 'Transaction(address: $address, balance: $balance, chainLength: $chainLength, crossValidationStamps: $crossValidationStamps, data: $data, inputs: $inputs, originSignature: $originSignature, previousPublicKey: $previousPublicKey, previousSignature: $previousSignature, type: $type, validationStamp: $validationStamp, version: $version)';
+    return 'Transaction(address: $address, balance: $balance, chainLength: $chainLength, crossValidationStamps: $crossValidationStamps, data: $data, inputs: $inputs, originSignature: $originSignature, previousAddress: $previousAddress, previousPublicKey: $previousPublicKey, previousSignature: $previousSignature, type: $type, validationStamp: $validationStamp, version: $version)';
   }
 
   @override
@@ -436,6 +473,8 @@ class _$_Transaction extends _Transaction {
             const DeepCollectionEquality().equals(other._inputs, _inputs) &&
             (identical(other.originSignature, originSignature) ||
                 other.originSignature == originSignature) &&
+            (identical(other.previousAddress, previousAddress) ||
+                other.previousAddress == previousAddress) &&
             (identical(other.previousPublicKey, previousPublicKey) ||
                 other.previousPublicKey == previousPublicKey) &&
             (identical(other.previousSignature, previousSignature) ||
@@ -457,6 +496,7 @@ class _$_Transaction extends _Transaction {
       data,
       const DeepCollectionEquality().hash(_inputs),
       originSignature,
+      previousAddress,
       previousPublicKey,
       previousSignature,
       type,
@@ -486,6 +526,7 @@ abstract class _Transaction extends Transaction {
       final Data? data,
       final List<TransactionInput> inputs,
       final String? originSignature,
+      @AddressJsonConverter() final Address? previousAddress,
       final String? previousPublicKey,
       final String? previousSignature,
       final String? type,
@@ -525,6 +566,11 @@ abstract class _Transaction extends Transaction {
 
   /// - Origin signature: signature from the device which originated the transaction (used in the Proof of work)
   String? get originSignature;
+  @override
+
+  /// - Previous address
+  @AddressJsonConverter()
+  Address? get previousAddress;
   @override
 
   /// - Previous public key: previous generated public key matching the previous signature

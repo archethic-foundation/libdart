@@ -483,8 +483,10 @@ condition inherit: [
         final originSig =
             crypto.sign(tx.originSignaturePayload(), originKeypair.privateKey);
 
-        expect(parsedTx['address'],
-            crypto.deriveAddress('seed', 1, isSeedHexa: false));
+        expect(
+          parsedTx['address'],
+          crypto.deriveAddress('seed', 1, isSeedHexa: false),
+        );
         expect(parsedTx['type'], 'transfer');
         expect(
           parsedTx['previousPublicKey'],
