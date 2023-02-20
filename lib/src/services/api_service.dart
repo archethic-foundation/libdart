@@ -240,16 +240,20 @@ class ApiService {
   Future<Map<String, List<Transaction>>> getTransactionChain(
     Map<String, String> addresses, {
     String request = Transaction.kTransactionQueryAllFields,
+    bool orderAsc = true,
   }) async {
     if (addresses.isEmpty) {
       return {};
     }
+
+    final order = orderAsc == true ? 'ASC ' : 'DESC';
 
     final fragment = 'fragment fields on Transaction { $request }';
     final body = StringBuffer()..write('query { ');
     // TODO(reddwarf03): Not good the '_' system to define alias but address format is not accepted by graphQL
     addresses.forEach((key, value) {
       body.write(' _$key: transactionChain(address:"$key" ');
+      body.write(' order: $order ');
       if (value.isNotEmpty) {
         body.write(' pagingAddress:"$value"');
       }
