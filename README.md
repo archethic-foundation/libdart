@@ -344,13 +344,14 @@ It supports the Archethic Cryptography rules which are:
 
   Once retrieved the keychain provide the following methods:
 
-  #### buildTransaction(tx, serviceName, index)
+  #### buildTransaction(tx, serviceName, index, suffix)
   Generate `address`, `previousPublicKey`, `previousSignature` of the transaction and 
   serialize it using a custom binary protocol, based on the derivation path, curve and hash algo of the service given in param.
 
   - `tx` is an instance of `Transaction`
   - `serviceName` is the service name to use for getting the derivation path, the curve and the hash algo
   - `index` is the number of transactions in the chain, to generate the actual and the next public key (see the cryptography section)
+  - `suffix`: Additional information to add to a service derivation path (default to empty)
 
   Return is the signed `Transaction`. Notice that the function also sign the `Transaction` given in param, so getting the return is not mandatory
 
@@ -362,22 +363,24 @@ It supports the Archethic Cryptography rules which are:
   Transaction signedTx = keychain.buildTransaction(tx, 'uco', index);
   ```
 
-  #### deriveAddress(service, index)
+  #### deriveAddress(service, index, suffix)
   Derive an address for the given service at the index given
 
   - `service`: Service name to identify the derivation path to use
   - `index`: Chain index to derive (default to 0)
+  - `suffix`: Additional information to add to a service derivation path (default to empty)
 
   ```dart
   Keychain keychain = await ApiService('https://testnet.archethic.net').getKeychain(accessKeychainSeed);
   Uint8List genesisUCOAddress = keychain.deriveAddress('uco', index: 0);
   ``` 
 
-  #### deriveKeypair(service, index)
+  #### deriveKeypair(service, index, suffix)
   Derive a keypair for the given service at the index given
 
   - `service`: Service name to identify the derivation path to use
   - `index`: Chain index to derive (default to 0)
+  - `suffix`: Additional information to add to a service derivation path (default to empty)
   
   ```dart
   Keychain keychain = await ApiService('https://testnet.archethic.net').getKeychain(accessKeychainSeed);

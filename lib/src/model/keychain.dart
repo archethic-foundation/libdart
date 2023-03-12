@@ -74,7 +74,11 @@ class Keychain with _$Keychain {
     ]);
   }
 
-  KeyPair deriveKeypair(String serviceName, {int index = 0}) {
+  KeyPair deriveKeypair(
+    String serviceName, {
+    int index = 0,
+    String pathSuffix = '',
+  }) {
     if (services[serviceName] == null) {
       throw Exception(
         "Service doesn't exist in the keychain",
@@ -85,10 +89,15 @@ class Keychain with _$Keychain {
       services[serviceName]!.derivationPath,
       index,
       curve: services[serviceName]!.curve,
+      pathSuffix: pathSuffix,
     );
   }
 
-  Uint8List deriveAddress(String serviceName, {int index = 0}) {
+  Uint8List deriveAddress(
+    String serviceName, {
+    int index = 0,
+    String pathSuffix = '',
+  }) {
     if (services[serviceName] == null) {
       throw Exception(
         "Service doesn't exist in the keychain",
@@ -100,6 +109,7 @@ class Keychain with _$Keychain {
       services[serviceName]!.derivationPath,
       index,
       curve: services[serviceName]!.curve,
+      pathSuffix: pathSuffix,
     );
     final curveID = crypto.curveToID(services[serviceName]!.curve);
 
@@ -116,13 +126,21 @@ class Keychain with _$Keychain {
     Transaction transaction,
     String serviceName,
     int index, {
+    String pathSuffix = '',
     String? curve = 'ed25519',
     String? hashAlgo = 'sha256',
   }) {
-    final keypair = deriveKeypair(serviceName, index: index);
+    final keypair =
+        deriveKeypair(serviceName, index: index, pathSuffix: pathSuffix);
     final transactionWithAddress = transaction.copyWith(
       address: Address(
-        address: uint8ListToHex(deriveAddress(serviceName, index: index + 1)),
+        address: uint8ListToHex(
+          deriveAddress(
+            serviceName,
+            index: index + 1,
+            pathSuffix: pathSuffix,
+          ),
+        ),
       ),
       previousPublicKey: uint8ListToHex(
         Uint8List.fromList(keypair.publicKey!),
@@ -232,12 +250,13 @@ KeyPair deriveArchethicKeypair(
   String derivationPath,
   int index, {
   String curve = 'ed25519',
+  String pathSuffix = '',
 }) {
   // Hash the derivation path
   final sha256 = Digest('SHA-256');
   final hashedPath = sha256.process(
     Uint8List.fromList(
-      replaceDerivationPathIndex(derivationPath, index).codeUnits,
+      replaceDerivationPathIndex(derivationPath, pathSuffix, index).codeUnits,
     ),
   );
 
@@ -252,10 +271,12 @@ KeyPair deriveArchethicKeypair(
   );
 }
 
-String replaceDerivationPathIndex(String path, int index) {
-  final newPath = path.split('/');
-  newPath.last = index.toString();
-  return newPath.join('/');
+String replaceDerivationPathIndex(String path, String suffix, int index) {
+  final pathArr = path.split('/');
+  pathArr.removeLast();
+  pathArr.add('${pathArr.removeLast()}$suffix');
+  pathArr.add(index.toString());
+  return pathArr.join('/');
 }
 
 Jwk keyToJWK(Uint8List publicKey, String keyId) {

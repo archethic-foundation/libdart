@@ -1,11 +1,8 @@
 library test.keychain_test;
 
-// Dart imports:
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
-
-// Project imports:
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/keychain.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
@@ -13,7 +10,6 @@ import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-// Package imports:
 import 'package:test/test.dart';
 
 void main() {
@@ -47,6 +43,19 @@ void main() {
       ];
 
       expect(expected, verificationMethod);
+    });
+  });
+
+  group('derivation', () {
+    test('should derive keys for a given service with suffix', () {
+      final seed =
+          Uint8List.fromList(utf8.encode('abcdefghijklmnopqrstuvwxyz'));
+      final keychain =
+          Keychain(seed: seed).copyWithService('uco', "m/650'/0/0");
+      final keyPair = keychain.deriveKeypair('uco');
+      final extendedKeyPair =
+          keychain.deriveKeypair('uco', pathSuffix: 'extended');
+      expect(keyPair.publicKey, isNot(equals(extendedKeyPair.publicKey)));
     });
   });
 
