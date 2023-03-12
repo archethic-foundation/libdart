@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 3.0.2 (2023-03-12)
+* Add suffix in the keychain derivation. This allows applications to nest create keys and addresses without having to add services or change the derivation path in the keychain
+
 #### Version 3.0.1 (2023-02-20)
 * Add New Types of Transaction to provide better meaning of the transaction (Contract & Data)
 * Add optional parameters to specify whether input method values are in hexadecimal format or not, in order to properly convert the values
