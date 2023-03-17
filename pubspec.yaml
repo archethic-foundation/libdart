@@ -6,10 +6,9 @@ homepage: https://github.com/archethic-foundation/libdart
 version: 3.0.2
 
 environment:
-  sdk: '>=2.19.0 <3.0.0'
+  sdk: ">=2.19.0 <3.0.0"
 
 dependencies:
-
   # Implementations of SHA, MD5, and HMAC cryptographic functions
   crypto: ^3.0.2
 
@@ -17,8 +16,8 @@ dependencies:
   #crypto_keys: ^0.3.0+1
   crypto_keys:
     git:
-     url: https://github.com/redDwarf03/crypto_keys.git
-     ref: gcm-web
+      url: https://github.com/redDwarf03/crypto_keys.git
+      ref: gcm-web
 
   # Package ecdsa implements the Elliptic Curve Digital Signature Algorithm, as defined in FIPS 186-3
   ecdsa: ^0.0.4
@@ -44,16 +43,12 @@ dependencies:
 
   # JWK (JSON Web Key) encoding and decoding
   jwk: ^0.1.1
-  
+
   # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
   pinenacl: ^0.5.1
 
   # A Dart library implementing cryptographic algorithms and primitives, modeled on the BouncyCastle library
-  #pointycastle: ^3.6.2
-  pointycastle:
-    git:
-     url: https://github.com/redDwarf03/pc-dart.git
-     ref: gcm-web
+  pointycastle: ^3.7.0
 
   # Pure secp256k1 signature algorithm implement for dart language which uses pure dart and basic types to represent all matters
   secp256k1: ^0.3.0
@@ -64,7 +59,7 @@ dependencies:
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.
   build_runner: ^2.3.3
-  
+
   # Recommended lints for Flutter apps, packages, and plugins to encourage good coding practices.
   flutter_lints: ^2.0.1
 
