@@ -9,6 +9,9 @@ environment:
   sdk: ">=2.19.0 <3.0.0"
 
 dependencies:
+  # Collections and utilities functions and classes related to collections.
+  collection: ^1.14.13
+
   # Implementations of SHA, MD5, and HMAC cryptographic functions
   crypto: ^3.0.2
 

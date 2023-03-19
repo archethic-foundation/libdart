@@ -1,7 +1,7 @@
 Changelog
 =========
 
-#### Version 3.0.2 (2023-03-19)
+#### Version 3.0.3 (2023-03-19)
 * Update AES GCM Method to be conform with web constraints
   
 #### Version 3.0.2 (2023-03-12)
