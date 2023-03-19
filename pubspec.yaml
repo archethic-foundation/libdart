@@ -3,7 +3,7 @@ name: archethic_lib_dart
 description: Archethic dart library for Flutter for Node and Browser. This library aims to provide a easy way to create Archethic transaction and to send them over the network
 homepage: https://github.com/archethic-foundation/libdart
 
-version: 3.0.2
+version: 3.0.3
 
 environment:
   sdk: ">=2.19.0 <3.0.0"
@@ -11,13 +11,6 @@ environment:
 dependencies:
   # Implementations of SHA, MD5, and HMAC cryptographic functions
   crypto: ^3.0.2
-
-  # A library for doing cryptographic signing/verifying and encrypting/decrypting.
-  #crypto_keys: ^0.3.0+1
-  crypto_keys:
-    git:
-      url: https://github.com/redDwarf03/crypto_keys.git
-      ref: gcm-web
 
   # Package ecdsa implements the Elliptic Curve Digital Signature Algorithm, as defined in FIPS 186-3
   ecdsa: ^0.0.4
@@ -49,6 +42,9 @@ dependencies:
 
   # A Dart library implementing cryptographic algorithms and primitives, modeled on the BouncyCastle library
   pointycastle: ^3.7.0
+
+  # Quiver is a set of utility libraries for Dart that makes using many Dart libraries easier and more convenient, or adds additional functionality.
+  quiver: ^3.0.0
 
   # Pure secp256k1 signature algorithm implement for dart language which uses pure dart and basic types to represent all matters
   secp256k1: ^0.3.0

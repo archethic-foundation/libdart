@@ -2,15 +2,13 @@
 import 'dart:convert' show utf8;
 import 'dart:math' show Random;
 
-// Project imports:
+import 'package:archethic_lib_dart/crypto_keys/crypto_keys.dart' as crypto_keys
+    show EncryptionResult, SymmetricKey, KeyPair, algorithms;
 import 'package:archethic_lib_dart/src/model/crypto/aes_auth_encrypt_infos.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/crypto/secret.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-// Package imports:
 import 'package:crypto/crypto.dart' as crypto show Hmac, sha256, sha512;
-import 'package:crypto_keys/crypto_keys.dart' as crypto_keys
-    show EncryptionResult, SymmetricKey, KeyPair, algorithms;
 import 'package:ecdsa/ecdsa.dart' as ecdsa
     show Signature, deterministicSign, verify;
 import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
