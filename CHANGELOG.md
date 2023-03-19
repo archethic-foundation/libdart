@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 3.0.2 (2023-03-19)
+* Update AES GCM Method to be conform with web constraints
+  
 #### Version 3.0.2 (2023-03-12)
 * Add suffix in the keychain derivation. This allows applications to nest create keys and addresses without having to add services or change the derivation path in the keychain
 
