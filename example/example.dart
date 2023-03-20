@@ -1,7 +1,6 @@
 // ignore_for_file: unused_local_variable
-
-import 'package:archethic_lib_dart/archethic_lib_dart.dart' show deriveKeyPair;
 import 'package:archethic_lib_dart/src/model/transaction.dart';
+import 'package:archethic_lib_dart/src/utils/crypto.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:pinenacl/encoding.dart';
 
