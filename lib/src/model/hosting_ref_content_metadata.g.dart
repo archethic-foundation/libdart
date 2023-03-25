@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'hosting_content_metadata.dart';
+part of 'hosting_ref_content_metadata.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_HostingContentMetaData _$$_HostingContentMetaDataFromJson(
+_$_HostingRefContentMetaData _$$_HostingRefContentMetaDataFromJson(
         Map<String, dynamic> json) =>
-    _$_HostingContentMetaData(
+    _$_HostingRefContentMetaData(
       hash: json['hash'] as String? ?? '',
       size: json['size'] as int? ?? 0,
       encoding: json['encoding'] as String? ?? '',
@@ -18,8 +18,8 @@ _$_HostingContentMetaData _$$_HostingContentMetaDataFromJson(
           const [],
     );
 
-Map<String, dynamic> _$$_HostingContentMetaDataToJson(
-        _$_HostingContentMetaData instance) =>
+Map<String, dynamic> _$$_HostingRefContentMetaDataToJson(
+        _$_HostingRefContentMetaData instance) =>
     <String, dynamic>{
       'hash': instance.hash,
       'size': instance.size,
