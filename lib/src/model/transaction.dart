@@ -317,6 +317,17 @@ class Transaction with _$Transaction {
     return copyWith(address: address);
   }
 
+  /// Set the the transaction with an origin private key
+  /// @param {String} to originSignature
+  Transaction setOriginSignature(String originSignature) {
+    if (!isHex(originSignature)) {
+      throw const FormatException(
+        "'originSignature' must be an hexadecimal string",
+      );
+    }
+    return copyWith(originSignature: originSignature);
+  }
+
   /// Sign the transaction with an origin private key
   /// @param {String} originPv Origin Private Key (hexadecimal)
   Transaction originSign(String privateKey) {
