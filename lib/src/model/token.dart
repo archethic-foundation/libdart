@@ -28,14 +28,22 @@ class Token with _$Token {
     return jsonEncode(toJsonForTxDataContent());
   }
 
-  Map<String, dynamic> toJsonForTxDataContent() => <String, dynamic>{
-        'name': name,
-        'supply': supply,
-        'type': type,
-        'symbol': symbol,
-        'properties': properties,
-        'aeip': aeip,
-        'ownerships':
-            List<dynamic>.from(ownerships!.map((Ownership x) => x.toJson())),
-      };
+  Map<String, dynamic> toJsonForTxDataContent() {
+    final json = <String, dynamic>{
+      'name': name,
+      'supply': supply,
+      'type': type,
+      'symbol': symbol,
+      'properties': properties,
+      'aeip': aeip,
+    };
+
+    if (ownerships != null && ownerships!.isNotEmpty) {
+      json['ownerships'] = List<dynamic>.from(
+        ownerships!.map((Ownership x) => x.toJson()),
+      );
+    }
+
+    return json;
+  }
 }
