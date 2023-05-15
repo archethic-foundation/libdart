@@ -15,6 +15,7 @@ _$_HostingRef _$$_HostingRefFromJson(Map<String, dynamic> json) =>
                 HostingRefContentMetaData.fromJson(e as Map<String, dynamic>)),
           ) ??
           const {},
+      sslCertificate: json['sslCertificate'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$_HostingRefToJson(_$_HostingRef instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$$_HostingRefToJson(_$_HostingRef instance) =>
       'aewebVersion': instance.aewebVersion,
       'hashFunction': instance.hashFunction,
       'metaData': instance.metaData,
+      'sslCertificate': instance.sslCertificate,
     };

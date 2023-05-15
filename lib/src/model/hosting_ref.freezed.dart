@@ -24,6 +24,7 @@ mixin _$HostingRef {
   String get hashFunction => throw _privateConstructorUsedError;
   Map<String, HostingRefContentMetaData> get metaData =>
       throw _privateConstructorUsedError;
+  String get sslCertificate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,7 +41,8 @@ abstract class $HostingRefCopyWith<$Res> {
   $Res call(
       {int aewebVersion,
       String hashFunction,
-      Map<String, HostingRefContentMetaData> metaData});
+      Map<String, HostingRefContentMetaData> metaData,
+      String sslCertificate});
 }
 
 /// @nodoc
@@ -59,6 +61,7 @@ class _$HostingRefCopyWithImpl<$Res, $Val extends HostingRef>
     Object? aewebVersion = null,
     Object? hashFunction = null,
     Object? metaData = null,
+    Object? sslCertificate = null,
   }) {
     return _then(_value.copyWith(
       aewebVersion: null == aewebVersion
@@ -73,6 +76,10 @@ class _$HostingRefCopyWithImpl<$Res, $Val extends HostingRef>
           ? _value.metaData
           : metaData // ignore: cast_nullable_to_non_nullable
               as Map<String, HostingRefContentMetaData>,
+      sslCertificate: null == sslCertificate
+          ? _value.sslCertificate
+          : sslCertificate // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -88,7 +95,8 @@ abstract class _$$_HostingRefCopyWith<$Res>
   $Res call(
       {int aewebVersion,
       String hashFunction,
-      Map<String, HostingRefContentMetaData> metaData});
+      Map<String, HostingRefContentMetaData> metaData,
+      String sslCertificate});
 }
 
 /// @nodoc
@@ -105,6 +113,7 @@ class __$$_HostingRefCopyWithImpl<$Res>
     Object? aewebVersion = null,
     Object? hashFunction = null,
     Object? metaData = null,
+    Object? sslCertificate = null,
   }) {
     return _then(_$_HostingRef(
       aewebVersion: null == aewebVersion
@@ -119,6 +128,10 @@ class __$$_HostingRefCopyWithImpl<$Res>
           ? _value._metaData
           : metaData // ignore: cast_nullable_to_non_nullable
               as Map<String, HostingRefContentMetaData>,
+      sslCertificate: null == sslCertificate
+          ? _value.sslCertificate
+          : sslCertificate // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -129,7 +142,8 @@ class _$_HostingRef extends _HostingRef {
   const _$_HostingRef(
       {this.aewebVersion = 1,
       this.hashFunction = 'sha1',
-      final Map<String, HostingRefContentMetaData> metaData = const {}})
+      final Map<String, HostingRefContentMetaData> metaData = const {},
+      this.sslCertificate = ''})
       : _metaData = metaData,
         super._();
 
@@ -152,8 +166,12 @@ class _$_HostingRef extends _HostingRef {
   }
 
   @override
+  @JsonKey()
+  final String sslCertificate;
+
+  @override
   String toString() {
-    return 'HostingRef(aewebVersion: $aewebVersion, hashFunction: $hashFunction, metaData: $metaData)';
+    return 'HostingRef(aewebVersion: $aewebVersion, hashFunction: $hashFunction, metaData: $metaData, sslCertificate: $sslCertificate)';
   }
 
   @override
@@ -165,13 +183,15 @@ class _$_HostingRef extends _HostingRef {
                 other.aewebVersion == aewebVersion) &&
             (identical(other.hashFunction, hashFunction) ||
                 other.hashFunction == hashFunction) &&
-            const DeepCollectionEquality().equals(other._metaData, _metaData));
+            const DeepCollectionEquality().equals(other._metaData, _metaData) &&
+            (identical(other.sslCertificate, sslCertificate) ||
+                other.sslCertificate == sslCertificate));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, aewebVersion, hashFunction,
-      const DeepCollectionEquality().hash(_metaData));
+      const DeepCollectionEquality().hash(_metaData), sslCertificate);
 
   @JsonKey(ignore: true)
   @override
@@ -191,7 +211,8 @@ abstract class _HostingRef extends HostingRef {
   const factory _HostingRef(
       {final int aewebVersion,
       final String hashFunction,
-      final Map<String, HostingRefContentMetaData> metaData}) = _$_HostingRef;
+      final Map<String, HostingRefContentMetaData> metaData,
+      final String sslCertificate}) = _$_HostingRef;
   const _HostingRef._() : super._();
 
   factory _HostingRef.fromJson(Map<String, dynamic> json) =
@@ -203,6 +224,8 @@ abstract class _HostingRef extends HostingRef {
   String get hashFunction;
   @override
   Map<String, HostingRefContentMetaData> get metaData;
+  @override
+  String get sslCertificate;
   @override
   @JsonKey(ignore: true)
   _$$_HostingRefCopyWith<_$_HostingRef> get copyWith =>
