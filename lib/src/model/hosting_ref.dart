@@ -11,6 +11,7 @@ class HostingRef with _$HostingRef {
     @Default(1) int aewebVersion,
     @Default('sha1') String hashFunction,
     @Default({}) final Map<String, HostingRefContentMetaData> metaData,
+    @Default('') String sslCertificate,
   }) = _HostingRef;
   const HostingRef._();
 
