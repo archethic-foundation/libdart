@@ -1,6 +1,10 @@
 Changelog
 =========
 
+#### Version 3.1.0 (2023-05-16)
+* Add new classes to manage 'hosting' type transactions
+* Add setOriginSignature setter in transaction class
+
 #### Version 3.0.3 (2023-03-19)
 * Update AES GCM Method to be conform with web constraints
   
