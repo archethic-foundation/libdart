@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### Version 3.1.1 (2023-05-22)
+* Fix getStorageNoncePublicKey method
+
 #### Version 3.1.0 (2023-05-16)
 * Add new classes to manage 'hosting' type transactions
 * Add setOriginSignature setter in transaction class
