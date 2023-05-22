@@ -8,10 +8,7 @@ part of 'shared_secrets.dart';
 
 _$_SharedSecrets _$$_SharedSecretsFromJson(Map<String, dynamic> json) =>
     _$_SharedSecrets(
-      storageNoncePublicKey:
-          (json['storageNoncePublicKey'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as String),
-      ),
+      storageNoncePublicKey: json['storageNoncePublicKey'] as String?,
     );
 
 Map<String, dynamic> _$$_SharedSecretsToJson(_$_SharedSecrets instance) =>

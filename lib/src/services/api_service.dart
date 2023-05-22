@@ -155,9 +155,7 @@ class ApiService {
         result.exception!.linkException.toString(),
       );
     }
-
-    return result.parsedData!.storageNoncePublicKey!['storageNoncePublicKey'] ??
-        '';
+    return result.parsedData!.storageNoncePublicKey ?? '';
   }
 
   /// Query the network to find a balance from a list of addresses

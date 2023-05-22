@@ -11,10 +11,10 @@ class SharedSecrets with _$SharedSecrets {
   const factory SharedSecrets({
     /// The storage nonce public key: Public Key to encrypt data for the node,
     /// so they will be able to decrypt it (mostly for smart contract authorized key)
-    Map<String, String>? storageNoncePublicKey,
+    String? storageNoncePublicKey,
   }) = _SharedSecrets;
   const SharedSecrets._();
 
   factory SharedSecrets.fromJson(Map<String, dynamic> json) =>
-      _$SharedSecretsFromJson(json);
+      _$SharedSecretsFromJson(json['sharedSecrets']);
 }

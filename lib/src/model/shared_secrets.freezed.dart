@@ -22,8 +22,7 @@ SharedSecrets _$SharedSecretsFromJson(Map<String, dynamic> json) {
 mixin _$SharedSecrets {
   /// The storage nonce public key: Public Key to encrypt data for the node,
   /// so they will be able to decrypt it (mostly for smart contract authorized key)
-  Map<String, String>? get storageNoncePublicKey =>
-      throw _privateConstructorUsedError;
+  String? get storageNoncePublicKey => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +36,7 @@ abstract class $SharedSecretsCopyWith<$Res> {
           SharedSecrets value, $Res Function(SharedSecrets) then) =
       _$SharedSecretsCopyWithImpl<$Res, SharedSecrets>;
   @useResult
-  $Res call({Map<String, String>? storageNoncePublicKey});
+  $Res call({String? storageNoncePublicKey});
 }
 
 /// @nodoc
@@ -59,7 +58,7 @@ class _$SharedSecretsCopyWithImpl<$Res, $Val extends SharedSecrets>
       storageNoncePublicKey: freezed == storageNoncePublicKey
           ? _value.storageNoncePublicKey
           : storageNoncePublicKey // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>?,
+              as String?,
     ) as $Val);
   }
 }
@@ -72,7 +71,7 @@ abstract class _$$_SharedSecretsCopyWith<$Res>
       __$$_SharedSecretsCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<String, String>? storageNoncePublicKey});
+  $Res call({String? storageNoncePublicKey});
 }
 
 /// @nodoc
@@ -90,9 +89,9 @@ class __$$_SharedSecretsCopyWithImpl<$Res>
   }) {
     return _then(_$_SharedSecrets(
       storageNoncePublicKey: freezed == storageNoncePublicKey
-          ? _value._storageNoncePublicKey
+          ? _value.storageNoncePublicKey
           : storageNoncePublicKey // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>?,
+              as String?,
     ));
   }
 }
@@ -100,28 +99,15 @@ class __$$_SharedSecretsCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_SharedSecrets extends _SharedSecrets {
-  const _$_SharedSecrets({final Map<String, String>? storageNoncePublicKey})
-      : _storageNoncePublicKey = storageNoncePublicKey,
-        super._();
+  const _$_SharedSecrets({this.storageNoncePublicKey}) : super._();
 
   factory _$_SharedSecrets.fromJson(Map<String, dynamic> json) =>
       _$$_SharedSecretsFromJson(json);
 
   /// The storage nonce public key: Public Key to encrypt data for the node,
   /// so they will be able to decrypt it (mostly for smart contract authorized key)
-  final Map<String, String>? _storageNoncePublicKey;
-
-  /// The storage nonce public key: Public Key to encrypt data for the node,
-  /// so they will be able to decrypt it (mostly for smart contract authorized key)
   @override
-  Map<String, String>? get storageNoncePublicKey {
-    final value = _storageNoncePublicKey;
-    if (value == null) return null;
-    if (_storageNoncePublicKey is EqualUnmodifiableMapView)
-      return _storageNoncePublicKey;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(value);
-  }
+  final String? storageNoncePublicKey;
 
   @override
   String toString() {
@@ -133,14 +119,13 @@ class _$_SharedSecrets extends _SharedSecrets {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SharedSecrets &&
-            const DeepCollectionEquality()
-                .equals(other._storageNoncePublicKey, _storageNoncePublicKey));
+            (identical(other.storageNoncePublicKey, storageNoncePublicKey) ||
+                other.storageNoncePublicKey == storageNoncePublicKey));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_storageNoncePublicKey));
+  int get hashCode => Object.hash(runtimeType, storageNoncePublicKey);
 
   @JsonKey(ignore: true)
   @override
@@ -157,8 +142,8 @@ class _$_SharedSecrets extends _SharedSecrets {
 }
 
 abstract class _SharedSecrets extends SharedSecrets {
-  const factory _SharedSecrets(
-      {final Map<String, String>? storageNoncePublicKey}) = _$_SharedSecrets;
+  const factory _SharedSecrets({final String? storageNoncePublicKey}) =
+      _$_SharedSecrets;
   const _SharedSecrets._() : super._();
 
   factory _SharedSecrets.fromJson(Map<String, dynamic> json) =
@@ -168,7 +153,7 @@ abstract class _SharedSecrets extends SharedSecrets {
 
   /// The storage nonce public key: Public Key to encrypt data for the node,
   /// so they will be able to decrypt it (mostly for smart contract authorized key)
-  Map<String, String>? get storageNoncePublicKey;
+  String? get storageNoncePublicKey;
   @override
   @JsonKey(ignore: true)
   _$$_SharedSecretsCopyWith<_$_SharedSecrets> get copyWith =>
