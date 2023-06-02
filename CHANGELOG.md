@@ -1,6 +1,10 @@
 Changelog
 =========
 
+#### Version 3.2.0
+* Add utility methods to handle message exchange mechanisms within the context of messaging.
+* Add a transaction utility method to handle confirmations when a transaction is sent to the blockchain.
+  
 #### Version 3.1.1 (2023-05-22)
 * Fix getStorageNoncePublicKey method
 
