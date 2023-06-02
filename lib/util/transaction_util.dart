@@ -7,8 +7,8 @@ mixin TransactionMixin {
   Future<double> calculateFees({
     required Transaction transaction,
     required ApiService apiService,
+    double slippage = 0.01,
   }) async {
-    const slippage = 1.01;
     final transactionFee = await apiService.getTransactionFee(transaction);
     final fees = fromBigInt(transactionFee.fee) * slippage;
     log(
