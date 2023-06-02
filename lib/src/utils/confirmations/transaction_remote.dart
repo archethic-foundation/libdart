@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:archethic_lib_dart/util/confirmations/transaction_event.dart';
 
 typedef TransactionConfirmationHandler = Future<void> Function(
   TransactionConfirmation confirmation,

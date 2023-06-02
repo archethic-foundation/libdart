@@ -4,10 +4,16 @@ import 'dart:developer' as dev;
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:archethic_lib_dart/util/models/ae_message.dart';
-import 'package:archethic_lib_dart/util/models/transaction_content_im.dart';
-import 'package:archethic_lib_dart/util/transaction_util.dart';
+import 'package:archethic_lib_dart/src/model/authorized_key.dart';
+import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
+import 'package:archethic_lib_dart/src/model/messaging/ae_message.dart';
+import 'package:archethic_lib_dart/src/model/messaging/transaction_content_messaging.dart';
+import 'package:archethic_lib_dart/src/model/transaction.dart';
+import 'package:archethic_lib_dart/src/model/transaction_input.dart';
+import 'package:archethic_lib_dart/src/services/api_service.dart';
+import 'package:archethic_lib_dart/src/utils/crypto.dart';
+import 'package:archethic_lib_dart/src/utils/transaction_util.dart';
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:archive/archive_io.dart';
 
 mixin MessengerMixin {
@@ -194,10 +200,11 @@ mixin MessengerMixin {
     }
   }
 
-  Future<Uint8List> getMessageGroupKeyAccess(
-      {required ApiService apiService,
-      required String scAddress,
-      required KeyPair senderKeyPair}) async {
+  Future<Uint8List> getMessageGroupKeyAccess({
+    required ApiService apiService,
+    required String scAddress,
+    required KeyPair senderKeyPair,
+  }) async {
     // Get message key from SC secret
     final mapTransactionOwnerships =
         await apiService.getTransactionOwnerships([scAddress]);
@@ -299,8 +306,9 @@ mixin MessengerMixin {
         );
       }
       contents.forEach((key, value) {
-        final transactionContentIM =
-            TransactionContentIM.fromJson(jsonDecode(value.data!.content!));
+        final transactionContentIM = TransactionContentMessaging.fromJson(
+          jsonDecode(value.data!.content!),
+        );
         final message = utf8.decode(
           _decodeMessage(
             transactionContentIM.message,

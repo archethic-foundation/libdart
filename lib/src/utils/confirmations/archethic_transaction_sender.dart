@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:archethic_lib_dart/util/confirmations/phoenix_link.dart';
-import 'package:archethic_lib_dart/util/confirmations/transaction_event.dart';
-import 'package:archethic_lib_dart/util/confirmations/transaction_remote.dart';
 import 'package:graphql/client.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 

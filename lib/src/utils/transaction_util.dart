@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:archethic_lib_dart/util/confirmations/archethic_transaction_sender.dart';
 
 mixin TransactionMixin {
   Future<double> calculateFees({

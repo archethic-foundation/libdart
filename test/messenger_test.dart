@@ -2,8 +2,9 @@ library messenger.api_test;
 
 import 'dart:typed_data';
 
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:archethic_lib_dart/util/messenger_util.dart';
+import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
+import 'package:archethic_lib_dart/src/utils/messenger_util.dart';
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:test/test.dart';
 
 void main() {
