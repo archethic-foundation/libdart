@@ -113,6 +113,78 @@ void main() {
           ),
         );
       });
+
+      test(
+        'createSendReadLocal',
+        () async {
+          final tx = await TestMessengerMixin().createNewSC(
+            endpoint: 'http://localhost:4000',
+            usersPubKey: [
+              '00008601B566BA8580B03D4AF47C96DD36686FC7BBB0309D4BB6B5C54C0E7B97736E'
+            ],
+            groupName: 'testGroup2',
+            adminsPubKey: [
+              '00008601B566BA8580B03D4AF47C96DD36686FC7BBB0309D4BB6B5C54C0E7B97736E'
+            ],
+            keychainSeed:
+                '41DBFF0EFDBF47AF74FBEC260CB824C933B17344E68063A09B8F18981BE0CD60',
+            adminAddress:
+                '00000162D81A8BADB078C430693DF1D8ED6A9F6FC9D484A0CCCD5935E353D2275362',
+            serviceName: 'archethic-wallet-TEST',
+          );
+
+          await TestMessengerMixin().sendMessage(
+            endpoint: 'http://localhost:4000',
+            keychainSeed:
+                '41DBFF0EFDBF47AF74FBEC260CB824C933B17344E68063A09B8F18981BE0CD60',
+            messageContent: '1er message',
+            scAddress: tx.address!.address!,
+            senderAddress:
+                '00000162D81A8BADB078C430693DF1D8ED6A9F6FC9D484A0CCCD5935E353D2275362',
+            senderServiceName: 'archethic-wallet-TEST',
+            senderKeyPair: KeyPair(
+              privateKey: hexToUint8List(
+                '000001b98027e90c0bd9020aee089a50c84da7185e6258d22d8f1b73c9e56e7f4134',
+              ),
+              publicKey: hexToUint8List(
+                '00008601B566BA8580B03D4AF47C96DD36686FC7BBB0309D4BB6B5C54C0E7B97736E',
+              ),
+            ),
+          );
+
+          await TestMessengerMixin().sendMessage(
+            endpoint: 'http://localhost:4000',
+            keychainSeed:
+                '41DBFF0EFDBF47AF74FBEC260CB824C933B17344E68063A09B8F18981BE0CD60',
+            messageContent: '2ème message',
+            scAddress: tx.address!.address!,
+            senderAddress:
+                '00000162D81A8BADB078C430693DF1D8ED6A9F6FC9D484A0CCCD5935E353D2275362',
+            senderServiceName: 'archethic-wallet-TEST',
+            senderKeyPair: KeyPair(
+              privateKey: hexToUint8List(
+                '000001b98027e90c0bd9020aee089a50c84da7185e6258d22d8f1b73c9e56e7f4134',
+              ),
+              publicKey: hexToUint8List(
+                '00008601B566BA8580B03D4AF47C96DD36686FC7BBB0309D4BB6B5C54C0E7B97736E',
+              ),
+            ),
+          );
+
+          await TestMessengerMixin().readMessages(
+            endpoint: 'http://localhost:4000',
+            scAddress: tx.address!.address!,
+            senderKeyPair: KeyPair(
+              privateKey: hexToUint8List(
+                '000001b98027e90c0bd9020aee089a50c84da7185e6258d22d8f1b73c9e56e7f4134',
+              ),
+              publicKey: hexToUint8List(
+                '00008601B566BA8580B03D4AF47C96DD36686FC7BBB0309D4BB6B5C54C0E7B97736E',
+              ),
+            ),
+          );
+        },
+      );
     },
     tags: <String>['noCI'],
   );
