@@ -4,14 +4,19 @@ import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:graphql/client.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
-class ArchethicTransactionSender with ArchethicTransactionParser {
+/// [TransactionSenderInterface] which talks to the Phoenix API.
+class ArchethicTransactionSender
+    with ArchethicTransactionParser
+    implements TransactionSenderInterface {
   ArchethicTransactionSender({
     required this.phoenixHttpEndpoint,
     required this.websocketEndpoint,
+    required this.apiService,
   });
 
   final String phoenixHttpEndpoint;
   final String websocketEndpoint;
+  final ApiService apiService;
 
   PhoenixChannel? _channel;
   GraphQLClient? _client;
@@ -20,6 +25,7 @@ class ArchethicTransactionSender with ArchethicTransactionParser {
   StreamSubscription? _transactionErrorSubscription;
   Timer? _timer;
 
+  @override
   void close() {
     _timer?.cancel();
     _channel?.close();
@@ -33,12 +39,12 @@ class ArchethicTransactionSender with ArchethicTransactionParser {
   ///     - when transaction is fully confirmed
   ///     - when timeout is reached
   ///     - when transaction fails
+  @override
   Future<void> send({
     required Transaction transaction,
     Duration timeout = const Duration(seconds: 60),
     required TransactionConfirmationHandler onConfirmation,
     required TransactionErrorHandler onError,
-    required ApiService apiService,
   }) async {
     _timer = Timer(
       timeout,
@@ -66,7 +72,6 @@ class ArchethicTransactionSender with ArchethicTransactionParser {
     await _sendTransaction(
       transaction: transaction,
       onError: onError,
-      apiService: apiService,
     );
   }
 
@@ -117,7 +122,6 @@ class ArchethicTransactionSender with ArchethicTransactionParser {
   Future<void> _sendTransaction({
     required Transaction transaction,
     required TransactionErrorHandler onError,
-    required ApiService apiService,
   }) async {
     try {
       final transactionStatus = await apiService.sendTx(transaction);
@@ -211,6 +215,8 @@ mixin ArchethicTransactionParser {
       if (reason == 'timeout' || reason == 'connection timeout') {
         return const TransactionError.timeout();
       }
+
+      // TODO(reddwarf03): Handle other error types.
 
       return TransactionError.other(reason: reason);
     } catch (e) {
