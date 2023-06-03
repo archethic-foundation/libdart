@@ -50,6 +50,7 @@ export 'src/utils/confirmations/archethic_transaction_sender.dart';
 export 'src/utils/confirmations/phoenix_link.dart';
 export 'src/utils/confirmations/transaction_event.dart';
 export 'src/utils/confirmations/transaction_remote.dart';
+export 'src/utils/confirmations/transaction_sender.dart';
 export 'src/utils/crypto.dart';
 export 'src/utils/messenger_util.dart';
 export 'src/utils/transaction_util.dart';
