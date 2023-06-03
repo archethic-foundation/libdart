@@ -42,12 +42,12 @@ mixin TransactionMixin {
       final transactionRepository = ArchethicTransactionSender(
         phoenixHttpEndpoint: '${apiService.endpoint}/socket/websocket',
         websocketEndpoint: websocketEndpoint,
+        apiService: apiService,
       );
       log('Send ${transaction.address!.address}');
 
       await transactionRepository.send(
         transaction: transaction,
-        apiService: apiService,
         onConfirmation: (confirmation) async {
           if (confirmation.isFullyConfirmed) {
             log('nbConfirmations: ${confirmation.nbConfirmations}, transactionAddress: ${confirmation.transactionAddress}, maxConfirmations: ${confirmation.maxConfirmations}');
