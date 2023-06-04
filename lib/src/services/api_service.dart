@@ -31,8 +31,10 @@ import 'package:graphql/client.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  ApiService(this.endpoint)
-      : _client = GraphQLClient(
+  ApiService(
+    this.endpoint, {
+    this.logsActivation = true,
+  }) : _client = GraphQLClient(
           link: HttpLink('$endpoint/api'),
           cache: GraphQLCache(),
           defaultPolicies: DefaultPolicies(
@@ -55,25 +57,37 @@ class ApiService {
   /// [endpoint] is the HTTP URL to a Archethic node (acting as welcome node)
   final String endpoint;
 
+  /// [logsActivation] manage log activation
+  final bool logsActivation;
+
   /// Send a transaction to the network
   /// @param {Object} tx Transaction to send
   Future<TransactionStatus> sendTx(Transaction transaction) async {
     final completer = Completer<TransactionStatus>();
 
     var transactionStatus = const TransactionStatus();
-    log('sendTx: requestHttp.body=${transaction.convertToJSON()}');
+    log(
+      'sendTx: requestHttp.body=${transaction.convertToJSON()}',
+      logsActivation: logsActivation,
+    );
     try {
       final responseHttp = await http.post(
         Uri.parse('$endpoint/api/transaction'),
         body: transaction.convertToJSON(),
         headers: kRequestHeaders,
       );
-      log('sendTx: responseHttp.body=${responseHttp.body}');
+      log(
+        'sendTx: responseHttp.body=${responseHttp.body}',
+        logsActivation: logsActivation,
+      );
       transactionStatus = transactionStatusFromJson(responseHttp.body);
 
       completer.complete(transactionStatus);
     } catch (e) {
-      log(e.toString());
+      log(
+        e.toString(),
+        logsActivation: logsActivation,
+      );
     }
 
     return completer.future;
@@ -97,7 +111,12 @@ class ApiService {
     }
     body.write(' } $fragment');
 
-    final result = await _client.withLogger('getLastTransaction').query(
+    final result = await _client
+        .withLogger(
+          'getLastTransaction',
+          logsActivation: logsActivation,
+        )
+        .query(
           QueryOptions(
             document: gql(body.toString()),
             parserFn: (data) {
@@ -141,9 +160,17 @@ class ApiService {
 
   Future<String> getStorageNoncePublicKey() async {
     const body = 'query {sharedSecrets {storageNoncePublicKey}}';
-    log('getStorageNoncePublicKey: requestHttp.body=$body');
+    log(
+      'getStorageNoncePublicKey: requestHttp.body=$body',
+      logsActivation: logsActivation,
+    );
 
-    final result = await _client.withLogger('getStorageNoncePublicKey').query(
+    final result = await _client
+        .withLogger(
+          'getStorageNoncePublicKey',
+          logsActivation: logsActivation,
+        )
+        .query(
           QueryOptions(
             document: gql(body),
             parserFn: (object) => SharedSecrets.fromJson(object),
@@ -176,7 +203,12 @@ class ApiService {
     }
     body.write(' } $fragment');
 
-    final result = await _client.withLogger('fetchBalance').query(
+    final result = await _client
+        .withLogger(
+          'fetchBalance',
+          logsActivation: logsActivation,
+        )
+        .query(
           QueryOptions(
             document: gql(body.toString()),
             parserFn: (object) {
@@ -230,7 +262,10 @@ class ApiService {
 
       return removeAliasPrefix<String>(contentMap) ?? {};
     } catch (e) {
-      log('getTransactionContent: error=$e');
+      log(
+        'getTransactionContent: error=$e',
+        logsActivation: logsActivation,
+      );
       rethrow;
     }
   }
@@ -262,7 +297,12 @@ class ApiService {
     });
     body.write('} $fragment');
 
-    final result = await _client.withLogger('getTransactionChain').query(
+    final result = await _client
+        .withLogger(
+          'getTransactionChain',
+          logsActivation: logsActivation,
+        )
+        .query(
           QueryOptions(
             document: gql(body.toString()),
             parserFn: (object) {
@@ -296,7 +336,12 @@ class ApiService {
     const body =
         'query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress authorizationDate enrollmentDate}}';
 
-    final result = await _client.withLogger('getNodeList').query(
+    final result = await _client
+        .withLogger(
+          'getNodeList',
+          logsActivation: logsActivation,
+        )
+        .query(
           QueryOptions(
             document: gql(body),
             parserFn: (json) => NodesResponseData.fromJson(json).nodes!,
@@ -325,7 +370,12 @@ class ApiService {
     final body =
         'query { networkTransactions(type: "$type", page: $page) { $request } }';
 
-    final result = await _client.withLogger('networkTransactions').query(
+    final result = await _client
+        .withLogger(
+          'networkTransactions',
+          logsActivation: logsActivation,
+        )
+        .query(
           QueryOptions(
             document: gql(body),
             parserFn: (json) {
@@ -375,7 +425,12 @@ class ApiService {
     }
     body.write(' } $fragment');
 
-    final result = await _client.withLogger('getTransactionInputs').query(
+    final result = await _client
+        .withLogger(
+          'getTransactionInputs',
+          logsActivation: logsActivation,
+        )
+        .query(
           QueryOptions(
             document: gql(body.toString()),
             parserFn: (json) {
@@ -424,7 +479,12 @@ class ApiService {
       );
     }
     body.write('} $fragment');
-    final result = await _client.withLogger('getTransaction').query(
+    final result = await _client
+        .withLogger(
+          'getTransaction',
+          logsActivation: logsActivation,
+        )
+        .query(
           QueryOptions(
             document: gql(body.toString()),
             parserFn: (json) {
@@ -453,13 +513,19 @@ class ApiService {
   /// Get transaction fees
   /// @param {Object} tx Transaction to estimate fees
   Future<TransactionFee> getTransactionFee(Transaction transaction) async {
-    log('getTransactionFee: requestHttp.body=${transaction.convertToJSON()}');
+    log(
+      'getTransactionFee: requestHttp.body=${transaction.convertToJSON()}',
+      logsActivation: logsActivation,
+    );
     final responseHttp = await http.post(
       Uri.parse('$endpoint/api/transaction_fee'),
       body: transaction.convertToJSON(),
       headers: kRequestHeaders,
     );
-    log('getTransactionFee: responseHttp.body=${responseHttp.body}');
+    log(
+      'getTransactionFee: responseHttp.body=${responseHttp.body}',
+      logsActivation: logsActivation,
+    );
     return TransactionFee.fromJson(json.decode(responseHttp.body));
   }
 
@@ -491,7 +557,10 @@ class ApiService {
 
       return removeAliasPrefix<List<Ownership>>(ownershipsMap) ?? {};
     } catch (e) {
-      log('getTransactionOwnerships: error=$e');
+      log(
+        'getTransactionOwnerships: error=$e',
+        logsActivation: logsActivation,
+      );
     }
 
     return {};
@@ -604,7 +673,10 @@ class ApiService {
       final aesKey =
           ecDecrypt(authorizedPublicKey.encryptedSecretKey, keypair.privateKey);
       final keychainAddress = aesDecrypt(ownership.secret, aesKey);
-      log('keychainAddress (getKeychain): ${uint8ListToHex(keychainAddress)}');
+      log(
+        'keychainAddress (getKeychain): ${uint8ListToHex(keychainAddress)}',
+        logsActivation: logsActivation,
+      );
 
       final lastTransactionKeychainMap = await getLastTransaction(
         [uint8ListToHex(keychainAddress)],
@@ -660,13 +732,19 @@ class ApiService {
       'origin_public_key': originPublicKey!,
       'certificate': certificate!
     });
+    log(
+      'addOriginKey: requestHttp.body=$body',
+      logsActivation: logsActivation,
+    );
     final responseHttp = await http.post(
       Uri.parse('$endpoint/api/origin_key'),
       body: body,
       headers: kRequestHeaders,
     );
-    log('addOriginKey: requestHttp.body=$body');
-    log('addOriginKey: responseHttp.body=${responseHttp.body}');
+    log(
+      'addOriginKey: responseHttp.body=${responseHttp.body}',
+      logsActivation: logsActivation,
+    );
 
     return originKeyResponseFromJson(responseHttp.body).toString();
   }
@@ -690,7 +768,12 @@ class ApiService {
     }
     body.write(' } $fragment');
 
-    final result = await _client.withLogger('getToken').query(
+    final result = await _client
+        .withLogger(
+          'getToken',
+          logsActivation: logsActivation,
+        )
+        .query(
           QueryOptions(
             document: gql(body.toString()),
             parserFn: (json) {
@@ -721,7 +804,12 @@ class ApiService {
   Future<List<Endpoint>> getNearestEndpoints() async {
     const body = 'query { nearestEndpoints { ip, port } }';
 
-    final result = await _client.withLogger('getNearestEndpoints').query(
+    final result = await _client
+        .withLogger(
+          'getNearestEndpoints',
+          logsActivation: logsActivation,
+        )
+        .query(
           QueryOptions(
             document: gql(body),
             parserFn: (json) =>
@@ -743,7 +831,12 @@ class ApiService {
   Future<Address> getGenesisAddress(String address) async {
     final body = 'query { genesisAddress (address:"$address") }';
 
-    final result = await _client.withLogger('getGenesisAddress').query(
+    final result = await _client
+        .withLogger(
+          'getGenesisAddress',
+          logsActivation: logsActivation,
+        )
+        .query(
           QueryOptions(
             document: gql(body),
             parserFn: (json) =>

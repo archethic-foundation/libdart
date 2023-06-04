@@ -1,14 +1,16 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'package:archethic_lib_dart/src/utils/logs.dart';
 
 import 'package:gql/language.dart' show printNode;
 import 'package:graphql/client.dart';
 
 extension GraphQLClientWithLogger on GraphQLClient {
   /// Proxyfies a [GraphQLClient] with a [GraphQLClientLogger].
-  GraphQLClient withLogger(String logName) => GraphQLClientLogger(
+  GraphQLClient withLogger(String logName, {bool logsActivation = true}) =>
+      GraphQLClientLogger(
         client: this,
         logName: logName,
+        logsActivation: logsActivation,
       );
 }
 
@@ -17,9 +19,11 @@ class GraphQLClientLogger implements GraphQLClient {
   GraphQLClientLogger({
     required this.client,
     required this.logName,
+    this.logsActivation = true,
   });
   final GraphQLClient client;
   final String logName;
+  final bool logsActivation;
 
   final JsonEncoder _jsonEncoder = const JsonEncoder.withIndent('  ');
 
@@ -86,6 +90,7 @@ class GraphQLClientLogger implements GraphQLClient {
     log(
       '${DateTime.now()} requestHttp.body=${printNode(options.document)}',
       name: logName,
+      logsActivation: logsActivation,
     );
 
     final result = await client.query(options);
@@ -94,11 +99,13 @@ class GraphQLClientLogger implements GraphQLClient {
       log(
         '${DateTime.now()} responseHttp.error=${_jsonEncoder.convert(result.exception?.toJson)}',
         name: logName,
+        logsActivation: logsActivation,
       );
     }
     log(
       '${DateTime.now()} responseHttp.body=${_jsonEncoder.convert(result.data)}',
       name: logName,
+      logsActivation: logsActivation,
     );
 
     return result;

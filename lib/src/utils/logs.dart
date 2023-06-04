@@ -3,6 +3,12 @@
 // Dart imports:
 import 'dart:developer' as dev;
 
-void log(String message) {
-  dev.log('${DateTime.now()} $message');
+void log(String message, {bool logsActivation = true, String name = ''}) {
+  if (logsActivation) {
+    if (name.isEmpty) {
+      dev.log('${DateTime.now()} $message');
+    } else {
+      dev.log('${DateTime.now()} $message', name: name);
+    }
+  }
 }
