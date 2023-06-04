@@ -1,19 +1,20 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
-// Project imports:
 import 'package:archethic_lib_dart/src/model/oracle_chain/oracle_uco_price.dart';
 import 'package:archethic_lib_dart/src/model/response/oracle_data_response.dart';
 import 'package:archethic_lib_dart/src/model/uco.dart';
 import 'package:archethic_lib_dart/src/utils/logs.dart';
-// Package imports:
 import 'package:http/http.dart' as http show post;
 
 class OracleService {
-  OracleService(this.endpoint);
+  OracleService(this.endpoint, {this.logsActivation = true});
 
   /// [endpoint] is the HTTP URL to a Archethic node (acting as welcome node)
   String? endpoint;
+
+  /// [logsActivation] manage log activation
+  final bool logsActivation;
 
   /// return a value of Oracle Uco_Price in {OracleUcoPrice} from a timestamp
   /// if timestamp = 0 or not precised, the last price is returned
@@ -36,13 +37,19 @@ class OracleService {
             '{"query": "query { oracleData(timestamp: $timestamp) { timestamp services { uco { eur, usd } } } }"}';
       }
 
-      log('getOracleData: requestHttp.body=$body');
+      log(
+        'getOracleData: requestHttp.body=$body',
+        logsActivation: logsActivation,
+      );
       final responseHttp = await http.post(
         Uri.parse('${endpoint!}/api'),
         body: body,
         headers: requestHeaders,
       );
-      log('getOracleData: responseHttp.body=${responseHttp.body}');
+      log(
+        'getOracleData: responseHttp.body=${responseHttp.body}',
+        logsActivation: logsActivation,
+      );
       if (responseHttp.statusCode == 200) {
         final oracleDataResponse =
             oracleDataResponseFromJson(responseHttp.body);
@@ -59,7 +66,10 @@ class OracleService {
         }
       }
     } catch (e) {
-      log('getOracleData: error=$e');
+      log(
+        'getOracleData: error=$e',
+        logsActivation: logsActivation,
+      );
     }
 
     completer.complete(oracleUcoPrice);
