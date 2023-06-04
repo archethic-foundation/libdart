@@ -82,7 +82,10 @@ class ApiService {
 
       completer.complete(transactionStatus);
     } catch (e) {
-      log(e.toString());
+      log(
+        e.toString(),
+        logsActivation: logsActivation,
+      );
     }
 
     return completer.future;
@@ -257,7 +260,10 @@ class ApiService {
 
       return removeAliasPrefix<String>(contentMap) ?? {};
     } catch (e) {
-      log('getTransactionContent: error=$e', logsActivation: logsActivation);
+      log(
+        'getTransactionContent: error=$e',
+        logsActivation: logsActivation,
+      );
       rethrow;
     }
   }
@@ -549,7 +555,10 @@ class ApiService {
 
       return removeAliasPrefix<List<Ownership>>(ownershipsMap) ?? {};
     } catch (e) {
-      log('getTransactionOwnerships: error=$e', logsActivation: logsActivation);
+      log(
+        'getTransactionOwnerships: error=$e',
+        logsActivation: logsActivation,
+      );
     }
 
     return {};
@@ -721,7 +730,10 @@ class ApiService {
       'origin_public_key': originPublicKey!,
       'certificate': certificate!
     });
-    log('addOriginKey: requestHttp.body=$body', logsActivation: logsActivation);
+    log(
+      'addOriginKey: requestHttp.body=$body',
+      logsActivation: logsActivation,
+    );
     final responseHttp = await http.post(
       Uri.parse('$endpoint/api/origin_key'),
       body: body,
