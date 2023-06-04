@@ -31,8 +31,10 @@ import 'package:graphql/client.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  ApiService(this.endpoint, {this.logsActivation = true})
-      : _client = GraphQLClient(
+  ApiService(
+    this.endpoint, {
+    this.logsActivation = true,
+  }) : _client = GraphQLClient(
           link: HttpLink('$endpoint/api'),
           cache: GraphQLCache(),
           defaultPolicies: DefaultPolicies(
