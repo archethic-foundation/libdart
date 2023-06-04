@@ -6,9 +6,11 @@ import 'package:graphql/client.dart';
 
 extension GraphQLClientWithLogger on GraphQLClient {
   /// Proxyfies a [GraphQLClient] with a [GraphQLClientLogger].
-  GraphQLClient withLogger(String logName) => GraphQLClientLogger(
+  GraphQLClient withLogger(String logName, {bool logsActivation = true}) =>
+      GraphQLClientLogger(
         client: this,
         logName: logName,
+        logsActivation: logsActivation,
       );
 }
 
