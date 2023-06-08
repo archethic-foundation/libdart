@@ -3,6 +3,7 @@ library messenger.api_test;
 import 'dart:typed_data';
 
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
+import 'package:archethic_lib_dart/src/model/keychain.dart';
 import 'package:archethic_lib_dart/src/utils/messenger_util.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:test/test.dart';
@@ -12,6 +13,12 @@ void main() {
     'messenger',
     () {
       test('createNewSCTestnet', () async {
+        final keychain = Keychain(
+          seed: hexToUint8List(
+            '8CAC8029F526FD4E4856E00161882F9F9F6B81B7C9221BB8529690FDCB642F03',
+          ),
+        ).copyWithService('uco', "m/650'/0/0");
+
         final tx = await TestMessengerMixin().createNewSC(
           endpoint: 'https://testnet.archethic.net',
           usersPubKey: [
@@ -23,8 +30,7 @@ void main() {
           adminsPubKey: [
             '0000A78DC064FAD98277B6B2FE0C2EB09B1292DE13DFFCE1AA3991F67803D14415F6'
           ],
-          keychainSeed:
-              '8CAC8029F526FD4E4856E00161882F9F9F6B81B7C9221BB8529690FDCB642F03',
+          keychain: keychain,
           adminAddress:
               '00008C64EE10053C34E7B5679D3BD935616B45D910FDBBC46A2516709CBB375DF703',
           serviceName: 'archethic-wallet-ALICE',
@@ -37,10 +43,15 @@ void main() {
       });
 
       test('sendMessageTestnet', () async {
+        final keychain = Keychain(
+          seed: hexToUint8List(
+            '8CAC8029F526FD4E4856E00161882F9F9F6B81B7C9221BB8529690FDCB642F03',
+          ),
+        ).copyWithService('uco', "m/650'/0/0");
+
         await TestMessengerMixin().sendMessage(
           endpoint: 'https://testnet.archethic.net',
-          keychainSeed:
-              '8CAC8029F526FD4E4856E00161882F9F9F6B81B7C9221BB8529690FDCB642F03',
+          keychain: keychain,
           messageContent: 'First message',
           scAddress:
               '00000162D81A8BADB078C430693DF1D8ED6A9F6FC9D484A0CCCD5935E353D2275362',
@@ -55,6 +66,12 @@ void main() {
       });
 
       test('createNewSCLocal', () async {
+        final keychain = Keychain(
+          seed: hexToUint8List(
+            '8CAC8029F526FD4E4856E00161882F9F9F6B81B7C9221BB8529690FDCB642F03',
+          ),
+        ).copyWithService('uco', "m/650'/0/0");
+
         final tx = await TestMessengerMixin().createNewSC(
           endpoint: 'http://localhost:4000',
           usersPubKey: [
@@ -64,8 +81,7 @@ void main() {
           adminsPubKey: [
             '00008601B566BA8580B03D4AF47C96DD36686FC7BBB0309D4BB6B5C54C0E7B97736E'
           ],
-          keychainSeed:
-              '41DBFF0EFDBF47AF74FBEC260CB824C933B17344E68063A09B8F18981BE0CD60',
+          keychain: keychain,
           adminAddress:
               '00000162D81A8BADB078C430693DF1D8ED6A9F6FC9D484A0CCCD5935E353D2275362',
           serviceName: 'archethic-wallet-TEST',
@@ -78,10 +94,15 @@ void main() {
       });
 
       test('sendMessageLocal', () async {
+        final keychain = Keychain(
+          seed: hexToUint8List(
+            '8CAC8029F526FD4E4856E00161882F9F9F6B81B7C9221BB8529690FDCB642F03',
+          ),
+        ).copyWithService('uco', "m/650'/0/0");
+
         await TestMessengerMixin().sendMessage(
           endpoint: 'http://localhost:4000',
-          keychainSeed:
-              '41DBFF0EFDBF47AF74FBEC260CB824C933B17344E68063A09B8F18981BE0CD60',
+          keychain: keychain,
           messageContent: '3ème message',
           scAddress:
               '000049d1b99645d0168c084983477b0db00e53ac8cc9957ef93bb56777ce0e8d82b1',
@@ -118,6 +139,12 @@ void main() {
       test(
         'createSendReadLocal',
         () async {
+          final keychain = Keychain(
+            seed: hexToUint8List(
+              '8CAC8029F526FD4E4856E00161882F9F9F6B81B7C9221BB8529690FDCB642F03',
+            ),
+          ).copyWithService('uco', "m/650'/0/0");
+
           final tx = await TestMessengerMixin().createNewSC(
             endpoint: 'http://localhost:4000',
             usersPubKey: [
@@ -127,8 +154,7 @@ void main() {
             adminsPubKey: [
               '00008601B566BA8580B03D4AF47C96DD36686FC7BBB0309D4BB6B5C54C0E7B97736E'
             ],
-            keychainSeed:
-                '41DBFF0EFDBF47AF74FBEC260CB824C933B17344E68063A09B8F18981BE0CD60',
+            keychain: keychain,
             adminAddress:
                 '00000162D81A8BADB078C430693DF1D8ED6A9F6FC9D484A0CCCD5935E353D2275362',
             serviceName: 'archethic-wallet-TEST',
@@ -136,8 +162,7 @@ void main() {
 
           await TestMessengerMixin().sendMessage(
             endpoint: 'http://localhost:4000',
-            keychainSeed:
-                '41DBFF0EFDBF47AF74FBEC260CB824C933B17344E68063A09B8F18981BE0CD60',
+            keychain: keychain,
             messageContent: '1er message',
             scAddress: tx.address!.address!,
             senderAddress:
@@ -155,8 +180,7 @@ void main() {
 
           await TestMessengerMixin().sendMessage(
             endpoint: 'http://localhost:4000',
-            keychainSeed:
-                '41DBFF0EFDBF47AF74FBEC260CB824C933B17344E68063A09B8F18981BE0CD60',
+            keychain: keychain,
             messageContent: '2ème message',
             scAddress: tx.address!.address!,
             senderAddress:
