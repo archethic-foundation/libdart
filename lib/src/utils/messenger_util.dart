@@ -4,16 +4,7 @@ import 'dart:developer' as dev;
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:archethic_lib_dart/src/model/authorized_key.dart';
-import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
-import 'package:archethic_lib_dart/src/model/messaging/ae_message.dart';
-import 'package:archethic_lib_dart/src/model/messaging/transaction_content_messaging.dart';
-import 'package:archethic_lib_dart/src/model/transaction.dart';
-import 'package:archethic_lib_dart/src/model/transaction_input.dart';
-import 'package:archethic_lib_dart/src/services/api_service.dart';
-import 'package:archethic_lib_dart/src/utils/crypto.dart';
-import 'package:archethic_lib_dart/src/utils/transaction_util.dart';
-import 'package:archethic_lib_dart/src/utils/utils.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archive/archive_io.dart';
 
 mixin MessengerMixin {
@@ -191,7 +182,7 @@ mixin MessengerMixin {
         .originSign(originPrivateKey);
   }
 
-  Future<void> sendMessage({
+  Future<Address> sendMessage({
     required String endpoint,
     required String scAddress,
     required String messageContent,
@@ -212,14 +203,11 @@ mixin MessengerMixin {
       senderKeyPair: senderKeyPair,
     );
 
-    try {
-      await TransactionUtil().sendTransactions(
-        transactions: [transaction],
-        apiService: apiService,
-      );
-    } catch (e) {
-      dev.log('error$e');
-    }
+    await TransactionUtil().sendTransactions(
+      transactions: [transaction],
+      apiService: apiService,
+    );
+    return transaction.address!;
   }
 
   Future<Uint8List> getMessageGroupKeyAccess({
