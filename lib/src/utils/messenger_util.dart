@@ -295,7 +295,8 @@ mixin MessengerMixin {
     final aeMessages = <AEMessage>[];
     final contents = await apiService.getTransaction(
       txContentMessagesAddresses,
-      request: 'data { content }',
+      request:
+          ' address, chainLength, data { content }, previousPublicKey, validationStamp { timestamp } ',
     );
 
     var messageGroupKeyAccess = '';
