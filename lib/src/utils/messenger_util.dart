@@ -153,7 +153,7 @@ mixin MessengerMixin {
     return transactionSC;
   }
 
-  Future<void> sendMessage({
+  Future<Transaction> buildMessageSendTransaction({
     required String endpoint,
     required String scAddress,
     required String messageContent,
@@ -186,13 +186,35 @@ mixin MessengerMixin {
     final index = indexMap[senderAddress] ?? 0;
     final originPrivateKey = apiService.getOriginKey();
 
-    final transactionSC = keychain
+    return keychain
         .buildTransaction(tx, senderServiceName, index)
         .originSign(originPrivateKey);
+  }
+
+  Future<void> sendMessage({
+    required String endpoint,
+    required String scAddress,
+    required String messageContent,
+    required String keychainSeed,
+    required String senderAddress,
+    required String senderServiceName,
+    required KeyPair senderKeyPair,
+  }) async {
+    final apiService = ApiService(endpoint);
+
+    final transaction = await buildMessageSendTransaction(
+      endpoint: endpoint,
+      scAddress: scAddress,
+      messageContent: messageContent,
+      keychainSeed: keychainSeed,
+      senderAddress: senderAddress,
+      senderServiceName: senderServiceName,
+      senderKeyPair: senderKeyPair,
+    );
 
     try {
       await TransactionUtil().sendTransactions(
-        transactions: [transactionSC],
+        transactions: [transaction],
         apiService: apiService,
       );
     } catch (e) {
