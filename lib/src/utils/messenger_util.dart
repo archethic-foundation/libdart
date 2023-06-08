@@ -271,7 +271,7 @@ mixin MessengerMixin {
     return Uint8List.fromList(decompressedPayload);
   }
 
-  Future<void> readMessages({
+  Future<List<AEMessage>> readMessages({
     required String endpoint,
     required String scAddress,
     required KeyPair senderKeyPair,
@@ -288,48 +288,45 @@ mixin MessengerMixin {
       }
     }
 
-    try {
-      final aeMessages = <AEMessage>[];
-      final contents = await apiService.getTransaction(
-        txContentMessagesAddresses,
-        request: 'data { content }',
+    final aeMessages = <AEMessage>[];
+    final contents = await apiService.getTransaction(
+      txContentMessagesAddresses,
+      request: 'data { content }',
+    );
+
+    var messageGroupKeyAccess = '';
+    if (contents.isNotEmpty) {
+      messageGroupKeyAccess = uint8ListToHex(
+        await getMessageGroupKeyAccess(
+          apiService: apiService,
+          scAddress: scAddress,
+          senderKeyPair: senderKeyPair,
+        ),
+      );
+    }
+    contents.forEach((key, value) {
+      final transactionContentIM = TransactionContentMessaging.fromJson(
+        jsonDecode(value.data!.content!),
+      );
+      final message = utf8.decode(
+        _decodeMessage(
+          transactionContentIM.message,
+          messageGroupKeyAccess,
+          compressionAlgo: transactionContentIM.compressionAlgo,
+        ),
       );
 
-      var messageGroupKeyAccess = '';
-      if (contents.isNotEmpty) {
-        messageGroupKeyAccess = uint8ListToHex(
-          await getMessageGroupKeyAccess(
-            apiService: apiService,
-            scAddress: scAddress,
-            senderKeyPair: senderKeyPair,
-          ),
-        );
-      }
-      contents.forEach((key, value) {
-        final transactionContentIM = TransactionContentMessaging.fromJson(
-          jsonDecode(value.data!.content!),
-        );
-        final message = utf8.decode(
-          _decodeMessage(
-            transactionContentIM.message,
-            messageGroupKeyAccess,
-            compressionAlgo: transactionContentIM.compressionAlgo,
-          ),
-        );
+      aeMessages.add(
+        AEMessage(
+          content: message,
+        ),
+      );
+    });
 
-        aeMessages.add(
-          AEMessage(
-            content: message,
-          ),
-        );
-      });
-
-      for (final aeMessage in aeMessages) {
-        dev.log(aeMessage.content);
-      }
-    } catch (e) {
-      dev.log('error$e');
+    for (final aeMessage in aeMessages) {
+      dev.log(aeMessage.content);
     }
+    return aeMessages;
   }
 }
 
