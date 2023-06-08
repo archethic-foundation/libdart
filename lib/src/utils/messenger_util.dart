@@ -322,6 +322,9 @@ mixin MessengerMixin {
 
       aeMessages.add(
         AEMessage(
+          address: value.address!.address!,
+          sender: value.previousPublicKey!,
+          timestamp: value.validationStamp!.timestamp!,
           content: message,
         ),
       );
