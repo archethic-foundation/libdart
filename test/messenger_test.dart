@@ -104,7 +104,7 @@ void main() {
           endpoint: 'http://localhost:4000',
           scAddress:
               '000049d1b99645d0168c084983477b0db00e53ac8cc9957ef93bb56777ce0e8d82b1',
-          senderKeyPair: KeyPair(
+          readerKeyPair: KeyPair(
             privateKey: hexToUint8List(
               '000001b98027e90c0bd9020aee089a50c84da7185e6258d22d8f1b73c9e56e7f4134',
             ),
@@ -175,7 +175,7 @@ void main() {
           await TestMessengerMixin().readMessages(
             endpoint: 'http://localhost:4000',
             scAddress: tx.address!.address!,
-            senderKeyPair: KeyPair(
+            readerKeyPair: KeyPair(
               privateKey: hexToUint8List(
                 '000001b98027e90c0bd9020aee089a50c84da7185e6258d22d8f1b73c9e56e7f4134',
               ),

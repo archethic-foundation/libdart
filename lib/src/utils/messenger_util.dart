@@ -9,11 +9,11 @@ import 'package:archive/archive_io.dart';
 
 mixin MessengerMixin {
   Future<Transaction> createNewSC({
+    required Keychain keychain,
     required String endpoint,
     required List<String> usersPubKey,
     required String groupName,
     required List<String> adminsPubKey,
-    required String keychainSeed,
     required String adminAddress,
     required String serviceName,
   }) async {
@@ -26,7 +26,7 @@ mixin MessengerMixin {
               condition transaction: [
                 
                 previous_public_key: List.in?([
-                ${adminsPubKey.map((key) => '"$key"').join(', ')}
+                ${usersPubKey.map((key) => '"$key"').join(', ')}
                ], 
                 Chain.get_genesis_public_key(transaction.previous_public_key)
                 )
@@ -39,9 +39,11 @@ mixin MessengerMixin {
 
             ''';
     final content = '''
-	          "groupName": "$groupName",                             
-            "adminPublicKey": [${adminsPubKey.map((key) => '"$key"').join(', ')}]  
-            ''';
+{
+  "groupName": "$groupName",                             
+  "adminPublicKey": [${adminsPubKey.map((key) => '"$key"').join(', ')}]  
+}
+    ''';
 
     final aesKey = uint8ListToHex(
       Uint8List.fromList(
@@ -116,10 +118,6 @@ mixin MessengerMixin {
         Transaction(type: 'transfer', data: Transaction.initData())
             .addUCOTransfer(genesisAddressSC, toBigInt(fees));
 
-    final keychain = await apiService.getKeychain(
-      keychainSeed,
-    );
-
     final indexMap = await apiService.getTransactionIndex(
       [adminAddress],
     );
@@ -145,10 +143,10 @@ mixin MessengerMixin {
   }
 
   Future<Transaction> buildMessageSendTransaction({
+    required Keychain keychain,
     required String endpoint,
     required String scAddress,
     required String messageContent,
-    required String keychainSeed,
     required String senderAddress,
     required String senderServiceName,
     required KeyPair senderKeyPair,
@@ -166,10 +164,6 @@ mixin MessengerMixin {
         .setContent(message)
         .addRecipient(scAddress);
 
-    final keychain = await apiService.getKeychain(
-      keychainSeed,
-    );
-
     final indexMap = await apiService.getTransactionIndex(
       [senderAddress],
     );
@@ -183,10 +177,10 @@ mixin MessengerMixin {
   }
 
   Future<Address> sendMessage({
+    required Keychain keychain,
     required String endpoint,
     required String scAddress,
     required String messageContent,
-    required String keychainSeed,
     required String senderAddress,
     required String senderServiceName,
     required KeyPair senderKeyPair,
@@ -194,10 +188,10 @@ mixin MessengerMixin {
     final apiService = ApiService(endpoint);
 
     final transaction = await buildMessageSendTransaction(
+      keychain: keychain,
       endpoint: endpoint,
       scAddress: scAddress,
       messageContent: messageContent,
-      keychainSeed: keychainSeed,
       senderAddress: senderAddress,
       senderServiceName: senderServiceName,
       senderKeyPair: senderKeyPair,
@@ -213,7 +207,7 @@ mixin MessengerMixin {
   Future<Uint8List> getMessageGroupKeyAccess({
     required ApiService apiService,
     required String scAddress,
-    required KeyPair senderKeyPair,
+    required KeyPair keyPair,
   }) async {
     // Get message key from SC secret
     final mapTransactionOwnerships =
@@ -226,7 +220,7 @@ mixin MessengerMixin {
     final authorizedPublicKey = ownerships[0].authorizedPublicKeys.firstWhere(
           (AuthorizedKey authKey) =>
               authKey.publicKey!.toUpperCase() ==
-              uint8ListToHex(Uint8List.fromList(senderKeyPair.publicKey!))
+              uint8ListToHex(Uint8List.fromList(keyPair.publicKey!))
                   .toUpperCase(),
           orElse: AuthorizedKey.new,
         );
@@ -235,7 +229,7 @@ mixin MessengerMixin {
     }
     final aesKey = ecDecrypt(
       authorizedPublicKey.encryptedSecretKey,
-      Uint8List.fromList(senderKeyPair.privateKey!),
+      Uint8List.fromList(keyPair.privateKey!),
     );
     return aesDecrypt(ownerships[0].secret, aesKey);
   }
@@ -249,7 +243,7 @@ mixin MessengerMixin {
     final messageGroupKeyAccess = await getMessageGroupKeyAccess(
       apiService: apiService,
       scAddress: scAddress,
-      senderKeyPair: senderKeyPair,
+      keyPair: senderKeyPair,
     );
 
     // Encode message with message key
@@ -284,7 +278,7 @@ mixin MessengerMixin {
   Future<List<AEMessage>> readMessages({
     required String endpoint,
     required String scAddress,
-    required KeyPair senderKeyPair,
+    required KeyPair readerKeyPair,
   }) async {
     final apiService = ApiService(endpoint);
 
@@ -310,7 +304,7 @@ mixin MessengerMixin {
         await getMessageGroupKeyAccess(
           apiService: apiService,
           scAddress: scAddress,
-          senderKeyPair: senderKeyPair,
+          keyPair: readerKeyPair,
         ),
       );
     }
