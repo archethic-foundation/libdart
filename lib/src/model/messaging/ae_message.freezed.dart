@@ -21,6 +21,7 @@ AEMessage _$AEMessageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AEMessage {
   String get address => throw _privateConstructorUsedError;
+  String get genesisPublicKey => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   int get timestamp => throw _privateConstructorUsedError;
   String get sender => throw _privateConstructorUsedError;
@@ -36,7 +37,12 @@ abstract class $AEMessageCopyWith<$Res> {
   factory $AEMessageCopyWith(AEMessage value, $Res Function(AEMessage) then) =
       _$AEMessageCopyWithImpl<$Res, AEMessage>;
   @useResult
-  $Res call({String address, String content, int timestamp, String sender});
+  $Res call(
+      {String address,
+      String genesisPublicKey,
+      String content,
+      int timestamp,
+      String sender});
 }
 
 /// @nodoc
@@ -53,6 +59,7 @@ class _$AEMessageCopyWithImpl<$Res, $Val extends AEMessage>
   @override
   $Res call({
     Object? address = null,
+    Object? genesisPublicKey = null,
     Object? content = null,
     Object? timestamp = null,
     Object? sender = null,
@@ -61,6 +68,10 @@ class _$AEMessageCopyWithImpl<$Res, $Val extends AEMessage>
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      genesisPublicKey: null == genesisPublicKey
+          ? _value.genesisPublicKey
+          : genesisPublicKey // ignore: cast_nullable_to_non_nullable
               as String,
       content: null == content
           ? _value.content
@@ -85,7 +96,12 @@ abstract class _$$_AEMessageCopyWith<$Res> implements $AEMessageCopyWith<$Res> {
       __$$_AEMessageCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String address, String content, int timestamp, String sender});
+  $Res call(
+      {String address,
+      String genesisPublicKey,
+      String content,
+      int timestamp,
+      String sender});
 }
 
 /// @nodoc
@@ -100,6 +116,7 @@ class __$$_AEMessageCopyWithImpl<$Res>
   @override
   $Res call({
     Object? address = null,
+    Object? genesisPublicKey = null,
     Object? content = null,
     Object? timestamp = null,
     Object? sender = null,
@@ -108,6 +125,10 @@ class __$$_AEMessageCopyWithImpl<$Res>
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      genesisPublicKey: null == genesisPublicKey
+          ? _value.genesisPublicKey
+          : genesisPublicKey // ignore: cast_nullable_to_non_nullable
               as String,
       content: null == content
           ? _value.content
@@ -130,6 +151,7 @@ class __$$_AEMessageCopyWithImpl<$Res>
 class _$_AEMessage extends _AEMessage {
   const _$_AEMessage(
       {this.address = '',
+      this.genesisPublicKey = '',
       this.content = '',
       this.timestamp = 0,
       this.sender = ''})
@@ -143,6 +165,9 @@ class _$_AEMessage extends _AEMessage {
   final String address;
   @override
   @JsonKey()
+  final String genesisPublicKey;
+  @override
+  @JsonKey()
   final String content;
   @override
   @JsonKey()
@@ -153,7 +178,7 @@ class _$_AEMessage extends _AEMessage {
 
   @override
   String toString() {
-    return 'AEMessage(address: $address, content: $content, timestamp: $timestamp, sender: $sender)';
+    return 'AEMessage(address: $address, genesisPublicKey: $genesisPublicKey, content: $content, timestamp: $timestamp, sender: $sender)';
   }
 
   @override
@@ -162,6 +187,8 @@ class _$_AEMessage extends _AEMessage {
         (other.runtimeType == runtimeType &&
             other is _$_AEMessage &&
             (identical(other.address, address) || other.address == address) &&
+            (identical(other.genesisPublicKey, genesisPublicKey) ||
+                other.genesisPublicKey == genesisPublicKey) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp) &&
@@ -170,8 +197,8 @@ class _$_AEMessage extends _AEMessage {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, address, content, timestamp, sender);
+  int get hashCode => Object.hash(
+      runtimeType, address, genesisPublicKey, content, timestamp, sender);
 
   @JsonKey(ignore: true)
   @override
@@ -190,6 +217,7 @@ class _$_AEMessage extends _AEMessage {
 abstract class _AEMessage extends AEMessage {
   const factory _AEMessage(
       {final String address,
+      final String genesisPublicKey,
       final String content,
       final int timestamp,
       final String sender}) = _$_AEMessage;
@@ -200,6 +228,8 @@ abstract class _AEMessage extends AEMessage {
 
   @override
   String get address;
+  @override
+  String get genesisPublicKey;
   @override
   String get content;
   @override

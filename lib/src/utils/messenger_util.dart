@@ -306,7 +306,7 @@ mixin MessengerMixin {
         ),
       );
     }
-    contents.forEach((key, value) {
+    contents.forEach((key, value) async {
       final transactionContentIM = TransactionContentMessaging.fromJson(
         jsonDecode(value.data!.content!),
       );
@@ -318,8 +318,19 @@ mixin MessengerMixin {
         ),
       );
 
+      final genesisAddress = await apiService.getGenesisAddress(
+        value.address!.address!,
+      );
+      final genesisPublicKeyMap = await apiService.getTransaction(
+        [genesisAddress.address!],
+        request: 'previousPublicKey',
+      );
+
       aeMessages.add(
         AEMessage(
+          genesisPublicKey:
+              genesisPublicKeyMap[value.address!.address!]!.previousPublicKey ??
+                  '',
           address: value.address!.address!,
           sender: value.previousPublicKey!,
           timestamp: value.validationStamp!.timestamp!,
