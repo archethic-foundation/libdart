@@ -38,12 +38,6 @@ mixin MessengerMixin {
               end
 
             ''';
-    final content = '''
-{
-  "groupName": "$groupName",                             
-  "adminPublicKey": [${adminsPubKey.map((key) => '"$key"').join(', ')}]  
-}
-    ''';
 
     final aesKey = uint8ListToHex(
       Uint8List.fromList(
@@ -56,6 +50,17 @@ mixin MessengerMixin {
         List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
       ),
     );
+
+    final content = '''
+{
+  "groupName": "$groupName",                             
+  "adminPublicKey": [${adminsPubKey.map((key) => '"$key"').join(', ')}]  
+}
+    ''';
+
+    final cryptedContent =
+        aesEncrypt(utf8.encode(content), messageGroupKeyAccess);
+    final cryptedContentBase64 = base64.encode(cryptedContent);
 
     final authorizedPublicKeys = List<String>.empty(growable: true)
       ..addAll(usersPubKey);
@@ -93,7 +98,7 @@ mixin MessengerMixin {
     final transactionSC =
         Transaction(type: 'contract', data: Transaction.initData())
             .setCode(code)
-            .setContent(content)
+            .setContent(cryptedContentBase64)
             .addOwnership(
               uint8ListToHex(
                 aesEncrypt(messageGroupKeyAccess, aesKey),
