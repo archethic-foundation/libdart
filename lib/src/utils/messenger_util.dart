@@ -331,20 +331,19 @@ mixin MessengerMixin {
             '';
       }
 
+      final aeMEssage = AEMessage(
+        genesisPublicKey: genesisPublicKey,
+        address: value.address!.address!,
+        sender: value.previousPublicKey!,
+        timestamp: value.validationStamp!.timestamp!,
+        content: message,
+      );
+
       aeMessages.add(
-        AEMessage(
-          genesisPublicKey: genesisPublicKey,
-          address: value.address!.address!,
-          sender: value.previousPublicKey!,
-          timestamp: value.validationStamp!.timestamp!,
-          content: message,
-        ),
+        aeMEssage,
       );
     });
 
-    for (final aeMessage in aeMessages) {
-      dev.log(aeMessage.content);
-    }
     return aeMessages;
   }
 }
