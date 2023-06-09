@@ -10,15 +10,13 @@ import 'package:archive/archive_io.dart';
 mixin MessengerMixin {
   Future<Transaction> createNewSC({
     required Keychain keychain,
-    required String endpoint,
+    required ApiService apiService,
     required List<String> usersPubKey,
     required String groupName,
     required List<String> adminsPubKey,
     required String adminAddress,
     required String serviceName,
   }) async {
-    final apiService = ApiService(endpoint);
-
     // Build SC Transaction
     final code = '''
               @version 1
@@ -149,15 +147,13 @@ mixin MessengerMixin {
 
   Future<Transaction> buildMessageSendTransaction({
     required Keychain keychain,
-    required String endpoint,
+    required ApiService apiService,
     required String scAddress,
     required String messageContent,
     required String senderAddress,
     required String senderServiceName,
     required KeyPair senderKeyPair,
   }) async {
-    final apiService = ApiService(endpoint);
-
     final message = '''
       {
         "compressionAlgo": "gzip",
@@ -183,18 +179,16 @@ mixin MessengerMixin {
 
   Future<Address> sendMessage({
     required Keychain keychain,
-    required String endpoint,
+    required ApiService apiService,
     required String scAddress,
     required String messageContent,
     required String senderAddress,
     required String senderServiceName,
     required KeyPair senderKeyPair,
   }) async {
-    final apiService = ApiService(endpoint);
-
     final transaction = await buildMessageSendTransaction(
       keychain: keychain,
-      endpoint: endpoint,
+      apiService: apiService,
       scAddress: scAddress,
       messageContent: messageContent,
       senderAddress: senderAddress,
@@ -281,12 +275,10 @@ mixin MessengerMixin {
   }
 
   Future<List<AEMessage>> readMessages({
-    required String endpoint,
+    required ApiService apiService,
     required String scAddress,
     required KeyPair readerKeyPair,
   }) async {
-    final apiService = ApiService(endpoint);
-
     final messagesList = await apiService.getTransactionInputs([scAddress]);
     final txContentMessagesList =
         messagesList[scAddress] ?? <TransactionInput>[];
