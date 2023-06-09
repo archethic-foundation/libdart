@@ -318,19 +318,22 @@ mixin MessengerMixin {
         ),
       );
 
-      final genesisAddress = await apiService.getGenesisAddress(
-        value.address!.address!,
-      );
-      final genesisPublicKeyMap = await apiService.getTransaction(
-        [genesisAddress.address!],
+      final genesisPublicKeyMap = await apiService.getTransactionChain(
+        {value.address!.address!: ''},
         request: 'previousPublicKey',
       );
+      var genesisPublicKey = '';
+      if (genesisPublicKeyMap.isNotEmpty &&
+          genesisPublicKeyMap[value.address!.address!] != null &&
+          genesisPublicKeyMap[value.address!.address!]!.isNotEmpty) {
+        genesisPublicKey = genesisPublicKeyMap[value.address!.address!]?[0]
+                .previousPublicKey ??
+            '';
+      }
 
       aeMessages.add(
         AEMessage(
-          genesisPublicKey:
-              genesisPublicKeyMap[value.address!.address!]!.previousPublicKey ??
-                  '',
+          genesisPublicKey: genesisPublicKey,
           address: value.address!.address!,
           sender: value.previousPublicKey!,
           timestamp: value.validationStamp!.timestamp!,
