@@ -306,9 +306,10 @@ mixin MessengerMixin {
         ),
       );
     }
-    contents.forEach((key, value) async {
+
+    for (final content in contents.entries) {
       final transactionContentIM = TransactionContentMessaging.fromJson(
-        jsonDecode(value.data!.content!),
+        jsonDecode(content.value.data!.content!),
       );
       final message = utf8.decode(
         _decodeMessage(
@@ -319,30 +320,31 @@ mixin MessengerMixin {
       );
 
       final genesisPublicKeyMap = await apiService.getTransactionChain(
-        {value.address!.address!: ''},
+        {content.value.address!.address!: ''},
         request: 'previousPublicKey',
       );
       var genesisPublicKey = '';
       if (genesisPublicKeyMap.isNotEmpty &&
-          genesisPublicKeyMap[value.address!.address!] != null &&
-          genesisPublicKeyMap[value.address!.address!]!.isNotEmpty) {
-        genesisPublicKey = genesisPublicKeyMap[value.address!.address!]?[0]
+          genesisPublicKeyMap[content.value.address!.address!] != null &&
+          genesisPublicKeyMap[content.value.address!.address!]!.isNotEmpty) {
+        genesisPublicKey = genesisPublicKeyMap[content.value.address!.address!]
+                    ?[0]
                 .previousPublicKey ??
             '';
       }
 
       final aeMEssage = AEMessage(
         genesisPublicKey: genesisPublicKey,
-        address: value.address!.address!,
-        sender: value.previousPublicKey!,
-        timestamp: value.validationStamp!.timestamp!,
+        address: content.value.address!.address!,
+        sender: content.value.previousPublicKey!,
+        timestamp: content.value.validationStamp!.timestamp!,
         content: message,
       );
 
       aeMessages.add(
         aeMEssage,
       );
-    });
+    }
 
     return aeMessages;
   }
