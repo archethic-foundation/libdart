@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
-import 'dart:developer' as dev;
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -133,14 +132,10 @@ mixin MessengerMixin {
         )
         .originSign(originPrivateKey);
 
-    try {
-      await TransactionUtil().sendTransactions(
-        transactions: [transactionTransferSigned, transactionSC],
-        apiService: apiService,
-      );
-    } catch (e) {
-      dev.log('error$e');
-    }
+    await TransactionUtil().sendTransactions(
+      transactions: [transactionTransferSigned, transactionSC],
+      apiService: apiService,
+    );
 
     return transactionSC;
   }
