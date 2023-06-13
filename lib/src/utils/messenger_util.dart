@@ -273,8 +273,14 @@ mixin MessengerMixin {
     required ApiService apiService,
     required String scAddress,
     required KeyPair readerKeyPair,
+    int limit = 0,
+    int pagingOffset = 0,
   }) async {
-    final messagesList = await apiService.getTransactionInputs([scAddress]);
+    final messagesList = await apiService.getTransactionInputs(
+      [scAddress],
+      limit: limit,
+      pagingOffset: pagingOffset,
+    );
     final txContentMessagesList =
         messagesList[scAddress] ?? <TransactionInput>[];
     final txContentMessagesAddresses = <String>[];
