@@ -283,12 +283,12 @@ mixin MessengerMixin {
     );
     final txContentMessagesList =
         messagesList[scAddress] ?? <TransactionInput>[];
-    final txContentMessagesAddresses = <String>[];
-    for (final txContentMessages in txContentMessagesList) {
-      if (txContentMessages.from != null && txContentMessages.type == 'call') {
-        txContentMessagesAddresses.add(txContentMessages.from!);
-      }
-    }
+    final txContentMessagesAddresses = txContentMessagesList
+        .where((txContentMessage) =>
+            txContentMessage.from != null && txContentMessage.type == 'call')
+        .map((txContentMessage) => txContentMessage.from)
+        .whereType<String>()
+        .toList();
 
     final aeMessages = <AEMessage>[];
     final contents = await apiService.getTransaction(
@@ -297,20 +297,22 @@ mixin MessengerMixin {
           ' address, chainLength, data { content }, previousPublicKey, validationStamp { timestamp } ',
     );
 
-    var messageGroupKeyAccess = '';
-    if (contents.isNotEmpty) {
-      messageGroupKeyAccess = uint8ListToHex(
-        await getMessageGroupKeyAccess(
-          apiService: apiService,
-          scAddress: scAddress,
-          keyPair: readerKeyPair,
-        ),
-      );
-    }
+    if (contents.isEmpty) return [];
 
-    for (final content in contents.entries) {
+    final messageGroupKeyAccess = uint8ListToHex(
+      await getMessageGroupKeyAccess(
+        apiService: apiService,
+        scAddress: scAddress,
+        keyPair: readerKeyPair,
+      ),
+    );
+
+    for (final contentMessageAddress in txContentMessagesAddresses) {
+      final contentMessageTransaction = contents[contentMessageAddress];
+      if (contentMessageTransaction == null) continue;
+
       final transactionContentIM = TransactionContentMessaging.fromJson(
-        jsonDecode(content.value.data!.content!),
+        jsonDecode(contentMessageTransaction.data!.content!),
       );
       final message = utf8.decode(
         _decodeMessage(
@@ -321,24 +323,26 @@ mixin MessengerMixin {
       );
 
       final genesisPublicKeyMap = await apiService.getTransactionChain(
-        {content.value.address!.address!: ''},
+        {contentMessageTransaction.address!.address!: ''},
         request: 'previousPublicKey',
       );
       var genesisPublicKey = '';
       if (genesisPublicKeyMap.isNotEmpty &&
-          genesisPublicKeyMap[content.value.address!.address!] != null &&
-          genesisPublicKeyMap[content.value.address!.address!]!.isNotEmpty) {
-        genesisPublicKey = genesisPublicKeyMap[content.value.address!.address!]
-                    ?[0]
-                .previousPublicKey ??
-            '';
+          genesisPublicKeyMap[contentMessageTransaction.address!.address!] !=
+              null &&
+          genesisPublicKeyMap[contentMessageTransaction.address!.address!]!
+              .isNotEmpty) {
+        genesisPublicKey =
+            genesisPublicKeyMap[contentMessageTransaction.address!.address!]?[0]
+                    .previousPublicKey ??
+                '';
       }
 
       final aeMEssage = AEMessage(
         genesisPublicKey: genesisPublicKey,
-        address: content.value.address!.address!,
-        sender: content.value.previousPublicKey!,
-        timestamp: content.value.validationStamp!.timestamp!,
+        address: contentMessageTransaction.address!.address!,
+        sender: contentMessageTransaction.previousPublicKey!,
+        timestamp: contentMessageTransaction.validationStamp!.timestamp!,
         content: message,
       );
 
