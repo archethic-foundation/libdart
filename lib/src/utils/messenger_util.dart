@@ -140,7 +140,8 @@ mixin MessengerMixin {
     return transactionSC;
   }
 
-  Future<Transaction> buildMessageSendTransaction({
+  Future<({Transaction transaction, int transactionIndex})>
+      buildMessageSendTransaction({
     required Keychain keychain,
     required ApiService apiService,
     required String scAddress,
@@ -167,12 +168,15 @@ mixin MessengerMixin {
     final index = indexMap[senderAddress] ?? 0;
     final originPrivateKey = apiService.getOriginKey();
 
-    return keychain
-        .buildTransaction(tx, senderServiceName, index)
-        .originSign(originPrivateKey);
+    return (
+      transaction: keychain
+          .buildTransaction(tx, senderServiceName, index)
+          .originSign(originPrivateKey),
+      transactionIndex: index + 1,
+    );
   }
 
-  Future<Address> sendMessage({
+  Future<({Address transactionAddress, int transactionIndex})> sendMessage({
     required Keychain keychain,
     required ApiService apiService,
     required String scAddress,
@@ -181,7 +185,7 @@ mixin MessengerMixin {
     required String senderServiceName,
     required KeyPair senderKeyPair,
   }) async {
-    final transaction = await buildMessageSendTransaction(
+    final result = await buildMessageSendTransaction(
       keychain: keychain,
       apiService: apiService,
       scAddress: scAddress,
@@ -191,11 +195,15 @@ mixin MessengerMixin {
       senderKeyPair: senderKeyPair,
     );
 
+    final transaction = result.transaction;
     await TransactionUtil().sendTransactions(
       transactions: [transaction],
       apiService: apiService,
     );
-    return transaction.address!;
+    return (
+      transactionAddress: transaction.address!,
+      transactionIndex: result.transactionIndex,
+    );
   }
 
   Future<Uint8List> getMessageGroupKeyAccess({
