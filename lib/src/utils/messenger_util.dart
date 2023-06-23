@@ -292,8 +292,10 @@ mixin MessengerMixin {
     final txContentMessagesList =
         messagesList[scAddress] ?? <TransactionInput>[];
     final txContentMessagesAddresses = txContentMessagesList
-        .where((txContentMessage) =>
-            txContentMessage.from != null && txContentMessage.type == 'call')
+        .where(
+          (txContentMessage) =>
+              txContentMessage.from != null && txContentMessage.type == 'call',
+        )
         .map((txContentMessage) => txContentMessage.from)
         .whereType<String>()
         .toList();

@@ -25,10 +25,12 @@ mixin NotificationUtil {
     required int txIndex,
     required String notifBackendBaseUrl,
   }) async {
-    final signature = uint8ListToHex(await signTransactionNotification(
-      notification: notification,
-      senderKeyPair: senderKeyPair,
-    ));
+    final signature = uint8ListToHex(
+      await signTransactionNotification(
+        notification: notification,
+        senderKeyPair: senderKeyPair,
+      ),
+    );
 
     final body = jsonEncode({
       'txAddress': notification.txAddress,
