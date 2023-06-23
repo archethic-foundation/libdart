@@ -20,6 +20,7 @@ export 'src/model/keychain.dart';
 export 'src/model/ledger.dart';
 export 'src/model/ledger_operations.dart';
 export 'src/model/location.dart';
+export 'src/model/messaging/ae_group_message.dart';
 export 'src/model/messaging/ae_message.dart';
 export 'src/model/messaging/transaction_content_messaging.dart';
 export 'src/model/node.dart';

@@ -25,7 +25,6 @@ mixin _$AEGroupMessage {
   List<String> get usersPubKey => throw _privateConstructorUsedError;
   List<String> get adminPublicKey => throw _privateConstructorUsedError;
   int get timestamp => throw _privateConstructorUsedError;
-  String get sender => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,8 +43,7 @@ abstract class $AEGroupMessageCopyWith<$Res> {
       String address,
       List<String> usersPubKey,
       List<String> adminPublicKey,
-      int timestamp,
-      String sender});
+      int timestamp});
 }
 
 /// @nodoc
@@ -66,7 +64,6 @@ class _$AEGroupMessageCopyWithImpl<$Res, $Val extends AEGroupMessage>
     Object? usersPubKey = null,
     Object? adminPublicKey = null,
     Object? timestamp = null,
-    Object? sender = null,
   }) {
     return _then(_value.copyWith(
       groupName: null == groupName
@@ -89,10 +86,6 @@ class _$AEGroupMessageCopyWithImpl<$Res, $Val extends AEGroupMessage>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int,
-      sender: null == sender
-          ? _value.sender
-          : sender // ignore: cast_nullable_to_non_nullable
-              as String,
     ) as $Val);
   }
 }
@@ -110,8 +103,7 @@ abstract class _$$_AEGroupMessageCopyWith<$Res>
       String address,
       List<String> usersPubKey,
       List<String> adminPublicKey,
-      int timestamp,
-      String sender});
+      int timestamp});
 }
 
 /// @nodoc
@@ -130,7 +122,6 @@ class __$$_AEGroupMessageCopyWithImpl<$Res>
     Object? usersPubKey = null,
     Object? adminPublicKey = null,
     Object? timestamp = null,
-    Object? sender = null,
   }) {
     return _then(_$_AEGroupMessage(
       groupName: null == groupName
@@ -153,10 +144,6 @@ class __$$_AEGroupMessageCopyWithImpl<$Res>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int,
-      sender: null == sender
-          ? _value.sender
-          : sender // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -169,8 +156,7 @@ class _$_AEGroupMessage extends _AEGroupMessage {
       this.address = '',
       final List<String> usersPubKey = const [],
       final List<String> adminPublicKey = const [],
-      this.timestamp = 0,
-      this.sender = ''})
+      this.timestamp = 0})
       : _usersPubKey = usersPubKey,
         _adminPublicKey = adminPublicKey,
         super._();
@@ -205,13 +191,10 @@ class _$_AEGroupMessage extends _AEGroupMessage {
   @override
   @JsonKey()
   final int timestamp;
-  @override
-  @JsonKey()
-  final String sender;
 
   @override
   String toString() {
-    return 'AEGroupMessage(groupName: $groupName, address: $address, usersPubKey: $usersPubKey, adminPublicKey: $adminPublicKey, timestamp: $timestamp, sender: $sender)';
+    return 'AEGroupMessage(groupName: $groupName, address: $address, usersPubKey: $usersPubKey, adminPublicKey: $adminPublicKey, timestamp: $timestamp)';
   }
 
   @override
@@ -227,8 +210,7 @@ class _$_AEGroupMessage extends _AEGroupMessage {
             const DeepCollectionEquality()
                 .equals(other._adminPublicKey, _adminPublicKey) &&
             (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp) &&
-            (identical(other.sender, sender) || other.sender == sender));
+                other.timestamp == timestamp));
   }
 
   @JsonKey(ignore: true)
@@ -239,8 +221,7 @@ class _$_AEGroupMessage extends _AEGroupMessage {
       address,
       const DeepCollectionEquality().hash(_usersPubKey),
       const DeepCollectionEquality().hash(_adminPublicKey),
-      timestamp,
-      sender);
+      timestamp);
 
   @JsonKey(ignore: true)
   @override
@@ -262,8 +243,7 @@ abstract class _AEGroupMessage extends AEGroupMessage {
       final String address,
       final List<String> usersPubKey,
       final List<String> adminPublicKey,
-      final int timestamp,
-      final String sender}) = _$_AEGroupMessage;
+      final int timestamp}) = _$_AEGroupMessage;
   const _AEGroupMessage._() : super._();
 
   factory _AEGroupMessage.fromJson(Map<String, dynamic> json) =
@@ -279,8 +259,6 @@ abstract class _AEGroupMessage extends AEGroupMessage {
   List<String> get adminPublicKey;
   @override
   int get timestamp;
-  @override
-  String get sender;
   @override
   @JsonKey(ignore: true)
   _$$_AEGroupMessageCopyWith<_$_AEGroupMessage> get copyWith =>

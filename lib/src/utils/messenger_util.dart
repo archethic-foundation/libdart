@@ -2,9 +2,9 @@
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
+import 'dart:developer' as dev;
 
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:archethic_lib_dart/src/model/messaging/ae_group_message.dart';
 import 'package:archive/archive_io.dart';
 
 mixin MessengerMixin {
@@ -217,22 +217,41 @@ mixin MessengerMixin {
       return null;
     }
 
-    final messageGroupKeyAccess = await getMessageGroupKeyAccess(
-      apiService: apiService,
-      scAddress: scAddress,
-      keyPair: keyPair,
-    );
+    try {
+      final messageGroupKeyAccess = await getMessageGroupKeyAccess(
+        apiService: apiService,
+        scAddress: scAddress,
+        keyPair: keyPair,
+      );
 
-    final smartContract = smartContractMap[scAddress];
+      final smartContract = smartContractMap[scAddress];
 
-    // Decrypt content
-    final cryptedContent = base64.decode(smartContract!.data!.content!);
+      final cryptedContent = base64.decode(smartContract!.data!.content!);
 
-    final content = utf8.decode(
-      aesDecrypt(utf8.decode(cryptedContent), messageGroupKeyAccess),
-    );
+      final content = utf8.decode(
+        aesDecrypt(cryptedContent, messageGroupKeyAccess),
+      );
+      final jsonContentMap = jsonDecode(content);
 
-    return AEGroupMessage(address: scAddress);
+      final usersPubKey = <String>[];
+      for (final authorizedPublicKey
+          in smartContract.data!.ownerships[0].authorizedPublicKeys) {
+        usersPubKey.add(authorizedPublicKey.publicKey!);
+      }
+
+      final aeGroupMessage = AEGroupMessage(
+        address: smartContract.address!.address!,
+        groupName: jsonContentMap['groupName'],
+        usersPubKey: usersPubKey,
+        adminPublicKey: List<String>.from(jsonContentMap['adminPublicKey']),
+        timestamp: smartContract.validationStamp!.timestamp!,
+      );
+
+      return aeGroupMessage;
+    } catch (e) {
+      dev.log(e.toString());
+      return null;
+    }
   }
 
   Future<Uint8List> getMessageGroupKeyAccess({
