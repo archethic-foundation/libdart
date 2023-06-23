@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/src/model/messaging/ae_group_message.dart';
 import 'package:archive/archive_io.dart';
 
 mixin MessengerMixin {
@@ -204,6 +205,34 @@ mixin MessengerMixin {
       transactionAddress: transaction.address!,
       transactionIndex: result.transactionIndex,
     );
+  }
+
+  Future<AEGroupMessage?> getMessageGroup({
+    required ApiService apiService,
+    required String scAddress,
+    required KeyPair keyPair,
+  }) async {
+    final smartContractMap = await apiService.getTransaction([scAddress]);
+    if (smartContractMap[scAddress] == null) {
+      return null;
+    }
+
+    final messageGroupKeyAccess = await getMessageGroupKeyAccess(
+      apiService: apiService,
+      scAddress: scAddress,
+      keyPair: keyPair,
+    );
+
+    final smartContract = smartContractMap[scAddress];
+
+    // Decrypt content
+    final cryptedContent = base64.decode(smartContract!.data!.content!);
+
+    final content = utf8.decode(
+      aesDecrypt(utf8.decode(cryptedContent), messageGroupKeyAccess),
+    );
+
+    return AEGroupMessage(address: scAddress);
   }
 
   Future<Uint8List> getMessageGroupKeyAccess({
