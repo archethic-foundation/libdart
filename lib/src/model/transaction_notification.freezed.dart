@@ -159,3 +159,157 @@ abstract class _TransactionNotification extends TransactionNotification {
   _$$_TransactionNotificationCopyWith<_$_TransactionNotification>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+PushNotification _$PushNotificationFromJson(Map<String, dynamic> json) {
+  return _PushNotification.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PushNotification {
+  String? get title => throw _privateConstructorUsedError;
+  String? get body => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PushNotificationCopyWith<PushNotification> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PushNotificationCopyWith<$Res> {
+  factory $PushNotificationCopyWith(
+          PushNotification value, $Res Function(PushNotification) then) =
+      _$PushNotificationCopyWithImpl<$Res, PushNotification>;
+  @useResult
+  $Res call({String? title, String? body});
+}
+
+/// @nodoc
+class _$PushNotificationCopyWithImpl<$Res, $Val extends PushNotification>
+    implements $PushNotificationCopyWith<$Res> {
+  _$PushNotificationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? title = freezed,
+    Object? body = freezed,
+  }) {
+    return _then(_value.copyWith(
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      body: freezed == body
+          ? _value.body
+          : body // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_PushNotificationCopyWith<$Res>
+    implements $PushNotificationCopyWith<$Res> {
+  factory _$$_PushNotificationCopyWith(
+          _$_PushNotification value, $Res Function(_$_PushNotification) then) =
+      __$$_PushNotificationCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? title, String? body});
+}
+
+/// @nodoc
+class __$$_PushNotificationCopyWithImpl<$Res>
+    extends _$PushNotificationCopyWithImpl<$Res, _$_PushNotification>
+    implements _$$_PushNotificationCopyWith<$Res> {
+  __$$_PushNotificationCopyWithImpl(
+      _$_PushNotification _value, $Res Function(_$_PushNotification) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? title = freezed,
+    Object? body = freezed,
+  }) {
+    return _then(_$_PushNotification(
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      body: freezed == body
+          ? _value.body
+          : body // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_PushNotification extends _PushNotification {
+  const _$_PushNotification({this.title, this.body}) : super._();
+
+  factory _$_PushNotification.fromJson(Map<String, dynamic> json) =>
+      _$$_PushNotificationFromJson(json);
+
+  @override
+  final String? title;
+  @override
+  final String? body;
+
+  @override
+  String toString() {
+    return 'PushNotification(title: $title, body: $body)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_PushNotification &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.body, body) || other.body == body));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, title, body);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_PushNotificationCopyWith<_$_PushNotification> get copyWith =>
+      __$$_PushNotificationCopyWithImpl<_$_PushNotification>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PushNotificationToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PushNotification extends PushNotification {
+  const factory _PushNotification({final String? title, final String? body}) =
+      _$_PushNotification;
+  const _PushNotification._() : super._();
+
+  factory _PushNotification.fromJson(Map<String, dynamic> json) =
+      _$_PushNotification.fromJson;
+
+  @override
+  String? get title;
+  @override
+  String? get body;
+  @override
+  @JsonKey(ignore: true)
+  _$$_PushNotificationCopyWith<_$_PushNotification> get copyWith =>
+      throw _privateConstructorUsedError;
+}
