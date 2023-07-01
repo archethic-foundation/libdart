@@ -1,8 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
+import 'dart:developer' as dev;
 import 'dart:math';
 import 'dart:typed_data';
-import 'dart:developer' as dev;
 
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archive/archive_io.dart';

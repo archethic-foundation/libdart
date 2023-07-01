@@ -155,9 +155,11 @@ void main() {
               '00004C24CFFC29B0DC509260B64055F2E40086BD0F48CC34BF26FE40D77DFC2D5E68',
           keyPair: KeyPair(
             privateKey: hexToUint8List(
-                '0000969b5e894dda119e3717e540f60104640a987f2d5b7efa1c4268b58b0d2cfb2a'),
+              '0000969b5e894dda119e3717e540f60104640a987f2d5b7efa1c4268b58b0d2cfb2a',
+            ),
             publicKey: hexToUint8List(
-                '000087cdadbe3f19e5db8e434ca3c862600942a0e206e2c6c340ce1cdfde472e4c5c'),
+              '000087cdadbe3f19e5db8e434ca3c862600942a0e206e2c6c340ce1cdfde472e4c5c',
+            ),
           ),
         );
 
