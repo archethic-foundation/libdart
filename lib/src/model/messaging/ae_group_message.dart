@@ -11,7 +11,7 @@ class AEGroupMessage with _$AEGroupMessage {
     @Default('') final String address,
     @Default([]) final List<String> usersPubKey,
     @Default([]) final List<String> adminPublicKey,
-    @Default(0) final int timestamp,
+    @Default(0) final int timestampLastUpdate,
   }) = _AEGroupMessage;
   const AEGroupMessage._();
 

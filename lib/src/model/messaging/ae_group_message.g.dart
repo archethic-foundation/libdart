@@ -18,7 +18,7 @@ _$_AEGroupMessage _$$_AEGroupMessageFromJson(Map<String, dynamic> json) =>
               ?.map((e) => e as String)
               .toList() ??
           const [],
-      timestamp: json['timestamp'] as int? ?? 0,
+      timestampLastUpdate: json['timestampLastUpdate'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$_AEGroupMessageToJson(_$_AEGroupMessage instance) =>
@@ -27,5 +27,5 @@ Map<String, dynamic> _$$_AEGroupMessageToJson(_$_AEGroupMessage instance) =>
       'address': instance.address,
       'usersPubKey': instance.usersPubKey,
       'adminPublicKey': instance.adminPublicKey,
-      'timestamp': instance.timestamp,
+      'timestampLastUpdate': instance.timestampLastUpdate,
     };

@@ -8,17 +8,17 @@ part of 'ae_message.dart';
 
 _$_AEMessage _$$_AEMessageFromJson(Map<String, dynamic> json) => _$_AEMessage(
       address: json['address'] as String? ?? '',
-      genesisPublicKey: json['genesisPublicKey'] as String? ?? '',
+      senderGenesisPublicKey: json['senderGenesisPublicKey'] as String? ?? '',
       content: json['content'] as String? ?? '',
-      timestamp: json['timestamp'] as int? ?? 0,
+      timestampCreation: json['timestampCreation'] as int? ?? 0,
       sender: json['sender'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$_AEMessageToJson(_$_AEMessage instance) =>
     <String, dynamic>{
       'address': instance.address,
-      'genesisPublicKey': instance.genesisPublicKey,
+      'senderGenesisPublicKey': instance.senderGenesisPublicKey,
       'content': instance.content,
-      'timestamp': instance.timestamp,
+      'timestampCreation': instance.timestampCreation,
       'sender': instance.sender,
     };

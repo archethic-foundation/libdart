@@ -8,9 +8,9 @@ part 'ae_message.g.dart';
 class AEMessage with _$AEMessage {
   const factory AEMessage({
     @Default('') final String address,
-    @Default('') final String genesisPublicKey,
+    @Default('') final String senderGenesisPublicKey,
     @Default('') final String content,
-    @Default(0) final int timestamp,
+    @Default(0) final int timestampCreation,
     @Default('') final String sender,
   }) = _AEMessage;
   const AEMessage._();

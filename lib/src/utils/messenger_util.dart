@@ -154,7 +154,7 @@ mixin MessengerMixin {
     final message = '''
       {
         "compressionAlgo": "gzip",
-        "message": "${await encodeMessage(message: messageContent, apiService: apiService, scAddress: scAddress, senderKeyPair: senderKeyPair)}"
+        "message": "${await _encodeMessage(message: messageContent, apiService: apiService, scAddress: scAddress, senderKeyPair: senderKeyPair)}"
       }
     ''';
 
@@ -244,7 +244,7 @@ mixin MessengerMixin {
         groupName: jsonContentMap['groupName'],
         usersPubKey: usersPubKey,
         adminPublicKey: List<String>.from(jsonContentMap['adminPublicKey']),
-        timestamp: smartContract.validationStamp!.timestamp!,
+        timestampLastUpdate: smartContract.validationStamp!.timestamp!,
       );
 
       return aeGroupMessage;
@@ -284,7 +284,7 @@ mixin MessengerMixin {
     return aesDecrypt(ownerships[0].secret, aesKey);
   }
 
-  Future<String> encodeMessage({
+  Future<String> _encodeMessage({
     required String message,
     required ApiService apiService,
     required String scAddress,
@@ -380,27 +380,30 @@ mixin MessengerMixin {
         ),
       );
 
-      final genesisPublicKeyMap = await apiService.getTransactionChain(
+      final senderGenesisPublicKeyMap = await apiService.getTransactionChain(
         {contentMessageTransaction.address!.address!: ''},
         request: 'previousPublicKey',
       );
-      var genesisPublicKey = '';
-      if (genesisPublicKeyMap.isNotEmpty &&
-          genesisPublicKeyMap[contentMessageTransaction.address!.address!] !=
+      var senderGenesisPublicKey = '';
+      if (senderGenesisPublicKeyMap.isNotEmpty &&
+          senderGenesisPublicKeyMap[
+                  contentMessageTransaction.address!.address!] !=
               null &&
-          genesisPublicKeyMap[contentMessageTransaction.address!.address!]!
+          senderGenesisPublicKeyMap[
+                  contentMessageTransaction.address!.address!]!
               .isNotEmpty) {
-        genesisPublicKey =
-            genesisPublicKeyMap[contentMessageTransaction.address!.address!]?[0]
-                    .previousPublicKey ??
-                '';
+        senderGenesisPublicKey = senderGenesisPublicKeyMap[
+                    contentMessageTransaction.address!.address!]?[0]
+                .previousPublicKey ??
+            '';
       }
 
       final aeMEssage = AEMessage(
-        genesisPublicKey: genesisPublicKey,
+        senderGenesisPublicKey: senderGenesisPublicKey,
         address: contentMessageTransaction.address!.address!,
         sender: contentMessageTransaction.previousPublicKey!,
-        timestamp: contentMessageTransaction.validationStamp!.timestamp!,
+        timestampCreation:
+            contentMessageTransaction.validationStamp!.timestamp!,
         content: message,
       );
 
