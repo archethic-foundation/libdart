@@ -3,12 +3,15 @@ name: archethic_lib_dart
 description: Archethic dart library for Flutter for Node and Browser. This library aims to provide a easy way to create Archethic transaction and to send them over the network
 homepage: https://github.com/archethic-foundation/libdart
 
-version: 3.1.1
+version: 3.2.0
 
 environment:
-  sdk: ">=2.19.0 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  # Compression
+  archive: ^3.3.7
+
   # Collections and utilities functions and classes related to collections.
   collection: ^1.14.13
 
@@ -39,6 +42,9 @@ dependencies:
 
   # JWK (JSON Web Key) encoding and decoding
   jwk: ^0.1.1
+
+  # PhoenixSocket provides a feature-complete implementation of Phoenix Sockets, using a single API based on StreamChannels compatible with any deployment of Flutter
+  phoenix_socket: ^0.6.3
 
   # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
   pinenacl: ^0.5.1
