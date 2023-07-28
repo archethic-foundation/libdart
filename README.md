@@ -217,6 +217,7 @@ It supports the Archethic Cryptography rules which are:
 
   #### addOriginKey(originPublicKey, certificate, endpoint)
   Query a node to add a new origin public to be authorized to sign transaction with the corresponding private key (see OriginSign).
+  Calls the 'add_origin_key' JSON-RPC 2.0 method
 
   - `originPublicKey` is the public key to be added.
   - `certificate` is the certificate that prove the public key is allowed to be added.
@@ -287,6 +288,7 @@ It supports the Archethic Cryptography rules which are:
 
   #### getTransactionFee(tx)
   Query a node to fetch the tx fee for a given transaction
+  Calls the 'estimate_transaction_fee' JSON-RPC 2.0 method
   
   - `tx` Generated transaction
   
@@ -308,7 +310,26 @@ It supports the Archethic Cryptography rules which are:
   String address = crypto.deriveAddress("mysuperpassphraseorseed", 0);
   Map<String, List<Ownership>> ownershipsMap = await ApiService('https://testnet.archethic.net').getTransactionOwnerships([address]);
   List<Ownership> ownerships = ownershipsMap[address];
+  ```
 
+  #### sendTx(transaction)
+  Send a transaction to the network
+  Calls the 'send_transaction' JSON-RPC 2.0 method
+
+  - `transaction`: Transaction to send
+
+  ```dart
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+
+  final tx = Transaction(type: 'transfer', data: Transaction.initData())
+            .addUCOTransfer(
+              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              toBigInt(0.00000001),
+            )
+            .build("mysuperpassphraseorseed", 0)
+            .originSign(originPrivateKey);
+
+  await ApiService('https://testnet.archethic.net').sendTx(tx);
   ```
 
   </details>

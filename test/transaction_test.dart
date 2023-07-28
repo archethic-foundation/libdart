@@ -521,11 +521,11 @@ condition inherit: [
         const seed =
             '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA1';
         final originPrivateKey =
-            ApiService('https://mainnet.archethic.net').getOriginKey();
+            ApiService('http://localhost:4000').getOriginKey();
 
         const text = 'Hello👋';
         final tx = Transaction(type: 'transfer', data: Transaction.initData())
-            .setContent(text)
+            .setContent(uint8ListToHex(Uint8List.fromList(text.codeUnits)))
             .addUCOTransfer(
               '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
               toBigInt(0.00000001),
@@ -533,10 +533,9 @@ condition inherit: [
             .build(seed, 0)
             .originSign(originPrivateKey);
 
-        await ApiService('https://mainnet.archethic.net').sendTx(tx);
-
-        await ApiService('https://mainnet.archethic.net')
-            .getTransactionContent({
+        await ApiService('http://localhost:4000').sendTx(tx);
+        await Future<void>.delayed(const Duration(seconds: 2));
+        await ApiService('http://localhost:4000').getTransactionContent({
           '000057cb7d188385325a30fddf5bca487ee1db525b7a3dc31a595d6f3425c06c93ce':
               ''
         });

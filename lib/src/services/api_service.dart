@@ -25,12 +25,13 @@ import 'package:archethic_lib_dart/src/model/transaction_status.dart';
 import 'package:archethic_lib_dart/src/services/graph_ql_client_logger.dart';
 import 'package:archethic_lib_dart/src/utils/collection_utils.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart';
+import 'package:archethic_lib_dart/src/utils/json_rpc_util.dart';
 import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:graphql/client.dart';
 import 'package:http/http.dart' as http;
 
-class ApiService {
+class ApiService with JsonRPCUtil {
   ApiService(
     this.endpoint, {
     this.logsActivation = true,
@@ -66,21 +67,31 @@ class ApiService {
     final completer = Completer<TransactionStatus>();
 
     var transactionStatus = const TransactionStatus();
-    log(
-      'sendTx: requestHttp.body=${transaction.convertToJSON()}',
-      logsActivation: logsActivation,
-    );
+
     try {
+      final jsonRPCRequest = setJsonRPCRequest('send_transaction', transaction);
+
+      log(
+        'sendTxs: requestHttp.body=$jsonRPCRequest',
+        logsActivation: logsActivation,
+      );
+
       final responseHttp = await http.post(
-        Uri.parse('$endpoint/api/transaction'),
-        body: transaction.convertToJSON(),
+        Uri.parse('$endpoint/api/rpc'),
+        body: jsonRPCRequest,
         headers: kRequestHeaders,
       );
       log(
         'sendTx: responseHttp.body=${responseHttp.body}',
         logsActivation: logsActivation,
       );
-      transactionStatus = transactionStatusFromJson(responseHttp.body);
+
+      final result = getJsonRPCResult(responseHttp.body);
+      transactionStatus = transactionStatusFromJson(
+        json.encode(
+          result,
+        ),
+      );
 
       completer.complete(transactionStatus);
     } catch (e) {
@@ -513,20 +524,28 @@ class ApiService {
   /// Get transaction fees
   /// @param {Object} tx Transaction to estimate fees
   Future<TransactionFee> getTransactionFee(Transaction transaction) async {
+    final jsonRPCRequest =
+        setJsonRPCRequest('estimate_transaction_fee', transaction);
+
     log(
-      'getTransactionFee: requestHttp.body=${transaction.convertToJSON()}',
+      'getTransactionFee: requestHttp.body=$jsonRPCRequest',
       logsActivation: logsActivation,
     );
+
     final responseHttp = await http.post(
-      Uri.parse('$endpoint/api/transaction_fee'),
-      body: transaction.convertToJSON(),
+      Uri.parse('$endpoint/api/rpc'),
+      body: jsonRPCRequest,
       headers: kRequestHeaders,
     );
     log(
       'getTransactionFee: responseHttp.body=${responseHttp.body}',
       logsActivation: logsActivation,
     );
-    return TransactionFee.fromJson(json.decode(responseHttp.body));
+    final result = getJsonRPCResult(responseHttp.body);
+
+    return TransactionFee.fromJson(
+      result,
+    );
   }
 
   /// getTransactionOwnerships
@@ -728,25 +747,39 @@ class ApiService {
     String? originPublicKey,
     String? certificate,
   }) async {
-    final body = jsonEncode(<String, String>{
-      'origin_public_key': originPublicKey!,
-      'certificate': certificate!
-    });
+    final jsonRpcRequest = {
+      'jsonrpc': '2.0',
+      'method': 'add_origin_key',
+      'params': <String, String>{
+        'origin_public_key': originPublicKey!,
+        'certificate': certificate!
+      },
+      'id': 1,
+    };
+
     log(
-      'addOriginKey: requestHttp.body=$body',
+      'addOriginKey: requestHttp.body=${json.encode(jsonRpcRequest)}',
       logsActivation: logsActivation,
     );
+
     final responseHttp = await http.post(
-      Uri.parse('$endpoint/api/origin_key'),
-      body: body,
+      Uri.parse('$endpoint/api/rpc'),
+      body: json.encode(jsonRpcRequest),
       headers: kRequestHeaders,
     );
+
     log(
       'addOriginKey: responseHttp.body=${responseHttp.body}',
       logsActivation: logsActivation,
     );
 
-    return originKeyResponseFromJson(responseHttp.body).toString();
+    final result = getJsonRPCResult(responseHttp.body);
+
+    return originKeyResponseFromJson(
+      json.encode(
+        result,
+      ),
+    ).toString();
   }
 
   /// Query the network to find a token's data from a list of token addresses

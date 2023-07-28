@@ -144,18 +144,18 @@ void main() {
               '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
               toBigInt(10.03),
             )
-            .build('myseed', 0)
+            .build('myseed', 0, isSeedHexa: false)
             .originSign(kOriginPrivateKey);
-        final transactionFee = await ApiService('https://mainnet.archethic.net')
-            .getTransactionFee(tx);
+        final transactionFee =
+            await ApiService('http://localhost:4000').getTransactionFee(tx);
         expect(
           transactionFee.fee!.toStringAsPrecision(2),
-          '0.17',
+          18000000.toStringAsPrecision(2),
         );
       });
 
       test('addOriginKey', () async {
-        await ApiService('https://mainnet.archethic.net').addOriginKey(
+        await ApiService('http://localhost:4000').addOriginKey(
           originPublicKey:
               '010104AB41291F847A601055AEDD1AF24FF76FA970D6441E2DCA3818A8319B004C96B27B8FEB1DA31A044BA0A4800B4353359735719EBB3A05F98393A9CC599C3FAFD6',
           certificate: '0x',
