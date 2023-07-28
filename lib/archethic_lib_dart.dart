@@ -14,6 +14,7 @@ export 'src/model/crypto/secret.dart';
 export 'src/model/data.dart';
 export 'src/model/error.dart';
 export 'src/model/exception/archethic_exception.dart';
+export 'src/model/exception/archethic_json_rpc_exception.dart';
 export 'src/model/hosting_ref.dart';
 export 'src/model/hosting_ref_content_metadata.dart';
 export 'src/model/keychain.dart';
