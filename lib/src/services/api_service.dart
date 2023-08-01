@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
+import 'package:archethic_lib_dart/features_flags.dart';
 import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
@@ -68,37 +69,64 @@ class ApiService with JsonRPCUtil {
 
     var transactionStatus = const TransactionStatus();
 
-    try {
-      final jsonRPCRequest = setJsonRPCRequest('send_transaction', transaction);
+    if (FeatureFlags.apiRPCMethod) {
+      try {
+        final jsonRPCRequest =
+            setJsonRPCRequest('send_transaction', transaction);
 
+        log(
+          'sendTxs: requestHttp.body=$jsonRPCRequest',
+          logsActivation: logsActivation,
+        );
+
+        final responseHttp = await http.post(
+          Uri.parse('$endpoint/api/rpc'),
+          body: jsonRPCRequest,
+          headers: kRequestHeaders,
+        );
+        log(
+          'sendTx: responseHttp.body=${responseHttp.body}',
+          logsActivation: logsActivation,
+        );
+
+        final result = getJsonRPCResult(responseHttp.body);
+        transactionStatus = transactionStatusFromJson(
+          json.encode(
+            result,
+          ),
+        );
+
+        completer.complete(transactionStatus);
+      } catch (e) {
+        log(
+          e.toString(),
+          logsActivation: logsActivation,
+        );
+      }
+    } else {
       log(
-        'sendTxs: requestHttp.body=$jsonRPCRequest',
+        'sendTx: requestHttp.body=${transaction.convertToJSON()}',
         logsActivation: logsActivation,
       );
+      try {
+        final responseHttp = await http.post(
+          Uri.parse('$endpoint/api/transaction'),
+          body: transaction.convertToJSON(),
+          headers: kRequestHeaders,
+        );
+        log(
+          'sendTx: responseHttp.body=${responseHttp.body}',
+          logsActivation: logsActivation,
+        );
+        transactionStatus = transactionStatusFromJson(responseHttp.body);
 
-      final responseHttp = await http.post(
-        Uri.parse('$endpoint/api/rpc'),
-        body: jsonRPCRequest,
-        headers: kRequestHeaders,
-      );
-      log(
-        'sendTx: responseHttp.body=${responseHttp.body}',
-        logsActivation: logsActivation,
-      );
-
-      final result = getJsonRPCResult(responseHttp.body);
-      transactionStatus = transactionStatusFromJson(
-        json.encode(
-          result,
-        ),
-      );
-
-      completer.complete(transactionStatus);
-    } catch (e) {
-      log(
-        e.toString(),
-        logsActivation: logsActivation,
-      );
+        completer.complete(transactionStatus);
+      } catch (e) {
+        log(
+          e.toString(),
+          logsActivation: logsActivation,
+        );
+      }
     }
 
     return completer.future;
@@ -524,28 +552,45 @@ class ApiService with JsonRPCUtil {
   /// Get transaction fees
   /// @param {Object} tx Transaction to estimate fees
   Future<TransactionFee> getTransactionFee(Transaction transaction) async {
-    final jsonRPCRequest =
-        setJsonRPCRequest('estimate_transaction_fee', transaction);
+    if (FeatureFlags.apiRPCMethod) {
+      final jsonRPCRequest =
+          setJsonRPCRequest('estimate_transaction_fee', transaction);
 
-    log(
-      'getTransactionFee: requestHttp.body=$jsonRPCRequest',
-      logsActivation: logsActivation,
-    );
+      log(
+        'getTransactionFee: requestHttp.body=$jsonRPCRequest',
+        logsActivation: logsActivation,
+      );
 
-    final responseHttp = await http.post(
-      Uri.parse('$endpoint/api/rpc'),
-      body: jsonRPCRequest,
-      headers: kRequestHeaders,
-    );
-    log(
-      'getTransactionFee: responseHttp.body=${responseHttp.body}',
-      logsActivation: logsActivation,
-    );
-    final result = getJsonRPCResult(responseHttp.body);
+      final responseHttp = await http.post(
+        Uri.parse('$endpoint/api/rpc'),
+        body: jsonRPCRequest,
+        headers: kRequestHeaders,
+      );
+      log(
+        'getTransactionFee: responseHttp.body=${responseHttp.body}',
+        logsActivation: logsActivation,
+      );
+      final result = getJsonRPCResult(responseHttp.body);
 
-    return TransactionFee.fromJson(
-      result,
-    );
+      return TransactionFee.fromJson(
+        result,
+      );
+    } else {
+      log(
+        'getTransactionFee: requestHttp.body=${transaction.convertToJSON()}',
+        logsActivation: logsActivation,
+      );
+      final responseHttp = await http.post(
+        Uri.parse('$endpoint/api/transaction_fee'),
+        body: transaction.convertToJSON(),
+        headers: kRequestHeaders,
+      );
+      log(
+        'getTransactionFee: responseHttp.body=${responseHttp.body}',
+        logsActivation: logsActivation,
+      );
+      return TransactionFee.fromJson(json.decode(responseHttp.body));
+    }
   }
 
   /// getTransactionOwnerships
@@ -747,39 +792,61 @@ class ApiService with JsonRPCUtil {
     String? originPublicKey,
     String? certificate,
   }) async {
-    final jsonRpcRequest = {
-      'jsonrpc': '2.0',
-      'method': 'add_origin_key',
-      'params': <String, String>{
+    if (FeatureFlags.apiRPCMethod) {
+      final jsonRPCRequest = {
+        'jsonrpc': '2.0',
+        'method': 'add_origin_key',
+        'params': <String, String>{
+          'origin_public_key': originPublicKey!,
+          'certificate': certificate!
+        },
+        'id': 1,
+      };
+
+      log(
+        'addOriginKey: requestHttp.body=${json.encode(jsonRPCRequest)}',
+        logsActivation: logsActivation,
+      );
+
+      final responseHttp = await http.post(
+        Uri.parse('$endpoint/api/rpc'),
+        body: json.encode(jsonRPCRequest),
+        headers: kRequestHeaders,
+      );
+
+      log(
+        'addOriginKey: responseHttp.body=${responseHttp.body}',
+        logsActivation: logsActivation,
+      );
+
+      final result = getJsonRPCResult(responseHttp.body);
+
+      return originKeyResponseFromJson(
+        json.encode(
+          result,
+        ),
+      ).toString();
+    } else {
+      final body = jsonEncode(<String, String>{
         'origin_public_key': originPublicKey!,
         'certificate': certificate!
-      },
-      'id': 1,
-    };
+      });
+      log(
+        'addOriginKey: requestHttp.body=$body',
+        logsActivation: logsActivation,
+      );
+      final responseHttp = await http.post(
+        Uri.parse('$endpoint/api/origin_key'),
+        body: body,
+        headers: kRequestHeaders,
+      );
+      log(
+        'addOriginKey: responseHttp.body=${responseHttp.body}',
+        logsActivation: logsActivation,
+      );
 
-    log(
-      'addOriginKey: requestHttp.body=${json.encode(jsonRpcRequest)}',
-      logsActivation: logsActivation,
-    );
-
-    final responseHttp = await http.post(
-      Uri.parse('$endpoint/api/rpc'),
-      body: json.encode(jsonRpcRequest),
-      headers: kRequestHeaders,
-    );
-
-    log(
-      'addOriginKey: responseHttp.body=${responseHttp.body}',
-      logsActivation: logsActivation,
-    );
-
-    final result = getJsonRPCResult(responseHttp.body);
-
-    return originKeyResponseFromJson(
-      json.encode(
-        result,
-      ),
-    ).toString();
+      return originKeyResponseFromJson(responseHttp.body).toString();
+    }
   }
 
   /// Query the network to find a token's data from a list of token addresses
