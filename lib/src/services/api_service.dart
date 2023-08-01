@@ -786,7 +786,7 @@ class ApiService with JsonRPCUtil {
   Future<Map<String, Token>> getToken(
     List<String> addresses, {
     String request =
-        'genesis, name, id, supply, symbol, type, properties, ownerships { authorizedPublicKeys { encryptedSecretKey,  publicKey }, secret }',
+        'genesis, name, id, supply, symbol, type, properties, decimals, collection, ownerships { authorizedPublicKeys { encryptedSecretKey,  publicKey }, secret }',
   }) async {
     if (addresses.isEmpty) {
       return {};

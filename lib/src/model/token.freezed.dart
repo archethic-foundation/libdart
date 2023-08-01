@@ -26,8 +26,11 @@ mixin _$Token {
   String? get id => throw _privateConstructorUsedError;
   int? get supply => throw _privateConstructorUsedError;
   String? get type => throw _privateConstructorUsedError;
+  int? get decimals => throw _privateConstructorUsedError;
   String? get symbol => throw _privateConstructorUsedError;
   Map<String, dynamic> get properties => throw _privateConstructorUsedError;
+  List<Map<String, dynamic>> get collection =>
+      throw _privateConstructorUsedError;
   List<int>? get aeip => throw _privateConstructorUsedError;
   List<Ownership>? get ownerships => throw _privateConstructorUsedError;
 
@@ -48,8 +51,10 @@ abstract class $TokenCopyWith<$Res> {
       String? id,
       int? supply,
       String? type,
+      int? decimals,
       String? symbol,
       Map<String, dynamic> properties,
+      List<Map<String, dynamic>> collection,
       List<int>? aeip,
       List<Ownership>? ownerships});
 }
@@ -73,8 +78,10 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
     Object? id = freezed,
     Object? supply = freezed,
     Object? type = freezed,
+    Object? decimals = freezed,
     Object? symbol = freezed,
     Object? properties = null,
+    Object? collection = null,
     Object? aeip = freezed,
     Object? ownerships = freezed,
   }) {
@@ -103,6 +110,10 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
+      decimals: freezed == decimals
+          ? _value.decimals
+          : decimals // ignore: cast_nullable_to_non_nullable
+              as int?,
       symbol: freezed == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
@@ -111,6 +122,10 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
           ? _value.properties
           : properties // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
+      collection: null == collection
+          ? _value.collection
+          : collection // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, dynamic>>,
       aeip: freezed == aeip
           ? _value.aeip
           : aeip // ignore: cast_nullable_to_non_nullable
@@ -136,8 +151,10 @@ abstract class _$$_TokenCopyWith<$Res> implements $TokenCopyWith<$Res> {
       String? id,
       int? supply,
       String? type,
+      int? decimals,
       String? symbol,
       Map<String, dynamic> properties,
+      List<Map<String, dynamic>> collection,
       List<int>? aeip,
       List<Ownership>? ownerships});
 }
@@ -157,8 +174,10 @@ class __$$_TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res, _$_Token>
     Object? id = freezed,
     Object? supply = freezed,
     Object? type = freezed,
+    Object? decimals = freezed,
     Object? symbol = freezed,
     Object? properties = null,
+    Object? collection = null,
     Object? aeip = freezed,
     Object? ownerships = freezed,
   }) {
@@ -187,6 +206,10 @@ class __$$_TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res, _$_Token>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
+      decimals: freezed == decimals
+          ? _value.decimals
+          : decimals // ignore: cast_nullable_to_non_nullable
+              as int?,
       symbol: freezed == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
@@ -195,6 +218,10 @@ class __$$_TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res, _$_Token>
           ? _value._properties
           : properties // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
+      collection: null == collection
+          ? _value._collection
+          : collection // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, dynamic>>,
       aeip: freezed == aeip
           ? _value._aeip
           : aeip // ignore: cast_nullable_to_non_nullable
@@ -217,11 +244,14 @@ class _$_Token extends _Token {
       this.id,
       this.supply,
       this.type,
+      this.decimals,
       this.symbol,
       final Map<String, dynamic> properties = const {},
+      final List<Map<String, dynamic>> collection = const [],
       final List<int>? aeip = const [],
       final List<Ownership>? ownerships = const []})
       : _properties = properties,
+        _collection = collection,
         _aeip = aeip,
         _ownerships = ownerships,
         super._();
@@ -242,6 +272,8 @@ class _$_Token extends _Token {
   @override
   final String? type;
   @override
+  final int? decimals;
+  @override
   final String? symbol;
   final Map<String, dynamic> _properties;
   @override
@@ -250,6 +282,15 @@ class _$_Token extends _Token {
     if (_properties is EqualUnmodifiableMapView) return _properties;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_properties);
+  }
+
+  final List<Map<String, dynamic>> _collection;
+  @override
+  @JsonKey()
+  List<Map<String, dynamic>> get collection {
+    if (_collection is EqualUnmodifiableListView) return _collection;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_collection);
   }
 
   final List<int>? _aeip;
@@ -276,7 +317,7 @@ class _$_Token extends _Token {
 
   @override
   String toString() {
-    return 'Token(address: $address, genesis: $genesis, name: $name, id: $id, supply: $supply, type: $type, symbol: $symbol, properties: $properties, aeip: $aeip, ownerships: $ownerships)';
+    return 'Token(address: $address, genesis: $genesis, name: $name, id: $id, supply: $supply, type: $type, decimals: $decimals, symbol: $symbol, properties: $properties, collection: $collection, aeip: $aeip, ownerships: $ownerships)';
   }
 
   @override
@@ -290,9 +331,13 @@ class _$_Token extends _Token {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.supply, supply) || other.supply == supply) &&
             (identical(other.type, type) || other.type == type) &&
+            (identical(other.decimals, decimals) ||
+                other.decimals == decimals) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             const DeepCollectionEquality()
                 .equals(other._properties, _properties) &&
+            const DeepCollectionEquality()
+                .equals(other._collection, _collection) &&
             const DeepCollectionEquality().equals(other._aeip, _aeip) &&
             const DeepCollectionEquality()
                 .equals(other._ownerships, _ownerships));
@@ -308,8 +353,10 @@ class _$_Token extends _Token {
       id,
       supply,
       type,
+      decimals,
       symbol,
       const DeepCollectionEquality().hash(_properties),
+      const DeepCollectionEquality().hash(_collection),
       const DeepCollectionEquality().hash(_aeip),
       const DeepCollectionEquality().hash(_ownerships));
 
@@ -335,8 +382,10 @@ abstract class _Token extends Token {
       final String? id,
       final int? supply,
       final String? type,
+      final int? decimals,
       final String? symbol,
       final Map<String, dynamic> properties,
+      final List<Map<String, dynamic>> collection,
       final List<int>? aeip,
       final List<Ownership>? ownerships}) = _$_Token;
   const _Token._() : super._();
@@ -356,9 +405,13 @@ abstract class _Token extends Token {
   @override
   String? get type;
   @override
+  int? get decimals;
+  @override
   String? get symbol;
   @override
   Map<String, dynamic> get properties;
+  @override
+  List<Map<String, dynamic>> get collection;
   @override
   List<int>? get aeip;
   @override
