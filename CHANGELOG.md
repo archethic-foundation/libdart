@@ -2,6 +2,7 @@ Changelog
 =========
 
 #### Version 3.3.0
+* Consideration of AEIP 2 (Token standard) and 9 (Standard NFT Metadata)
 * Implement new JSON RPC Blockchain's API (sendTx, getTransactionFee and addOriginKey methods)
 
 #### Version 3.2.0

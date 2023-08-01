@@ -15,8 +15,10 @@ class Token with _$Token {
     String? id,
     int? supply,
     String? type,
+    int? decimals,
     String? symbol,
     @Default({}) final Map<String, dynamic> properties,
+    @Default([]) final List<Map<String, dynamic>> collection,
     @Default([]) final List<int>? aeip,
     @Default([]) final List<Ownership>? ownerships,
   }) = _Token;
@@ -33,8 +35,10 @@ class Token with _$Token {
       'name': name,
       'supply': supply,
       'type': type,
+      'decimals': decimals,
       'symbol': symbol,
       'properties': properties,
+      'collection': collection,
       'aeip': aeip,
     };
 

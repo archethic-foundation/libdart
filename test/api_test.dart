@@ -176,6 +176,24 @@ void main() {
         );
       });
 
+      test('getToken', () async {
+        final tokensMap = await ApiService('https://mainnet.archethic.net')
+            .getToken([
+          '0000260d70b23efc72ce7be2a7da00a0e2eeaa6b39bd3b6e39e5a6bc600303177ef6'
+        ]);
+        final token = tokensMap[
+            '0000260d70b23efc72ce7be2a7da00a0e2eeaa6b39bd3b6e39e5a6bc600303177ef6'];
+
+        expect(
+          token!.collection.length,
+          6765,
+        );
+        expect(
+          token.decimals,
+          8,
+        );
+      });
+
       test('getGenesisAddress', () async {
         final genesisAddress =
             await ApiService('https://mainnet.archethic.net').getGenesisAddress(
