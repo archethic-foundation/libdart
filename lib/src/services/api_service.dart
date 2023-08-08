@@ -18,6 +18,7 @@ import 'package:archethic_lib_dart/src/model/response/network_transactions_respo
 import 'package:archethic_lib_dart/src/model/response/nodes_response.dart';
 import 'package:archethic_lib_dart/src/model/response/origin_key_response.dart';
 import 'package:archethic_lib_dart/src/model/shared_secrets.dart';
+import 'package:archethic_lib_dart/src/model/smart_contracts/sm_call_function_request.dart';
 import 'package:archethic_lib_dart/src/model/token.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
@@ -959,5 +960,35 @@ class ApiService with JsonRPCUtil {
     }
 
     return result.parsedData ?? const Address(address: '');
+  }
+
+  /// Call a smart contract's function
+  /// @param {String} originPublicKey origin public key to be added
+  /// @param {String} certificate certificate of the origin public key
+  Future<String> callSMFunction({
+    required SMCallFunctionRequest jsonRPCRequest,
+  }) async {
+    final completer = Completer<String>();
+    log(
+      'callSMFunction: requestHttp.body=${json.encode(jsonRPCRequest)}',
+      logsActivation: logsActivation,
+    );
+
+    final responseHttp = await http.post(
+      Uri.parse('$endpoint/api/rpc'),
+      body: json.encode(jsonRPCRequest),
+      headers: kRequestHeaders,
+    );
+
+    log(
+      'callSMFunction: responseHttp.body=${responseHttp.body}',
+      logsActivation: logsActivation,
+    );
+
+    completer.complete(
+      getJsonRPCResultString(responseHttp.body),
+    );
+
+    return completer.future;
   }
 }

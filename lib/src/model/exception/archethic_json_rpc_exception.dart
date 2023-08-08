@@ -10,5 +10,5 @@ class ArchethicJsonRPCException implements Exception {
   });
   final int code;
   final String message;
-  final Map<String, dynamic> data;
+  final Object data;
 }

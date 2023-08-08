@@ -4,6 +4,7 @@ Changelog
 #### Version 3.3.0
 * Consideration of AEIP 2 (Token standard) and 9 (Standard NFT Metadata)
 * Implement new JSON RPC Blockchain's API (sendTx, getTransactionFee and addOriginKey methods)
+* Add a method for calling smart contract functions
 
 #### Version 3.2.0
 * Add utility methods to handle message exchange mechanisms within the context of messaging.
