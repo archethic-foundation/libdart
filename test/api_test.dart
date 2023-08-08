@@ -1,7 +1,7 @@
 library test.api_test;
 
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_lib_dart/src/model/address.dart';
+import 'package:archethic_lib_dart/src/model/exception/archethic_json_rpc_exception.dart';
 import 'package:archethic_lib_dart/src/model/smart_contracts/sm_call_function_request.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
