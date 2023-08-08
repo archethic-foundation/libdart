@@ -333,19 +333,19 @@ It supports the Archethic Cryptography rules which are:
   ```
 
 
-  #### callSMFunction(jsonRPCRequest)
+  #### callSCFunction(jsonRPCRequest)
   Call a smart contract's function using JSON-RPC 2.0 method.
-  - `jsonRPCRequest` is the json structure based on SMCallFunctionRequest object to request the function
+  - `jsonRPCRequest` is the json structure based on SCCallFunctionRequest object to request the function
 
   Returns the result (String) of the function called
 
   Call a function :
   ```dart
   final smCallFunctionResponse =
-    await ApiService('https://testnet.archethic.net').callSMFunction(
-      jsonRPCRequest: SMCallFunctionRequest(
+    await ApiService('https://testnet.archethic.net').callSCFunction(
+      jsonRPCRequest: SCCallFunctionRequest(
         method: 'contract_fun',
-        params: SMCallFunctionParams(
+        params: SCCallFunctionParams(
           contract:
                   '0000a9f3bc500d0ed7d923e983eafc080113633456f53c400814e1d4f34c5fa67220',
           function: 'get_chargeable_htlc',

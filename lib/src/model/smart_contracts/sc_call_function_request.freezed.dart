@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'sm_call_function_request.dart';
+part of 'sc_call_function_request.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,41 +14,41 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-SMCallFunctionRequest _$SMCallFunctionRequestFromJson(
+SCCallFunctionRequest _$SCCallFunctionRequestFromJson(
     Map<String, dynamic> json) {
-  return _SMCallFunctionRequest.fromJson(json);
+  return _SCCallFunctionRequest.fromJson(json);
 }
 
 /// @nodoc
-mixin _$SMCallFunctionRequest {
+mixin _$SCCallFunctionRequest {
   String get jsonrpc => throw _privateConstructorUsedError;
   String get method => throw _privateConstructorUsedError;
   int get id => throw _privateConstructorUsedError;
-  SMCallFunctionParams get params => throw _privateConstructorUsedError;
+  SCCallFunctionParams get params => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SMCallFunctionRequestCopyWith<SMCallFunctionRequest> get copyWith =>
+  $SCCallFunctionRequestCopyWith<SCCallFunctionRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SMCallFunctionRequestCopyWith<$Res> {
-  factory $SMCallFunctionRequestCopyWith(SMCallFunctionRequest value,
-          $Res Function(SMCallFunctionRequest) then) =
-      _$SMCallFunctionRequestCopyWithImpl<$Res, SMCallFunctionRequest>;
+abstract class $SCCallFunctionRequestCopyWith<$Res> {
+  factory $SCCallFunctionRequestCopyWith(SCCallFunctionRequest value,
+          $Res Function(SCCallFunctionRequest) then) =
+      _$SCCallFunctionRequestCopyWithImpl<$Res, SCCallFunctionRequest>;
   @useResult
   $Res call(
-      {String jsonrpc, String method, int id, SMCallFunctionParams params});
+      {String jsonrpc, String method, int id, SCCallFunctionParams params});
 
-  $SMCallFunctionParamsCopyWith<$Res> get params;
+  $SCCallFunctionParamsCopyWith<$Res> get params;
 }
 
 /// @nodoc
-class _$SMCallFunctionRequestCopyWithImpl<$Res,
-        $Val extends SMCallFunctionRequest>
-    implements $SMCallFunctionRequestCopyWith<$Res> {
-  _$SMCallFunctionRequestCopyWithImpl(this._value, this._then);
+class _$SCCallFunctionRequestCopyWithImpl<$Res,
+        $Val extends SCCallFunctionRequest>
+    implements $SCCallFunctionRequestCopyWith<$Res> {
+  _$SCCallFunctionRequestCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -79,40 +79,40 @@ class _$SMCallFunctionRequestCopyWithImpl<$Res,
       params: null == params
           ? _value.params
           : params // ignore: cast_nullable_to_non_nullable
-              as SMCallFunctionParams,
+              as SCCallFunctionParams,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $SMCallFunctionParamsCopyWith<$Res> get params {
-    return $SMCallFunctionParamsCopyWith<$Res>(_value.params, (value) {
+  $SCCallFunctionParamsCopyWith<$Res> get params {
+    return $SCCallFunctionParamsCopyWith<$Res>(_value.params, (value) {
       return _then(_value.copyWith(params: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$_SMCallFunctionRequestCopyWith<$Res>
-    implements $SMCallFunctionRequestCopyWith<$Res> {
-  factory _$$_SMCallFunctionRequestCopyWith(_$_SMCallFunctionRequest value,
-          $Res Function(_$_SMCallFunctionRequest) then) =
-      __$$_SMCallFunctionRequestCopyWithImpl<$Res>;
+abstract class _$$_SCCallFunctionRequestCopyWith<$Res>
+    implements $SCCallFunctionRequestCopyWith<$Res> {
+  factory _$$_SCCallFunctionRequestCopyWith(_$_SCCallFunctionRequest value,
+          $Res Function(_$_SCCallFunctionRequest) then) =
+      __$$_SCCallFunctionRequestCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {String jsonrpc, String method, int id, SMCallFunctionParams params});
+      {String jsonrpc, String method, int id, SCCallFunctionParams params});
 
   @override
-  $SMCallFunctionParamsCopyWith<$Res> get params;
+  $SCCallFunctionParamsCopyWith<$Res> get params;
 }
 
 /// @nodoc
-class __$$_SMCallFunctionRequestCopyWithImpl<$Res>
-    extends _$SMCallFunctionRequestCopyWithImpl<$Res, _$_SMCallFunctionRequest>
-    implements _$$_SMCallFunctionRequestCopyWith<$Res> {
-  __$$_SMCallFunctionRequestCopyWithImpl(_$_SMCallFunctionRequest _value,
-      $Res Function(_$_SMCallFunctionRequest) _then)
+class __$$_SCCallFunctionRequestCopyWithImpl<$Res>
+    extends _$SCCallFunctionRequestCopyWithImpl<$Res, _$_SCCallFunctionRequest>
+    implements _$$_SCCallFunctionRequestCopyWith<$Res> {
+  __$$_SCCallFunctionRequestCopyWithImpl(_$_SCCallFunctionRequest _value,
+      $Res Function(_$_SCCallFunctionRequest) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -123,7 +123,7 @@ class __$$_SMCallFunctionRequestCopyWithImpl<$Res>
     Object? id = null,
     Object? params = null,
   }) {
-    return _then(_$_SMCallFunctionRequest(
+    return _then(_$_SCCallFunctionRequest(
       jsonrpc: null == jsonrpc
           ? _value.jsonrpc
           : jsonrpc // ignore: cast_nullable_to_non_nullable
@@ -139,22 +139,22 @@ class __$$_SMCallFunctionRequestCopyWithImpl<$Res>
       params: null == params
           ? _value.params
           : params // ignore: cast_nullable_to_non_nullable
-              as SMCallFunctionParams,
+              as SCCallFunctionParams,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_SMCallFunctionRequest implements _SMCallFunctionRequest {
-  _$_SMCallFunctionRequest(
+class _$_SCCallFunctionRequest implements _SCCallFunctionRequest {
+  _$_SCCallFunctionRequest(
       {this.jsonrpc = '2.0',
       required this.method,
       this.id = 1,
       required this.params});
 
-  factory _$_SMCallFunctionRequest.fromJson(Map<String, dynamic> json) =>
-      _$$_SMCallFunctionRequestFromJson(json);
+  factory _$_SCCallFunctionRequest.fromJson(Map<String, dynamic> json) =>
+      _$$_SCCallFunctionRequestFromJson(json);
 
   @override
   @JsonKey()
@@ -165,18 +165,18 @@ class _$_SMCallFunctionRequest implements _SMCallFunctionRequest {
   @JsonKey()
   final int id;
   @override
-  final SMCallFunctionParams params;
+  final SCCallFunctionParams params;
 
   @override
   String toString() {
-    return 'SMCallFunctionRequest(jsonrpc: $jsonrpc, method: $method, id: $id, params: $params)';
+    return 'SCCallFunctionRequest(jsonrpc: $jsonrpc, method: $method, id: $id, params: $params)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SMCallFunctionRequest &&
+            other is _$_SCCallFunctionRequest &&
             (identical(other.jsonrpc, jsonrpc) || other.jsonrpc == jsonrpc) &&
             (identical(other.method, method) || other.method == method) &&
             (identical(other.id, id) || other.id == id) &&
@@ -190,27 +190,27 @@ class _$_SMCallFunctionRequest implements _SMCallFunctionRequest {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SMCallFunctionRequestCopyWith<_$_SMCallFunctionRequest> get copyWith =>
-      __$$_SMCallFunctionRequestCopyWithImpl<_$_SMCallFunctionRequest>(
+  _$$_SCCallFunctionRequestCopyWith<_$_SCCallFunctionRequest> get copyWith =>
+      __$$_SCCallFunctionRequestCopyWithImpl<_$_SCCallFunctionRequest>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SMCallFunctionRequestToJson(
+    return _$$_SCCallFunctionRequestToJson(
       this,
     );
   }
 }
 
-abstract class _SMCallFunctionRequest implements SMCallFunctionRequest {
-  factory _SMCallFunctionRequest(
+abstract class _SCCallFunctionRequest implements SCCallFunctionRequest {
+  factory _SCCallFunctionRequest(
       {final String jsonrpc,
       required final String method,
       final int id,
-      required final SMCallFunctionParams params}) = _$_SMCallFunctionRequest;
+      required final SCCallFunctionParams params}) = _$_SCCallFunctionRequest;
 
-  factory _SMCallFunctionRequest.fromJson(Map<String, dynamic> json) =
-      _$_SMCallFunctionRequest.fromJson;
+  factory _SCCallFunctionRequest.fromJson(Map<String, dynamic> json) =
+      _$_SCCallFunctionRequest.fromJson;
 
   @override
   String get jsonrpc;
@@ -219,43 +219,43 @@ abstract class _SMCallFunctionRequest implements SMCallFunctionRequest {
   @override
   int get id;
   @override
-  SMCallFunctionParams get params;
+  SCCallFunctionParams get params;
   @override
   @JsonKey(ignore: true)
-  _$$_SMCallFunctionRequestCopyWith<_$_SMCallFunctionRequest> get copyWith =>
+  _$$_SCCallFunctionRequestCopyWith<_$_SCCallFunctionRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-SMCallFunctionParams _$SMCallFunctionParamsFromJson(Map<String, dynamic> json) {
-  return _SMCallFunctionParams.fromJson(json);
+SCCallFunctionParams _$SCCallFunctionParamsFromJson(Map<String, dynamic> json) {
+  return _SCCallFunctionParams.fromJson(json);
 }
 
 /// @nodoc
-mixin _$SMCallFunctionParams {
+mixin _$SCCallFunctionParams {
   String get contract => throw _privateConstructorUsedError;
   String get function => throw _privateConstructorUsedError;
   List<dynamic> get args => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SMCallFunctionParamsCopyWith<SMCallFunctionParams> get copyWith =>
+  $SCCallFunctionParamsCopyWith<SCCallFunctionParams> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SMCallFunctionParamsCopyWith<$Res> {
-  factory $SMCallFunctionParamsCopyWith(SMCallFunctionParams value,
-          $Res Function(SMCallFunctionParams) then) =
-      _$SMCallFunctionParamsCopyWithImpl<$Res, SMCallFunctionParams>;
+abstract class $SCCallFunctionParamsCopyWith<$Res> {
+  factory $SCCallFunctionParamsCopyWith(SCCallFunctionParams value,
+          $Res Function(SCCallFunctionParams) then) =
+      _$SCCallFunctionParamsCopyWithImpl<$Res, SCCallFunctionParams>;
   @useResult
   $Res call({String contract, String function, List<dynamic> args});
 }
 
 /// @nodoc
-class _$SMCallFunctionParamsCopyWithImpl<$Res,
-        $Val extends SMCallFunctionParams>
-    implements $SMCallFunctionParamsCopyWith<$Res> {
-  _$SMCallFunctionParamsCopyWithImpl(this._value, this._then);
+class _$SCCallFunctionParamsCopyWithImpl<$Res,
+        $Val extends SCCallFunctionParams>
+    implements $SCCallFunctionParamsCopyWith<$Res> {
+  _$SCCallFunctionParamsCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -287,22 +287,22 @@ class _$SMCallFunctionParamsCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_SMCallFunctionParamsCopyWith<$Res>
-    implements $SMCallFunctionParamsCopyWith<$Res> {
-  factory _$$_SMCallFunctionParamsCopyWith(_$_SMCallFunctionParams value,
-          $Res Function(_$_SMCallFunctionParams) then) =
-      __$$_SMCallFunctionParamsCopyWithImpl<$Res>;
+abstract class _$$_SCCallFunctionParamsCopyWith<$Res>
+    implements $SCCallFunctionParamsCopyWith<$Res> {
+  factory _$$_SCCallFunctionParamsCopyWith(_$_SCCallFunctionParams value,
+          $Res Function(_$_SCCallFunctionParams) then) =
+      __$$_SCCallFunctionParamsCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String contract, String function, List<dynamic> args});
 }
 
 /// @nodoc
-class __$$_SMCallFunctionParamsCopyWithImpl<$Res>
-    extends _$SMCallFunctionParamsCopyWithImpl<$Res, _$_SMCallFunctionParams>
-    implements _$$_SMCallFunctionParamsCopyWith<$Res> {
-  __$$_SMCallFunctionParamsCopyWithImpl(_$_SMCallFunctionParams _value,
-      $Res Function(_$_SMCallFunctionParams) _then)
+class __$$_SCCallFunctionParamsCopyWithImpl<$Res>
+    extends _$SCCallFunctionParamsCopyWithImpl<$Res, _$_SCCallFunctionParams>
+    implements _$$_SCCallFunctionParamsCopyWith<$Res> {
+  __$$_SCCallFunctionParamsCopyWithImpl(_$_SCCallFunctionParams _value,
+      $Res Function(_$_SCCallFunctionParams) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -312,7 +312,7 @@ class __$$_SMCallFunctionParamsCopyWithImpl<$Res>
     Object? function = null,
     Object? args = null,
   }) {
-    return _then(_$_SMCallFunctionParams(
+    return _then(_$_SCCallFunctionParams(
       contract: null == contract
           ? _value.contract
           : contract // ignore: cast_nullable_to_non_nullable
@@ -331,15 +331,15 @@ class __$$_SMCallFunctionParamsCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SMCallFunctionParams implements _SMCallFunctionParams {
-  _$_SMCallFunctionParams(
+class _$_SCCallFunctionParams implements _SCCallFunctionParams {
+  _$_SCCallFunctionParams(
       {required this.contract,
       required this.function,
       required final List<dynamic> args})
       : _args = args;
 
-  factory _$_SMCallFunctionParams.fromJson(Map<String, dynamic> json) =>
-      _$$_SMCallFunctionParamsFromJson(json);
+  factory _$_SCCallFunctionParams.fromJson(Map<String, dynamic> json) =>
+      _$$_SCCallFunctionParamsFromJson(json);
 
   @override
   final String contract;
@@ -355,14 +355,14 @@ class _$_SMCallFunctionParams implements _SMCallFunctionParams {
 
   @override
   String toString() {
-    return 'SMCallFunctionParams(contract: $contract, function: $function, args: $args)';
+    return 'SCCallFunctionParams(contract: $contract, function: $function, args: $args)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SMCallFunctionParams &&
+            other is _$_SCCallFunctionParams &&
             (identical(other.contract, contract) ||
                 other.contract == contract) &&
             (identical(other.function, function) ||
@@ -378,26 +378,26 @@ class _$_SMCallFunctionParams implements _SMCallFunctionParams {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SMCallFunctionParamsCopyWith<_$_SMCallFunctionParams> get copyWith =>
-      __$$_SMCallFunctionParamsCopyWithImpl<_$_SMCallFunctionParams>(
+  _$$_SCCallFunctionParamsCopyWith<_$_SCCallFunctionParams> get copyWith =>
+      __$$_SCCallFunctionParamsCopyWithImpl<_$_SCCallFunctionParams>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SMCallFunctionParamsToJson(
+    return _$$_SCCallFunctionParamsToJson(
       this,
     );
   }
 }
 
-abstract class _SMCallFunctionParams implements SMCallFunctionParams {
-  factory _SMCallFunctionParams(
+abstract class _SCCallFunctionParams implements SCCallFunctionParams {
+  factory _SCCallFunctionParams(
       {required final String contract,
       required final String function,
-      required final List<dynamic> args}) = _$_SMCallFunctionParams;
+      required final List<dynamic> args}) = _$_SCCallFunctionParams;
 
-  factory _SMCallFunctionParams.fromJson(Map<String, dynamic> json) =
-      _$_SMCallFunctionParams.fromJson;
+  factory _SCCallFunctionParams.fromJson(Map<String, dynamic> json) =
+      _$_SCCallFunctionParams.fromJson;
 
   @override
   String get contract;
@@ -407,6 +407,6 @@ abstract class _SMCallFunctionParams implements SMCallFunctionParams {
   List<dynamic> get args;
   @override
   @JsonKey(ignore: true)
-  _$$_SMCallFunctionParamsCopyWith<_$_SMCallFunctionParams> get copyWith =>
+  _$$_SCCallFunctionParamsCopyWith<_$_SCCallFunctionParams> get copyWith =>
       throw _privateConstructorUsedError;
 }
