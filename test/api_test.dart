@@ -2,7 +2,7 @@ library test.api_test;
 
 import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/exception/archethic_json_rpc_exception.dart';
-import 'package:archethic_lib_dart/src/model/smart_contracts/sm_call_function_request.dart';
+import 'package:archethic_lib_dart/src/model/smart_contracts/sc_call_function_request.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
@@ -208,12 +208,12 @@ void main() {
         );
       });
 
-      test('callSMFunction', () async {
+      test('callSCFunction', () async {
         final smCallFunctionResponse =
-            await ApiService('http://127.0.0.1:4000').callSMFunction(
-          jsonRPCRequest: SMCallFunctionRequest(
+            await ApiService('http://127.0.0.1:4000').callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
             method: 'contract_fun',
-            params: SMCallFunctionParams(
+            params: SCCallFunctionParams(
               contract:
                   '0000a9f3bc500d0ed7d923e983eafc080113633456f53c400814e1d4f34c5fa67220',
               function: 'get_chargeable_htlc',
@@ -237,12 +237,12 @@ void main() {
         );
       });
 
-      test('callSMFunctionError', () async {
+      test('callSCFunctionError', () async {
         try {
-          await ApiService('http://127.0.0.1:4000').callSMFunction(
-            jsonRPCRequest: SMCallFunctionRequest(
+          await ApiService('http://127.0.0.1:4000').callSCFunction(
+            jsonRPCRequest: SCCallFunctionRequest(
               method: 'contract_fun',
-              params: SMCallFunctionParams(
+              params: SCCallFunctionParams(
                 contract:
                     '0000a9f3bc500d0ed7d923e983eafc080113633456f53c400814e1d4f34c5fa67220',
                 function: 'get_chargeable_htlc',

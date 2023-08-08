@@ -31,7 +31,7 @@ export 'src/model/ownership.dart';
 export 'src/model/response/origin_key_response.dart';
 export 'src/model/service.dart';
 export 'src/model/shared_secrets.dart';
-export 'src/model/smart_contracts/sm_call_function_request.dart';
+export 'src/model/smart_contracts/sc_call_function_request.dart';
 export 'src/model/token.dart';
 export 'src/model/token_balance.dart';
 export 'src/model/token_ledger.dart';

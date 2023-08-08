@@ -1,23 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sm_call_function_request.dart';
+part of 'sc_call_function_request.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_SMCallFunctionRequest _$$_SMCallFunctionRequestFromJson(
+_$_SCCallFunctionRequest _$$_SCCallFunctionRequestFromJson(
         Map<String, dynamic> json) =>
-    _$_SMCallFunctionRequest(
+    _$_SCCallFunctionRequest(
       jsonrpc: json['jsonrpc'] as String? ?? '2.0',
       method: json['method'] as String,
       id: json['id'] as int? ?? 1,
       params:
-          SMCallFunctionParams.fromJson(json['params'] as Map<String, dynamic>),
+          SCCallFunctionParams.fromJson(json['params'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_SMCallFunctionRequestToJson(
-        _$_SMCallFunctionRequest instance) =>
+Map<String, dynamic> _$$_SCCallFunctionRequestToJson(
+        _$_SCCallFunctionRequest instance) =>
     <String, dynamic>{
       'jsonrpc': instance.jsonrpc,
       'method': instance.method,
@@ -25,16 +25,16 @@ Map<String, dynamic> _$$_SMCallFunctionRequestToJson(
       'params': instance.params,
     };
 
-_$_SMCallFunctionParams _$$_SMCallFunctionParamsFromJson(
+_$_SCCallFunctionParams _$$_SCCallFunctionParamsFromJson(
         Map<String, dynamic> json) =>
-    _$_SMCallFunctionParams(
+    _$_SCCallFunctionParams(
       contract: json['contract'] as String,
       function: json['function'] as String,
       args: json['args'] as List<dynamic>,
     );
 
-Map<String, dynamic> _$$_SMCallFunctionParamsToJson(
-        _$_SMCallFunctionParams instance) =>
+Map<String, dynamic> _$$_SCCallFunctionParamsToJson(
+        _$_SCCallFunctionParams instance) =>
     <String, dynamic>{
       'contract': instance.contract,
       'function': instance.function,
