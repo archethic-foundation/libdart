@@ -1,6 +1,8 @@
 library test.api_test;
 
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_lib_dart/src/model/address.dart';
+import 'package:archethic_lib_dart/src/model/smart_contracts/sm_call_function_request.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
@@ -204,6 +206,64 @@ void main() {
           genesisAddress.address,
           '00006586369937206500EDB352063A6E5D5CF1650B9AAB89F453825F53EF8E44DEE3',
         );
+      });
+
+      test('callSMFunction', () async {
+        final smCallFunctionResponse =
+            await ApiService('http://127.0.0.1:4000').callSMFunction(
+          jsonRPCRequest: SMCallFunctionRequest(
+            method: 'contract_fun',
+            params: SMCallFunctionParams(
+              contract:
+                  '0000a9f3bc500d0ed7d923e983eafc080113633456f53c400814e1d4f34c5fa67220',
+              function: 'get_chargeable_htlc',
+              args: [
+                1692394056,
+                '0000a3b7b1d4830a09a5459cb24db36c3d791f337260a11892b5e2e9c382da577f7a',
+                '000085f677b365906a5103959e5fa289622b22ed93062b65120b55133da78242ae3e',
+                '4BC2DA9ABC1B5667529E3C35141026CB1E1A6DD0376E871C77D2824164F696EF',
+                'UCO',
+                4.56
+              ],
+            ),
+          ),
+        );
+
+        expect(
+          smCallFunctionResponse.startsWith(
+            '@version 1',
+          ),
+          true,
+        );
+      });
+
+      test('callSMFunctionError', () async {
+        try {
+          await ApiService('http://127.0.0.1:4000').callSMFunction(
+            jsonRPCRequest: SMCallFunctionRequest(
+              method: 'contract_fun',
+              params: SMCallFunctionParams(
+                contract:
+                    '0000a9f3bc500d0ed7d923e983eafc080113633456f53c400814e1d4f34c5fa67220',
+                function: 'get_chargeable_htlc',
+                args: [
+                  '0000a3b7b1d4830a09a5459cb24db36c3d791f337260a11892b5e2e9c382da577f7a',
+                  '000085f677b365906a5103959e5fa289622b22ed93062b65120b55133da78242ae3e',
+                  '4BC2DA9ABC1B5667529E3C35141026CB1E1A6DD0376E871C77D2824164F696EF',
+                  'UCO',
+                  4.56
+                ],
+              ),
+            ),
+          );
+        } catch (e) {
+          if (e is ArchethicJsonRPCException) {
+            expect(
+              e.code,
+              252,
+            );
+          }
+        }
       });
     },
     tags: <String>['noCI'],

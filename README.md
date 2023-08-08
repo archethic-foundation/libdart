@@ -332,6 +332,36 @@ It supports the Archethic Cryptography rules which are:
   await ApiService('https://testnet.archethic.net').sendTx(tx);
   ```
 
+
+  #### callSMFunction(jsonRPCRequest)
+  Call a smart contract's function using JSON-RPC 2.0 method.
+  - `jsonRPCRequest` is the json structure based on SMCallFunctionRequest object to request the function
+
+  Returns the result (String) of the function called
+
+  Call a function :
+  ```dart
+  final smCallFunctionResponse =
+    await ApiService('https://testnet.archethic.net').callSMFunction(
+      jsonRPCRequest: SMCallFunctionRequest(
+        method: 'contract_fun',
+        params: SMCallFunctionParams(
+          contract:
+                  '0000a9f3bc500d0ed7d923e983eafc080113633456f53c400814e1d4f34c5fa67220',
+          function: 'get_chargeable_htlc',
+          args: [
+                1692394056,
+                '0000a3b7b1d4830a09a5459cb24db36c3d791f337260a11892b5e2e9c382da577f7a',
+                '000085f677b365906a5103959e5fa289622b22ed93062b65120b55133da78242ae3e',
+                '4BC2DA9ABC1B5667529E3C35141026CB1E1A6DD0376E871C77D2824164F696EF',
+                'UCO',
+                4.56
+          ],
+        ),
+      ),
+    );
+  ```
+
   </details>
    <br/>
    <details>

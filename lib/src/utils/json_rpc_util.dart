@@ -20,6 +20,12 @@ mixin JsonRPCUtil {
   }
 
   Map<String, dynamic> getJsonRPCResult(String body) {
+    return json.decode(
+      getJsonRPCResultString(body),
+    );
+  }
+
+  String getJsonRPCResultString(String body) {
     final jsonResponse = json.decode(body);
     if (jsonResponse.containsKey('error')) {
       throw ArchethicJsonRPCException(
