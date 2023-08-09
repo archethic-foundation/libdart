@@ -486,6 +486,7 @@ It supports the Archethic Cryptography rules which are:
   ```
 
    <br/>
+</details>
 
 ## Running the tests
 
