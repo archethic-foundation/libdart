@@ -14,14 +14,15 @@ class OriginKeyResponse {
 
   factory OriginKeyResponse.fromJson(Map<String, dynamic> json) =>
       OriginKeyResponse(
-          status: json['status'],
-          transactionAddress: json['transaction_address'],);
+        status: json['status'],
+        transactionAddress: json['transaction_address'],
+      );
 
   String? status;
   String? transactionAddress;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'status': status,
-        'transaction_address': transactionAddress
+        'transaction_address': transactionAddress,
       };
 }

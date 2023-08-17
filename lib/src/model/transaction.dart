@@ -367,7 +367,7 @@ class Transaction with _$Transaction {
 
       final authorizedKeysBuffer = <Uint8List>[
         Uint8List.fromList(<int>[bufAuthKeyLength.length]),
-        bufAuthKeyLength
+        bufAuthKeyLength,
       ];
 
       final newAuthorizedPublicKeys = <AuthorizedKey>[];
@@ -404,7 +404,7 @@ class Transaction with _$Transaction {
           length: 4,
         ),
         Uint8List.fromList(hexToUint8List(ownership.secret!)),
-        concatUint8List(authorizedKeysBuffer)
+        concatUint8List(authorizedKeysBuffer),
       ]);
     }
 
@@ -414,7 +414,7 @@ class Transaction with _$Transaction {
         ucoTransfersBuffers = concatUint8List(<Uint8List>[
           ucoTransfersBuffers,
           Uint8List.fromList(hexToUint8List(ucoTransfer.to!)),
-          toByteArray(ucoTransfer.amount!, length: 8)
+          toByteArray(ucoTransfer.amount!, length: 8),
         ]);
       }
     }
@@ -431,7 +431,7 @@ class Transaction with _$Transaction {
           Uint8List.fromList(hexToUint8List(tokenTransfer.to!)),
           toByteArray(tokenTransfer.amount!, length: 8),
           Uint8List.fromList(<int>[bufTokenId.length]),
-          bufTokenId
+          bufTokenId,
         ]);
       }
     }
@@ -440,7 +440,7 @@ class Transaction with _$Transaction {
     for (final recipient in data!.recipients) {
       recipients = concatUint8List(<Uint8List>[
         recipients,
-        Uint8List.fromList(hexToUint8List(recipient))
+        Uint8List.fromList(hexToUint8List(recipient)),
       ]);
     }
 
@@ -472,7 +472,7 @@ class Transaction with _$Transaction {
       tokenTransfersBuffers,
       Uint8List.fromList(<int>[bufRecipientLength.length]),
       bufRecipientLength,
-      recipients
+      recipients,
     ]);
   }
 
@@ -502,7 +502,7 @@ class Transaction with _$Transaction {
                   'amount': x.amount == null ? 0 : x.amount!,
                 };
               }),
-            )
+            ),
           },
           'token': {
             'transfers': List<dynamic>.from(
@@ -511,17 +511,17 @@ class Transaction with _$Transaction {
                   'to': x.to == null ? '' : x.to!,
                   'amount': x.amount == null ? 0 : x.amount!,
                   'tokenAddress': x.tokenAddress,
-                  'tokenId': x.tokenId
+                  'tokenId': x.tokenId,
                 };
               }),
-            )
+            ),
           },
         },
         'recipients': List<dynamic>.from(data!.recipients.map((String x) => x)),
       },
       'previousPublicKey': previousPublicKey == null ? '' : previousPublicKey!,
       'previousSignature': previousSignature == null ? '' : previousSignature!,
-      'originSignature': originSignature == null ? '' : originSignature!
+      'originSignature': originSignature == null ? '' : originSignature!,
     });
     return json;
   }
@@ -533,9 +533,9 @@ class Transaction with _$Transaction {
       'ownerships': <Map<String, dynamic>>[],
       'ledger': {
         'uco': {'transfers': []},
-        'token': {'transfers': []}
+        'token': {'transfers': []},
       },
-      'recipients': []
+      'recipients': [],
     });
   }
 

@@ -46,7 +46,7 @@ class Keychain with _$Keychain {
           derivationPath: derivationPath,
           curve: curve,
           hashAlgo: hashAlgo,
-        )
+        ),
       },
     );
   }
@@ -61,7 +61,7 @@ class Keychain with _$Keychain {
         Uint8List.fromList(<int>[service.derivationPath.length]),
         Uint8List.fromList(service.derivationPath.codeUnits),
         Uint8List.fromList(<int>[crypto.curveToID(service.curve)]),
-        Uint8List.fromList(<int>[crypto.hashAlgoToID(service.hashAlgo)])
+        Uint8List.fromList(<int>[crypto.hashAlgoToID(service.hashAlgo)]),
       ]);
     });
 
@@ -70,7 +70,7 @@ class Keychain with _$Keychain {
       Uint8List.fromList(<int>[seed!.length]),
       seed!,
       Uint8List.fromList(<int>[services.length]),
-      Uint8List.fromList(servicesBuffer)
+      Uint8List.fromList(servicesBuffer),
     ]);
   }
 
@@ -118,7 +118,7 @@ class Keychain with _$Keychain {
 
     return concatUint8List(<Uint8List>[
       Uint8List.fromList(<int>[curveID]),
-      Uint8List.fromList(hashedPublicKey)
+      Uint8List.fromList(hashedPublicKey),
     ]);
   }
 
@@ -186,7 +186,7 @@ class Keychain with _$Keychain {
           'publicKeyJwk':
               keyToJWK(Uint8List.fromList(keyPair.publicKey!), serviceName)
                   .toJson(),
-          'controller': 'did:archethic:$address'
+          'controller': 'did:archethic:$address',
         });
 
         authentications.add('did:archethic:$address#$serviceName');
@@ -201,7 +201,7 @@ class Keychain with _$Keychain {
       ],
       'id': 'did:archethic:$address',
       'authentication': authentications,
-      'verificationMethod': verificationMethods
+      'verificationMethod': verificationMethods,
     };
   }
 }
@@ -289,7 +289,7 @@ Jwk keyToJWK(Uint8List publicKey, String keyId) {
         'kty': 'OKP',
         'crv': 'Ed25519',
         'x': base64Url.encode(key),
-        'kid': keyId
+        'kid': keyId,
       });
     case 1:
       final x = key.sublist(16);
@@ -299,7 +299,7 @@ Jwk keyToJWK(Uint8List publicKey, String keyId) {
         'crv': 'P-256',
         'x': base64Url.encode(x),
         'y': base64Url.encode(y),
-        'kid': keyId
+        'kid': keyId,
       });
     case 2:
       final x = key.sublist(16);
@@ -309,7 +309,7 @@ Jwk keyToJWK(Uint8List publicKey, String keyId) {
         'crv': 'secp256k1',
         'x': base64Url.encode(x),
         'y': base64Url.encode(y),
-        'kid': keyId
+        'kid': keyId,
       });
     default:
       throw Exception('Curve not supported');

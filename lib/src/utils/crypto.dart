@@ -111,7 +111,7 @@ String deriveAddress(
   return uint8ListToHex(
     concatUint8List(<Uint8List>[
       Uint8List.fromList(<int>[curveID]),
-      hashedPublicKey
+      hashedPublicKey,
     ]),
   );
 }
@@ -145,7 +145,7 @@ Uint8List hash(
 
   return concatUint8List(<Uint8List>[
     Uint8List.fromList(<int>[algoID]),
-    digest
+    digest,
   ]);
 }
 

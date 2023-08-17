@@ -16,6 +16,6 @@ class GenesisAddressResponseData {
   Address? address;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'genesisAddress': address == null ? '' : address!.address
+        'genesisAddress': address == null ? '' : address!.address,
       };
 }
