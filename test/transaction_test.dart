@@ -46,7 +46,7 @@ void main() {
                     '0001B1D3750EDB9381C96B1A975A55B5B4E4FB37BFAB104C10B0B6C9A00433EC4646',
                 encryptedSecretKey:
                     '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
-              )
+              ),
             ]).build('seed', 0, curve: 'P256', isSeedHexa: false);
         final dynamic parsedTx = json.decode(tx.convertToJSON());
         expect(
@@ -56,7 +56,7 @@ void main() {
                 'publicKey':
                     '0001B1D3750EDB9381C96B1A975A55B5B4E4FB37BFAB104C10B0B6C9A00433EC4646',
                 'encryptedSecretKey':
-                    '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'
+                    '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
               }
             ]);
 
@@ -136,7 +136,7 @@ void main() {
                     '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 encryptedSecretKey:
                     '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
-              )
+              ),
             ])
             .addUCOTransfer(
               '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
@@ -189,7 +189,7 @@ void main() {
               hexToUint8List(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
               ),
-            )
+            ),
           ]),
           // Nb of bytes to encode nb of uco transfers
           Uint8List.fromList(<int>[1]),
@@ -201,7 +201,7 @@ void main() {
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
               ),
             ),
-            toByteArray(toBigInt(0.2020), length: 8)
+            toByteArray(toBigInt(0.2020), length: 8),
           ]),
           // Nb of byte to encode nb of Token transfers
           Uint8List.fromList(<int>[1]),
@@ -220,7 +220,7 @@ void main() {
             ),
             toByteArray(toBigInt(100), length: 8),
             Uint8List.fromList(<int>[1]),
-            Uint8List.fromList(<int>[0])
+            Uint8List.fromList(<int>[0]),
           ]),
           // Nb of byte to encode nb of recipients
           Uint8List.fromList(<int>[1]),
@@ -230,7 +230,7 @@ void main() {
             hexToUint8List(
               '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
             ),
-          )
+          ),
         ]);
         expect(payload, expectedBinary);
       });
@@ -315,7 +315,7 @@ condition inherit: [
                     '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                 encryptedSecretKey:
                     '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
-              )
+              ),
             ])
             .addUCOTransfer(
               '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
@@ -376,7 +376,7 @@ condition inherit: [
               hexToUint8List(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
               ),
-            )
+            ),
           ]),
           // Nb of bytes to encode nb of uco transfers
           Uint8List.fromList(<int>[1]),
@@ -388,7 +388,7 @@ condition inherit: [
                 '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
               ),
             ),
-            toByteArray(toBigInt(0.2020), length: 8)
+            toByteArray(toBigInt(0.2020), length: 8),
           ]),
           // Nb of bytes to encode nb of Token transfers
           Uint8List.fromList(<int>[1]),
@@ -420,7 +420,7 @@ condition inherit: [
           ),
           Uint8List.fromList(transactionKeyPair.publicKey!),
           Uint8List.fromList(<int>[previousSig.length]),
-          previousSig
+          previousSig,
         ]);
         expect(payload, expectedBinary);
       });
@@ -467,7 +467,7 @@ condition inherit: [
                         '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
                     encryptedSecretKey:
                         '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
-                  )
+                  ),
                 ])
             .build('seed', 0, isSeedHexa: false)
             .originSign(
@@ -501,14 +501,14 @@ condition inherit: [
                 'publicKey':
                     '0001B1D3750EDB9381C96B1A975A55B5B4E4FB37BFAB104C10B0B6C9A00433EC4646',
                 'encryptedSecretKey':
-                    '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88'
+                    '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
               }
             ]);
         expect(
             parsedTx['data']['ledger']['uco']['transfers'][0], <String, Object>{
           'to':
               '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-          'amount': toBigInt(0.2193)
+          'amount': toBigInt(0.2193),
         });
       });
     });
@@ -537,7 +537,7 @@ condition inherit: [
         await Future<void>.delayed(const Duration(seconds: 2));
         await ApiService('http://localhost:4000').getTransactionContent({
           '000057cb7d188385325a30fddf5bca487ee1db525b7a3dc31a595d6f3425c06c93ce':
-              ''
+              '',
         });
         expect(true, true);
       });

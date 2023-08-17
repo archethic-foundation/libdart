@@ -55,7 +55,8 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
 
   /// Encoded Wallet (version, master seed, number of services, bip44, wallet curve)
   dev.log(
-      'Encoded Wallet (version, master seed, number of services, bip44, wallet curve)',);
+    'Encoded Wallet (version, master seed, number of services, bip44, wallet curve)',
+  );
   const encodedWallet =
       version + masterSeed + totalServices + bip44 + walletCurve;
   dev.log(encodedWallet);
@@ -71,7 +72,8 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
   /// IV encrypting Onchain Wallet (SHA256(SHA256(Wallet Key)))[0:16]
   dev.log('IV encrypting Onchain Wallet (SHA256(SHA256(Wallet Key)))[0:16]');
   final walletEncryptionKeyEncrypted = sha256.process(
-      sha256.process(Uint8List.fromList(hexToUint8List(walletEncryptionKey))),);
+    sha256.process(Uint8List.fromList(hexToUint8List(walletEncryptionKey))),
+  );
   final walletEncryptionIv =
       uint8ListToHex(walletEncryptionKeyEncrypted.sublist(0, 16)).toUpperCase();
   dev.log(walletEncryptionIv);
@@ -80,14 +82,17 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
   dev.log('Encryption of Encoded Wallet (AES256 CTR)');
   final ctr = pc.CTRStreamCipher(pc.AESEngine())
     ..init(
-        false,
-        pc.ParametersWithIV(
-            pc.KeyParameter(
-                Uint8List.fromList(hexToUint8List(walletEncryptionKey)),),
-            Uint8List.fromList(hexToUint8List(walletEncryptionIv)),),);
+      false,
+      pc.ParametersWithIV(
+        pc.KeyParameter(
+          Uint8List.fromList(hexToUint8List(walletEncryptionKey)),
+        ),
+        Uint8List.fromList(hexToUint8List(walletEncryptionIv)),
+      ),
+    );
   final encryptedWallet = uint8ListToHex(
-          ctr.process(Uint8List.fromList(hexToUint8List(encodedWallet))),)
-      .toUpperCase();
+    ctr.process(Uint8List.fromList(hexToUint8List(encodedWallet))),
+  ).toUpperCase();
   dev.log(encryptedWallet);
 
   /// ECDH Curve (0:ed25519, 1:nistp256, 2:secp256k1)
@@ -100,8 +105,10 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
   //elliptic.PrivateKey ephemeralPrivKey = curve.generatePrivateKey();
   //final elliptic.PublicKey ephemeralPubKey =
   //    curve.privateToPublicKey(ephemeralPrivKey);
-  final ephemeralPrivKey = elliptic.PrivateKey.fromHex(curve,
-      '7E7CA9D1191E1E822A268B71D7B389D2ECDD2A8F5048EEAA4517CD7BD436ADC5',);
+  final ephemeralPrivKey = elliptic.PrivateKey.fromHex(
+    curve,
+    '7E7CA9D1191E1E822A268B71D7B389D2ECDD2A8F5048EEAA4517CD7BD436ADC5',
+  );
   final ephemeralPubKey = curve.privateToPublicKey(ephemeralPrivKey);
   dev.log(ephemeralPubKey.toHex());
 
@@ -113,7 +120,8 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
 
   /// ECDH Point x: ECDH(Origin Device Public Key, Ephemeral Private Key)
   dev.log(
-      'ECDH Point x: ECDH(Origin Device Public Key, Ephemeral Private Key)',);
+    'ECDH Point x: ECDH(Origin Device Public Key, Ephemeral Private Key)',
+  );
   final ecdhSecret =
       Uint8List.fromList(ecdh.computeSecret(ephemeralPrivKey, ledger));
   dev.log(uint8ListToHex(ecdhSecret));
@@ -134,21 +142,24 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
   dev.log('Encryption of Wallet Key (AES256 CBC)');
   final cbc = pc.CBCBlockCipher(pc.AESEngine())
     ..init(
-        true,
-        pc.ParametersWithIV(
-            pc.KeyParameter(Uint8List.fromList(hexToUint8List(aesKey))),
-            Uint8List.fromList(hexToUint8List(iv)),),);
+      true,
+      pc.ParametersWithIV(
+        pc.KeyParameter(Uint8List.fromList(hexToUint8List(aesKey))),
+        Uint8List.fromList(hexToUint8List(iv)),
+      ),
+    );
   final encryptedWalletKey = Uint8List(
-      Uint8List.fromList(hexToUint8List(walletEncryptionKey))
-          .length,); // allocate space
+    Uint8List.fromList(hexToUint8List(walletEncryptionKey)).length,
+  ); // allocate space
   var offset = 0;
   while (
       offset < Uint8List.fromList(hexToUint8List(walletEncryptionKey)).length) {
     offset += cbc.processBlock(
-        Uint8List.fromList(hexToUint8List(walletEncryptionKey)),
-        offset,
-        encryptedWalletKey,
-        offset,);
+      Uint8List.fromList(hexToUint8List(walletEncryptionKey)),
+      offset,
+      encryptedWalletKey,
+      offset,
+    );
   }
 
   dev.log(uint8ListToHex(encryptedWalletKey));
@@ -166,7 +177,8 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
 
   /// Authentication Tag: HMAC256(Authentication Key, Encrypted Wallet Key)[0:16]
   dev.log(
-      'Authentication Tag: HMAC256(Authentication Key, Encrypted Wallet Key)[0:16]',);
+    'Authentication Tag: HMAC256(Authentication Key, Encrypted Wallet Key)[0:16]',
+  );
 
   final hmac = pc.HMac(pc.SHA256Digest(), 64)..init(pc.KeyParameter(authKey));
   final authTag =
@@ -175,20 +187,24 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
 
   /// Encoding of Encrypted Wallet Key(ephemeral public key, authentication tag, encrypted wallet key):
   dev.log(
-      'Encoding of Encrypted Wallet Key(ephemeral public key, authentication tag, encrypted wallet key)',);
+    'Encoding of Encrypted Wallet Key(ephemeral public key, authentication tag, encrypted wallet key)',
+  );
   final encodedWalletKey =
       ephemeralPubKey.toHex() + authTag + uint8ListToHex(encryptedWalletKey);
   dev.log(encodedWalletKey);
 
   final onChainWalletData = OnChainWalletData(
-      encodedWalletKey: encodedWalletKey, encryptedWallet: encryptedWallet,);
+    encodedWalletKey: encodedWalletKey,
+    encryptedWallet: encryptedWallet,
+  );
 
   var payload = concatUint8List(<Uint8List>[
     Uint8List.fromList(hexToUint8List(onChainWalletData.encodedWalletKey!)),
-    Uint8List.fromList(hexToUint8List(onChainWalletData.encryptedWallet!))
+    Uint8List.fromList(hexToUint8List(onChainWalletData.encryptedWallet!)),
   ]);
   var payloadLength = Uint8List.fromList(
-      hexToUint8List(payload.lengthInBytes.toRadixString(16)),);
+    hexToUint8List(payload.lengthInBytes.toRadixString(16)),
+  );
   final addressPayload = concatUint8List(<Uint8List>[payloadLength, payload]);
   dev.log('addressPayload: ${uint8ListToHex(addressPayload)}');
 
@@ -197,7 +213,8 @@ OnChainWalletData walletEncoderTest(String originPublicKey) {
 
   payload = concatUint8List(<Uint8List>[txHash, payload]);
   payloadLength = Uint8List.fromList(
-      hexToUint8List(payload.lengthInBytes.toRadixString(16)),);
+    hexToUint8List(payload.lengthInBytes.toRadixString(16)),
+  );
   final signPayload = concatUint8List(<Uint8List>[payloadLength, payload]);
   dev.log('signPayload: ${uint8ListToHex(signPayload)}');
   return onChainWalletData;

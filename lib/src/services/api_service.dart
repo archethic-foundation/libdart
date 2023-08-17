@@ -708,7 +708,7 @@ class ApiService with JsonRPCUtil {
           Uint8List.fromList(keypair.publicKey!),
         ),
         encryptedSecretKey: uint8ListToHex(encryptedSecretKey),
-      )
+      ),
     ];
 
     return Transaction(type: 'keychain_access', data: Transaction.initData())
@@ -760,7 +760,7 @@ class ApiService with JsonRPCUtil {
         [
           lastTransactionKeychainMap[uint8ListToHex(keychainAddress)]!
               .address!
-              .address!
+              .address!,
         ],
       );
       final ownership2 = ownerships2Map[
@@ -807,7 +807,7 @@ class ApiService with JsonRPCUtil {
         'method': 'add_origin_key',
         'params': <String, String>{
           'origin_public_key': originPublicKey!,
-          'certificate': certificate!
+          'certificate': certificate!,
         },
         'id': 1,
       };
@@ -838,7 +838,7 @@ class ApiService with JsonRPCUtil {
     } else {
       final body = jsonEncode(<String, String>{
         'origin_public_key': originPublicKey!,
-        'certificate': certificate!
+        'certificate': certificate!,
       });
       log(
         'addOriginKey: requestHttp.body=$body',

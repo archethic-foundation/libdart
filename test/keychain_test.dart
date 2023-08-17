@@ -38,7 +38,7 @@ void main() {
           'type': 'JsonWebKey2020',
           'publicKeyJwk':
               keyToJWK(Uint8List.fromList(keyPair.publicKey!), 'uco').toJson(),
-          'controller': 'did:archethic:$address'
+          'controller': 'did:archethic:$address',
         }
       ];
 
@@ -76,7 +76,7 @@ void main() {
         Uint8List.fromList(<int>[10]), // Derivation path length,
         Uint8List.fromList(utf8.encode("m/650'/0/0")),
         Uint8List.fromList(<int>[0]), // Ed25519 curve
-        Uint8List.fromList(<int>[0]) // SHA256 hash algo
+        Uint8List.fromList(<int>[0]), // SHA256 hash algo
       ]);
 
       expect(keychain.encode(), expectedBinary);
@@ -93,7 +93,7 @@ void main() {
         Uint8List.fromList(<int>[10]), // Derivation path length,
         Uint8List.fromList(utf8.encode("m/650'/0/0")),
         Uint8List.fromList(<int>[0]), // Ed25519 curve
-        Uint8List.fromList(<int>[0]) // SHA256 hash algo
+        Uint8List.fromList(<int>[0]), // SHA256 hash algo
       ]);
 
       final keychain = decodeKeychain(binary);
@@ -104,8 +104,8 @@ void main() {
           'uco': {
             'derivationPath': "m/650'/0/0",
             'curve': 'ed25519',
-            'hashAlgo': 'sha256'
-          }
+            'hashAlgo': 'sha256',
+          },
         }),
         json.encode(keychain.services),
       );
@@ -147,7 +147,7 @@ void main() {
           <String>[
             uint8ListToHex(
               Uint8List.fromList(walletKeyPair.publicKey!),
-            )
+            ),
           ],
           Uint8List.fromList(hexToUint8List(originPrivateKey)),
           serviceName: kServiceName,
@@ -284,7 +284,7 @@ void main() {
           <String>[
             uint8ListToHex(
               Uint8List.fromList(walletKeyPair.publicKey!),
-            )
+            ),
           ],
           Uint8List.fromList(hexToUint8List(originPrivateKey)),
           serviceName: kServiceName,
@@ -366,7 +366,7 @@ void main() {
         Uint8List.fromList(<int>[10]), // Derivation path length,
         Uint8List.fromList(utf8.encode("m/650'/0/0")),
         Uint8List.fromList(<int>[0]), // Ed25519 curve
-        Uint8List.fromList(<int>[0]) // SHA256 hash algo
+        Uint8List.fromList(<int>[0]), // SHA256 hash algo
       ]);
 
       final keychain = decodeKeychain(binary);
@@ -377,8 +377,8 @@ void main() {
           'uco': {
             'derivationPath': "m/650'/0/0",
             'curve': 'ed25519',
-            'hashAlgo': 'sha256'
-          }
+            'hashAlgo': 'sha256',
+          },
         }),
         json.encode(keychain.services),
       );
