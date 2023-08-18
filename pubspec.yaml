@@ -13,7 +13,7 @@ dependencies:
   archive: ^3.3.7
 
   # Collections and utilities functions and classes related to collections.
-  collection: ^1.18.0
+  collection: ^1.14.13
 
   # Implementations of SHA, MD5, and HMAC cryptographic functions
   crypto: ^3.0.3
