@@ -49,4 +49,3 @@ ios/Flutter/Release.xcconfig
 ios/Flutter/Debug.xcconfig
 macos/Flutter/Flutter-Debug.xcconfig
 macos/Flutter/Flutter-Release.xcconfig
-pubspec.lock
