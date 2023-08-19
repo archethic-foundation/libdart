@@ -39,9 +39,6 @@ dependencies:
   # A composable, multi-platform, Future-based API for HTTP requests
   http: ^1.0.0
 
-  # Annotations for the JsonSerializable code-generator.
-  json_annotation: ^4.8.1
-
   # JWK (JSON Web Key) encoding and decoding
   jwk: ^0.2.2
 
@@ -57,9 +54,6 @@ dependencies:
   # Quiver is a set of utility libraries for Dart that makes using many Dart libraries easier and more convenient, or adds additional functionality.
   quiver: ^3.2.1
 
-  # Pure secp256k1 signature algorithm implement for dart language which uses pure dart and basic types to represent all matters
-  secp256k1: ^0.3.0
-
   # Dart port of Curve25519
   x25519: ^0.1.1
 
@@ -67,8 +61,8 @@ dev_dependencies:
   # A build system for Dart code generation and modular compilation.
   build_runner: ^2.4.6
 
-  # Recommended lints for Flutter apps, packages, and plugins to encourage good coding practices.
-  flutter_lints: ^2.0.2
+  # A tool to help you find missing, under-promoted, over-promoted, and unused dependencies.
+  dependency_validator: ^3.2.2
 
   # Code generation for immutable classes that has a simple syntax/API without compromising on the features
   freezed: ^2.4.2
