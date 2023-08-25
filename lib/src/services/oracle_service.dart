@@ -5,9 +5,10 @@ import 'package:archethic_lib_dart/src/model/oracle_chain/oracle_uco_price.dart'
 import 'package:archethic_lib_dart/src/model/response/oracle_data_response.dart';
 import 'package:archethic_lib_dart/src/model/uco.dart';
 import 'package:archethic_lib_dart/src/utils/logs.dart';
+import 'package:archethic_lib_dart/src/utils/oracle/oracle_util.dart';
 import 'package:http/http.dart' as http show post;
 
-class OracleService {
+class OracleService with OracleMixin {
   OracleService(this.endpoint, {this.logsActivation = true});
 
   /// [endpoint] is the HTTP URL to a Archethic node (acting as welcome node)
@@ -58,6 +59,7 @@ class OracleService {
             oracleDataResponse.data!.oracleData!.services != null &&
             oracleDataResponse.data!.oracleData!.services!.uco != null) {
           oracleUcoPrice = OracleUcoPrice(
+            timestamp: oracleDataResponse.data!.oracleData!.timestamp,
             uco: Uco(
               eur: oracleDataResponse.data!.oracleData!.services!.uco!.eur,
               usd: oracleDataResponse.data!.oracleData!.services!.uco!.usd,
@@ -74,5 +76,13 @@ class OracleService {
 
     completer.complete(oracleUcoPrice);
     return completer.future;
+  }
+
+  /// Subscribe to be notified when a new oracle data is stored
+  Future<OracleUcoPrice?> subscribeToOracle() async {
+    final oracleUcoPrice = await subscribeToOracleUpdates(
+      endpoint: endpoint!,
+    );
+    return oracleUcoPrice;
   }
 }
