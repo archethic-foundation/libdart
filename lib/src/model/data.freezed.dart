@@ -33,7 +33,7 @@ mixin _$Data {
   Ledger? get ledger => throw _privateConstructorUsedError;
 
   /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
-  List<String> get recipients => throw _privateConstructorUsedError;
+  List<Recipient> get recipients => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +50,7 @@ abstract class $DataCopyWith<$Res> {
       String? content,
       List<Ownership> ownerships,
       Ledger? ledger,
-      List<String> recipients});
+      List<Recipient> recipients});
 
   $LedgerCopyWith<$Res>? get ledger;
 }
@@ -94,7 +94,7 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
       recipients: null == recipients
           ? _value.recipients
           : recipients // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Recipient>,
     ) as $Val);
   }
 
@@ -122,7 +122,7 @@ abstract class _$$_DataCopyWith<$Res> implements $DataCopyWith<$Res> {
       String? content,
       List<Ownership> ownerships,
       Ledger? ledger,
-      List<String> recipients});
+      List<Recipient> recipients});
 
   @override
   $LedgerCopyWith<$Res>? get ledger;
@@ -163,7 +163,7 @@ class __$$_DataCopyWithImpl<$Res> extends _$DataCopyWithImpl<$Res, _$_Data>
       recipients: null == recipients
           ? _value.recipients
           : recipients // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Recipient>,
     ));
   }
 }
@@ -201,7 +201,7 @@ class _$_Data extends _Data {
   /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
   @override
   @JsonKey()
-  final List<String> recipients;
+  final List<Recipient> recipients;
 
   @override
   String toString() {
@@ -252,7 +252,7 @@ abstract class _Data extends Data {
       final String? content,
       final List<Ownership> ownerships,
       final Ledger? ledger,
-      final List<String> recipients}) = _$_Data;
+      final List<Recipient> recipients}) = _$_Data;
   const _Data._() : super._();
 
   factory _Data.fromJson(Map<String, dynamic> json) = _$_Data.fromJson;
@@ -276,7 +276,7 @@ abstract class _Data extends Data {
   @override
 
   /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
-  List<String> get recipients;
+  List<Recipient> get recipients;
   @override
   @JsonKey(ignore: true)
   _$$_DataCopyWith<_$_Data> get copyWith => throw _privateConstructorUsedError;

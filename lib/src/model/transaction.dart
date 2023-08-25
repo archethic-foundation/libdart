@@ -1,12 +1,14 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:archethic_lib_dart/features_flags.dart';
 import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
 import 'package:archethic_lib_dart/src/model/cross_validation_stamp.dart';
 import 'package:archethic_lib_dart/src/model/data.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';
+import 'package:archethic_lib_dart/src/model/recipient.dart';
 import 'package:archethic_lib_dart/src/model/token_transfer.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
@@ -21,7 +23,7 @@ import 'package:hex/hex.dart';
 part 'transaction.freezed.dart';
 part 'transaction.g.dart';
 
-const int cVersion = 1;
+const int cVersion = FeatureFlags.txVersion2 ? 2 : 1;
 
 const Map<String, int> txTypes = <String, int>{
   /// User based transaction types
@@ -276,14 +278,21 @@ class Transaction with _$Transaction {
     );
   }
 
-  /// Add recipient to the transaction
+  /// Add recipient to the transaction (with a named action)
   /// @param {String} to Recipient address (hexadecimal)
-  Transaction addRecipient(String to) {
+  /// @param {string} action The named action
+  /// @param {List<Object>} args The arguments list for the named action (can only contain JSON valid data)
+  Transaction addRecipient(
+    String to, {
+    String? action,
+    List<Object>? args,
+  }) {
     if (!isHex(to)) {
       throw const FormatException("'to' must be an hexadecimal string");
     }
 
-    final newRecipient = data!.recipients..add(to);
+    final newRecipient = data!.recipients
+      ..add(Recipient(address: to, action: action, args: args));
     return copyWith.data!(
       recipients: newRecipient,
     );
@@ -436,12 +445,43 @@ class Transaction with _$Transaction {
       }
     }
 
+    var recipientsBuffers = Uint8List(0);
     var recipients = Uint8List(0);
-    for (final recipient in data!.recipients) {
-      recipients = concatUint8List(<Uint8List>[
-        recipients,
-        Uint8List.fromList(hexToUint8List(recipient)),
-      ]);
+    if (FeatureFlags.txVersion2) {
+      if (data!.recipients.isNotEmpty) {
+        for (final recipient in data!.recipients) {
+          if (recipient.action == null && recipient.args == null) {
+            recipientsBuffers = concatUint8List(<Uint8List>[
+              recipientsBuffers,
+              // 0 = unnamed action
+              Uint8List.fromList([0]),
+              Uint8List.fromList(hexToUint8List(recipient.address!)),
+            ]);
+          } else {
+            final jsonArgs = jsonEncode(recipient.args);
+            final bufJsonLength = toByteArray(jsonArgs.length);
+
+            recipientsBuffers = concatUint8List(<Uint8List>[
+              recipientsBuffers,
+              // 1 = named action
+              Uint8List.fromList([1]),
+              Uint8List.fromList(hexToUint8List(recipient.address!)),
+              Uint8List.fromList(toByteArray(recipient.action!.length)),
+              Uint8List.fromList(utf8.encode(recipient.action!)),
+              Uint8List.fromList([bufJsonLength.length]),
+              bufJsonLength,
+              Uint8List.fromList(utf8.encode(jsonArgs)),
+            ]);
+          }
+        }
+      }
+    } else {
+      for (final recipient in data!.recipients) {
+        recipients = concatUint8List(<Uint8List>[
+          recipients,
+          Uint8List.fromList(hexToUint8List(recipient.address!)),
+        ]);
+      }
     }
 
     final bufOwnershipLength =
@@ -472,7 +512,7 @@ class Transaction with _$Transaction {
       tokenTransfersBuffers,
       Uint8List.fromList(<int>[bufRecipientLength.length]),
       bufRecipientLength,
-      recipients,
+      if (FeatureFlags.txVersion2) recipientsBuffers else recipients,
     ]);
   }
 
@@ -517,7 +557,25 @@ class Transaction with _$Transaction {
             ),
           },
         },
-        'recipients': List<dynamic>.from(data!.recipients.map((String x) => x)),
+        'recipients': FeatureFlags.txVersion2
+            ? List<dynamic>.from(
+                data!.recipients.map(
+                  (Recipient x) {
+                    return {
+                      'address': x.address == null ? '' : x.address!,
+                      'action': x.action == null ? '' : x.action!,
+                      'args': x.args == null ? '' : x.args!,
+                    };
+                  },
+                ),
+              )
+            : List<dynamic>.from(
+                data!.recipients.map(
+                  (Recipient x) {
+                    return x.address!;
+                  },
+                ),
+              ),
       },
       'previousPublicKey': previousPublicKey == null ? '' : previousPublicKey!,
       'previousSignature': previousSignature == null ? '' : previousSignature!,
@@ -547,36 +605,4 @@ class Transaction with _$Transaction {
 
   static const String kBalanceQueryAllFields =
       ' token { address, amount, tokenId }, uco ';
-}
-
-String transactionEncoding() {
-  /// Version: 4 bytes
-  /// Sender Address: See Address
-  /// Transaction type: 1 byte
-  /// Transaction data:[
-  ///   - Smart contract size: 4 bytes
-  ///   - Smart contract code: X bytes
-  ///   - Content size: 4 bytes
-  ///   - Content: X bytes
-  ///   - Ownerships length: 1 byte
-  ///   - Ownerships:[
-  ///     - Secret size: 4 bytes
-  ///     - Secret: X bytes
-  ///     - Authorized keys length: 1 byte
-  ///     - Authorized keys: list[]
-  ///   - Ledger:
-  ///     - UCO Ledger
-  ///       - Transfers length: 1 byte
-  ///       - Transfers: recipient | amount * 10^8 [8 bytes]
-  ///     - Token Ledger
-  ///       - Transfers length: 1 byte
-  ///       - Transfers: token | recipient | amount * 10^8 [8 bytes]
-  ///   - Recipients (size): 1 byte
-  ///   - Recipients: X bytes
-  ///   - Previous public key: curve_type [1 byte] | origin_type [1 byte] | raw_key 04xy [bytes]
-  ///   - Previous signature: X bytes
-  ///   - Previous signature is computed from [version, address, type, data]
-  ///   - Origin signature: X bytes (May be computed by the host)
-  ///   - Origin signature is computed from [version, address, type, data, previous public key, previous signature]
-  return '';
 }
