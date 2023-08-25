@@ -72,8 +72,6 @@ class ApiService with JsonRPCUtil {
 
     if (FeatureFlags.apiRPCMethod) {
       try {
-        //final jsonRPCRequest =
-        //    setJsonRPCRequest('send_transaction', {'transaction': transaction});
         final jsonRPCRequest = setJsonRPCRequest(
           'send_transaction',
           {
