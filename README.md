@@ -158,8 +158,14 @@ It supports the Archethic Cryptography rules which are:
   - `tokenId` is the ID of the token to use (default to 0)
 
   #### addRecipient(to)
-  Add a recipient (for non UCO transfers, ie. smart contract interaction) to the `data.recipient` section of the transaction
-  - `to` is hexadecimal encoding or Uint8List representing the transaction address (recipient)
+  Add a recipient to call the smart contract's "transaction" action.
+  - `to` is the contract's address in hexadecimal or Uint8Array
+
+  #### addRecipientWithNamedAction(to, action, args)
+  Add a recipient to call a specific smart contract's action.
+  - `to` is the contract's address in hexadecimal or Uint8Array
+  - `action` is the name of the action
+  - `args` is the list of arguments for the action (must contain only JSON valid data)
   
   #### build(seed, index, curve, hashAlgo, isSeedHexa)
   Generate `address`, `timestamp`, `previousPublicKey`, `previousSignature` of the transaction and 

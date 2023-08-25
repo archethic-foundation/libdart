@@ -3,6 +3,7 @@
 // Project imports:
 import 'package:archethic_lib_dart/src/model/ledger.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';
+import 'package:archethic_lib_dart/src/model/recipient.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// TransactionData represents the data section for every transaction.
@@ -26,7 +27,7 @@ class Data with _$Data {
     Ledger? ledger,
 
     /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
-    @Default([]) final List<String> recipients,
+    @Default([]) final List<Recipient> recipients,
   }) = _Data;
   const Data._();
 
