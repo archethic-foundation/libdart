@@ -79,7 +79,7 @@ class OracleService {
   }
 
   /// Subscribe to be notified when a new oracle data is stored
-  Future<void> subscribeToOracleUpdates(
+  Future<ArchethicOracle> subscribeToOracleUpdates(
     Function(OracleUcoPrice?) onUpdate,
   ) async {
     String websocketEndpoint;
@@ -103,5 +103,12 @@ class OracleService {
     await oracleRepository.subscribeToOracleUpdates(
       onUpdate: onUpdate,
     );
+
+    return oracleRepository;
+  }
+
+  /// Close the subscription
+  void closeOracleUpdatesSubscription(ArchethicOracle archethicOracle) {
+    archethicOracle.close();
   }
 }
