@@ -9,9 +9,6 @@ import 'package:archethic_lib_dart/src/model/uco.dart';
 OracleDataResponse oracleDataResponseFromJson(String str) =>
     OracleDataResponse.fromJson(json.decode(str));
 
-OracleUpdateResponse oracleUpdateResponseFromJson(String str) =>
-    OracleUpdateResponse.fromJson(json.decode(str));
-
 String oracleDataResponseToJson(OracleDataResponse data) =>
     json.encode(data.toJson());
 
@@ -29,40 +26,6 @@ class OracleDataResponse {
 
   Map<String, dynamic> toJson() => {
         'data': data!.toJson(),
-      };
-}
-
-class OracleUpdateResponse {
-  OracleUpdateResponse({
-    this.data,
-  });
-
-  factory OracleUpdateResponse.fromJson(Map<String, dynamic> json) =>
-      OracleUpdateResponse(
-        data: OracleUpdateData.fromJson(json['data']),
-      );
-
-  OracleUpdateData? data;
-
-  Map<String, dynamic> toJson() => {
-        'data': data!.toJson(),
-      };
-}
-
-class OracleUpdateData {
-  OracleUpdateData({
-    this.oracleData,
-  });
-
-  factory OracleUpdateData.fromJson(Map<String, dynamic> json) =>
-      OracleUpdateData(
-        oracleData: OracleDataClass.fromJson(json['oracleUpdate']),
-      );
-
-  OracleDataClass? oracleData;
-
-  Map<String, dynamic> toJson() => {
-        'oracleData': oracleData!.toJson(),
       };
 }
 

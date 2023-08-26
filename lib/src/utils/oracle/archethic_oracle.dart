@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:archethic_lib_dart/src/model/response/oracle_data_response.dart';
 import 'package:graphql/client.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
@@ -93,21 +91,7 @@ class ArchethicOracle {
     ).listen(
       (result) async {
         log('Oracle value: ${result.timestamp}');
-        var oracleUcoPrice = const OracleUcoPrice(uco: Uco(eur: 0, usd: 0));
-        final oracleDataResponse =
-            oracleUpdateResponseFromJson(jsonEncode(result.data));
-        if (oracleDataResponse.data != null &&
-            oracleDataResponse.data!.oracleData != null &&
-            oracleDataResponse.data!.oracleData!.services != null &&
-            oracleDataResponse.data!.oracleData!.services!.uco != null) {
-          oracleUcoPrice = OracleUcoPrice(
-            timestamp: oracleDataResponse.data!.oracleData!.timestamp,
-            uco: Uco(
-              eur: oracleDataResponse.data!.oracleData!.services!.uco!.eur,
-              usd: oracleDataResponse.data!.oracleData!.services!.uco!.usd,
-            ),
-          );
-        }
+        final oracleUcoPrice = _oracleUcoPriceDtoToModel(data: result.data);
 
         log(
           '>>> Oracle update <<< ($oracleUcoPrice)',
@@ -116,6 +100,21 @@ class ArchethicOracle {
           oracleUcoPrice,
         );
       },
+    );
+  }
+
+  OracleUcoPrice? _oracleUcoPriceDtoToModel({
+    Map<String, dynamic>? data,
+  }) {
+    final oracleUpdate = data?['oracleUpdate'];
+    if (oracleUpdate == null) return null;
+
+    return OracleUcoPrice(
+      timestamp: oracleUpdate?['timestamp'],
+      uco: Uco(
+        eur: oracleUpdate?['services']['uco']['eur'],
+        usd: oracleUpdate?['services']['uco']['usd'],
+      ),
     );
   }
 }

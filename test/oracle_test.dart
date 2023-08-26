@@ -1,6 +1,7 @@
 library test.oracle_test;
 
 // Project imports:
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:archethic_lib_dart/src/services/oracle_service.dart';
@@ -25,12 +26,25 @@ void main() {
       });
 
       test('subscribeToOracleUpdates', () async {
+        final completer = Completer<void>();
+
         await OracleService('https://mainnet.archethic.net')
             .subscribeToOracle((data) {
           if (data == null) {
             log('Oracle value null');
           } else {
-            log('Oracle value: ${data.timestamp} - ${data.uco} UCO');
+            log('Oracle value: ${data.timestamp} - ${data.uco}');
+          }
+
+          if (!completer.isCompleted) {
+            completer.complete();
+          }
+        });
+
+        await Future.delayed(const Duration(minutes: 1), () {
+          if (!completer.isCompleted) {
+            log('Timeout reached');
+            completer.complete();
           }
         });
       });
