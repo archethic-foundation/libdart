@@ -95,7 +95,7 @@ class ArchethicOracle {
         log('Oracle value: ${result.timestamp}');
         var oracleUcoPrice = const OracleUcoPrice(uco: Uco(eur: 0, usd: 0));
         final oracleDataResponse =
-            oracleDataResponseFromJson(jsonEncode(result.data));
+            oracleUpdateResponseFromJson(jsonEncode(result.data));
         if (oracleDataResponse.data != null &&
             oracleDataResponse.data!.oracleData != null &&
             oracleDataResponse.data!.oracleData!.services != null &&
