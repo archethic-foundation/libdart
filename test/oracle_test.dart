@@ -25,10 +25,14 @@ void main() {
       });
 
       test('subscribeToOracleUpdates', () async {
-        final oracleUcoPrice =
-            await OracleService('https://mainnet.archethic.net')
-                .subscribeToOracle();
-        log('oracleUcoPrice $oracleUcoPrice');
+        await OracleService('https://mainnet.archethic.net')
+            .subscribeToOracle((data) {
+          if (data == null) {
+            log('Oracle value null');
+          } else {
+            log('Oracle value: ${data.timestamp} - ${data.uco} UCO');
+          }
+        });
       });
     },
     tags: <String>['noCI'],

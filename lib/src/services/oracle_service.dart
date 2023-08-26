@@ -5,10 +5,10 @@ import 'package:archethic_lib_dart/src/model/oracle_chain/oracle_uco_price.dart'
 import 'package:archethic_lib_dart/src/model/response/oracle_data_response.dart';
 import 'package:archethic_lib_dart/src/model/uco.dart';
 import 'package:archethic_lib_dart/src/utils/logs.dart';
-import 'package:archethic_lib_dart/src/utils/oracle/oracle_util.dart';
+import 'package:archethic_lib_dart/src/utils/oracle/archethic_oracle.dart';
 import 'package:http/http.dart' as http show post;
 
-class OracleService with OracleMixin {
+class OracleService {
   OracleService(this.endpoint, {this.logsActivation = true});
 
   /// [endpoint] is the HTTP URL to a Archethic node (acting as welcome node)
@@ -79,10 +79,29 @@ class OracleService with OracleMixin {
   }
 
   /// Subscribe to be notified when a new oracle data is stored
-  Future<OracleUcoPrice?> subscribeToOracle() async {
-    final oracleUcoPrice = await subscribeToOracleUpdates(
-      endpoint: endpoint!,
+  Future<void> subscribeToOracle(
+    Function(OracleUcoPrice?) onUpdate,
+  ) async {
+    String websocketEndpoint;
+    switch (endpoint) {
+      case 'https://mainnet.archethic.net':
+      case 'https://testnet.archethic.net':
+        websocketEndpoint =
+            "${endpoint!.replaceAll('https:', 'wss:').replaceAll('http:', 'wss:')}/socket/websocket";
+        break;
+      default:
+        websocketEndpoint =
+            "${endpoint!.replaceAll('https:', 'wss:').replaceAll('http:', 'ws:')}/socket/websocket";
+        break;
+    }
+
+    final oracleRepository = ArchethicOracle(
+      phoenixHttpEndpoint: '$endpoint/socket/websocket',
+      websocketEndpoint: websocketEndpoint,
     );
-    return oracleUcoPrice;
+
+    await oracleRepository.subscribeToOracleUpdates(
+      onUpdate: onUpdate,
+    );
   }
 }

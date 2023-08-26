@@ -29,7 +29,7 @@ class ArchethicOracle {
 
   /// Subscribe to oracle updates
   Future<void> subscribeToOracleUpdates({
-    required OracleUpdatesHandler onUpdate,
+    Function(OracleUcoPrice?)? onUpdate,
   }) async {
     await _connect(
       phoenixHttpEndpoint,
@@ -37,7 +37,7 @@ class ArchethicOracle {
     );
 
     _listenOracleUpdates(
-      onUpdate,
+      onUpdate!,
     );
   }
 
@@ -86,13 +86,13 @@ class ArchethicOracle {
   }
 
   void _listenOracleUpdates(
-    OracleUpdatesHandler onUpdate,
+    Function(OracleUcoPrice?) onUpdate,
   ) {
     _oracleUpdatesSubscription = _subscribe<OracleUcoPrice>(
       'subscription { oracleUpdate { timestamp, services { uco { eur, usd } } } }',
     ).listen(
-      (result) {
-        close();
+      (result) async {
+        log('Oracle value: ${result.timestamp}');
         var oracleUcoPrice = const OracleUcoPrice(uco: Uco(eur: 0, usd: 0));
         final oracleDataResponse =
             oracleDataResponseFromJson(jsonEncode(result.data));
@@ -112,14 +112,10 @@ class ArchethicOracle {
         log(
           '>>> Oracle update <<< ($oracleUcoPrice)',
         );
-        onUpdate(
+        await onUpdate(
           oracleUcoPrice,
         );
       },
     );
   }
 }
-
-typedef OracleUpdatesHandler = Future<void> Function(
-  OracleUcoPrice update,
-);
