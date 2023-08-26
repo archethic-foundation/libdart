@@ -292,6 +292,20 @@ It supports the Archethic Cryptography rules which are:
   // 00b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646
   ``` 
 
+  #### getOracleData(timestamp)
+  Fetch the OracleChain data
+  return a value of Oracle Uco_Price in {OracleUcoPrice} from a timestamp
+  If timestamp = 0 or not precised, the last price is returned
+  - `timestamp`: UNIX timestamp (optional)
+
+  ```dart
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+
+  final oracleData =
+          await OracleService('https://testnet.archethic.net').getOracleData(timestamp);
+  final eurConversionRate = oracleUcoPrice.uco?.eur;
+  final usdConversionRate = oracleUcoPrice.uco?.usd;
+  ```
   #### getTransactionFee(tx)
   Query a node to fetch the tx fee for a given transaction
   Calls the 'estimate_transaction_fee' JSON-RPC 2.0 method
@@ -303,6 +317,29 @@ It supports the Archethic Cryptography rules which are:
 
   Transaction tx = Transaction(...)
   TransactionFee transactionFee = await ApiService('https://testnet.archethic.net').getTransactionFee(tx);
+  ```
+
+  #### subscribeToOracleUpdates(handler)
+  Subscribe to get the real time updates of the OracleChain
+  - `handler`: Callback to handle the new data
+
+  ```dart
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+  
+  await OracleService('https://testnet.archethic.net')
+            .subscribeToOracleUpdates((data) {
+        log('Oracle value: ${data.timestamp} - ${data.uco!.usd} USD');
+        // TODO with
+        {
+          timestamp: ...,
+            services: {
+            uco: {
+             eur: ...,
+             usd: ...
+            }
+          }
+        }
+    });
   ```
 
   #### getTransactionOwnerships(addresses)

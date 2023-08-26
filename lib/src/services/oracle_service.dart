@@ -5,6 +5,7 @@ import 'package:archethic_lib_dart/src/model/oracle_chain/oracle_uco_price.dart'
 import 'package:archethic_lib_dart/src/model/response/oracle_data_response.dart';
 import 'package:archethic_lib_dart/src/model/uco.dart';
 import 'package:archethic_lib_dart/src/utils/logs.dart';
+import 'package:archethic_lib_dart/src/utils/oracle/archethic_oracle.dart';
 import 'package:http/http.dart' as http show post;
 
 class OracleService {
@@ -58,6 +59,7 @@ class OracleService {
             oracleDataResponse.data!.oracleData!.services != null &&
             oracleDataResponse.data!.oracleData!.services!.uco != null) {
           oracleUcoPrice = OracleUcoPrice(
+            timestamp: oracleDataResponse.data!.oracleData!.timestamp,
             uco: Uco(
               eur: oracleDataResponse.data!.oracleData!.services!.uco!.eur,
               usd: oracleDataResponse.data!.oracleData!.services!.uco!.usd,
@@ -74,5 +76,32 @@ class OracleService {
 
     completer.complete(oracleUcoPrice);
     return completer.future;
+  }
+
+  /// Subscribe to be notified when a new oracle data is stored
+  Future<void> subscribeToOracleUpdates(
+    Function(OracleUcoPrice?) onUpdate,
+  ) async {
+    String websocketEndpoint;
+    switch (endpoint) {
+      case 'https://mainnet.archethic.net':
+      case 'https://testnet.archethic.net':
+        websocketEndpoint =
+            "${endpoint!.replaceAll('https:', 'wss:').replaceAll('http:', 'wss:')}/socket/websocket";
+        break;
+      default:
+        websocketEndpoint =
+            "${endpoint!.replaceAll('https:', 'wss:').replaceAll('http:', 'ws:')}/socket/websocket";
+        break;
+    }
+
+    final oracleRepository = ArchethicOracle(
+      phoenixHttpEndpoint: '$endpoint/socket/websocket',
+      websocketEndpoint: websocketEndpoint,
+    );
+
+    await oracleRepository.subscribeToOracleUpdates(
+      onUpdate: onUpdate,
+    );
   }
 }
