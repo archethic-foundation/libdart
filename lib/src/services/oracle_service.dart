@@ -79,7 +79,7 @@ class OracleService {
   }
 
   /// Subscribe to be notified when a new oracle data is stored
-  Future<void> subscribeToOracle(
+  Future<void> subscribeToOracleUpdates(
     Function(OracleUcoPrice?) onUpdate,
   ) async {
     String websocketEndpoint;

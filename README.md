@@ -319,6 +319,29 @@ It supports the Archethic Cryptography rules which are:
   TransactionFee transactionFee = await ApiService('https://testnet.archethic.net').getTransactionFee(tx);
   ```
 
+  #### subscribeToOracleUpdates(handler)
+  Subscribe to get the real time updates of the OracleChain
+  - `handler`: Callback to handle the new data
+
+  ```dart
+  import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+  
+  await OracleService('https://testnet.archethic.net')
+            .subscribeToOracleUpdates((data) {
+        log('Oracle value: ${data.timestamp} - ${data.uco!.usd} USD');
+        // TODO with
+        {
+          timestamp: ...,
+            services: {
+            uco: {
+             eur: ...,
+             usd: ...
+            }
+          }
+        }
+    });
+  ```
+
   #### getTransactionOwnerships(addresses)
   Query a node to find the ownerships (secrets and authorized keys) to given transactions addresses
 

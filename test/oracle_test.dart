@@ -29,11 +29,11 @@ void main() {
         final completer = Completer<void>();
 
         await OracleService('https://mainnet.archethic.net')
-            .subscribeToOracle((data) {
+            .subscribeToOracleUpdates((data) {
           if (data == null) {
             log('Oracle value null');
           } else {
-            log('Oracle value: ${data.timestamp} - ${data.uco}');
+            log('Oracle value: ${data.timestamp} - ${data.uco!.usd} USD');
           }
 
           if (!completer.isCompleted) {
