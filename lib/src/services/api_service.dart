@@ -72,14 +72,19 @@ class ApiService with JsonRPCUtil {
 
     if (FeatureFlags.apiRPCMethod) {
       try {
-        final jsonRPCRequest = setJsonRPCRequest(
-          'send_transaction',
-          {
-            'transaction': jsonDecode(
-              transaction.convertToJSON(),
-            ),
-          },
-        );
+        String jsonRPCRequest;
+        if (FeatureFlags.namedActions) {
+          jsonRPCRequest = setJsonRPCRequest(
+            'send_transaction',
+            {
+              'transaction': jsonDecode(
+                transaction.convertToJSON(),
+              ),
+            },
+          );
+        } else {
+          jsonRPCRequest = setJsonRPCRequest('send_transaction', transaction);
+        }
 
         log(
           'sendTxs: requestHttp.body=$jsonRPCRequest',
