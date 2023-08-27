@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:archethic_lib_dart/features_flags.dart';
 import 'package:archethic_lib_dart/src/model/exception/archethic_json_rpc_exception.dart';
 
 /// SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,21 +19,9 @@ mixin JsonRPCUtil {
   }
 
   Map<String, dynamic> getJsonRPCResult(String body) {
-    if (FeatureFlags.namedActions) {
-      return json.decode(
-        getJsonRPCResultString(body),
-      );
-    } else {
-      final jsonResponse = json.decode(body);
-      if (jsonResponse.containsKey('error')) {
-        throw ArchethicJsonRPCException(
-          code: jsonResponse['error']['code'],
-          message: jsonResponse['error']['message'],
-          data: jsonResponse['error']['data'],
-        );
-      }
-      return jsonResponse['result'];
-    }
+    return json.decode(
+      getJsonRPCResultString(body),
+    );
   }
 
   String getJsonRPCResultString(String body) {
