@@ -33,6 +33,6 @@ mixin JsonRPCUtil {
         data: jsonResponse['error']['data'],
       );
     }
-    return body;
+    return jsonResponse['result'];
   }
 }
