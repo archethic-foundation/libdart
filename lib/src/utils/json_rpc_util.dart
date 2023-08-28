@@ -19,9 +19,15 @@ mixin JsonRPCUtil {
   }
 
   Map<String, dynamic> getJsonRPCResult(String body) {
-    return json.decode(
-      getJsonRPCResultString(body),
-    );
+    final jsonResponse = json.decode(body);
+    if (jsonResponse.containsKey('error')) {
+      throw ArchethicJsonRPCException(
+        code: jsonResponse['error']['code'],
+        message: jsonResponse['error']['message'],
+        data: jsonResponse['error']['data'],
+      );
+    }
+    return jsonResponse['result'];
   }
 
   String getJsonRPCResultString(String body) {
