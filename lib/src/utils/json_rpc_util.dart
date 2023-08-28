@@ -22,9 +22,10 @@ mixin JsonRPCUtil {
     final jsonResponse = json.decode(body);
     if (jsonResponse.containsKey('error')) {
       throw ArchethicJsonRPCException(
-        code: jsonResponse['error']['code'],
-        message: jsonResponse['error']['message'],
-        data: jsonResponse['error']['data'],
+        code: jsonResponse['error']['code'] ?? jsonResponse['error']['code'],
+        message: jsonResponse['error']['message'] ??
+            jsonResponse['error']['message'],
+        data: jsonResponse['error']['data'] ?? jsonResponse['error']['data'],
       );
     }
     return jsonResponse['result'];
@@ -34,9 +35,10 @@ mixin JsonRPCUtil {
     final jsonResponse = json.decode(body);
     if (jsonResponse.containsKey('error')) {
       throw ArchethicJsonRPCException(
-        code: jsonResponse['error']['code'],
-        message: jsonResponse['error']['message'],
-        data: jsonResponse['error']['data'],
+        code: jsonResponse['error']['code'] ?? jsonResponse['error']['code'],
+        message: jsonResponse['error']['message'] ??
+            jsonResponse['error']['message'],
+        data: jsonResponse['error']['data'] ?? jsonResponse['error']['data'],
       );
     }
 

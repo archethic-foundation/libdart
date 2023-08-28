@@ -6,9 +6,9 @@ class ArchethicJsonRPCException implements Exception {
   const ArchethicJsonRPCException({
     required this.code,
     required this.message,
-    required this.data,
+    this.data,
   });
   final int code;
   final String message;
-  final Object data;
+  final Object? data;
 }
