@@ -532,8 +532,14 @@ class ApiService with JsonRPCUtil {
   /// Get transaction fees
   /// @param {Object} tx Transaction to estimate fees
   Future<TransactionFee> getTransactionFee(Transaction transaction) async {
-    final jsonRPCRequest =
-        setJsonRPCRequest('estimate_transaction_fee', transaction);
+    final jsonRPCRequest = setJsonRPCRequest(
+      'estimate_transaction_fee',
+      {
+        'transaction': jsonDecode(
+          transaction.convertToJSON(),
+        ),
+      },
+    );
 
     log(
       'getTransactionFee: requestHttp.body=$jsonRPCRequest',
