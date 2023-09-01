@@ -131,11 +131,13 @@ It supports the Archethic Cryptography rules which are:
   
   #### setCode(code)
   Add the code in the `data.code` section of the transaction
-  `code` is a string defining the smart contract
+
+  - `code` is a string defining the smart contract
   
   #### setContent(content)
   Add the content in the `data.content` section of the transaction
-  `content` is a string defining the smart contract
+
+  - `content` is a string defining any data
   
   #### addOwnership(secret, authorizedKeys)
    Add an ownership in the `data.ownerships` section of the transaction with a secret and its related authorized public keys to be able to decrypt it.
