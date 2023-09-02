@@ -17,7 +17,6 @@ import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
     show deriveKeyPair, sign, deriveAddress;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hex/hex.dart';
 
 /// [Transaction] represents a unitary transaction in the Archethic network.
 part 'transaction.freezed.dart';
@@ -523,7 +522,7 @@ class Transaction with _$Transaction {
       'address': address == null ? '' : address!.address,
       'type': type,
       'data': {
-        'content': HEX.encode(Uint16List.fromList(utf8.encode(data!.content!))),
+        'content': data!.content!,
         'code': data == null || data!.code == null ? '' : data!.code!,
         'ownerships': List<dynamic>.from(
           data!.ownerships.map((Ownership x) {
