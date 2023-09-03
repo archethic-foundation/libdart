@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 // Dart imports:
+import 'dart:math';
 import 'dart:typed_data' show Uint8List;
 
 // Package imports:
@@ -92,4 +93,25 @@ Map<String, T>? removeAliasPrefix<T>(Map<String, T?>? map) {
     }
   });
   return mapResult;
+}
+
+/// Generate a random seed
+String generateRandomSeed() {
+  var seed = '';
+  const chars = 'abcdef0123456789';
+  final rng = Random.secure();
+  for (var i = 0; i < 64; i++) {
+    // ignore: use_string_buffers
+    seed += chars[rng.nextInt(chars.length)];
+  }
+  return seed;
+}
+
+/// Generate a random AESKey
+String generateRandomAESKey({int length = 32}) {
+  return uint8ListToHex(
+    Uint8List.fromList(
+      List<int>.generate(length, (int i) => Random.secure().nextInt(256)),
+    ),
+  );
 }

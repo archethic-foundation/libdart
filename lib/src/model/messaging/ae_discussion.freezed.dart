@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'ae_group_message.dart';
+part of 'ae_discussion.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,13 +14,13 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-AEGroupMessage _$AEGroupMessageFromJson(Map<String, dynamic> json) {
-  return _AEGroupMessage.fromJson(json);
+AEDiscussion _$AEDiscussionFromJson(Map<String, dynamic> json) {
+  return _AEDiscussion.fromJson(json);
 }
 
 /// @nodoc
-mixin _$AEGroupMessage {
-  String get groupName => throw _privateConstructorUsedError;
+mixin _$AEDiscussion {
+  String get discussionName => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   List<String> get usersPubKey => throw _privateConstructorUsedError;
   List<String> get adminPublicKey => throw _privateConstructorUsedError;
@@ -28,18 +28,18 @@ mixin _$AEGroupMessage {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $AEGroupMessageCopyWith<AEGroupMessage> get copyWith =>
+  $AEDiscussionCopyWith<AEDiscussion> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AEGroupMessageCopyWith<$Res> {
-  factory $AEGroupMessageCopyWith(
-          AEGroupMessage value, $Res Function(AEGroupMessage) then) =
-      _$AEGroupMessageCopyWithImpl<$Res, AEGroupMessage>;
+abstract class $AEDiscussionCopyWith<$Res> {
+  factory $AEDiscussionCopyWith(
+          AEDiscussion value, $Res Function(AEDiscussion) then) =
+      _$AEDiscussionCopyWithImpl<$Res, AEDiscussion>;
   @useResult
   $Res call(
-      {String groupName,
+      {String discussionName,
       String address,
       List<String> usersPubKey,
       List<String> adminPublicKey,
@@ -47,9 +47,9 @@ abstract class $AEGroupMessageCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AEGroupMessageCopyWithImpl<$Res, $Val extends AEGroupMessage>
-    implements $AEGroupMessageCopyWith<$Res> {
-  _$AEGroupMessageCopyWithImpl(this._value, this._then);
+class _$AEDiscussionCopyWithImpl<$Res, $Val extends AEDiscussion>
+    implements $AEDiscussionCopyWith<$Res> {
+  _$AEDiscussionCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -59,16 +59,16 @@ class _$AEGroupMessageCopyWithImpl<$Res, $Val extends AEGroupMessage>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? groupName = null,
+    Object? discussionName = null,
     Object? address = null,
     Object? usersPubKey = null,
     Object? adminPublicKey = null,
     Object? timestampLastUpdate = null,
   }) {
     return _then(_value.copyWith(
-      groupName: null == groupName
-          ? _value.groupName
-          : groupName // ignore: cast_nullable_to_non_nullable
+      discussionName: null == discussionName
+          ? _value.discussionName
+          : discussionName // ignore: cast_nullable_to_non_nullable
               as String,
       address: null == address
           ? _value.address
@@ -91,15 +91,15 @@ class _$AEGroupMessageCopyWithImpl<$Res, $Val extends AEGroupMessage>
 }
 
 /// @nodoc
-abstract class _$$_AEGroupMessageCopyWith<$Res>
-    implements $AEGroupMessageCopyWith<$Res> {
-  factory _$$_AEGroupMessageCopyWith(
-          _$_AEGroupMessage value, $Res Function(_$_AEGroupMessage) then) =
-      __$$_AEGroupMessageCopyWithImpl<$Res>;
+abstract class _$$_AEDiscussionCopyWith<$Res>
+    implements $AEDiscussionCopyWith<$Res> {
+  factory _$$_AEDiscussionCopyWith(
+          _$_AEDiscussion value, $Res Function(_$_AEDiscussion) then) =
+      __$$_AEDiscussionCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {String groupName,
+      {String discussionName,
       String address,
       List<String> usersPubKey,
       List<String> adminPublicKey,
@@ -107,26 +107,26 @@ abstract class _$$_AEGroupMessageCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AEGroupMessageCopyWithImpl<$Res>
-    extends _$AEGroupMessageCopyWithImpl<$Res, _$_AEGroupMessage>
-    implements _$$_AEGroupMessageCopyWith<$Res> {
-  __$$_AEGroupMessageCopyWithImpl(
-      _$_AEGroupMessage _value, $Res Function(_$_AEGroupMessage) _then)
+class __$$_AEDiscussionCopyWithImpl<$Res>
+    extends _$AEDiscussionCopyWithImpl<$Res, _$_AEDiscussion>
+    implements _$$_AEDiscussionCopyWith<$Res> {
+  __$$_AEDiscussionCopyWithImpl(
+      _$_AEDiscussion _value, $Res Function(_$_AEDiscussion) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? groupName = null,
+    Object? discussionName = null,
     Object? address = null,
     Object? usersPubKey = null,
     Object? adminPublicKey = null,
     Object? timestampLastUpdate = null,
   }) {
-    return _then(_$_AEGroupMessage(
-      groupName: null == groupName
-          ? _value.groupName
-          : groupName // ignore: cast_nullable_to_non_nullable
+    return _then(_$_AEDiscussion(
+      discussionName: null == discussionName
+          ? _value.discussionName
+          : discussionName // ignore: cast_nullable_to_non_nullable
               as String,
       address: null == address
           ? _value.address
@@ -150,9 +150,9 @@ class __$$_AEGroupMessageCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AEGroupMessage extends _AEGroupMessage {
-  const _$_AEGroupMessage(
-      {this.groupName = '',
+class _$_AEDiscussion extends _AEDiscussion {
+  const _$_AEDiscussion(
+      {this.discussionName = '',
       this.address = '',
       final List<String> usersPubKey = const [],
       final List<String> adminPublicKey = const [],
@@ -161,12 +161,12 @@ class _$_AEGroupMessage extends _AEGroupMessage {
         _adminPublicKey = adminPublicKey,
         super._();
 
-  factory _$_AEGroupMessage.fromJson(Map<String, dynamic> json) =>
-      _$$_AEGroupMessageFromJson(json);
+  factory _$_AEDiscussion.fromJson(Map<String, dynamic> json) =>
+      _$$_AEDiscussionFromJson(json);
 
   @override
   @JsonKey()
-  final String groupName;
+  final String discussionName;
   @override
   @JsonKey()
   final String address;
@@ -194,16 +194,16 @@ class _$_AEGroupMessage extends _AEGroupMessage {
 
   @override
   String toString() {
-    return 'AEGroupMessage(groupName: $groupName, address: $address, usersPubKey: $usersPubKey, adminPublicKey: $adminPublicKey, timestampLastUpdate: $timestampLastUpdate)';
+    return 'AEDiscussion(discussionName: $discussionName, address: $address, usersPubKey: $usersPubKey, adminPublicKey: $adminPublicKey, timestampLastUpdate: $timestampLastUpdate)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AEGroupMessage &&
-            (identical(other.groupName, groupName) ||
-                other.groupName == groupName) &&
+            other is _$_AEDiscussion &&
+            (identical(other.discussionName, discussionName) ||
+                other.discussionName == discussionName) &&
             (identical(other.address, address) || other.address == address) &&
             const DeepCollectionEquality()
                 .equals(other._usersPubKey, _usersPubKey) &&
@@ -217,7 +217,7 @@ class _$_AEGroupMessage extends _AEGroupMessage {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      groupName,
+      discussionName,
       address,
       const DeepCollectionEquality().hash(_usersPubKey),
       const DeepCollectionEquality().hash(_adminPublicKey),
@@ -226,31 +226,31 @@ class _$_AEGroupMessage extends _AEGroupMessage {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AEGroupMessageCopyWith<_$_AEGroupMessage> get copyWith =>
-      __$$_AEGroupMessageCopyWithImpl<_$_AEGroupMessage>(this, _$identity);
+  _$$_AEDiscussionCopyWith<_$_AEDiscussion> get copyWith =>
+      __$$_AEDiscussionCopyWithImpl<_$_AEDiscussion>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AEGroupMessageToJson(
+    return _$$_AEDiscussionToJson(
       this,
     );
   }
 }
 
-abstract class _AEGroupMessage extends AEGroupMessage {
-  const factory _AEGroupMessage(
-      {final String groupName,
+abstract class _AEDiscussion extends AEDiscussion {
+  const factory _AEDiscussion(
+      {final String discussionName,
       final String address,
       final List<String> usersPubKey,
       final List<String> adminPublicKey,
-      final int timestampLastUpdate}) = _$_AEGroupMessage;
-  const _AEGroupMessage._() : super._();
+      final int timestampLastUpdate}) = _$_AEDiscussion;
+  const _AEDiscussion._() : super._();
 
-  factory _AEGroupMessage.fromJson(Map<String, dynamic> json) =
-      _$_AEGroupMessage.fromJson;
+  factory _AEDiscussion.fromJson(Map<String, dynamic> json) =
+      _$_AEDiscussion.fromJson;
 
   @override
-  String get groupName;
+  String get discussionName;
   @override
   String get address;
   @override
@@ -261,6 +261,6 @@ abstract class _AEGroupMessage extends AEGroupMessage {
   int get timestampLastUpdate;
   @override
   @JsonKey(ignore: true)
-  _$$_AEGroupMessageCopyWith<_$_AEGroupMessage> get copyWith =>
+  _$$_AEDiscussionCopyWith<_$_AEDiscussion> get copyWith =>
       throw _privateConstructorUsedError;
 }

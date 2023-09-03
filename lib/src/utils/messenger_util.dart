@@ -1,118 +1,176 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
 import 'dart:developer' as dev;
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archive/archive_io.dart';
 
+/// For group discussions, a dedicated transaction chain will contain a smart contract and its updates, as well as the discussion's rules and description.
+/// The messages will be contained in the inputs of the smart contracts in the chain.
+/// A general public key for accessing messages is made available.
 mixin MessengerMixin {
-  Future<Transaction> createNewSC({
+  Future<Transaction> createTransactionSC({
     required Keychain keychain,
     required ApiService apiService,
-    required List<String> usersPubKey,
-    required String groupName,
+    required List<String> membersPubKey,
+    required String discussionName,
     required List<String> adminsPubKey,
     required String adminAddress,
     required String serviceName,
+    int indexSCTransaction = 0,
   }) async {
-    // Build SC Transaction
-    final code = '''
-              @version 1
+    /// AESKey (32-byte (256-bit) random key) manages message access (encryption/decryption)
+    final discussionKeyAccess = generateRandomAESKey();
 
-              condition transaction: [
-                
-                previous_public_key: List.in?([
-                ${usersPubKey.map((key) => '"$key"').join(', ')}
-               ], 
-                Chain.get_genesis_public_key(transaction.previous_public_key)
-                )
-               
-              ]
+    /// AESKey (32-byte (256-bit) random key) manages SC secrets
+    final aesKey = generateRandomAESKey();
 
-              actions triggered_by: transaction do
+    final membersAuthorizedKeys = _addMembersInAuthorized(
+      aesKey: aesKey,
+      membersPubKey: membersPubKey,
+    );
 
-              end
+    /// Seed of the Smart Contract
+    final storageNoncePublicKey = await apiService.getStorageNoncePublicKey();
+    final seedSC = generateRandomSeed();
 
-            ''';
-
-    final aesKey = uint8ListToHex(
-      Uint8List.fromList(
-        List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
+    final scAuthorizedKeys = List<AuthorizedKey>.empty(growable: true);
+    scAuthorizedKeys.add(
+      AuthorizedKey(
+        publicKey: storageNoncePublicKey,
+        encryptedSecretKey:
+            uint8ListToHex(ecEncrypt(aesKey, storageNoncePublicKey)),
       ),
     );
 
-    final messageGroupKeyAccess = uint8ListToHex(
-      Uint8List.fromList(
-        List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
-      ),
+    final originPrivateKey = apiService.getOriginKey();
+
+    /// Create a new transaction typed Smart Contract to manage a discussion
+    final transactionSC = Transaction(
+      type: 'contract',
+      data: Transaction.initData(),
+    )
+        .setCode(_getDiscussionSCCode(membersPubKey: membersPubKey))
+        .setContent(
+          _getDiscussionSCContent(
+            discussionName: discussionName,
+            adminsPubKey: adminsPubKey,
+            discussionKeyAccess: discussionKeyAccess,
+          ),
+        )
+
+        /// Secret 1 : DiscussionKeyAccess only accessible by the discussion's members
+        .addOwnership(
+          uint8ListToHex(
+            aesEncrypt(discussionKeyAccess, aesKey),
+          ),
+          membersAuthorizedKeys,
+        )
+
+        /// Secret 2 : Seed of the SC only accessible by nodes
+        .addOwnership(
+          uint8ListToHex(
+            aesEncrypt(seedSC, aesKey),
+          ),
+          scAuthorizedKeys,
+        )
+        .build(seedSC, indexSCTransaction)
+        .originSign(originPrivateKey);
+
+    // Estimation of fees and send to SC's transaction chain
+    final transactionTransferSigned = await _provisionSC(
+      apiService: apiService,
+      issuerAddress: adminAddress,
+      keychain: keychain,
+      originPrivateKey: originPrivateKey,
+      seedSC: seedSC,
+      serviceName: serviceName,
+      transactionSC: transactionSC,
     );
 
+    await TransactionUtil().sendTransactions(
+      transactions: [transactionTransferSigned, transactionSC],
+      apiService: apiService,
+    );
+
+    return transactionSC;
+  }
+
+  String _getDiscussionSCCode({
+    required List<String> membersPubKey,
+  }) {
+    /// A discussion is represented and managed by a smart contract.
+    /// This smart contract contains a code that lists the public keys authorized to send transactions to the smart contract
+    /// This prevents messages from unauthorized persons from being integrated as contract inputs into the smart contract.
+    return '''
+@version 1
+
+condition transaction: [             
+  previous_public_key: List.in?([
+    ${membersPubKey.map((key) => '"$key"').join(', ')}
+    ], 
+    Chain.get_genesis_public_key(transaction.previous_public_key)
+  )               
+]
+
+actions triggered_by: transaction do
+
+end
+
+''';
+  }
+
+  /// A discussion is represented and managed by a smart contract.
+  /// This smart contract contains a content that descrives discussion's properties:
+  /// - Name of the discussion
+  /// - lists the public keys of the admin
+  String _getDiscussionSCContent({
+    required String discussionName,
+    required List<String> adminsPubKey,
+    required String discussionKeyAccess,
+  }) {
     final content = '''
 {
-  "groupName": "$groupName",                             
+  "discussionName": "$discussionName",                             
   "adminPublicKey": [${adminsPubKey.map((key) => '"$key"').join(', ')}]  
 }
     ''';
 
+    /// Only members of the discussion could decrypted discussion's properties
+    /// We encrypt content with discussionKeyAccess + encode in Base64
     final cryptedContent =
-        aesEncrypt(utf8.encode(content), messageGroupKeyAccess);
+        aesEncrypt(utf8.encode(content), discussionKeyAccess);
     final cryptedContentBase64 = base64.encode(cryptedContent);
+    return cryptedContentBase64;
+  }
 
-    final authorizedPublicKeys = List<String>.empty(growable: true)
-      ..addAll(usersPubKey);
-
-    final contactsAuthorizedKeys = List<AuthorizedKey>.empty(growable: true);
-    for (final key in authorizedPublicKeys) {
-      contactsAuthorizedKeys.add(
+  List<AuthorizedKey> _addMembersInAuthorized({
+    required String aesKey,
+    required List<String> membersPubKey,
+  }) {
+    final membersAuthorizedKeys = <AuthorizedKey>[];
+    for (final key in membersPubKey) {
+      membersAuthorizedKeys.add(
         AuthorizedKey(
           encryptedSecretKey: uint8ListToHex(ecEncrypt(aesKey, key)),
           publicKey: key,
         ),
       );
     }
+    return membersAuthorizedKeys;
+  }
 
-    final storageNoncePublicKey = await apiService.getStorageNoncePublicKey();
-    var seedSC = '';
-    const chars = 'abcdef0123456789';
-    final rng = Random.secure();
-    for (var i = 0; i < 64; i++) {
-      // ignore: use_string_buffers
-      seedSC += chars[rng.nextInt(chars.length)];
-    }
-
-    final scAuthorizedKeys = List<AuthorizedKey>.empty(growable: true);
-    scAuthorizedKeys.add(
-      AuthorizedKey(
-        encryptedSecretKey:
-            uint8ListToHex(ecEncrypt(aesKey, storageNoncePublicKey)),
-        publicKey: storageNoncePublicKey,
-      ),
-    );
-
-    final originPrivateKey = apiService.getOriginKey();
-
-    final transactionSC =
-        Transaction(type: 'contract', data: Transaction.initData())
-            .setCode(code)
-            .setContent(cryptedContentBase64)
-            .addOwnership(
-              uint8ListToHex(
-                aesEncrypt(messageGroupKeyAccess, aesKey),
-              ),
-              contactsAuthorizedKeys,
-            )
-            .addOwnership(
-              uint8ListToHex(
-                aesEncrypt(seedSC, aesKey),
-              ),
-              scAuthorizedKeys,
-            )
-            .build(seedSC, 0)
-            .originSign(originPrivateKey);
-
-    // Estimation of fees
+  Future<Transaction> _provisionSC({
+    required Keychain keychain,
+    required ApiService apiService,
+    required Transaction transactionSC,
+    required String seedSC,
+    required String issuerAddress,
+    required String serviceName,
+    required String originPrivateKey,
+  }) async {
+    // Estimation of fees and send to SC's transaction chain
     const slippage = 1.01;
     final transactionFee = await apiService.getTransactionFee(transactionSC);
     final fees = fromBigInt(transactionFee.fee) * slippage;
@@ -122,23 +180,16 @@ mixin MessengerMixin {
             .addUCOTransfer(genesisAddressSC, toBigInt(fees));
 
     final indexMap = await apiService.getTransactionIndex(
-      [adminAddress],
+      [issuerAddress],
     );
 
-    final transactionTransferSigned = keychain
+    return keychain
         .buildTransaction(
           transactionTransfer,
           serviceName,
-          indexMap[adminAddress] ?? 0,
+          indexMap[issuerAddress] ?? 0,
         )
         .originSign(originPrivateKey);
-
-    await TransactionUtil().sendTransactions(
-      transactions: [transactionTransferSigned, transactionSC],
-      apiService: apiService,
-    );
-
-    return transactionSC;
   }
 
   Future<({Transaction transaction, int transactionIndex})>
@@ -177,7 +228,7 @@ mixin MessengerMixin {
     );
   }
 
-  Future<({Address transactionAddress, int transactionIndex})> sendMessage({
+  Future<({Address transactionAddress, int transactionIndex})> send({
     required Keychain keychain,
     required ApiService apiService,
     required String scAddress,
@@ -207,7 +258,7 @@ mixin MessengerMixin {
     );
   }
 
-  Future<AEGroupMessage?> getMessageGroup({
+  Future<AEDiscussion?> getDiscussionFromSCAddress({
     required ApiService apiService,
     required String scAddress,
     required KeyPair keyPair,
@@ -218,7 +269,7 @@ mixin MessengerMixin {
     }
 
     try {
-      final messageGroupKeyAccess = await getMessageGroupKeyAccess(
+      final discussionKeyAccess = await _getDiscussionKeyAccess(
         apiService: apiService,
         scAddress: scAddress,
         keyPair: keyPair,
@@ -229,7 +280,7 @@ mixin MessengerMixin {
       final cryptedContent = base64.decode(smartContract!.data!.content!);
 
       final content = utf8.decode(
-        aesDecrypt(cryptedContent, messageGroupKeyAccess),
+        aesDecrypt(cryptedContent, discussionKeyAccess),
       );
       final jsonContentMap = jsonDecode(content);
 
@@ -239,22 +290,23 @@ mixin MessengerMixin {
         usersPubKey.add(authorizedPublicKey.publicKey!);
       }
 
-      final aeGroupMessage = AEGroupMessage(
+      final aeDiscussion = AEDiscussion(
         address: smartContract.address!.address!,
-        groupName: jsonContentMap['groupName'],
+        discussionName: jsonContentMap['discussionName'],
         usersPubKey: usersPubKey,
         adminPublicKey: List<String>.from(jsonContentMap['adminPublicKey']),
         timestampLastUpdate: smartContract.validationStamp!.timestamp!,
       );
 
-      return aeGroupMessage;
+      return aeDiscussion;
     } catch (e) {
       dev.log(e.toString());
       return null;
     }
   }
 
-  Future<Uint8List> getMessageGroupKeyAccess({
+  /// This method get the AES Key used to encrypt and decrypt informations in the discussion (messages, discussion's properties)
+  Future<Uint8List> _getDiscussionKeyAccess({
     required ApiService apiService,
     required String scAddress,
     required KeyPair keyPair,
@@ -284,13 +336,14 @@ mixin MessengerMixin {
     return aesDecrypt(ownerships[0].secret, aesKey);
   }
 
+  /// This method encrypt a message with the AES Key ()
   Future<String> _encodeMessage({
     required String message,
     required ApiService apiService,
     required String scAddress,
     required KeyPair senderKeyPair,
   }) async {
-    final messageGroupKeyAccess = await getMessageGroupKeyAccess(
+    final discussionKeyAccess = await _getDiscussionKeyAccess(
       apiService: apiService,
       scAddress: scAddress,
       keyPair: senderKeyPair,
@@ -299,19 +352,19 @@ mixin MessengerMixin {
     // Encode message with message key
     final stringPayload = utf8.encode(message);
     final compressedPayload = GZipEncoder().encode(stringPayload);
-    final cryptedPayload = aesEncrypt(compressedPayload, messageGroupKeyAccess);
+    final cryptedPayload = aesEncrypt(compressedPayload, discussionKeyAccess);
     return base64.encode(cryptedPayload);
   }
 
   Uint8List _decodeMessage(
     String compressedData,
-    String messageGroupKeyAccess, {
+    String discussionKeyAccess, {
     String compressionAlgo = '',
   }) {
     final payload = base64.decode(compressedData);
     final decryptedPayload = aesDecrypt(
       payload,
-      messageGroupKeyAccess,
+      discussionKeyAccess,
     );
     late List<int> decompressedPayload;
     switch (compressionAlgo) {
@@ -325,7 +378,7 @@ mixin MessengerMixin {
     return Uint8List.fromList(decompressedPayload);
   }
 
-  Future<List<AEMessage>> readMessages({
+  Future<List<AEMessage>> read({
     required ApiService apiService,
     required String scAddress,
     required KeyPair readerKeyPair,
@@ -357,8 +410,8 @@ mixin MessengerMixin {
 
     if (contents.isEmpty) return [];
 
-    final messageGroupKeyAccess = uint8ListToHex(
-      await getMessageGroupKeyAccess(
+    final discussionKeyAccess = uint8ListToHex(
+      await _getDiscussionKeyAccess(
         apiService: apiService,
         scAddress: scAddress,
         keyPair: readerKeyPair,
@@ -375,7 +428,7 @@ mixin MessengerMixin {
       final message = utf8.decode(
         _decodeMessage(
           transactionContentIM.message,
-          messageGroupKeyAccess,
+          discussionKeyAccess,
           compressionAlgo: transactionContentIM.compressionAlgo,
         ),
       );
