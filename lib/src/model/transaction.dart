@@ -563,7 +563,7 @@ class Transaction with _$Transaction {
                     return {
                       'address': x.address == null ? '' : x.address!,
                       'action': x.action,
-                      'args': x.args == null ? [] : x.args!,
+                      'args': x.args,
                     };
                   },
                 ),
