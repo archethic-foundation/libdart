@@ -10,6 +10,7 @@ Changelog
 * BREAKING-CHANGE - New transaction structure version 2 (if FeatureFlags.txVersion2 == true)
 * Add API to get last oracle value
 * Transaction's content is not anymore encoded in hexadecimal.
+* BREAKING-CHANGE - Messaging Backend - Refactoring
 
 #### Version 3.2.0
 * Add utility methods to handle message exchange mechanisms within the context of messaging.

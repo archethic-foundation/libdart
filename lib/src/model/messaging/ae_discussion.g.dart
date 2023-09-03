@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'ae_group_message.dart';
+part of 'ae_discussion.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AEGroupMessage _$$_AEGroupMessageFromJson(Map<String, dynamic> json) =>
-    _$_AEGroupMessage(
-      groupName: json['groupName'] as String? ?? '',
+_$_AEDiscussion _$$_AEDiscussionFromJson(Map<String, dynamic> json) =>
+    _$_AEDiscussion(
+      discussionName: json['discussionName'] as String? ?? '',
       address: json['address'] as String? ?? '',
       usersPubKey: (json['usersPubKey'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -21,9 +21,9 @@ _$_AEGroupMessage _$$_AEGroupMessageFromJson(Map<String, dynamic> json) =>
       timestampLastUpdate: json['timestampLastUpdate'] as int? ?? 0,
     );
 
-Map<String, dynamic> _$$_AEGroupMessageToJson(_$_AEGroupMessage instance) =>
+Map<String, dynamic> _$$_AEDiscussionToJson(_$_AEDiscussion instance) =>
     <String, dynamic>{
-      'groupName': instance.groupName,
+      'discussionName': instance.discussionName,
       'address': instance.address,
       'usersPubKey': instance.usersPubKey,
       'adminPublicKey': instance.adminPublicKey,
