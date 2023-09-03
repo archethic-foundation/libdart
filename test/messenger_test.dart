@@ -6,7 +6,6 @@ import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/keychain.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/services/messaging_service.dart';
-import 'package:archethic_lib_dart/src/utils/messenger_util.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:test/test.dart';
 
@@ -250,5 +249,3 @@ void main() {
     tags: <String>['noCI'],
   );
 }
-
-class TestMessengerMixin with MessengerMixin {}
