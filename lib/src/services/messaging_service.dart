@@ -218,4 +218,28 @@ class MessagingService with MessengerMixin {
       keyPair: keyPair,
     );
   }
+
+  /// Build a message
+  /// @param{ApiService} API with blockchain
+  /// @param{String} Smart contract's address
+  /// @param{KeyPair} Keypair of the requester to check if discussion's content can be decrypt
+  Future<({Transaction transaction, int transactionIndex})> buildMessage({
+    required Keychain keychain,
+    required ApiService apiService,
+    required String discussionSCAddress,
+    required String messageContent,
+    required String senderAddress,
+    required String senderServiceName,
+    required KeyPair senderKeyPair,
+  }) async {
+    return buildMessageSendTransaction(
+      keychain: keychain,
+      apiService: apiService,
+      scAddress: discussionSCAddress,
+      messageContent: messageContent,
+      senderAddress: senderAddress,
+      senderServiceName: senderServiceName,
+      senderKeyPair: senderKeyPair,
+    );
+  }
 }

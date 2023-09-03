@@ -193,7 +193,7 @@ end
   }
 
   Future<({Transaction transaction, int transactionIndex})>
-      _buildMessageSendTransaction({
+      buildMessageSendTransaction({
     required Keychain keychain,
     required ApiService apiService,
     required String scAddress,
@@ -237,7 +237,7 @@ end
     required String senderServiceName,
     required KeyPair senderKeyPair,
   }) async {
-    final result = await _buildMessageSendTransaction(
+    final result = await buildMessageSendTransaction(
       keychain: keychain,
       apiService: apiService,
       scAddress: scAddress,
