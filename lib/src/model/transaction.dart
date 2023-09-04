@@ -562,8 +562,8 @@ class Transaction with _$Transaction {
                   (Recipient x) {
                     return {
                       'address': x.address == null ? '' : x.address!,
-                      'action': x.action == null ? '' : x.action!,
-                      'args': x.args == null ? '' : x.args!,
+                      'action': x.action,
+                      'args': x.args,
                     };
                   },
                 ),
