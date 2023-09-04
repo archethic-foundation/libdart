@@ -1,4 +1,4 @@
 /// Simply activate/deactivate features.
 class FeatureFlags {
-  static const txVersion2 = true;
+  static const txVersion2 = false;
 }
