@@ -60,24 +60,17 @@ class MessagingService with MessengerMixin {
     required List<String> membersPubKey,
     required String discussionName,
     required List<String> adminsPubKey,
-    required String adminAddress,
     required String serviceName,
+    required KeyPair adminKeyPair,
   }) async {
-    final indexMap =
-        await apiService.getTransactionIndex([discussionSCAddress]);
-    if (indexMap[discussionSCAddress] == null) {
-      throw Exception('Discussion not exists');
-    }
-
-    return createTransactionSC(
+    return updateTransactionSC(
       keychain: keychain,
       apiService: apiService,
-      membersPubKey: membersPubKey,
+      discussionSCAddress: discussionSCAddress,
       discussionName: discussionName,
       adminsPubKey: adminsPubKey,
-      adminAddress: adminAddress,
       serviceName: serviceName,
-      indexSCTransaction: indexMap[discussionSCAddress]!,
+      adminKeyPair: adminKeyPair,
     );
   }
 

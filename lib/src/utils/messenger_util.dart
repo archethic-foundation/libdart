@@ -3,13 +3,98 @@ import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:typed_data';
 
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/src/model/address.dart';
+import 'package:archethic_lib_dart/src/model/authorized_key.dart';
+import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
+import 'package:archethic_lib_dart/src/model/keychain.dart';
+import 'package:archethic_lib_dart/src/model/messaging/ae_discussion.dart';
+import 'package:archethic_lib_dart/src/model/messaging/ae_message.dart';
+import 'package:archethic_lib_dart/src/model/messaging/transaction_content_messaging.dart';
+import 'package:archethic_lib_dart/src/model/transaction.dart';
+import 'package:archethic_lib_dart/src/model/transaction_input.dart';
+import 'package:archethic_lib_dart/src/services/api_service.dart';
+import 'package:archethic_lib_dart/src/utils/crypto.dart';
+import 'package:archethic_lib_dart/src/utils/transaction_util.dart';
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:archive/archive_io.dart';
 
 /// For group discussions, a dedicated transaction chain will contain a smart contract and its updates, as well as the discussion's rules and description.
 /// The messages will be contained in the inputs of the smart contracts in the chain.
 /// A general public key for accessing messages is made available.
 mixin MessengerMixin {
+  Future<Transaction> updateTransactionSC({
+    required Keychain keychain,
+    required ApiService apiService,
+    required String discussionName,
+    required List<String> adminsPubKey,
+    required String serviceName,
+    required String discussionSCAddress,
+    required KeyPair adminKeyPair,
+  }) async {
+    final indexMap =
+        await apiService.getTransactionIndex([discussionSCAddress]);
+    if (indexMap[discussionSCAddress] == null) {
+      throw Exception('Discussion not exists');
+    }
+
+    final lastTxMap =
+        await apiService.getLastTransaction([discussionSCAddress]);
+    final lastTx = lastTxMap[discussionSCAddress];
+
+    final discussionKeyAccess = uint8ListToHex(
+      await _getDiscussionKeyAccess(
+        apiService: apiService,
+        scAddress: discussionSCAddress,
+        keyPair: adminKeyPair,
+      ),
+    );
+
+    final newContent = _getDiscussionSCContent(
+      discussionName: discussionName,
+      adminsPubKey: adminsPubKey,
+      discussionKeyAccess: discussionKeyAccess,
+    );
+
+    final transactionTransfer =
+        Transaction(type: 'transfer', data: Transaction.initData())
+            .addRecipient(
+      discussionSCAddress,
+      action: 'update_discussion',
+      args: [newContent],
+    );
+
+    for (final ownership in lastTx!.data!.ownerships) {
+      transactionTransfer.addOwnership(
+        ownership.secret!,
+        ownership.authorizedPublicKeys,
+      );
+    }
+    final originPrivateKey = apiService.getOriginKey();
+
+    final transactionTransferSigned = keychain
+        .buildTransaction(
+          transactionTransfer,
+          serviceName,
+          indexMap[discussionSCAddress]!,
+        )
+        .originSign(originPrivateKey);
+
+    // Estimation of fees and send to SC's transaction chain
+    const slippage = 1.01;
+    final transactionFee =
+        await apiService.getTransactionFee(transactionTransferSigned);
+    final fees = fromBigInt(transactionFee.fee) * slippage;
+    transactionTransferSigned.addUCOTransfer(
+        discussionSCAddress, toBigInt(fees));
+
+    await TransactionUtil().sendTransactions(
+      transactions: [transactionTransferSigned],
+      apiService: apiService,
+    );
+
+    return transactionTransferSigned;
+  }
+
   Future<Transaction> createTransactionSC({
     required Keychain keychain,
     required ApiService apiService,
@@ -113,6 +198,14 @@ condition transaction: [
     Chain.get_genesis_public_key(transaction.previous_public_key)
   )               
 ]
+
+condition transaction, on: update_discussion(new_content), as: [
+  true
+]
+
+actions triggered_by: transaction, on: update_discussion(new_content) do
+  Contract.set_content(new_content)
+end
 
 actions triggered_by: transaction do
 

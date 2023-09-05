@@ -44,6 +44,44 @@ void main() {
         );
       });
 
+      test('updateSC', () async {
+        final apiService = ApiService('http://localhost:4000');
+        final keychain = Keychain(
+          seed: hexToUint8List(
+            'B41D34187EA941DC7EB18F9160BEDB7E4420DC8E62BEA442D10B9261D73792F1',
+          ),
+        )
+            .copyWithService('archethic-wallet-BOB', "m/650'/0/0")
+            .copyWithService('archethic-wallet-ALICE', "m/650'/0/0");
+
+        final tx = await MessagingService().updateDiscussion(
+          apiService: apiService,
+          membersPubKey: [
+            '000041A06AF9C1EDF34FD9D4AB253B9A264F19FDCC220BD1FAF95439CD8FD1E0403A',
+            '00008CE1AC47F8B88A330999F7E4FBCCE5652CF3B47C4EDB6112A55BE7B36B189130',
+          ],
+          discussionName: 'testGroup',
+          adminsPubKey: [
+            '000041A06AF9C1EDF34FD9D4AB253B9A264F19FDCC220BD1FAF95439CD8FD1E0403A',
+          ],
+          keychain: keychain,
+          serviceName: 'archethic-wallet-ALICE',
+          adminKeyPair: KeyPair(
+            privateKey: hexToUint8List(
+                '0000e7ddf16c1109f16c01b30f8d8284c025a7550ce33ecaab8f2d2cefb1e3882d8f'),
+            publicKey: hexToUint8List(
+                '000041a06af9c1edf34fd9d4ab253b9a264f19fdcc220bd1faf95439cd8fd1e0403a'),
+          ),
+          discussionSCAddress:
+              '0000AD370A6A99837525E8BD5228C568F970977EFD602AD37706C5D9D2AE75466EE1',
+        );
+
+        expect(
+          tx.version,
+          1,
+        );
+      });
+
       test('sendMessageTestnet', () async {
         final apiService = ApiService('https://testnet.archethic.net');
 
