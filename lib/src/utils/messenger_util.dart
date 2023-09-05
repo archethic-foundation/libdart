@@ -199,6 +199,12 @@ condition transaction: [
   )               
 ]
 
+condition transaction, on: update_discussion(new_content), as: [
+  address: (
+    true
+  )
+]
+
 actions triggered_by: transaction, on: update_discussion(new_content) do
   Contract.set_content(new_content)
 end
