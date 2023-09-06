@@ -199,7 +199,7 @@ condition transaction: [
   )               
 ]
 
-condition transaction, on: update_discussion(new_content), as: [
+condition triggered_by: transaction, on: update_discussion(new_content), as: [
 ]
 
 actions triggered_by: transaction, on: update_discussion(new_content) do
