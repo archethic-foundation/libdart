@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:graphql/client.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
@@ -68,6 +69,8 @@ class ArchethicTransactionSender
       transaction.address!.address!,
       onError,
     );
+
+    await Future.delayed(const Duration(seconds: 1));
 
     await _sendTransaction(
       transaction: transaction,
@@ -169,7 +172,7 @@ class ArchethicTransactionSender
     String address,
     TransactionConfirmationHandler onConfirmation,
     TransactionErrorHandler onError,
-  ) {
+  ) async {
     _transactionConfirmedSubscription = _subscribe(
       'subscription { transactionConfirmed(address: "$address") { nbConfirmations, maxConfirmations } }',
     ).listen(
@@ -178,6 +181,7 @@ class ArchethicTransactionSender
           transactionAddress: address,
           data: result.data,
         );
+
         if (transactionEvent == null) {
           await onError(const TransactionError.invalidConfirmation());
           return;
