@@ -6,9 +6,10 @@ import 'package:archethic_lib_dart/src/model/messaging/ae_discussion.dart';
 import 'package:archethic_lib_dart/src/model/messaging/ae_message.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
-import 'package:archethic_lib_dart/src/utils/messenger_util.dart';
+import 'package:archethic_lib_dart/src/utils/messenger/discussion_util.dart';
+import 'package:archethic_lib_dart/src/utils/messenger/messages_util.dart';
 
-class MessagingService with MessengerMixin {
+class MessagingService with DiscussionMixin, MessagesMixin {
   MessagingService({
     this.logsActivation = true,
   });
@@ -89,7 +90,7 @@ class MessagingService with MessengerMixin {
   }) async {
     return read(
       apiService: apiService,
-      scAddress: discussionSCAddress,
+      discussionSCAddress: discussionSCAddress,
       readerKeyPair: readerKeyPair,
       limit: limit,
       pagingOffset: pagingOffset,
@@ -116,7 +117,7 @@ class MessagingService with MessengerMixin {
     return send(
       keychain: keychain,
       apiService: apiService,
-      scAddress: discussionSCAddress,
+      discussionSCAddress: discussionSCAddress,
       messageContent: messageContent,
       senderAddress: senderAddress,
       senderServiceName: senderServiceName,
@@ -127,7 +128,7 @@ class MessagingService with MessengerMixin {
   /// Get a discussion from an address
   /// @param{ApiService} API with blockchain
   /// @param{String} Smart contract's address
-  /// @param{KeyPair} Keypair of the requester to check if discussion's content can be decrypt
+  /// @param{KeyPair} Keypair of the requester to check if discussion's content can be decrypted
   Future<AEDiscussion?> getDiscussion({
     required ApiService apiService,
     required String discussionSCAddress,
@@ -135,7 +136,7 @@ class MessagingService with MessengerMixin {
   }) async {
     return getDiscussionFromSCAddress(
       apiService: apiService,
-      scAddress: discussionSCAddress,
+      discussionSCAddress: discussionSCAddress,
       keyPair: keyPair,
     );
   }
@@ -143,7 +144,7 @@ class MessagingService with MessengerMixin {
   /// Build a message
   /// @param{ApiService} API with blockchain
   /// @param{String} Smart contract's address
-  /// @param{KeyPair} Keypair of the requester to check if discussion's content can be decrypt
+  /// @param{KeyPair} Keypair of the requester to check if discussion's content can be decrypted
   Future<({Transaction transaction, int transactionIndex})> buildMessage({
     required Keychain keychain,
     required ApiService apiService,
@@ -156,11 +157,27 @@ class MessagingService with MessengerMixin {
     return buildMessageSendTransaction(
       keychain: keychain,
       apiService: apiService,
-      scAddress: discussionSCAddress,
+      discussionSCAddress: discussionSCAddress,
       messageContent: messageContent,
       senderAddress: senderAddress,
       senderServiceName: senderServiceName,
       senderKeyPair: senderKeyPair,
+    );
+  }
+
+  /// Get the last properties of a discussion
+  /// @param{ApiService} API with blockchain
+  /// @param{String} Smart contract's address
+  /// @param{KeyPair} Keypair of the requester to check if discussion's properties can be decrypted
+  Future<String> getDiscussionLastProperties({
+    required ApiService apiService,
+    required String discussionSCAddress,
+    required KeyPair readerKeyPair,
+  }) async {
+    return getSCDiscussionLastContent(
+      apiService: apiService,
+      discussionSCAddress: discussionSCAddress,
+      readerKeyPair: readerKeyPair,
     );
   }
 }

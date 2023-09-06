@@ -1,9 +1,11 @@
 library messenger.api_test;
 
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/keychain.dart';
+import 'package:archethic_lib_dart/src/model/messaging/ae_discussion.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/services/messaging_service.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
@@ -48,7 +50,7 @@ void main() {
         final apiService = ApiService('http://localhost:4000');
         final keychain = Keychain(
           seed: hexToUint8List(
-            'B41D34187EA941DC7EB18F9160BEDB7E4420DC8E62BEA442D10B9261D73792F1',
+            'EEA3D92E9A396F6B25FCCF2C478A8159EDC6D6AF883390769041DDB11F00B37E',
           ),
         )
             .copyWithService('archethic-wallet-BOB', "m/650'/0/0")
@@ -57,23 +59,23 @@ void main() {
         final tx = await MessagingService().updateDiscussion(
           apiService: apiService,
           membersPubKey: [
-            '000041A06AF9C1EDF34FD9D4AB253B9A264F19FDCC220BD1FAF95439CD8FD1E0403A',
-            '00008CE1AC47F8B88A330999F7E4FBCCE5652CF3B47C4EDB6112A55BE7B36B189130',
+            '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B',
+            '000075C301BB1E9E276BF0171D88B681A3B672EFCAD6F8170F782912EA8B1FB568D1',
           ],
           discussionName: 'testGroup',
           adminsPubKey: [
-            '000041A06AF9C1EDF34FD9D4AB253B9A264F19FDCC220BD1FAF95439CD8FD1E0403A',
+            '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B',
           ],
           keychain: keychain,
-          serviceName: 'archethic-wallet-ALICE',
+          serviceName: 'archethic-wallet-BOB',
           adminKeyPair: KeyPair(
             privateKey: hexToUint8List(
-                '0000e7ddf16c1109f16c01b30f8d8284c025a7550ce33ecaab8f2d2cefb1e3882d8f'),
+                '000018044c68ee25100dfc242f99a7d78ad17cf114790a322efc1c27e2f4a0dbac06'),
             publicKey: hexToUint8List(
-                '000041a06af9c1edf34fd9d4ab253b9a264f19fdcc220bd1faf95439cd8fd1e0403a'),
+                '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B'),
           ),
           discussionSCAddress:
-              '0000AD370A6A99837525E8BD5228C568F970977EFD602AD37706C5D9D2AE75466EE1',
+              '000038f503a5db0c414b7aa6ef19ce0a5b871f121c72ca7e8d758294f5bf894fd33a',
         );
 
         expect(
@@ -283,6 +285,24 @@ void main() {
           );
         },
       );
+
+      test('discussionLastProperties', () async {
+        final apiService = ApiService('http://localhost:4000');
+        final content = await MessagingService().getDiscussionLastProperties(
+          apiService: apiService,
+          discussionSCAddress:
+              '000038f503a5db0c414b7aa6ef19ce0a5b871f121c72ca7e8d758294f5bf894fd33a',
+          readerKeyPair: KeyPair(
+            privateKey: hexToUint8List(
+                '000018044c68ee25100dfc242f99a7d78ad17cf114790a322efc1c27e2f4a0dbac06'),
+            publicKey: hexToUint8List(
+                '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B'),
+          ),
+        );
+        print(content);
+        final aeDiscussion = AEDiscussion.fromJson(jsonDecode(content));
+        expect(aeDiscussion.discussionName, 'ALICE');
+      });
     },
     tags: <String>['noCI'],
   );
