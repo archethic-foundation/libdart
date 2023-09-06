@@ -28,6 +28,7 @@ export 'src/model/node.dart';
 export 'src/model/on_chain_wallet_data.dart';
 export 'src/model/oracle_chain/oracle_uco_price.dart';
 export 'src/model/ownership.dart';
+export 'src/model/recipient.dart';
 export 'src/model/response/origin_key_response.dart';
 export 'src/model/service.dart';
 export 'src/model/shared_secrets.dart';
