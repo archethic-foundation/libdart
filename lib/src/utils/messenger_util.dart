@@ -56,7 +56,7 @@ mixin MessengerMixin {
     );
 
     final transactionTransfer =
-        Transaction(type: 'transfer', data: Transaction.initData())
+        Transaction(type: 'transfer', data: Transaction.initData(), version: 2)
             .addRecipient(
       discussionSCAddress,
       action: 'update_discussion',
@@ -200,9 +200,6 @@ condition transaction: [
 ]
 
 condition transaction, on: update_discussion(new_content), as: [
-  address: (
-    true
-  )
 ]
 
 actions triggered_by: transaction, on: update_discussion(new_content) do
