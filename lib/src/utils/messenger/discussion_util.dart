@@ -64,10 +64,6 @@ mixin DiscussionMixin {
         )
         .originSign(originPrivateKey);
 
-    final transactionFee =
-        await apiService.getTransactionFee(transactionTransferSigned);
-    print('transactionFee: ${transactionFee.fee}');
-
     await TransactionUtil().sendTransactions(
       transactions: [transactionTransferSigned],
       apiService: apiService,

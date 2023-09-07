@@ -303,7 +303,6 @@ void main() {
                 '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B'),
           ),
         );
-        print(content);
         final aeDiscussion = AEDiscussion.fromJson(jsonDecode(content));
         expect(aeDiscussion.discussionName, 'ALICE');
       });
