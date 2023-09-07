@@ -3,13 +3,75 @@ import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:typed_data';
 
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:archive/archive_io.dart';
+import 'package:archethic_lib_dart/src/model/authorized_key.dart';
+import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
+import 'package:archethic_lib_dart/src/model/keychain.dart';
+import 'package:archethic_lib_dart/src/model/messaging/ae_discussion.dart';
+import 'package:archethic_lib_dart/src/model/transaction.dart';
+import 'package:archethic_lib_dart/src/services/api_service.dart';
+import 'package:archethic_lib_dart/src/utils/crypto.dart';
+import 'package:archethic_lib_dart/src/utils/transaction_util.dart';
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 /// For group discussions, a dedicated transaction chain will contain a smart contract and its updates, as well as the discussion's rules and description.
 /// The messages will be contained in the inputs of the smart contracts in the chain.
 /// A general public key for accessing messages is made available.
-mixin MessengerMixin {
+mixin DiscussionMixin {
+  Future<Transaction> updateTransactionSC({
+    required Keychain keychain,
+    required ApiService apiService,
+    required String discussionName,
+    required List<String> adminsPubKey,
+    required String adminAddress,
+    required String serviceName,
+    required String discussionSCAddress,
+    required KeyPair adminKeyPair,
+  }) async {
+    final indexMap = await apiService.getTransactionIndex([adminAddress]);
+    if (indexMap[adminAddress] == null) {
+      throw Exception('Discussion not exists');
+    }
+
+    final discussionKeyAccess = uint8ListToHex(
+      await getDiscussionKeyAccess(
+        apiService: apiService,
+        discussionSCAddress: discussionSCAddress,
+        keyPair: adminKeyPair,
+      ),
+    );
+
+    final newContent = _generateDiscussionSCContent(
+      discussionName: discussionName,
+      adminsPubKey: adminsPubKey,
+      discussionKeyAccess: discussionKeyAccess,
+    );
+
+    final originPrivateKey = apiService.getOriginKey();
+
+    final transactionTransfer =
+        Transaction(type: 'transfer', data: Transaction.initData())
+            .addRecipient(
+      discussionSCAddress,
+      action: 'update_discussion',
+      args: [newContent],
+    ).addUCOTransfer(discussionSCAddress, toBigInt(5));
+
+    final transactionTransferSigned = keychain
+        .buildTransaction(
+          transactionTransfer,
+          serviceName,
+          indexMap[adminAddress]!,
+        )
+        .originSign(originPrivateKey);
+
+    await TransactionUtil().sendTransactions(
+      transactions: [transactionTransferSigned],
+      apiService: apiService,
+    );
+
+    return transactionTransferSigned;
+  }
+
   Future<Transaction> createTransactionSC({
     required Keychain keychain,
     required ApiService apiService,
@@ -51,9 +113,9 @@ mixin MessengerMixin {
       type: 'contract',
       data: Transaction.initData(),
     )
-        .setCode(_getDiscussionSCCode(membersPubKey: membersPubKey))
+        .setCode(_generateDiscussionSCCode(membersPubKey: membersPubKey))
         .setContent(
-          _getDiscussionSCContent(
+          _generateDiscussionSCContent(
             discussionName: discussionName,
             adminsPubKey: adminsPubKey,
             discussionKeyAccess: discussionKeyAccess,
@@ -97,7 +159,7 @@ mixin MessengerMixin {
     return transactionSC;
   }
 
-  String _getDiscussionSCCode({
+  String _generateDiscussionSCCode({
     required List<String> membersPubKey,
   }) {
     /// A discussion is represented and managed by a smart contract.
@@ -114,6 +176,13 @@ condition transaction: [
   )               
 ]
 
+condition triggered_by: transaction, on: update_discussion(new_content), as: [
+]
+
+actions triggered_by: transaction, on: update_discussion(new_content) do
+  Contract.set_content(new_content)
+end
+
 actions triggered_by: transaction do
 
 end
@@ -122,10 +191,10 @@ end
   }
 
   /// A discussion is represented and managed by a smart contract.
-  /// This smart contract contains a content that descrives discussion's properties:
+  /// This smart contract contains a content that describes discussion's properties:
   /// - Name of the discussion
   /// - lists the public keys of the admin
-  String _getDiscussionSCContent({
+  String _generateDiscussionSCContent({
     required String discussionName,
     required List<String> adminsPubKey,
     required String discussionKeyAccess,
@@ -192,90 +261,25 @@ end
         .originSign(originPrivateKey);
   }
 
-  Future<({Transaction transaction, int transactionIndex})>
-      buildMessageSendTransaction({
-    required Keychain keychain,
-    required ApiService apiService,
-    required String scAddress,
-    required String messageContent,
-    required String senderAddress,
-    required String senderServiceName,
-    required KeyPair senderKeyPair,
-  }) async {
-    final message = '''
-      {
-        "compressionAlgo": "gzip",
-        "message": "${await _encodeMessage(message: messageContent, apiService: apiService, scAddress: scAddress, senderKeyPair: senderKeyPair)}"
-      }
-    ''';
-
-    final tx = Transaction(type: 'transfer', data: Transaction.initData())
-        .setContent(message)
-        .addRecipient(scAddress);
-
-    final indexMap = await apiService.getTransactionIndex(
-      [senderAddress],
-    );
-
-    final index = indexMap[senderAddress] ?? 0;
-    final originPrivateKey = apiService.getOriginKey();
-
-    return (
-      transaction: keychain
-          .buildTransaction(tx, senderServiceName, index)
-          .originSign(originPrivateKey),
-      transactionIndex: index + 1,
-    );
-  }
-
-  Future<({Address transactionAddress, int transactionIndex})> send({
-    required Keychain keychain,
-    required ApiService apiService,
-    required String scAddress,
-    required String messageContent,
-    required String senderAddress,
-    required String senderServiceName,
-    required KeyPair senderKeyPair,
-  }) async {
-    final result = await buildMessageSendTransaction(
-      keychain: keychain,
-      apiService: apiService,
-      scAddress: scAddress,
-      messageContent: messageContent,
-      senderAddress: senderAddress,
-      senderServiceName: senderServiceName,
-      senderKeyPair: senderKeyPair,
-    );
-
-    final transaction = result.transaction;
-    await TransactionUtil().sendTransactions(
-      transactions: [transaction],
-      apiService: apiService,
-    );
-    return (
-      transactionAddress: transaction.address!,
-      transactionIndex: result.transactionIndex,
-    );
-  }
-
   Future<AEDiscussion?> getDiscussionFromSCAddress({
     required ApiService apiService,
-    required String scAddress,
+    required String discussionSCAddress,
     required KeyPair keyPair,
   }) async {
-    final smartContractMap = await apiService.getTransaction([scAddress]);
-    if (smartContractMap[scAddress] == null) {
+    final smartContractMap =
+        await apiService.getTransaction([discussionSCAddress]);
+    if (smartContractMap[discussionSCAddress] == null) {
       return null;
     }
 
     try {
-      final discussionKeyAccess = await _getDiscussionKeyAccess(
+      final discussionKeyAccess = await getDiscussionKeyAccess(
         apiService: apiService,
-        scAddress: scAddress,
+        discussionSCAddress: discussionSCAddress,
         keyPair: keyPair,
       );
 
-      final smartContract = smartContractMap[scAddress];
+      final smartContract = smartContractMap[discussionSCAddress];
 
       final cryptedContent = base64.decode(smartContract!.data!.content!);
 
@@ -306,15 +310,15 @@ end
   }
 
   /// This method get the AES Key used to encrypt and decrypt informations in the discussion (messages, discussion's properties)
-  Future<Uint8List> _getDiscussionKeyAccess({
+  Future<Uint8List> getDiscussionKeyAccess({
     required ApiService apiService,
-    required String scAddress,
+    required String discussionSCAddress,
     required KeyPair keyPair,
   }) async {
     // Get message key from SC secret
     final mapTransactionOwnerships =
-        await apiService.getTransactionOwnerships([scAddress]);
-    final ownerships = mapTransactionOwnerships[scAddress];
+        await apiService.getTransactionOwnerships([discussionSCAddress]);
+    final ownerships = mapTransactionOwnerships[discussionSCAddress];
     if (ownerships == null && ownerships!.isEmpty) {
       throw Exception();
     }
@@ -336,136 +340,30 @@ end
     return aesDecrypt(ownerships[0].secret, aesKey);
   }
 
-  /// This method encrypt a message with the AES Key ()
-  Future<String> _encodeMessage({
-    required String message,
+  Future<String> getSCDiscussionLastContent({
     required ApiService apiService,
-    required String scAddress,
-    required KeyPair senderKeyPair,
-  }) async {
-    final discussionKeyAccess = await _getDiscussionKeyAccess(
-      apiService: apiService,
-      scAddress: scAddress,
-      keyPair: senderKeyPair,
-    );
-
-    // Encode message with message key
-    final stringPayload = utf8.encode(message);
-    final compressedPayload = GZipEncoder().encode(stringPayload);
-    final cryptedPayload = aesEncrypt(compressedPayload, discussionKeyAccess);
-    return base64.encode(cryptedPayload);
-  }
-
-  Uint8List _decodeMessage(
-    String compressedData,
-    String discussionKeyAccess, {
-    String compressionAlgo = '',
-  }) {
-    final payload = base64.decode(compressedData);
-    final decryptedPayload = aesDecrypt(
-      payload,
-      discussionKeyAccess,
-    );
-    late List<int> decompressedPayload;
-    switch (compressionAlgo) {
-      case 'gzip':
-        decompressedPayload = GZipDecoder().decodeBytes(decryptedPayload);
-        break;
-      default:
-        decompressedPayload = decryptedPayload;
-    }
-
-    return Uint8List.fromList(decompressedPayload);
-  }
-
-  Future<List<AEMessage>> read({
-    required ApiService apiService,
-    required String scAddress,
+    required String discussionSCAddress,
     required KeyPair readerKeyPair,
-    int limit = 0,
-    int pagingOffset = 0,
   }) async {
-    final messagesList = await apiService.getTransactionInputs(
-      [scAddress],
-      limit: limit,
-      pagingOffset: pagingOffset,
-    );
-    final txContentMessagesList =
-        messagesList[scAddress] ?? <TransactionInput>[];
-    final txContentMessagesAddresses = txContentMessagesList
-        .where(
-          (txContentMessage) =>
-              txContentMessage.from != null && txContentMessage.type == 'call',
-        )
-        .map((txContentMessage) => txContentMessage.from)
-        .whereType<String>()
-        .toList();
-
-    final aeMessages = <AEMessage>[];
-    final contents = await apiService.getTransaction(
-      txContentMessagesAddresses,
-      request:
-          ' address, chainLength, data { content }, previousPublicKey, validationStamp { timestamp } ',
-    );
-
-    if (contents.isEmpty) return [];
+    final lastTxMap =
+        await apiService.getLastTransaction([discussionSCAddress]);
+    final lastTx = lastTxMap[discussionSCAddress];
 
     final discussionKeyAccess = uint8ListToHex(
-      await _getDiscussionKeyAccess(
+      await getDiscussionKeyAccess(
         apiService: apiService,
-        scAddress: scAddress,
+        discussionSCAddress: discussionSCAddress,
         keyPair: readerKeyPair,
       ),
     );
 
-    for (final contentMessageAddress in txContentMessagesAddresses) {
-      final contentMessageTransaction = contents[contentMessageAddress];
-      if (contentMessageTransaction == null) continue;
+    final cryptedContent = base64.decode(lastTx!.data!.content!);
 
-      final transactionContentIM = TransactionContentMessaging.fromJson(
-        jsonDecode(contentMessageTransaction.data!.content!),
-      );
-      final message = utf8.decode(
-        _decodeMessage(
-          transactionContentIM.message,
-          discussionKeyAccess,
-          compressionAlgo: transactionContentIM.compressionAlgo,
-        ),
-      );
+    final content = utf8.decode(
+      aesDecrypt(cryptedContent, discussionKeyAccess),
+    );
 
-      final senderGenesisPublicKeyMap = await apiService.getTransactionChain(
-        {contentMessageTransaction.address!.address!: ''},
-        request: 'previousPublicKey',
-      );
-      var senderGenesisPublicKey = '';
-      if (senderGenesisPublicKeyMap.isNotEmpty &&
-          senderGenesisPublicKeyMap[
-                  contentMessageTransaction.address!.address!] !=
-              null &&
-          senderGenesisPublicKeyMap[
-                  contentMessageTransaction.address!.address!]!
-              .isNotEmpty) {
-        senderGenesisPublicKey = senderGenesisPublicKeyMap[
-                    contentMessageTransaction.address!.address!]?[0]
-                .previousPublicKey ??
-            '';
-      }
-
-      final aeMEssage = AEMessage(
-        senderGenesisPublicKey: senderGenesisPublicKey,
-        address: contentMessageTransaction.address!.address!,
-        sender: contentMessageTransaction.previousPublicKey!,
-        timestampCreation:
-            contentMessageTransaction.validationStamp!.timestamp!,
-        content: message,
-      );
-
-      aeMessages.add(
-        aeMEssage,
-      );
-    }
-
-    return aeMessages;
+    return content;
   }
 }
 

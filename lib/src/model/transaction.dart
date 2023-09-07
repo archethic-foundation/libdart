@@ -454,18 +454,17 @@ class Transaction with _$Transaction {
               recipientsBuffers,
               // 0 = unnamed action
               Uint8List.fromList([0]),
-              Uint8List.fromList(hexToUint8List(recipient.address!)),
+              hexToUint8List(recipient.address!),
             ]);
           } else {
             final jsonArgs = jsonEncode(recipient.args);
             final bufJsonLength = toByteArray(jsonArgs.length);
-
             recipientsBuffers = concatUint8List(<Uint8List>[
               recipientsBuffers,
               // 1 = named action
               Uint8List.fromList([1]),
-              Uint8List.fromList(hexToUint8List(recipient.address!)),
-              Uint8List.fromList(toByteArray(recipient.action!.length)),
+              hexToUint8List(recipient.address!),
+              toByteArray(recipient.action!.length),
               Uint8List.fromList(utf8.encode(recipient.action!)),
               Uint8List.fromList([bufJsonLength.length]),
               bufJsonLength,
@@ -482,7 +481,6 @@ class Transaction with _$Transaction {
         ]);
       }
     }
-
     final bufOwnershipLength =
         Uint8List.fromList(toByteArray(data!.ownerships.length));
     final bufUCOTransferLength =
