@@ -22,19 +22,15 @@ mixin DiscussionMixin {
     required ApiService apiService,
     required String discussionName,
     required List<String> adminsPubKey,
+    required String adminAddress,
     required String serviceName,
     required String discussionSCAddress,
     required KeyPair adminKeyPair,
   }) async {
-    final indexMap =
-        await apiService.getTransactionIndex([discussionSCAddress]);
-    if (indexMap[discussionSCAddress] == null) {
+    final indexMap = await apiService.getTransactionIndex([adminAddress]);
+    if (indexMap[adminAddress] == null) {
       throw Exception('Discussion not exists');
     }
-
-    final lastTxMap =
-        await apiService.getLastTransaction([discussionSCAddress]);
-    final lastTx = lastTxMap[discussionSCAddress];
 
     final discussionKeyAccess = uint8ListToHex(
       await getDiscussionKeyAccess(
@@ -50,6 +46,8 @@ mixin DiscussionMixin {
       discussionKeyAccess: discussionKeyAccess,
     );
 
+    final originPrivateKey = apiService.getOriginKey();
+
     final transactionTransfer =
         Transaction(type: 'transfer', data: Transaction.initData())
             .addRecipient(
@@ -58,19 +56,11 @@ mixin DiscussionMixin {
       args: [newContent],
     ).addUCOTransfer(discussionSCAddress, toBigInt(5));
 
-    for (final ownership in lastTx!.data!.ownerships) {
-      transactionTransfer.addOwnership(
-        ownership.secret!,
-        ownership.authorizedPublicKeys,
-      );
-    }
-    final originPrivateKey = apiService.getOriginKey();
-
     final transactionTransferSigned = keychain
         .buildTransaction(
           transactionTransfer,
           serviceName,
-          indexMap[discussionSCAddress]!,
+          indexMap[adminAddress]!,
         )
         .originSign(originPrivateKey);
 

@@ -61,6 +61,7 @@ class MessagingService with DiscussionMixin, MessagesMixin {
     required List<String> membersPubKey,
     required String discussionName,
     required List<String> adminsPubKey,
+    required String adminAddress,
     required String serviceName,
     required KeyPair adminKeyPair,
   }) async {
@@ -70,6 +71,7 @@ class MessagingService with DiscussionMixin, MessagesMixin {
       discussionSCAddress: discussionSCAddress,
       discussionName: discussionName,
       adminsPubKey: adminsPubKey,
+      adminAddress: adminAddress,
       serviceName: serviceName,
       adminKeyPair: adminKeyPair,
     );

@@ -50,11 +50,13 @@ void main() {
         final apiService = ApiService('http://localhost:4000');
         final keychain = Keychain(
           seed: hexToUint8List(
-            'EEA3D92E9A396F6B25FCCF2C478A8159EDC6D6AF883390769041DDB11F00B37E',
+            '0b5ee44eaf4a56d16ae98e577e9a0284eb057342547c95ed09ec5b056e27ae1b',
           ),
         )
-            .copyWithService('archethic-wallet-BOB', "m/650'/0/0")
-            .copyWithService('archethic-wallet-ALICE', "m/650'/0/0");
+            .copyWithService(
+                'archethic-wallet-BOB', "m/650'/archethic-wallet-BOB/0")
+            .copyWithService(
+                'archethic-wallet-ALICE', "m/650'/archethic-wallet-ALICE/0");
 
         final tx = await MessagingService().updateDiscussion(
           apiService: apiService,
@@ -67,6 +69,8 @@ void main() {
             '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B',
           ],
           keychain: keychain,
+          adminAddress:
+              '0000C64FBA2EACCDC43849D580E7BCB7F49C10ADD09E4AD4AABE92098F9621ED7DCC',
           serviceName: 'archethic-wallet-BOB',
           adminKeyPair: KeyPair(
             privateKey: hexToUint8List(
