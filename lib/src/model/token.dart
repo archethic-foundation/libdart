@@ -35,10 +35,10 @@ class Token with _$Token {
       'name': name,
       'supply': supply,
       'type': type,
-      'decimals': decimals,
+      if (decimals != null) 'decimals': decimals,
       'symbol': symbol,
       'properties': properties,
-      'collection': collection,
+      if (collection.isNotEmpty) 'collection': collection,
       'aeip': aeip,
     };
 
