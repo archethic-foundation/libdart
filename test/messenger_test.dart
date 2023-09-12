@@ -54,15 +54,19 @@ void main() {
           ),
         )
             .copyWithService(
-                'archethic-wallet-BOB', "m/650'/archethic-wallet-BOB/0")
+              'archethic-wallet-BOB',
+              "m/650'/archethic-wallet-BOB/0",
+            )
             .copyWithService(
-                'archethic-wallet-ALICE', "m/650'/archethic-wallet-ALICE/0");
+              'archethic-wallet-ALICE',
+              "m/650'/archethic-wallet-ALICE/0",
+            );
 
         final tx = await MessagingService().updateDiscussion(
           apiService: apiService,
           membersPubKey: [
             '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B',
-            '000075C301BB1E9E276BF0171D88B681A3B672EFCAD6F8170F782912EA8B1FB568D1',
+            '000075C301BB1E9E276BF0171D88B@681A3B672EFCAD6F8170F782912EA8B1FB568D1',
           ],
           discussionName: 'testGroup',
           adminsPubKey: [
@@ -74,9 +78,11 @@ void main() {
           serviceName: 'archethic-wallet-BOB',
           adminKeyPair: KeyPair(
             privateKey: hexToUint8List(
-                '000018044c68ee25100dfc242f99a7d78ad17cf114790a322efc1c27e2f4a0dbac06'),
+              '000018044c68ee25100dfc242f99a7d78ad17cf114790a322efc1c27e2f4a0dbac06',
+            ),
             publicKey: hexToUint8List(
-                '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B'),
+              '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B',
+            ),
           ),
           discussionSCAddress:
               '000038f503a5db0c414b7aa6ef19ce0a5b871f121c72ca7e8d758294f5bf894fd33a',
@@ -298,9 +304,11 @@ void main() {
               '000038f503a5db0c414b7aa6ef19ce0a5b871f121c72ca7e8d758294f5bf894fd33a',
           readerKeyPair: KeyPair(
             privateKey: hexToUint8List(
-                '000018044c68ee25100dfc242f99a7d78ad17cf114790a322efc1c27e2f4a0dbac06'),
+              '000018044c68ee25100dfc242f99a7d78ad17cf114790a322efc1c27e2f4a0dbac06',
+            ),
             publicKey: hexToUint8List(
-                '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B'),
+              '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B',
+            ),
           ),
         );
         final aeDiscussion = AEDiscussion.fromJson(jsonDecode(content));
