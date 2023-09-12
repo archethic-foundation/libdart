@@ -22,6 +22,7 @@ mixin DiscussionMixin {
     required ApiService apiService,
     required String discussionName,
     required List<String> adminsPubKey,
+    required List<String> membersPubKey,
     required String adminAddress,
     required String serviceName,
     required String discussionSCAddress,
@@ -48,12 +49,28 @@ mixin DiscussionMixin {
 
     final originPrivateKey = apiService.getOriginKey();
 
+    /// AESKey (32-byte (256-bit) random key) manages SC secrets
+    final aesKey = generateRandomAESKey();
+
     final transactionTransfer =
         Transaction(type: 'transfer', data: Transaction.initData())
             .addRecipient(
       discussionSCAddress,
       action: 'update_discussion',
-      args: [newContent],
+      args: [
+        newContent,
+        '''
+[
+  {
+    'authorized_keys': {
+      ${membersPubKey.map((key) => '"$key"').join(', ')}         
+    },
+    'secret': '${uint8ListToHex(
+          aesEncrypt(discussionKeyAccess, aesKey),
+        )}'
+  }
+] '''
+      ],
     ).addUCOTransfer(discussionSCAddress, toBigInt(5));
 
     final transactionTransferSigned = keychain
@@ -176,11 +193,12 @@ condition transaction: [
   )               
 ]
 
-condition triggered_by: transaction, on: update_discussion(new_content), as: [
+condition triggered_by: transaction, on: update_discussion(new_content, members_pub_key), as: [
 ]
 
-actions triggered_by: transaction, on: update_discussion(new_content) do
+actions triggered_by: transaction, on: update_discussion(new_content, members_pub_key) do
   Contract.set_content(new_content)
+  Contract.add_ownership(members_pub_key)
 end
 
 actions triggered_by: transaction do

@@ -71,6 +71,7 @@ class MessagingService with DiscussionMixin, MessagesMixin {
       discussionSCAddress: discussionSCAddress,
       discussionName: discussionName,
       adminsPubKey: adminsPubKey,
+      membersPubKey: membersPubKey,
       adminAddress: adminAddress,
       serviceName: serviceName,
       adminKeyPair: adminKeyPair,
