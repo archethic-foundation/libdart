@@ -7,6 +7,7 @@ import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/keychain.dart';
 import 'package:archethic_lib_dart/src/model/messaging/ae_discussion.dart';
+import 'package:archethic_lib_dart/src/model/ownership.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart';
@@ -51,6 +52,31 @@ mixin DiscussionMixin {
 
     /// AESKey (32-byte (256-bit) random key) manages SC secrets
     final aesKey = generateRandomAESKey();
+    final membersAuthorizedKeys = _addMembersInAuthorized(
+      aesKey: aesKey,
+      membersPubKey: membersPubKey,
+    );
+
+    final ownership = Ownership(
+      secret: uint8ListToHex(
+        aesEncrypt(discussionKeyAccess, aesKey),
+      ),
+      authorizedPublicKeys: membersAuthorizedKeys,
+    );
+
+    Map<String, Object?> ownershipToJson(Ownership x) {
+      final authorizedKeysMap = <String, String>{};
+      for (final key in x.authorizedPublicKeys) {
+        if (key.publicKey != null && key.encryptedSecretKey != null) {
+          authorizedKeysMap[key.publicKey!] = key.encryptedSecretKey!;
+        }
+      }
+
+      return {
+        'authorized_keys': authorizedKeysMap,
+        'secret': x.secret == null ? '' : x.secret!,
+      };
+    }
 
     final transactionTransfer =
         Transaction(type: 'transfer', data: Transaction.initData())
@@ -59,17 +85,7 @@ mixin DiscussionMixin {
       action: 'update_discussion',
       args: [
         newContent,
-        '''
-[
-  {
-    'authorized_keys': {
-      ${membersPubKey.map((key) => '"$key"').join(', ')}         
-    },
-    'secret': '${uint8ListToHex(
-          aesEncrypt(discussionKeyAccess, aesKey),
-        )}'
-  }
-] '''
+        ownershipToJson(ownership),
       ],
     ).addUCOTransfer(discussionSCAddress, toBigInt(5));
 
