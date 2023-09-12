@@ -50,7 +50,7 @@ void main() {
         final apiService = ApiService('http://localhost:4000');
         final keychain = Keychain(
           seed: hexToUint8List(
-            '0b5ee44eaf4a56d16ae98e577e9a0284eb057342547c95ed09ec5b056e27ae1b',
+            '3401497f307523b85d9f3353b59616745d052192e121d79fd992670fff81d516',
           ),
         )
             .copyWithService(
@@ -65,27 +65,27 @@ void main() {
         final tx = await MessagingService().updateDiscussion(
           apiService: apiService,
           membersPubKey: [
-            '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B',
-            '000075C301BB1E9E276BF0171D88B@681A3B672EFCAD6F8170F782912EA8B1FB568D1',
+            '0000099FE31210035233C152B00993A507B4A5926FBF2F4C50749F971A62801CB250',
+            '0000EFA223DC67D1B0277D1CDE79BD920A92F592205510D4AFFEA53E62A4A102091A',
           ],
           discussionName: 'testGroup',
           adminsPubKey: [
-            '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B',
+            '0000EFA223DC67D1B0277D1CDE79BD920A92F592205510D4AFFEA53E62A4A102091A',
           ],
           keychain: keychain,
           adminAddress:
-              '0000C64FBA2EACCDC43849D580E7BCB7F49C10ADD09E4AD4AABE92098F9621ED7DCC',
+              '0000798B5FEAB7450F316C584BC5CDC5522DB0E52E39BEA435FC1A50D55E9E8B88FD',
           serviceName: 'archethic-wallet-BOB',
           adminKeyPair: KeyPair(
             privateKey: hexToUint8List(
-              '000018044c68ee25100dfc242f99a7d78ad17cf114790a322efc1c27e2f4a0dbac06',
+              '0000adbdea164eea9b761b81843dc0cdbbc3c0312f61900031794c9cf927fc3b4d38',
             ),
             publicKey: hexToUint8List(
-              '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B',
+              '0000efa223dc67d1b0277d1cde79bd920a92f592205510d4affea53e62a4a102091a',
             ),
           ),
           discussionSCAddress:
-              '000038f503a5db0c414b7aa6ef19ce0a5b871f121c72ca7e8d758294f5bf894fd33a',
+              '000056c066b12c0221c7ca05b1445004764e40a5116f81b47c09ddd0b5976c254b99',
         );
 
         expect(
