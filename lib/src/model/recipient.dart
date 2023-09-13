@@ -22,4 +22,31 @@ class Recipient with _$Recipient {
 
   factory Recipient.fromJson(Map<String, dynamic> json) =>
       _$RecipientFromJson(json);
+
+  List<Object>? sortArgs() {
+    if (args == null) return null;
+
+    final newList = List<Object>.from(args!);
+
+    for (var i = 0; i < newList.length; i++) {
+      if (newList[i] is Map) {
+        newList[i] = sortMapKeys(newList[i] as Map<String, dynamic>);
+      }
+    }
+    return newList;
+  }
+
+  Map<String, dynamic> sortMapKeys(Map<String, dynamic> map) {
+    final sortedMap = Map.fromEntries(
+      map.entries.toList()..sort((a, b) => a.key.compareTo(b.key)),
+    );
+
+    for (final key in sortedMap.keys) {
+      if (sortedMap[key] is Map) {
+        sortedMap[key] = sortMapKeys(sortedMap[key]);
+      }
+    }
+
+    return sortedMap;
+  }
 }

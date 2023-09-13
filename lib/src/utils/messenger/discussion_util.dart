@@ -155,20 +155,20 @@ mixin DiscussionMixin {
           ),
         )
 
-        /// Secret 1 : DiscussionKeyAccess only accessible by the discussion's members
-        .addOwnership(
-          uint8ListToHex(
-            aesEncrypt(discussionKeyAccess, aesKey),
-          ),
-          membersAuthorizedKeys,
-        )
-
-        /// Secret 2 : Seed of the SC only accessible by nodes
+        /// Secret 1 : Seed of the SC only accessible by nodes
         .addOwnership(
           uint8ListToHex(
             aesEncrypt(seedSC, aesKey),
           ),
           scAuthorizedKeys,
+        )
+
+        /// Secret 2 : DiscussionKeyAccess only accessible by the discussion's members
+        .addOwnership(
+          uint8ListToHex(
+            aesEncrypt(discussionKeyAccess, aesKey),
+          ),
+          membersAuthorizedKeys,
         )
         .build(seedSC, indexSCTransaction)
         .originSign(originPrivateKey);
@@ -357,7 +357,7 @@ end
       throw Exception();
     }
 
-    final authorizedPublicKey = ownerships[0].authorizedPublicKeys.firstWhere(
+    final authorizedPublicKey = ownerships[1].authorizedPublicKeys.firstWhere(
           (AuthorizedKey authKey) =>
               authKey.publicKey!.toUpperCase() ==
               uint8ListToHex(Uint8List.fromList(keyPair.publicKey!))
@@ -371,7 +371,7 @@ end
       authorizedPublicKey.encryptedSecretKey,
       Uint8List.fromList(keyPair.privateKey!),
     );
-    return aesDecrypt(ownerships[0].secret, aesKey);
+    return aesDecrypt(ownerships[1].secret, aesKey);
   }
 
   Future<String> getSCDiscussionLastContent({
