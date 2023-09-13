@@ -457,7 +457,8 @@ class Transaction with _$Transaction {
               hexToUint8List(recipient.address!),
             ]);
           } else {
-            final jsonArgs = jsonEncode(recipient.args);
+            final sortedArgs = recipient.sortArgs();
+            final jsonArgs = jsonEncode(sortedArgs);
             final bufJsonLength = toByteArray(jsonArgs.length);
             recipientsBuffers = concatUint8List(<Uint8List>[
               recipientsBuffers,

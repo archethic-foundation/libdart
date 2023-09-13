@@ -50,7 +50,7 @@ void main() {
         final apiService = ApiService('http://localhost:4000');
         final keychain = Keychain(
           seed: hexToUint8List(
-            '3401497f307523b85d9f3353b59616745d052192e121d79fd992670fff81d516',
+            'f743f0c292ae739fc63ffeea74e666bdf9d3308e687fe065071b501cc82c313e',
           ),
         )
             .copyWithService(
@@ -65,27 +65,27 @@ void main() {
         final tx = await MessagingService().updateDiscussion(
           apiService: apiService,
           membersPubKey: [
-            '0000099FE31210035233C152B00993A507B4A5926FBF2F4C50749F971A62801CB250',
-            '0000EFA223DC67D1B0277D1CDE79BD920A92F592205510D4AFFEA53E62A4A102091A',
+            '0000E94AD258D642D791DFA3F1FAFFB7D2BB13A898E15677B6997BD95FB127C22668',
+            '00007A258D32E1245A3CA9CEFCB6B6363E1AB1DA49C15E9AD2B1014BF91F46397641',
           ],
           discussionName: 'testGroup',
           adminsPubKey: [
-            '0000EFA223DC67D1B0277D1CDE79BD920A92F592205510D4AFFEA53E62A4A102091A',
+            '0000E94AD258D642D791DFA3F1FAFFB7D2BB13A898E15677B6997BD95FB127C22668',
           ],
           keychain: keychain,
           adminAddress:
-              '0000798B5FEAB7450F316C584BC5CDC5522DB0E52E39BEA435FC1A50D55E9E8B88FD',
+              '00003826750A085421A06D07816F24FC4AB020F09E841B15DBF83913AC3B875ED693',
           serviceName: 'archethic-wallet-BOB',
           adminKeyPair: KeyPair(
             privateKey: hexToUint8List(
-              '0000adbdea164eea9b761b81843dc0cdbbc3c0312f61900031794c9cf927fc3b4d38',
+              '00002f48b41208d94b5cb07df768f2f4bbc2715731d1490c4cf7e483aad3b0f7a48f',
             ),
             publicKey: hexToUint8List(
-              '0000efa223dc67d1b0277d1cde79bd920a92f592205510d4affea53e62a4a102091a',
+              '0000e94ad258d642d791dfa3f1faffb7d2bb13a898e15677b6997bd95fb127c22668',
             ),
           ),
           discussionSCAddress:
-              '000056c066b12c0221c7ca05b1445004764e40a5116f81b47c09ddd0b5976c254b99',
+              '00009460ca907f506474000302a8a15629ccf6a2d05498baf041b2a010ead7182cba',
         );
 
         expect(
@@ -301,17 +301,18 @@ void main() {
         final content = await MessagingService().getDiscussionLastProperties(
           apiService: apiService,
           discussionSCAddress:
-              '000038f503a5db0c414b7aa6ef19ce0a5b871f121c72ca7e8d758294f5bf894fd33a',
+              '0000E2F3D9EA9431BBE4ED0ADA45AB1101B1F360716AA4FF190A17C6BB13A5C167D3',
           readerKeyPair: KeyPair(
             privateKey: hexToUint8List(
-              '000018044c68ee25100dfc242f99a7d78ad17cf114790a322efc1c27e2f4a0dbac06',
+              '00002f48b41208d94b5cb07df768f2f4bbc2715731d1490c4cf7e483aad3b0f7a48f',
             ),
             publicKey: hexToUint8List(
-              '00008E06D5EB90AD1F6E4A7E8AA9C9E76E3D636F031128D674B1FB01573FEBBFD34B',
+              '0000e94ad258d642d791dfa3f1faffb7d2bb13a898e15677b6997bd95fb127c22668',
             ),
           ),
         );
         final aeDiscussion = AEDiscussion.fromJson(jsonDecode(content));
+
         expect(aeDiscussion.discussionName, 'ALICE');
       });
     },
