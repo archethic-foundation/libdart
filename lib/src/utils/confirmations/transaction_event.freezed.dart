@@ -2091,6 +2091,8 @@ mixin _$TransactionConfirmation {
   String get transactionAddress => throw _privateConstructorUsedError;
   int get nbConfirmations => throw _privateConstructorUsedError;
   int get maxConfirmations => throw _privateConstructorUsedError;
+  double get ratio => throw _privateConstructorUsedError;
+  bool get ratioEqualIncluded => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TransactionConfirmationCopyWith<TransactionConfirmation> get copyWith =>
@@ -2104,7 +2106,11 @@ abstract class $TransactionConfirmationCopyWith<$Res> {
       _$TransactionConfirmationCopyWithImpl<$Res, TransactionConfirmation>;
   @useResult
   $Res call(
-      {String transactionAddress, int nbConfirmations, int maxConfirmations});
+      {String transactionAddress,
+      int nbConfirmations,
+      int maxConfirmations,
+      double ratio,
+      bool ratioEqualIncluded});
 }
 
 /// @nodoc
@@ -2124,6 +2130,8 @@ class _$TransactionConfirmationCopyWithImpl<$Res,
     Object? transactionAddress = null,
     Object? nbConfirmations = null,
     Object? maxConfirmations = null,
+    Object? ratio = null,
+    Object? ratioEqualIncluded = null,
   }) {
     return _then(_value.copyWith(
       transactionAddress: null == transactionAddress
@@ -2138,6 +2146,14 @@ class _$TransactionConfirmationCopyWithImpl<$Res,
           ? _value.maxConfirmations
           : maxConfirmations // ignore: cast_nullable_to_non_nullable
               as int,
+      ratio: null == ratio
+          ? _value.ratio
+          : ratio // ignore: cast_nullable_to_non_nullable
+              as double,
+      ratioEqualIncluded: null == ratioEqualIncluded
+          ? _value.ratioEqualIncluded
+          : ratioEqualIncluded // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -2151,7 +2167,11 @@ abstract class _$$_TransactionConfirmationCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String transactionAddress, int nbConfirmations, int maxConfirmations});
+      {String transactionAddress,
+      int nbConfirmations,
+      int maxConfirmations,
+      double ratio,
+      bool ratioEqualIncluded});
 }
 
 /// @nodoc
@@ -2169,6 +2189,8 @@ class __$$_TransactionConfirmationCopyWithImpl<$Res>
     Object? transactionAddress = null,
     Object? nbConfirmations = null,
     Object? maxConfirmations = null,
+    Object? ratio = null,
+    Object? ratioEqualIncluded = null,
   }) {
     return _then(_$_TransactionConfirmation(
       transactionAddress: null == transactionAddress
@@ -2183,6 +2205,14 @@ class __$$_TransactionConfirmationCopyWithImpl<$Res>
           ? _value.maxConfirmations
           : maxConfirmations // ignore: cast_nullable_to_non_nullable
               as int,
+      ratio: null == ratio
+          ? _value.ratio
+          : ratio // ignore: cast_nullable_to_non_nullable
+              as double,
+      ratioEqualIncluded: null == ratioEqualIncluded
+          ? _value.ratioEqualIncluded
+          : ratioEqualIncluded // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -2193,7 +2223,9 @@ class _$_TransactionConfirmation extends _TransactionConfirmation {
   const _$_TransactionConfirmation(
       {required this.transactionAddress,
       this.nbConfirmations = 0,
-      this.maxConfirmations = 0})
+      this.maxConfirmations = 0,
+      this.ratio = 0.0,
+      this.ratioEqualIncluded = true})
       : super._();
 
   @override
@@ -2204,10 +2236,16 @@ class _$_TransactionConfirmation extends _TransactionConfirmation {
   @override
   @JsonKey()
   final int maxConfirmations;
+  @override
+  @JsonKey()
+  final double ratio;
+  @override
+  @JsonKey()
+  final bool ratioEqualIncluded;
 
   @override
   String toString() {
-    return 'TransactionConfirmation(transactionAddress: $transactionAddress, nbConfirmations: $nbConfirmations, maxConfirmations: $maxConfirmations)';
+    return 'TransactionConfirmation(transactionAddress: $transactionAddress, nbConfirmations: $nbConfirmations, maxConfirmations: $maxConfirmations, ratio: $ratio, ratioEqualIncluded: $ratioEqualIncluded)';
   }
 
   @override
@@ -2220,12 +2258,15 @@ class _$_TransactionConfirmation extends _TransactionConfirmation {
             (identical(other.nbConfirmations, nbConfirmations) ||
                 other.nbConfirmations == nbConfirmations) &&
             (identical(other.maxConfirmations, maxConfirmations) ||
-                other.maxConfirmations == maxConfirmations));
+                other.maxConfirmations == maxConfirmations) &&
+            (identical(other.ratio, ratio) || other.ratio == ratio) &&
+            (identical(other.ratioEqualIncluded, ratioEqualIncluded) ||
+                other.ratioEqualIncluded == ratioEqualIncluded));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, transactionAddress, nbConfirmations, maxConfirmations);
+  int get hashCode => Object.hash(runtimeType, transactionAddress,
+      nbConfirmations, maxConfirmations, ratio, ratioEqualIncluded);
 
   @JsonKey(ignore: true)
   @override
@@ -2240,7 +2281,9 @@ abstract class _TransactionConfirmation extends TransactionConfirmation {
   const factory _TransactionConfirmation(
       {required final String transactionAddress,
       final int nbConfirmations,
-      final int maxConfirmations}) = _$_TransactionConfirmation;
+      final int maxConfirmations,
+      final double ratio,
+      final bool ratioEqualIncluded}) = _$_TransactionConfirmation;
   const _TransactionConfirmation._() : super._();
 
   @override
@@ -2249,6 +2292,10 @@ abstract class _TransactionConfirmation extends TransactionConfirmation {
   int get nbConfirmations;
   @override
   int get maxConfirmations;
+  @override
+  double get ratio;
+  @override
+  bool get ratioEqualIncluded;
   @override
   @JsonKey(ignore: true)
   _$$_TransactionConfirmationCopyWith<_$_TransactionConfirmation>

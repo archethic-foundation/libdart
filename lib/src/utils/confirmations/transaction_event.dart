@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'transaction_event.freezed.dart';
@@ -49,6 +47,8 @@ class TransactionConfirmation with _$TransactionConfirmation {
     required String transactionAddress,
     @Default(0) int nbConfirmations,
     @Default(0) int maxConfirmations,
+    @Default(0.0) double ratio,
+    @Default(true) bool ratioEqualIncluded,
   }) = _TransactionConfirmation;
 
   const TransactionConfirmation._();
@@ -57,13 +57,28 @@ class TransactionConfirmation with _$TransactionConfirmation {
   bool get isEnoughConfirmed => isEnoughConfirmations(
         nbConfirmations,
         maxConfirmations,
+        ratio,
+        ratioEqualIncluded: ratioEqualIncluded,
       );
-
-  double get confirmationRatio => max(1, maxConfirmations / nbConfirmations);
 
   static bool isEnoughConfirmations(
     int nbConfirmations,
     int maxConfirmations,
-  ) =>
-      nbConfirmations > 0;
+    double ratio, {
+    bool ratioEqualIncluded = true,
+  }) {
+    if (ratioEqualIncluded) {
+      if (nbConfirmations / maxConfirmations >= ratio) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (nbConfirmations / maxConfirmations > ratio) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
 }
