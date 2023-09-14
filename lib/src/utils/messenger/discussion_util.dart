@@ -324,7 +324,7 @@ end
 
       final usersPubKey = <String>[];
       for (final authorizedPublicKey
-          in smartContract.data!.ownerships[0].authorizedPublicKeys) {
+          in smartContract.data!.ownerships[1].authorizedPublicKeys) {
         usersPubKey.add(authorizedPublicKey.publicKey!);
       }
 
