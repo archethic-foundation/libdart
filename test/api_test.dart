@@ -230,9 +230,9 @@ void main() {
         );
 
         expect(
-          smCallFunctionResponse.startsWith(
-            '@version 1',
-          ),
+          smCallFunctionResponse.toString().startsWith(
+                '@version 1',
+              ),
           true,
         );
       });
