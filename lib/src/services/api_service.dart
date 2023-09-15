@@ -901,12 +901,13 @@ class ApiService with JsonRPCUtil {
   }
 
   /// Call a smart contract's function
-  /// @param {String} originPublicKey origin public key to be added
-  /// @param {String} certificate certificate of the origin public key
-  Future<String> callSCFunction({
+  /// @param {SCCallFunctionRequest} RPC Request
+  /// @param {bool} Format of the response (true=Map, false=String)
+  Future<Object> callSCFunction({
     required SCCallFunctionRequest jsonRPCRequest,
+    bool resultMap = false,
   }) async {
-    final completer = Completer<String>();
+    final completer = Completer<Object>();
     log(
       'callSCFunction: requestHttp.body=${json.encode(jsonRPCRequest)}',
       logsActivation: logsActivation,
@@ -923,9 +924,15 @@ class ApiService with JsonRPCUtil {
       logsActivation: logsActivation,
     );
 
-    completer.complete(
-      getJsonRPCResultString(responseHttp.body),
-    );
+    if (resultMap) {
+      completer.complete(
+        getJsonRPCResult(responseHttp.body),
+      );
+    } else {
+      completer.complete(
+        getJsonRPCResultString(responseHttp.body),
+      );
+    }
 
     return completer.future;
   }

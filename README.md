@@ -379,8 +379,9 @@ It supports the Archethic Cryptography rules which are:
   #### callSCFunction(jsonRPCRequest)
   Call a smart contract's function using JSON-RPC 2.0 method.
   - `jsonRPCRequest` is the json structure based on SCCallFunctionRequest object to request the function
+  - `resultMap` (optional) is the format of the response (true=Map, false=String)
 
-  Returns the result (String) of the function called
+  Returns the result of the function called
 
   Call a function :
   ```dart

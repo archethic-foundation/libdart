@@ -12,6 +12,7 @@ Changelog
 * Transaction's content is not anymore encoded in hexadecimal.
 * BREAKING-CHANGE - Messaging Backend - Refactoring
 * Update isEnoughConfirmations method to allow ratio comparaison
+* Add a flag to define the format of a RPC response in `callSCFunction` method
 
 #### Version 3.2.0
 * Add utility methods to handle message exchange mechanisms within the context of messaging.
