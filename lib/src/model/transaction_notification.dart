@@ -6,8 +6,8 @@ part 'transaction_notification.g.dart';
 @freezed
 class TransactionNotification with _$TransactionNotification {
   const factory TransactionNotification({
-    required String txAddress,
-    required String txChainGenesisAddress,
+    required String notificationRecipientAddress,
+    required String listenAddress,
   }) = _TransactionNotification;
   const TransactionNotification._();
 }
