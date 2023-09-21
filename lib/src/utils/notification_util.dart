@@ -12,8 +12,9 @@ mixin NotificationUtil {
     required KeyPair senderKeyPair,
   }) async {
     final payload = concatUint8List(<Uint8List>[
-      Uint8List.fromList(hexToUint8List(notification.txAddress)),
-      Uint8List.fromList(hexToUint8List(notification.txChainGenesisAddress)),
+      Uint8List.fromList(
+          hexToUint8List(notification.notificationRecipientAddress)),
+      Uint8List.fromList(hexToUint8List(notification.listenAddress)),
     ]);
 
     return crypto.sign(payload, senderKeyPair.privateKey);
@@ -34,8 +35,8 @@ mixin NotificationUtil {
     );
 
     final body = jsonEncode({
-      'txAddress': notification.txAddress,
-      'txChainGenesisAddress': notification.txChainGenesisAddress,
+      'txAddress': notification.notificationRecipientAddress,
+      'txChainGenesisAddress': notification.listenAddress,
       'payloadSignature': signature,
       'pushNotification': pushNotification,
     });
