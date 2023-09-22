@@ -32,6 +32,7 @@ mixin NotificationUtil {
     required int txIndex,
     required String notifBackendBaseUrl,
     required Map<String, PushNotification> pushNotification,
+    required String transactionType,
   }) async {
     for (final listenAddress in notification.listenAddresses) {
       final signature = uint8ListToHex(
@@ -48,6 +49,7 @@ mixin NotificationUtil {
         'txChainGenesisAddress': listenAddress,
         'payloadSignature': signature,
         'pushNotification': pushNotification,
+        'type': transactionType
       });
       log('Sending notification. $body');
       await http.post(
