@@ -41,7 +41,7 @@ void main() {
         );
 
         expect(
-          tx.version,
+          tx.transaction.version,
           1,
         );
       });
@@ -89,7 +89,7 @@ void main() {
         );
 
         expect(
-          tx.version,
+          tx.transaction.version,
           1,
         );
       });
@@ -144,7 +144,7 @@ void main() {
         );
 
         expect(
-          tx.version,
+          tx.transaction.version,
           1,
         );
       });
@@ -249,7 +249,7 @@ void main() {
             apiService: apiService,
             keychain: keychain,
             messageContent: '1er message',
-            discussionSCAddress: tx.address!.address!,
+            discussionSCAddress: tx.transaction.address!.address!,
             senderAddress:
                 '00000162D81A8BADB078C430693DF1D8ED6A9F6FC9D484A0CCCD5935E353D2275362',
             senderServiceName: 'archethic-wallet-TEST',
@@ -267,7 +267,7 @@ void main() {
             apiService: apiService,
             keychain: keychain,
             messageContent: '2ème message',
-            discussionSCAddress: tx.address!.address!,
+            discussionSCAddress: tx.transaction.address!.address!,
             senderAddress:
                 '00000162D81A8BADB078C430693DF1D8ED6A9F6FC9D484A0CCCD5935E353D2275362',
             senderServiceName: 'archethic-wallet-TEST',
@@ -283,7 +283,7 @@ void main() {
 
           await MessagingService().readMessages(
             apiService: apiService,
-            discussionSCAddress: tx.address!.address!,
+            discussionSCAddress: tx.transaction.address!.address!,
             readerKeyPair: KeyPair(
               privateKey: hexToUint8List(
                 '000001b98027e90c0bd9020aee089a50c84da7185e6258d22d8f1b73c9e56e7f4134',

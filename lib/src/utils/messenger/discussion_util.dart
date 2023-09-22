@@ -18,7 +18,8 @@ import 'package:archethic_lib_dart/src/utils/utils.dart';
 /// The messages will be contained in the inputs of the smart contracts in the chain.
 /// A general public key for accessing messages is made available.
 mixin DiscussionMixin {
-  Future<Transaction> updateTransactionSC({
+  Future<({Transaction transaction, int transactionIndex})>
+      updateTransactionSC({
     required Keychain keychain,
     required ApiService apiService,
     required String discussionName,
@@ -108,11 +109,16 @@ mixin DiscussionMixin {
       transactions: [transactionTransferSigned],
       apiService: apiService,
     );
+    final index = (indexMap[adminAddress] ?? 0) + 1;
 
-    return transactionTransferSigned;
+    return (
+      transaction: transactionTransferSigned,
+      transactionIndex: index,
+    );
   }
 
-  Future<Transaction> createTransactionSC({
+  Future<({Transaction transaction, int transactionIndex})>
+      createTransactionSC({
     required Keychain keychain,
     required ApiService apiService,
     required List<String> membersPubKey,
@@ -196,7 +202,10 @@ mixin DiscussionMixin {
       apiService: apiService,
     );
 
-    return transactionSC;
+    return (
+      transaction: transactionSC,
+      transactionIndex: indexSCTransaction,
+    );
   }
 
   String _generateDiscussionSCCode({
