@@ -103,7 +103,7 @@ class MessagingService with DiscussionMixin, MessagesMixin {
     );
   }
 
-  /// Read messages in existing discussion
+  /// Send messages in existing discussion
   /// @param{Keychain} keychain used to send transaction to BC
   /// @param{ApiService} API with blockchain
   /// @param{String} Smart contract's address
