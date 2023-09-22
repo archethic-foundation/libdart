@@ -8,14 +8,20 @@ import 'package:http/http.dart' as http;
 
 mixin NotificationUtil {
   Future<Uint8List> signTransactionNotification({
-    required TransactionNotification notification,
+    required String notificationRecipientAddress,
+    required String listenAddress,
     required KeyPair senderKeyPair,
   }) async {
-    final payload = concatUint8List(<Uint8List>[
-      Uint8List.fromList(
-          hexToUint8List(notification.notificationRecipientAddress)),
-      Uint8List.fromList(hexToUint8List(notification.listenAddress)),
-    ]);
+    final payload = concatUint8List(
+      <Uint8List>[
+        Uint8List.fromList(
+          hexToUint8List(notificationRecipientAddress),
+        ),
+        Uint8List.fromList(
+          hexToUint8List(listenAddress),
+        ),
+      ],
+    );
 
     return crypto.sign(payload, senderKeyPair.privateKey);
   }
@@ -27,27 +33,31 @@ mixin NotificationUtil {
     required String notifBackendBaseUrl,
     required Map<String, PushNotification> pushNotification,
   }) async {
-    final signature = uint8ListToHex(
-      await signTransactionNotification(
-        notification: notification,
-        senderKeyPair: senderKeyPair,
-      ),
-    );
+    for (final listenAddress in notification.listenAddresses) {
+      final signature = uint8ListToHex(
+        await signTransactionNotification(
+          notificationRecipientAddress:
+              notification.notificationRecipientAddress,
+          listenAddress: listenAddress,
+          senderKeyPair: senderKeyPair,
+        ),
+      );
 
-    final body = jsonEncode({
-      'txAddress': notification.notificationRecipientAddress,
-      'txChainGenesisAddress': notification.listenAddress,
-      'payloadSignature': signature,
-      'pushNotification': pushNotification,
-    });
-    log('Sending notification. $body');
-    await http.post(
-      Uri.parse('$notifBackendBaseUrl/transactionSent'),
-      body: body,
-      headers: <String, String>{
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-      },
-    );
+      final body = jsonEncode({
+        'txAddress': notification.notificationRecipientAddress,
+        'txChainGenesisAddress': listenAddress,
+        'payloadSignature': signature,
+        'pushNotification': pushNotification,
+      });
+      log('Sending notification. $body');
+      await http.post(
+        Uri.parse('$notifBackendBaseUrl/transactionSent'),
+        body: body,
+        headers: <String, String>{
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+    }
   }
 }

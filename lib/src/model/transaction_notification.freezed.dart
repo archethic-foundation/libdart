@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TransactionNotification {
   String get notificationRecipientAddress => throw _privateConstructorUsedError;
-  String get listenAddress => throw _privateConstructorUsedError;
+  List<String> get listenAddresses => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TransactionNotificationCopyWith<TransactionNotification> get copyWith =>
@@ -30,7 +30,8 @@ abstract class $TransactionNotificationCopyWith<$Res> {
           $Res Function(TransactionNotification) then) =
       _$TransactionNotificationCopyWithImpl<$Res, TransactionNotification>;
   @useResult
-  $Res call({String notificationRecipientAddress, String listenAddress});
+  $Res call(
+      {String notificationRecipientAddress, List<String> listenAddresses});
 }
 
 /// @nodoc
@@ -48,17 +49,17 @@ class _$TransactionNotificationCopyWithImpl<$Res,
   @override
   $Res call({
     Object? notificationRecipientAddress = null,
-    Object? listenAddress = null,
+    Object? listenAddresses = null,
   }) {
     return _then(_value.copyWith(
       notificationRecipientAddress: null == notificationRecipientAddress
           ? _value.notificationRecipientAddress
           : notificationRecipientAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      listenAddress: null == listenAddress
-          ? _value.listenAddress
-          : listenAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+      listenAddresses: null == listenAddresses
+          ? _value.listenAddresses
+          : listenAddresses // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -71,7 +72,8 @@ abstract class _$$_TransactionNotificationCopyWith<$Res>
       __$$_TransactionNotificationCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String notificationRecipientAddress, String listenAddress});
+  $Res call(
+      {String notificationRecipientAddress, List<String> listenAddresses});
 }
 
 /// @nodoc
@@ -87,17 +89,17 @@ class __$$_TransactionNotificationCopyWithImpl<$Res>
   @override
   $Res call({
     Object? notificationRecipientAddress = null,
-    Object? listenAddress = null,
+    Object? listenAddresses = null,
   }) {
     return _then(_$_TransactionNotification(
       notificationRecipientAddress: null == notificationRecipientAddress
           ? _value.notificationRecipientAddress
           : notificationRecipientAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      listenAddress: null == listenAddress
-          ? _value.listenAddress
-          : listenAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+      listenAddresses: null == listenAddresses
+          ? _value._listenAddresses
+          : listenAddresses // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -106,17 +108,24 @@ class __$$_TransactionNotificationCopyWithImpl<$Res>
 
 class _$_TransactionNotification extends _TransactionNotification {
   const _$_TransactionNotification(
-      {required this.notificationRecipientAddress, required this.listenAddress})
-      : super._();
+      {required this.notificationRecipientAddress,
+      required final List<String> listenAddresses})
+      : _listenAddresses = listenAddresses,
+        super._();
 
   @override
   final String notificationRecipientAddress;
+  final List<String> _listenAddresses;
   @override
-  final String listenAddress;
+  List<String> get listenAddresses {
+    if (_listenAddresses is EqualUnmodifiableListView) return _listenAddresses;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_listenAddresses);
+  }
 
   @override
   String toString() {
-    return 'TransactionNotification(notificationRecipientAddress: $notificationRecipientAddress, listenAddress: $listenAddress)';
+    return 'TransactionNotification(notificationRecipientAddress: $notificationRecipientAddress, listenAddresses: $listenAddresses)';
   }
 
   @override
@@ -128,13 +137,13 @@ class _$_TransactionNotification extends _TransactionNotification {
                     notificationRecipientAddress) ||
                 other.notificationRecipientAddress ==
                     notificationRecipientAddress) &&
-            (identical(other.listenAddress, listenAddress) ||
-                other.listenAddress == listenAddress));
+            const DeepCollectionEquality()
+                .equals(other._listenAddresses, _listenAddresses));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, notificationRecipientAddress, listenAddress);
+  int get hashCode => Object.hash(runtimeType, notificationRecipientAddress,
+      const DeepCollectionEquality().hash(_listenAddresses));
 
   @JsonKey(ignore: true)
   @override
@@ -147,14 +156,15 @@ class _$_TransactionNotification extends _TransactionNotification {
 
 abstract class _TransactionNotification extends TransactionNotification {
   const factory _TransactionNotification(
-      {required final String notificationRecipientAddress,
-      required final String listenAddress}) = _$_TransactionNotification;
+          {required final String notificationRecipientAddress,
+          required final List<String> listenAddresses}) =
+      _$_TransactionNotification;
   const _TransactionNotification._() : super._();
 
   @override
   String get notificationRecipientAddress;
   @override
-  String get listenAddress;
+  List<String> get listenAddresses;
   @override
   @JsonKey(ignore: true)
   _$$_TransactionNotificationCopyWith<_$_TransactionNotification>

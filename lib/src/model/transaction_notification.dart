@@ -7,7 +7,7 @@ part 'transaction_notification.g.dart';
 class TransactionNotification with _$TransactionNotification {
   const factory TransactionNotification({
     required String notificationRecipientAddress,
-    required String listenAddress,
+    required List<String> listenAddresses,
   }) = _TransactionNotification;
   const TransactionNotification._();
 }
