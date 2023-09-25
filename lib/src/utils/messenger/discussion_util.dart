@@ -28,19 +28,26 @@ mixin DiscussionMixin {
     required String serviceName,
     required String discussionSCAddress,
     required KeyPair adminKeyPair,
+    bool updateSCAESKey = false,
   }) async {
     final indexMap = await apiService.getTransactionIndex([adminAddress]);
     if (indexMap[adminAddress] == null) {
       throw Exception('Discussion not exists');
     }
 
-    final discussionKeyAccess = uint8ListToHex(
-      await getDiscussionKeyAccess(
-        apiService: apiService,
-        discussionSCAddress: discussionSCAddress,
-        keyPair: adminKeyPair,
-      ),
-    );
+    var discussionKeyAccess = '';
+
+    if (updateSCAESKey) {
+      discussionKeyAccess = generateRandomAESKey();
+    } else {
+      discussionKeyAccess = uint8ListToHex(
+        await getDiscussionKeyAccess(
+          apiService: apiService,
+          discussionSCAddress: discussionSCAddress,
+          keyPair: adminKeyPair,
+        ),
+      );
+    }
 
     final newContent = _generateDiscussionSCContent(
       discussionName: discussionName,
