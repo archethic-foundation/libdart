@@ -54,6 +54,7 @@ class MessagingService with DiscussionMixin, MessagesMixin {
   /// @param{List<String>} List of ALL admins of the discussion (public key)
   /// @param{String} Address of the admin who want to add members (this address will provision the SC's chain to manage fees)
   /// @param{String} Service name in the current keychain (= admin)
+  /// @param{String} Update or not the AES Key, members that are deleted won't be able to read the new messages anymore
   Future<({Transaction transaction, int transactionIndex})> updateDiscussion({
     required Keychain keychain,
     required ApiService apiService,
