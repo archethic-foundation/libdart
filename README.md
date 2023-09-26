@@ -182,7 +182,7 @@ It supports the Archethic Cryptography rules which are:
 
   Transaction tx = Transaction(type: 'transfer', data: Transaction.initData())
     .addUCOTransfer('0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt(0.420)) 
-    .build('mysuperpassphraseorseed', 0, 'P256');
+    .build('mysuperpassphraseorseed', 0, 'P256').transaction;
   ```
 
   #### originSign(privateKey)
@@ -196,7 +196,7 @@ It supports the Archethic Cryptography rules which are:
   final KeyPair originKeypair = crypto.deriveKeyPair('origin_seed', 0, isSeedHexa: false);
   Transaction tx = Transaction(type: 'transfer', data: Transaction.initData())
     .addUCOTransfer('0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt((0.420)) 
-    .build('mysuperpassphraseorseed', 0, 'P256') 
+    .build('mysuperpassphraseorseed', 0, 'P256').transaction
     .originSign(originKeypair.privateKey);
   ```
 
@@ -208,7 +208,7 @@ It supports the Archethic Cryptography rules which are:
 
   Transaction tx = Transaction(type: 'transfer', data: Transaction.initData())
     .addUCOTransfer('0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646', toBigInt(0.420)) 
-    .build('mysuperpassphraseorseed', 0, 'P256') 
+    .build('mysuperpassphraseorseed', 0, 'P256').transaction
     .convertToJSON();
   ```
   
@@ -370,6 +370,7 @@ It supports the Archethic Cryptography rules which are:
               toBigInt(0.00000001),
             )
             .build("mysuperpassphraseorseed", 0)
+            .transaction
             .originSign(originPrivateKey);
 
   await ApiService('https://testnet.archethic.net').sendTx(tx);
