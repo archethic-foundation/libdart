@@ -2,6 +2,7 @@ library test.transaction_test;
 
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:archethic_lib_dart/features_flags.dart';
 import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
@@ -42,13 +43,15 @@ void main() {
             .addOwnership(
                 '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
                 <AuthorizedKey>[
-              const AuthorizedKey(
-                publicKey:
-                    '0001B1D3750EDB9381C96B1A975A55B5B4E4FB37BFAB104C10B0B6C9A00433EC4646',
-                encryptedSecretKey:
-                    '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
-              ),
-            ]).build('seed', 0, curve: 'P256', isSeedHexa: false);
+                  const AuthorizedKey(
+                    publicKey:
+                        '0001B1D3750EDB9381C96B1A975A55B5B4E4FB37BFAB104C10B0B6C9A00433EC4646',
+                    encryptedSecretKey:
+                        '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+                  ),
+                ])
+            .build('seed', 0, curve: 'P256', isSeedHexa: false)
+            .transaction;
         final dynamic parsedTx = json.decode(tx.convertToJSON());
         expect(
             parsedTx['data']['ownerships'][0]['authorizedKeys'],
@@ -290,7 +293,8 @@ void main() {
               '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
               toBigInt(10.0),
             )
-            .build('seed', 0, isSeedHexa: false);
+            .build('seed', 0, isSeedHexa: false)
+            .transaction;
         expect(
           tx.address!.address,
           '00001ff1733caa91336976ee7cef5aff6bb26c7682213b8e6770ab82272f966dac35',
@@ -349,7 +353,8 @@ condition inherit: [
             .addRecipient(
               '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
             )
-            .build('seed', 0, curve: 'P256', isSeedHexa: false);
+            .build('seed', 0, curve: 'P256', isSeedHexa: false)
+            .transaction;
 
         final transactionKeyPair =
             crypto.deriveKeyPair('seed', 0, curve: 'P256', isSeedHexa: false);
@@ -487,7 +492,8 @@ condition inherit: [
                 action: 'vote_for_mayor',
                 args: ['Ms. Smith'],
               )
-              .build('seed', 0, curve: 'P256', isSeedHexa: false);
+              .build('seed', 0, curve: 'P256', isSeedHexa: false)
+              .transaction;
 
           final payload = tx.previousSignaturePayload();
           final expectedBinary = concatUint8List(<Uint8List>[
@@ -588,6 +594,7 @@ condition inherit: [
 
         final tx = Transaction(type: 'transfer', data: Transaction.initData())
             .build('seed', 0, isSeedHexa: false)
+            .transaction
             .originSign(
               uint8ListToHex(Uint8List.fromList(originKeypair.privateKey!)),
             );
@@ -625,6 +632,7 @@ condition inherit: [
                   ),
                 ])
             .build('seed', 0, isSeedHexa: false)
+            .transaction
             .originSign(
               uint8ListToHex(Uint8List.fromList(originKeypair.privateKey!)),
             );
@@ -686,6 +694,7 @@ condition inherit: [
               toBigInt(0.00000001),
             )
             .build(seed, 0)
+            .transaction
             .originSign(originPrivateKey);
 
         await ApiService('http://localhost:4000').sendTx(tx);

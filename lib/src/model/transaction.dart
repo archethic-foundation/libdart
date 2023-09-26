@@ -1,21 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
 import 'dart:typed_data';
+
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_lib_dart/features_flags.dart';
-import 'package:archethic_lib_dart/src/model/address.dart';
-import 'package:archethic_lib_dart/src/model/authorized_key.dart';
-import 'package:archethic_lib_dart/src/model/balance.dart';
-import 'package:archethic_lib_dart/src/model/cross_validation_stamp.dart';
-import 'package:archethic_lib_dart/src/model/data.dart';
-import 'package:archethic_lib_dart/src/model/ownership.dart';
-import 'package:archethic_lib_dart/src/model/recipient.dart';
-import 'package:archethic_lib_dart/src/model/token_transfer.dart';
-import 'package:archethic_lib_dart/src/model/transaction_input.dart';
-import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
-import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
     show deriveKeyPair, sign, deriveAddress;
-import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// [Transaction] represents a unitary transaction in the Archethic network.
@@ -122,7 +112,7 @@ class Transaction with _$Transaction {
   /// @param {int} index Number of transaction on the chain
   /// @param {String} curve Elliptic curve to use for the key generation
   /// @param {String} hashAlgo Hash algorithm to use for the address generation
-  Transaction build(
+  ({Transaction transaction, KeyPair keyPair}) build(
     String seed,
     int index, {
     String? curve = 'ed25519',
@@ -151,13 +141,16 @@ class Transaction with _$Transaction {
         ),
       ),
     );
-    return transactionWithAddressAndPPK.copyWith(
-      previousSignature: uint8ListToHex(
-        crypto.sign(
-          transactionWithAddressAndPPK.previousSignaturePayload(),
-          keypair.privateKey,
+    return (
+      transaction: transactionWithAddressAndPPK.copyWith(
+        previousSignature: uint8ListToHex(
+          crypto.sign(
+            transactionWithAddressAndPPK.previousSignaturePayload(),
+            keypair.privateKey,
+          ),
         ),
       ),
+      keyPair: keypair
     );
   }
 

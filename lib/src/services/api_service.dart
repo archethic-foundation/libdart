@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
+
 import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
@@ -640,6 +641,7 @@ class ApiService with JsonRPCUtil {
           authorizedKeys,
         )
         .build(seed, 0)
+        .transaction
         .originSign(uint8ListToHex(originPrivateKey));
   }
 
@@ -677,6 +679,7 @@ class ApiService with JsonRPCUtil {
           authorizedKeys,
         )
         .build(seed, 0)
+        .transaction
         .originSign(uint8ListToHex(originPrivateKey));
   }
 
