@@ -20,6 +20,7 @@ void main(List<String> args) {
         toBigInt(0.420),
       )
       .build('mysuperpassphraseorseed', 0, curve: 'P256')
+      .transaction
     ..convertToJSON();
 
   /// Sign the transaction with an origin device private key
@@ -33,6 +34,7 @@ void main(List<String> args) {
         toBigInt(0.420),
       )
       .build('mysuperpassphraseorseed', 0, curve: 'P256')
+      .transaction
       .originSign(
         uint8ListToHex(
           Uint8List.fromList(originKeypair.privateKey!),
@@ -49,5 +51,6 @@ void main(List<String> args) {
         toBigInt(0.420),
       )
       .build('mysuperpassphraseorseed', 0, curve: 'P256')
+      .transaction
     ..convertToJSON();
 }

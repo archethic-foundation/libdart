@@ -4,6 +4,7 @@
 /// This implementation is based on Official Archethic Javascript library for Node and Browser.
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/service.dart';
@@ -122,7 +123,7 @@ class Keychain with _$Keychain {
     ]);
   }
 
-  Transaction buildTransaction(
+  ({Transaction transaction, KeyPair keyPair}) buildTransaction(
     Transaction transaction,
     String serviceName,
     int index, {
@@ -151,11 +152,15 @@ class Keychain with _$Keychain {
     final previousSignature =
         crypto.sign(payloadForPreviousSignature, keypair.privateKey);
 
-    return transactionWithAddress.setPreviousSignatureAndPreviousPublicKey(
-      uint8ListToHex(previousSignature),
-      uint8ListToHex(
-        Uint8List.fromList(keypair.publicKey!),
+    return (
+      transaction:
+          transactionWithAddress.setPreviousSignatureAndPreviousPublicKey(
+        uint8ListToHex(previousSignature),
+        uint8ListToHex(
+          Uint8List.fromList(keypair.publicKey!),
+        ),
       ),
+      keyPair: keypair
     );
   }
 

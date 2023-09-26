@@ -147,6 +147,7 @@ void main() {
               toBigInt(10.03),
             )
             .build('myseed', 0, isSeedHexa: false)
+            .transaction
             .originSign(kOriginPrivateKey);
         final transactionFee =
             await ApiService('http://localhost:4000').getTransactionFee(tx);

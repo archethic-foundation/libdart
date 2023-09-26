@@ -3,6 +3,7 @@ library test.keychain_test;
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
+
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/keychain.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
@@ -235,6 +236,7 @@ void main() {
               uint8ListToHex(keychainToUpdate.seed!),
               lastTransactionKeychainMap[genesisAddressKeychain]!.chainLength!,
             )
+            .transaction
             .originSign(originPrivateKey);
 
         // ignore: unused_local_variable
@@ -335,7 +337,7 @@ void main() {
         toBigInt(10.0),
       );
 
-      final txBuilt = keychain.buildTransaction(tx, 'uco', 0);
+      final txBuilt = keychain.buildTransaction(tx, 'uco', 0).transaction;
 
       final keypair = keychain.deriveKeypair('uco');
       final address = keychain.deriveAddress('uco', index: 1);
