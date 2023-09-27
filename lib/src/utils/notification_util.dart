@@ -32,6 +32,7 @@ mixin NotificationUtil {
     required String notifBackendBaseUrl,
     required Map<String, PushNotification> pushNotification,
     required String transactionType,
+    dynamic extra,
   }) async {
     for (final listenAddress in notification.listenAddresses) {
       final signature = uint8ListToHex(
@@ -43,13 +44,16 @@ mixin NotificationUtil {
         ),
       );
 
-      final body = jsonEncode({
-        'txAddress': notification.notificationRecipientAddress,
-        'txChainGenesisAddress': listenAddress,
-        'payloadSignature': signature,
-        'pushNotification': pushNotification,
-        'type': transactionType
-      });
+      final body = jsonEncode(
+        {
+          'txAddress': notification.notificationRecipientAddress,
+          'txChainGenesisAddress': listenAddress,
+          'payloadSignature': signature,
+          'pushNotification': pushNotification,
+          'type': transactionType,
+          'extra': extra,
+        },
+      );
       log('Sending notification. $body');
       await http.post(
         Uri.parse('$notifBackendBaseUrl/transactionSent'),
