@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:archethic_lib_dart/features_flags.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
     show deriveKeyPair, sign, deriveAddress;
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -12,7 +11,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'transaction.freezed.dart';
 part 'transaction.g.dart';
 
-const int cVersion = FeatureFlags.txVersion2 ? 2 : 1;
+const int cVersion = 2;
 
 const Map<String, int> txTypes = <String, int>{
   /// User based transaction types
@@ -283,10 +282,10 @@ class Transaction with _$Transaction {
       throw const FormatException("'to' must be an hexadecimal string");
     }
 
-    final newRecipient = data!.recipients
+    final newRecipient = data!.actionRecipients.toList()
       ..add(Recipient(address: to, action: action, args: args));
     return copyWith.data!(
-      recipients: newRecipient,
+      actionRecipients: newRecipient,
     );
   }
 
@@ -438,10 +437,9 @@ class Transaction with _$Transaction {
     }
 
     var recipientsBuffers = Uint8List(0);
-    var recipients = Uint8List(0);
-    if (FeatureFlags.txVersion2) {
-      if (data!.recipients.isNotEmpty) {
-        for (final recipient in data!.recipients) {
+    if (version >= 2) {
+      if (data!.actionRecipients.isNotEmpty) {
+        for (final recipient in data!.actionRecipients) {
           if (recipient.action == null && recipient.args == null) {
             recipientsBuffers = concatUint8List(<Uint8List>[
               recipientsBuffers,
@@ -469,9 +467,9 @@ class Transaction with _$Transaction {
       }
     } else {
       for (final recipient in data!.recipients) {
-        recipients = concatUint8List(<Uint8List>[
-          recipients,
-          Uint8List.fromList(hexToUint8List(recipient.address!)),
+        recipientsBuffers = concatUint8List(<Uint8List>[
+          recipientsBuffers,
+          Uint8List.fromList(hexToUint8List(recipient)),
         ]);
       }
     }
@@ -481,8 +479,9 @@ class Transaction with _$Transaction {
         Uint8List.fromList(toByteArray(data!.ledger!.uco!.transfers.length));
     final bufTokenTransferLength =
         Uint8List.fromList(toByteArray(data!.ledger!.token!.transfers.length));
-    final bufRecipientLength =
-        Uint8List.fromList(toByteArray(data!.recipients.length));
+    final bufRecipientLength = version >= 2
+        ? Uint8List.fromList(toByteArray(data!.actionRecipients.length))
+        : Uint8List.fromList(toByteArray(data!.recipients.length));
 
     return concatUint8List(<Uint8List>[
       toByteArray(version, length: 4),
@@ -503,7 +502,7 @@ class Transaction with _$Transaction {
       tokenTransfersBuffers,
       Uint8List.fromList(<int>[bufRecipientLength.length]),
       bufRecipientLength,
-      if (FeatureFlags.txVersion2) recipientsBuffers else recipients,
+      recipientsBuffers,
     ]);
   }
 
@@ -548,9 +547,9 @@ class Transaction with _$Transaction {
             ),
           },
         },
-        'recipients': FeatureFlags.txVersion2
+        'recipients': version >= 2
             ? List<dynamic>.from(
-                data!.recipients.map(
+                data!.actionRecipients.map(
                   (Recipient x) {
                     return {
                       'address': x.address == null ? '' : x.address!,
@@ -561,7 +560,7 @@ class Transaction with _$Transaction {
                 ),
               )
             : List<dynamic>.from(
-                data!.recipients.map(
+                data!.actionRecipients.map(
                   (Recipient x) {
                     return x.address!;
                   },

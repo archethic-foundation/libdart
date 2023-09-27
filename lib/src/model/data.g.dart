@@ -17,6 +17,10 @@ _$_Data _$$_DataFromJson(Map<String, dynamic> json) => _$_Data(
           ? null
           : Ledger.fromJson(json['ledger'] as Map<String, dynamic>),
       recipients: (json['recipients'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      actionRecipients: (json['actionRecipients'] as List<dynamic>?)
               ?.map((e) => Recipient.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
@@ -28,4 +32,5 @@ Map<String, dynamic> _$$_DataToJson(_$_Data instance) => <String, dynamic>{
       'ownerships': instance.ownerships,
       'ledger': instance.ledger,
       'recipients': instance.recipients,
+      'actionRecipients': instance.actionRecipients,
     };
