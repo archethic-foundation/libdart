@@ -115,9 +115,9 @@ void main() {
           action: 'vote',
           args: ['Miles'],
         );
-        expect(tx.data!.recipients.length, 1);
-        expect(tx.data!.recipients[0].action, 'vote');
-        expect(tx.data!.recipients[0].args![0], 'Miles');
+        expect(tx.data!.actionRecipients.length, 1);
+        expect(tx.data!.actionRecipients[0].action, 'vote');
+        expect(tx.data!.actionRecipients[0].args![0], 'Miles');
       });
     });
 
