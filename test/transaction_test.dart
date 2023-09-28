@@ -3,7 +3,6 @@ library test.transaction_test;
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:archethic_lib_dart/features_flags.dart';
 import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
@@ -174,7 +173,7 @@ void main() {
         final payload = tx.previousSignaturePayload();
         final expectedBinary = concatUint8List(<Uint8List>[
           // Version
-          toByteArray(FeatureFlags.txVersion2 ? 2 : 1, length: 4),
+          toByteArray(2, length: 4),
           Uint8List.fromList(hexToUint8List(tx.address!.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
@@ -246,7 +245,7 @@ void main() {
           // Nb of recipients
           Uint8List.fromList(<int>[1]),
           // 0 = unnamed recipient
-          if (FeatureFlags.txVersion2) Uint8List.fromList(<int>[0]),
+          Uint8List.fromList(<int>[0]),
           Uint8List.fromList(
             hexToUint8List(
               '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
@@ -365,7 +364,7 @@ condition inherit: [
         final payload = tx.originSignaturePayload();
         final expectedBinary = concatUint8List(<Uint8List>[
           // Version
-          toByteArray(FeatureFlags.txVersion2 ? 2 : 1, length: 4),
+          toByteArray(2, length: 4),
           Uint8List.fromList(hexToUint8List(tx.address!.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
@@ -437,7 +436,7 @@ condition inherit: [
           // Nb of recipients
           Uint8List.fromList(<int>[1]),
           // 0 = unnamed recipient
-          if (FeatureFlags.txVersion2) Uint8List.fromList(<int>[0]),
+          Uint8List.fromList(<int>[0]),
           Uint8List.fromList(
             hexToUint8List(
               '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
@@ -449,11 +448,11 @@ condition inherit: [
         ]);
         expect(payload, expectedBinary);
       });
-      if (FeatureFlags.txVersion2) {
-        test(
-            'should generate binary encoding of the transaction before signing with named action',
-            () {
-          const code = '''
+
+      test(
+          'should generate binary encoding of the transaction before signing with named action',
+          () {
+        const code = '''
 condition inherit: [
                             uco_transferred: 0.020
                           ]
@@ -463,128 +462,126 @@ condition inherit: [
                               add_uco_ledger to: "000056E763190B28B4CF9AAF3324CF379F27DE9EF7850209FB59AA002D71BA09788A", amount: 0.020
                           end
       ''';
-          const content =
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
-          final secret =
-              uint8ListToHex(Uint8List.fromList('mysecret'.codeUnits));
-          final tx = Transaction(type: 'transfer', data: Transaction.initData())
-              .addOwnership(secret, <AuthorizedKey>[
-                const AuthorizedKey(
-                  publicKey:
-                      '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                  encryptedSecretKey:
-                      '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
-                ),
-              ])
-              .addUCOTransfer(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                toBigInt(0.2020),
-              )
-              .addTokenTransfer(
-                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                toBigInt(100),
-                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
-              )
-              .setCode(code)
-              .setContent(content)
-              .addRecipient(
-                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
-                action: 'vote_for_mayor',
-                args: ['Ms. Smith'],
-              )
-              .build('seed', 0, curve: 'P256', isSeedHexa: false)
-              .transaction;
+        const content =
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
+        final secret = uint8ListToHex(Uint8List.fromList('mysecret'.codeUnits));
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
+            .addOwnership(secret, <AuthorizedKey>[
+              const AuthorizedKey(
+                publicKey:
+                    '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                encryptedSecretKey:
+                    '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+              ),
+            ])
+            .addUCOTransfer(
+              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              toBigInt(0.2020),
+            )
+            .addTokenTransfer(
+              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              toBigInt(100),
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+            )
+            .setCode(code)
+            .setContent(content)
+            .addRecipient(
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+              action: 'vote_for_mayor',
+              args: ['Ms. Smith'],
+            )
+            .build('seed', 0, curve: 'P256', isSeedHexa: false)
+            .transaction;
 
-          final payload = tx.previousSignaturePayload();
-          final expectedBinary = concatUint8List(<Uint8List>[
-            // Version
-            toByteArray(2, length: 4),
-            Uint8List.fromList(hexToUint8List(tx.address!.address!)),
-            Uint8List.fromList(<int>[253]),
-            //Code size
-            toByteArray(code.length, length: 4),
-            Uint8List.fromList(utf8.encode(code)),
-            //Content size
-            toByteArray(content.length, length: 4),
-            Uint8List.fromList(utf8.encode(content)),
-            // Nb of byte to encode nb of ownerships
-            Uint8List.fromList(<int>[1]),
-            //Nb of ownerships
-            Uint8List.fromList(<int>[1]),
-            //Secret size
-            toByteArray(
-              Uint8List.fromList(hexToUint8List(secret)).lengthInBytes,
-              length: 4,
+        final payload = tx.previousSignaturePayload();
+        final expectedBinary = concatUint8List(<Uint8List>[
+          // Version
+          toByteArray(2, length: 4),
+          Uint8List.fromList(hexToUint8List(tx.address!.address!)),
+          Uint8List.fromList(<int>[253]),
+          //Code size
+          toByteArray(code.length, length: 4),
+          Uint8List.fromList(utf8.encode(code)),
+          //Content size
+          toByteArray(content.length, length: 4),
+          Uint8List.fromList(utf8.encode(content)),
+          // Nb of byte to encode nb of ownerships
+          Uint8List.fromList(<int>[1]),
+          //Nb of ownerships
+          Uint8List.fromList(<int>[1]),
+          //Secret size
+          toByteArray(
+            Uint8List.fromList(hexToUint8List(secret)).lengthInBytes,
+            length: 4,
+          ),
+          Uint8List.fromList(Uint8List.fromList(hexToUint8List(secret))),
+          // Nb of bytes to encode nb of authorized key
+          Uint8List.fromList(<int>[1]),
+          // Nb of authorized keys
+          Uint8List.fromList(<int>[1]),
+          // Authorized keys encoding
+          concatUint8List(<Uint8List>[
+            Uint8List.fromList(
+              hexToUint8List(
+                '0001B1D3750EDB9381C96B1A975A55B5B4E4FB37BFAB104C10B0B6C9A00433EC4646',
+              ),
             ),
-            Uint8List.fromList(Uint8List.fromList(hexToUint8List(secret))),
-            // Nb of bytes to encode nb of authorized key
-            Uint8List.fromList(<int>[1]),
-            // Nb of authorized keys
-            Uint8List.fromList(<int>[1]),
-            // Authorized keys encoding
-            concatUint8List(<Uint8List>[
-              Uint8List.fromList(
-                hexToUint8List(
-                  '0001B1D3750EDB9381C96B1A975A55B5B4E4FB37BFAB104C10B0B6C9A00433EC4646',
-                ),
+            Uint8List.fromList(
+              hexToUint8List(
+                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
               ),
-              Uint8List.fromList(
-                hexToUint8List(
-                  '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
-                ),
+            ),
+          ]),
+          // Nb of bytes to encode nb of uco transfers
+          Uint8List.fromList(<int>[1]),
+          // Nb of uco transfers
+          Uint8List.fromList(<int>[1]),
+          concatUint8List(<Uint8List>[
+            Uint8List.fromList(
+              hexToUint8List(
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
               ),
-            ]),
-            // Nb of bytes to encode nb of uco transfers
-            Uint8List.fromList(<int>[1]),
-            // Nb of uco transfers
-            Uint8List.fromList(<int>[1]),
-            concatUint8List(<Uint8List>[
-              Uint8List.fromList(
-                hexToUint8List(
-                  '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                ),
-              ),
-              toByteArray(toBigInt(0.2020), length: 8),
-            ]),
-            // Nb of bytes to encode nb of Token transfers
-            Uint8List.fromList(<int>[1]),
-            // Nb of token transfers
-            Uint8List.fromList(<int>[1]),
-            concatUint8List(<Uint8List>[
-              Uint8List.fromList(
-                hexToUint8List(
-                  '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
-                ),
-              ),
-              Uint8List.fromList(
-                hexToUint8List(
-                  '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-                ),
-              ),
-              toByteArray(toBigInt(100), length: 8),
-              Uint8List.fromList(<int>[1]),
-              Uint8List.fromList(<int>[0]),
-            ]),
-            // Nb of bytes to encode nb of recipients
-            Uint8List.fromList(<int>[1]),
-            // Nb of recipients
-            Uint8List.fromList(<int>[1]),
-            // 1 = named recipient
-            Uint8List.fromList(<int>[1]),
+            ),
+            toByteArray(toBigInt(0.2020), length: 8),
+          ]),
+          // Nb of bytes to encode nb of Token transfers
+          Uint8List.fromList(<int>[1]),
+          // Nb of token transfers
+          Uint8List.fromList(<int>[1]),
+          concatUint8List(<Uint8List>[
             Uint8List.fromList(
               hexToUint8List(
                 '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
               ),
             ),
-            Uint8List.fromList(<int>[14]),
-            Uint8List.fromList(utf8.encode('vote_for_mayor')),
+            Uint8List.fromList(
+              hexToUint8List(
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              ),
+            ),
+            toByteArray(toBigInt(100), length: 8),
             Uint8List.fromList(<int>[1]),
-            Uint8List.fromList(<int>[13]),
-            Uint8List.fromList(utf8.encode('["Ms. Smith"]')),
-          ]);
-          expect(payload, expectedBinary);
-        });
-      }
+            Uint8List.fromList(<int>[0]),
+          ]),
+          // Nb of bytes to encode nb of recipients
+          Uint8List.fromList(<int>[1]),
+          // Nb of recipients
+          Uint8List.fromList(<int>[1]),
+          // 1 = named recipient
+          Uint8List.fromList(<int>[1]),
+          Uint8List.fromList(
+            hexToUint8List(
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+            ),
+          ),
+          Uint8List.fromList(<int>[14]),
+          Uint8List.fromList(utf8.encode('vote_for_mayor')),
+          Uint8List.fromList(<int>[1]),
+          Uint8List.fromList(<int>[13]),
+          Uint8List.fromList(utf8.encode('["Ms. Smith"]')),
+        ]);
+        expect(payload, expectedBinary);
+      });
     });
 
     group('originSign', () {
