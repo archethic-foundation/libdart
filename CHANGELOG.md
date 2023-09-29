@@ -12,7 +12,7 @@ Changelog
 * BREAKING-CHANGE - Add tupple (Transaction, KeyPair) in the returns of `Keychain.build` and `Transaction.build` methods
 * BREAKING-CHANGE - Externalize Messaging SDK
 * BREAKING-CHANGE - New transaction structure version 2 (if FeatureFlags.txVersion2 == true)
-* * Update isEnoughConfirmations method to allow ratio comparaison
+* Update isEnoughConfirmations method to allow ratio comparaison
 * Add a flag to define the format of a RPC response in `callSCFunction` method
 
 #### Version 3.2.0
