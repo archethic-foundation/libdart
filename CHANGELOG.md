@@ -2,8 +2,11 @@ Changelog
 =========
 
 #### Version 3.3.1
+<<<<<<< HEAD
 * TypedEncoding serialization introduced for the recipients' args
 * Add Blockchain Version GraphQL request
+* Create a new service derivation method to have the same generated private keys between keychain and node running smart contracts. This method is based on the derivation path that does not contains the index m/650'/service/0 => m/650'/service
+* Add a new function to create an ownership with the service seed a secret for smart contract `Keychain.ecEncryptServiceSeed()`
 
 #### Version 3.3.0
 * Consideration of AEIP 2 (Token standard) and 9 (Standard NFT Metadata)

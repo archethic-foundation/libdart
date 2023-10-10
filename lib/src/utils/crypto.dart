@@ -175,18 +175,20 @@ Uint8List getHashDigest(dynamic content, dynamic algo) {
 /// @param {String} seed Keypair derivation seed
 /// @param {int} index Number to identify the order of keys to generate
 /// @param {String} curve Elliptic curve to use ("P256", "secp256k1", "ed25519")
+/// @param {int} originId Origin id of the public key (0, 1, 2) = ("on chain wallet", "software", "tpm")
 KeyPair deriveKeyPair(
   String seed,
   int index, {
   String curve = 'ed25519',
   bool isSeedHexa = true,
+  int originId = softwareId,
 }) {
   if (index < 0) {
     throw "index' must be a positive number";
   }
 
   final pvBuf = derivePrivateKey(seed, index, isSeedHexa: isSeedHexa);
-  return generateDeterministicKeyPair(pvBuf, curve, softwareId);
+  return generateDeterministicKeyPair(pvBuf, curve, originId);
 }
 
 /// Generate a new keypair deterministically with a given private key, curve and origin id

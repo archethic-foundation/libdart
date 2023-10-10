@@ -11,6 +11,8 @@ import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
+import 'package:crypto/crypto.dart' as crypto_lib show Hmac, sha512;
+import 'package:pointycastle/api.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -57,6 +59,41 @@ void main() {
       final extendedKeyPair =
           keychain.deriveKeypair('uco', pathSuffix: 'extended');
       expect(keyPair.publicKey, isNot(equals(extendedKeyPair.publicKey)));
+    });
+
+    test('should derive key with derivation path without index', () {
+      final seed =
+          Uint8List.fromList(utf8.encode('abcdefghijklmnopqrstuvwxyz'));
+      final keychainWithIndex =
+          Keychain(seed: seed).copyWithService('uco', "m/650'/0/0");
+      final keyPairWithIndex = keychainWithIndex.deriveKeypair('uco');
+
+      final keychainWithoutIndex =
+          Keychain(seed: seed).copyWithService('uco', "m/650'/0");
+      final keyPairWithoutIndex = keychainWithoutIndex.deriveKeypair('uco');
+
+      expect(
+        keyPairWithIndex.publicKey,
+        isNot(equals(keyPairWithoutIndex.publicKey)),
+      );
+
+      final keychainSeed = generateRandomSeed();
+      final sha256 = Digest('SHA-256');
+      final hashedPath =
+          sha256.process(Uint8List.fromList(utf8.encode("m/650'/0")));
+
+      final hmac = crypto_lib.Hmac(
+        crypto_lib.sha512,
+        hexToUint8List(keychainSeed).toList(),
+      );
+      final digest = hmac.convert(hashedPath);
+      final serviceSeed = Uint8List.fromList(digest.bytes.sublist(0, 32));
+
+      final normalDerivationKeyPair =
+          crypto.deriveKeyPair(uint8ListToHex(serviceSeed), 0);
+
+      expect(
+          normalDerivationKeyPair.publicKey, normalDerivationKeyPair.publicKey);
     });
   });
 
