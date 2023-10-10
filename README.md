@@ -64,6 +64,7 @@ It supports the Archethic Cryptography rules which are:
   - `index` is the number of transactions in the chain, to generate the actual and the next public key (see below the cryptography section)
   - `curve` is the elliptic curve to use for the key generation (can be "ed25519", "P256", "secp256k1") - default to: "ed25519"
   - `isSeedHexa` is a parameter used to specify whether the information is in hexadecimal format or not (and thus avoid conversion issues).
+  - `originId` is the origin of the public key (can be 0 for "on chain wallet", 1 for "software" or 2 for "tpm") - default to: 1
   
   ```dart
   import 'package:archethic_lib_dart/archethic_lib_dart.dart';
