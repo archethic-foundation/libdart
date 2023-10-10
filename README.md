@@ -483,6 +483,28 @@ It supports the Archethic Cryptography rules which are:
   KeyPair keyPair = keychain.deriveKeypair('uco', index: 0, isSeedHexa: false);
   ``` 
 
+
+  #### ecEncryptServiceSeed(service, publicKeys)
+  Use ec encryption on the seed for the list of authorizedPublicKeys
+
+  - `service`: Service name to identify the derivation path to use
+  - `authorizedPublicKeys`: List of public keys to encrypt the service seed
+
+  ```dart
+  final keychain = Keychain(seed: hexToUint8List(generateRandomSeed())).copyWithService('uco', "m/650'/uco");
+  final storageNoncePublicKey = await ApiService('https://testnet.archethic.net').getStorageNoncePublicKey();
+
+  final resultECEncryptServiceSeed = keychain.ecEncryptServiceSeed('uco', [storageNoncePublicKey]);
+  final secret = uint8ListToHex(resultECEncryptServiceSeed.secret);
+  final authorizedPublicKeys = resultECEncryptServiceSeed.authorizedPublicKeys;
+
+  // secret and authorizedPublicKeys can be used to create an ownership
+  final tx = Transaction(
+        type: 'contract',
+        data: Transaction.initData(),
+      ).addOwnership(secret, authorizedPublicKeys);
+  ```
+
   #### toDID()
   Return a Decentralized Identity document from the keychain. (This is used in the transaction's content of the keychain tx)
 

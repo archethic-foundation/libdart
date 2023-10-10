@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:archethic_lib_dart/src/model/address.dart';
+import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/service.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
@@ -209,6 +210,42 @@ class Keychain with _$Keychain {
       'verificationMethod': verificationMethods,
     };
   }
+
+  ({Uint8List secret, List<AuthorizedKey> authorizedPublicKeys})
+      ecEncryptServiceSeed(
+    String service,
+    List<String> publicKeys, {
+    String pathSuffix = '',
+  }) {
+    if (services[service] == null) {
+      throw Exception(
+        "Service doesn't exist in the keychain",
+      );
+    }
+
+    final serviceSelected = services[service];
+    final extendedSeed = deriveServiceSeed(
+      seed,
+      serviceSelected!.derivationPath,
+      0,
+      pathSuffix: pathSuffix,
+    );
+
+    final aesKey = generateRandomAESKey();
+
+    final secret = crypto.aesEncrypt(extendedSeed, aesKey);
+
+    final authorizedPublicKeys = <AuthorizedKey>[];
+    for (final key in publicKeys) {
+      authorizedPublicKeys.add(
+        AuthorizedKey(
+          encryptedSecretKey: uint8ListToHex(crypto.ecEncrypt(aesKey, key)),
+          publicKey: key,
+        ),
+      );
+    }
+    return (secret: secret, authorizedPublicKeys: authorizedPublicKeys);
+  }
 }
 
 Keychain decodeKeychain(Uint8List binary) {
@@ -257,23 +294,52 @@ KeyPair deriveArchethicKeypair(
   String curve = 'ed25519',
   String pathSuffix = '',
 }) {
-  // Hash the derivation path
-  final sha256 = Digest('SHA-256');
-  final hashedPath = sha256.process(
-    Uint8List.fromList(
-      replaceDerivationPathIndex(derivationPath, pathSuffix, index).codeUnits,
-    ),
+  final extendedSeed = deriveServiceSeed(
+    seed,
+    derivationPath,
+    index,
+    pathSuffix: pathSuffix,
   );
-
-  final hmac = crypto_lib.Hmac(crypto_lib.sha512, seed);
-  final digest = hmac.convert(hashedPath);
-  final extendedSeed = Uint8List.fromList(digest.bytes.sublist(0, 32));
 
   return crypto.generateDeterministicKeyPair(
     extendedSeed,
     curve,
     keychainOriginId,
   );
+}
+
+Uint8List deriveServiceSeed(
+  dynamic seed,
+  String derivationPath,
+  int index, {
+  String pathSuffix = '',
+}) {
+  final sha256 = Digest('SHA-256');
+  var hashedPath = Uint8List.fromList([]);
+  if (isPathWithIndex(derivationPath)) {
+    hashedPath = sha256.process(
+      Uint8List.fromList(
+        replaceDerivationPathIndex(derivationPath, pathSuffix, index).codeUnits,
+      ),
+    );
+  } else {
+    final path = derivationPath.split('/');
+    final serviceName = path.removeLast() + pathSuffix;
+    hashedPath = sha256.process(
+      Uint8List.fromList(
+        utf8.encode('${path.join('/')}/$serviceName'),
+      ),
+    );
+  }
+
+  final hmac = crypto_lib.Hmac(crypto_lib.sha512, seed);
+  final digest = hmac.convert(hashedPath);
+  return Uint8List.fromList(digest.bytes.sublist(0, 32));
+}
+
+bool isPathWithIndex(String path) {
+  final servicePath = path.split('/');
+  return servicePath.length == 4 && servicePath[3] == '0';
 }
 
 String replaceDerivationPathIndex(String path, String suffix, int index) {
