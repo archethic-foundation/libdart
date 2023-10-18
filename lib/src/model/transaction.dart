@@ -101,25 +101,6 @@ class Transaction with _$Transaction {
   factory Transaction.fromJson(Map<String, dynamic> json) =>
       _$TransactionFromJson(json);
 
-  /* @override
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'address': address!.address,
-        'balance': balance!.toJson(),
-        'chainLength': chainLength,
-        'crossValidationStamps': List<dynamic>.from(
-          crossValidationStamps.map((CrossValidationStamp x) => x.toJson()),
-        ),
-        'data': data!.toJson(),
-        'inputs':
-            List<dynamic>.from(inputs.map((TransactionInput x) => x.toJson())),
-        'originSignature': originSignature,
-        'previousPublicKey': previousPublicKey,
-        'previousSignature': previousSignature,
-        'type': type,
-        'validationStamp': validationStamp!.toJson(),
-        'version': version,
-      };*/
-
   /// Generate the transaction address, keys and signatures
   /// @param {String} seed Transaction chain seed (hexadecimal or binary buffer)
   /// @param {int} index Number of transaction on the chain
@@ -487,9 +468,8 @@ class Transaction with _$Transaction {
         Uint8List.fromList(toByteArray(data!.ledger!.uco!.transfers.length));
     final bufTokenTransferLength =
         Uint8List.fromList(toByteArray(data!.ledger!.token!.transfers.length));
-    final bufRecipientLength = version >= 2
-        ? Uint8List.fromList(toByteArray(data!.actionRecipients.length))
-        : Uint8List.fromList(toByteArray(data!.recipients.length));
+    final bufRecipientLength =
+        Uint8List.fromList(toByteArray(data!.actionRecipients.length));
 
     return concatUint8List(<Uint8List>[
       toByteArray(version, length: 4),
@@ -555,25 +535,17 @@ class Transaction with _$Transaction {
             ),
           },
         },
-        'recipients': version >= 2
-            ? List<dynamic>.from(
-                data!.actionRecipients.map(
-                  (Recipient x) {
-                    return {
-                      'address': x.address == null ? '' : x.address!,
-                      'action': x.action,
-                      'args': x.args,
-                    };
-                  },
-                ),
-              )
-            : List<dynamic>.from(
-                data!.actionRecipients.map(
-                  (Recipient x) {
-                    return x.address!;
-                  },
-                ),
-              ),
+        'recipients': List<dynamic>.from(
+          data!.actionRecipients.map(
+            (Recipient x) {
+              return {
+                'address': x.address == null ? '' : x.address!,
+                'action': x.action,
+                'args': x.args,
+              };
+            },
+          ),
+        ),
       },
       'previousPublicKey': previousPublicKey == null ? '' : previousPublicKey!,
       'previousSignature': previousSignature == null ? '' : previousSignature!,

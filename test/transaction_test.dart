@@ -592,7 +592,8 @@ condition inherit: [
           type: 'transfer',
           data: Transaction.initData(),
           address: Address(
-              address: crypto.deriveAddress('seed', 1, isSeedHexa: false)),
+            address: crypto.deriveAddress('seed', 1, isSeedHexa: false),
+          ),
           previousPublicKey:
               uint8ListToHex(Uint8List.fromList(keypair.publicKey!)),
         ).addRecipient(
