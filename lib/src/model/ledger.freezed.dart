@@ -93,9 +93,10 @@ class _$LedgerCopyWithImpl<$Res, $Val extends Ledger>
 }
 
 /// @nodoc
-abstract class _$$_LedgerCopyWith<$Res> implements $LedgerCopyWith<$Res> {
-  factory _$$_LedgerCopyWith(_$_Ledger value, $Res Function(_$_Ledger) then) =
-      __$$_LedgerCopyWithImpl<$Res>;
+abstract class _$$LedgerImplCopyWith<$Res> implements $LedgerCopyWith<$Res> {
+  factory _$$LedgerImplCopyWith(
+          _$LedgerImpl value, $Res Function(_$LedgerImpl) then) =
+      __$$LedgerImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({TokenLedger? token, UCOLedger? uco});
@@ -107,10 +108,11 @@ abstract class _$$_LedgerCopyWith<$Res> implements $LedgerCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_LedgerCopyWithImpl<$Res>
-    extends _$LedgerCopyWithImpl<$Res, _$_Ledger>
-    implements _$$_LedgerCopyWith<$Res> {
-  __$$_LedgerCopyWithImpl(_$_Ledger _value, $Res Function(_$_Ledger) _then)
+class __$$LedgerImplCopyWithImpl<$Res>
+    extends _$LedgerCopyWithImpl<$Res, _$LedgerImpl>
+    implements _$$LedgerImplCopyWith<$Res> {
+  __$$LedgerImplCopyWithImpl(
+      _$LedgerImpl _value, $Res Function(_$LedgerImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -119,7 +121,7 @@ class __$$_LedgerCopyWithImpl<$Res>
     Object? token = freezed,
     Object? uco = freezed,
   }) {
-    return _then(_$_Ledger(
+    return _then(_$LedgerImpl(
       token: freezed == token
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
@@ -134,11 +136,11 @@ class __$$_LedgerCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Ledger extends _Ledger {
-  const _$_Ledger({this.token, this.uco}) : super._();
+class _$LedgerImpl extends _Ledger {
+  const _$LedgerImpl({this.token, this.uco}) : super._();
 
-  factory _$_Ledger.fromJson(Map<String, dynamic> json) =>
-      _$$_LedgerFromJson(json);
+  factory _$LedgerImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LedgerImplFromJson(json);
 
   @override
   final TokenLedger? token;
@@ -154,7 +156,7 @@ class _$_Ledger extends _Ledger {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Ledger &&
+            other is _$LedgerImpl &&
             (identical(other.token, token) || other.token == token) &&
             (identical(other.uco, uco) || other.uco == uco));
   }
@@ -166,12 +168,12 @@ class _$_Ledger extends _Ledger {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LedgerCopyWith<_$_Ledger> get copyWith =>
-      __$$_LedgerCopyWithImpl<_$_Ledger>(this, _$identity);
+  _$$LedgerImplCopyWith<_$LedgerImpl> get copyWith =>
+      __$$LedgerImplCopyWithImpl<_$LedgerImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_LedgerToJson(
+    return _$$LedgerImplToJson(
       this,
     );
   }
@@ -179,10 +181,10 @@ class _$_Ledger extends _Ledger {
 
 abstract class _Ledger extends Ledger {
   const factory _Ledger({final TokenLedger? token, final UCOLedger? uco}) =
-      _$_Ledger;
+      _$LedgerImpl;
   const _Ledger._() : super._();
 
-  factory _Ledger.fromJson(Map<String, dynamic> json) = _$_Ledger.fromJson;
+  factory _Ledger.fromJson(Map<String, dynamic> json) = _$LedgerImpl.fromJson;
 
   @override
   TokenLedger? get token;
@@ -190,6 +192,6 @@ abstract class _Ledger extends Ledger {
   UCOLedger? get uco;
   @override
   @JsonKey(ignore: true)
-  _$$_LedgerCopyWith<_$_Ledger> get copyWith =>
+  _$$LedgerImplCopyWith<_$LedgerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

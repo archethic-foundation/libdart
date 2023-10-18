@@ -69,20 +69,21 @@ class _$BalanceCopyWithImpl<$Res, $Val extends Balance>
 }
 
 /// @nodoc
-abstract class _$$_BalanceCopyWith<$Res> implements $BalanceCopyWith<$Res> {
-  factory _$$_BalanceCopyWith(
-          _$_Balance value, $Res Function(_$_Balance) then) =
-      __$$_BalanceCopyWithImpl<$Res>;
+abstract class _$$BalanceImplCopyWith<$Res> implements $BalanceCopyWith<$Res> {
+  factory _$$BalanceImplCopyWith(
+          _$BalanceImpl value, $Res Function(_$BalanceImpl) then) =
+      __$$BalanceImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<TokenBalance> token, int uco});
 }
 
 /// @nodoc
-class __$$_BalanceCopyWithImpl<$Res>
-    extends _$BalanceCopyWithImpl<$Res, _$_Balance>
-    implements _$$_BalanceCopyWith<$Res> {
-  __$$_BalanceCopyWithImpl(_$_Balance _value, $Res Function(_$_Balance) _then)
+class __$$BalanceImplCopyWithImpl<$Res>
+    extends _$BalanceCopyWithImpl<$Res, _$BalanceImpl>
+    implements _$$BalanceImplCopyWith<$Res> {
+  __$$BalanceImplCopyWithImpl(
+      _$BalanceImpl _value, $Res Function(_$BalanceImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -91,7 +92,7 @@ class __$$_BalanceCopyWithImpl<$Res>
     Object? token = null,
     Object? uco = null,
   }) {
-    return _then(_$_Balance(
+    return _then(_$BalanceImpl(
       token: null == token
           ? _value._token
           : token // ignore: cast_nullable_to_non_nullable
@@ -106,13 +107,13 @@ class __$$_BalanceCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Balance extends _Balance {
-  const _$_Balance({final List<TokenBalance> token = const [], this.uco = 0})
+class _$BalanceImpl extends _Balance {
+  const _$BalanceImpl({final List<TokenBalance> token = const [], this.uco = 0})
       : _token = token,
         super._();
 
-  factory _$_Balance.fromJson(Map<String, dynamic> json) =>
-      _$$_BalanceFromJson(json);
+  factory _$BalanceImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BalanceImplFromJson(json);
 
   /// Token: Token balances
   final List<TokenBalance> _token;
@@ -140,7 +141,7 @@ class _$_Balance extends _Balance {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Balance &&
+            other is _$BalanceImpl &&
             const DeepCollectionEquality().equals(other._token, _token) &&
             (identical(other.uco, uco) || other.uco == uco));
   }
@@ -153,12 +154,12 @@ class _$_Balance extends _Balance {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BalanceCopyWith<_$_Balance> get copyWith =>
-      __$$_BalanceCopyWithImpl<_$_Balance>(this, _$identity);
+  _$$BalanceImplCopyWith<_$BalanceImpl> get copyWith =>
+      __$$BalanceImplCopyWithImpl<_$BalanceImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BalanceToJson(
+    return _$$BalanceImplToJson(
       this,
     );
   }
@@ -166,10 +167,10 @@ class _$_Balance extends _Balance {
 
 abstract class _Balance extends Balance {
   const factory _Balance({final List<TokenBalance> token, final int uco}) =
-      _$_Balance;
+      _$BalanceImpl;
   const _Balance._() : super._();
 
-  factory _Balance.fromJson(Map<String, dynamic> json) = _$_Balance.fromJson;
+  factory _Balance.fromJson(Map<String, dynamic> json) = _$BalanceImpl.fromJson;
 
   @override
 
@@ -181,6 +182,6 @@ abstract class _Balance extends Balance {
   int get uco;
   @override
   @JsonKey(ignore: true)
-  _$$_BalanceCopyWith<_$_Balance> get copyWith =>
+  _$$BalanceImplCopyWith<_$BalanceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

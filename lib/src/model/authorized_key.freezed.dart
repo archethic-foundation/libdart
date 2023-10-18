@@ -68,22 +68,22 @@ class _$AuthorizedKeyCopyWithImpl<$Res, $Val extends AuthorizedKey>
 }
 
 /// @nodoc
-abstract class _$$_AuthorizedKeyCopyWith<$Res>
+abstract class _$$AuthorizedKeyImplCopyWith<$Res>
     implements $AuthorizedKeyCopyWith<$Res> {
-  factory _$$_AuthorizedKeyCopyWith(
-          _$_AuthorizedKey value, $Res Function(_$_AuthorizedKey) then) =
-      __$$_AuthorizedKeyCopyWithImpl<$Res>;
+  factory _$$AuthorizedKeyImplCopyWith(
+          _$AuthorizedKeyImpl value, $Res Function(_$AuthorizedKeyImpl) then) =
+      __$$AuthorizedKeyImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? publicKey, String? encryptedSecretKey});
 }
 
 /// @nodoc
-class __$$_AuthorizedKeyCopyWithImpl<$Res>
-    extends _$AuthorizedKeyCopyWithImpl<$Res, _$_AuthorizedKey>
-    implements _$$_AuthorizedKeyCopyWith<$Res> {
-  __$$_AuthorizedKeyCopyWithImpl(
-      _$_AuthorizedKey _value, $Res Function(_$_AuthorizedKey) _then)
+class __$$AuthorizedKeyImplCopyWithImpl<$Res>
+    extends _$AuthorizedKeyCopyWithImpl<$Res, _$AuthorizedKeyImpl>
+    implements _$$AuthorizedKeyImplCopyWith<$Res> {
+  __$$AuthorizedKeyImplCopyWithImpl(
+      _$AuthorizedKeyImpl _value, $Res Function(_$AuthorizedKeyImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$_AuthorizedKeyCopyWithImpl<$Res>
     Object? publicKey = freezed,
     Object? encryptedSecretKey = freezed,
   }) {
-    return _then(_$_AuthorizedKey(
+    return _then(_$AuthorizedKeyImpl(
       publicKey: freezed == publicKey
           ? _value.publicKey
           : publicKey // ignore: cast_nullable_to_non_nullable
@@ -107,11 +107,12 @@ class __$$_AuthorizedKeyCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AuthorizedKey extends _AuthorizedKey {
-  const _$_AuthorizedKey({this.publicKey, this.encryptedSecretKey}) : super._();
+class _$AuthorizedKeyImpl extends _AuthorizedKey {
+  const _$AuthorizedKeyImpl({this.publicKey, this.encryptedSecretKey})
+      : super._();
 
-  factory _$_AuthorizedKey.fromJson(Map<String, dynamic> json) =>
-      _$$_AuthorizedKeyFromJson(json);
+  factory _$AuthorizedKeyImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AuthorizedKeyImplFromJson(json);
 
   @override
   final String? publicKey;
@@ -127,7 +128,7 @@ class _$_AuthorizedKey extends _AuthorizedKey {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AuthorizedKey &&
+            other is _$AuthorizedKeyImpl &&
             (identical(other.publicKey, publicKey) ||
                 other.publicKey == publicKey) &&
             (identical(other.encryptedSecretKey, encryptedSecretKey) ||
@@ -141,12 +142,12 @@ class _$_AuthorizedKey extends _AuthorizedKey {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AuthorizedKeyCopyWith<_$_AuthorizedKey> get copyWith =>
-      __$$_AuthorizedKeyCopyWithImpl<_$_AuthorizedKey>(this, _$identity);
+  _$$AuthorizedKeyImplCopyWith<_$AuthorizedKeyImpl> get copyWith =>
+      __$$AuthorizedKeyImplCopyWithImpl<_$AuthorizedKeyImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AuthorizedKeyToJson(
+    return _$$AuthorizedKeyImplToJson(
       this,
     );
   }
@@ -155,11 +156,11 @@ class _$_AuthorizedKey extends _AuthorizedKey {
 abstract class _AuthorizedKey extends AuthorizedKey {
   const factory _AuthorizedKey(
       {final String? publicKey,
-      final String? encryptedSecretKey}) = _$_AuthorizedKey;
+      final String? encryptedSecretKey}) = _$AuthorizedKeyImpl;
   const _AuthorizedKey._() : super._();
 
   factory _AuthorizedKey.fromJson(Map<String, dynamic> json) =
-      _$_AuthorizedKey.fromJson;
+      _$AuthorizedKeyImpl.fromJson;
 
   @override
   String? get publicKey;
@@ -167,6 +168,6 @@ abstract class _AuthorizedKey extends AuthorizedKey {
   String? get encryptedSecretKey;
   @override
   @JsonKey(ignore: true)
-  _$$_AuthorizedKeyCopyWith<_$_AuthorizedKey> get copyWith =>
+  _$$AuthorizedKeyImplCopyWith<_$AuthorizedKeyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

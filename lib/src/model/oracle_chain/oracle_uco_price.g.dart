@@ -6,15 +6,16 @@ part of 'oracle_uco_price.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_OracleUcoPrice _$$_OracleUcoPriceFromJson(Map<String, dynamic> json) =>
-    _$_OracleUcoPrice(
+_$OracleUcoPriceImpl _$$OracleUcoPriceImplFromJson(Map<String, dynamic> json) =>
+    _$OracleUcoPriceImpl(
       uco: json['uco'] == null
           ? null
           : Uco.fromJson(json['uco'] as Map<String, dynamic>),
       timestamp: json['timestamp'] as int?,
     );
 
-Map<String, dynamic> _$$_OracleUcoPriceToJson(_$_OracleUcoPrice instance) =>
+Map<String, dynamic> _$$OracleUcoPriceImplToJson(
+        _$OracleUcoPriceImpl instance) =>
     <String, dynamic>{
       'uco': instance.uco,
       'timestamp': instance.timestamp,

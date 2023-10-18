@@ -68,22 +68,22 @@ class _$UCOTransferCopyWithImpl<$Res, $Val extends UCOTransfer>
 }
 
 /// @nodoc
-abstract class _$$_UCOTransferCopyWith<$Res>
+abstract class _$$UCOTransferImplCopyWith<$Res>
     implements $UCOTransferCopyWith<$Res> {
-  factory _$$_UCOTransferCopyWith(
-          _$_UCOTransfer value, $Res Function(_$_UCOTransfer) then) =
-      __$$_UCOTransferCopyWithImpl<$Res>;
+  factory _$$UCOTransferImplCopyWith(
+          _$UCOTransferImpl value, $Res Function(_$UCOTransferImpl) then) =
+      __$$UCOTransferImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int? amount, String? to});
 }
 
 /// @nodoc
-class __$$_UCOTransferCopyWithImpl<$Res>
-    extends _$UCOTransferCopyWithImpl<$Res, _$_UCOTransfer>
-    implements _$$_UCOTransferCopyWith<$Res> {
-  __$$_UCOTransferCopyWithImpl(
-      _$_UCOTransfer _value, $Res Function(_$_UCOTransfer) _then)
+class __$$UCOTransferImplCopyWithImpl<$Res>
+    extends _$UCOTransferCopyWithImpl<$Res, _$UCOTransferImpl>
+    implements _$$UCOTransferImplCopyWith<$Res> {
+  __$$UCOTransferImplCopyWithImpl(
+      _$UCOTransferImpl _value, $Res Function(_$UCOTransferImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$_UCOTransferCopyWithImpl<$Res>
     Object? amount = freezed,
     Object? to = freezed,
   }) {
-    return _then(_$_UCOTransfer(
+    return _then(_$UCOTransferImpl(
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -107,11 +107,11 @@ class __$$_UCOTransferCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UCOTransfer extends _UCOTransfer {
-  const _$_UCOTransfer({this.amount, this.to}) : super._();
+class _$UCOTransferImpl extends _UCOTransfer {
+  const _$UCOTransferImpl({this.amount, this.to}) : super._();
 
-  factory _$_UCOTransfer.fromJson(Map<String, dynamic> json) =>
-      _$$_UCOTransferFromJson(json);
+  factory _$UCOTransferImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UCOTransferImplFromJson(json);
 
   @override
   final int? amount;
@@ -127,7 +127,7 @@ class _$_UCOTransfer extends _UCOTransfer {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UCOTransfer &&
+            other is _$UCOTransferImpl &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.to, to) || other.to == to));
   }
@@ -139,12 +139,12 @@ class _$_UCOTransfer extends _UCOTransfer {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UCOTransferCopyWith<_$_UCOTransfer> get copyWith =>
-      __$$_UCOTransferCopyWithImpl<_$_UCOTransfer>(this, _$identity);
+  _$$UCOTransferImplCopyWith<_$UCOTransferImpl> get copyWith =>
+      __$$UCOTransferImplCopyWithImpl<_$UCOTransferImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UCOTransferToJson(
+    return _$$UCOTransferImplToJson(
       this,
     );
   }
@@ -152,11 +152,11 @@ class _$_UCOTransfer extends _UCOTransfer {
 
 abstract class _UCOTransfer extends UCOTransfer {
   const factory _UCOTransfer({final int? amount, final String? to}) =
-      _$_UCOTransfer;
+      _$UCOTransferImpl;
   const _UCOTransfer._() : super._();
 
   factory _UCOTransfer.fromJson(Map<String, dynamic> json) =
-      _$_UCOTransfer.fromJson;
+      _$UCOTransferImpl.fromJson;
 
   @override
   int? get amount;
@@ -164,6 +164,6 @@ abstract class _UCOTransfer extends UCOTransfer {
   String? get to;
   @override
   @JsonKey(ignore: true)
-  _$$_UCOTransferCopyWith<_$_UCOTransfer> get copyWith =>
+  _$$UCOTransferImplCopyWith<_$UCOTransferImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

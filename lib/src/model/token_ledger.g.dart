@@ -6,15 +6,15 @@ part of 'token_ledger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_TokenLedger _$$_TokenLedgerFromJson(Map<String, dynamic> json) =>
-    _$_TokenLedger(
+_$TokenLedgerImpl _$$TokenLedgerImplFromJson(Map<String, dynamic> json) =>
+    _$TokenLedgerImpl(
       transfers: (json['transfers'] as List<dynamic>?)
               ?.map((e) => TokenTransfer.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );
 
-Map<String, dynamic> _$$_TokenLedgerToJson(_$_TokenLedger instance) =>
+Map<String, dynamic> _$$TokenLedgerImplToJson(_$TokenLedgerImpl instance) =>
     <String, dynamic>{
       'transfers': instance.transfers,
     };

@@ -6,8 +6,9 @@ part of 'validation_stamp.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ValidationStamp _$$_ValidationStampFromJson(Map<String, dynamic> json) =>
-    _$_ValidationStamp(
+_$ValidationStampImpl _$$ValidationStampImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ValidationStampImpl(
       ledgerOperations: json['ledgerOperations'] == null
           ? null
           : LedgerOperations.fromJson(
@@ -18,7 +19,8 @@ _$_ValidationStamp _$$_ValidationStampFromJson(Map<String, dynamic> json) =>
       timestamp: json['timestamp'] as int?,
     );
 
-Map<String, dynamic> _$$_ValidationStampToJson(_$_ValidationStamp instance) =>
+Map<String, dynamic> _$$ValidationStampImplToJson(
+        _$ValidationStampImpl instance) =>
     <String, dynamic>{
       'ledgerOperations': instance.ledgerOperations,
       'proofOfIntegrity': instance.proofOfIntegrity,

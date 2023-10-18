@@ -72,18 +72,21 @@ class _$ErrorCopyWithImpl<$Res, $Val extends Error>
 }
 
 /// @nodoc
-abstract class _$$_ErrorCopyWith<$Res> implements $ErrorCopyWith<$Res> {
-  factory _$$_ErrorCopyWith(_$_Error value, $Res Function(_$_Error) then) =
-      __$$_ErrorCopyWithImpl<$Res>;
+abstract class _$$ErrorImplCopyWith<$Res> implements $ErrorCopyWith<$Res> {
+  factory _$$ErrorImplCopyWith(
+          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Location> locations, String? message, List<String> path});
 }
 
 /// @nodoc
-class __$$_ErrorCopyWithImpl<$Res> extends _$ErrorCopyWithImpl<$Res, _$_Error>
-    implements _$$_ErrorCopyWith<$Res> {
-  __$$_ErrorCopyWithImpl(_$_Error _value, $Res Function(_$_Error) _then)
+class __$$ErrorImplCopyWithImpl<$Res>
+    extends _$ErrorCopyWithImpl<$Res, _$ErrorImpl>
+    implements _$$ErrorImplCopyWith<$Res> {
+  __$$ErrorImplCopyWithImpl(
+      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -93,7 +96,7 @@ class __$$_ErrorCopyWithImpl<$Res> extends _$ErrorCopyWithImpl<$Res, _$_Error>
     Object? message = freezed,
     Object? path = null,
   }) {
-    return _then(_$_Error(
+    return _then(_$ErrorImpl(
       locations: null == locations
           ? _value._locations
           : locations // ignore: cast_nullable_to_non_nullable
@@ -112,8 +115,8 @@ class __$$_ErrorCopyWithImpl<$Res> extends _$ErrorCopyWithImpl<$Res, _$_Error>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Error extends _Error {
-  const _$_Error(
+class _$ErrorImpl extends _Error {
+  const _$ErrorImpl(
       {final List<Location> locations = const [],
       this.message,
       final List<String> path = const []})
@@ -121,8 +124,8 @@ class _$_Error extends _Error {
         _path = path,
         super._();
 
-  factory _$_Error.fromJson(Map<String, dynamic> json) =>
-      _$$_ErrorFromJson(json);
+  factory _$ErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ErrorImplFromJson(json);
 
   final List<Location> _locations;
   @override
@@ -153,7 +156,7 @@ class _$_Error extends _Error {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Error &&
+            other is _$ErrorImpl &&
             const DeepCollectionEquality()
                 .equals(other._locations, _locations) &&
             (identical(other.message, message) || other.message == message) &&
@@ -171,12 +174,12 @@ class _$_Error extends _Error {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ErrorCopyWith<_$_Error> get copyWith =>
-      __$$_ErrorCopyWithImpl<_$_Error>(this, _$identity);
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ErrorToJson(
+    return _$$ErrorImplToJson(
       this,
     );
   }
@@ -186,10 +189,10 @@ abstract class _Error extends Error {
   const factory _Error(
       {final List<Location> locations,
       final String? message,
-      final List<String> path}) = _$_Error;
+      final List<String> path}) = _$ErrorImpl;
   const _Error._() : super._();
 
-  factory _Error.fromJson(Map<String, dynamic> json) = _$_Error.fromJson;
+  factory _Error.fromJson(Map<String, dynamic> json) = _$ErrorImpl.fromJson;
 
   @override
   List<Location> get locations;
@@ -199,6 +202,6 @@ abstract class _Error extends Error {
   List<String> get path;
   @override
   @JsonKey(ignore: true)
-  _$$_ErrorCopyWith<_$_Error> get copyWith =>
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

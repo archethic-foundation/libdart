@@ -138,9 +138,10 @@ class _$NodeCopyWithImpl<$Res, $Val extends Node>
 }
 
 /// @nodoc
-abstract class _$$_NodeCopyWith<$Res> implements $NodeCopyWith<$Res> {
-  factory _$$_NodeCopyWith(_$_Node value, $Res Function(_$_Node) then) =
-      __$$_NodeCopyWithImpl<$Res>;
+abstract class _$$NodeImplCopyWith<$Res> implements $NodeCopyWith<$Res> {
+  factory _$$NodeImplCopyWith(
+          _$NodeImpl value, $Res Function(_$NodeImpl) then) =
+      __$$NodeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -159,9 +160,10 @@ abstract class _$$_NodeCopyWith<$Res> implements $NodeCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res, _$_Node>
-    implements _$$_NodeCopyWith<$Res> {
-  __$$_NodeCopyWithImpl(_$_Node _value, $Res Function(_$_Node) _then)
+class __$$NodeImplCopyWithImpl<$Res>
+    extends _$NodeCopyWithImpl<$Res, _$NodeImpl>
+    implements _$$NodeImplCopyWith<$Res> {
+  __$$NodeImplCopyWithImpl(_$NodeImpl _value, $Res Function(_$NodeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -180,7 +182,7 @@ class __$$_NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res, _$_Node>
     Object? enrollmentDate = freezed,
     Object? authorizationDate = freezed,
   }) {
-    return _then(_$_Node(
+    return _then(_$NodeImpl(
       authorized: freezed == authorized
           ? _value.authorized
           : authorized // ignore: cast_nullable_to_non_nullable
@@ -235,8 +237,8 @@ class __$$_NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res, _$_Node>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Node extends _Node {
-  const _$_Node(
+class _$NodeImpl extends _Node {
+  const _$NodeImpl(
       {this.authorized,
       this.available,
       this.averageAvailability,
@@ -251,7 +253,8 @@ class _$_Node extends _Node {
       this.authorizationDate})
       : super._();
 
-  factory _$_Node.fromJson(Map<String, dynamic> json) => _$$_NodeFromJson(json);
+  factory _$NodeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NodeImplFromJson(json);
 
   @override
   final bool? authorized;
@@ -287,7 +290,7 @@ class _$_Node extends _Node {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Node &&
+            other is _$NodeImpl &&
             (identical(other.authorized, authorized) ||
                 other.authorized == authorized) &&
             (identical(other.available, available) ||
@@ -332,12 +335,12 @@ class _$_Node extends _Node {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_NodeCopyWith<_$_Node> get copyWith =>
-      __$$_NodeCopyWithImpl<_$_Node>(this, _$identity);
+  _$$NodeImplCopyWith<_$NodeImpl> get copyWith =>
+      __$$NodeImplCopyWithImpl<_$NodeImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_NodeToJson(
+    return _$$NodeImplToJson(
       this,
     );
   }
@@ -356,10 +359,10 @@ abstract class _Node extends Node {
       final int? port,
       final String? rewardAddress,
       final int? enrollmentDate,
-      final int? authorizationDate}) = _$_Node;
+      final int? authorizationDate}) = _$NodeImpl;
   const _Node._() : super._();
 
-  factory _Node.fromJson(Map<String, dynamic> json) = _$_Node.fromJson;
+  factory _Node.fromJson(Map<String, dynamic> json) = _$NodeImpl.fromJson;
 
   @override
   bool? get authorized;
@@ -387,5 +390,6 @@ abstract class _Node extends Node {
   int? get authorizationDate;
   @override
   @JsonKey(ignore: true)
-  _$$_NodeCopyWith<_$_Node> get copyWith => throw _privateConstructorUsedError;
+  _$$NodeImplCopyWith<_$NodeImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

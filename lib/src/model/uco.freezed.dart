@@ -65,18 +65,18 @@ class _$UcoCopyWithImpl<$Res, $Val extends Uco> implements $UcoCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_UcoCopyWith<$Res> implements $UcoCopyWith<$Res> {
-  factory _$$_UcoCopyWith(_$_Uco value, $Res Function(_$_Uco) then) =
-      __$$_UcoCopyWithImpl<$Res>;
+abstract class _$$UcoImplCopyWith<$Res> implements $UcoCopyWith<$Res> {
+  factory _$$UcoImplCopyWith(_$UcoImpl value, $Res Function(_$UcoImpl) then) =
+      __$$UcoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double? eur, double? usd});
 }
 
 /// @nodoc
-class __$$_UcoCopyWithImpl<$Res> extends _$UcoCopyWithImpl<$Res, _$_Uco>
-    implements _$$_UcoCopyWith<$Res> {
-  __$$_UcoCopyWithImpl(_$_Uco _value, $Res Function(_$_Uco) _then)
+class __$$UcoImplCopyWithImpl<$Res> extends _$UcoCopyWithImpl<$Res, _$UcoImpl>
+    implements _$$UcoImplCopyWith<$Res> {
+  __$$UcoImplCopyWithImpl(_$UcoImpl _value, $Res Function(_$UcoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -85,7 +85,7 @@ class __$$_UcoCopyWithImpl<$Res> extends _$UcoCopyWithImpl<$Res, _$_Uco>
     Object? eur = freezed,
     Object? usd = freezed,
   }) {
-    return _then(_$_Uco(
+    return _then(_$UcoImpl(
       eur: freezed == eur
           ? _value.eur
           : eur // ignore: cast_nullable_to_non_nullable
@@ -100,10 +100,11 @@ class __$$_UcoCopyWithImpl<$Res> extends _$UcoCopyWithImpl<$Res, _$_Uco>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Uco extends _Uco {
-  const _$_Uco({this.eur, this.usd}) : super._();
+class _$UcoImpl extends _Uco {
+  const _$UcoImpl({this.eur, this.usd}) : super._();
 
-  factory _$_Uco.fromJson(Map<String, dynamic> json) => _$$_UcoFromJson(json);
+  factory _$UcoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UcoImplFromJson(json);
 
   @override
   final double? eur;
@@ -119,7 +120,7 @@ class _$_Uco extends _Uco {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Uco &&
+            other is _$UcoImpl &&
             (identical(other.eur, eur) || other.eur == eur) &&
             (identical(other.usd, usd) || other.usd == usd));
   }
@@ -131,22 +132,22 @@ class _$_Uco extends _Uco {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UcoCopyWith<_$_Uco> get copyWith =>
-      __$$_UcoCopyWithImpl<_$_Uco>(this, _$identity);
+  _$$UcoImplCopyWith<_$UcoImpl> get copyWith =>
+      __$$UcoImplCopyWithImpl<_$UcoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UcoToJson(
+    return _$$UcoImplToJson(
       this,
     );
   }
 }
 
 abstract class _Uco extends Uco {
-  const factory _Uco({final double? eur, final double? usd}) = _$_Uco;
+  const factory _Uco({final double? eur, final double? usd}) = _$UcoImpl;
   const _Uco._() : super._();
 
-  factory _Uco.fromJson(Map<String, dynamic> json) = _$_Uco.fromJson;
+  factory _Uco.fromJson(Map<String, dynamic> json) = _$UcoImpl.fromJson;
 
   @override
   double? get eur;
@@ -154,5 +155,6 @@ abstract class _Uco extends Uco {
   double? get usd;
   @override
   @JsonKey(ignore: true)
-  _$$_UcoCopyWith<_$_Uco> get copyWith => throw _privateConstructorUsedError;
+  _$$UcoImplCopyWith<_$UcoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

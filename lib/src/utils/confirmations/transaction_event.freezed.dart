@@ -140,25 +140,25 @@ class _$TransactionErrorCopyWithImpl<$Res, $Val extends TransactionError>
 }
 
 /// @nodoc
-abstract class _$$_TransactionTimeoutCopyWith<$Res> {
-  factory _$$_TransactionTimeoutCopyWith(_$_TransactionTimeout value,
-          $Res Function(_$_TransactionTimeout) then) =
-      __$$_TransactionTimeoutCopyWithImpl<$Res>;
+abstract class _$$TransactionTimeoutImplCopyWith<$Res> {
+  factory _$$TransactionTimeoutImplCopyWith(_$TransactionTimeoutImpl value,
+          $Res Function(_$TransactionTimeoutImpl) then) =
+      __$$TransactionTimeoutImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_TransactionTimeoutCopyWithImpl<$Res>
-    extends _$TransactionErrorCopyWithImpl<$Res, _$_TransactionTimeout>
-    implements _$$_TransactionTimeoutCopyWith<$Res> {
-  __$$_TransactionTimeoutCopyWithImpl(
-      _$_TransactionTimeout _value, $Res Function(_$_TransactionTimeout) _then)
+class __$$TransactionTimeoutImplCopyWithImpl<$Res>
+    extends _$TransactionErrorCopyWithImpl<$Res, _$TransactionTimeoutImpl>
+    implements _$$TransactionTimeoutImplCopyWith<$Res> {
+  __$$TransactionTimeoutImplCopyWithImpl(_$TransactionTimeoutImpl _value,
+      $Res Function(_$TransactionTimeoutImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_TransactionTimeout extends _TransactionTimeout {
-  const _$_TransactionTimeout() : super._();
+class _$TransactionTimeoutImpl extends _TransactionTimeout {
+  const _$TransactionTimeoutImpl() : super._();
 
   @override
   String toString() {
@@ -168,7 +168,7 @@ class _$_TransactionTimeout extends _TransactionTimeout {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_TransactionTimeout);
+        (other.runtimeType == runtimeType && other is _$TransactionTimeoutImpl);
   }
 
   @override
@@ -303,32 +303,33 @@ class _$_TransactionTimeout extends _TransactionTimeout {
 }
 
 abstract class _TransactionTimeout extends TransactionError {
-  const factory _TransactionTimeout() = _$_TransactionTimeout;
+  const factory _TransactionTimeout() = _$TransactionTimeoutImpl;
   const _TransactionTimeout._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_TransactionConnectionErrorCopyWith<$Res> {
-  factory _$$_TransactionConnectionErrorCopyWith(
-          _$_TransactionConnectionError value,
-          $Res Function(_$_TransactionConnectionError) then) =
-      __$$_TransactionConnectionErrorCopyWithImpl<$Res>;
+abstract class _$$TransactionConnectionErrorImplCopyWith<$Res> {
+  factory _$$TransactionConnectionErrorImplCopyWith(
+          _$TransactionConnectionErrorImpl value,
+          $Res Function(_$TransactionConnectionErrorImpl) then) =
+      __$$TransactionConnectionErrorImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_TransactionConnectionErrorCopyWithImpl<$Res>
-    extends _$TransactionErrorCopyWithImpl<$Res, _$_TransactionConnectionError>
-    implements _$$_TransactionConnectionErrorCopyWith<$Res> {
-  __$$_TransactionConnectionErrorCopyWithImpl(
-      _$_TransactionConnectionError _value,
-      $Res Function(_$_TransactionConnectionError) _then)
+class __$$TransactionConnectionErrorImplCopyWithImpl<$Res>
+    extends _$TransactionErrorCopyWithImpl<$Res,
+        _$TransactionConnectionErrorImpl>
+    implements _$$TransactionConnectionErrorImplCopyWith<$Res> {
+  __$$TransactionConnectionErrorImplCopyWithImpl(
+      _$TransactionConnectionErrorImpl _value,
+      $Res Function(_$TransactionConnectionErrorImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_TransactionConnectionError extends _TransactionConnectionError {
-  const _$_TransactionConnectionError() : super._();
+class _$TransactionConnectionErrorImpl extends _TransactionConnectionError {
+  const _$TransactionConnectionErrorImpl() : super._();
 
   @override
   String toString() {
@@ -339,7 +340,7 @@ class _$_TransactionConnectionError extends _TransactionConnectionError {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionConnectionError);
+            other is _$TransactionConnectionErrorImpl);
   }
 
   @override
@@ -474,34 +475,35 @@ class _$_TransactionConnectionError extends _TransactionConnectionError {
 }
 
 abstract class _TransactionConnectionError extends TransactionError {
-  const factory _TransactionConnectionError() = _$_TransactionConnectionError;
+  const factory _TransactionConnectionError() =
+      _$TransactionConnectionErrorImpl;
   const _TransactionConnectionError._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_TransactionConsensusNotReachedErrorCopyWith<$Res> {
-  factory _$$_TransactionConsensusNotReachedErrorCopyWith(
-          _$_TransactionConsensusNotReachedError value,
-          $Res Function(_$_TransactionConsensusNotReachedError) then) =
-      __$$_TransactionConsensusNotReachedErrorCopyWithImpl<$Res>;
+abstract class _$$TransactionConsensusNotReachedErrorImplCopyWith<$Res> {
+  factory _$$TransactionConsensusNotReachedErrorImplCopyWith(
+          _$TransactionConsensusNotReachedErrorImpl value,
+          $Res Function(_$TransactionConsensusNotReachedErrorImpl) then) =
+      __$$TransactionConsensusNotReachedErrorImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_TransactionConsensusNotReachedErrorCopyWithImpl<$Res>
+class __$$TransactionConsensusNotReachedErrorImplCopyWithImpl<$Res>
     extends _$TransactionErrorCopyWithImpl<$Res,
-        _$_TransactionConsensusNotReachedError>
-    implements _$$_TransactionConsensusNotReachedErrorCopyWith<$Res> {
-  __$$_TransactionConsensusNotReachedErrorCopyWithImpl(
-      _$_TransactionConsensusNotReachedError _value,
-      $Res Function(_$_TransactionConsensusNotReachedError) _then)
+        _$TransactionConsensusNotReachedErrorImpl>
+    implements _$$TransactionConsensusNotReachedErrorImplCopyWith<$Res> {
+  __$$TransactionConsensusNotReachedErrorImplCopyWithImpl(
+      _$TransactionConsensusNotReachedErrorImpl _value,
+      $Res Function(_$TransactionConsensusNotReachedErrorImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_TransactionConsensusNotReachedError
+class _$TransactionConsensusNotReachedErrorImpl
     extends _TransactionConsensusNotReachedError {
-  const _$_TransactionConsensusNotReachedError() : super._();
+  const _$TransactionConsensusNotReachedErrorImpl() : super._();
 
   @override
   String toString() {
@@ -512,7 +514,7 @@ class _$_TransactionConsensusNotReachedError
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionConsensusNotReachedError);
+            other is _$TransactionConsensusNotReachedErrorImpl);
   }
 
   @override
@@ -648,30 +650,30 @@ class _$_TransactionConsensusNotReachedError
 
 abstract class _TransactionConsensusNotReachedError extends TransactionError {
   const factory _TransactionConsensusNotReachedError() =
-      _$_TransactionConsensusNotReachedError;
+      _$TransactionConsensusNotReachedErrorImpl;
   const _TransactionConsensusNotReachedError._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_TransactionInvalidCopyWith<$Res> {
-  factory _$$_TransactionInvalidCopyWith(_$_TransactionInvalid value,
-          $Res Function(_$_TransactionInvalid) then) =
-      __$$_TransactionInvalidCopyWithImpl<$Res>;
+abstract class _$$TransactionInvalidImplCopyWith<$Res> {
+  factory _$$TransactionInvalidImplCopyWith(_$TransactionInvalidImpl value,
+          $Res Function(_$TransactionInvalidImpl) then) =
+      __$$TransactionInvalidImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_TransactionInvalidCopyWithImpl<$Res>
-    extends _$TransactionErrorCopyWithImpl<$Res, _$_TransactionInvalid>
-    implements _$$_TransactionInvalidCopyWith<$Res> {
-  __$$_TransactionInvalidCopyWithImpl(
-      _$_TransactionInvalid _value, $Res Function(_$_TransactionInvalid) _then)
+class __$$TransactionInvalidImplCopyWithImpl<$Res>
+    extends _$TransactionErrorCopyWithImpl<$Res, _$TransactionInvalidImpl>
+    implements _$$TransactionInvalidImplCopyWith<$Res> {
+  __$$TransactionInvalidImplCopyWithImpl(_$TransactionInvalidImpl _value,
+      $Res Function(_$TransactionInvalidImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_TransactionInvalid extends _TransactionInvalid {
-  const _$_TransactionInvalid() : super._();
+class _$TransactionInvalidImpl extends _TransactionInvalid {
+  const _$TransactionInvalidImpl() : super._();
 
   @override
   String toString() {
@@ -681,7 +683,7 @@ class _$_TransactionInvalid extends _TransactionInvalid {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_TransactionInvalid);
+        (other.runtimeType == runtimeType && other is _$TransactionInvalidImpl);
   }
 
   @override
@@ -816,34 +818,34 @@ class _$_TransactionInvalid extends _TransactionInvalid {
 }
 
 abstract class _TransactionInvalid extends TransactionError {
-  const factory _TransactionInvalid() = _$_TransactionInvalid;
+  const factory _TransactionInvalid() = _$TransactionInvalidImpl;
   const _TransactionInvalid._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_TransactionInvalidConfirmationCopyWith<$Res> {
-  factory _$$_TransactionInvalidConfirmationCopyWith(
-          _$_TransactionInvalidConfirmation value,
-          $Res Function(_$_TransactionInvalidConfirmation) then) =
-      __$$_TransactionInvalidConfirmationCopyWithImpl<$Res>;
+abstract class _$$TransactionInvalidConfirmationImplCopyWith<$Res> {
+  factory _$$TransactionInvalidConfirmationImplCopyWith(
+          _$TransactionInvalidConfirmationImpl value,
+          $Res Function(_$TransactionInvalidConfirmationImpl) then) =
+      __$$TransactionInvalidConfirmationImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_TransactionInvalidConfirmationCopyWithImpl<$Res>
+class __$$TransactionInvalidConfirmationImplCopyWithImpl<$Res>
     extends _$TransactionErrorCopyWithImpl<$Res,
-        _$_TransactionInvalidConfirmation>
-    implements _$$_TransactionInvalidConfirmationCopyWith<$Res> {
-  __$$_TransactionInvalidConfirmationCopyWithImpl(
-      _$_TransactionInvalidConfirmation _value,
-      $Res Function(_$_TransactionInvalidConfirmation) _then)
+        _$TransactionInvalidConfirmationImpl>
+    implements _$$TransactionInvalidConfirmationImplCopyWith<$Res> {
+  __$$TransactionInvalidConfirmationImplCopyWithImpl(
+      _$TransactionInvalidConfirmationImpl _value,
+      $Res Function(_$TransactionInvalidConfirmationImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_TransactionInvalidConfirmation
+class _$TransactionInvalidConfirmationImpl
     extends _TransactionInvalidConfirmation {
-  const _$_TransactionInvalidConfirmation() : super._();
+  const _$TransactionInvalidConfirmationImpl() : super._();
 
   @override
   String toString() {
@@ -854,7 +856,7 @@ class _$_TransactionInvalidConfirmation
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionInvalidConfirmation);
+            other is _$TransactionInvalidConfirmationImpl);
   }
 
   @override
@@ -990,33 +992,33 @@ class _$_TransactionInvalidConfirmation
 
 abstract class _TransactionInvalidConfirmation extends TransactionError {
   const factory _TransactionInvalidConfirmation() =
-      _$_TransactionInvalidConfirmation;
+      _$TransactionInvalidConfirmationImpl;
   const _TransactionInvalidConfirmation._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_TransactionInsufficientFundsCopyWith<$Res> {
-  factory _$$_TransactionInsufficientFundsCopyWith(
-          _$_TransactionInsufficientFunds value,
-          $Res Function(_$_TransactionInsufficientFunds) then) =
-      __$$_TransactionInsufficientFundsCopyWithImpl<$Res>;
+abstract class _$$TransactionInsufficientFundsImplCopyWith<$Res> {
+  factory _$$TransactionInsufficientFundsImplCopyWith(
+          _$TransactionInsufficientFundsImpl value,
+          $Res Function(_$TransactionInsufficientFundsImpl) then) =
+      __$$TransactionInsufficientFundsImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_TransactionInsufficientFundsCopyWithImpl<$Res>
+class __$$TransactionInsufficientFundsImplCopyWithImpl<$Res>
     extends _$TransactionErrorCopyWithImpl<$Res,
-        _$_TransactionInsufficientFunds>
-    implements _$$_TransactionInsufficientFundsCopyWith<$Res> {
-  __$$_TransactionInsufficientFundsCopyWithImpl(
-      _$_TransactionInsufficientFunds _value,
-      $Res Function(_$_TransactionInsufficientFunds) _then)
+        _$TransactionInsufficientFundsImpl>
+    implements _$$TransactionInsufficientFundsImplCopyWith<$Res> {
+  __$$TransactionInsufficientFundsImplCopyWithImpl(
+      _$TransactionInsufficientFundsImpl _value,
+      $Res Function(_$TransactionInsufficientFundsImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_TransactionInsufficientFunds extends _TransactionInsufficientFunds {
-  const _$_TransactionInsufficientFunds() : super._();
+class _$TransactionInsufficientFundsImpl extends _TransactionInsufficientFunds {
+  const _$TransactionInsufficientFundsImpl() : super._();
 
   @override
   String toString() {
@@ -1027,7 +1029,7 @@ class _$_TransactionInsufficientFunds extends _TransactionInsufficientFunds {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionInsufficientFunds);
+            other is _$TransactionInsufficientFundsImpl);
   }
 
   @override
@@ -1163,32 +1165,33 @@ class _$_TransactionInsufficientFunds extends _TransactionInsufficientFunds {
 
 abstract class _TransactionInsufficientFunds extends TransactionError {
   const factory _TransactionInsufficientFunds() =
-      _$_TransactionInsufficientFunds;
+      _$TransactionInsufficientFundsImpl;
   const _TransactionInsufficientFunds._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_TransactionServiceNotFoundCopyWith<$Res> {
-  factory _$$_TransactionServiceNotFoundCopyWith(
-          _$_TransactionServiceNotFound value,
-          $Res Function(_$_TransactionServiceNotFound) then) =
-      __$$_TransactionServiceNotFoundCopyWithImpl<$Res>;
+abstract class _$$TransactionServiceNotFoundImplCopyWith<$Res> {
+  factory _$$TransactionServiceNotFoundImplCopyWith(
+          _$TransactionServiceNotFoundImpl value,
+          $Res Function(_$TransactionServiceNotFoundImpl) then) =
+      __$$TransactionServiceNotFoundImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_TransactionServiceNotFoundCopyWithImpl<$Res>
-    extends _$TransactionErrorCopyWithImpl<$Res, _$_TransactionServiceNotFound>
-    implements _$$_TransactionServiceNotFoundCopyWith<$Res> {
-  __$$_TransactionServiceNotFoundCopyWithImpl(
-      _$_TransactionServiceNotFound _value,
-      $Res Function(_$_TransactionServiceNotFound) _then)
+class __$$TransactionServiceNotFoundImplCopyWithImpl<$Res>
+    extends _$TransactionErrorCopyWithImpl<$Res,
+        _$TransactionServiceNotFoundImpl>
+    implements _$$TransactionServiceNotFoundImplCopyWith<$Res> {
+  __$$TransactionServiceNotFoundImplCopyWithImpl(
+      _$TransactionServiceNotFoundImpl _value,
+      $Res Function(_$TransactionServiceNotFoundImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_TransactionServiceNotFound extends _TransactionServiceNotFound {
-  const _$_TransactionServiceNotFound() : super._();
+class _$TransactionServiceNotFoundImpl extends _TransactionServiceNotFound {
+  const _$TransactionServiceNotFoundImpl() : super._();
 
   @override
   String toString() {
@@ -1199,7 +1202,7 @@ class _$_TransactionServiceNotFound extends _TransactionServiceNotFound {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionServiceNotFound);
+            other is _$TransactionServiceNotFoundImpl);
   }
 
   @override
@@ -1334,34 +1337,35 @@ class _$_TransactionServiceNotFound extends _TransactionServiceNotFound {
 }
 
 abstract class _TransactionServiceNotFound extends TransactionError {
-  const factory _TransactionServiceNotFound() = _$_TransactionServiceNotFound;
+  const factory _TransactionServiceNotFound() =
+      _$TransactionServiceNotFoundImpl;
   const _TransactionServiceNotFound._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_TransactionServiceAlreadyExistsCopyWith<$Res> {
-  factory _$$_TransactionServiceAlreadyExistsCopyWith(
-          _$_TransactionServiceAlreadyExists value,
-          $Res Function(_$_TransactionServiceAlreadyExists) then) =
-      __$$_TransactionServiceAlreadyExistsCopyWithImpl<$Res>;
+abstract class _$$TransactionServiceAlreadyExistsImplCopyWith<$Res> {
+  factory _$$TransactionServiceAlreadyExistsImplCopyWith(
+          _$TransactionServiceAlreadyExistsImpl value,
+          $Res Function(_$TransactionServiceAlreadyExistsImpl) then) =
+      __$$TransactionServiceAlreadyExistsImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_TransactionServiceAlreadyExistsCopyWithImpl<$Res>
+class __$$TransactionServiceAlreadyExistsImplCopyWithImpl<$Res>
     extends _$TransactionErrorCopyWithImpl<$Res,
-        _$_TransactionServiceAlreadyExists>
-    implements _$$_TransactionServiceAlreadyExistsCopyWith<$Res> {
-  __$$_TransactionServiceAlreadyExistsCopyWithImpl(
-      _$_TransactionServiceAlreadyExists _value,
-      $Res Function(_$_TransactionServiceAlreadyExists) _then)
+        _$TransactionServiceAlreadyExistsImpl>
+    implements _$$TransactionServiceAlreadyExistsImplCopyWith<$Res> {
+  __$$TransactionServiceAlreadyExistsImplCopyWithImpl(
+      _$TransactionServiceAlreadyExistsImpl _value,
+      $Res Function(_$TransactionServiceAlreadyExistsImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_TransactionServiceAlreadyExists
+class _$TransactionServiceAlreadyExistsImpl
     extends _TransactionServiceAlreadyExists {
-  const _$_TransactionServiceAlreadyExists() : super._();
+  const _$TransactionServiceAlreadyExistsImpl() : super._();
 
   @override
   String toString() {
@@ -1372,7 +1376,7 @@ class _$_TransactionServiceAlreadyExists
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionServiceAlreadyExists);
+            other is _$TransactionServiceAlreadyExistsImpl);
   }
 
   @override
@@ -1508,30 +1512,32 @@ class _$_TransactionServiceAlreadyExists
 
 abstract class _TransactionServiceAlreadyExists extends TransactionError {
   const factory _TransactionServiceAlreadyExists() =
-      _$_TransactionServiceAlreadyExists;
+      _$TransactionServiceAlreadyExistsImpl;
   const _TransactionServiceAlreadyExists._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_TransactionUserRejectedCopyWith<$Res> {
-  factory _$$_TransactionUserRejectedCopyWith(_$_TransactionUserRejected value,
-          $Res Function(_$_TransactionUserRejected) then) =
-      __$$_TransactionUserRejectedCopyWithImpl<$Res>;
+abstract class _$$TransactionUserRejectedImplCopyWith<$Res> {
+  factory _$$TransactionUserRejectedImplCopyWith(
+          _$TransactionUserRejectedImpl value,
+          $Res Function(_$TransactionUserRejectedImpl) then) =
+      __$$TransactionUserRejectedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_TransactionUserRejectedCopyWithImpl<$Res>
-    extends _$TransactionErrorCopyWithImpl<$Res, _$_TransactionUserRejected>
-    implements _$$_TransactionUserRejectedCopyWith<$Res> {
-  __$$_TransactionUserRejectedCopyWithImpl(_$_TransactionUserRejected _value,
-      $Res Function(_$_TransactionUserRejected) _then)
+class __$$TransactionUserRejectedImplCopyWithImpl<$Res>
+    extends _$TransactionErrorCopyWithImpl<$Res, _$TransactionUserRejectedImpl>
+    implements _$$TransactionUserRejectedImplCopyWith<$Res> {
+  __$$TransactionUserRejectedImplCopyWithImpl(
+      _$TransactionUserRejectedImpl _value,
+      $Res Function(_$TransactionUserRejectedImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_TransactionUserRejected extends _TransactionUserRejected {
-  const _$_TransactionUserRejected() : super._();
+class _$TransactionUserRejectedImpl extends _TransactionUserRejected {
+  const _$TransactionUserRejectedImpl() : super._();
 
   @override
   String toString() {
@@ -1542,7 +1548,7 @@ class _$_TransactionUserRejected extends _TransactionUserRejected {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionUserRejected);
+            other is _$TransactionUserRejectedImpl);
   }
 
   @override
@@ -1677,27 +1683,28 @@ class _$_TransactionUserRejected extends _TransactionUserRejected {
 }
 
 abstract class _TransactionUserRejected extends TransactionError {
-  const factory _TransactionUserRejected() = _$_TransactionUserRejected;
+  const factory _TransactionUserRejected() = _$TransactionUserRejectedImpl;
   const _TransactionUserRejected._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_TransactionUnknownAccountCopyWith<$Res> {
-  factory _$$_TransactionUnknownAccountCopyWith(
-          _$_TransactionUnknownAccount value,
-          $Res Function(_$_TransactionUnknownAccount) then) =
-      __$$_TransactionUnknownAccountCopyWithImpl<$Res>;
+abstract class _$$TransactionUnknownAccountImplCopyWith<$Res> {
+  factory _$$TransactionUnknownAccountImplCopyWith(
+          _$TransactionUnknownAccountImpl value,
+          $Res Function(_$TransactionUnknownAccountImpl) then) =
+      __$$TransactionUnknownAccountImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String accountName});
 }
 
 /// @nodoc
-class __$$_TransactionUnknownAccountCopyWithImpl<$Res>
-    extends _$TransactionErrorCopyWithImpl<$Res, _$_TransactionUnknownAccount>
-    implements _$$_TransactionUnknownAccountCopyWith<$Res> {
-  __$$_TransactionUnknownAccountCopyWithImpl(
-      _$_TransactionUnknownAccount _value,
-      $Res Function(_$_TransactionUnknownAccount) _then)
+class __$$TransactionUnknownAccountImplCopyWithImpl<$Res>
+    extends _$TransactionErrorCopyWithImpl<$Res,
+        _$TransactionUnknownAccountImpl>
+    implements _$$TransactionUnknownAccountImplCopyWith<$Res> {
+  __$$TransactionUnknownAccountImplCopyWithImpl(
+      _$TransactionUnknownAccountImpl _value,
+      $Res Function(_$TransactionUnknownAccountImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1705,7 +1712,7 @@ class __$$_TransactionUnknownAccountCopyWithImpl<$Res>
   $Res call({
     Object? accountName = null,
   }) {
-    return _then(_$_TransactionUnknownAccount(
+    return _then(_$TransactionUnknownAccountImpl(
       accountName: null == accountName
           ? _value.accountName
           : accountName // ignore: cast_nullable_to_non_nullable
@@ -1716,8 +1723,9 @@ class __$$_TransactionUnknownAccountCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TransactionUnknownAccount extends _TransactionUnknownAccount {
-  const _$_TransactionUnknownAccount({required this.accountName}) : super._();
+class _$TransactionUnknownAccountImpl extends _TransactionUnknownAccount {
+  const _$TransactionUnknownAccountImpl({required this.accountName})
+      : super._();
 
   @override
   final String accountName;
@@ -1731,7 +1739,7 @@ class _$_TransactionUnknownAccount extends _TransactionUnknownAccount {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionUnknownAccount &&
+            other is _$TransactionUnknownAccountImpl &&
             (identical(other.accountName, accountName) ||
                 other.accountName == accountName));
   }
@@ -1742,9 +1750,9 @@ class _$_TransactionUnknownAccount extends _TransactionUnknownAccount {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TransactionUnknownAccountCopyWith<_$_TransactionUnknownAccount>
-      get copyWith => __$$_TransactionUnknownAccountCopyWithImpl<
-          _$_TransactionUnknownAccount>(this, _$identity);
+  _$$TransactionUnknownAccountImplCopyWith<_$TransactionUnknownAccountImpl>
+      get copyWith => __$$TransactionUnknownAccountImplCopyWithImpl<
+          _$TransactionUnknownAccountImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1876,30 +1884,31 @@ class _$_TransactionUnknownAccount extends _TransactionUnknownAccount {
 
 abstract class _TransactionUnknownAccount extends TransactionError {
   const factory _TransactionUnknownAccount(
-      {required final String accountName}) = _$_TransactionUnknownAccount;
+      {required final String accountName}) = _$TransactionUnknownAccountImpl;
   const _TransactionUnknownAccount._() : super._();
 
   String get accountName;
   @JsonKey(ignore: true)
-  _$$_TransactionUnknownAccountCopyWith<_$_TransactionUnknownAccount>
+  _$$TransactionUnknownAccountImplCopyWith<_$TransactionUnknownAccountImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_TransactionOtherErrorCopyWith<$Res> {
-  factory _$$_TransactionOtherErrorCopyWith(_$_TransactionOtherError value,
-          $Res Function(_$_TransactionOtherError) then) =
-      __$$_TransactionOtherErrorCopyWithImpl<$Res>;
+abstract class _$$TransactionOtherErrorImplCopyWith<$Res> {
+  factory _$$TransactionOtherErrorImplCopyWith(
+          _$TransactionOtherErrorImpl value,
+          $Res Function(_$TransactionOtherErrorImpl) then) =
+      __$$TransactionOtherErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String? reason});
 }
 
 /// @nodoc
-class __$$_TransactionOtherErrorCopyWithImpl<$Res>
-    extends _$TransactionErrorCopyWithImpl<$Res, _$_TransactionOtherError>
-    implements _$$_TransactionOtherErrorCopyWith<$Res> {
-  __$$_TransactionOtherErrorCopyWithImpl(_$_TransactionOtherError _value,
-      $Res Function(_$_TransactionOtherError) _then)
+class __$$TransactionOtherErrorImplCopyWithImpl<$Res>
+    extends _$TransactionErrorCopyWithImpl<$Res, _$TransactionOtherErrorImpl>
+    implements _$$TransactionOtherErrorImplCopyWith<$Res> {
+  __$$TransactionOtherErrorImplCopyWithImpl(_$TransactionOtherErrorImpl _value,
+      $Res Function(_$TransactionOtherErrorImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1907,7 +1916,7 @@ class __$$_TransactionOtherErrorCopyWithImpl<$Res>
   $Res call({
     Object? reason = freezed,
   }) {
-    return _then(_$_TransactionOtherError(
+    return _then(_$TransactionOtherErrorImpl(
       reason: freezed == reason
           ? _value.reason
           : reason // ignore: cast_nullable_to_non_nullable
@@ -1918,8 +1927,8 @@ class __$$_TransactionOtherErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TransactionOtherError extends _TransactionOtherError {
-  const _$_TransactionOtherError({this.reason}) : super._();
+class _$TransactionOtherErrorImpl extends _TransactionOtherError {
+  const _$TransactionOtherErrorImpl({this.reason}) : super._();
 
   @override
   final String? reason;
@@ -1933,7 +1942,7 @@ class _$_TransactionOtherError extends _TransactionOtherError {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionOtherError &&
+            other is _$TransactionOtherErrorImpl &&
             (identical(other.reason, reason) || other.reason == reason));
   }
 
@@ -1943,9 +1952,9 @@ class _$_TransactionOtherError extends _TransactionOtherError {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TransactionOtherErrorCopyWith<_$_TransactionOtherError> get copyWith =>
-      __$$_TransactionOtherErrorCopyWithImpl<_$_TransactionOtherError>(
-          this, _$identity);
+  _$$TransactionOtherErrorImplCopyWith<_$TransactionOtherErrorImpl>
+      get copyWith => __$$TransactionOtherErrorImplCopyWithImpl<
+          _$TransactionOtherErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -2077,13 +2086,13 @@ class _$_TransactionOtherError extends _TransactionOtherError {
 
 abstract class _TransactionOtherError extends TransactionError {
   const factory _TransactionOtherError({final String? reason}) =
-      _$_TransactionOtherError;
+      _$TransactionOtherErrorImpl;
   const _TransactionOtherError._() : super._();
 
   String? get reason;
   @JsonKey(ignore: true)
-  _$$_TransactionOtherErrorCopyWith<_$_TransactionOtherError> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$TransactionOtherErrorImplCopyWith<_$TransactionOtherErrorImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -2159,11 +2168,12 @@ class _$TransactionConfirmationCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_TransactionConfirmationCopyWith<$Res>
+abstract class _$$TransactionConfirmationImplCopyWith<$Res>
     implements $TransactionConfirmationCopyWith<$Res> {
-  factory _$$_TransactionConfirmationCopyWith(_$_TransactionConfirmation value,
-          $Res Function(_$_TransactionConfirmation) then) =
-      __$$_TransactionConfirmationCopyWithImpl<$Res>;
+  factory _$$TransactionConfirmationImplCopyWith(
+          _$TransactionConfirmationImpl value,
+          $Res Function(_$TransactionConfirmationImpl) then) =
+      __$$TransactionConfirmationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -2175,12 +2185,13 @@ abstract class _$$_TransactionConfirmationCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TransactionConfirmationCopyWithImpl<$Res>
+class __$$TransactionConfirmationImplCopyWithImpl<$Res>
     extends _$TransactionConfirmationCopyWithImpl<$Res,
-        _$_TransactionConfirmation>
-    implements _$$_TransactionConfirmationCopyWith<$Res> {
-  __$$_TransactionConfirmationCopyWithImpl(_$_TransactionConfirmation _value,
-      $Res Function(_$_TransactionConfirmation) _then)
+        _$TransactionConfirmationImpl>
+    implements _$$TransactionConfirmationImplCopyWith<$Res> {
+  __$$TransactionConfirmationImplCopyWithImpl(
+      _$TransactionConfirmationImpl _value,
+      $Res Function(_$TransactionConfirmationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2192,7 +2203,7 @@ class __$$_TransactionConfirmationCopyWithImpl<$Res>
     Object? ratio = null,
     Object? ratioEqualIncluded = null,
   }) {
-    return _then(_$_TransactionConfirmation(
+    return _then(_$TransactionConfirmationImpl(
       transactionAddress: null == transactionAddress
           ? _value.transactionAddress
           : transactionAddress // ignore: cast_nullable_to_non_nullable
@@ -2219,8 +2230,8 @@ class __$$_TransactionConfirmationCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TransactionConfirmation extends _TransactionConfirmation {
-  const _$_TransactionConfirmation(
+class _$TransactionConfirmationImpl extends _TransactionConfirmation {
+  const _$TransactionConfirmationImpl(
       {required this.transactionAddress,
       this.nbConfirmations = 0,
       this.maxConfirmations = 0,
@@ -2252,7 +2263,7 @@ class _$_TransactionConfirmation extends _TransactionConfirmation {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionConfirmation &&
+            other is _$TransactionConfirmationImpl &&
             (identical(other.transactionAddress, transactionAddress) ||
                 other.transactionAddress == transactionAddress) &&
             (identical(other.nbConfirmations, nbConfirmations) ||
@@ -2271,10 +2282,9 @@ class _$_TransactionConfirmation extends _TransactionConfirmation {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TransactionConfirmationCopyWith<_$_TransactionConfirmation>
-      get copyWith =>
-          __$$_TransactionConfirmationCopyWithImpl<_$_TransactionConfirmation>(
-              this, _$identity);
+  _$$TransactionConfirmationImplCopyWith<_$TransactionConfirmationImpl>
+      get copyWith => __$$TransactionConfirmationImplCopyWithImpl<
+          _$TransactionConfirmationImpl>(this, _$identity);
 }
 
 abstract class _TransactionConfirmation extends TransactionConfirmation {
@@ -2283,7 +2293,7 @@ abstract class _TransactionConfirmation extends TransactionConfirmation {
       final int nbConfirmations,
       final int maxConfirmations,
       final double ratio,
-      final bool ratioEqualIncluded}) = _$_TransactionConfirmation;
+      final bool ratioEqualIncluded}) = _$TransactionConfirmationImpl;
   const _TransactionConfirmation._() : super._();
 
   @override
@@ -2298,6 +2308,6 @@ abstract class _TransactionConfirmation extends TransactionConfirmation {
   bool get ratioEqualIncluded;
   @override
   @JsonKey(ignore: true)
-  _$$_TransactionConfirmationCopyWith<_$_TransactionConfirmation>
+  _$$TransactionConfirmationImplCopyWith<_$TransactionConfirmationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

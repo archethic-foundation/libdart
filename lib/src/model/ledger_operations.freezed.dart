@@ -83,11 +83,11 @@ class _$LedgerOperationsCopyWithImpl<$Res, $Val extends LedgerOperations>
 }
 
 /// @nodoc
-abstract class _$$_LedgerOperationsCopyWith<$Res>
+abstract class _$$LedgerOperationsImplCopyWith<$Res>
     implements $LedgerOperationsCopyWith<$Res> {
-  factory _$$_LedgerOperationsCopyWith(
-          _$_LedgerOperations value, $Res Function(_$_LedgerOperations) then) =
-      __$$_LedgerOperationsCopyWithImpl<$Res>;
+  factory _$$LedgerOperationsImplCopyWith(_$LedgerOperationsImpl value,
+          $Res Function(_$LedgerOperationsImpl) then) =
+      __$$LedgerOperationsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -97,11 +97,11 @@ abstract class _$$_LedgerOperationsCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_LedgerOperationsCopyWithImpl<$Res>
-    extends _$LedgerOperationsCopyWithImpl<$Res, _$_LedgerOperations>
-    implements _$$_LedgerOperationsCopyWith<$Res> {
-  __$$_LedgerOperationsCopyWithImpl(
-      _$_LedgerOperations _value, $Res Function(_$_LedgerOperations) _then)
+class __$$LedgerOperationsImplCopyWithImpl<$Res>
+    extends _$LedgerOperationsCopyWithImpl<$Res, _$LedgerOperationsImpl>
+    implements _$$LedgerOperationsImplCopyWith<$Res> {
+  __$$LedgerOperationsImplCopyWithImpl(_$LedgerOperationsImpl _value,
+      $Res Function(_$LedgerOperationsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -111,7 +111,7 @@ class __$$_LedgerOperationsCopyWithImpl<$Res>
     Object? transactionMovements = null,
     Object? unspentOutputs = null,
   }) {
-    return _then(_$_LedgerOperations(
+    return _then(_$LedgerOperationsImpl(
       fee: freezed == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
@@ -130,8 +130,8 @@ class __$$_LedgerOperationsCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_LedgerOperations extends _LedgerOperations {
-  const _$_LedgerOperations(
+class _$LedgerOperationsImpl extends _LedgerOperations {
+  const _$LedgerOperationsImpl(
       {this.fee,
       final List<TransactionMovement> transactionMovements = const [],
       final List<UnspentOutputs> unspentOutputs = const []})
@@ -139,8 +139,8 @@ class _$_LedgerOperations extends _LedgerOperations {
         _unspentOutputs = unspentOutputs,
         super._();
 
-  factory _$_LedgerOperations.fromJson(Map<String, dynamic> json) =>
-      _$$_LedgerOperationsFromJson(json);
+  factory _$LedgerOperationsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LedgerOperationsImplFromJson(json);
 
   /// Fee: transaction fee (distributed over the node rewards)
   @override
@@ -180,7 +180,7 @@ class _$_LedgerOperations extends _LedgerOperations {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LedgerOperations &&
+            other is _$LedgerOperationsImpl &&
             (identical(other.fee, fee) || other.fee == fee) &&
             const DeepCollectionEquality()
                 .equals(other._transactionMovements, _transactionMovements) &&
@@ -199,12 +199,13 @@ class _$_LedgerOperations extends _LedgerOperations {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LedgerOperationsCopyWith<_$_LedgerOperations> get copyWith =>
-      __$$_LedgerOperationsCopyWithImpl<_$_LedgerOperations>(this, _$identity);
+  _$$LedgerOperationsImplCopyWith<_$LedgerOperationsImpl> get copyWith =>
+      __$$LedgerOperationsImplCopyWithImpl<_$LedgerOperationsImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_LedgerOperationsToJson(
+    return _$$LedgerOperationsImplToJson(
       this,
     );
   }
@@ -214,11 +215,11 @@ abstract class _LedgerOperations extends LedgerOperations {
   const factory _LedgerOperations(
       {final int? fee,
       final List<TransactionMovement> transactionMovements,
-      final List<UnspentOutputs> unspentOutputs}) = _$_LedgerOperations;
+      final List<UnspentOutputs> unspentOutputs}) = _$LedgerOperationsImpl;
   const _LedgerOperations._() : super._();
 
   factory _LedgerOperations.fromJson(Map<String, dynamic> json) =
-      _$_LedgerOperations.fromJson;
+      _$LedgerOperationsImpl.fromJson;
 
   @override
 
@@ -234,6 +235,6 @@ abstract class _LedgerOperations extends LedgerOperations {
   List<UnspentOutputs> get unspentOutputs;
   @override
   @JsonKey(ignore: true)
-  _$$_LedgerOperationsCopyWith<_$_LedgerOperations> get copyWith =>
+  _$$LedgerOperationsImplCopyWith<_$LedgerOperationsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

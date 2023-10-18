@@ -6,15 +6,15 @@ part of 'token_transfer.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_TokenTransfer _$$_TokenTransferFromJson(Map<String, dynamic> json) =>
-    _$_TokenTransfer(
+_$TokenTransferImpl _$$TokenTransferImplFromJson(Map<String, dynamic> json) =>
+    _$TokenTransferImpl(
       amount: json['amount'] as int?,
       to: json['to'] as String?,
       tokenAddress: json['tokenAddress'] as String?,
       tokenId: json['tokenId'] as int?,
     );
 
-Map<String, dynamic> _$$_TokenTransferToJson(_$_TokenTransfer instance) =>
+Map<String, dynamic> _$$TokenTransferImplToJson(_$TokenTransferImpl instance) =>
     <String, dynamic>{
       'amount': instance.amount,
       'to': instance.to,

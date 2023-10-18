@@ -6,9 +6,9 @@ part of 'hosting_ref_content_metadata.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_HostingRefContentMetaData _$$_HostingRefContentMetaDataFromJson(
+_$HostingRefContentMetaDataImpl _$$HostingRefContentMetaDataImplFromJson(
         Map<String, dynamic> json) =>
-    _$_HostingRefContentMetaData(
+    _$HostingRefContentMetaDataImpl(
       hash: json['hash'] as String? ?? '',
       size: json['size'] as int? ?? 0,
       encoding: json['encoding'] as String? ?? '',
@@ -18,8 +18,8 @@ _$_HostingRefContentMetaData _$$_HostingRefContentMetaDataFromJson(
           const [],
     );
 
-Map<String, dynamic> _$$_HostingRefContentMetaDataToJson(
-        _$_HostingRefContentMetaData instance) =>
+Map<String, dynamic> _$$HostingRefContentMetaDataImplToJson(
+        _$HostingRefContentMetaDataImpl instance) =>
     <String, dynamic>{
       'hash': instance.hash,
       'size': instance.size,

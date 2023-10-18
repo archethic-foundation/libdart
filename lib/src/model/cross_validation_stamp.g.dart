@@ -6,15 +6,15 @@ part of 'cross_validation_stamp.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CrossValidationStamp _$$_CrossValidationStampFromJson(
+_$CrossValidationStampImpl _$$CrossValidationStampImplFromJson(
         Map<String, dynamic> json) =>
-    _$_CrossValidationStamp(
+    _$CrossValidationStampImpl(
       nodePublicKey: json['nodePublicKey'] as String?,
       signature: json['signature'] as String?,
     );
 
-Map<String, dynamic> _$$_CrossValidationStampToJson(
-        _$_CrossValidationStamp instance) =>
+Map<String, dynamic> _$$CrossValidationStampImplToJson(
+        _$CrossValidationStampImpl instance) =>
     <String, dynamic>{
       'nodePublicKey': instance.nodePublicKey,
       'signature': instance.signature,

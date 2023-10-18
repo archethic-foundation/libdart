@@ -101,11 +101,11 @@ class _$TransactionFeeCopyWithImpl<$Res, $Val extends TransactionFee>
 }
 
 /// @nodoc
-abstract class _$$_TransactionFeeCopyWith<$Res>
+abstract class _$$TransactionFeeImplCopyWith<$Res>
     implements $TransactionFeeCopyWith<$Res> {
-  factory _$$_TransactionFeeCopyWith(
-          _$_TransactionFee value, $Res Function(_$_TransactionFee) then) =
-      __$$_TransactionFeeCopyWithImpl<$Res>;
+  factory _$$TransactionFeeImplCopyWith(_$TransactionFeeImpl value,
+          $Res Function(_$TransactionFeeImpl) then) =
+      __$$TransactionFeeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int? fee, Rates? rates, TransactionFeeErrors? errors});
@@ -117,11 +117,11 @@ abstract class _$$_TransactionFeeCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TransactionFeeCopyWithImpl<$Res>
-    extends _$TransactionFeeCopyWithImpl<$Res, _$_TransactionFee>
-    implements _$$_TransactionFeeCopyWith<$Res> {
-  __$$_TransactionFeeCopyWithImpl(
-      _$_TransactionFee _value, $Res Function(_$_TransactionFee) _then)
+class __$$TransactionFeeImplCopyWithImpl<$Res>
+    extends _$TransactionFeeCopyWithImpl<$Res, _$TransactionFeeImpl>
+    implements _$$TransactionFeeImplCopyWith<$Res> {
+  __$$TransactionFeeImplCopyWithImpl(
+      _$TransactionFeeImpl _value, $Res Function(_$TransactionFeeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -131,7 +131,7 @@ class __$$_TransactionFeeCopyWithImpl<$Res>
     Object? rates = freezed,
     Object? errors = freezed,
   }) {
-    return _then(_$_TransactionFee(
+    return _then(_$TransactionFeeImpl(
       fee: freezed == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
@@ -150,11 +150,11 @@ class __$$_TransactionFeeCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TransactionFee extends _TransactionFee {
-  const _$_TransactionFee({this.fee, this.rates, this.errors}) : super._();
+class _$TransactionFeeImpl extends _TransactionFee {
+  const _$TransactionFeeImpl({this.fee, this.rates, this.errors}) : super._();
 
-  factory _$_TransactionFee.fromJson(Map<String, dynamic> json) =>
-      _$$_TransactionFeeFromJson(json);
+  factory _$TransactionFeeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TransactionFeeImplFromJson(json);
 
   @override
   final int? fee;
@@ -172,7 +172,7 @@ class _$_TransactionFee extends _TransactionFee {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionFee &&
+            other is _$TransactionFeeImpl &&
             (identical(other.fee, fee) || other.fee == fee) &&
             (identical(other.rates, rates) || other.rates == rates) &&
             (identical(other.errors, errors) || other.errors == errors));
@@ -185,12 +185,13 @@ class _$_TransactionFee extends _TransactionFee {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TransactionFeeCopyWith<_$_TransactionFee> get copyWith =>
-      __$$_TransactionFeeCopyWithImpl<_$_TransactionFee>(this, _$identity);
+  _$$TransactionFeeImplCopyWith<_$TransactionFeeImpl> get copyWith =>
+      __$$TransactionFeeImplCopyWithImpl<_$TransactionFeeImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TransactionFeeToJson(
+    return _$$TransactionFeeImplToJson(
       this,
     );
   }
@@ -200,11 +201,11 @@ abstract class _TransactionFee extends TransactionFee {
   const factory _TransactionFee(
       {final int? fee,
       final Rates? rates,
-      final TransactionFeeErrors? errors}) = _$_TransactionFee;
+      final TransactionFeeErrors? errors}) = _$TransactionFeeImpl;
   const _TransactionFee._() : super._();
 
   factory _TransactionFee.fromJson(Map<String, dynamic> json) =
-      _$_TransactionFee.fromJson;
+      _$TransactionFeeImpl.fromJson;
 
   @override
   int? get fee;
@@ -214,7 +215,7 @@ abstract class _TransactionFee extends TransactionFee {
   TransactionFeeErrors? get errors;
   @override
   @JsonKey(ignore: true)
-  _$$_TransactionFeeCopyWith<_$_TransactionFee> get copyWith =>
+  _$$TransactionFeeImplCopyWith<_$TransactionFeeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -290,9 +291,10 @@ class _$RatesCopyWithImpl<$Res, $Val extends Rates>
 }
 
 /// @nodoc
-abstract class _$$_RatesCopyWith<$Res> implements $RatesCopyWith<$Res> {
-  factory _$$_RatesCopyWith(_$_Rates value, $Res Function(_$_Rates) then) =
-      __$$_RatesCopyWithImpl<$Res>;
+abstract class _$$RatesImplCopyWith<$Res> implements $RatesCopyWith<$Res> {
+  factory _$$RatesImplCopyWith(
+          _$RatesImpl value, $Res Function(_$RatesImpl) then) =
+      __$$RatesImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double? eur, double? usd, TransactionFeeErrors? errors});
@@ -302,9 +304,11 @@ abstract class _$$_RatesCopyWith<$Res> implements $RatesCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_RatesCopyWithImpl<$Res> extends _$RatesCopyWithImpl<$Res, _$_Rates>
-    implements _$$_RatesCopyWith<$Res> {
-  __$$_RatesCopyWithImpl(_$_Rates _value, $Res Function(_$_Rates) _then)
+class __$$RatesImplCopyWithImpl<$Res>
+    extends _$RatesCopyWithImpl<$Res, _$RatesImpl>
+    implements _$$RatesImplCopyWith<$Res> {
+  __$$RatesImplCopyWithImpl(
+      _$RatesImpl _value, $Res Function(_$RatesImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -314,7 +318,7 @@ class __$$_RatesCopyWithImpl<$Res> extends _$RatesCopyWithImpl<$Res, _$_Rates>
     Object? usd = freezed,
     Object? errors = freezed,
   }) {
-    return _then(_$_Rates(
+    return _then(_$RatesImpl(
       eur: freezed == eur
           ? _value.eur
           : eur // ignore: cast_nullable_to_non_nullable
@@ -333,11 +337,11 @@ class __$$_RatesCopyWithImpl<$Res> extends _$RatesCopyWithImpl<$Res, _$_Rates>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Rates extends _Rates {
-  const _$_Rates({this.eur, this.usd, this.errors}) : super._();
+class _$RatesImpl extends _Rates {
+  const _$RatesImpl({this.eur, this.usd, this.errors}) : super._();
 
-  factory _$_Rates.fromJson(Map<String, dynamic> json) =>
-      _$$_RatesFromJson(json);
+  factory _$RatesImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RatesImplFromJson(json);
 
   @override
   final double? eur;
@@ -355,7 +359,7 @@ class _$_Rates extends _Rates {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Rates &&
+            other is _$RatesImpl &&
             (identical(other.eur, eur) || other.eur == eur) &&
             (identical(other.usd, usd) || other.usd == usd) &&
             (identical(other.errors, errors) || other.errors == errors));
@@ -368,12 +372,12 @@ class _$_Rates extends _Rates {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RatesCopyWith<_$_Rates> get copyWith =>
-      __$$_RatesCopyWithImpl<_$_Rates>(this, _$identity);
+  _$$RatesImplCopyWith<_$RatesImpl> get copyWith =>
+      __$$RatesImplCopyWithImpl<_$RatesImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_RatesToJson(
+    return _$$RatesImplToJson(
       this,
     );
   }
@@ -383,10 +387,10 @@ abstract class _Rates extends Rates {
   const factory _Rates(
       {final double? eur,
       final double? usd,
-      final TransactionFeeErrors? errors}) = _$_Rates;
+      final TransactionFeeErrors? errors}) = _$RatesImpl;
   const _Rates._() : super._();
 
-  factory _Rates.fromJson(Map<String, dynamic> json) = _$_Rates.fromJson;
+  factory _Rates.fromJson(Map<String, dynamic> json) = _$RatesImpl.fromJson;
 
   @override
   double? get eur;
@@ -396,7 +400,7 @@ abstract class _Rates extends Rates {
   TransactionFeeErrors? get errors;
   @override
   @JsonKey(ignore: true)
-  _$$_RatesCopyWith<_$_Rates> get copyWith =>
+  _$$RatesImplCopyWith<_$RatesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -482,11 +486,11 @@ class _$TransactionFeeErrorsCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_TransactionFeeErrorsCopyWith<$Res>
+abstract class _$$TransactionFeeErrorsImplCopyWith<$Res>
     implements $TransactionFeeErrorsCopyWith<$Res> {
-  factory _$$_TransactionFeeErrorsCopyWith(_$_TransactionFeeErrors value,
-          $Res Function(_$_TransactionFeeErrors) then) =
-      __$$_TransactionFeeErrorsCopyWithImpl<$Res>;
+  factory _$$TransactionFeeErrorsImplCopyWith(_$TransactionFeeErrorsImpl value,
+          $Res Function(_$TransactionFeeErrorsImpl) then) =
+      __$$TransactionFeeErrorsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Data? data, TransactionFeeErrors? errors});
@@ -498,11 +502,11 @@ abstract class _$$_TransactionFeeErrorsCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TransactionFeeErrorsCopyWithImpl<$Res>
-    extends _$TransactionFeeErrorsCopyWithImpl<$Res, _$_TransactionFeeErrors>
-    implements _$$_TransactionFeeErrorsCopyWith<$Res> {
-  __$$_TransactionFeeErrorsCopyWithImpl(_$_TransactionFeeErrors _value,
-      $Res Function(_$_TransactionFeeErrors) _then)
+class __$$TransactionFeeErrorsImplCopyWithImpl<$Res>
+    extends _$TransactionFeeErrorsCopyWithImpl<$Res, _$TransactionFeeErrorsImpl>
+    implements _$$TransactionFeeErrorsImplCopyWith<$Res> {
+  __$$TransactionFeeErrorsImplCopyWithImpl(_$TransactionFeeErrorsImpl _value,
+      $Res Function(_$TransactionFeeErrorsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -511,7 +515,7 @@ class __$$_TransactionFeeErrorsCopyWithImpl<$Res>
     Object? data = freezed,
     Object? errors = freezed,
   }) {
-    return _then(_$_TransactionFeeErrors(
+    return _then(_$TransactionFeeErrorsImpl(
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -526,11 +530,11 @@ class __$$_TransactionFeeErrorsCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TransactionFeeErrors extends _TransactionFeeErrors {
-  const _$_TransactionFeeErrors({this.data, this.errors}) : super._();
+class _$TransactionFeeErrorsImpl extends _TransactionFeeErrors {
+  const _$TransactionFeeErrorsImpl({this.data, this.errors}) : super._();
 
-  factory _$_TransactionFeeErrors.fromJson(Map<String, dynamic> json) =>
-      _$$_TransactionFeeErrorsFromJson(json);
+  factory _$TransactionFeeErrorsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TransactionFeeErrorsImplFromJson(json);
 
   @override
   final Data? data;
@@ -546,7 +550,7 @@ class _$_TransactionFeeErrors extends _TransactionFeeErrors {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionFeeErrors &&
+            other is _$TransactionFeeErrorsImpl &&
             (identical(other.data, data) || other.data == data) &&
             (identical(other.errors, errors) || other.errors == errors));
   }
@@ -558,13 +562,14 @@ class _$_TransactionFeeErrors extends _TransactionFeeErrors {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TransactionFeeErrorsCopyWith<_$_TransactionFeeErrors> get copyWith =>
-      __$$_TransactionFeeErrorsCopyWithImpl<_$_TransactionFeeErrors>(
-          this, _$identity);
+  _$$TransactionFeeErrorsImplCopyWith<_$TransactionFeeErrorsImpl>
+      get copyWith =>
+          __$$TransactionFeeErrorsImplCopyWithImpl<_$TransactionFeeErrorsImpl>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TransactionFeeErrorsToJson(
+    return _$$TransactionFeeErrorsImplToJson(
       this,
     );
   }
@@ -573,11 +578,11 @@ class _$_TransactionFeeErrors extends _TransactionFeeErrors {
 abstract class _TransactionFeeErrors extends TransactionFeeErrors {
   const factory _TransactionFeeErrors(
       {final Data? data,
-      final TransactionFeeErrors? errors}) = _$_TransactionFeeErrors;
+      final TransactionFeeErrors? errors}) = _$TransactionFeeErrorsImpl;
   const _TransactionFeeErrors._() : super._();
 
   factory _TransactionFeeErrors.fromJson(Map<String, dynamic> json) =
-      _$_TransactionFeeErrors.fromJson;
+      _$TransactionFeeErrorsImpl.fromJson;
 
   @override
   Data? get data;
@@ -585,6 +590,6 @@ abstract class _TransactionFeeErrors extends TransactionFeeErrors {
   TransactionFeeErrors? get errors;
   @override
   @JsonKey(ignore: true)
-  _$$_TransactionFeeErrorsCopyWith<_$_TransactionFeeErrors> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$TransactionFeeErrorsImplCopyWith<_$TransactionFeeErrorsImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

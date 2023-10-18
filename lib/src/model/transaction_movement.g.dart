@@ -6,9 +6,9 @@ part of 'transaction_movement.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_TransactionMovement _$$_TransactionMovementFromJson(
+_$TransactionMovementImpl _$$TransactionMovementImplFromJson(
         Map<String, dynamic> json) =>
-    _$_TransactionMovement(
+    _$TransactionMovementImpl(
       amount: json['amount'] as int?,
       tokenAddress: json['tokenAddress'] as String?,
       to: json['to'] as String?,
@@ -16,8 +16,8 @@ _$_TransactionMovement _$$_TransactionMovementFromJson(
       tokenId: json['tokenId'] as int?,
     );
 
-Map<String, dynamic> _$$_TransactionMovementToJson(
-        _$_TransactionMovement instance) =>
+Map<String, dynamic> _$$TransactionMovementImplToJson(
+        _$TransactionMovementImpl instance) =>
     <String, dynamic>{
       'amount': instance.amount,
       'tokenAddress': instance.tokenAddress,

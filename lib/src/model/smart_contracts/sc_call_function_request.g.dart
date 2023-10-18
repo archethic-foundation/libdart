@@ -6,9 +6,9 @@ part of 'sc_call_function_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_SCCallFunctionRequest _$$_SCCallFunctionRequestFromJson(
+_$SCCallFunctionRequestImpl _$$SCCallFunctionRequestImplFromJson(
         Map<String, dynamic> json) =>
-    _$_SCCallFunctionRequest(
+    _$SCCallFunctionRequestImpl(
       jsonrpc: json['jsonrpc'] as String? ?? '2.0',
       method: json['method'] as String,
       id: json['id'] as int? ?? 1,
@@ -16,8 +16,8 @@ _$_SCCallFunctionRequest _$$_SCCallFunctionRequestFromJson(
           SCCallFunctionParams.fromJson(json['params'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_SCCallFunctionRequestToJson(
-        _$_SCCallFunctionRequest instance) =>
+Map<String, dynamic> _$$SCCallFunctionRequestImplToJson(
+        _$SCCallFunctionRequestImpl instance) =>
     <String, dynamic>{
       'jsonrpc': instance.jsonrpc,
       'method': instance.method,
@@ -25,16 +25,16 @@ Map<String, dynamic> _$$_SCCallFunctionRequestToJson(
       'params': instance.params,
     };
 
-_$_SCCallFunctionParams _$$_SCCallFunctionParamsFromJson(
+_$SCCallFunctionParamsImpl _$$SCCallFunctionParamsImplFromJson(
         Map<String, dynamic> json) =>
-    _$_SCCallFunctionParams(
+    _$SCCallFunctionParamsImpl(
       contract: json['contract'] as String,
       function: json['function'] as String,
       args: json['args'] as List<dynamic>,
     );
 
-Map<String, dynamic> _$$_SCCallFunctionParamsToJson(
-        _$_SCCallFunctionParams instance) =>
+Map<String, dynamic> _$$SCCallFunctionParamsImplToJson(
+        _$SCCallFunctionParamsImpl instance) =>
     <String, dynamic>{
       'contract': instance.contract,
       'function': instance.function,

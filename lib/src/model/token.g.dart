@@ -6,7 +6,7 @@ part of 'token.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Token _$$_TokenFromJson(Map<String, dynamic> json) => _$_Token(
+_$TokenImpl _$$TokenImplFromJson(Map<String, dynamic> json) => _$TokenImpl(
       address: json['address'] as String?,
       genesis: json['genesis'] as String?,
       name: json['name'] as String?,
@@ -28,7 +28,8 @@ _$_Token _$$_TokenFromJson(Map<String, dynamic> json) => _$_Token(
           const [],
     );
 
-Map<String, dynamic> _$$_TokenToJson(_$_Token instance) => <String, dynamic>{
+Map<String, dynamic> _$$TokenImplToJson(_$TokenImpl instance) =>
+    <String, dynamic>{
       'address': instance.address,
       'genesis': instance.genesis,
       'name': instance.name,

@@ -68,22 +68,22 @@ class _$OnChainWalletDataCopyWithImpl<$Res, $Val extends OnChainWalletData>
 }
 
 /// @nodoc
-abstract class _$$_OnChainWalletDataCopyWith<$Res>
+abstract class _$$OnChainWalletDataImplCopyWith<$Res>
     implements $OnChainWalletDataCopyWith<$Res> {
-  factory _$$_OnChainWalletDataCopyWith(_$_OnChainWalletData value,
-          $Res Function(_$_OnChainWalletData) then) =
-      __$$_OnChainWalletDataCopyWithImpl<$Res>;
+  factory _$$OnChainWalletDataImplCopyWith(_$OnChainWalletDataImpl value,
+          $Res Function(_$OnChainWalletDataImpl) then) =
+      __$$OnChainWalletDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? encodedWalletKey, String? encryptedWallet});
 }
 
 /// @nodoc
-class __$$_OnChainWalletDataCopyWithImpl<$Res>
-    extends _$OnChainWalletDataCopyWithImpl<$Res, _$_OnChainWalletData>
-    implements _$$_OnChainWalletDataCopyWith<$Res> {
-  __$$_OnChainWalletDataCopyWithImpl(
-      _$_OnChainWalletData _value, $Res Function(_$_OnChainWalletData) _then)
+class __$$OnChainWalletDataImplCopyWithImpl<$Res>
+    extends _$OnChainWalletDataCopyWithImpl<$Res, _$OnChainWalletDataImpl>
+    implements _$$OnChainWalletDataImplCopyWith<$Res> {
+  __$$OnChainWalletDataImplCopyWithImpl(_$OnChainWalletDataImpl _value,
+      $Res Function(_$OnChainWalletDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$_OnChainWalletDataCopyWithImpl<$Res>
     Object? encodedWalletKey = freezed,
     Object? encryptedWallet = freezed,
   }) {
-    return _then(_$_OnChainWalletData(
+    return _then(_$OnChainWalletDataImpl(
       encodedWalletKey: freezed == encodedWalletKey
           ? _value.encodedWalletKey
           : encodedWalletKey // ignore: cast_nullable_to_non_nullable
@@ -107,12 +107,12 @@ class __$$_OnChainWalletDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_OnChainWalletData extends _OnChainWalletData {
-  const _$_OnChainWalletData({this.encodedWalletKey, this.encryptedWallet})
+class _$OnChainWalletDataImpl extends _OnChainWalletData {
+  const _$OnChainWalletDataImpl({this.encodedWalletKey, this.encryptedWallet})
       : super._();
 
-  factory _$_OnChainWalletData.fromJson(Map<String, dynamic> json) =>
-      _$$_OnChainWalletDataFromJson(json);
+  factory _$OnChainWalletDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OnChainWalletDataImplFromJson(json);
 
   @override
   final String? encodedWalletKey;
@@ -128,7 +128,7 @@ class _$_OnChainWalletData extends _OnChainWalletData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OnChainWalletData &&
+            other is _$OnChainWalletDataImpl &&
             (identical(other.encodedWalletKey, encodedWalletKey) ||
                 other.encodedWalletKey == encodedWalletKey) &&
             (identical(other.encryptedWallet, encryptedWallet) ||
@@ -143,13 +143,13 @@ class _$_OnChainWalletData extends _OnChainWalletData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OnChainWalletDataCopyWith<_$_OnChainWalletData> get copyWith =>
-      __$$_OnChainWalletDataCopyWithImpl<_$_OnChainWalletData>(
+  _$$OnChainWalletDataImplCopyWith<_$OnChainWalletDataImpl> get copyWith =>
+      __$$OnChainWalletDataImplCopyWithImpl<_$OnChainWalletDataImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_OnChainWalletDataToJson(
+    return _$$OnChainWalletDataImplToJson(
       this,
     );
   }
@@ -158,11 +158,11 @@ class _$_OnChainWalletData extends _OnChainWalletData {
 abstract class _OnChainWalletData extends OnChainWalletData {
   const factory _OnChainWalletData(
       {final String? encodedWalletKey,
-      final String? encryptedWallet}) = _$_OnChainWalletData;
+      final String? encryptedWallet}) = _$OnChainWalletDataImpl;
   const _OnChainWalletData._() : super._();
 
   factory _OnChainWalletData.fromJson(Map<String, dynamic> json) =
-      _$_OnChainWalletData.fromJson;
+      _$OnChainWalletDataImpl.fromJson;
 
   @override
   String? get encodedWalletKey;
@@ -170,6 +170,6 @@ abstract class _OnChainWalletData extends OnChainWalletData {
   String? get encryptedWallet;
   @override
   @JsonKey(ignore: true)
-  _$$_OnChainWalletDataCopyWith<_$_OnChainWalletData> get copyWith =>
+  _$$OnChainWalletDataImplCopyWith<_$OnChainWalletDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

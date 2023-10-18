@@ -67,21 +67,22 @@ class _$EndpointCopyWithImpl<$Res, $Val extends Endpoint>
 }
 
 /// @nodoc
-abstract class _$$_EndpointCopyWith<$Res> implements $EndpointCopyWith<$Res> {
-  factory _$$_EndpointCopyWith(
-          _$_Endpoint value, $Res Function(_$_Endpoint) then) =
-      __$$_EndpointCopyWithImpl<$Res>;
+abstract class _$$EndpointImplCopyWith<$Res>
+    implements $EndpointCopyWith<$Res> {
+  factory _$$EndpointImplCopyWith(
+          _$EndpointImpl value, $Res Function(_$EndpointImpl) then) =
+      __$$EndpointImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String ip, int port});
 }
 
 /// @nodoc
-class __$$_EndpointCopyWithImpl<$Res>
-    extends _$EndpointCopyWithImpl<$Res, _$_Endpoint>
-    implements _$$_EndpointCopyWith<$Res> {
-  __$$_EndpointCopyWithImpl(
-      _$_Endpoint _value, $Res Function(_$_Endpoint) _then)
+class __$$EndpointImplCopyWithImpl<$Res>
+    extends _$EndpointCopyWithImpl<$Res, _$EndpointImpl>
+    implements _$$EndpointImplCopyWith<$Res> {
+  __$$EndpointImplCopyWithImpl(
+      _$EndpointImpl _value, $Res Function(_$EndpointImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -90,7 +91,7 @@ class __$$_EndpointCopyWithImpl<$Res>
     Object? ip = null,
     Object? port = null,
   }) {
-    return _then(_$_Endpoint(
+    return _then(_$EndpointImpl(
       ip: null == ip
           ? _value.ip
           : ip // ignore: cast_nullable_to_non_nullable
@@ -105,11 +106,11 @@ class __$$_EndpointCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Endpoint extends _Endpoint {
-  const _$_Endpoint({this.ip = '', this.port = 0}) : super._();
+class _$EndpointImpl extends _Endpoint {
+  const _$EndpointImpl({this.ip = '', this.port = 0}) : super._();
 
-  factory _$_Endpoint.fromJson(Map<String, dynamic> json) =>
-      _$$_EndpointFromJson(json);
+  factory _$EndpointImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EndpointImplFromJson(json);
 
   @override
   @JsonKey()
@@ -127,7 +128,7 @@ class _$_Endpoint extends _Endpoint {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Endpoint &&
+            other is _$EndpointImpl &&
             (identical(other.ip, ip) || other.ip == ip) &&
             (identical(other.port, port) || other.port == port));
   }
@@ -139,22 +140,23 @@ class _$_Endpoint extends _Endpoint {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_EndpointCopyWith<_$_Endpoint> get copyWith =>
-      __$$_EndpointCopyWithImpl<_$_Endpoint>(this, _$identity);
+  _$$EndpointImplCopyWith<_$EndpointImpl> get copyWith =>
+      __$$EndpointImplCopyWithImpl<_$EndpointImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_EndpointToJson(
+    return _$$EndpointImplToJson(
       this,
     );
   }
 }
 
 abstract class _Endpoint extends Endpoint {
-  const factory _Endpoint({final String ip, final int port}) = _$_Endpoint;
+  const factory _Endpoint({final String ip, final int port}) = _$EndpointImpl;
   const _Endpoint._() : super._();
 
-  factory _Endpoint.fromJson(Map<String, dynamic> json) = _$_Endpoint.fromJson;
+  factory _Endpoint.fromJson(Map<String, dynamic> json) =
+      _$EndpointImpl.fromJson;
 
   @override
   String get ip;
@@ -162,6 +164,6 @@ abstract class _Endpoint extends Endpoint {
   int get port;
   @override
   @JsonKey(ignore: true)
-  _$$_EndpointCopyWith<_$_Endpoint> get copyWith =>
+  _$$EndpointImplCopyWith<_$EndpointImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

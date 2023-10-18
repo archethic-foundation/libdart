@@ -64,22 +64,22 @@ class _$SharedSecretsCopyWithImpl<$Res, $Val extends SharedSecrets>
 }
 
 /// @nodoc
-abstract class _$$_SharedSecretsCopyWith<$Res>
+abstract class _$$SharedSecretsImplCopyWith<$Res>
     implements $SharedSecretsCopyWith<$Res> {
-  factory _$$_SharedSecretsCopyWith(
-          _$_SharedSecrets value, $Res Function(_$_SharedSecrets) then) =
-      __$$_SharedSecretsCopyWithImpl<$Res>;
+  factory _$$SharedSecretsImplCopyWith(
+          _$SharedSecretsImpl value, $Res Function(_$SharedSecretsImpl) then) =
+      __$$SharedSecretsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? storageNoncePublicKey});
 }
 
 /// @nodoc
-class __$$_SharedSecretsCopyWithImpl<$Res>
-    extends _$SharedSecretsCopyWithImpl<$Res, _$_SharedSecrets>
-    implements _$$_SharedSecretsCopyWith<$Res> {
-  __$$_SharedSecretsCopyWithImpl(
-      _$_SharedSecrets _value, $Res Function(_$_SharedSecrets) _then)
+class __$$SharedSecretsImplCopyWithImpl<$Res>
+    extends _$SharedSecretsCopyWithImpl<$Res, _$SharedSecretsImpl>
+    implements _$$SharedSecretsImplCopyWith<$Res> {
+  __$$SharedSecretsImplCopyWithImpl(
+      _$SharedSecretsImpl _value, $Res Function(_$SharedSecretsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_SharedSecretsCopyWithImpl<$Res>
   $Res call({
     Object? storageNoncePublicKey = freezed,
   }) {
-    return _then(_$_SharedSecrets(
+    return _then(_$SharedSecretsImpl(
       storageNoncePublicKey: freezed == storageNoncePublicKey
           ? _value.storageNoncePublicKey
           : storageNoncePublicKey // ignore: cast_nullable_to_non_nullable
@@ -98,11 +98,11 @@ class __$$_SharedSecretsCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SharedSecrets extends _SharedSecrets {
-  const _$_SharedSecrets({this.storageNoncePublicKey}) : super._();
+class _$SharedSecretsImpl extends _SharedSecrets {
+  const _$SharedSecretsImpl({this.storageNoncePublicKey}) : super._();
 
-  factory _$_SharedSecrets.fromJson(Map<String, dynamic> json) =>
-      _$$_SharedSecretsFromJson(json);
+  factory _$SharedSecretsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SharedSecretsImplFromJson(json);
 
   /// The storage nonce public key: Public Key to encrypt data for the node,
   /// so they will be able to decrypt it (mostly for smart contract authorized key)
@@ -118,7 +118,7 @@ class _$_SharedSecrets extends _SharedSecrets {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SharedSecrets &&
+            other is _$SharedSecretsImpl &&
             (identical(other.storageNoncePublicKey, storageNoncePublicKey) ||
                 other.storageNoncePublicKey == storageNoncePublicKey));
   }
@@ -130,12 +130,12 @@ class _$_SharedSecrets extends _SharedSecrets {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SharedSecretsCopyWith<_$_SharedSecrets> get copyWith =>
-      __$$_SharedSecretsCopyWithImpl<_$_SharedSecrets>(this, _$identity);
+  _$$SharedSecretsImplCopyWith<_$SharedSecretsImpl> get copyWith =>
+      __$$SharedSecretsImplCopyWithImpl<_$SharedSecretsImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SharedSecretsToJson(
+    return _$$SharedSecretsImplToJson(
       this,
     );
   }
@@ -143,11 +143,11 @@ class _$_SharedSecrets extends _SharedSecrets {
 
 abstract class _SharedSecrets extends SharedSecrets {
   const factory _SharedSecrets({final String? storageNoncePublicKey}) =
-      _$_SharedSecrets;
+      _$SharedSecretsImpl;
   const _SharedSecrets._() : super._();
 
   factory _SharedSecrets.fromJson(Map<String, dynamic> json) =
-      _$_SharedSecrets.fromJson;
+      _$SharedSecretsImpl.fromJson;
 
   @override
 
@@ -156,6 +156,6 @@ abstract class _SharedSecrets extends SharedSecrets {
   String? get storageNoncePublicKey;
   @override
   @JsonKey(ignore: true)
-  _$$_SharedSecretsCopyWith<_$_SharedSecrets> get copyWith =>
+  _$$SharedSecretsImplCopyWith<_$SharedSecretsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

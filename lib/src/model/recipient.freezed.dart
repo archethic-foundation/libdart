@@ -78,21 +78,22 @@ class _$RecipientCopyWithImpl<$Res, $Val extends Recipient>
 }
 
 /// @nodoc
-abstract class _$$_RecipientCopyWith<$Res> implements $RecipientCopyWith<$Res> {
-  factory _$$_RecipientCopyWith(
-          _$_Recipient value, $Res Function(_$_Recipient) then) =
-      __$$_RecipientCopyWithImpl<$Res>;
+abstract class _$$RecipientImplCopyWith<$Res>
+    implements $RecipientCopyWith<$Res> {
+  factory _$$RecipientImplCopyWith(
+          _$RecipientImpl value, $Res Function(_$RecipientImpl) then) =
+      __$$RecipientImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? action, String? address, List<Object>? args});
 }
 
 /// @nodoc
-class __$$_RecipientCopyWithImpl<$Res>
-    extends _$RecipientCopyWithImpl<$Res, _$_Recipient>
-    implements _$$_RecipientCopyWith<$Res> {
-  __$$_RecipientCopyWithImpl(
-      _$_Recipient _value, $Res Function(_$_Recipient) _then)
+class __$$RecipientImplCopyWithImpl<$Res>
+    extends _$RecipientCopyWithImpl<$Res, _$RecipientImpl>
+    implements _$$RecipientImplCopyWith<$Res> {
+  __$$RecipientImplCopyWithImpl(
+      _$RecipientImpl _value, $Res Function(_$RecipientImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -102,7 +103,7 @@ class __$$_RecipientCopyWithImpl<$Res>
     Object? address = freezed,
     Object? args = freezed,
   }) {
-    return _then(_$_Recipient(
+    return _then(_$RecipientImpl(
       action: freezed == action
           ? _value.action
           : action // ignore: cast_nullable_to_non_nullable
@@ -121,13 +122,13 @@ class __$$_RecipientCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Recipient extends _Recipient {
-  const _$_Recipient({this.action, this.address, final List<Object>? args})
+class _$RecipientImpl extends _Recipient {
+  const _$RecipientImpl({this.action, this.address, final List<Object>? args})
       : _args = args,
         super._();
 
-  factory _$_Recipient.fromJson(Map<String, dynamic> json) =>
-      _$$_RecipientFromJson(json);
+  factory _$RecipientImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RecipientImplFromJson(json);
 
   /// Name of the action
   @override
@@ -159,7 +160,7 @@ class _$_Recipient extends _Recipient {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Recipient &&
+            other is _$RecipientImpl &&
             (identical(other.action, action) || other.action == action) &&
             (identical(other.address, address) || other.address == address) &&
             const DeepCollectionEquality().equals(other._args, _args));
@@ -173,12 +174,12 @@ class _$_Recipient extends _Recipient {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RecipientCopyWith<_$_Recipient> get copyWith =>
-      __$$_RecipientCopyWithImpl<_$_Recipient>(this, _$identity);
+  _$$RecipientImplCopyWith<_$RecipientImpl> get copyWith =>
+      __$$RecipientImplCopyWithImpl<_$RecipientImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_RecipientToJson(
+    return _$$RecipientImplToJson(
       this,
     );
   }
@@ -188,11 +189,11 @@ abstract class _Recipient extends Recipient {
   const factory _Recipient(
       {final String? action,
       final String? address,
-      final List<Object>? args}) = _$_Recipient;
+      final List<Object>? args}) = _$RecipientImpl;
   const _Recipient._() : super._();
 
   factory _Recipient.fromJson(Map<String, dynamic> json) =
-      _$_Recipient.fromJson;
+      _$RecipientImpl.fromJson;
 
   @override
 
@@ -208,6 +209,6 @@ abstract class _Recipient extends Recipient {
   List<Object>? get args;
   @override
   @JsonKey(ignore: true)
-  _$$_RecipientCopyWith<_$_Recipient> get copyWith =>
+  _$$RecipientImplCopyWith<_$RecipientImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

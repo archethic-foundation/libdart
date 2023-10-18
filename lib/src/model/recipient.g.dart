@@ -6,13 +6,14 @@ part of 'recipient.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Recipient _$$_RecipientFromJson(Map<String, dynamic> json) => _$_Recipient(
+_$RecipientImpl _$$RecipientImplFromJson(Map<String, dynamic> json) =>
+    _$RecipientImpl(
       action: json['action'] as String?,
       address: json['address'] as String?,
       args: (json['args'] as List<dynamic>?)?.map((e) => e as Object).toList(),
     );
 
-Map<String, dynamic> _$$_RecipientToJson(_$_Recipient instance) =>
+Map<String, dynamic> _$$RecipientImplToJson(_$RecipientImpl instance) =>
     <String, dynamic>{
       'action': instance.action,
       'address': instance.address,

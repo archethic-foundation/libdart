@@ -6,7 +6,7 @@ part of 'node.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Node _$$_NodeFromJson(Map<String, dynamic> json) => _$_Node(
+_$NodeImpl _$$NodeImplFromJson(Map<String, dynamic> json) => _$NodeImpl(
       authorized: json['authorized'] as bool?,
       available: json['available'] as bool?,
       averageAvailability: (json['averageAvailability'] as num?)?.toDouble(),
@@ -21,7 +21,8 @@ _$_Node _$$_NodeFromJson(Map<String, dynamic> json) => _$_Node(
       authorizationDate: json['authorizationDate'] as int?,
     );
 
-Map<String, dynamic> _$$_NodeToJson(_$_Node instance) => <String, dynamic>{
+Map<String, dynamic> _$$NodeImplToJson(_$NodeImpl instance) =>
+    <String, dynamic>{
       'authorized': instance.authorized,
       'available': instance.available,
       'averageAvailability': instance.averageAvailability,

@@ -6,7 +6,8 @@ part of 'balance.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Balance _$$_BalanceFromJson(Map<String, dynamic> json) => _$_Balance(
+_$BalanceImpl _$$BalanceImplFromJson(Map<String, dynamic> json) =>
+    _$BalanceImpl(
       token: (json['token'] as List<dynamic>?)
               ?.map((e) => TokenBalance.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -14,7 +15,7 @@ _$_Balance _$$_BalanceFromJson(Map<String, dynamic> json) => _$_Balance(
       uco: json['uco'] as int? ?? 0,
     );
 
-Map<String, dynamic> _$$_BalanceToJson(_$_Balance instance) =>
+Map<String, dynamic> _$$BalanceImplToJson(_$BalanceImpl instance) =>
     <String, dynamic>{
       'token': instance.token,
       'uco': instance.uco,

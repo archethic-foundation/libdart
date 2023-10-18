@@ -118,11 +118,11 @@ class _$TransactionInputCopyWithImpl<$Res, $Val extends TransactionInput>
 }
 
 /// @nodoc
-abstract class _$$_TransactionInputCopyWith<$Res>
+abstract class _$$TransactionInputImplCopyWith<$Res>
     implements $TransactionInputCopyWith<$Res> {
-  factory _$$_TransactionInputCopyWith(
-          _$_TransactionInput value, $Res Function(_$_TransactionInput) then) =
-      __$$_TransactionInputCopyWithImpl<$Res>;
+  factory _$$TransactionInputImplCopyWith(_$TransactionInputImpl value,
+          $Res Function(_$TransactionInputImpl) then) =
+      __$$TransactionInputImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -136,11 +136,11 @@ abstract class _$$_TransactionInputCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TransactionInputCopyWithImpl<$Res>
-    extends _$TransactionInputCopyWithImpl<$Res, _$_TransactionInput>
-    implements _$$_TransactionInputCopyWith<$Res> {
-  __$$_TransactionInputCopyWithImpl(
-      _$_TransactionInput _value, $Res Function(_$_TransactionInput) _then)
+class __$$TransactionInputImplCopyWithImpl<$Res>
+    extends _$TransactionInputCopyWithImpl<$Res, _$TransactionInputImpl>
+    implements _$$TransactionInputImplCopyWith<$Res> {
+  __$$TransactionInputImplCopyWithImpl(_$TransactionInputImpl _value,
+      $Res Function(_$TransactionInputImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -154,7 +154,7 @@ class __$$_TransactionInputCopyWithImpl<$Res>
     Object? type = freezed,
     Object? tokenId = freezed,
   }) {
-    return _then(_$_TransactionInput(
+    return _then(_$TransactionInputImpl(
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -189,8 +189,8 @@ class __$$_TransactionInputCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TransactionInput extends _TransactionInput {
-  const _$_TransactionInput(
+class _$TransactionInputImpl extends _TransactionInput {
+  const _$TransactionInputImpl(
       {this.amount,
       this.from,
       this.tokenAddress,
@@ -200,8 +200,8 @@ class _$_TransactionInput extends _TransactionInput {
       this.tokenId})
       : super._();
 
-  factory _$_TransactionInput.fromJson(Map<String, dynamic> json) =>
-      _$$_TransactionInputFromJson(json);
+  factory _$TransactionInputImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TransactionInputImplFromJson(json);
 
   /// Amount: asset amount
   @override
@@ -240,7 +240,7 @@ class _$_TransactionInput extends _TransactionInput {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionInput &&
+            other is _$TransactionInputImpl &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.from, from) || other.from == from) &&
             (identical(other.tokenAddress, tokenAddress) ||
@@ -260,12 +260,13 @@ class _$_TransactionInput extends _TransactionInput {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TransactionInputCopyWith<_$_TransactionInput> get copyWith =>
-      __$$_TransactionInputCopyWithImpl<_$_TransactionInput>(this, _$identity);
+  _$$TransactionInputImplCopyWith<_$TransactionInputImpl> get copyWith =>
+      __$$TransactionInputImplCopyWithImpl<_$TransactionInputImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TransactionInputToJson(
+    return _$$TransactionInputImplToJson(
       this,
     );
   }
@@ -279,11 +280,11 @@ abstract class _TransactionInput extends TransactionInput {
       final bool? spent,
       final int? timestamp,
       final String? type,
-      final int? tokenId}) = _$_TransactionInput;
+      final int? tokenId}) = _$TransactionInputImpl;
   const _TransactionInput._() : super._();
 
   factory _TransactionInput.fromJson(Map<String, dynamic> json) =
-      _$_TransactionInput.fromJson;
+      _$TransactionInputImpl.fromJson;
 
   @override
 
@@ -315,6 +316,6 @@ abstract class _TransactionInput extends TransactionInput {
   int? get tokenId;
   @override
   @JsonKey(ignore: true)
-  _$$_TransactionInputCopyWith<_$_TransactionInput> get copyWith =>
+  _$$TransactionInputImplCopyWith<_$TransactionInputImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

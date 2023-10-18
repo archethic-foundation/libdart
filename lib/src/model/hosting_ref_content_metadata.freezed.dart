@@ -82,25 +82,25 @@ class _$HostingRefContentMetaDataCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_HostingRefContentMetaDataCopyWith<$Res>
+abstract class _$$HostingRefContentMetaDataImplCopyWith<$Res>
     implements $HostingRefContentMetaDataCopyWith<$Res> {
-  factory _$$_HostingRefContentMetaDataCopyWith(
-          _$_HostingRefContentMetaData value,
-          $Res Function(_$_HostingRefContentMetaData) then) =
-      __$$_HostingRefContentMetaDataCopyWithImpl<$Res>;
+  factory _$$HostingRefContentMetaDataImplCopyWith(
+          _$HostingRefContentMetaDataImpl value,
+          $Res Function(_$HostingRefContentMetaDataImpl) then) =
+      __$$HostingRefContentMetaDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String hash, int size, String encoding, List<String> addresses});
 }
 
 /// @nodoc
-class __$$_HostingRefContentMetaDataCopyWithImpl<$Res>
+class __$$HostingRefContentMetaDataImplCopyWithImpl<$Res>
     extends _$HostingRefContentMetaDataCopyWithImpl<$Res,
-        _$_HostingRefContentMetaData>
-    implements _$$_HostingRefContentMetaDataCopyWith<$Res> {
-  __$$_HostingRefContentMetaDataCopyWithImpl(
-      _$_HostingRefContentMetaData _value,
-      $Res Function(_$_HostingRefContentMetaData) _then)
+        _$HostingRefContentMetaDataImpl>
+    implements _$$HostingRefContentMetaDataImplCopyWith<$Res> {
+  __$$HostingRefContentMetaDataImplCopyWithImpl(
+      _$HostingRefContentMetaDataImpl _value,
+      $Res Function(_$HostingRefContentMetaDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -111,7 +111,7 @@ class __$$_HostingRefContentMetaDataCopyWithImpl<$Res>
     Object? encoding = null,
     Object? addresses = null,
   }) {
-    return _then(_$_HostingRefContentMetaData(
+    return _then(_$HostingRefContentMetaDataImpl(
       hash: null == hash
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
@@ -134,8 +134,8 @@ class __$$_HostingRefContentMetaDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_HostingRefContentMetaData extends _HostingRefContentMetaData {
-  const _$_HostingRefContentMetaData(
+class _$HostingRefContentMetaDataImpl extends _HostingRefContentMetaData {
+  const _$HostingRefContentMetaDataImpl(
       {this.hash = '',
       this.size = 0,
       this.encoding = '',
@@ -143,8 +143,8 @@ class _$_HostingRefContentMetaData extends _HostingRefContentMetaData {
       : _addresses = addresses,
         super._();
 
-  factory _$_HostingRefContentMetaData.fromJson(Map<String, dynamic> json) =>
-      _$$_HostingRefContentMetaDataFromJson(json);
+  factory _$HostingRefContentMetaDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$HostingRefContentMetaDataImplFromJson(json);
 
   @override
   @JsonKey()
@@ -173,7 +173,7 @@ class _$_HostingRefContentMetaData extends _HostingRefContentMetaData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_HostingRefContentMetaData &&
+            other is _$HostingRefContentMetaDataImpl &&
             (identical(other.hash, hash) || other.hash == hash) &&
             (identical(other.size, size) || other.size == size) &&
             (identical(other.encoding, encoding) ||
@@ -190,13 +190,13 @@ class _$_HostingRefContentMetaData extends _HostingRefContentMetaData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_HostingRefContentMetaDataCopyWith<_$_HostingRefContentMetaData>
-      get copyWith => __$$_HostingRefContentMetaDataCopyWithImpl<
-          _$_HostingRefContentMetaData>(this, _$identity);
+  _$$HostingRefContentMetaDataImplCopyWith<_$HostingRefContentMetaDataImpl>
+      get copyWith => __$$HostingRefContentMetaDataImplCopyWithImpl<
+          _$HostingRefContentMetaDataImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_HostingRefContentMetaDataToJson(
+    return _$$HostingRefContentMetaDataImplToJson(
       this,
     );
   }
@@ -207,11 +207,11 @@ abstract class _HostingRefContentMetaData extends HostingRefContentMetaData {
       {final String hash,
       final int size,
       final String encoding,
-      final List<String> addresses}) = _$_HostingRefContentMetaData;
+      final List<String> addresses}) = _$HostingRefContentMetaDataImpl;
   const _HostingRefContentMetaData._() : super._();
 
   factory _HostingRefContentMetaData.fromJson(Map<String, dynamic> json) =
-      _$_HostingRefContentMetaData.fromJson;
+      _$HostingRefContentMetaDataImpl.fromJson;
 
   @override
   String get hash;
@@ -223,6 +223,6 @@ abstract class _HostingRefContentMetaData extends HostingRefContentMetaData {
   List<String> get addresses;
   @override
   @JsonKey(ignore: true)
-  _$$_HostingRefContentMetaDataCopyWith<_$_HostingRefContentMetaData>
+  _$$HostingRefContentMetaDataImplCopyWith<_$HostingRefContentMetaDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

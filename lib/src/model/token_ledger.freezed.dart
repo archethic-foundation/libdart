@@ -62,22 +62,22 @@ class _$TokenLedgerCopyWithImpl<$Res, $Val extends TokenLedger>
 }
 
 /// @nodoc
-abstract class _$$_TokenLedgerCopyWith<$Res>
+abstract class _$$TokenLedgerImplCopyWith<$Res>
     implements $TokenLedgerCopyWith<$Res> {
-  factory _$$_TokenLedgerCopyWith(
-          _$_TokenLedger value, $Res Function(_$_TokenLedger) then) =
-      __$$_TokenLedgerCopyWithImpl<$Res>;
+  factory _$$TokenLedgerImplCopyWith(
+          _$TokenLedgerImpl value, $Res Function(_$TokenLedgerImpl) then) =
+      __$$TokenLedgerImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<TokenTransfer> transfers});
 }
 
 /// @nodoc
-class __$$_TokenLedgerCopyWithImpl<$Res>
-    extends _$TokenLedgerCopyWithImpl<$Res, _$_TokenLedger>
-    implements _$$_TokenLedgerCopyWith<$Res> {
-  __$$_TokenLedgerCopyWithImpl(
-      _$_TokenLedger _value, $Res Function(_$_TokenLedger) _then)
+class __$$TokenLedgerImplCopyWithImpl<$Res>
+    extends _$TokenLedgerCopyWithImpl<$Res, _$TokenLedgerImpl>
+    implements _$$TokenLedgerImplCopyWith<$Res> {
+  __$$TokenLedgerImplCopyWithImpl(
+      _$TokenLedgerImpl _value, $Res Function(_$TokenLedgerImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -85,7 +85,7 @@ class __$$_TokenLedgerCopyWithImpl<$Res>
   $Res call({
     Object? transfers = null,
   }) {
-    return _then(_$_TokenLedger(
+    return _then(_$TokenLedgerImpl(
       transfers: null == transfers
           ? _value.transfers
           : transfers // ignore: cast_nullable_to_non_nullable
@@ -96,11 +96,11 @@ class __$$_TokenLedgerCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TokenLedger extends _TokenLedger {
-  const _$_TokenLedger({this.transfers = const []}) : super._();
+class _$TokenLedgerImpl extends _TokenLedger {
+  const _$TokenLedgerImpl({this.transfers = const []}) : super._();
 
-  factory _$_TokenLedger.fromJson(Map<String, dynamic> json) =>
-      _$$_TokenLedgerFromJson(json);
+  factory _$TokenLedgerImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TokenLedgerImplFromJson(json);
 
   @override
   @JsonKey()
@@ -115,7 +115,7 @@ class _$_TokenLedger extends _TokenLedger {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TokenLedger &&
+            other is _$TokenLedgerImpl &&
             const DeepCollectionEquality().equals(other.transfers, transfers));
   }
 
@@ -127,12 +127,12 @@ class _$_TokenLedger extends _TokenLedger {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TokenLedgerCopyWith<_$_TokenLedger> get copyWith =>
-      __$$_TokenLedgerCopyWithImpl<_$_TokenLedger>(this, _$identity);
+  _$$TokenLedgerImplCopyWith<_$TokenLedgerImpl> get copyWith =>
+      __$$TokenLedgerImplCopyWithImpl<_$TokenLedgerImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TokenLedgerToJson(
+    return _$$TokenLedgerImplToJson(
       this,
     );
   }
@@ -140,16 +140,16 @@ class _$_TokenLedger extends _TokenLedger {
 
 abstract class _TokenLedger extends TokenLedger {
   const factory _TokenLedger({final List<TokenTransfer> transfers}) =
-      _$_TokenLedger;
+      _$TokenLedgerImpl;
   const _TokenLedger._() : super._();
 
   factory _TokenLedger.fromJson(Map<String, dynamic> json) =
-      _$_TokenLedger.fromJson;
+      _$TokenLedgerImpl.fromJson;
 
   @override
   List<TokenTransfer> get transfers;
   @override
   @JsonKey(ignore: true)
-  _$$_TokenLedgerCopyWith<_$_TokenLedger> get copyWith =>
+  _$$TokenLedgerImplCopyWith<_$TokenLedgerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

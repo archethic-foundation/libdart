@@ -77,10 +77,11 @@ class _$KeychainCopyWithImpl<$Res, $Val extends Keychain>
 }
 
 /// @nodoc
-abstract class _$$_KeychainCopyWith<$Res> implements $KeychainCopyWith<$Res> {
-  factory _$$_KeychainCopyWith(
-          _$_Keychain value, $Res Function(_$_Keychain) then) =
-      __$$_KeychainCopyWithImpl<$Res>;
+abstract class _$$KeychainImplCopyWith<$Res>
+    implements $KeychainCopyWith<$Res> {
+  factory _$$KeychainImplCopyWith(
+          _$KeychainImpl value, $Res Function(_$KeychainImpl) then) =
+      __$$KeychainImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -90,11 +91,11 @@ abstract class _$$_KeychainCopyWith<$Res> implements $KeychainCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_KeychainCopyWithImpl<$Res>
-    extends _$KeychainCopyWithImpl<$Res, _$_Keychain>
-    implements _$$_KeychainCopyWith<$Res> {
-  __$$_KeychainCopyWithImpl(
-      _$_Keychain _value, $Res Function(_$_Keychain) _then)
+class __$$KeychainImplCopyWithImpl<$Res>
+    extends _$KeychainCopyWithImpl<$Res, _$KeychainImpl>
+    implements _$$KeychainImplCopyWith<$Res> {
+  __$$KeychainImplCopyWithImpl(
+      _$KeychainImpl _value, $Res Function(_$KeychainImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -104,7 +105,7 @@ class __$$_KeychainCopyWithImpl<$Res>
     Object? version = null,
     Object? services = null,
   }) {
-    return _then(_$_Keychain(
+    return _then(_$KeychainImpl(
       seed: freezed == seed
           ? _value.seed
           : seed // ignore: cast_nullable_to_non_nullable
@@ -123,16 +124,16 @@ class __$$_KeychainCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Keychain extends _Keychain {
-  const _$_Keychain(
+class _$KeychainImpl extends _Keychain {
+  const _$KeychainImpl(
       {@Uint8ListConverter() this.seed,
       this.version = 1,
       final Map<String, Service> services = const {}})
       : _services = services,
         super._();
 
-  factory _$_Keychain.fromJson(Map<String, dynamic> json) =>
-      _$$_KeychainFromJson(json);
+  factory _$KeychainImpl.fromJson(Map<String, dynamic> json) =>
+      _$$KeychainImplFromJson(json);
 
   @override
   @Uint8ListConverter()
@@ -158,7 +159,7 @@ class _$_Keychain extends _Keychain {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Keychain &&
+            other is _$KeychainImpl &&
             const DeepCollectionEquality().equals(other.seed, seed) &&
             (identical(other.version, version) || other.version == version) &&
             const DeepCollectionEquality().equals(other._services, _services));
@@ -175,12 +176,12 @@ class _$_Keychain extends _Keychain {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_KeychainCopyWith<_$_Keychain> get copyWith =>
-      __$$_KeychainCopyWithImpl<_$_Keychain>(this, _$identity);
+  _$$KeychainImplCopyWith<_$KeychainImpl> get copyWith =>
+      __$$KeychainImplCopyWithImpl<_$KeychainImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_KeychainToJson(
+    return _$$KeychainImplToJson(
       this,
     );
   }
@@ -190,10 +191,11 @@ abstract class _Keychain extends Keychain {
   const factory _Keychain(
       {@Uint8ListConverter() final Uint8List? seed,
       final int version,
-      final Map<String, Service> services}) = _$_Keychain;
+      final Map<String, Service> services}) = _$KeychainImpl;
   const _Keychain._() : super._();
 
-  factory _Keychain.fromJson(Map<String, dynamic> json) = _$_Keychain.fromJson;
+  factory _Keychain.fromJson(Map<String, dynamic> json) =
+      _$KeychainImpl.fromJson;
 
   @override
   @Uint8ListConverter()
@@ -204,6 +206,6 @@ abstract class _Keychain extends Keychain {
   Map<String, Service> get services;
   @override
   @JsonKey(ignore: true)
-  _$$_KeychainCopyWith<_$_Keychain> get copyWith =>
+  _$$KeychainImplCopyWith<_$KeychainImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

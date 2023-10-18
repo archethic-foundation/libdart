@@ -6,8 +6,9 @@ part of 'ledger_operations.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_LedgerOperations _$$_LedgerOperationsFromJson(Map<String, dynamic> json) =>
-    _$_LedgerOperations(
+_$LedgerOperationsImpl _$$LedgerOperationsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$LedgerOperationsImpl(
       fee: json['fee'] as int?,
       transactionMovements: (json['transactionMovements'] as List<dynamic>?)
               ?.map((e) =>
@@ -20,7 +21,8 @@ _$_LedgerOperations _$$_LedgerOperationsFromJson(Map<String, dynamic> json) =>
           const [],
     );
 
-Map<String, dynamic> _$$_LedgerOperationsToJson(_$_LedgerOperations instance) =>
+Map<String, dynamic> _$$LedgerOperationsImplToJson(
+        _$LedgerOperationsImpl instance) =>
     <String, dynamic>{
       'fee': instance.fee,
       'transactionMovements': instance.transactionMovements,

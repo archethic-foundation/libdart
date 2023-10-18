@@ -6,8 +6,8 @@ part of 'transaction.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Transaction _$$_TransactionFromJson(Map<String, dynamic> json) =>
-    _$_Transaction(
+_$TransactionImpl _$$TransactionImplFromJson(Map<String, dynamic> json) =>
+    _$TransactionImpl(
       address: _$JsonConverterFromJson<String, Address>(
           json['address'], const AddressJsonConverter().fromJson),
       balance: json['balance'] == null
@@ -39,7 +39,7 @@ _$_Transaction _$$_TransactionFromJson(Map<String, dynamic> json) =>
       version: json['version'] as int? ?? cVersion,
     );
 
-Map<String, dynamic> _$$_TransactionToJson(_$_Transaction instance) =>
+Map<String, dynamic> _$$TransactionImplToJson(_$TransactionImpl instance) =>
     <String, dynamic>{
       'address': _$JsonConverterToJson<String, Address>(
           instance.address, const AddressJsonConverter().toJson),
