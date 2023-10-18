@@ -5,6 +5,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
@@ -301,11 +302,13 @@ KeyPair deriveArchethicKeypair(
     pathSuffix: pathSuffix,
   );
 
-  return crypto.generateDeterministicKeyPair(
-    extendedSeed,
-    curve,
-    keychainOriginId,
-  );
+  return isPathWithIndex(derivationPath)
+      ? crypto.generateDeterministicKeyPair(
+          extendedSeed,
+          curve,
+          keychainOriginId,
+        )
+      : deriveKeyPair(uint8ListToHex(extendedSeed), index, curve: curve);
 }
 
 Uint8List deriveServiceSeed(
