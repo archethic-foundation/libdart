@@ -1,10 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
-// Dart imports:
 import 'dart:math';
-import 'dart:typed_data' show Uint8List;
-
-// Package imports:
+import 'dart:typed_data';
 import 'package:pinenacl/encoding.dart' show Base16Encoder;
 
 /// Return the Initial Origin Private Key
@@ -114,4 +111,49 @@ String generateRandomAESKey({int length = 32}) {
       List<int>.generate(length, (int i) => Random.secure().nextInt(256)),
     ),
   );
+}
+
+/// Return the next Uint8 from an iterator of Uint8Array
+/// There is an assumption on success
+/// @param iter
+/// @returns
+int nextUint8(Iterator<MapEntry<int, int>> iterator) {
+  if (iterator.moveNext()) {
+    return iterator.current.value;
+  } else {
+    throw StateError('No more elements in the iterator.');
+  }
+}
+
+/// Decode byte array (4 bytes) into a integer
+/// @param {Uint8List} bytes Bytes array to decode
+int uint8ListToInt(Uint8List bytes) {
+  var value = 0;
+  for (var i = 0; i < bytes.length; i++) {
+    value = (value * 256) + bytes[i];
+  }
+  return value;
+}
+
+dynamic sortObjectKeysAsc(dynamic term) {
+  if (term is List) {
+    return term.map((item) => sortObjectKeysAsc(item)).toList();
+  } else if (term is Map) {
+    // In Dart, maps have keys that are always strings, so we can sort them
+    final sortedMap = Map.fromEntries(
+      term.entries.toList()..sort((a, b) => a.key.compareTo(b.key)),
+    );
+    return sortedMap
+        .map((key, value) => MapEntry(key, sortObjectKeysAsc(value)));
+  } else if (term is MapEntry) {
+    // MapEntry is Dart specific, so we handle it separately
+    return MapEntry(term.key, sortObjectKeysAsc(term.value));
+  } else if (term is Map<String, dynamic>) {
+    final sortedKeys = term.keys.toList()..sort();
+    return Map.fromEntries(
+      sortedKeys.map((key) => MapEntry(key, sortObjectKeysAsc(term[key]))),
+    );
+  } else {
+    return term;
+  }
 }
