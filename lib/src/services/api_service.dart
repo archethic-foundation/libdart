@@ -7,6 +7,7 @@ import 'dart:typed_data';
 import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
+import 'package:archethic_lib_dart/src/model/blockchain_version.dart';
 import 'package:archethic_lib_dart/src/model/endpoint.dart';
 import 'package:archethic_lib_dart/src/model/exception/archethic_exception.dart';
 import 'package:archethic_lib_dart/src/model/keychain.dart';
@@ -938,5 +939,34 @@ class ApiService with JsonRPCUtil {
     }
 
     return completer.future;
+  }
+
+  /// Query the network to find the protocol, transaction and code versions
+  /// Returns a [BlockchainVersionModel] with blockchain's versions information
+  Future<BlockchainVersionModel> getBlockchainVersion() async {
+    const body = 'query { version {code protocol transaction} }';
+
+    final result = await _client
+        .withLogger(
+          'getBlockchainVersion',
+          logsActivation: logsActivation,
+        )
+        .query(
+          QueryOptions(
+            document: gql(body),
+            parserFn: (json) => BlockchainVersionModel.fromJson(json),
+          ),
+        );
+
+    if (result.exception?.linkException != null) {
+      throw ArchethicConnectionException(
+        result.exception!.linkException.toString(),
+      );
+    }
+
+    return result.parsedData ??
+        const BlockchainVersionModel(
+          version: BlockchainVersion(protocol: '', transaction: ''),
+        );
   }
 }

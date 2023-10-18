@@ -1,6 +1,7 @@
 library test.api_test;
 
 import 'package:archethic_lib_dart/src/model/address.dart';
+import 'package:archethic_lib_dart/src/model/blockchain_version.dart';
 import 'package:archethic_lib_dart/src/model/exception/archethic_json_rpc_exception.dart';
 import 'package:archethic_lib_dart/src/model/smart_contracts/sc_call_function_request.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
@@ -206,6 +207,17 @@ void main() {
         expect(
           genesisAddress.address,
           '00006586369937206500EDB352063A6E5D5CF1650B9AAB89F453825F53EF8E44DEE3',
+        );
+      });
+
+      test('getBlockchainVersion', () async {
+        final blockchainVersionModel =
+            await ApiService('https://mainnet.archethic.net')
+                .getBlockchainVersion();
+
+        expect(
+          blockchainVersionModel.version.transaction,
+          '2',
         );
       });
 
