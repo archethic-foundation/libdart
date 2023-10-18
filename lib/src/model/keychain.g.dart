@@ -6,7 +6,8 @@ part of 'keychain.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Keychain _$$_KeychainFromJson(Map<String, dynamic> json) => _$_Keychain(
+_$KeychainImpl _$$KeychainImplFromJson(Map<String, dynamic> json) =>
+    _$KeychainImpl(
       seed: const Uint8ListConverter().fromJson(json['seed'] as List<int>?),
       version: json['version'] as int? ?? 1,
       services: (json['services'] as Map<String, dynamic>?)?.map(
@@ -15,7 +16,7 @@ _$_Keychain _$$_KeychainFromJson(Map<String, dynamic> json) => _$_Keychain(
           const {},
     );
 
-Map<String, dynamic> _$$_KeychainToJson(_$_Keychain instance) =>
+Map<String, dynamic> _$$KeychainImplToJson(_$KeychainImpl instance) =>
     <String, dynamic>{
       'seed': const Uint8ListConverter().toJson(instance.seed),
       'version': instance.version,

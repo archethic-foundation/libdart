@@ -100,11 +100,11 @@ class _$TransactionMovementCopyWithImpl<$Res, $Val extends TransactionMovement>
 }
 
 /// @nodoc
-abstract class _$$_TransactionMovementCopyWith<$Res>
+abstract class _$$TransactionMovementImplCopyWith<$Res>
     implements $TransactionMovementCopyWith<$Res> {
-  factory _$$_TransactionMovementCopyWith(_$_TransactionMovement value,
-          $Res Function(_$_TransactionMovement) then) =
-      __$$_TransactionMovementCopyWithImpl<$Res>;
+  factory _$$TransactionMovementImplCopyWith(_$TransactionMovementImpl value,
+          $Res Function(_$TransactionMovementImpl) then) =
+      __$$TransactionMovementImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -116,11 +116,11 @@ abstract class _$$_TransactionMovementCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TransactionMovementCopyWithImpl<$Res>
-    extends _$TransactionMovementCopyWithImpl<$Res, _$_TransactionMovement>
-    implements _$$_TransactionMovementCopyWith<$Res> {
-  __$$_TransactionMovementCopyWithImpl(_$_TransactionMovement _value,
-      $Res Function(_$_TransactionMovement) _then)
+class __$$TransactionMovementImplCopyWithImpl<$Res>
+    extends _$TransactionMovementCopyWithImpl<$Res, _$TransactionMovementImpl>
+    implements _$$TransactionMovementImplCopyWith<$Res> {
+  __$$TransactionMovementImplCopyWithImpl(_$TransactionMovementImpl _value,
+      $Res Function(_$TransactionMovementImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -132,7 +132,7 @@ class __$$_TransactionMovementCopyWithImpl<$Res>
     Object? type = freezed,
     Object? tokenId = freezed,
   }) {
-    return _then(_$_TransactionMovement(
+    return _then(_$TransactionMovementImpl(
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -159,13 +159,13 @@ class __$$_TransactionMovementCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TransactionMovement extends _TransactionMovement {
-  const _$_TransactionMovement(
+class _$TransactionMovementImpl extends _TransactionMovement {
+  const _$TransactionMovementImpl(
       {this.amount, this.tokenAddress, this.to, this.type, this.tokenId})
       : super._();
 
-  factory _$_TransactionMovement.fromJson(Map<String, dynamic> json) =>
-      _$$_TransactionMovementFromJson(json);
+  factory _$TransactionMovementImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TransactionMovementImplFromJson(json);
 
   /// Amount: asset amount
   @override
@@ -196,7 +196,7 @@ class _$_TransactionMovement extends _TransactionMovement {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionMovement &&
+            other is _$TransactionMovementImpl &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.tokenAddress, tokenAddress) ||
                 other.tokenAddress == tokenAddress) &&
@@ -213,13 +213,13 @@ class _$_TransactionMovement extends _TransactionMovement {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TransactionMovementCopyWith<_$_TransactionMovement> get copyWith =>
-      __$$_TransactionMovementCopyWithImpl<_$_TransactionMovement>(
+  _$$TransactionMovementImplCopyWith<_$TransactionMovementImpl> get copyWith =>
+      __$$TransactionMovementImplCopyWithImpl<_$TransactionMovementImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TransactionMovementToJson(
+    return _$$TransactionMovementImplToJson(
       this,
     );
   }
@@ -231,11 +231,11 @@ abstract class _TransactionMovement extends TransactionMovement {
       final String? tokenAddress,
       final String? to,
       final String? type,
-      final int? tokenId}) = _$_TransactionMovement;
+      final int? tokenId}) = _$TransactionMovementImpl;
   const _TransactionMovement._() : super._();
 
   factory _TransactionMovement.fromJson(Map<String, dynamic> json) =
-      _$_TransactionMovement.fromJson;
+      _$TransactionMovementImpl.fromJson;
 
   @override
 
@@ -259,6 +259,6 @@ abstract class _TransactionMovement extends TransactionMovement {
   int? get tokenId;
   @override
   @JsonKey(ignore: true)
-  _$$_TransactionMovementCopyWith<_$_TransactionMovement> get copyWith =>
+  _$$TransactionMovementImplCopyWith<_$TransactionMovementImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

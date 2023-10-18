@@ -68,21 +68,22 @@ class _$OwnershipCopyWithImpl<$Res, $Val extends Ownership>
 }
 
 /// @nodoc
-abstract class _$$_OwnershipCopyWith<$Res> implements $OwnershipCopyWith<$Res> {
-  factory _$$_OwnershipCopyWith(
-          _$_Ownership value, $Res Function(_$_Ownership) then) =
-      __$$_OwnershipCopyWithImpl<$Res>;
+abstract class _$$OwnershipImplCopyWith<$Res>
+    implements $OwnershipCopyWith<$Res> {
+  factory _$$OwnershipImplCopyWith(
+          _$OwnershipImpl value, $Res Function(_$OwnershipImpl) then) =
+      __$$OwnershipImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<AuthorizedKey> authorizedPublicKeys, String? secret});
 }
 
 /// @nodoc
-class __$$_OwnershipCopyWithImpl<$Res>
-    extends _$OwnershipCopyWithImpl<$Res, _$_Ownership>
-    implements _$$_OwnershipCopyWith<$Res> {
-  __$$_OwnershipCopyWithImpl(
-      _$_Ownership _value, $Res Function(_$_Ownership) _then)
+class __$$OwnershipImplCopyWithImpl<$Res>
+    extends _$OwnershipCopyWithImpl<$Res, _$OwnershipImpl>
+    implements _$$OwnershipImplCopyWith<$Res> {
+  __$$OwnershipImplCopyWithImpl(
+      _$OwnershipImpl _value, $Res Function(_$OwnershipImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -91,7 +92,7 @@ class __$$_OwnershipCopyWithImpl<$Res>
     Object? authorizedPublicKeys = null,
     Object? secret = freezed,
   }) {
-    return _then(_$_Ownership(
+    return _then(_$OwnershipImpl(
       authorizedPublicKeys: null == authorizedPublicKeys
           ? _value._authorizedPublicKeys
           : authorizedPublicKeys // ignore: cast_nullable_to_non_nullable
@@ -106,14 +107,14 @@ class __$$_OwnershipCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Ownership extends _Ownership {
-  const _$_Ownership(
+class _$OwnershipImpl extends _Ownership {
+  const _$OwnershipImpl(
       {final List<AuthorizedKey> authorizedPublicKeys = const [], this.secret})
       : _authorizedPublicKeys = authorizedPublicKeys,
         super._();
 
-  factory _$_Ownership.fromJson(Map<String, dynamic> json) =>
-      _$$_OwnershipFromJson(json);
+  factory _$OwnershipImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OwnershipImplFromJson(json);
 
   final List<AuthorizedKey> _authorizedPublicKeys;
   @override
@@ -137,7 +138,7 @@ class _$_Ownership extends _Ownership {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Ownership &&
+            other is _$OwnershipImpl &&
             const DeepCollectionEquality()
                 .equals(other._authorizedPublicKeys, _authorizedPublicKeys) &&
             (identical(other.secret, secret) || other.secret == secret));
@@ -151,12 +152,12 @@ class _$_Ownership extends _Ownership {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OwnershipCopyWith<_$_Ownership> get copyWith =>
-      __$$_OwnershipCopyWithImpl<_$_Ownership>(this, _$identity);
+  _$$OwnershipImplCopyWith<_$OwnershipImpl> get copyWith =>
+      __$$OwnershipImplCopyWithImpl<_$OwnershipImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_OwnershipToJson(
+    return _$$OwnershipImplToJson(
       this,
     );
   }
@@ -165,11 +166,11 @@ class _$_Ownership extends _Ownership {
 abstract class _Ownership extends Ownership {
   const factory _Ownership(
       {final List<AuthorizedKey> authorizedPublicKeys,
-      final String? secret}) = _$_Ownership;
+      final String? secret}) = _$OwnershipImpl;
   const _Ownership._() : super._();
 
   factory _Ownership.fromJson(Map<String, dynamic> json) =
-      _$_Ownership.fromJson;
+      _$OwnershipImpl.fromJson;
 
   @override
   List<AuthorizedKey> get authorizedPublicKeys;
@@ -177,6 +178,6 @@ abstract class _Ownership extends Ownership {
   String? get secret;
   @override
   @JsonKey(ignore: true)
-  _$$_OwnershipCopyWith<_$_Ownership> get copyWith =>
+  _$$OwnershipImplCopyWith<_$OwnershipImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

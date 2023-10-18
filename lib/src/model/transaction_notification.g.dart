@@ -6,13 +6,15 @@ part of 'transaction_notification.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PushNotification _$$_PushNotificationFromJson(Map<String, dynamic> json) =>
-    _$_PushNotification(
+_$PushNotificationImpl _$$PushNotificationImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PushNotificationImpl(
       title: json['title'] as String?,
       body: json['body'] as String?,
     );
 
-Map<String, dynamic> _$$_PushNotificationToJson(_$_PushNotification instance) =>
+Map<String, dynamic> _$$PushNotificationImplToJson(
+        _$PushNotificationImpl instance) =>
     <String, dynamic>{
       'title': instance.title,
       'body': instance.body,

@@ -118,11 +118,11 @@ class _$UnspentOutputsCopyWithImpl<$Res, $Val extends UnspentOutputs>
 }
 
 /// @nodoc
-abstract class _$$_UnspentOutputsCopyWith<$Res>
+abstract class _$$UnspentOutputsImplCopyWith<$Res>
     implements $UnspentOutputsCopyWith<$Res> {
-  factory _$$_UnspentOutputsCopyWith(
-          _$_UnspentOutputs value, $Res Function(_$_UnspentOutputs) then) =
-      __$$_UnspentOutputsCopyWithImpl<$Res>;
+  factory _$$UnspentOutputsImplCopyWith(_$UnspentOutputsImpl value,
+          $Res Function(_$UnspentOutputsImpl) then) =
+      __$$UnspentOutputsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -136,11 +136,11 @@ abstract class _$$_UnspentOutputsCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_UnspentOutputsCopyWithImpl<$Res>
-    extends _$UnspentOutputsCopyWithImpl<$Res, _$_UnspentOutputs>
-    implements _$$_UnspentOutputsCopyWith<$Res> {
-  __$$_UnspentOutputsCopyWithImpl(
-      _$_UnspentOutputs _value, $Res Function(_$_UnspentOutputs) _then)
+class __$$UnspentOutputsImplCopyWithImpl<$Res>
+    extends _$UnspentOutputsCopyWithImpl<$Res, _$UnspentOutputsImpl>
+    implements _$$UnspentOutputsImplCopyWith<$Res> {
+  __$$UnspentOutputsImplCopyWithImpl(
+      _$UnspentOutputsImpl _value, $Res Function(_$UnspentOutputsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -154,7 +154,7 @@ class __$$_UnspentOutputsCopyWithImpl<$Res>
     Object? timestamp = freezed,
     Object? version = freezed,
   }) {
-    return _then(_$_UnspentOutputs(
+    return _then(_$UnspentOutputsImpl(
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -189,8 +189,8 @@ class __$$_UnspentOutputsCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UnspentOutputs extends _UnspentOutputs {
-  const _$_UnspentOutputs(
+class _$UnspentOutputsImpl extends _UnspentOutputs {
+  const _$UnspentOutputsImpl(
       {this.amount,
       this.tokenAddress,
       this.type,
@@ -200,8 +200,8 @@ class _$_UnspentOutputs extends _UnspentOutputs {
       this.version})
       : super._();
 
-  factory _$_UnspentOutputs.fromJson(Map<String, dynamic> json) =>
-      _$$_UnspentOutputsFromJson(json);
+  factory _$UnspentOutputsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UnspentOutputsImplFromJson(json);
 
   /// Amount: asset amount
   @override
@@ -240,7 +240,7 @@ class _$_UnspentOutputs extends _UnspentOutputs {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UnspentOutputs &&
+            other is _$UnspentOutputsImpl &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.tokenAddress, tokenAddress) ||
                 other.tokenAddress == tokenAddress) &&
@@ -260,12 +260,13 @@ class _$_UnspentOutputs extends _UnspentOutputs {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UnspentOutputsCopyWith<_$_UnspentOutputs> get copyWith =>
-      __$$_UnspentOutputsCopyWithImpl<_$_UnspentOutputs>(this, _$identity);
+  _$$UnspentOutputsImplCopyWith<_$UnspentOutputsImpl> get copyWith =>
+      __$$UnspentOutputsImplCopyWithImpl<_$UnspentOutputsImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UnspentOutputsToJson(
+    return _$$UnspentOutputsImplToJson(
       this,
     );
   }
@@ -279,11 +280,11 @@ abstract class _UnspentOutputs extends UnspentOutputs {
       final String? from,
       final int? tokenId,
       final int? timestamp,
-      final int? version}) = _$_UnspentOutputs;
+      final int? version}) = _$UnspentOutputsImpl;
   const _UnspentOutputs._() : super._();
 
   factory _UnspentOutputs.fromJson(Map<String, dynamic> json) =
-      _$_UnspentOutputs.fromJson;
+      _$UnspentOutputsImpl.fromJson;
 
   @override
 
@@ -315,6 +316,6 @@ abstract class _UnspentOutputs extends UnspentOutputs {
   int? get version;
   @override
   @JsonKey(ignore: true)
-  _$$_UnspentOutputsCopyWith<_$_UnspentOutputs> get copyWith =>
+  _$$UnspentOutputsImplCopyWith<_$UnspentOutputsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

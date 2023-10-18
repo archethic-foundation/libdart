@@ -67,11 +67,11 @@ class _$AesAuthEncryptInfosCopyWithImpl<$Res, $Val extends AesAuthEncryptInfos>
 }
 
 /// @nodoc
-abstract class _$$_AesAuthEncryptInfosCopyWith<$Res>
+abstract class _$$AesAuthEncryptInfosImplCopyWith<$Res>
     implements $AesAuthEncryptInfosCopyWith<$Res> {
-  factory _$$_AesAuthEncryptInfosCopyWith(_$_AesAuthEncryptInfos value,
-          $Res Function(_$_AesAuthEncryptInfos) then) =
-      __$$_AesAuthEncryptInfosCopyWithImpl<$Res>;
+  factory _$$AesAuthEncryptInfosImplCopyWith(_$AesAuthEncryptInfosImpl value,
+          $Res Function(_$AesAuthEncryptInfosImpl) then) =
+      __$$AesAuthEncryptInfosImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -80,11 +80,11 @@ abstract class _$$_AesAuthEncryptInfosCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AesAuthEncryptInfosCopyWithImpl<$Res>
-    extends _$AesAuthEncryptInfosCopyWithImpl<$Res, _$_AesAuthEncryptInfos>
-    implements _$$_AesAuthEncryptInfosCopyWith<$Res> {
-  __$$_AesAuthEncryptInfosCopyWithImpl(_$_AesAuthEncryptInfos _value,
-      $Res Function(_$_AesAuthEncryptInfos) _then)
+class __$$AesAuthEncryptInfosImplCopyWithImpl<$Res>
+    extends _$AesAuthEncryptInfosCopyWithImpl<$Res, _$AesAuthEncryptInfosImpl>
+    implements _$$AesAuthEncryptInfosImplCopyWith<$Res> {
+  __$$AesAuthEncryptInfosImplCopyWithImpl(_$AesAuthEncryptInfosImpl _value,
+      $Res Function(_$AesAuthEncryptInfosImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -93,7 +93,7 @@ class __$$_AesAuthEncryptInfosCopyWithImpl<$Res>
     Object? tag = freezed,
     Object? encrypted = freezed,
   }) {
-    return _then(_$_AesAuthEncryptInfos(
+    return _then(_$AesAuthEncryptInfosImpl(
       tag: freezed == tag
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
@@ -108,8 +108,8 @@ class __$$_AesAuthEncryptInfosCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AesAuthEncryptInfos extends _AesAuthEncryptInfos {
-  const _$_AesAuthEncryptInfos(
+class _$AesAuthEncryptInfosImpl extends _AesAuthEncryptInfos {
+  const _$AesAuthEncryptInfosImpl(
       {@Uint8ListConverter() this.tag, @Uint8ListConverter() this.encrypted})
       : super._();
 
@@ -129,7 +129,7 @@ class _$_AesAuthEncryptInfos extends _AesAuthEncryptInfos {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AesAuthEncryptInfos &&
+            other is _$AesAuthEncryptInfosImpl &&
             const DeepCollectionEquality().equals(other.tag, tag) &&
             const DeepCollectionEquality().equals(other.encrypted, encrypted));
   }
@@ -143,8 +143,8 @@ class _$_AesAuthEncryptInfos extends _AesAuthEncryptInfos {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AesAuthEncryptInfosCopyWith<_$_AesAuthEncryptInfos> get copyWith =>
-      __$$_AesAuthEncryptInfosCopyWithImpl<_$_AesAuthEncryptInfos>(
+  _$$AesAuthEncryptInfosImplCopyWith<_$AesAuthEncryptInfosImpl> get copyWith =>
+      __$$AesAuthEncryptInfosImplCopyWithImpl<_$AesAuthEncryptInfosImpl>(
           this, _$identity);
 }
 
@@ -152,7 +152,7 @@ abstract class _AesAuthEncryptInfos extends AesAuthEncryptInfos {
   const factory _AesAuthEncryptInfos(
           {@Uint8ListConverter() final Uint8List? tag,
           @Uint8ListConverter() final Uint8List? encrypted}) =
-      _$_AesAuthEncryptInfos;
+      _$AesAuthEncryptInfosImpl;
   const _AesAuthEncryptInfos._() : super._();
 
   @override
@@ -163,6 +163,6 @@ abstract class _AesAuthEncryptInfos extends AesAuthEncryptInfos {
   Uint8List? get encrypted;
   @override
   @JsonKey(ignore: true)
-  _$$_AesAuthEncryptInfosCopyWith<_$_AesAuthEncryptInfos> get copyWith =>
+  _$$AesAuthEncryptInfosImplCopyWith<_$AesAuthEncryptInfosImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

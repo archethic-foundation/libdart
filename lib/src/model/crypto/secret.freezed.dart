@@ -65,9 +65,10 @@ class _$SecretCopyWithImpl<$Res, $Val extends Secret>
 }
 
 /// @nodoc
-abstract class _$$_SecretCopyWith<$Res> implements $SecretCopyWith<$Res> {
-  factory _$$_SecretCopyWith(_$_Secret value, $Res Function(_$_Secret) then) =
-      __$$_SecretCopyWithImpl<$Res>;
+abstract class _$$SecretImplCopyWith<$Res> implements $SecretCopyWith<$Res> {
+  factory _$$SecretImplCopyWith(
+          _$SecretImpl value, $Res Function(_$SecretImpl) then) =
+      __$$SecretImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -76,10 +77,11 @@ abstract class _$$_SecretCopyWith<$Res> implements $SecretCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_SecretCopyWithImpl<$Res>
-    extends _$SecretCopyWithImpl<$Res, _$_Secret>
-    implements _$$_SecretCopyWith<$Res> {
-  __$$_SecretCopyWithImpl(_$_Secret _value, $Res Function(_$_Secret) _then)
+class __$$SecretImplCopyWithImpl<$Res>
+    extends _$SecretCopyWithImpl<$Res, _$SecretImpl>
+    implements _$$SecretImplCopyWith<$Res> {
+  __$$SecretImplCopyWithImpl(
+      _$SecretImpl _value, $Res Function(_$SecretImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -88,7 +90,7 @@ class __$$_SecretCopyWithImpl<$Res>
     Object? iv = freezed,
     Object? aesKey = freezed,
   }) {
-    return _then(_$_Secret(
+    return _then(_$SecretImpl(
       iv: freezed == iv
           ? _value.iv
           : iv // ignore: cast_nullable_to_non_nullable
@@ -103,8 +105,8 @@ class __$$_SecretCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Secret extends _Secret {
-  const _$_Secret(
+class _$SecretImpl extends _Secret {
+  const _$SecretImpl(
       {@Uint8ListConverter() this.iv, @Uint8ListConverter() this.aesKey})
       : super._();
 
@@ -124,7 +126,7 @@ class _$_Secret extends _Secret {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Secret &&
+            other is _$SecretImpl &&
             const DeepCollectionEquality().equals(other.iv, iv) &&
             const DeepCollectionEquality().equals(other.aesKey, aesKey));
   }
@@ -138,14 +140,14 @@ class _$_Secret extends _Secret {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SecretCopyWith<_$_Secret> get copyWith =>
-      __$$_SecretCopyWithImpl<_$_Secret>(this, _$identity);
+  _$$SecretImplCopyWith<_$SecretImpl> get copyWith =>
+      __$$SecretImplCopyWithImpl<_$SecretImpl>(this, _$identity);
 }
 
 abstract class _Secret extends Secret {
   const factory _Secret(
       {@Uint8ListConverter() final Uint8List? iv,
-      @Uint8ListConverter() final Uint8List? aesKey}) = _$_Secret;
+      @Uint8ListConverter() final Uint8List? aesKey}) = _$SecretImpl;
   const _Secret._() : super._();
 
   @override
@@ -156,6 +158,6 @@ abstract class _Secret extends Secret {
   Uint8List? get aesKey;
   @override
   @JsonKey(ignore: true)
-  _$$_SecretCopyWith<_$_Secret> get copyWith =>
+  _$$SecretImplCopyWith<_$SecretImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

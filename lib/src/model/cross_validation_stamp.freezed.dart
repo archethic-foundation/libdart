@@ -72,22 +72,22 @@ class _$CrossValidationStampCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_CrossValidationStampCopyWith<$Res>
+abstract class _$$CrossValidationStampImplCopyWith<$Res>
     implements $CrossValidationStampCopyWith<$Res> {
-  factory _$$_CrossValidationStampCopyWith(_$_CrossValidationStamp value,
-          $Res Function(_$_CrossValidationStamp) then) =
-      __$$_CrossValidationStampCopyWithImpl<$Res>;
+  factory _$$CrossValidationStampImplCopyWith(_$CrossValidationStampImpl value,
+          $Res Function(_$CrossValidationStampImpl) then) =
+      __$$CrossValidationStampImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? nodePublicKey, String? signature});
 }
 
 /// @nodoc
-class __$$_CrossValidationStampCopyWithImpl<$Res>
-    extends _$CrossValidationStampCopyWithImpl<$Res, _$_CrossValidationStamp>
-    implements _$$_CrossValidationStampCopyWith<$Res> {
-  __$$_CrossValidationStampCopyWithImpl(_$_CrossValidationStamp _value,
-      $Res Function(_$_CrossValidationStamp) _then)
+class __$$CrossValidationStampImplCopyWithImpl<$Res>
+    extends _$CrossValidationStampCopyWithImpl<$Res, _$CrossValidationStampImpl>
+    implements _$$CrossValidationStampImplCopyWith<$Res> {
+  __$$CrossValidationStampImplCopyWithImpl(_$CrossValidationStampImpl _value,
+      $Res Function(_$CrossValidationStampImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -96,7 +96,7 @@ class __$$_CrossValidationStampCopyWithImpl<$Res>
     Object? nodePublicKey = freezed,
     Object? signature = freezed,
   }) {
-    return _then(_$_CrossValidationStamp(
+    return _then(_$CrossValidationStampImpl(
       nodePublicKey: freezed == nodePublicKey
           ? _value.nodePublicKey
           : nodePublicKey // ignore: cast_nullable_to_non_nullable
@@ -111,12 +111,12 @@ class __$$_CrossValidationStampCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CrossValidationStamp extends _CrossValidationStamp {
-  const _$_CrossValidationStamp({this.nodePublicKey, this.signature})
+class _$CrossValidationStampImpl extends _CrossValidationStamp {
+  const _$CrossValidationStampImpl({this.nodePublicKey, this.signature})
       : super._();
 
-  factory _$_CrossValidationStamp.fromJson(Map<String, dynamic> json) =>
-      _$$_CrossValidationStampFromJson(json);
+  factory _$CrossValidationStampImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CrossValidationStampImplFromJson(json);
 
   /// Node: node public key
   @override
@@ -135,7 +135,7 @@ class _$_CrossValidationStamp extends _CrossValidationStamp {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CrossValidationStamp &&
+            other is _$CrossValidationStampImpl &&
             (identical(other.nodePublicKey, nodePublicKey) ||
                 other.nodePublicKey == nodePublicKey) &&
             (identical(other.signature, signature) ||
@@ -149,13 +149,14 @@ class _$_CrossValidationStamp extends _CrossValidationStamp {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CrossValidationStampCopyWith<_$_CrossValidationStamp> get copyWith =>
-      __$$_CrossValidationStampCopyWithImpl<_$_CrossValidationStamp>(
-          this, _$identity);
+  _$$CrossValidationStampImplCopyWith<_$CrossValidationStampImpl>
+      get copyWith =>
+          __$$CrossValidationStampImplCopyWithImpl<_$CrossValidationStampImpl>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CrossValidationStampToJson(
+    return _$$CrossValidationStampImplToJson(
       this,
     );
   }
@@ -164,11 +165,11 @@ class _$_CrossValidationStamp extends _CrossValidationStamp {
 abstract class _CrossValidationStamp extends CrossValidationStamp {
   const factory _CrossValidationStamp(
       {final String? nodePublicKey,
-      final String? signature}) = _$_CrossValidationStamp;
+      final String? signature}) = _$CrossValidationStampImpl;
   const _CrossValidationStamp._() : super._();
 
   factory _CrossValidationStamp.fromJson(Map<String, dynamic> json) =
-      _$_CrossValidationStamp.fromJson;
+      _$CrossValidationStampImpl.fromJson;
 
   @override
 
@@ -180,6 +181,6 @@ abstract class _CrossValidationStamp extends CrossValidationStamp {
   String? get signature;
   @override
   @JsonKey(ignore: true)
-  _$$_CrossValidationStampCopyWith<_$_CrossValidationStamp> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$CrossValidationStampImplCopyWith<_$CrossValidationStampImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

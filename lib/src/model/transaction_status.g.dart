@@ -6,13 +6,14 @@ part of 'transaction_status.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_TransactionStatus _$$_TransactionStatusFromJson(Map<String, dynamic> json) =>
-    _$_TransactionStatus(
+_$TransactionStatusImpl _$$TransactionStatusImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TransactionStatusImpl(
       status: json['status'] as String?,
     );
 
-Map<String, dynamic> _$$_TransactionStatusToJson(
-        _$_TransactionStatus instance) =>
+Map<String, dynamic> _$$TransactionStatusImplToJson(
+        _$TransactionStatusImpl instance) =>
     <String, dynamic>{
       'status': instance.status,
     };

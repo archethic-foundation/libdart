@@ -6,14 +6,15 @@ part of 'on_chain_wallet_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_OnChainWalletData _$$_OnChainWalletDataFromJson(Map<String, dynamic> json) =>
-    _$_OnChainWalletData(
+_$OnChainWalletDataImpl _$$OnChainWalletDataImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OnChainWalletDataImpl(
       encodedWalletKey: json['encodedWalletKey'] as String?,
       encryptedWallet: json['encryptedWallet'] as String?,
     );
 
-Map<String, dynamic> _$$_OnChainWalletDataToJson(
-        _$_OnChainWalletData instance) =>
+Map<String, dynamic> _$$OnChainWalletDataImplToJson(
+        _$OnChainWalletDataImpl instance) =>
     <String, dynamic>{
       'encodedWalletKey': instance.encodedWalletKey,
       'encryptedWallet': instance.encryptedWallet,

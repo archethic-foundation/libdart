@@ -114,11 +114,11 @@ class _$ValidationStampCopyWithImpl<$Res, $Val extends ValidationStamp>
 }
 
 /// @nodoc
-abstract class _$$_ValidationStampCopyWith<$Res>
+abstract class _$$ValidationStampImplCopyWith<$Res>
     implements $ValidationStampCopyWith<$Res> {
-  factory _$$_ValidationStampCopyWith(
-          _$_ValidationStamp value, $Res Function(_$_ValidationStamp) then) =
-      __$$_ValidationStampCopyWithImpl<$Res>;
+  factory _$$ValidationStampImplCopyWith(_$ValidationStampImpl value,
+          $Res Function(_$ValidationStampImpl) then) =
+      __$$ValidationStampImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -133,11 +133,11 @@ abstract class _$$_ValidationStampCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ValidationStampCopyWithImpl<$Res>
-    extends _$ValidationStampCopyWithImpl<$Res, _$_ValidationStamp>
-    implements _$$_ValidationStampCopyWith<$Res> {
-  __$$_ValidationStampCopyWithImpl(
-      _$_ValidationStamp _value, $Res Function(_$_ValidationStamp) _then)
+class __$$ValidationStampImplCopyWithImpl<$Res>
+    extends _$ValidationStampCopyWithImpl<$Res, _$ValidationStampImpl>
+    implements _$$ValidationStampImplCopyWith<$Res> {
+  __$$ValidationStampImplCopyWithImpl(
+      _$ValidationStampImpl _value, $Res Function(_$ValidationStampImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -149,7 +149,7 @@ class __$$_ValidationStampCopyWithImpl<$Res>
     Object? signature = freezed,
     Object? timestamp = freezed,
   }) {
-    return _then(_$_ValidationStamp(
+    return _then(_$ValidationStampImpl(
       ledgerOperations: freezed == ledgerOperations
           ? _value.ledgerOperations
           : ledgerOperations // ignore: cast_nullable_to_non_nullable
@@ -176,8 +176,8 @@ class __$$_ValidationStampCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ValidationStamp extends _ValidationStamp {
-  const _$_ValidationStamp(
+class _$ValidationStampImpl extends _ValidationStamp {
+  const _$ValidationStampImpl(
       {this.ledgerOperations,
       this.proofOfIntegrity,
       this.proofOfWork,
@@ -185,8 +185,8 @@ class _$_ValidationStamp extends _ValidationStamp {
       this.timestamp})
       : super._();
 
-  factory _$_ValidationStamp.fromJson(Map<String, dynamic> json) =>
-      _$$_ValidationStampFromJson(json);
+  factory _$ValidationStampImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ValidationStampImplFromJson(json);
 
   /// Ledger operations: All the operations performed by the transaction
   @override
@@ -217,7 +217,7 @@ class _$_ValidationStamp extends _ValidationStamp {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ValidationStamp &&
+            other is _$ValidationStampImpl &&
             (identical(other.ledgerOperations, ledgerOperations) ||
                 other.ledgerOperations == ledgerOperations) &&
             (identical(other.proofOfIntegrity, proofOfIntegrity) ||
@@ -238,12 +238,13 @@ class _$_ValidationStamp extends _ValidationStamp {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ValidationStampCopyWith<_$_ValidationStamp> get copyWith =>
-      __$$_ValidationStampCopyWithImpl<_$_ValidationStamp>(this, _$identity);
+  _$$ValidationStampImplCopyWith<_$ValidationStampImpl> get copyWith =>
+      __$$ValidationStampImplCopyWithImpl<_$ValidationStampImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ValidationStampToJson(
+    return _$$ValidationStampImplToJson(
       this,
     );
   }
@@ -255,11 +256,11 @@ abstract class _ValidationStamp extends ValidationStamp {
       final String? proofOfIntegrity,
       final String? proofOfWork,
       final String? signature,
-      final int? timestamp}) = _$_ValidationStamp;
+      final int? timestamp}) = _$ValidationStampImpl;
   const _ValidationStamp._() : super._();
 
   factory _ValidationStamp.fromJson(Map<String, dynamic> json) =
-      _$_ValidationStamp.fromJson;
+      _$ValidationStampImpl.fromJson;
 
   @override
 
@@ -283,6 +284,6 @@ abstract class _ValidationStamp extends ValidationStamp {
   int? get timestamp;
   @override
   @JsonKey(ignore: true)
-  _$$_ValidationStampCopyWith<_$_ValidationStamp> get copyWith =>
+  _$$ValidationStampImplCopyWith<_$ValidationStampImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

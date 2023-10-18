@@ -61,21 +61,22 @@ class _$UCOLedgerCopyWithImpl<$Res, $Val extends UCOLedger>
 }
 
 /// @nodoc
-abstract class _$$_UCOLedgerCopyWith<$Res> implements $UCOLedgerCopyWith<$Res> {
-  factory _$$_UCOLedgerCopyWith(
-          _$_UCOLedger value, $Res Function(_$_UCOLedger) then) =
-      __$$_UCOLedgerCopyWithImpl<$Res>;
+abstract class _$$UCOLedgerImplCopyWith<$Res>
+    implements $UCOLedgerCopyWith<$Res> {
+  factory _$$UCOLedgerImplCopyWith(
+          _$UCOLedgerImpl value, $Res Function(_$UCOLedgerImpl) then) =
+      __$$UCOLedgerImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<UCOTransfer> transfers});
 }
 
 /// @nodoc
-class __$$_UCOLedgerCopyWithImpl<$Res>
-    extends _$UCOLedgerCopyWithImpl<$Res, _$_UCOLedger>
-    implements _$$_UCOLedgerCopyWith<$Res> {
-  __$$_UCOLedgerCopyWithImpl(
-      _$_UCOLedger _value, $Res Function(_$_UCOLedger) _then)
+class __$$UCOLedgerImplCopyWithImpl<$Res>
+    extends _$UCOLedgerCopyWithImpl<$Res, _$UCOLedgerImpl>
+    implements _$$UCOLedgerImplCopyWith<$Res> {
+  __$$UCOLedgerImplCopyWithImpl(
+      _$UCOLedgerImpl _value, $Res Function(_$UCOLedgerImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -83,7 +84,7 @@ class __$$_UCOLedgerCopyWithImpl<$Res>
   $Res call({
     Object? transfers = null,
   }) {
-    return _then(_$_UCOLedger(
+    return _then(_$UCOLedgerImpl(
       transfers: null == transfers
           ? _value.transfers
           : transfers // ignore: cast_nullable_to_non_nullable
@@ -94,11 +95,11 @@ class __$$_UCOLedgerCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UCOLedger extends _UCOLedger {
-  const _$_UCOLedger({this.transfers = const []}) : super._();
+class _$UCOLedgerImpl extends _UCOLedger {
+  const _$UCOLedgerImpl({this.transfers = const []}) : super._();
 
-  factory _$_UCOLedger.fromJson(Map<String, dynamic> json) =>
-      _$$_UCOLedgerFromJson(json);
+  factory _$UCOLedgerImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UCOLedgerImplFromJson(json);
 
   @override
   @JsonKey()
@@ -113,7 +114,7 @@ class _$_UCOLedger extends _UCOLedger {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UCOLedger &&
+            other is _$UCOLedgerImpl &&
             const DeepCollectionEquality().equals(other.transfers, transfers));
   }
 
@@ -125,28 +126,29 @@ class _$_UCOLedger extends _UCOLedger {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UCOLedgerCopyWith<_$_UCOLedger> get copyWith =>
-      __$$_UCOLedgerCopyWithImpl<_$_UCOLedger>(this, _$identity);
+  _$$UCOLedgerImplCopyWith<_$UCOLedgerImpl> get copyWith =>
+      __$$UCOLedgerImplCopyWithImpl<_$UCOLedgerImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UCOLedgerToJson(
+    return _$$UCOLedgerImplToJson(
       this,
     );
   }
 }
 
 abstract class _UCOLedger extends UCOLedger {
-  const factory _UCOLedger({final List<UCOTransfer> transfers}) = _$_UCOLedger;
+  const factory _UCOLedger({final List<UCOTransfer> transfers}) =
+      _$UCOLedgerImpl;
   const _UCOLedger._() : super._();
 
   factory _UCOLedger.fromJson(Map<String, dynamic> json) =
-      _$_UCOLedger.fromJson;
+      _$UCOLedgerImpl.fromJson;
 
   @override
   List<UCOTransfer> get transfers;
   @override
   @JsonKey(ignore: true)
-  _$$_UCOLedgerCopyWith<_$_UCOLedger> get copyWith =>
+  _$$UCOLedgerImplCopyWith<_$UCOLedgerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

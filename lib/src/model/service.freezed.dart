@@ -72,20 +72,21 @@ class _$ServiceCopyWithImpl<$Res, $Val extends Service>
 }
 
 /// @nodoc
-abstract class _$$_ServiceCopyWith<$Res> implements $ServiceCopyWith<$Res> {
-  factory _$$_ServiceCopyWith(
-          _$_Service value, $Res Function(_$_Service) then) =
-      __$$_ServiceCopyWithImpl<$Res>;
+abstract class _$$ServiceImplCopyWith<$Res> implements $ServiceCopyWith<$Res> {
+  factory _$$ServiceImplCopyWith(
+          _$ServiceImpl value, $Res Function(_$ServiceImpl) then) =
+      __$$ServiceImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String derivationPath, String curve, String hashAlgo});
 }
 
 /// @nodoc
-class __$$_ServiceCopyWithImpl<$Res>
-    extends _$ServiceCopyWithImpl<$Res, _$_Service>
-    implements _$$_ServiceCopyWith<$Res> {
-  __$$_ServiceCopyWithImpl(_$_Service _value, $Res Function(_$_Service) _then)
+class __$$ServiceImplCopyWithImpl<$Res>
+    extends _$ServiceCopyWithImpl<$Res, _$ServiceImpl>
+    implements _$$ServiceImplCopyWith<$Res> {
+  __$$ServiceImplCopyWithImpl(
+      _$ServiceImpl _value, $Res Function(_$ServiceImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -95,7 +96,7 @@ class __$$_ServiceCopyWithImpl<$Res>
     Object? curve = null,
     Object? hashAlgo = null,
   }) {
-    return _then(_$_Service(
+    return _then(_$ServiceImpl(
       derivationPath: null == derivationPath
           ? _value.derivationPath
           : derivationPath // ignore: cast_nullable_to_non_nullable
@@ -114,15 +115,15 @@ class __$$_ServiceCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Service extends _Service {
-  const _$_Service(
+class _$ServiceImpl extends _Service {
+  const _$ServiceImpl(
       {required this.derivationPath,
       this.curve = 'ed25519',
       this.hashAlgo = 'sha256'})
       : super._();
 
-  factory _$_Service.fromJson(Map<String, dynamic> json) =>
-      _$$_ServiceFromJson(json);
+  factory _$ServiceImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ServiceImplFromJson(json);
 
   @override
   final String derivationPath;
@@ -142,7 +143,7 @@ class _$_Service extends _Service {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Service &&
+            other is _$ServiceImpl &&
             (identical(other.derivationPath, derivationPath) ||
                 other.derivationPath == derivationPath) &&
             (identical(other.curve, curve) || other.curve == curve) &&
@@ -157,12 +158,12 @@ class _$_Service extends _Service {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ServiceCopyWith<_$_Service> get copyWith =>
-      __$$_ServiceCopyWithImpl<_$_Service>(this, _$identity);
+  _$$ServiceImplCopyWith<_$ServiceImpl> get copyWith =>
+      __$$ServiceImplCopyWithImpl<_$ServiceImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ServiceToJson(
+    return _$$ServiceImplToJson(
       this,
     );
   }
@@ -172,10 +173,10 @@ abstract class _Service extends Service {
   const factory _Service(
       {required final String derivationPath,
       final String curve,
-      final String hashAlgo}) = _$_Service;
+      final String hashAlgo}) = _$ServiceImpl;
   const _Service._() : super._();
 
-  factory _Service.fromJson(Map<String, dynamic> json) = _$_Service.fromJson;
+  factory _Service.fromJson(Map<String, dynamic> json) = _$ServiceImpl.fromJson;
 
   @override
   String get derivationPath;
@@ -185,6 +186,6 @@ abstract class _Service extends Service {
   String get hashAlgo;
   @override
   @JsonKey(ignore: true)
-  _$$_ServiceCopyWith<_$_Service> get copyWith =>
+  _$$ServiceImplCopyWith<_$ServiceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

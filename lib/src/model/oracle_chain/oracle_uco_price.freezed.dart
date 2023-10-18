@@ -82,11 +82,11 @@ class _$OracleUcoPriceCopyWithImpl<$Res, $Val extends OracleUcoPrice>
 }
 
 /// @nodoc
-abstract class _$$_OracleUcoPriceCopyWith<$Res>
+abstract class _$$OracleUcoPriceImplCopyWith<$Res>
     implements $OracleUcoPriceCopyWith<$Res> {
-  factory _$$_OracleUcoPriceCopyWith(
-          _$_OracleUcoPrice value, $Res Function(_$_OracleUcoPrice) then) =
-      __$$_OracleUcoPriceCopyWithImpl<$Res>;
+  factory _$$OracleUcoPriceImplCopyWith(_$OracleUcoPriceImpl value,
+          $Res Function(_$OracleUcoPriceImpl) then) =
+      __$$OracleUcoPriceImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Uco? uco, int? timestamp});
@@ -96,11 +96,11 @@ abstract class _$$_OracleUcoPriceCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_OracleUcoPriceCopyWithImpl<$Res>
-    extends _$OracleUcoPriceCopyWithImpl<$Res, _$_OracleUcoPrice>
-    implements _$$_OracleUcoPriceCopyWith<$Res> {
-  __$$_OracleUcoPriceCopyWithImpl(
-      _$_OracleUcoPrice _value, $Res Function(_$_OracleUcoPrice) _then)
+class __$$OracleUcoPriceImplCopyWithImpl<$Res>
+    extends _$OracleUcoPriceCopyWithImpl<$Res, _$OracleUcoPriceImpl>
+    implements _$$OracleUcoPriceImplCopyWith<$Res> {
+  __$$OracleUcoPriceImplCopyWithImpl(
+      _$OracleUcoPriceImpl _value, $Res Function(_$OracleUcoPriceImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -109,7 +109,7 @@ class __$$_OracleUcoPriceCopyWithImpl<$Res>
     Object? uco = freezed,
     Object? timestamp = freezed,
   }) {
-    return _then(_$_OracleUcoPrice(
+    return _then(_$OracleUcoPriceImpl(
       uco: freezed == uco
           ? _value.uco
           : uco // ignore: cast_nullable_to_non_nullable
@@ -124,11 +124,11 @@ class __$$_OracleUcoPriceCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_OracleUcoPrice extends _OracleUcoPrice {
-  const _$_OracleUcoPrice({this.uco, this.timestamp}) : super._();
+class _$OracleUcoPriceImpl extends _OracleUcoPrice {
+  const _$OracleUcoPriceImpl({this.uco, this.timestamp}) : super._();
 
-  factory _$_OracleUcoPrice.fromJson(Map<String, dynamic> json) =>
-      _$$_OracleUcoPriceFromJson(json);
+  factory _$OracleUcoPriceImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OracleUcoPriceImplFromJson(json);
 
   @override
   final Uco? uco;
@@ -144,7 +144,7 @@ class _$_OracleUcoPrice extends _OracleUcoPrice {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OracleUcoPrice &&
+            other is _$OracleUcoPriceImpl &&
             (identical(other.uco, uco) || other.uco == uco) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp));
@@ -157,12 +157,13 @@ class _$_OracleUcoPrice extends _OracleUcoPrice {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OracleUcoPriceCopyWith<_$_OracleUcoPrice> get copyWith =>
-      __$$_OracleUcoPriceCopyWithImpl<_$_OracleUcoPrice>(this, _$identity);
+  _$$OracleUcoPriceImplCopyWith<_$OracleUcoPriceImpl> get copyWith =>
+      __$$OracleUcoPriceImplCopyWithImpl<_$OracleUcoPriceImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_OracleUcoPriceToJson(
+    return _$$OracleUcoPriceImplToJson(
       this,
     );
   }
@@ -170,11 +171,11 @@ class _$_OracleUcoPrice extends _OracleUcoPrice {
 
 abstract class _OracleUcoPrice extends OracleUcoPrice {
   const factory _OracleUcoPrice({final Uco? uco, final int? timestamp}) =
-      _$_OracleUcoPrice;
+      _$OracleUcoPriceImpl;
   const _OracleUcoPrice._() : super._();
 
   factory _OracleUcoPrice.fromJson(Map<String, dynamic> json) =
-      _$_OracleUcoPrice.fromJson;
+      _$OracleUcoPriceImpl.fromJson;
 
   @override
   Uco? get uco;
@@ -182,6 +183,6 @@ abstract class _OracleUcoPrice extends OracleUcoPrice {
   int? get timestamp;
   @override
   @JsonKey(ignore: true)
-  _$$_OracleUcoPriceCopyWith<_$_OracleUcoPrice> get copyWith =>
+  _$$OracleUcoPriceImplCopyWith<_$OracleUcoPriceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

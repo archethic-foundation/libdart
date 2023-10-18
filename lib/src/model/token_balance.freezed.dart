@@ -79,22 +79,22 @@ class _$TokenBalanceCopyWithImpl<$Res, $Val extends TokenBalance>
 }
 
 /// @nodoc
-abstract class _$$_TokenBalanceCopyWith<$Res>
+abstract class _$$TokenBalanceImplCopyWith<$Res>
     implements $TokenBalanceCopyWith<$Res> {
-  factory _$$_TokenBalanceCopyWith(
-          _$_TokenBalance value, $Res Function(_$_TokenBalance) then) =
-      __$$_TokenBalanceCopyWithImpl<$Res>;
+  factory _$$TokenBalanceImplCopyWith(
+          _$TokenBalanceImpl value, $Res Function(_$TokenBalanceImpl) then) =
+      __$$TokenBalanceImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? address, int? amount, int? tokenId});
 }
 
 /// @nodoc
-class __$$_TokenBalanceCopyWithImpl<$Res>
-    extends _$TokenBalanceCopyWithImpl<$Res, _$_TokenBalance>
-    implements _$$_TokenBalanceCopyWith<$Res> {
-  __$$_TokenBalanceCopyWithImpl(
-      _$_TokenBalance _value, $Res Function(_$_TokenBalance) _then)
+class __$$TokenBalanceImplCopyWithImpl<$Res>
+    extends _$TokenBalanceCopyWithImpl<$Res, _$TokenBalanceImpl>
+    implements _$$TokenBalanceImplCopyWith<$Res> {
+  __$$TokenBalanceImplCopyWithImpl(
+      _$TokenBalanceImpl _value, $Res Function(_$TokenBalanceImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -104,7 +104,7 @@ class __$$_TokenBalanceCopyWithImpl<$Res>
     Object? amount = freezed,
     Object? tokenId = freezed,
   }) {
-    return _then(_$_TokenBalance(
+    return _then(_$TokenBalanceImpl(
       address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -123,11 +123,12 @@ class __$$_TokenBalanceCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TokenBalance extends _TokenBalance {
-  const _$_TokenBalance({this.address, this.amount, this.tokenId}) : super._();
+class _$TokenBalanceImpl extends _TokenBalance {
+  const _$TokenBalanceImpl({this.address, this.amount, this.tokenId})
+      : super._();
 
-  factory _$_TokenBalance.fromJson(Map<String, dynamic> json) =>
-      _$$_TokenBalanceFromJson(json);
+  factory _$TokenBalanceImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TokenBalanceImplFromJson(json);
 
   /// token: address of the token
   @override
@@ -150,7 +151,7 @@ class _$_TokenBalance extends _TokenBalance {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TokenBalance &&
+            other is _$TokenBalanceImpl &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.tokenId, tokenId) || other.tokenId == tokenId));
@@ -163,12 +164,12 @@ class _$_TokenBalance extends _TokenBalance {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TokenBalanceCopyWith<_$_TokenBalance> get copyWith =>
-      __$$_TokenBalanceCopyWithImpl<_$_TokenBalance>(this, _$identity);
+  _$$TokenBalanceImplCopyWith<_$TokenBalanceImpl> get copyWith =>
+      __$$TokenBalanceImplCopyWithImpl<_$TokenBalanceImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TokenBalanceToJson(
+    return _$$TokenBalanceImplToJson(
       this,
     );
   }
@@ -178,11 +179,11 @@ abstract class _TokenBalance extends TokenBalance {
   const factory _TokenBalance(
       {final String? address,
       final int? amount,
-      final int? tokenId}) = _$_TokenBalance;
+      final int? tokenId}) = _$TokenBalanceImpl;
   const _TokenBalance._() : super._();
 
   factory _TokenBalance.fromJson(Map<String, dynamic> json) =
-      _$_TokenBalance.fromJson;
+      _$TokenBalanceImpl.fromJson;
 
   @override
 
@@ -198,6 +199,6 @@ abstract class _TokenBalance extends TokenBalance {
   int? get tokenId;
   @override
   @JsonKey(ignore: true)
-  _$$_TokenBalanceCopyWith<_$_TokenBalance> get copyWith =>
+  _$$TokenBalanceImplCopyWith<_$TokenBalanceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

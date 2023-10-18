@@ -80,22 +80,22 @@ class _$TokenTransferCopyWithImpl<$Res, $Val extends TokenTransfer>
 }
 
 /// @nodoc
-abstract class _$$_TokenTransferCopyWith<$Res>
+abstract class _$$TokenTransferImplCopyWith<$Res>
     implements $TokenTransferCopyWith<$Res> {
-  factory _$$_TokenTransferCopyWith(
-          _$_TokenTransfer value, $Res Function(_$_TokenTransfer) then) =
-      __$$_TokenTransferCopyWithImpl<$Res>;
+  factory _$$TokenTransferImplCopyWith(
+          _$TokenTransferImpl value, $Res Function(_$TokenTransferImpl) then) =
+      __$$TokenTransferImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int? amount, String? to, String? tokenAddress, int? tokenId});
 }
 
 /// @nodoc
-class __$$_TokenTransferCopyWithImpl<$Res>
-    extends _$TokenTransferCopyWithImpl<$Res, _$_TokenTransfer>
-    implements _$$_TokenTransferCopyWith<$Res> {
-  __$$_TokenTransferCopyWithImpl(
-      _$_TokenTransfer _value, $Res Function(_$_TokenTransfer) _then)
+class __$$TokenTransferImplCopyWithImpl<$Res>
+    extends _$TokenTransferCopyWithImpl<$Res, _$TokenTransferImpl>
+    implements _$$TokenTransferImplCopyWith<$Res> {
+  __$$TokenTransferImplCopyWithImpl(
+      _$TokenTransferImpl _value, $Res Function(_$TokenTransferImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -106,7 +106,7 @@ class __$$_TokenTransferCopyWithImpl<$Res>
     Object? tokenAddress = freezed,
     Object? tokenId = freezed,
   }) {
-    return _then(_$_TokenTransfer(
+    return _then(_$TokenTransferImpl(
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -129,13 +129,13 @@ class __$$_TokenTransferCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TokenTransfer extends _TokenTransfer {
-  const _$_TokenTransfer(
+class _$TokenTransferImpl extends _TokenTransfer {
+  const _$TokenTransferImpl(
       {this.amount, this.to, this.tokenAddress, this.tokenId})
       : super._();
 
-  factory _$_TokenTransfer.fromJson(Map<String, dynamic> json) =>
-      _$$_TokenTransferFromJson(json);
+  factory _$TokenTransferImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TokenTransferImplFromJson(json);
 
   @override
   final int? amount;
@@ -155,7 +155,7 @@ class _$_TokenTransfer extends _TokenTransfer {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TokenTransfer &&
+            other is _$TokenTransferImpl &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.to, to) || other.to == to) &&
             (identical(other.tokenAddress, tokenAddress) ||
@@ -171,12 +171,12 @@ class _$_TokenTransfer extends _TokenTransfer {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TokenTransferCopyWith<_$_TokenTransfer> get copyWith =>
-      __$$_TokenTransferCopyWithImpl<_$_TokenTransfer>(this, _$identity);
+  _$$TokenTransferImplCopyWith<_$TokenTransferImpl> get copyWith =>
+      __$$TokenTransferImplCopyWithImpl<_$TokenTransferImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TokenTransferToJson(
+    return _$$TokenTransferImplToJson(
       this,
     );
   }
@@ -187,11 +187,11 @@ abstract class _TokenTransfer extends TokenTransfer {
       {final int? amount,
       final String? to,
       final String? tokenAddress,
-      final int? tokenId}) = _$_TokenTransfer;
+      final int? tokenId}) = _$TokenTransferImpl;
   const _TokenTransfer._() : super._();
 
   factory _TokenTransfer.fromJson(Map<String, dynamic> json) =
-      _$_TokenTransfer.fromJson;
+      _$TokenTransferImpl.fromJson;
 
   @override
   int? get amount;
@@ -203,6 +203,6 @@ abstract class _TokenTransfer extends TokenTransfer {
   int? get tokenId;
   @override
   @JsonKey(ignore: true)
-  _$$_TokenTransferCopyWith<_$_TokenTransfer> get copyWith =>
+  _$$TokenTransferImplCopyWith<_$TokenTransferImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

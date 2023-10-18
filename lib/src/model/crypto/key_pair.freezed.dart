@@ -65,10 +65,10 @@ class _$KeyPairCopyWithImpl<$Res, $Val extends KeyPair>
 }
 
 /// @nodoc
-abstract class _$$_KeyPairCopyWith<$Res> implements $KeyPairCopyWith<$Res> {
-  factory _$$_KeyPairCopyWith(
-          _$_KeyPair value, $Res Function(_$_KeyPair) then) =
-      __$$_KeyPairCopyWithImpl<$Res>;
+abstract class _$$KeyPairImplCopyWith<$Res> implements $KeyPairCopyWith<$Res> {
+  factory _$$KeyPairImplCopyWith(
+          _$KeyPairImpl value, $Res Function(_$KeyPairImpl) then) =
+      __$$KeyPairImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -77,10 +77,11 @@ abstract class _$$_KeyPairCopyWith<$Res> implements $KeyPairCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_KeyPairCopyWithImpl<$Res>
-    extends _$KeyPairCopyWithImpl<$Res, _$_KeyPair>
-    implements _$$_KeyPairCopyWith<$Res> {
-  __$$_KeyPairCopyWithImpl(_$_KeyPair _value, $Res Function(_$_KeyPair) _then)
+class __$$KeyPairImplCopyWithImpl<$Res>
+    extends _$KeyPairCopyWithImpl<$Res, _$KeyPairImpl>
+    implements _$$KeyPairImplCopyWith<$Res> {
+  __$$KeyPairImplCopyWithImpl(
+      _$KeyPairImpl _value, $Res Function(_$KeyPairImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -89,7 +90,7 @@ class __$$_KeyPairCopyWithImpl<$Res>
     Object? privateKey = freezed,
     Object? publicKey = freezed,
   }) {
-    return _then(_$_KeyPair(
+    return _then(_$KeyPairImpl(
       privateKey: freezed == privateKey
           ? _value.privateKey
           : privateKey // ignore: cast_nullable_to_non_nullable
@@ -104,8 +105,8 @@ class __$$_KeyPairCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_KeyPair extends _KeyPair {
-  const _$_KeyPair(
+class _$KeyPairImpl extends _KeyPair {
+  const _$KeyPairImpl(
       {@Uint8ListConverter() this.privateKey,
       @Uint8ListConverter() this.publicKey})
       : super._();
@@ -126,7 +127,7 @@ class _$_KeyPair extends _KeyPair {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_KeyPair &&
+            other is _$KeyPairImpl &&
             const DeepCollectionEquality()
                 .equals(other.privateKey, privateKey) &&
             const DeepCollectionEquality().equals(other.publicKey, publicKey));
@@ -141,14 +142,14 @@ class _$_KeyPair extends _KeyPair {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_KeyPairCopyWith<_$_KeyPair> get copyWith =>
-      __$$_KeyPairCopyWithImpl<_$_KeyPair>(this, _$identity);
+  _$$KeyPairImplCopyWith<_$KeyPairImpl> get copyWith =>
+      __$$KeyPairImplCopyWithImpl<_$KeyPairImpl>(this, _$identity);
 }
 
 abstract class _KeyPair extends KeyPair {
   const factory _KeyPair(
       {@Uint8ListConverter() final Uint8List? privateKey,
-      @Uint8ListConverter() final Uint8List? publicKey}) = _$_KeyPair;
+      @Uint8ListConverter() final Uint8List? publicKey}) = _$KeyPairImpl;
   const _KeyPair._() : super._();
 
   @override
@@ -159,6 +160,6 @@ abstract class _KeyPair extends KeyPair {
   Uint8List? get publicKey;
   @override
   @JsonKey(ignore: true)
-  _$$_KeyPairCopyWith<_$_KeyPair> get copyWith =>
+  _$$KeyPairImplCopyWith<_$KeyPairImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

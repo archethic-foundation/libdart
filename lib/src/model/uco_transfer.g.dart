@@ -6,13 +6,13 @@ part of 'uco_transfer.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_UCOTransfer _$$_UCOTransferFromJson(Map<String, dynamic> json) =>
-    _$_UCOTransfer(
+_$UCOTransferImpl _$$UCOTransferImplFromJson(Map<String, dynamic> json) =>
+    _$UCOTransferImpl(
       amount: json['amount'] as int?,
       to: json['to'] as String?,
     );
 
-Map<String, dynamic> _$$_UCOTransferToJson(_$_UCOTransfer instance) =>
+Map<String, dynamic> _$$UCOTransferImplToJson(_$UCOTransferImpl instance) =>
     <String, dynamic>{
       'amount': instance.amount,
       'to': instance.to,

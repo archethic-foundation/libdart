@@ -6,8 +6,8 @@ part of 'unspent_outputs.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_UnspentOutputs _$$_UnspentOutputsFromJson(Map<String, dynamic> json) =>
-    _$_UnspentOutputs(
+_$UnspentOutputsImpl _$$UnspentOutputsImplFromJson(Map<String, dynamic> json) =>
+    _$UnspentOutputsImpl(
       amount: json['amount'] as int?,
       tokenAddress: json['tokenAddress'] as String?,
       type: json['type'] as String?,
@@ -17,7 +17,8 @@ _$_UnspentOutputs _$$_UnspentOutputsFromJson(Map<String, dynamic> json) =>
       version: json['version'] as int?,
     );
 
-Map<String, dynamic> _$$_UnspentOutputsToJson(_$_UnspentOutputs instance) =>
+Map<String, dynamic> _$$UnspentOutputsImplToJson(
+        _$UnspentOutputsImpl instance) =>
     <String, dynamic>{
       'amount': instance.amount,
       'tokenAddress': instance.tokenAddress,

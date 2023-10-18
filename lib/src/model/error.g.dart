@@ -6,7 +6,7 @@ part of 'error.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Error _$$_ErrorFromJson(Map<String, dynamic> json) => _$_Error(
+_$ErrorImpl _$$ErrorImplFromJson(Map<String, dynamic> json) => _$ErrorImpl(
       locations: (json['locations'] as List<dynamic>?)
               ?.map((e) => Location.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -17,7 +17,8 @@ _$_Error _$$_ErrorFromJson(Map<String, dynamic> json) => _$_Error(
               const [],
     );
 
-Map<String, dynamic> _$$_ErrorToJson(_$_Error instance) => <String, dynamic>{
+Map<String, dynamic> _$$ErrorImplToJson(_$ErrorImpl instance) =>
+    <String, dynamic>{
       'locations': instance.locations,
       'message': instance.message,
       'path': instance.path,

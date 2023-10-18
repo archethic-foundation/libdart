@@ -6,13 +6,14 @@ part of 'service.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Service _$$_ServiceFromJson(Map<String, dynamic> json) => _$_Service(
+_$ServiceImpl _$$ServiceImplFromJson(Map<String, dynamic> json) =>
+    _$ServiceImpl(
       derivationPath: json['derivationPath'] as String,
       curve: json['curve'] as String? ?? 'ed25519',
       hashAlgo: json['hashAlgo'] as String? ?? 'sha256',
     );
 
-Map<String, dynamic> _$$_ServiceToJson(_$_Service instance) =>
+Map<String, dynamic> _$$ServiceImplToJson(_$ServiceImpl instance) =>
     <String, dynamic>{
       'derivationPath': instance.derivationPath,
       'curve': instance.curve,

@@ -85,11 +85,11 @@ class _$HostingRefCopyWithImpl<$Res, $Val extends HostingRef>
 }
 
 /// @nodoc
-abstract class _$$_HostingRefCopyWith<$Res>
+abstract class _$$HostingRefImplCopyWith<$Res>
     implements $HostingRefCopyWith<$Res> {
-  factory _$$_HostingRefCopyWith(
-          _$_HostingRef value, $Res Function(_$_HostingRef) then) =
-      __$$_HostingRefCopyWithImpl<$Res>;
+  factory _$$HostingRefImplCopyWith(
+          _$HostingRefImpl value, $Res Function(_$HostingRefImpl) then) =
+      __$$HostingRefImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -100,11 +100,11 @@ abstract class _$$_HostingRefCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_HostingRefCopyWithImpl<$Res>
-    extends _$HostingRefCopyWithImpl<$Res, _$_HostingRef>
-    implements _$$_HostingRefCopyWith<$Res> {
-  __$$_HostingRefCopyWithImpl(
-      _$_HostingRef _value, $Res Function(_$_HostingRef) _then)
+class __$$HostingRefImplCopyWithImpl<$Res>
+    extends _$HostingRefCopyWithImpl<$Res, _$HostingRefImpl>
+    implements _$$HostingRefImplCopyWith<$Res> {
+  __$$HostingRefImplCopyWithImpl(
+      _$HostingRefImpl _value, $Res Function(_$HostingRefImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -115,7 +115,7 @@ class __$$_HostingRefCopyWithImpl<$Res>
     Object? metaData = null,
     Object? sslCertificate = null,
   }) {
-    return _then(_$_HostingRef(
+    return _then(_$HostingRefImpl(
       aewebVersion: null == aewebVersion
           ? _value.aewebVersion
           : aewebVersion // ignore: cast_nullable_to_non_nullable
@@ -138,8 +138,8 @@ class __$$_HostingRefCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_HostingRef extends _HostingRef {
-  const _$_HostingRef(
+class _$HostingRefImpl extends _HostingRef {
+  const _$HostingRefImpl(
       {this.aewebVersion = 1,
       this.hashFunction = 'sha1',
       final Map<String, HostingRefContentMetaData> metaData = const {},
@@ -147,8 +147,8 @@ class _$_HostingRef extends _HostingRef {
       : _metaData = metaData,
         super._();
 
-  factory _$_HostingRef.fromJson(Map<String, dynamic> json) =>
-      _$$_HostingRefFromJson(json);
+  factory _$HostingRefImpl.fromJson(Map<String, dynamic> json) =>
+      _$$HostingRefImplFromJson(json);
 
   @override
   @JsonKey()
@@ -178,7 +178,7 @@ class _$_HostingRef extends _HostingRef {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_HostingRef &&
+            other is _$HostingRefImpl &&
             (identical(other.aewebVersion, aewebVersion) ||
                 other.aewebVersion == aewebVersion) &&
             (identical(other.hashFunction, hashFunction) ||
@@ -196,12 +196,12 @@ class _$_HostingRef extends _HostingRef {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_HostingRefCopyWith<_$_HostingRef> get copyWith =>
-      __$$_HostingRefCopyWithImpl<_$_HostingRef>(this, _$identity);
+  _$$HostingRefImplCopyWith<_$HostingRefImpl> get copyWith =>
+      __$$HostingRefImplCopyWithImpl<_$HostingRefImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_HostingRefToJson(
+    return _$$HostingRefImplToJson(
       this,
     );
   }
@@ -212,11 +212,11 @@ abstract class _HostingRef extends HostingRef {
       {final int aewebVersion,
       final String hashFunction,
       final Map<String, HostingRefContentMetaData> metaData,
-      final String sslCertificate}) = _$_HostingRef;
+      final String sslCertificate}) = _$HostingRefImpl;
   const _HostingRef._() : super._();
 
   factory _HostingRef.fromJson(Map<String, dynamic> json) =
-      _$_HostingRef.fromJson;
+      _$HostingRefImpl.fromJson;
 
   @override
   int get aewebVersion;
@@ -228,6 +228,6 @@ abstract class _HostingRef extends HostingRef {
   String get sslCertificate;
   @override
   @JsonKey(ignore: true)
-  _$$_HostingRefCopyWith<_$_HostingRef> get copyWith =>
+  _$$HostingRefImplCopyWith<_$HostingRefImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

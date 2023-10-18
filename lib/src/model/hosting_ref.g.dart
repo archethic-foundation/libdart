@@ -6,8 +6,8 @@ part of 'hosting_ref.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_HostingRef _$$_HostingRefFromJson(Map<String, dynamic> json) =>
-    _$_HostingRef(
+_$HostingRefImpl _$$HostingRefImplFromJson(Map<String, dynamic> json) =>
+    _$HostingRefImpl(
       aewebVersion: json['aewebVersion'] as int? ?? 1,
       hashFunction: json['hashFunction'] as String? ?? 'sha1',
       metaData: (json['metaData'] as Map<String, dynamic>?)?.map(
@@ -18,7 +18,7 @@ _$_HostingRef _$$_HostingRefFromJson(Map<String, dynamic> json) =>
       sslCertificate: json['sslCertificate'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$_HostingRefToJson(_$_HostingRef instance) =>
+Map<String, dynamic> _$$HostingRefImplToJson(_$HostingRefImpl instance) =>
     <String, dynamic>{
       'aewebVersion': instance.aewebVersion,
       'hashFunction': instance.hashFunction,

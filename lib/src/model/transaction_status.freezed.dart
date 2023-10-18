@@ -62,22 +62,22 @@ class _$TransactionStatusCopyWithImpl<$Res, $Val extends TransactionStatus>
 }
 
 /// @nodoc
-abstract class _$$_TransactionStatusCopyWith<$Res>
+abstract class _$$TransactionStatusImplCopyWith<$Res>
     implements $TransactionStatusCopyWith<$Res> {
-  factory _$$_TransactionStatusCopyWith(_$_TransactionStatus value,
-          $Res Function(_$_TransactionStatus) then) =
-      __$$_TransactionStatusCopyWithImpl<$Res>;
+  factory _$$TransactionStatusImplCopyWith(_$TransactionStatusImpl value,
+          $Res Function(_$TransactionStatusImpl) then) =
+      __$$TransactionStatusImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? status});
 }
 
 /// @nodoc
-class __$$_TransactionStatusCopyWithImpl<$Res>
-    extends _$TransactionStatusCopyWithImpl<$Res, _$_TransactionStatus>
-    implements _$$_TransactionStatusCopyWith<$Res> {
-  __$$_TransactionStatusCopyWithImpl(
-      _$_TransactionStatus _value, $Res Function(_$_TransactionStatus) _then)
+class __$$TransactionStatusImplCopyWithImpl<$Res>
+    extends _$TransactionStatusCopyWithImpl<$Res, _$TransactionStatusImpl>
+    implements _$$TransactionStatusImplCopyWith<$Res> {
+  __$$TransactionStatusImplCopyWithImpl(_$TransactionStatusImpl _value,
+      $Res Function(_$TransactionStatusImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -85,7 +85,7 @@ class __$$_TransactionStatusCopyWithImpl<$Res>
   $Res call({
     Object? status = freezed,
   }) {
-    return _then(_$_TransactionStatus(
+    return _then(_$TransactionStatusImpl(
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -96,11 +96,11 @@ class __$$_TransactionStatusCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TransactionStatus extends _TransactionStatus {
-  const _$_TransactionStatus({this.status}) : super._();
+class _$TransactionStatusImpl extends _TransactionStatus {
+  const _$TransactionStatusImpl({this.status}) : super._();
 
-  factory _$_TransactionStatus.fromJson(Map<String, dynamic> json) =>
-      _$$_TransactionStatusFromJson(json);
+  factory _$TransactionStatusImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TransactionStatusImplFromJson(json);
 
   @override
   final String? status;
@@ -114,7 +114,7 @@ class _$_TransactionStatus extends _TransactionStatus {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionStatus &&
+            other is _$TransactionStatusImpl &&
             (identical(other.status, status) || other.status == status));
   }
 
@@ -125,13 +125,13 @@ class _$_TransactionStatus extends _TransactionStatus {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TransactionStatusCopyWith<_$_TransactionStatus> get copyWith =>
-      __$$_TransactionStatusCopyWithImpl<_$_TransactionStatus>(
+  _$$TransactionStatusImplCopyWith<_$TransactionStatusImpl> get copyWith =>
+      __$$TransactionStatusImplCopyWithImpl<_$TransactionStatusImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TransactionStatusToJson(
+    return _$$TransactionStatusImplToJson(
       this,
     );
   }
@@ -139,16 +139,16 @@ class _$_TransactionStatus extends _TransactionStatus {
 
 abstract class _TransactionStatus extends TransactionStatus {
   const factory _TransactionStatus({final String? status}) =
-      _$_TransactionStatus;
+      _$TransactionStatusImpl;
   const _TransactionStatus._() : super._();
 
   factory _TransactionStatus.fromJson(Map<String, dynamic> json) =
-      _$_TransactionStatus.fromJson;
+      _$TransactionStatusImpl.fromJson;
 
   @override
   String? get status;
   @override
   @JsonKey(ignore: true)
-  _$$_TransactionStatusCopyWith<_$_TransactionStatus> get copyWith =>
+  _$$TransactionStatusImplCopyWith<_$TransactionStatusImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -6,7 +6,7 @@ part of 'ledger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Ledger _$$_LedgerFromJson(Map<String, dynamic> json) => _$_Ledger(
+_$LedgerImpl _$$LedgerImplFromJson(Map<String, dynamic> json) => _$LedgerImpl(
       token: json['token'] == null
           ? null
           : TokenLedger.fromJson(json['token'] as Map<String, dynamic>),
@@ -15,7 +15,8 @@ _$_Ledger _$$_LedgerFromJson(Map<String, dynamic> json) => _$_Ledger(
           : UCOLedger.fromJson(json['uco'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_LedgerToJson(_$_Ledger instance) => <String, dynamic>{
+Map<String, dynamic> _$$LedgerImplToJson(_$LedgerImpl instance) =>
+    <String, dynamic>{
       'token': instance.token,
       'uco': instance.uco,
     };

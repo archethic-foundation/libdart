@@ -65,11 +65,12 @@ class _$TransactionNotificationCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_TransactionNotificationCopyWith<$Res>
+abstract class _$$TransactionNotificationImplCopyWith<$Res>
     implements $TransactionNotificationCopyWith<$Res> {
-  factory _$$_TransactionNotificationCopyWith(_$_TransactionNotification value,
-          $Res Function(_$_TransactionNotification) then) =
-      __$$_TransactionNotificationCopyWithImpl<$Res>;
+  factory _$$TransactionNotificationImplCopyWith(
+          _$TransactionNotificationImpl value,
+          $Res Function(_$TransactionNotificationImpl) then) =
+      __$$TransactionNotificationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -77,12 +78,13 @@ abstract class _$$_TransactionNotificationCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TransactionNotificationCopyWithImpl<$Res>
+class __$$TransactionNotificationImplCopyWithImpl<$Res>
     extends _$TransactionNotificationCopyWithImpl<$Res,
-        _$_TransactionNotification>
-    implements _$$_TransactionNotificationCopyWith<$Res> {
-  __$$_TransactionNotificationCopyWithImpl(_$_TransactionNotification _value,
-      $Res Function(_$_TransactionNotification) _then)
+        _$TransactionNotificationImpl>
+    implements _$$TransactionNotificationImplCopyWith<$Res> {
+  __$$TransactionNotificationImplCopyWithImpl(
+      _$TransactionNotificationImpl _value,
+      $Res Function(_$TransactionNotificationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -91,7 +93,7 @@ class __$$_TransactionNotificationCopyWithImpl<$Res>
     Object? notificationRecipientAddress = null,
     Object? listenAddresses = null,
   }) {
-    return _then(_$_TransactionNotification(
+    return _then(_$TransactionNotificationImpl(
       notificationRecipientAddress: null == notificationRecipientAddress
           ? _value.notificationRecipientAddress
           : notificationRecipientAddress // ignore: cast_nullable_to_non_nullable
@@ -106,8 +108,8 @@ class __$$_TransactionNotificationCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TransactionNotification extends _TransactionNotification {
-  const _$_TransactionNotification(
+class _$TransactionNotificationImpl extends _TransactionNotification {
+  const _$TransactionNotificationImpl(
       {required this.notificationRecipientAddress,
       required final List<String> listenAddresses})
       : _listenAddresses = listenAddresses,
@@ -132,7 +134,7 @@ class _$_TransactionNotification extends _TransactionNotification {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionNotification &&
+            other is _$TransactionNotificationImpl &&
             (identical(other.notificationRecipientAddress,
                     notificationRecipientAddress) ||
                 other.notificationRecipientAddress ==
@@ -148,17 +150,16 @@ class _$_TransactionNotification extends _TransactionNotification {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TransactionNotificationCopyWith<_$_TransactionNotification>
-      get copyWith =>
-          __$$_TransactionNotificationCopyWithImpl<_$_TransactionNotification>(
-              this, _$identity);
+  _$$TransactionNotificationImplCopyWith<_$TransactionNotificationImpl>
+      get copyWith => __$$TransactionNotificationImplCopyWithImpl<
+          _$TransactionNotificationImpl>(this, _$identity);
 }
 
 abstract class _TransactionNotification extends TransactionNotification {
   const factory _TransactionNotification(
           {required final String notificationRecipientAddress,
           required final List<String> listenAddresses}) =
-      _$_TransactionNotification;
+      _$TransactionNotificationImpl;
   const _TransactionNotification._() : super._();
 
   @override
@@ -167,7 +168,7 @@ abstract class _TransactionNotification extends TransactionNotification {
   List<String> get listenAddresses;
   @override
   @JsonKey(ignore: true)
-  _$$_TransactionNotificationCopyWith<_$_TransactionNotification>
+  _$$TransactionNotificationImplCopyWith<_$TransactionNotificationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -225,22 +226,22 @@ class _$PushNotificationCopyWithImpl<$Res, $Val extends PushNotification>
 }
 
 /// @nodoc
-abstract class _$$_PushNotificationCopyWith<$Res>
+abstract class _$$PushNotificationImplCopyWith<$Res>
     implements $PushNotificationCopyWith<$Res> {
-  factory _$$_PushNotificationCopyWith(
-          _$_PushNotification value, $Res Function(_$_PushNotification) then) =
-      __$$_PushNotificationCopyWithImpl<$Res>;
+  factory _$$PushNotificationImplCopyWith(_$PushNotificationImpl value,
+          $Res Function(_$PushNotificationImpl) then) =
+      __$$PushNotificationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? title, String? body});
 }
 
 /// @nodoc
-class __$$_PushNotificationCopyWithImpl<$Res>
-    extends _$PushNotificationCopyWithImpl<$Res, _$_PushNotification>
-    implements _$$_PushNotificationCopyWith<$Res> {
-  __$$_PushNotificationCopyWithImpl(
-      _$_PushNotification _value, $Res Function(_$_PushNotification) _then)
+class __$$PushNotificationImplCopyWithImpl<$Res>
+    extends _$PushNotificationCopyWithImpl<$Res, _$PushNotificationImpl>
+    implements _$$PushNotificationImplCopyWith<$Res> {
+  __$$PushNotificationImplCopyWithImpl(_$PushNotificationImpl _value,
+      $Res Function(_$PushNotificationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -249,7 +250,7 @@ class __$$_PushNotificationCopyWithImpl<$Res>
     Object? title = freezed,
     Object? body = freezed,
   }) {
-    return _then(_$_PushNotification(
+    return _then(_$PushNotificationImpl(
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -264,11 +265,11 @@ class __$$_PushNotificationCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PushNotification extends _PushNotification {
-  const _$_PushNotification({this.title, this.body}) : super._();
+class _$PushNotificationImpl extends _PushNotification {
+  const _$PushNotificationImpl({this.title, this.body}) : super._();
 
-  factory _$_PushNotification.fromJson(Map<String, dynamic> json) =>
-      _$$_PushNotificationFromJson(json);
+  factory _$PushNotificationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PushNotificationImplFromJson(json);
 
   @override
   final String? title;
@@ -284,7 +285,7 @@ class _$_PushNotification extends _PushNotification {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PushNotification &&
+            other is _$PushNotificationImpl &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.body, body) || other.body == body));
   }
@@ -296,12 +297,13 @@ class _$_PushNotification extends _PushNotification {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PushNotificationCopyWith<_$_PushNotification> get copyWith =>
-      __$$_PushNotificationCopyWithImpl<_$_PushNotification>(this, _$identity);
+  _$$PushNotificationImplCopyWith<_$PushNotificationImpl> get copyWith =>
+      __$$PushNotificationImplCopyWithImpl<_$PushNotificationImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PushNotificationToJson(
+    return _$$PushNotificationImplToJson(
       this,
     );
   }
@@ -309,11 +311,11 @@ class _$_PushNotification extends _PushNotification {
 
 abstract class _PushNotification extends PushNotification {
   const factory _PushNotification({final String? title, final String? body}) =
-      _$_PushNotification;
+      _$PushNotificationImpl;
   const _PushNotification._() : super._();
 
   factory _PushNotification.fromJson(Map<String, dynamic> json) =
-      _$_PushNotification.fromJson;
+      _$PushNotificationImpl.fromJson;
 
   @override
   String? get title;
@@ -321,6 +323,6 @@ abstract class _PushNotification extends PushNotification {
   String? get body;
   @override
   @JsonKey(ignore: true)
-  _$$_PushNotificationCopyWith<_$_PushNotification> get copyWith =>
+  _$$PushNotificationImplCopyWith<_$PushNotificationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

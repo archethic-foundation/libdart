@@ -6,7 +6,8 @@ part of 'ownership.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Ownership _$$_OwnershipFromJson(Map<String, dynamic> json) => _$_Ownership(
+_$OwnershipImpl _$$OwnershipImplFromJson(Map<String, dynamic> json) =>
+    _$OwnershipImpl(
       authorizedPublicKeys: (json['authorizedPublicKeys'] as List<dynamic>?)
               ?.map((e) => AuthorizedKey.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -14,7 +15,7 @@ _$_Ownership _$$_OwnershipFromJson(Map<String, dynamic> json) => _$_Ownership(
       secret: json['secret'] as String?,
     );
 
-Map<String, dynamic> _$$_OwnershipToJson(_$_Ownership instance) =>
+Map<String, dynamic> _$$OwnershipImplToJson(_$OwnershipImpl instance) =>
     <String, dynamic>{
       'authorizedPublicKeys': instance.authorizedPublicKeys,
       'secret': instance.secret,
