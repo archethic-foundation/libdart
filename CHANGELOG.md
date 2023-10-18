@@ -3,6 +3,7 @@ Changelog
 
 #### Version 3.3.1
 * TypedEncoding serialization introduced for the recipients' args
+* Add Blockchain Version GraphQL request
 
 #### Version 3.3.0
 * Consideration of AEIP 2 (Token standard) and 9 (Standard NFT Metadata)
