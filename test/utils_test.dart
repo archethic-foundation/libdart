@@ -1,11 +1,7 @@
 library test.utils_test;
 
-// Dart imports:
 import 'dart:typed_data';
-
-// Project imports:
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-// Package imports:
 import 'package:test/test.dart';
 
 void main() {
@@ -56,11 +52,128 @@ void main() {
 
   group('toByteArray', () {
     test('should encode an integer into a Uint8List', () {
-      expect(toByteArray(0), <int>[0]);
-      expect(toByteArray(123), <int>[123]);
-      expect(toByteArray(258), <int>[1, 2]);
-      expect(toByteArray(65535), <int>[255, 255]);
-      expect(toByteArray(65536), <int>[1, 0, 0]);
+      expect(toByteArray(0), equals(Uint8List.fromList([0])));
+      expect(toByteArray(123), equals(Uint8List.fromList(<int>[123])));
+      expect(toByteArray(258), equals(Uint8List.fromList(<int>[1, 2])));
+      expect(toByteArray(65535), equals(Uint8List.fromList(<int>[255, 255])));
+      expect(toByteArray(65536), equals(Uint8List.fromList(<int>[1, 0, 0])));
+      expect(toByteArray((1 << 8) - 1), equals(Uint8List.fromList([255])));
+      expect(toByteArray(1 << 8), equals(Uint8List.fromList([1, 0])));
+      expect(
+        toByteArray((1 << 16) - 1),
+        equals(Uint8List.fromList([255, 255])),
+      );
+      expect(toByteArray(1 << 16), equals(Uint8List.fromList([1, 0, 0])));
+      expect(
+        toByteArray((1 << 24) - 1),
+        equals(Uint8List.fromList([255, 255, 255])),
+      );
+      expect(toByteArray(1 << 24), equals(Uint8List.fromList([1, 0, 0, 0])));
+      expect(
+        toByteArray((1 << 32) - 1),
+        equals(Uint8List.fromList([255, 255, 255, 255])),
+      );
+      expect(toByteArray(1 << 32), equals(Uint8List.fromList([1, 0, 0, 0, 0])));
+      expect(
+        toByteArray((1 << 40) - 1),
+        equals(Uint8List.fromList([255, 255, 255, 255, 255])),
+      );
+      expect(
+        toByteArray(1 << 40),
+        equals(Uint8List.fromList([1, 0, 0, 0, 0, 0])),
+      );
+    });
+  });
+
+  group('uint8ListToInt', () {
+    test('should decode an integer from a Uint8List', () {
+      expect(uint8ListToInt(Uint8List.fromList([0])), equals(0));
+      expect(uint8ListToInt(Uint8List.fromList([255])), equals((1 << 8) - 1));
+      expect(uint8ListToInt(Uint8List.fromList([1, 0])), equals(1 << 8));
+      expect(
+        uint8ListToInt(Uint8List.fromList([255, 255])),
+        equals((1 << 16) - 1),
+      );
+      expect(uint8ListToInt(Uint8List.fromList([1, 0, 0])), equals(1 << 16));
+      expect(
+        uint8ListToInt(Uint8List.fromList([255, 255, 255])),
+        equals((1 << 24) - 1),
+      );
+      expect(uint8ListToInt(Uint8List.fromList([1, 0, 0, 0])), equals(1 << 24));
+      expect(
+        uint8ListToInt(Uint8List.fromList([255, 255, 255, 255])),
+        equals((1 << 32) - 1),
+      );
+      expect(
+        uint8ListToInt(Uint8List.fromList([1, 0, 0, 0, 0])),
+        equals(1 << 32),
+      );
+      expect(
+        uint8ListToInt(Uint8List.fromList([255, 255, 255, 255, 255])),
+        equals((1 << 40) - 1),
+      );
+      expect(
+        uint8ListToInt(Uint8List.fromList([1, 0, 0, 0, 0, 0])),
+        equals(1 << 40),
+      );
+    });
+  });
+
+  group('sortObjectKeysAsc', () {
+    test('should return the same value if not an object', () {
+      expect(sortObjectKeysAsc(1234), equals(1234));
+      expect(sortObjectKeysAsc([]), equals([]));
+      expect(sortObjectKeysAsc([1, 2]), equals([1, 2]));
+      expect(sortObjectKeysAsc(''), equals(''));
+      expect(sortObjectKeysAsc('abracadabra'), equals('abracadabra'));
+    });
+
+    test('should not change anything if already ordered', () {
+      final a = sortObjectKeysAsc({
+        'a': 'hello',
+        'b': 'world',
+      });
+      expect(a.keys, equals(['a', 'b']));
+    });
+
+    test('should reorder the keys of root level', () {
+      final a = sortObjectKeysAsc({
+        'b': 'world',
+        'a': 'hello',
+      });
+      expect(a.keys, equals(['a', 'b']));
+    });
+
+    test('should reorder the keys even when nested', () {
+      final obj = sortObjectKeysAsc({
+        'b': 'world',
+        'a': {
+          'b': [
+            {
+              'a': 1,
+              'c': 2,
+              'b': {
+                'c': 'some',
+                'a': 'thing',
+                'b': 'here',
+              },
+            },
+          ],
+          'a': 'bar',
+          'c': {
+            'b': 'loulou',
+            'a': 'riri',
+            'c': 'fifi',
+          },
+        },
+        'c': 'hello',
+      });
+
+      expect(obj.keys, equals(['a', 'b', 'c']));
+      expect(obj['a'].keys, equals(['a', 'b', 'c']));
+      expect(obj['a']['c'].keys, equals(['a', 'b', 'c']));
+      expect(obj['a']['b'][0].keys, equals(['a', 'b', 'c']));
+      expect(obj['a']['b'][0]['b'].keys, equals(['a', 'b', 'c']));
     });
   });
 }

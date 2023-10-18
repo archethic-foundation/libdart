@@ -2,16 +2,30 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/src/model/address.dart';
+import 'package:archethic_lib_dart/src/model/authorized_key.dart';
+import 'package:archethic_lib_dart/src/model/balance.dart';
+import 'package:archethic_lib_dart/src/model/cross_validation_stamp.dart';
+import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
+import 'package:archethic_lib_dart/src/model/data.dart';
+import 'package:archethic_lib_dart/src/model/ownership.dart';
+import 'package:archethic_lib_dart/src/model/recipient.dart';
+import 'package:archethic_lib_dart/src/model/token_transfer.dart';
+import 'package:archethic_lib_dart/src/model/transaction_input.dart';
+import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
+import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
     show deriveKeyPair, sign, deriveAddress;
+import 'package:archethic_lib_dart/src/utils/typed_encoding.dart'
+    as typed_encoding;
+import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// [Transaction] represents a unitary transaction in the Archethic network.
 part 'transaction.freezed.dart';
 part 'transaction.g.dart';
 
-const int cVersion = 2;
+const int cVersion = 3;
 
 const Map<String, int> txTypes = <String, int>{
   /// User based transaction types
@@ -437,42 +451,36 @@ class Transaction with _$Transaction {
     }
 
     var recipientsBuffers = Uint8List(0);
-    if (version >= 2) {
-      if (data!.actionRecipients.isNotEmpty) {
-        for (final recipient in data!.actionRecipients) {
-          if (recipient.action == null && recipient.args == null) {
-            recipientsBuffers = concatUint8List(<Uint8List>[
-              recipientsBuffers,
-              // 0 = unnamed action
-              Uint8List.fromList([0]),
-              hexToUint8List(recipient.address!),
-            ]);
-          } else {
-            final sortedArgs = recipient.sortArgs();
-            final jsonArgs = jsonEncode(sortedArgs);
-            final bufJsonLength = toByteArray(jsonArgs.length);
-            recipientsBuffers = concatUint8List(<Uint8List>[
+
+    if (data!.actionRecipients.isNotEmpty) {
+      for (final recipient in data!.actionRecipients) {
+        if (recipient.action == null && recipient.args == null) {
+          recipientsBuffers = concatUint8List(<Uint8List>[
+            recipientsBuffers,
+            // 0 = unnamed action
+            Uint8List.fromList([0]),
+            hexToUint8List(recipient.address!),
+          ]);
+        } else {
+          final serializedArgs = recipient.args!
+              .map((arg) => typed_encoding.serialize(arg))
+              .toList();
+          recipientsBuffers = concatUint8List(
+            <Uint8List>[
               recipientsBuffers,
               // 1 = named action
               Uint8List.fromList([1]),
               hexToUint8List(recipient.address!),
               toByteArray(recipient.action!.length),
               Uint8List.fromList(utf8.encode(recipient.action!)),
-              Uint8List.fromList([bufJsonLength.length]),
-              bufJsonLength,
-              Uint8List.fromList(utf8.encode(jsonArgs)),
-            ]);
-          }
+              Uint8List.fromList([serializedArgs.length]),
+              ...serializedArgs,
+            ],
+          );
         }
       }
-    } else {
-      for (final recipient in data!.recipients) {
-        recipientsBuffers = concatUint8List(<Uint8List>[
-          recipientsBuffers,
-          Uint8List.fromList(hexToUint8List(recipient)),
-        ]);
-      }
     }
+
     final bufOwnershipLength =
         Uint8List.fromList(toByteArray(data!.ownerships.length));
     final bufUCOTransferLength =

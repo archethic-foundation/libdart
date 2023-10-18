@@ -8,9 +8,12 @@ import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
+import 'package:archethic_lib_dart/src/utils/typed_encoding.dart'
+    as typed_encoding;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:test/test.dart';
 
+const version = 3;
 void main() {
   group('Transaction', () {
     test('should assign type when create a new transaction instance', () {
@@ -173,7 +176,7 @@ void main() {
         final payload = tx.previousSignaturePayload();
         final expectedBinary = concatUint8List(<Uint8List>[
           // Version
-          toByteArray(2, length: 4),
+          toByteArray(version, length: 4),
           Uint8List.fromList(hexToUint8List(tx.address!.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
@@ -364,7 +367,7 @@ condition inherit: [
         final payload = tx.originSignaturePayload();
         final expectedBinary = concatUint8List(<Uint8List>[
           // Version
-          toByteArray(2, length: 4),
+          toByteArray(version, length: 4),
           Uint8List.fromList(hexToUint8List(tx.address!.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
@@ -496,7 +499,7 @@ condition inherit: [
         final payload = tx.previousSignaturePayload();
         final expectedBinary = concatUint8List(<Uint8List>[
           // Version
-          toByteArray(2, length: 4),
+          toByteArray(version, length: 4),
           Uint8List.fromList(hexToUint8List(tx.address!.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
@@ -577,8 +580,66 @@ condition inherit: [
           Uint8List.fromList(<int>[14]),
           Uint8List.fromList(utf8.encode('vote_for_mayor')),
           Uint8List.fromList(<int>[1]),
-          Uint8List.fromList(<int>[13]),
-          Uint8List.fromList(utf8.encode('["Ms. Smith"]')),
+          typed_encoding.serialize('["Ms. Smith"]'),
+        ]);
+        expect(payload, expectedBinary);
+      });
+
+      test('should order the keys or named action args in the generated binary',
+          () {
+        final keypair = crypto.deriveKeyPair('seed', 0, isSeedHexa: false);
+        final tx = Transaction(
+          type: 'transfer',
+          data: Transaction.initData(),
+          address: Address(
+              address: crypto.deriveAddress('seed', 1, isSeedHexa: false)),
+          previousPublicKey:
+              uint8ListToHex(Uint8List.fromList(keypair.publicKey!)),
+        ).addRecipient(
+          '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+          action: 'set_geopos',
+          args: [
+            {'lng': 2, 'lat': 1},
+          ],
+        );
+
+        final payload = tx.previousSignaturePayload();
+        final expectedBinary = concatUint8List(<Uint8List>[
+          // Version
+          toByteArray(version, length: 4),
+          Uint8List.fromList(hexToUint8List(tx.address!.address!)),
+          Uint8List.fromList(<int>[253]),
+          //Code size
+          toByteArray(0, length: 4),
+          //Content size
+          toByteArray(0, length: 4),
+          // Nb of byte to encode nb of ownerships
+          Uint8List.fromList(<int>[1]),
+          //Nb of ownerships
+          Uint8List.fromList(<int>[0]),
+          // Nb of bytes to encode nb of uco transfers
+          Uint8List.fromList(<int>[1]),
+          // Nb of uco transfers
+          Uint8List.fromList(<int>[0]),
+          // Nb of bytes to encode nb of Token transfers
+          Uint8List.fromList(<int>[1]),
+          // Nb of token transfers
+          Uint8List.fromList(<int>[0]),
+          // Nb of bytes to encode nb of recipients
+          Uint8List.fromList(<int>[1]),
+          // Nb of recipients
+          Uint8List.fromList(<int>[1]),
+          // 1 = named recipient
+          Uint8List.fromList(<int>[1]),
+          Uint8List.fromList(
+            hexToUint8List(
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+            ),
+          ),
+          Uint8List.fromList(<int>[10]),
+          Uint8List.fromList(utf8.encode('set_geopos')),
+          Uint8List.fromList(<int>[1]),
+          typed_encoding.serialize({'lng': 2, 'lat': 1}),
         ]);
         expect(payload, expectedBinary);
       });
