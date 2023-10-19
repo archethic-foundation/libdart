@@ -580,7 +580,7 @@ condition inherit: [
           Uint8List.fromList(<int>[14]),
           Uint8List.fromList(utf8.encode('vote_for_mayor')),
           Uint8List.fromList(<int>[1]),
-          typed_encoding.serialize('["Ms. Smith"]'),
+          typed_encoding.serialize('Ms. Smith'),
         ]);
         expect(payload, expectedBinary);
       });
