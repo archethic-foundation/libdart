@@ -225,6 +225,13 @@ class Keychain with _$Keychain {
     }
 
     final serviceSelected = services[service];
+
+    if (isPathWithIndex(serviceSelected!.derivationPath)) {
+      throw Exception(
+        'Service should have a derivation path without index (removing the last "/0")',
+      );
+    }
+
     final extendedSeed = deriveServiceSeed(
       seed,
       serviceSelected!.derivationPath,
