@@ -93,7 +93,9 @@ void main() {
           crypto.deriveKeyPair(uint8ListToHex(serviceSeed), 0);
 
       expect(
-          normalDerivationKeyPair.publicKey, normalDerivationKeyPair.publicKey);
+        normalDerivationKeyPair.publicKey,
+        normalDerivationKeyPair.publicKey,
+      );
     });
   });
 
