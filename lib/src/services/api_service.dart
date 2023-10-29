@@ -610,7 +610,8 @@ class ApiService with JsonRPCUtil {
   Transaction newKeychainTransaction(
     String seed,
     List<String> authorizedPublicKeys,
-    Uint8List originPrivateKey, {
+    Uint8List originPrivateKey,
+    int blockchainTxVersion, {
     String? serviceName,
     String? derivationPath,
   }) {
@@ -635,7 +636,11 @@ class ApiService with JsonRPCUtil {
       );
     }
 
-    return Transaction(type: 'keychain', data: Transaction.initData())
+    return Transaction(
+      type: 'keychain',
+      version: blockchainTxVersion,
+      data: Transaction.initData(),
+    )
         .setContent(jsonEncode(keychain.toDID()))
         .addOwnership(
           uint8ListToHex(aesEncrypt(keychain.encode(), aesKey)),
@@ -654,6 +659,7 @@ class ApiService with JsonRPCUtil {
     String seed,
     Uint8List keychainAddress,
     Uint8List originPrivateKey,
+    int blockchainTxVersion,
   ) {
     final aesKey = uint8ListToHex(
       Uint8List.fromList(
@@ -674,7 +680,11 @@ class ApiService with JsonRPCUtil {
       ),
     ];
 
-    return Transaction(type: 'keychain_access', data: Transaction.initData())
+    return Transaction(
+      type: 'keychain_access',
+      version: blockchainTxVersion,
+      data: Transaction.initData(),
+    )
         .addOwnership(
           uint8ListToHex(aesEncrypt(keychainAddress, aesKey)),
           authorizedKeys,

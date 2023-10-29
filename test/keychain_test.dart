@@ -180,6 +180,13 @@ void main() {
             ApiService('https://mainnet.archethic.net').getOriginKey();
         log('originPrivateKey: $originPrivateKey');
 
+        final blockchainTxVersion = int.parse(
+          (await ApiService('https://mainnet.archethic.net')
+                  .getBlockchainVersion())
+              .version
+              .transaction,
+        );
+
         /// Create Keychain from keyChain seed and wallet public key to encrypt secret
         final keychainTransaction =
             ApiService('https://mainnet.archethic.net').newKeychainTransaction(
@@ -190,6 +197,7 @@ void main() {
             ),
           ],
           Uint8List.fromList(hexToUint8List(originPrivateKey)),
+          blockchainTxVersion,
           serviceName: kServiceName,
           derivationPath: kDerivationPath,
         );
@@ -203,6 +211,7 @@ void main() {
             hexToUint8List(keychainTransaction.address!.address!),
           ),
           Uint8List.fromList(hexToUint8List(originPrivateKey)),
+          blockchainTxVersion,
         );
         log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
 
@@ -318,6 +327,13 @@ void main() {
             ApiService('https://mainnet.archethic.net').getOriginKey();
         log('originPrivateKey: $originPrivateKey');
 
+        final blockchainTxVersion = int.parse(
+          (await ApiService('https://mainnet.archethic.net')
+                  .getBlockchainVersion())
+              .version
+              .transaction,
+        );
+
         /// Create Keychain from keyChain seed and wallet public key to encrypt secret
         final keychainTransaction =
             ApiService('https://mainnet.archethic.net').newKeychainTransaction(
@@ -328,6 +344,7 @@ void main() {
             ),
           ],
           Uint8List.fromList(hexToUint8List(originPrivateKey)),
+          blockchainTxVersion,
           serviceName: kServiceName,
           derivationPath: kDerivationPath,
         );
@@ -341,6 +358,7 @@ void main() {
             hexToUint8List(keychainTransaction.address!.address!),
           ),
           Uint8List.fromList(hexToUint8List(originPrivateKey)),
+          blockchainTxVersion,
         );
         log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
 
