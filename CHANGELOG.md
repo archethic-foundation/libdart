@@ -1,6 +1,8 @@
 Changelog
 =========
-
+#### Version 3.3.2
+* Add Blockchain Version in newKeychainTransaction and newAccessKeychainTransaction methods
+ 
 #### Version 3.3.1
 * TypedEncoding serialization introduced for the recipients' args
 * Add Blockchain Version GraphQL request
