@@ -1,5 +1,8 @@
 Changelog
 =========
+#### Version 3.3.3
+* Fix error transaction signature when a value has the 8th decimal > 5
+  
 #### Version 3.3.2
 * Add Blockchain Version in newKeychainTransaction and newAccessKeychainTransaction methods
  

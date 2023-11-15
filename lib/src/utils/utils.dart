@@ -42,7 +42,7 @@ int toBigInt(num? number) {
   if (number == null) {
     return 0;
   }
-  return (number * 100000000).round();
+  return (number * 100000000).floor();
 }
 
 /// Convert big int of 10^8 decimals to any number
