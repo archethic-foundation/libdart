@@ -1,5 +1,8 @@
 Changelog
 =========
+#### Version 3.3.4
+* Fix `toBigInt` and `fromBigInt` calculations
+
 #### Version 3.3.3
 * Fix error transaction signature when a value has the 8th decimal > 5
   

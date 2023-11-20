@@ -48,6 +48,28 @@ void main() {
     test('should convert a double into a big integer with 10^8', () {
       expect(toBigInt(1.234567), 123456700);
     });
+
+    test('should convert a double into a big integer with 10^8', () {
+      expect(toBigInt(9.95), 995000000);
+    });
+
+    test('should convert a double into a big integer with 10^8', () {
+      expect(toBigInt(0.617714895), 61771489);
+    });
+  });
+
+  group('fromBigInt', () {
+    test('should convert a big integer with 10^8 into double', () {
+      expect(1.234567, fromBigInt(123456700));
+    });
+
+    test('should convert a big integer with 10^8 into double', () {
+      expect(9.95, fromBigInt(995000000));
+    });
+
+    test('should convert a big integer with 10^8 into double', () {
+      expect(0.61771489, fromBigInt(61771489));
+    });
   });
 
   group('toByteArray', () {

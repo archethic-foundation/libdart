@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'dart:math';
+import 'package:decimal/decimal.dart';
 import 'dart:typed_data';
 import 'package:pinenacl/encoding.dart' show Base16Encoder;
 
@@ -42,7 +43,9 @@ int toBigInt(num? number) {
   if (number == null) {
     return 0;
   }
-  return (number * 100000000).floor();
+  return (Decimal.parse(number.toString()) * Decimal.parse('100000000'))
+      .toDouble()
+      .floor();
 }
 
 /// Convert big int of 10^8 decimals to any number
@@ -51,7 +54,8 @@ num fromBigInt(int? number) {
   if (number == null) {
     return 0;
   }
-  return number / 100000000;
+  return (Decimal.parse(number.toString()) / Decimal.parse('100000000'))
+      .toDouble();
 }
 
 /// Convert any number into a byte array
