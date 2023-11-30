@@ -82,7 +82,7 @@ class ApiService with JsonRPCUtil {
       );
 
       log(
-        'sendTxs: requestHttp.body=$jsonRPCRequest',
+        'sendTx: (${transaction.address}) requestHttp.body=$jsonRPCRequest',
         logsActivation: logsActivation,
       );
 
@@ -92,7 +92,7 @@ class ApiService with JsonRPCUtil {
         headers: kRequestHeaders,
       );
       log(
-        'sendTx: responseHttp.body=${responseHttp.body}',
+        'sendTx: (${transaction.address}) responseHttp.body=${responseHttp.body}',
         logsActivation: logsActivation,
       );
 
@@ -106,7 +106,7 @@ class ApiService with JsonRPCUtil {
       completer.complete(transactionStatus);
     } catch (e) {
       log(
-        e.toString(),
+        'sendTx: (${transaction.address}) $e',
         logsActivation: logsActivation,
       );
     }
