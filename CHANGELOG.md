@@ -1,5 +1,8 @@
 Changelog
 =========
+#### Version 3.3.5
+* Add serialization for `Address` object
+
 #### Version 3.3.4
 * Fix `toBigInt` and `fromBigInt` calculations
 

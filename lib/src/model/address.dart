@@ -10,6 +10,7 @@ import 'package:pointycastle/export.dart' show Digest;
 /// with an invalid algorithm or invalid size will be rejected
 
 part 'address.freezed.dart';
+part 'address.g.dart';
 
 const kAddressLength = 68;
 const kCurveType = <int>[0, 1, 2];
@@ -30,6 +31,9 @@ class Address with _$Address {
   }) = _Address;
   const Address._();
 
+  factory Address.fromJson(Map<String, dynamic> json) =>
+      _$AddressFromJson(json);
+
   /// Verify the structure of an address
   /// @param {String} address to control
   bool isValid() {
@@ -46,7 +50,6 @@ class Address with _$Address {
       }
       var digestSize = 0;
       switch (address!.substring(2, 4)) {
-
         /// 00 = sha256
         case '00':
           digestSize = Digest('SHA-256').digestSize;
