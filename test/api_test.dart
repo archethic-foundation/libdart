@@ -92,6 +92,23 @@ void main() {
         );
       });
 
+      test('getTransactions', () async {
+        final transactionChainListMap =
+            await ApiService('http://localhost:4000').getTransactionChain(
+          {
+            '0000A69458FB78517CFA1C61B506D2447506101ACBEC064ED2239BD79910C4FEFDDE':
+                '',
+          },
+          fromCriteria: 1706171686,
+        );
+
+        expect(
+          transactionChainListMap.values.first[0].address!.address!
+              .toUpperCase(),
+          '00008F5503E7AA05B5FAA56C10A7AA3DE916CD36499B090F91112D62BF37961C51C2',
+        );
+      });
+
       test('getNodeList', () async {
         final nodes =
             await ApiService('https://mainnet.archethic.net').getNodeList();
