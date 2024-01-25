@@ -41,6 +41,9 @@ mixin _$UnspentOutputs {
   /// Version of the UTXO data structure
   int? get version => throw _privateConstructorUsedError;
 
+  /// State: It is the state of a smart contract
+  Map<String, dynamic>? get state => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $UnspentOutputsCopyWith<UnspentOutputs> get copyWith =>
@@ -60,7 +63,8 @@ abstract class $UnspentOutputsCopyWith<$Res> {
       String? from,
       int? tokenId,
       int? timestamp,
-      int? version});
+      int? version,
+      Map<String, dynamic>? state});
 }
 
 /// @nodoc
@@ -83,6 +87,7 @@ class _$UnspentOutputsCopyWithImpl<$Res, $Val extends UnspentOutputs>
     Object? tokenId = freezed,
     Object? timestamp = freezed,
     Object? version = freezed,
+    Object? state = freezed,
   }) {
     return _then(_value.copyWith(
       amount: freezed == amount
@@ -113,6 +118,10 @@ class _$UnspentOutputsCopyWithImpl<$Res, $Val extends UnspentOutputs>
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
               as int?,
+      state: freezed == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
     ) as $Val);
   }
 }
@@ -132,7 +141,8 @@ abstract class _$$UnspentOutputsImplCopyWith<$Res>
       String? from,
       int? tokenId,
       int? timestamp,
-      int? version});
+      int? version,
+      Map<String, dynamic>? state});
 }
 
 /// @nodoc
@@ -153,6 +163,7 @@ class __$$UnspentOutputsImplCopyWithImpl<$Res>
     Object? tokenId = freezed,
     Object? timestamp = freezed,
     Object? version = freezed,
+    Object? state = freezed,
   }) {
     return _then(_$UnspentOutputsImpl(
       amount: freezed == amount
@@ -183,6 +194,10 @@ class __$$UnspentOutputsImplCopyWithImpl<$Res>
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
               as int?,
+      state: freezed == state
+          ? _value._state
+          : state // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
     ));
   }
 }
@@ -197,8 +212,10 @@ class _$UnspentOutputsImpl extends _UnspentOutputs {
       this.from,
       this.tokenId,
       this.timestamp,
-      this.version})
-      : super._();
+      this.version,
+      final Map<String, dynamic>? state})
+      : _state = state,
+        super._();
 
   factory _$UnspentOutputsImpl.fromJson(Map<String, dynamic> json) =>
       _$$UnspentOutputsImplFromJson(json);
@@ -231,13 +248,26 @@ class _$UnspentOutputsImpl extends _UnspentOutputs {
   @override
   final int? version;
 
+  /// State: It is the state of a smart contract
+  final Map<String, dynamic>? _state;
+
+  /// State: It is the state of a smart contract
   @override
-  String toString() {
-    return 'UnspentOutputs(amount: $amount, tokenAddress: $tokenAddress, type: $type, from: $from, tokenId: $tokenId, timestamp: $timestamp, version: $version)';
+  Map<String, dynamic>? get state {
+    final value = _state;
+    if (value == null) return null;
+    if (_state is EqualUnmodifiableMapView) return _state;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
   }
 
   @override
-  bool operator ==(dynamic other) {
+  String toString() {
+    return 'UnspentOutputs(amount: $amount, tokenAddress: $tokenAddress, type: $type, from: $from, tokenId: $tokenId, timestamp: $timestamp, version: $version, state: $state)';
+  }
+
+  @override
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UnspentOutputsImpl &&
@@ -249,13 +279,14 @@ class _$UnspentOutputsImpl extends _UnspentOutputs {
             (identical(other.tokenId, tokenId) || other.tokenId == tokenId) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp) &&
-            (identical(other.version, version) || other.version == version));
+            (identical(other.version, version) || other.version == version) &&
+            const DeepCollectionEquality().equals(other._state, _state));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, amount, tokenAddress, type, from,
-      tokenId, timestamp, version);
+      tokenId, timestamp, version, const DeepCollectionEquality().hash(_state));
 
   @JsonKey(ignore: true)
   @override
@@ -280,7 +311,8 @@ abstract class _UnspentOutputs extends UnspentOutputs {
       final String? from,
       final int? tokenId,
       final int? timestamp,
-      final int? version}) = _$UnspentOutputsImpl;
+      final int? version,
+      final Map<String, dynamic>? state}) = _$UnspentOutputsImpl;
   const _UnspentOutputs._() : super._();
 
   factory _UnspentOutputs.fromJson(Map<String, dynamic> json) =
@@ -314,6 +346,10 @@ abstract class _UnspentOutputs extends UnspentOutputs {
 
   /// Version of the UTXO data structure
   int? get version;
+  @override
+
+  /// State: It is the state of a smart contract
+  Map<String, dynamic>? get state;
   @override
   @JsonKey(ignore: true)
   _$$UnspentOutputsImplCopyWith<_$UnspentOutputsImpl> get copyWith =>

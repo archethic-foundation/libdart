@@ -15,6 +15,7 @@ _$UnspentOutputsImpl _$$UnspentOutputsImplFromJson(Map<String, dynamic> json) =>
       tokenId: json['tokenId'] as int?,
       timestamp: json['timestamp'] as int?,
       version: json['version'] as int?,
+      state: json['state'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$$UnspentOutputsImplToJson(
@@ -27,4 +28,5 @@ Map<String, dynamic> _$$UnspentOutputsImplToJson(
       'tokenId': instance.tokenId,
       'timestamp': instance.timestamp,
       'version': instance.version,
+      'state': instance.state,
     };
