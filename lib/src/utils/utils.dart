@@ -1,8 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'dart:math';
-import 'package:decimal/decimal.dart';
 import 'dart:typed_data';
+import 'package:decimal/decimal.dart';
 import 'package:pinenacl/encoding.dart' show Base16Encoder;
 
 /// Return the Initial Origin Private Key
