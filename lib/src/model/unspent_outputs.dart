@@ -28,6 +28,9 @@ class UnspentOutputs with _$UnspentOutputs {
 
     /// Version of the UTXO data structure
     int? version,
+
+    /// State: It is the state of a smart contract
+    Map<String, dynamic>? state,
   }) = _UnspentOutputs;
   const UnspentOutputs._();
 

@@ -1,5 +1,8 @@
 Changelog
 =========
+#### Version 3.3.6
+* New field in Transaction object = State of a smart contract
+
 #### Version 3.3.5
 * TransactionChain graphql request has new criteria 'from' to get transactions from a specific timestamp in the transactionChain
   
