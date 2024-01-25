@@ -123,7 +123,7 @@ class _$SecretImpl extends _Secret {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SecretImpl &&

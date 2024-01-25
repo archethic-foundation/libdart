@@ -131,7 +131,7 @@ class _$TransactionNotificationImpl extends _TransactionNotification {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionNotificationImpl &&
@@ -282,7 +282,7 @@ class _$PushNotificationImpl extends _PushNotification {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PushNotificationImpl &&

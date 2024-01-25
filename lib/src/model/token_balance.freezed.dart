@@ -148,7 +148,7 @@ class _$TokenBalanceImpl extends _TokenBalance {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TokenBalanceImpl &&
