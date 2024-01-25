@@ -294,10 +294,11 @@ class ApiService with JsonRPCUtil {
   /// Query the network to find transaction chains from a map of addresses and pagingAddress
   /// Returns the content scalar type represents transaction content [List<Transaction>]. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
   Future<Map<String, List<Transaction>>> getTransactionChain(
-      Map<String, String> addresses,
-      {String request = Transaction.kTransactionQueryAllFields,
-      bool orderAsc = true,
-      int? fromCriteria}) async {
+    Map<String, String> addresses, {
+    String request = Transaction.kTransactionQueryAllFields,
+    bool orderAsc = true,
+    int? fromCriteria,
+  }) async {
     if (addresses.isEmpty) {
       return {};
     }
