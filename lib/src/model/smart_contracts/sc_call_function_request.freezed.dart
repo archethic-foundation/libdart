@@ -175,7 +175,7 @@ class _$SCCallFunctionRequestImpl implements _SCCallFunctionRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SCCallFunctionRequestImpl &&
@@ -362,7 +362,7 @@ class _$SCCallFunctionParamsImpl implements _SCCallFunctionParams {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SCCallFunctionParamsImpl &&

@@ -138,7 +138,7 @@ class _$BalanceImpl extends _Balance {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BalanceImpl &&

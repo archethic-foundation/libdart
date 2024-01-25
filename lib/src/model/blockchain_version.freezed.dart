@@ -129,7 +129,7 @@ class _$BlockchainVersionModelImpl implements _BlockchainVersionModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BlockchainVersionModelImpl &&
@@ -295,7 +295,7 @@ class _$BlockchainVersionImpl implements _BlockchainVersion {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BlockchainVersionImpl &&

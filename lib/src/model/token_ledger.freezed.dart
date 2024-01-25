@@ -112,7 +112,7 @@ class _$TokenLedgerImpl extends _TokenLedger {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TokenLedgerImpl &&

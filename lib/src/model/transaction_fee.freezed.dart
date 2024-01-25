@@ -169,7 +169,7 @@ class _$TransactionFeeImpl extends _TransactionFee {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionFeeImpl &&
@@ -356,7 +356,7 @@ class _$RatesImpl extends _Rates {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RatesImpl &&
@@ -547,7 +547,7 @@ class _$TransactionFeeErrorsImpl extends _TransactionFeeErrors {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionFeeErrorsImpl &&

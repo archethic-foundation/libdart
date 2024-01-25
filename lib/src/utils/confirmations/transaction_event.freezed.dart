@@ -166,7 +166,7 @@ class _$TransactionTimeoutImpl extends _TransactionTimeout {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$TransactionTimeoutImpl);
   }
@@ -337,7 +337,7 @@ class _$TransactionConnectionErrorImpl extends _TransactionConnectionError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionConnectionErrorImpl);
@@ -511,7 +511,7 @@ class _$TransactionConsensusNotReachedErrorImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionConsensusNotReachedErrorImpl);
@@ -681,7 +681,7 @@ class _$TransactionInvalidImpl extends _TransactionInvalid {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$TransactionInvalidImpl);
   }
@@ -853,7 +853,7 @@ class _$TransactionInvalidConfirmationImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionInvalidConfirmationImpl);
@@ -1026,7 +1026,7 @@ class _$TransactionInsufficientFundsImpl extends _TransactionInsufficientFunds {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionInsufficientFundsImpl);
@@ -1199,7 +1199,7 @@ class _$TransactionServiceNotFoundImpl extends _TransactionServiceNotFound {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionServiceNotFoundImpl);
@@ -1373,7 +1373,7 @@ class _$TransactionServiceAlreadyExistsImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionServiceAlreadyExistsImpl);
@@ -1545,7 +1545,7 @@ class _$TransactionUserRejectedImpl extends _TransactionUserRejected {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionUserRejectedImpl);
@@ -1736,7 +1736,7 @@ class _$TransactionUnknownAccountImpl extends _TransactionUnknownAccount {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionUnknownAccountImpl &&
@@ -1939,7 +1939,7 @@ class _$TransactionOtherErrorImpl extends _TransactionOtherError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionOtherErrorImpl &&
@@ -2260,7 +2260,7 @@ class _$TransactionConfirmationImpl extends _TransactionConfirmation {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionConfirmationImpl &&
