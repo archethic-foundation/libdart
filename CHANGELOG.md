@@ -1,7 +1,7 @@
 Changelog
 =========
 #### Version 3.3.7
-* Manage Http status code in callSCFunction method
+* Manage Http status code in `callSCFunction` method
   
 #### Version 3.3.6
 * New field in Transaction object = State of a smart contract
