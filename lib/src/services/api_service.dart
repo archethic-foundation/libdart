@@ -926,32 +926,41 @@ class ApiService with JsonRPCUtil {
     bool resultMap = false,
   }) async {
     final completer = Completer<Object>();
-    log(
-      'callSCFunction: requestHttp.body=${json.encode(jsonRPCRequest)}',
-      logsActivation: logsActivation,
-    );
-
-    final responseHttp = await http.post(
-      Uri.parse('$endpoint/api/rpc'),
-      body: json.encode(jsonRPCRequest),
-      headers: kRequestHeaders,
-    );
-
-    log(
-      'callSCFunction: responseHttp.body=${responseHttp.body}',
-      logsActivation: logsActivation,
-    );
-
-    if (resultMap) {
-      completer.complete(
-        getJsonRPCResult(responseHttp.body),
+    try {
+      log(
+        'callSCFunction: requestHttp.body=${json.encode(jsonRPCRequest)}',
+        logsActivation: logsActivation,
       );
-    } else {
-      completer.complete(
-        getJsonRPCResultString(responseHttp.body),
+
+      final responseHttp = await http.post(
+        Uri.parse('$endpoint/api/rpc'),
+        body: json.encode(jsonRPCRequest),
+        headers: kRequestHeaders,
       );
+
+      log(
+        'callSCFunction: responseHttp.body=${responseHttp.body}',
+        logsActivation: logsActivation,
+      );
+
+      if (responseHttp.statusCode == 200) {
+        if (resultMap) {
+          completer.complete(
+            getJsonRPCResult(responseHttp.body),
+          );
+        } else {
+          completer.complete(
+            getJsonRPCResultString(responseHttp.body),
+          );
+        }
+      }
+    } catch (e) {
+      log(
+        'callSCFunction: error=$e',
+        logsActivation: logsActivation,
+      );
+      rethrow;
     }
-
     return completer.future;
   }
 
