@@ -3,14 +3,14 @@ name: archethic_lib_dart
 description: Archethic dart library for Flutter for Node and Browser. This library aims to provide a easy way to create Archethic transaction and to send them over the network
 homepage: https://github.com/archethic-foundation/libdart
 
-version: 3.3.7
+version: 3.3.8
 
 environment:
-  sdk: ">=3.1.0 <4.0.0"
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   # Collections and utilities functions and classes related to collections.
-  collection: ^1.14.13
+  collection: ^1.18.0
 
   # Implementations of SHA, MD5, and HMAC cryptographic functions
   crypto: ^3.0.3
@@ -19,34 +19,34 @@ dependencies:
   decimal: ^2.3.3
 
   # Package ecdsa implements the Elliptic Curve Digital Signature Algorithm, as defined in FIPS 186-3
-  ecdsa: ^0.0.4
+  ecdsa: ^0.1.0
 
   # basic elliptic curves
-  elliptic: ^0.3.8
+  elliptic: ^0.3.10
 
   # Annotations for the freezed code-generator. This package does nothing without freezed too
   freezed_annotation: ^2.4.1
 
   # GraphQL tools for parsing, transforming and printing GraphQL documents.
-  gql: ^1.0.0
+  gql: ^1.0.0+1
 
   # A stand-alone GraphQL client for Dart, bringing all the features from a modern GraphQL client to one easy to use package.
   graphql: ^5.1.3
 
   # A composable, multi-platform, Future-based API for HTTP requests
-  http: ^1.0.0
+  http: ^1.2.1
 
   # JWK (JSON Web Key) encoding and decoding
-  jwk: ^0.2.2
+  jwk: ^0.2.3
 
   # PhoenixSocket provides a feature-complete implementation of Phoenix Sockets, using a single API based on StreamChannels compatible with any deployment of Flutter
-  phoenix_socket: ^0.6.4
+  phoenix_socket: ^0.7.0
 
   # The Dart implementation of the PyNaCl APIs with the TweetNaCl cryptographic library
   pinenacl: ^0.5.1
 
   # A Dart library implementing cryptographic algorithms and primitives, modeled on the BouncyCastle library
-  pointycastle: ^3.7.3
+  pointycastle: ^3.7.4
 
   # Quiver is a set of utility libraries for Dart that makes using many Dart libraries easier and more convenient, or adds additional functionality.
   quiver: ^3.2.1
@@ -56,16 +56,16 @@ dependencies:
 
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.
-  build_runner: ^2.4.6
+  build_runner: ^2.4.8
 
   # A tool to help you find missing, under-promoted, over-promoted, and unused dependencies.
-  dependency_validator: ^3.2.2
+  dependency_validator: ^3.2.3
 
   # Code generation for immutable classes that has a simple syntax/API without compromising on the features
-  freezed: ^2.4.2
+  freezed: ^2.4.7
 
   # Automatically generate code for converting to and from JSON by annotating Dart classes.
   json_serializable: ^6.7.1
 
   # A full featured library for writing and running Dart tests across platforms.
-  test: ^1.24.6
+  test: ^1.25.2
