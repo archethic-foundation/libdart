@@ -1,5 +1,9 @@
 Changelog
 =========
+#### Version 3.3.8
+* Migrate to Dart 3.3
+* Upgrade dependencies
+
 #### Version 3.3.7
 * Manage Http status code in `callSCFunction` method
   
