@@ -946,9 +946,14 @@ class ApiService with JsonRPCUtil {
         if (jsonResponse is List) {
           completer.complete(jsonResponse);
         } else {
-          throw const ArchethicInvalidResponseException(
-            'callSCFunction: jsonResponse is not a list',
-          );
+          // 20240327 - Nodes don't send [] when requests have just an element...
+          if (jsonResponse is Map && jsonRPCRequests.length == 1) {
+            completer.complete([jsonResponse]);
+          } else {
+            throw const ArchethicInvalidResponseException(
+              'callSCFunction: jsonResponse is not a list',
+            );
+          }
         }
       }
     } catch (e) {

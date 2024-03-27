@@ -1,6 +1,9 @@
 Changelog
 =========
 =========
+#### Version 3.3.10
+* json-rpc multiple requests : Handling the case where nodes return a single element
+
 #### Version 3.3.9
 * Add json-rpc multiple requests. Add `callSCFunctionMulti` method
 

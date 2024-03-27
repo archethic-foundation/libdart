@@ -485,17 +485,6 @@ void main() {
                 args: [],
               ),
             ),
-            SCCallFunctionRequest(
-              method: 'contract_fun',
-              id: 21,
-              params: SCCallFunctionParams(
-                contract:
-                    '000066CD867DA536A73D39CF05174387923358DC0009A29CC7162D4AED00675DAB55'
-                        .toUpperCase(),
-                function: 'get_pool_lllllllllist',
-                args: [],
-              ),
-            ),
           ],
         );
         log('smCallFunctionResponse: $smCallFunctionResponse');
