@@ -919,6 +919,49 @@ class ApiService with JsonRPCUtil {
   }
 
   /// Call a smart contract's function
+  /// @param {List<SCCallFunctionRequest>} RPC Requests
+  Future<List<dynamic>> callSCFunctionMulti({
+    required List<SCCallFunctionRequest> jsonRPCRequests,
+  }) async {
+    final completer = Completer<List<dynamic>>();
+    try {
+      log(
+        'callSCFunction: requestHttp.body=${json.encode(jsonRPCRequests)}',
+        logsActivation: logsActivation,
+      );
+
+      final responseHttp = await http.post(
+        Uri.parse('$endpoint/api/rpc'),
+        body: json.encode(jsonRPCRequests),
+        headers: kRequestHeaders,
+      );
+
+      log(
+        'callSCFunction: responseHttp.body=${responseHttp.body}',
+        logsActivation: logsActivation,
+      );
+
+      if (responseHttp.statusCode == 200) {
+        final jsonResponse = json.decode(responseHttp.body);
+        if (jsonResponse is List) {
+          completer.complete(jsonResponse);
+        } else {
+          throw const ArchethicInvalidResponseException(
+            'callSCFunction: jsonResponse is not a list',
+          );
+        }
+      }
+    } catch (e) {
+      log(
+        'callSCFunction: error=$e',
+        logsActivation: logsActivation,
+      );
+      rethrow;
+    }
+    return completer.future;
+  }
+
+  /// Call a smart contract's function
   /// @param {SCCallFunctionRequest} RPC Request
   /// @param {bool} Format of the response (true=Map, false=String)
   Future<Object> callSCFunction({
