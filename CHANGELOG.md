@@ -1,5 +1,9 @@
 Changelog
 =========
+=========
+#### Version 3.3.9
+* Add json-rpc multiple requests. Add `callSCFunctionMulti` method
+
 #### Version 3.3.8
 * Migrate to Dart 3.3
 * Upgrade dependencies
