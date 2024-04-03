@@ -1,6 +1,10 @@
 Changelog
 =========
 =========
+
+#### Version 3.3.11
+* Upgrade dependencies
+
 #### Version 3.3.10
 * json-rpc multiple requests : Handling the case where nodes return a single element
 
