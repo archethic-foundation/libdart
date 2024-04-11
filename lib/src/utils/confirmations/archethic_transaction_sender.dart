@@ -137,6 +137,15 @@ class ArchethicTransactionSender
       await onError(
         const TransactionError.connectivity(),
       );
+    } on ArchethicJsonRPCException catch (e) {
+      close();
+      await onError(
+        TransactionError.rpcError(
+          code: e.code,
+          message: e.message,
+          data: e.data,
+        ),
+      );
     } on Exception {
       close();
       await onError(

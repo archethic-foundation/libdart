@@ -2,6 +2,9 @@ Changelog
 =========
 =========
 
+#### Version 3.3.12
+* Fix `ArchethicJsonRPCException` is not catched
+
 #### Version 3.3.11
 * Upgrade dependencies
 
