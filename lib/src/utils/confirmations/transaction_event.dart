@@ -22,6 +22,11 @@ class TransactionError with _$TransactionError implements Exception {
   const factory TransactionError.unknownAccount({
     required String accountName,
   }) = _TransactionUnknownAccount;
+  const factory TransactionError.rpcError({
+    required int code,
+    required String message,
+    Object? data,
+  }) = _TransactionRPCError;
   const factory TransactionError.other({
     String? reason,
   }) = _TransactionOtherError;
@@ -37,6 +42,7 @@ class TransactionError with _$TransactionError implements Exception {
         serviceAlreadyExists: (_) => 'service already exists in the keychain',
         userRejected: (_) => 'user rejected',
         unknownAccount: (_) => 'unknown account',
+        rpcError: (_) => 'JSON RPC error',
         other: (other) => other.reason ?? 'other reason',
       );
 }

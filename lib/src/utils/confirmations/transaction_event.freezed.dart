@@ -28,6 +28,7 @@ mixin _$TransactionError {
     required TResult Function() serviceAlreadyExists,
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
+    required TResult Function(int code, String message, Object? data) rpcError,
     required TResult Function(String? reason) other,
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ mixin _$TransactionError {
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
+    TResult? Function(int code, String message, Object? data)? rpcError,
     TResult? Function(String? reason)? other,
   }) =>
       throw _privateConstructorUsedError;
@@ -58,6 +60,7 @@ mixin _$TransactionError {
     TResult Function()? serviceAlreadyExists,
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
+    TResult Function(int code, String message, Object? data)? rpcError,
     TResult Function(String? reason)? other,
     required TResult orElse(),
   }) =>
@@ -79,6 +82,7 @@ mixin _$TransactionError {
         serviceAlreadyExists,
     required TResult Function(_TransactionUserRejected value) userRejected,
     required TResult Function(_TransactionUnknownAccount value) unknownAccount,
+    required TResult Function(_TransactionRPCError value) rpcError,
     required TResult Function(_TransactionOtherError value) other,
   }) =>
       throw _privateConstructorUsedError;
@@ -97,6 +101,7 @@ mixin _$TransactionError {
         serviceAlreadyExists,
     TResult? Function(_TransactionUserRejected value)? userRejected,
     TResult? Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult? Function(_TransactionRPCError value)? rpcError,
     TResult? Function(_TransactionOtherError value)? other,
   }) =>
       throw _privateConstructorUsedError;
@@ -115,6 +120,7 @@ mixin _$TransactionError {
         serviceAlreadyExists,
     TResult Function(_TransactionUserRejected value)? userRejected,
     TResult Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult Function(_TransactionRPCError value)? rpcError,
     TResult Function(_TransactionOtherError value)? other,
     required TResult orElse(),
   }) =>
@@ -187,6 +193,7 @@ class _$TransactionTimeoutImpl extends _TransactionTimeout {
     required TResult Function() serviceAlreadyExists,
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
+    required TResult Function(int code, String message, Object? data) rpcError,
     required TResult Function(String? reason) other,
   }) {
     return timeout();
@@ -205,6 +212,7 @@ class _$TransactionTimeoutImpl extends _TransactionTimeout {
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
+    TResult? Function(int code, String message, Object? data)? rpcError,
     TResult? Function(String? reason)? other,
   }) {
     return timeout?.call();
@@ -223,6 +231,7 @@ class _$TransactionTimeoutImpl extends _TransactionTimeout {
     TResult Function()? serviceAlreadyExists,
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
+    TResult Function(int code, String message, Object? data)? rpcError,
     TResult Function(String? reason)? other,
     required TResult orElse(),
   }) {
@@ -250,6 +259,7 @@ class _$TransactionTimeoutImpl extends _TransactionTimeout {
         serviceAlreadyExists,
     required TResult Function(_TransactionUserRejected value) userRejected,
     required TResult Function(_TransactionUnknownAccount value) unknownAccount,
+    required TResult Function(_TransactionRPCError value) rpcError,
     required TResult Function(_TransactionOtherError value) other,
   }) {
     return timeout(this);
@@ -271,6 +281,7 @@ class _$TransactionTimeoutImpl extends _TransactionTimeout {
         serviceAlreadyExists,
     TResult? Function(_TransactionUserRejected value)? userRejected,
     TResult? Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult? Function(_TransactionRPCError value)? rpcError,
     TResult? Function(_TransactionOtherError value)? other,
   }) {
     return timeout?.call(this);
@@ -292,6 +303,7 @@ class _$TransactionTimeoutImpl extends _TransactionTimeout {
         serviceAlreadyExists,
     TResult Function(_TransactionUserRejected value)? userRejected,
     TResult Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult Function(_TransactionRPCError value)? rpcError,
     TResult Function(_TransactionOtherError value)? other,
     required TResult orElse(),
   }) {
@@ -359,6 +371,7 @@ class _$TransactionConnectionErrorImpl extends _TransactionConnectionError {
     required TResult Function() serviceAlreadyExists,
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
+    required TResult Function(int code, String message, Object? data) rpcError,
     required TResult Function(String? reason) other,
   }) {
     return connectivity();
@@ -377,6 +390,7 @@ class _$TransactionConnectionErrorImpl extends _TransactionConnectionError {
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
+    TResult? Function(int code, String message, Object? data)? rpcError,
     TResult? Function(String? reason)? other,
   }) {
     return connectivity?.call();
@@ -395,6 +409,7 @@ class _$TransactionConnectionErrorImpl extends _TransactionConnectionError {
     TResult Function()? serviceAlreadyExists,
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
+    TResult Function(int code, String message, Object? data)? rpcError,
     TResult Function(String? reason)? other,
     required TResult orElse(),
   }) {
@@ -422,6 +437,7 @@ class _$TransactionConnectionErrorImpl extends _TransactionConnectionError {
         serviceAlreadyExists,
     required TResult Function(_TransactionUserRejected value) userRejected,
     required TResult Function(_TransactionUnknownAccount value) unknownAccount,
+    required TResult Function(_TransactionRPCError value) rpcError,
     required TResult Function(_TransactionOtherError value) other,
   }) {
     return connectivity(this);
@@ -443,6 +459,7 @@ class _$TransactionConnectionErrorImpl extends _TransactionConnectionError {
         serviceAlreadyExists,
     TResult? Function(_TransactionUserRejected value)? userRejected,
     TResult? Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult? Function(_TransactionRPCError value)? rpcError,
     TResult? Function(_TransactionOtherError value)? other,
   }) {
     return connectivity?.call(this);
@@ -464,6 +481,7 @@ class _$TransactionConnectionErrorImpl extends _TransactionConnectionError {
         serviceAlreadyExists,
     TResult Function(_TransactionUserRejected value)? userRejected,
     TResult Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult Function(_TransactionRPCError value)? rpcError,
     TResult Function(_TransactionOtherError value)? other,
     required TResult orElse(),
   }) {
@@ -533,6 +551,7 @@ class _$TransactionConsensusNotReachedErrorImpl
     required TResult Function() serviceAlreadyExists,
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
+    required TResult Function(int code, String message, Object? data) rpcError,
     required TResult Function(String? reason) other,
   }) {
     return consensusNotReached();
@@ -551,6 +570,7 @@ class _$TransactionConsensusNotReachedErrorImpl
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
+    TResult? Function(int code, String message, Object? data)? rpcError,
     TResult? Function(String? reason)? other,
   }) {
     return consensusNotReached?.call();
@@ -569,6 +589,7 @@ class _$TransactionConsensusNotReachedErrorImpl
     TResult Function()? serviceAlreadyExists,
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
+    TResult Function(int code, String message, Object? data)? rpcError,
     TResult Function(String? reason)? other,
     required TResult orElse(),
   }) {
@@ -596,6 +617,7 @@ class _$TransactionConsensusNotReachedErrorImpl
         serviceAlreadyExists,
     required TResult Function(_TransactionUserRejected value) userRejected,
     required TResult Function(_TransactionUnknownAccount value) unknownAccount,
+    required TResult Function(_TransactionRPCError value) rpcError,
     required TResult Function(_TransactionOtherError value) other,
   }) {
     return consensusNotReached(this);
@@ -617,6 +639,7 @@ class _$TransactionConsensusNotReachedErrorImpl
         serviceAlreadyExists,
     TResult? Function(_TransactionUserRejected value)? userRejected,
     TResult? Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult? Function(_TransactionRPCError value)? rpcError,
     TResult? Function(_TransactionOtherError value)? other,
   }) {
     return consensusNotReached?.call(this);
@@ -638,6 +661,7 @@ class _$TransactionConsensusNotReachedErrorImpl
         serviceAlreadyExists,
     TResult Function(_TransactionUserRejected value)? userRejected,
     TResult Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult Function(_TransactionRPCError value)? rpcError,
     TResult Function(_TransactionOtherError value)? other,
     required TResult orElse(),
   }) {
@@ -702,6 +726,7 @@ class _$TransactionInvalidImpl extends _TransactionInvalid {
     required TResult Function() serviceAlreadyExists,
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
+    required TResult Function(int code, String message, Object? data) rpcError,
     required TResult Function(String? reason) other,
   }) {
     return invalidTransaction();
@@ -720,6 +745,7 @@ class _$TransactionInvalidImpl extends _TransactionInvalid {
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
+    TResult? Function(int code, String message, Object? data)? rpcError,
     TResult? Function(String? reason)? other,
   }) {
     return invalidTransaction?.call();
@@ -738,6 +764,7 @@ class _$TransactionInvalidImpl extends _TransactionInvalid {
     TResult Function()? serviceAlreadyExists,
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
+    TResult Function(int code, String message, Object? data)? rpcError,
     TResult Function(String? reason)? other,
     required TResult orElse(),
   }) {
@@ -765,6 +792,7 @@ class _$TransactionInvalidImpl extends _TransactionInvalid {
         serviceAlreadyExists,
     required TResult Function(_TransactionUserRejected value) userRejected,
     required TResult Function(_TransactionUnknownAccount value) unknownAccount,
+    required TResult Function(_TransactionRPCError value) rpcError,
     required TResult Function(_TransactionOtherError value) other,
   }) {
     return invalidTransaction(this);
@@ -786,6 +814,7 @@ class _$TransactionInvalidImpl extends _TransactionInvalid {
         serviceAlreadyExists,
     TResult? Function(_TransactionUserRejected value)? userRejected,
     TResult? Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult? Function(_TransactionRPCError value)? rpcError,
     TResult? Function(_TransactionOtherError value)? other,
   }) {
     return invalidTransaction?.call(this);
@@ -807,6 +836,7 @@ class _$TransactionInvalidImpl extends _TransactionInvalid {
         serviceAlreadyExists,
     TResult Function(_TransactionUserRejected value)? userRejected,
     TResult Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult Function(_TransactionRPCError value)? rpcError,
     TResult Function(_TransactionOtherError value)? other,
     required TResult orElse(),
   }) {
@@ -875,6 +905,7 @@ class _$TransactionInvalidConfirmationImpl
     required TResult Function() serviceAlreadyExists,
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
+    required TResult Function(int code, String message, Object? data) rpcError,
     required TResult Function(String? reason) other,
   }) {
     return invalidConfirmation();
@@ -893,6 +924,7 @@ class _$TransactionInvalidConfirmationImpl
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
+    TResult? Function(int code, String message, Object? data)? rpcError,
     TResult? Function(String? reason)? other,
   }) {
     return invalidConfirmation?.call();
@@ -911,6 +943,7 @@ class _$TransactionInvalidConfirmationImpl
     TResult Function()? serviceAlreadyExists,
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
+    TResult Function(int code, String message, Object? data)? rpcError,
     TResult Function(String? reason)? other,
     required TResult orElse(),
   }) {
@@ -938,6 +971,7 @@ class _$TransactionInvalidConfirmationImpl
         serviceAlreadyExists,
     required TResult Function(_TransactionUserRejected value) userRejected,
     required TResult Function(_TransactionUnknownAccount value) unknownAccount,
+    required TResult Function(_TransactionRPCError value) rpcError,
     required TResult Function(_TransactionOtherError value) other,
   }) {
     return invalidConfirmation(this);
@@ -959,6 +993,7 @@ class _$TransactionInvalidConfirmationImpl
         serviceAlreadyExists,
     TResult? Function(_TransactionUserRejected value)? userRejected,
     TResult? Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult? Function(_TransactionRPCError value)? rpcError,
     TResult? Function(_TransactionOtherError value)? other,
   }) {
     return invalidConfirmation?.call(this);
@@ -980,6 +1015,7 @@ class _$TransactionInvalidConfirmationImpl
         serviceAlreadyExists,
     TResult Function(_TransactionUserRejected value)? userRejected,
     TResult Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult Function(_TransactionRPCError value)? rpcError,
     TResult Function(_TransactionOtherError value)? other,
     required TResult orElse(),
   }) {
@@ -1048,6 +1084,7 @@ class _$TransactionInsufficientFundsImpl extends _TransactionInsufficientFunds {
     required TResult Function() serviceAlreadyExists,
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
+    required TResult Function(int code, String message, Object? data) rpcError,
     required TResult Function(String? reason) other,
   }) {
     return insufficientFunds();
@@ -1066,6 +1103,7 @@ class _$TransactionInsufficientFundsImpl extends _TransactionInsufficientFunds {
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
+    TResult? Function(int code, String message, Object? data)? rpcError,
     TResult? Function(String? reason)? other,
   }) {
     return insufficientFunds?.call();
@@ -1084,6 +1122,7 @@ class _$TransactionInsufficientFundsImpl extends _TransactionInsufficientFunds {
     TResult Function()? serviceAlreadyExists,
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
+    TResult Function(int code, String message, Object? data)? rpcError,
     TResult Function(String? reason)? other,
     required TResult orElse(),
   }) {
@@ -1111,6 +1150,7 @@ class _$TransactionInsufficientFundsImpl extends _TransactionInsufficientFunds {
         serviceAlreadyExists,
     required TResult Function(_TransactionUserRejected value) userRejected,
     required TResult Function(_TransactionUnknownAccount value) unknownAccount,
+    required TResult Function(_TransactionRPCError value) rpcError,
     required TResult Function(_TransactionOtherError value) other,
   }) {
     return insufficientFunds(this);
@@ -1132,6 +1172,7 @@ class _$TransactionInsufficientFundsImpl extends _TransactionInsufficientFunds {
         serviceAlreadyExists,
     TResult? Function(_TransactionUserRejected value)? userRejected,
     TResult? Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult? Function(_TransactionRPCError value)? rpcError,
     TResult? Function(_TransactionOtherError value)? other,
   }) {
     return insufficientFunds?.call(this);
@@ -1153,6 +1194,7 @@ class _$TransactionInsufficientFundsImpl extends _TransactionInsufficientFunds {
         serviceAlreadyExists,
     TResult Function(_TransactionUserRejected value)? userRejected,
     TResult Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult Function(_TransactionRPCError value)? rpcError,
     TResult Function(_TransactionOtherError value)? other,
     required TResult orElse(),
   }) {
@@ -1221,6 +1263,7 @@ class _$TransactionServiceNotFoundImpl extends _TransactionServiceNotFound {
     required TResult Function() serviceAlreadyExists,
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
+    required TResult Function(int code, String message, Object? data) rpcError,
     required TResult Function(String? reason) other,
   }) {
     return serviceNotFound();
@@ -1239,6 +1282,7 @@ class _$TransactionServiceNotFoundImpl extends _TransactionServiceNotFound {
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
+    TResult? Function(int code, String message, Object? data)? rpcError,
     TResult? Function(String? reason)? other,
   }) {
     return serviceNotFound?.call();
@@ -1257,6 +1301,7 @@ class _$TransactionServiceNotFoundImpl extends _TransactionServiceNotFound {
     TResult Function()? serviceAlreadyExists,
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
+    TResult Function(int code, String message, Object? data)? rpcError,
     TResult Function(String? reason)? other,
     required TResult orElse(),
   }) {
@@ -1284,6 +1329,7 @@ class _$TransactionServiceNotFoundImpl extends _TransactionServiceNotFound {
         serviceAlreadyExists,
     required TResult Function(_TransactionUserRejected value) userRejected,
     required TResult Function(_TransactionUnknownAccount value) unknownAccount,
+    required TResult Function(_TransactionRPCError value) rpcError,
     required TResult Function(_TransactionOtherError value) other,
   }) {
     return serviceNotFound(this);
@@ -1305,6 +1351,7 @@ class _$TransactionServiceNotFoundImpl extends _TransactionServiceNotFound {
         serviceAlreadyExists,
     TResult? Function(_TransactionUserRejected value)? userRejected,
     TResult? Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult? Function(_TransactionRPCError value)? rpcError,
     TResult? Function(_TransactionOtherError value)? other,
   }) {
     return serviceNotFound?.call(this);
@@ -1326,6 +1373,7 @@ class _$TransactionServiceNotFoundImpl extends _TransactionServiceNotFound {
         serviceAlreadyExists,
     TResult Function(_TransactionUserRejected value)? userRejected,
     TResult Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult Function(_TransactionRPCError value)? rpcError,
     TResult Function(_TransactionOtherError value)? other,
     required TResult orElse(),
   }) {
@@ -1395,6 +1443,7 @@ class _$TransactionServiceAlreadyExistsImpl
     required TResult Function() serviceAlreadyExists,
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
+    required TResult Function(int code, String message, Object? data) rpcError,
     required TResult Function(String? reason) other,
   }) {
     return serviceAlreadyExists();
@@ -1413,6 +1462,7 @@ class _$TransactionServiceAlreadyExistsImpl
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
+    TResult? Function(int code, String message, Object? data)? rpcError,
     TResult? Function(String? reason)? other,
   }) {
     return serviceAlreadyExists?.call();
@@ -1431,6 +1481,7 @@ class _$TransactionServiceAlreadyExistsImpl
     TResult Function()? serviceAlreadyExists,
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
+    TResult Function(int code, String message, Object? data)? rpcError,
     TResult Function(String? reason)? other,
     required TResult orElse(),
   }) {
@@ -1458,6 +1509,7 @@ class _$TransactionServiceAlreadyExistsImpl
         serviceAlreadyExists,
     required TResult Function(_TransactionUserRejected value) userRejected,
     required TResult Function(_TransactionUnknownAccount value) unknownAccount,
+    required TResult Function(_TransactionRPCError value) rpcError,
     required TResult Function(_TransactionOtherError value) other,
   }) {
     return serviceAlreadyExists(this);
@@ -1479,6 +1531,7 @@ class _$TransactionServiceAlreadyExistsImpl
         serviceAlreadyExists,
     TResult? Function(_TransactionUserRejected value)? userRejected,
     TResult? Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult? Function(_TransactionRPCError value)? rpcError,
     TResult? Function(_TransactionOtherError value)? other,
   }) {
     return serviceAlreadyExists?.call(this);
@@ -1500,6 +1553,7 @@ class _$TransactionServiceAlreadyExistsImpl
         serviceAlreadyExists,
     TResult Function(_TransactionUserRejected value)? userRejected,
     TResult Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult Function(_TransactionRPCError value)? rpcError,
     TResult Function(_TransactionOtherError value)? other,
     required TResult orElse(),
   }) {
@@ -1567,6 +1621,7 @@ class _$TransactionUserRejectedImpl extends _TransactionUserRejected {
     required TResult Function() serviceAlreadyExists,
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
+    required TResult Function(int code, String message, Object? data) rpcError,
     required TResult Function(String? reason) other,
   }) {
     return userRejected();
@@ -1585,6 +1640,7 @@ class _$TransactionUserRejectedImpl extends _TransactionUserRejected {
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
+    TResult? Function(int code, String message, Object? data)? rpcError,
     TResult? Function(String? reason)? other,
   }) {
     return userRejected?.call();
@@ -1603,6 +1659,7 @@ class _$TransactionUserRejectedImpl extends _TransactionUserRejected {
     TResult Function()? serviceAlreadyExists,
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
+    TResult Function(int code, String message, Object? data)? rpcError,
     TResult Function(String? reason)? other,
     required TResult orElse(),
   }) {
@@ -1630,6 +1687,7 @@ class _$TransactionUserRejectedImpl extends _TransactionUserRejected {
         serviceAlreadyExists,
     required TResult Function(_TransactionUserRejected value) userRejected,
     required TResult Function(_TransactionUnknownAccount value) unknownAccount,
+    required TResult Function(_TransactionRPCError value) rpcError,
     required TResult Function(_TransactionOtherError value) other,
   }) {
     return userRejected(this);
@@ -1651,6 +1709,7 @@ class _$TransactionUserRejectedImpl extends _TransactionUserRejected {
         serviceAlreadyExists,
     TResult? Function(_TransactionUserRejected value)? userRejected,
     TResult? Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult? Function(_TransactionRPCError value)? rpcError,
     TResult? Function(_TransactionOtherError value)? other,
   }) {
     return userRejected?.call(this);
@@ -1672,6 +1731,7 @@ class _$TransactionUserRejectedImpl extends _TransactionUserRejected {
         serviceAlreadyExists,
     TResult Function(_TransactionUserRejected value)? userRejected,
     TResult Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult Function(_TransactionRPCError value)? rpcError,
     TResult Function(_TransactionOtherError value)? other,
     required TResult orElse(),
   }) {
@@ -1767,6 +1827,7 @@ class _$TransactionUnknownAccountImpl extends _TransactionUnknownAccount {
     required TResult Function() serviceAlreadyExists,
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
+    required TResult Function(int code, String message, Object? data) rpcError,
     required TResult Function(String? reason) other,
   }) {
     return unknownAccount(accountName);
@@ -1785,6 +1846,7 @@ class _$TransactionUnknownAccountImpl extends _TransactionUnknownAccount {
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
+    TResult? Function(int code, String message, Object? data)? rpcError,
     TResult? Function(String? reason)? other,
   }) {
     return unknownAccount?.call(accountName);
@@ -1803,6 +1865,7 @@ class _$TransactionUnknownAccountImpl extends _TransactionUnknownAccount {
     TResult Function()? serviceAlreadyExists,
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
+    TResult Function(int code, String message, Object? data)? rpcError,
     TResult Function(String? reason)? other,
     required TResult orElse(),
   }) {
@@ -1830,6 +1893,7 @@ class _$TransactionUnknownAccountImpl extends _TransactionUnknownAccount {
         serviceAlreadyExists,
     required TResult Function(_TransactionUserRejected value) userRejected,
     required TResult Function(_TransactionUnknownAccount value) unknownAccount,
+    required TResult Function(_TransactionRPCError value) rpcError,
     required TResult Function(_TransactionOtherError value) other,
   }) {
     return unknownAccount(this);
@@ -1851,6 +1915,7 @@ class _$TransactionUnknownAccountImpl extends _TransactionUnknownAccount {
         serviceAlreadyExists,
     TResult? Function(_TransactionUserRejected value)? userRejected,
     TResult? Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult? Function(_TransactionRPCError value)? rpcError,
     TResult? Function(_TransactionOtherError value)? other,
   }) {
     return unknownAccount?.call(this);
@@ -1872,6 +1937,7 @@ class _$TransactionUnknownAccountImpl extends _TransactionUnknownAccount {
         serviceAlreadyExists,
     TResult Function(_TransactionUserRejected value)? userRejected,
     TResult Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult Function(_TransactionRPCError value)? rpcError,
     TResult Function(_TransactionOtherError value)? other,
     required TResult orElse(),
   }) {
@@ -1891,6 +1957,233 @@ abstract class _TransactionUnknownAccount extends TransactionError {
   @JsonKey(ignore: true)
   _$$TransactionUnknownAccountImplCopyWith<_$TransactionUnknownAccountImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$TransactionRPCErrorImplCopyWith<$Res> {
+  factory _$$TransactionRPCErrorImplCopyWith(_$TransactionRPCErrorImpl value,
+          $Res Function(_$TransactionRPCErrorImpl) then) =
+      __$$TransactionRPCErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int code, String message, Object? data});
+}
+
+/// @nodoc
+class __$$TransactionRPCErrorImplCopyWithImpl<$Res>
+    extends _$TransactionErrorCopyWithImpl<$Res, _$TransactionRPCErrorImpl>
+    implements _$$TransactionRPCErrorImplCopyWith<$Res> {
+  __$$TransactionRPCErrorImplCopyWithImpl(_$TransactionRPCErrorImpl _value,
+      $Res Function(_$TransactionRPCErrorImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = null,
+    Object? message = null,
+    Object? data = freezed,
+  }) {
+    return _then(_$TransactionRPCErrorImpl(
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: freezed == data ? _value.data : data,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$TransactionRPCErrorImpl extends _TransactionRPCError {
+  const _$TransactionRPCErrorImpl(
+      {required this.code, required this.message, this.data})
+      : super._();
+
+  @override
+  final int code;
+  @override
+  final String message;
+  @override
+  final Object? data;
+
+  @override
+  String toString() {
+    return 'TransactionError.rpcError(code: $code, message: $message, data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TransactionRPCErrorImpl &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.message, message) || other.message == message) &&
+            const DeepCollectionEquality().equals(other.data, data));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, code, message, const DeepCollectionEquality().hash(data));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TransactionRPCErrorImplCopyWith<_$TransactionRPCErrorImpl> get copyWith =>
+      __$$TransactionRPCErrorImplCopyWithImpl<_$TransactionRPCErrorImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() timeout,
+    required TResult Function() connectivity,
+    required TResult Function() consensusNotReached,
+    required TResult Function() invalidTransaction,
+    required TResult Function() invalidConfirmation,
+    required TResult Function() insufficientFunds,
+    required TResult Function() serviceNotFound,
+    required TResult Function() serviceAlreadyExists,
+    required TResult Function() userRejected,
+    required TResult Function(String accountName) unknownAccount,
+    required TResult Function(int code, String message, Object? data) rpcError,
+    required TResult Function(String? reason) other,
+  }) {
+    return rpcError(code, message, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? timeout,
+    TResult? Function()? connectivity,
+    TResult? Function()? consensusNotReached,
+    TResult? Function()? invalidTransaction,
+    TResult? Function()? invalidConfirmation,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? serviceNotFound,
+    TResult? Function()? serviceAlreadyExists,
+    TResult? Function()? userRejected,
+    TResult? Function(String accountName)? unknownAccount,
+    TResult? Function(int code, String message, Object? data)? rpcError,
+    TResult? Function(String? reason)? other,
+  }) {
+    return rpcError?.call(code, message, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? timeout,
+    TResult Function()? connectivity,
+    TResult Function()? consensusNotReached,
+    TResult Function()? invalidTransaction,
+    TResult Function()? invalidConfirmation,
+    TResult Function()? insufficientFunds,
+    TResult Function()? serviceNotFound,
+    TResult Function()? serviceAlreadyExists,
+    TResult Function()? userRejected,
+    TResult Function(String accountName)? unknownAccount,
+    TResult Function(int code, String message, Object? data)? rpcError,
+    TResult Function(String? reason)? other,
+    required TResult orElse(),
+  }) {
+    if (rpcError != null) {
+      return rpcError(code, message, data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TransactionTimeout value) timeout,
+    required TResult Function(_TransactionConnectionError value) connectivity,
+    required TResult Function(_TransactionConsensusNotReachedError value)
+        consensusNotReached,
+    required TResult Function(_TransactionInvalid value) invalidTransaction,
+    required TResult Function(_TransactionInvalidConfirmation value)
+        invalidConfirmation,
+    required TResult Function(_TransactionInsufficientFunds value)
+        insufficientFunds,
+    required TResult Function(_TransactionServiceNotFound value)
+        serviceNotFound,
+    required TResult Function(_TransactionServiceAlreadyExists value)
+        serviceAlreadyExists,
+    required TResult Function(_TransactionUserRejected value) userRejected,
+    required TResult Function(_TransactionUnknownAccount value) unknownAccount,
+    required TResult Function(_TransactionRPCError value) rpcError,
+    required TResult Function(_TransactionOtherError value) other,
+  }) {
+    return rpcError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TransactionTimeout value)? timeout,
+    TResult? Function(_TransactionConnectionError value)? connectivity,
+    TResult? Function(_TransactionConsensusNotReachedError value)?
+        consensusNotReached,
+    TResult? Function(_TransactionInvalid value)? invalidTransaction,
+    TResult? Function(_TransactionInvalidConfirmation value)?
+        invalidConfirmation,
+    TResult? Function(_TransactionInsufficientFunds value)? insufficientFunds,
+    TResult? Function(_TransactionServiceNotFound value)? serviceNotFound,
+    TResult? Function(_TransactionServiceAlreadyExists value)?
+        serviceAlreadyExists,
+    TResult? Function(_TransactionUserRejected value)? userRejected,
+    TResult? Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult? Function(_TransactionRPCError value)? rpcError,
+    TResult? Function(_TransactionOtherError value)? other,
+  }) {
+    return rpcError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TransactionTimeout value)? timeout,
+    TResult Function(_TransactionConnectionError value)? connectivity,
+    TResult Function(_TransactionConsensusNotReachedError value)?
+        consensusNotReached,
+    TResult Function(_TransactionInvalid value)? invalidTransaction,
+    TResult Function(_TransactionInvalidConfirmation value)?
+        invalidConfirmation,
+    TResult Function(_TransactionInsufficientFunds value)? insufficientFunds,
+    TResult Function(_TransactionServiceNotFound value)? serviceNotFound,
+    TResult Function(_TransactionServiceAlreadyExists value)?
+        serviceAlreadyExists,
+    TResult Function(_TransactionUserRejected value)? userRejected,
+    TResult Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult Function(_TransactionRPCError value)? rpcError,
+    TResult Function(_TransactionOtherError value)? other,
+    required TResult orElse(),
+  }) {
+    if (rpcError != null) {
+      return rpcError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TransactionRPCError extends TransactionError {
+  const factory _TransactionRPCError(
+      {required final int code,
+      required final String message,
+      final Object? data}) = _$TransactionRPCErrorImpl;
+  const _TransactionRPCError._() : super._();
+
+  int get code;
+  String get message;
+  Object? get data;
+  @JsonKey(ignore: true)
+  _$$TransactionRPCErrorImplCopyWith<_$TransactionRPCErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -1969,6 +2262,7 @@ class _$TransactionOtherErrorImpl extends _TransactionOtherError {
     required TResult Function() serviceAlreadyExists,
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
+    required TResult Function(int code, String message, Object? data) rpcError,
     required TResult Function(String? reason) other,
   }) {
     return other(reason);
@@ -1987,6 +2281,7 @@ class _$TransactionOtherErrorImpl extends _TransactionOtherError {
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
+    TResult? Function(int code, String message, Object? data)? rpcError,
     TResult? Function(String? reason)? other,
   }) {
     return other?.call(reason);
@@ -2005,6 +2300,7 @@ class _$TransactionOtherErrorImpl extends _TransactionOtherError {
     TResult Function()? serviceAlreadyExists,
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
+    TResult Function(int code, String message, Object? data)? rpcError,
     TResult Function(String? reason)? other,
     required TResult orElse(),
   }) {
@@ -2032,6 +2328,7 @@ class _$TransactionOtherErrorImpl extends _TransactionOtherError {
         serviceAlreadyExists,
     required TResult Function(_TransactionUserRejected value) userRejected,
     required TResult Function(_TransactionUnknownAccount value) unknownAccount,
+    required TResult Function(_TransactionRPCError value) rpcError,
     required TResult Function(_TransactionOtherError value) other,
   }) {
     return other(this);
@@ -2053,6 +2350,7 @@ class _$TransactionOtherErrorImpl extends _TransactionOtherError {
         serviceAlreadyExists,
     TResult? Function(_TransactionUserRejected value)? userRejected,
     TResult? Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult? Function(_TransactionRPCError value)? rpcError,
     TResult? Function(_TransactionOtherError value)? other,
   }) {
     return other?.call(this);
@@ -2074,6 +2372,7 @@ class _$TransactionOtherErrorImpl extends _TransactionOtherError {
         serviceAlreadyExists,
     TResult Function(_TransactionUserRejected value)? userRejected,
     TResult Function(_TransactionUnknownAccount value)? unknownAccount,
+    TResult Function(_TransactionRPCError value)? rpcError,
     TResult Function(_TransactionOtherError value)? other,
     required TResult orElse(),
   }) {

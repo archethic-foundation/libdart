@@ -109,6 +109,7 @@ class ApiService with JsonRPCUtil {
         'sendTx: (${transaction.address}) $e',
         logsActivation: logsActivation,
       );
+      rethrow;
     }
 
     return completer.future;
