@@ -2,6 +2,9 @@ Changelog
 =========
 =========
 
+#### Version 3.3.13
+* Add decimal property in `toBigInt` and `fromBigInt` method
+  
 #### Version 3.3.12
 * Fix `ArchethicJsonRPCException` is not catched
 

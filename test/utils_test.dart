@@ -56,6 +56,14 @@ void main() {
     test('should convert a double into a big integer with 10^8', () {
       expect(toBigInt(0.617714895), 61771489);
     });
+
+    test('should return Big Int with 8 decimals by default', () {
+      expect(toBigInt(12.5345), 1253450000);
+    });
+
+    test('should return Big Int with decimals passed in param', () {
+      expect(toBigInt(12.5345, decimal: 6), 12534500);
+    });
   });
 
   group('fromBigInt', () {
@@ -69,6 +77,14 @@ void main() {
 
     test('should convert a big integer with 10^8 into double', () {
       expect(0.61771489, fromBigInt(61771489));
+    });
+
+    test('should return 8 decimals number by default', () {
+      expect(12.5345, fromBigInt(1253450000));
+    });
+
+    test('should return decimals number with decimals passed in param', () {
+      expect(12.5345, fromBigInt(12534500, decimal: 6));
     });
   });
 

@@ -3,7 +3,7 @@ name: archethic_lib_dart
 description: Archethic dart library for Flutter for Node and Browser. This library aims to provide a easy way to create Archethic transaction and to send them over the network
 homepage: https://github.com/archethic-foundation/libdart
 
-version: 3.3.12
+version: 3.3.13
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -60,7 +60,6 @@ dev_dependencies:
 
   # A tool to help you find missing, under-promoted, over-promoted, and unused dependencies.
   dependency_validator: ^3.2.3
-
   # Code generation for immutable classes that has a simple syntax/API without compromising on the features
   freezed: ^2.4.7
 
