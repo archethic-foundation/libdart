@@ -40,7 +40,8 @@ Uint8List concatUint8List(Iterable<Uint8List> list) =>
 /// Convert any number into a big int for 10^8 decimals
 /// @param {num} Number to convert
 /// @param {num} Number to of decimals
-int toBigInt(num? number, {int decimal = 8}) {
+int toBigInt(num? number) {
+  const decimal = 8;
   if (number == null) {
     return 0;
   }
@@ -53,7 +54,8 @@ int toBigInt(num? number, {int decimal = 8}) {
 
 /// Convert big int of 10^8 decimals to any number
 /// @param {int} Number to convert
-num fromBigInt(int? number, {int decimal = 8}) {
+num fromBigInt(int? number) {
+  const decimal = 8;
   if (number == null) {
     return 0;
   }
