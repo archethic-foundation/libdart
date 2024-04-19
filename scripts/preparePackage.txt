@@ -6,10 +6,10 @@ dart pub publish
 
 Clean dependencies (from https://pub.dev/packages/dependency_validator)
 dart pub add --dev dependency_validator
-flutter pub run dependency_validator 
+dart pub run dependency_validator 
 dart pub remove dependency_validator
 
 List unused files (https://pub.dev/packages/daunused)
 dart pub add --dev daunused
-flutter pub run daunused:daunused.dart .
+dart pub run daunused:daunused.dart .
 dart pub remove daunused

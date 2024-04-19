@@ -2,6 +2,9 @@ Changelog
 =========
 =========
 
+#### Version 3.3.14
+* Rollback "Add decimal property in `toBigInt` and `fromBigInt` method" because the Blockchain will manage directly decimals
+
 #### Version 3.3.13
 * Add decimal property in `toBigInt` and `fromBigInt` method
   
