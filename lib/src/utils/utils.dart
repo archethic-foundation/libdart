@@ -39,28 +39,23 @@ Uint8List concatUint8List(Iterable<Uint8List> list) =>
 
 /// Convert any number into a big int for 10^8 decimals
 /// @param {num} Number to convert
-/// @param {num} Number to of decimals
 int toBigInt(num? number) {
-  const decimal = 8;
   if (number == null) {
     return 0;
   }
-  var nb = number;
-  for (var i = 0; i < decimal; i++) {
-    nb *= 10;
-  }
-  return nb.truncate();
+  return (Decimal.parse(number.toString()) * Decimal.parse('100000000'))
+      .toDouble()
+      .floor();
 }
 
 /// Convert big int of 10^8 decimals to any number
 /// @param {int} Number to convert
 num fromBigInt(int? number) {
-  const decimal = 8;
   if (number == null) {
     return 0;
   }
-  final divisor = Decimal.parse('10').pow(decimal).toDecimal();
-  return (Decimal.parse(number.toString()) / divisor).toDouble();
+  return (Decimal.parse(number.toString()) / Decimal.parse('100000000'))
+      .toDouble();
 }
 
 /// Convert any number into a byte array

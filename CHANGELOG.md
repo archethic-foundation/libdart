@@ -2,6 +2,9 @@ Changelog
 =========
 =========
 
+#### Version 3.3.15
+* Rollback `toBigInt` and `fromBigInt` from v3.3.12 method because of float calculation error
+
 #### Version 3.3.14
 * Rollback "Add decimal property in `toBigInt` and `fromBigInt` method" because the Blockchain will manage directly decimals
 

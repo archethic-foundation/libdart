@@ -60,6 +60,10 @@ void main() {
     test('should return Big Int with 8 decimals by default', () {
       expect(toBigInt(12.5345), 1253450000);
     });
+
+    test('test precision', () {
+      expect(120139.69456927, fromBigInt(12013969456927));
+    });
   });
 
   group('fromBigInt', () {
