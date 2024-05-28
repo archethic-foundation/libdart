@@ -26,9 +26,6 @@ class UnspentOutputs with _$UnspentOutputs {
     /// Date time when the UTXO created/manipulated
     int? timestamp,
 
-    /// Version of the UTXO data structure
-    int? version,
-
     /// State: It is the state of a smart contract
     Map<String, dynamic>? state,
   }) = _UnspentOutputs;

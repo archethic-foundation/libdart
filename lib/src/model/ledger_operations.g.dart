@@ -19,6 +19,10 @@ _$LedgerOperationsImpl _$$LedgerOperationsImplFromJson(
               ?.map((e) => UnspentOutputs.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      consumedInputs: (json['consumedInputs'] as List<dynamic>?)
+              ?.map((e) => ConsumedInputs.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$LedgerOperationsImplToJson(
@@ -27,4 +31,5 @@ Map<String, dynamic> _$$LedgerOperationsImplToJson(
       'fee': instance.fee,
       'transactionMovements': instance.transactionMovements,
       'unspentOutputs': instance.unspentOutputs,
+      'consumedInputs': instance.consumedInputs,
     };

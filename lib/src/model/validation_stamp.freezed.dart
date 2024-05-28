@@ -35,6 +35,9 @@ mixin _$ValidationStamp {
   /// Timestamp
   int? get timestamp => throw _privateConstructorUsedError;
 
+  /// Protocol version: Version of the transaction validation protocol
+  int? get protocolVersion => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ValidationStampCopyWith<ValidationStamp> get copyWith =>
@@ -52,7 +55,8 @@ abstract class $ValidationStampCopyWith<$Res> {
       String? proofOfIntegrity,
       String? proofOfWork,
       String? signature,
-      int? timestamp});
+      int? timestamp,
+      int? protocolVersion});
 
   $LedgerOperationsCopyWith<$Res>? get ledgerOperations;
 }
@@ -75,6 +79,7 @@ class _$ValidationStampCopyWithImpl<$Res, $Val extends ValidationStamp>
     Object? proofOfWork = freezed,
     Object? signature = freezed,
     Object? timestamp = freezed,
+    Object? protocolVersion = freezed,
   }) {
     return _then(_value.copyWith(
       ledgerOperations: freezed == ledgerOperations
@@ -96,6 +101,10 @@ class _$ValidationStampCopyWithImpl<$Res, $Val extends ValidationStamp>
       timestamp: freezed == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
+              as int?,
+      protocolVersion: freezed == protocolVersion
+          ? _value.protocolVersion
+          : protocolVersion // ignore: cast_nullable_to_non_nullable
               as int?,
     ) as $Val);
   }
@@ -126,7 +135,8 @@ abstract class _$$ValidationStampImplCopyWith<$Res>
       String? proofOfIntegrity,
       String? proofOfWork,
       String? signature,
-      int? timestamp});
+      int? timestamp,
+      int? protocolVersion});
 
   @override
   $LedgerOperationsCopyWith<$Res>? get ledgerOperations;
@@ -148,6 +158,7 @@ class __$$ValidationStampImplCopyWithImpl<$Res>
     Object? proofOfWork = freezed,
     Object? signature = freezed,
     Object? timestamp = freezed,
+    Object? protocolVersion = freezed,
   }) {
     return _then(_$ValidationStampImpl(
       ledgerOperations: freezed == ledgerOperations
@@ -170,6 +181,10 @@ class __$$ValidationStampImplCopyWithImpl<$Res>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int?,
+      protocolVersion: freezed == protocolVersion
+          ? _value.protocolVersion
+          : protocolVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -182,7 +197,8 @@ class _$ValidationStampImpl extends _ValidationStamp {
       this.proofOfIntegrity,
       this.proofOfWork,
       this.signature,
-      this.timestamp})
+      this.timestamp,
+      this.protocolVersion})
       : super._();
 
   factory _$ValidationStampImpl.fromJson(Map<String, dynamic> json) =>
@@ -208,9 +224,13 @@ class _$ValidationStampImpl extends _ValidationStamp {
   @override
   final int? timestamp;
 
+  /// Protocol version: Version of the transaction validation protocol
+  @override
+  final int? protocolVersion;
+
   @override
   String toString() {
-    return 'ValidationStamp(ledgerOperations: $ledgerOperations, proofOfIntegrity: $proofOfIntegrity, proofOfWork: $proofOfWork, signature: $signature, timestamp: $timestamp)';
+    return 'ValidationStamp(ledgerOperations: $ledgerOperations, proofOfIntegrity: $proofOfIntegrity, proofOfWork: $proofOfWork, signature: $signature, timestamp: $timestamp, protocolVersion: $protocolVersion)';
   }
 
   @override
@@ -227,13 +247,15 @@ class _$ValidationStampImpl extends _ValidationStamp {
             (identical(other.signature, signature) ||
                 other.signature == signature) &&
             (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp));
+                other.timestamp == timestamp) &&
+            (identical(other.protocolVersion, protocolVersion) ||
+                other.protocolVersion == protocolVersion));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, ledgerOperations,
-      proofOfIntegrity, proofOfWork, signature, timestamp);
+      proofOfIntegrity, proofOfWork, signature, timestamp, protocolVersion);
 
   @JsonKey(ignore: true)
   @override
@@ -256,7 +278,8 @@ abstract class _ValidationStamp extends ValidationStamp {
       final String? proofOfIntegrity,
       final String? proofOfWork,
       final String? signature,
-      final int? timestamp}) = _$ValidationStampImpl;
+      final int? timestamp,
+      final int? protocolVersion}) = _$ValidationStampImpl;
   const _ValidationStamp._() : super._();
 
   factory _ValidationStamp.fromJson(Map<String, dynamic> json) =
@@ -282,6 +305,10 @@ abstract class _ValidationStamp extends ValidationStamp {
 
   /// Timestamp
   int? get timestamp;
+  @override
+
+  /// Protocol version: Version of the transaction validation protocol
+  int? get protocolVersion;
   @override
   @JsonKey(ignore: true)
   _$$ValidationStampImplCopyWith<_$ValidationStampImpl> get copyWith =>

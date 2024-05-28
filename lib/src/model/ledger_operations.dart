@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:archethic_lib_dart/src/model/consumed_inputs.dart';
 import 'package:archethic_lib_dart/src/model/transaction_movement.dart';
 import 'package:archethic_lib_dart/src/model/unspent_outputs.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -19,6 +20,9 @@ class LedgerOperations with _$LedgerOperations {
 
     /// Unspent outputs: remaining unspent outputs
     @Default([]) final List<UnspentOutputs> unspentOutputs,
+
+    /// Unspent outputs: remaining unspent outputs
+    @Default([]) final List<ConsumedInputs> consumedInputs,
   }) = _LedgerOperations;
   const LedgerOperations._();
 

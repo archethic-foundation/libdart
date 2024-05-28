@@ -23,6 +23,9 @@ class ValidationStamp with _$ValidationStamp {
 
     /// Timestamp
     int? timestamp,
+
+    /// Protocol version: Version of the transaction validation protocol
+    int? protocolVersion,
   }) = _ValidationStamp;
   const ValidationStamp._();
 
