@@ -17,6 +17,7 @@ _$ValidationStampImpl _$$ValidationStampImplFromJson(
       proofOfWork: json['proofOfWork'] as String?,
       signature: json['signature'] as String?,
       timestamp: json['timestamp'] as int?,
+      protocolVersion: json['protocolVersion'] as int?,
     );
 
 Map<String, dynamic> _$$ValidationStampImplToJson(
@@ -27,4 +28,5 @@ Map<String, dynamic> _$$ValidationStampImplToJson(
       'proofOfWork': instance.proofOfWork,
       'signature': instance.signature,
       'timestamp': instance.timestamp,
+      'protocolVersion': instance.protocolVersion,
     };

@@ -1,30 +1,32 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'unspent_outputs.dart';
+part of 'consumed_inputs.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$UnspentOutputsImpl _$$UnspentOutputsImplFromJson(Map<String, dynamic> json) =>
-    _$UnspentOutputsImpl(
+_$ConsumedInputsImpl _$$ConsumedInputsImplFromJson(Map<String, dynamic> json) =>
+    _$ConsumedInputsImpl(
       amount: json['amount'] as int?,
-      tokenAddress: json['tokenAddress'] as String?,
-      type: json['type'] as String?,
       from: json['from'] as String?,
-      tokenId: json['tokenId'] as int?,
+      tokenAddress: json['tokenAddress'] as String?,
       timestamp: json['timestamp'] as int?,
-      state: json['state'] as Map<String, dynamic>?,
+      type: json['type'] as String?,
+      tokenId: json['tokenId'] as int?,
+      protocolVersion: json['protocolVersion'] as int?,
+      state: json['state'] as String?,
     );
 
-Map<String, dynamic> _$$UnspentOutputsImplToJson(
-        _$UnspentOutputsImpl instance) =>
+Map<String, dynamic> _$$ConsumedInputsImplToJson(
+        _$ConsumedInputsImpl instance) =>
     <String, dynamic>{
       'amount': instance.amount,
-      'tokenAddress': instance.tokenAddress,
-      'type': instance.type,
       'from': instance.from,
-      'tokenId': instance.tokenId,
+      'tokenAddress': instance.tokenAddress,
       'timestamp': instance.timestamp,
+      'type': instance.type,
+      'tokenId': instance.tokenId,
+      'protocolVersion': instance.protocolVersion,
       'state': instance.state,
     };

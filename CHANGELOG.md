@@ -2,6 +2,9 @@ Changelog
 =========
 =========
 
+#### Version 3.3.16
+* Update `Transaction` model from Blockchain structure
+
 #### Version 3.3.15
 * Rollback `toBigInt` and `fromBigInt` from v3.3.12 method because of float calculation error
 

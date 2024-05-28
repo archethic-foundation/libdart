@@ -30,6 +30,9 @@ mixin _$LedgerOperations {
   /// Unspent outputs: remaining unspent outputs
   List<UnspentOutputs> get unspentOutputs => throw _privateConstructorUsedError;
 
+  /// Unspent outputs: remaining unspent outputs
+  List<ConsumedInputs> get consumedInputs => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $LedgerOperationsCopyWith<LedgerOperations> get copyWith =>
@@ -45,7 +48,8 @@ abstract class $LedgerOperationsCopyWith<$Res> {
   $Res call(
       {int? fee,
       List<TransactionMovement> transactionMovements,
-      List<UnspentOutputs> unspentOutputs});
+      List<UnspentOutputs> unspentOutputs,
+      List<ConsumedInputs> consumedInputs});
 }
 
 /// @nodoc
@@ -64,6 +68,7 @@ class _$LedgerOperationsCopyWithImpl<$Res, $Val extends LedgerOperations>
     Object? fee = freezed,
     Object? transactionMovements = null,
     Object? unspentOutputs = null,
+    Object? consumedInputs = null,
   }) {
     return _then(_value.copyWith(
       fee: freezed == fee
@@ -78,6 +83,10 @@ class _$LedgerOperationsCopyWithImpl<$Res, $Val extends LedgerOperations>
           ? _value.unspentOutputs
           : unspentOutputs // ignore: cast_nullable_to_non_nullable
               as List<UnspentOutputs>,
+      consumedInputs: null == consumedInputs
+          ? _value.consumedInputs
+          : consumedInputs // ignore: cast_nullable_to_non_nullable
+              as List<ConsumedInputs>,
     ) as $Val);
   }
 }
@@ -93,7 +102,8 @@ abstract class _$$LedgerOperationsImplCopyWith<$Res>
   $Res call(
       {int? fee,
       List<TransactionMovement> transactionMovements,
-      List<UnspentOutputs> unspentOutputs});
+      List<UnspentOutputs> unspentOutputs,
+      List<ConsumedInputs> consumedInputs});
 }
 
 /// @nodoc
@@ -110,6 +120,7 @@ class __$$LedgerOperationsImplCopyWithImpl<$Res>
     Object? fee = freezed,
     Object? transactionMovements = null,
     Object? unspentOutputs = null,
+    Object? consumedInputs = null,
   }) {
     return _then(_$LedgerOperationsImpl(
       fee: freezed == fee
@@ -124,6 +135,10 @@ class __$$LedgerOperationsImplCopyWithImpl<$Res>
           ? _value._unspentOutputs
           : unspentOutputs // ignore: cast_nullable_to_non_nullable
               as List<UnspentOutputs>,
+      consumedInputs: null == consumedInputs
+          ? _value._consumedInputs
+          : consumedInputs // ignore: cast_nullable_to_non_nullable
+              as List<ConsumedInputs>,
     ));
   }
 }
@@ -134,9 +149,11 @@ class _$LedgerOperationsImpl extends _LedgerOperations {
   const _$LedgerOperationsImpl(
       {this.fee,
       final List<TransactionMovement> transactionMovements = const [],
-      final List<UnspentOutputs> unspentOutputs = const []})
+      final List<UnspentOutputs> unspentOutputs = const [],
+      final List<ConsumedInputs> consumedInputs = const []})
       : _transactionMovements = transactionMovements,
         _unspentOutputs = unspentOutputs,
+        _consumedInputs = consumedInputs,
         super._();
 
   factory _$LedgerOperationsImpl.fromJson(Map<String, dynamic> json) =>
@@ -171,9 +188,21 @@ class _$LedgerOperationsImpl extends _LedgerOperations {
     return EqualUnmodifiableListView(_unspentOutputs);
   }
 
+  /// Unspent outputs: remaining unspent outputs
+  final List<ConsumedInputs> _consumedInputs;
+
+  /// Unspent outputs: remaining unspent outputs
+  @override
+  @JsonKey()
+  List<ConsumedInputs> get consumedInputs {
+    if (_consumedInputs is EqualUnmodifiableListView) return _consumedInputs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_consumedInputs);
+  }
+
   @override
   String toString() {
-    return 'LedgerOperations(fee: $fee, transactionMovements: $transactionMovements, unspentOutputs: $unspentOutputs)';
+    return 'LedgerOperations(fee: $fee, transactionMovements: $transactionMovements, unspentOutputs: $unspentOutputs, consumedInputs: $consumedInputs)';
   }
 
   @override
@@ -185,7 +214,9 @@ class _$LedgerOperationsImpl extends _LedgerOperations {
             const DeepCollectionEquality()
                 .equals(other._transactionMovements, _transactionMovements) &&
             const DeepCollectionEquality()
-                .equals(other._unspentOutputs, _unspentOutputs));
+                .equals(other._unspentOutputs, _unspentOutputs) &&
+            const DeepCollectionEquality()
+                .equals(other._consumedInputs, _consumedInputs));
   }
 
   @JsonKey(ignore: true)
@@ -194,7 +225,8 @@ class _$LedgerOperationsImpl extends _LedgerOperations {
       runtimeType,
       fee,
       const DeepCollectionEquality().hash(_transactionMovements),
-      const DeepCollectionEquality().hash(_unspentOutputs));
+      const DeepCollectionEquality().hash(_unspentOutputs),
+      const DeepCollectionEquality().hash(_consumedInputs));
 
   @JsonKey(ignore: true)
   @override
@@ -215,7 +247,8 @@ abstract class _LedgerOperations extends LedgerOperations {
   const factory _LedgerOperations(
       {final int? fee,
       final List<TransactionMovement> transactionMovements,
-      final List<UnspentOutputs> unspentOutputs}) = _$LedgerOperationsImpl;
+      final List<UnspentOutputs> unspentOutputs,
+      final List<ConsumedInputs> consumedInputs}) = _$LedgerOperationsImpl;
   const _LedgerOperations._() : super._();
 
   factory _LedgerOperations.fromJson(Map<String, dynamic> json) =
@@ -233,6 +266,10 @@ abstract class _LedgerOperations extends LedgerOperations {
 
   /// Unspent outputs: remaining unspent outputs
   List<UnspentOutputs> get unspentOutputs;
+  @override
+
+  /// Unspent outputs: remaining unspent outputs
+  List<ConsumedInputs> get consumedInputs;
   @override
   @JsonKey(ignore: true)
   _$$LedgerOperationsImplCopyWith<_$LedgerOperationsImpl> get copyWith =>

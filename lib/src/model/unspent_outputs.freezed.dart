@@ -38,9 +38,6 @@ mixin _$UnspentOutputs {
   /// Date time when the UTXO created/manipulated
   int? get timestamp => throw _privateConstructorUsedError;
 
-  /// Version of the UTXO data structure
-  int? get version => throw _privateConstructorUsedError;
-
   /// State: It is the state of a smart contract
   Map<String, dynamic>? get state => throw _privateConstructorUsedError;
 
@@ -63,7 +60,6 @@ abstract class $UnspentOutputsCopyWith<$Res> {
       String? from,
       int? tokenId,
       int? timestamp,
-      int? version,
       Map<String, dynamic>? state});
 }
 
@@ -86,7 +82,6 @@ class _$UnspentOutputsCopyWithImpl<$Res, $Val extends UnspentOutputs>
     Object? from = freezed,
     Object? tokenId = freezed,
     Object? timestamp = freezed,
-    Object? version = freezed,
     Object? state = freezed,
   }) {
     return _then(_value.copyWith(
@@ -114,10 +109,6 @@ class _$UnspentOutputsCopyWithImpl<$Res, $Val extends UnspentOutputs>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int?,
-      version: freezed == version
-          ? _value.version
-          : version // ignore: cast_nullable_to_non_nullable
-              as int?,
       state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
@@ -141,7 +132,6 @@ abstract class _$$UnspentOutputsImplCopyWith<$Res>
       String? from,
       int? tokenId,
       int? timestamp,
-      int? version,
       Map<String, dynamic>? state});
 }
 
@@ -162,7 +152,6 @@ class __$$UnspentOutputsImplCopyWithImpl<$Res>
     Object? from = freezed,
     Object? tokenId = freezed,
     Object? timestamp = freezed,
-    Object? version = freezed,
     Object? state = freezed,
   }) {
     return _then(_$UnspentOutputsImpl(
@@ -190,10 +179,6 @@ class __$$UnspentOutputsImplCopyWithImpl<$Res>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int?,
-      version: freezed == version
-          ? _value.version
-          : version // ignore: cast_nullable_to_non_nullable
-              as int?,
       state: freezed == state
           ? _value._state
           : state // ignore: cast_nullable_to_non_nullable
@@ -212,7 +197,6 @@ class _$UnspentOutputsImpl extends _UnspentOutputs {
       this.from,
       this.tokenId,
       this.timestamp,
-      this.version,
       final Map<String, dynamic>? state})
       : _state = state,
         super._();
@@ -244,10 +228,6 @@ class _$UnspentOutputsImpl extends _UnspentOutputs {
   @override
   final int? timestamp;
 
-  /// Version of the UTXO data structure
-  @override
-  final int? version;
-
   /// State: It is the state of a smart contract
   final Map<String, dynamic>? _state;
 
@@ -263,7 +243,7 @@ class _$UnspentOutputsImpl extends _UnspentOutputs {
 
   @override
   String toString() {
-    return 'UnspentOutputs(amount: $amount, tokenAddress: $tokenAddress, type: $type, from: $from, tokenId: $tokenId, timestamp: $timestamp, version: $version, state: $state)';
+    return 'UnspentOutputs(amount: $amount, tokenAddress: $tokenAddress, type: $type, from: $from, tokenId: $tokenId, timestamp: $timestamp, state: $state)';
   }
 
   @override
@@ -279,14 +259,13 @@ class _$UnspentOutputsImpl extends _UnspentOutputs {
             (identical(other.tokenId, tokenId) || other.tokenId == tokenId) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp) &&
-            (identical(other.version, version) || other.version == version) &&
             const DeepCollectionEquality().equals(other._state, _state));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, amount, tokenAddress, type, from,
-      tokenId, timestamp, version, const DeepCollectionEquality().hash(_state));
+      tokenId, timestamp, const DeepCollectionEquality().hash(_state));
 
   @JsonKey(ignore: true)
   @override
@@ -311,7 +290,6 @@ abstract class _UnspentOutputs extends UnspentOutputs {
       final String? from,
       final int? tokenId,
       final int? timestamp,
-      final int? version,
       final Map<String, dynamic>? state}) = _$UnspentOutputsImpl;
   const _UnspentOutputs._() : super._();
 
@@ -342,10 +320,6 @@ abstract class _UnspentOutputs extends UnspentOutputs {
 
   /// Date time when the UTXO created/manipulated
   int? get timestamp;
-  @override
-
-  /// Version of the UTXO data structure
-  int? get version;
   @override
 
   /// State: It is the state of a smart contract
