@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/exception/archethic_json_rpc_exception.dart';
+import 'package:archethic_lib_dart/src/model/smart_contracts/sc_call_function_params.dart';
 import 'package:archethic_lib_dart/src/model/smart_contracts/sc_call_function_request.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
@@ -258,6 +259,49 @@ void main() {
         expect(
           true,
           true,
+        );
+      });
+
+      test('callSCFunctionWithResolveLastFalse', () async {
+        final smCallFunctionResponse =
+            await ApiService('https://testnet.archethic.net').callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract:
+                  '0000A6BC173C4EDB141066FBB029C6E5696A4210241835460CB2964AB0D02449CEA6',
+              function: 'info',
+              args: [],
+              resolveLast: false,
+            ),
+          ),
+        );
+        log('smCallFunctionResponse: $smCallFunctionResponse');
+
+        expect(
+          smCallFunctionResponse,
+          '{ae_pool: 000066706D704329CA8C2A4153991E2DDACC968622CA10217CA14952EB7ABB966C30, evm_pool: CFBA4FA32527BFF23E073406C772E9A8B8D02650, status: 0}',
+        );
+      });
+
+      test('callSCFunctionWithResolveLastTrue', () async {
+        final smCallFunctionResponse =
+            await ApiService('https://testnet.archethic.net').callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract:
+                  '0000A6BC173C4EDB141066FBB029C6E5696A4210241835460CB2964AB0D02449CEA6',
+              function: 'info',
+              args: [],
+            ),
+          ),
+        );
+        log('smCallFunctionResponse: $smCallFunctionResponse');
+
+        expect(
+          smCallFunctionResponse,
+          '{ae_pool: 000066706D704329CA8C2A4153991E2DDACC968622CA10217CA14952EB7ABB966C30, evm_contract: 291682232D3F2AEB5D1925E31F7876BA194939FC, evm_pool: CFBA4FA32527BFF23E073406C772E9A8B8D02650, status: 1}',
         );
       });
 
