@@ -2,6 +2,9 @@ Changelog
 =========
 =========
 
+#### Version 3.3.17
+* Add param `resolve_last` to call smart contract public method from specific address
+
 #### Version 3.3.16
 * Update `Transaction` model from Blockchain structure
 

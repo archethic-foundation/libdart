@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:archethic_lib_dart/src/model/smart_contracts/sc_call_function_params.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'sc_call_function_request.freezed.dart';
@@ -15,16 +16,4 @@ class SCCallFunctionRequest with _$SCCallFunctionRequest {
 
   factory SCCallFunctionRequest.fromJson(Map<String, dynamic> json) =>
       _$SCCallFunctionRequestFromJson(json);
-}
-
-@freezed
-class SCCallFunctionParams with _$SCCallFunctionParams {
-  factory SCCallFunctionParams({
-    required String contract,
-    required String function,
-    required List<dynamic> args,
-  }) = _SCCallFunctionParams;
-
-  factory SCCallFunctionParams.fromJson(Map<String, dynamic> json) =>
-      _$SCCallFunctionParamsFromJson(json);
 }

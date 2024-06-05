@@ -24,19 +24,3 @@ Map<String, dynamic> _$$SCCallFunctionRequestImplToJson(
       'id': instance.id,
       'params': instance.params,
     };
-
-_$SCCallFunctionParamsImpl _$$SCCallFunctionParamsImplFromJson(
-        Map<String, dynamic> json) =>
-    _$SCCallFunctionParamsImpl(
-      contract: json['contract'] as String,
-      function: json['function'] as String,
-      args: json['args'] as List<dynamic>,
-    );
-
-Map<String, dynamic> _$$SCCallFunctionParamsImplToJson(
-        _$SCCallFunctionParamsImpl instance) =>
-    <String, dynamic>{
-      'contract': instance.contract,
-      'function': instance.function,
-      'args': instance.args,
-    };
