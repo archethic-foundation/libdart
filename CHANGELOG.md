@@ -2,6 +2,9 @@ Changelog
 =========
 =========
 
+#### Version 3.3.18
+* Add sc_call_function_params.dart in archethic_lib_dart.dart
+
 #### Version 3.3.17
 * Add param `resolve_last` to call smart contract public method from specific address
 
