@@ -29,7 +29,7 @@ mixin _$TransactionError {
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
     required TResult Function(int code, String message, Object? data) rpcError,
-    required TResult Function(String? reason) other,
+    required TResult Function(int? code, Object? data, String? message) other,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -45,7 +45,7 @@ mixin _$TransactionError {
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
     TResult? Function(int code, String message, Object? data)? rpcError,
-    TResult? Function(String? reason)? other,
+    TResult? Function(int? code, Object? data, String? message)? other,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -61,7 +61,7 @@ mixin _$TransactionError {
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
     TResult Function(int code, String message, Object? data)? rpcError,
-    TResult Function(String? reason)? other,
+    TResult Function(int? code, Object? data, String? message)? other,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -194,7 +194,7 @@ class _$TransactionTimeoutImpl extends _TransactionTimeout {
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
     required TResult Function(int code, String message, Object? data) rpcError,
-    required TResult Function(String? reason) other,
+    required TResult Function(int? code, Object? data, String? message) other,
   }) {
     return timeout();
   }
@@ -213,7 +213,7 @@ class _$TransactionTimeoutImpl extends _TransactionTimeout {
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
     TResult? Function(int code, String message, Object? data)? rpcError,
-    TResult? Function(String? reason)? other,
+    TResult? Function(int? code, Object? data, String? message)? other,
   }) {
     return timeout?.call();
   }
@@ -232,7 +232,7 @@ class _$TransactionTimeoutImpl extends _TransactionTimeout {
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
     TResult Function(int code, String message, Object? data)? rpcError,
-    TResult Function(String? reason)? other,
+    TResult Function(int? code, Object? data, String? message)? other,
     required TResult orElse(),
   }) {
     if (timeout != null) {
@@ -372,7 +372,7 @@ class _$TransactionConnectionErrorImpl extends _TransactionConnectionError {
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
     required TResult Function(int code, String message, Object? data) rpcError,
-    required TResult Function(String? reason) other,
+    required TResult Function(int? code, Object? data, String? message) other,
   }) {
     return connectivity();
   }
@@ -391,7 +391,7 @@ class _$TransactionConnectionErrorImpl extends _TransactionConnectionError {
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
     TResult? Function(int code, String message, Object? data)? rpcError,
-    TResult? Function(String? reason)? other,
+    TResult? Function(int? code, Object? data, String? message)? other,
   }) {
     return connectivity?.call();
   }
@@ -410,7 +410,7 @@ class _$TransactionConnectionErrorImpl extends _TransactionConnectionError {
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
     TResult Function(int code, String message, Object? data)? rpcError,
-    TResult Function(String? reason)? other,
+    TResult Function(int? code, Object? data, String? message)? other,
     required TResult orElse(),
   }) {
     if (connectivity != null) {
@@ -552,7 +552,7 @@ class _$TransactionConsensusNotReachedErrorImpl
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
     required TResult Function(int code, String message, Object? data) rpcError,
-    required TResult Function(String? reason) other,
+    required TResult Function(int? code, Object? data, String? message) other,
   }) {
     return consensusNotReached();
   }
@@ -571,7 +571,7 @@ class _$TransactionConsensusNotReachedErrorImpl
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
     TResult? Function(int code, String message, Object? data)? rpcError,
-    TResult? Function(String? reason)? other,
+    TResult? Function(int? code, Object? data, String? message)? other,
   }) {
     return consensusNotReached?.call();
   }
@@ -590,7 +590,7 @@ class _$TransactionConsensusNotReachedErrorImpl
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
     TResult Function(int code, String message, Object? data)? rpcError,
-    TResult Function(String? reason)? other,
+    TResult Function(int? code, Object? data, String? message)? other,
     required TResult orElse(),
   }) {
     if (consensusNotReached != null) {
@@ -727,7 +727,7 @@ class _$TransactionInvalidImpl extends _TransactionInvalid {
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
     required TResult Function(int code, String message, Object? data) rpcError,
-    required TResult Function(String? reason) other,
+    required TResult Function(int? code, Object? data, String? message) other,
   }) {
     return invalidTransaction();
   }
@@ -746,7 +746,7 @@ class _$TransactionInvalidImpl extends _TransactionInvalid {
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
     TResult? Function(int code, String message, Object? data)? rpcError,
-    TResult? Function(String? reason)? other,
+    TResult? Function(int? code, Object? data, String? message)? other,
   }) {
     return invalidTransaction?.call();
   }
@@ -765,7 +765,7 @@ class _$TransactionInvalidImpl extends _TransactionInvalid {
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
     TResult Function(int code, String message, Object? data)? rpcError,
-    TResult Function(String? reason)? other,
+    TResult Function(int? code, Object? data, String? message)? other,
     required TResult orElse(),
   }) {
     if (invalidTransaction != null) {
@@ -906,7 +906,7 @@ class _$TransactionInvalidConfirmationImpl
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
     required TResult Function(int code, String message, Object? data) rpcError,
-    required TResult Function(String? reason) other,
+    required TResult Function(int? code, Object? data, String? message) other,
   }) {
     return invalidConfirmation();
   }
@@ -925,7 +925,7 @@ class _$TransactionInvalidConfirmationImpl
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
     TResult? Function(int code, String message, Object? data)? rpcError,
-    TResult? Function(String? reason)? other,
+    TResult? Function(int? code, Object? data, String? message)? other,
   }) {
     return invalidConfirmation?.call();
   }
@@ -944,7 +944,7 @@ class _$TransactionInvalidConfirmationImpl
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
     TResult Function(int code, String message, Object? data)? rpcError,
-    TResult Function(String? reason)? other,
+    TResult Function(int? code, Object? data, String? message)? other,
     required TResult orElse(),
   }) {
     if (invalidConfirmation != null) {
@@ -1085,7 +1085,7 @@ class _$TransactionInsufficientFundsImpl extends _TransactionInsufficientFunds {
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
     required TResult Function(int code, String message, Object? data) rpcError,
-    required TResult Function(String? reason) other,
+    required TResult Function(int? code, Object? data, String? message) other,
   }) {
     return insufficientFunds();
   }
@@ -1104,7 +1104,7 @@ class _$TransactionInsufficientFundsImpl extends _TransactionInsufficientFunds {
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
     TResult? Function(int code, String message, Object? data)? rpcError,
-    TResult? Function(String? reason)? other,
+    TResult? Function(int? code, Object? data, String? message)? other,
   }) {
     return insufficientFunds?.call();
   }
@@ -1123,7 +1123,7 @@ class _$TransactionInsufficientFundsImpl extends _TransactionInsufficientFunds {
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
     TResult Function(int code, String message, Object? data)? rpcError,
-    TResult Function(String? reason)? other,
+    TResult Function(int? code, Object? data, String? message)? other,
     required TResult orElse(),
   }) {
     if (insufficientFunds != null) {
@@ -1264,7 +1264,7 @@ class _$TransactionServiceNotFoundImpl extends _TransactionServiceNotFound {
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
     required TResult Function(int code, String message, Object? data) rpcError,
-    required TResult Function(String? reason) other,
+    required TResult Function(int? code, Object? data, String? message) other,
   }) {
     return serviceNotFound();
   }
@@ -1283,7 +1283,7 @@ class _$TransactionServiceNotFoundImpl extends _TransactionServiceNotFound {
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
     TResult? Function(int code, String message, Object? data)? rpcError,
-    TResult? Function(String? reason)? other,
+    TResult? Function(int? code, Object? data, String? message)? other,
   }) {
     return serviceNotFound?.call();
   }
@@ -1302,7 +1302,7 @@ class _$TransactionServiceNotFoundImpl extends _TransactionServiceNotFound {
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
     TResult Function(int code, String message, Object? data)? rpcError,
-    TResult Function(String? reason)? other,
+    TResult Function(int? code, Object? data, String? message)? other,
     required TResult orElse(),
   }) {
     if (serviceNotFound != null) {
@@ -1444,7 +1444,7 @@ class _$TransactionServiceAlreadyExistsImpl
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
     required TResult Function(int code, String message, Object? data) rpcError,
-    required TResult Function(String? reason) other,
+    required TResult Function(int? code, Object? data, String? message) other,
   }) {
     return serviceAlreadyExists();
   }
@@ -1463,7 +1463,7 @@ class _$TransactionServiceAlreadyExistsImpl
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
     TResult? Function(int code, String message, Object? data)? rpcError,
-    TResult? Function(String? reason)? other,
+    TResult? Function(int? code, Object? data, String? message)? other,
   }) {
     return serviceAlreadyExists?.call();
   }
@@ -1482,7 +1482,7 @@ class _$TransactionServiceAlreadyExistsImpl
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
     TResult Function(int code, String message, Object? data)? rpcError,
-    TResult Function(String? reason)? other,
+    TResult Function(int? code, Object? data, String? message)? other,
     required TResult orElse(),
   }) {
     if (serviceAlreadyExists != null) {
@@ -1622,7 +1622,7 @@ class _$TransactionUserRejectedImpl extends _TransactionUserRejected {
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
     required TResult Function(int code, String message, Object? data) rpcError,
-    required TResult Function(String? reason) other,
+    required TResult Function(int? code, Object? data, String? message) other,
   }) {
     return userRejected();
   }
@@ -1641,7 +1641,7 @@ class _$TransactionUserRejectedImpl extends _TransactionUserRejected {
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
     TResult? Function(int code, String message, Object? data)? rpcError,
-    TResult? Function(String? reason)? other,
+    TResult? Function(int? code, Object? data, String? message)? other,
   }) {
     return userRejected?.call();
   }
@@ -1660,7 +1660,7 @@ class _$TransactionUserRejectedImpl extends _TransactionUserRejected {
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
     TResult Function(int code, String message, Object? data)? rpcError,
-    TResult Function(String? reason)? other,
+    TResult Function(int? code, Object? data, String? message)? other,
     required TResult orElse(),
   }) {
     if (userRejected != null) {
@@ -1828,7 +1828,7 @@ class _$TransactionUnknownAccountImpl extends _TransactionUnknownAccount {
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
     required TResult Function(int code, String message, Object? data) rpcError,
-    required TResult Function(String? reason) other,
+    required TResult Function(int? code, Object? data, String? message) other,
   }) {
     return unknownAccount(accountName);
   }
@@ -1847,7 +1847,7 @@ class _$TransactionUnknownAccountImpl extends _TransactionUnknownAccount {
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
     TResult? Function(int code, String message, Object? data)? rpcError,
-    TResult? Function(String? reason)? other,
+    TResult? Function(int? code, Object? data, String? message)? other,
   }) {
     return unknownAccount?.call(accountName);
   }
@@ -1866,7 +1866,7 @@ class _$TransactionUnknownAccountImpl extends _TransactionUnknownAccount {
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
     TResult Function(int code, String message, Object? data)? rpcError,
-    TResult Function(String? reason)? other,
+    TResult Function(int? code, Object? data, String? message)? other,
     required TResult orElse(),
   }) {
     if (unknownAccount != null) {
@@ -2051,7 +2051,7 @@ class _$TransactionRPCErrorImpl extends _TransactionRPCError {
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
     required TResult Function(int code, String message, Object? data) rpcError,
-    required TResult Function(String? reason) other,
+    required TResult Function(int? code, Object? data, String? message) other,
   }) {
     return rpcError(code, message, data);
   }
@@ -2070,7 +2070,7 @@ class _$TransactionRPCErrorImpl extends _TransactionRPCError {
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
     TResult? Function(int code, String message, Object? data)? rpcError,
-    TResult? Function(String? reason)? other,
+    TResult? Function(int? code, Object? data, String? message)? other,
   }) {
     return rpcError?.call(code, message, data);
   }
@@ -2089,7 +2089,7 @@ class _$TransactionRPCErrorImpl extends _TransactionRPCError {
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
     TResult Function(int code, String message, Object? data)? rpcError,
-    TResult Function(String? reason)? other,
+    TResult Function(int? code, Object? data, String? message)? other,
     required TResult orElse(),
   }) {
     if (rpcError != null) {
@@ -2193,7 +2193,7 @@ abstract class _$$TransactionOtherErrorImplCopyWith<$Res> {
           $Res Function(_$TransactionOtherErrorImpl) then) =
       __$$TransactionOtherErrorImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String? reason});
+  $Res call({int? code, Object? data, String? message});
 }
 
 /// @nodoc
@@ -2207,12 +2207,19 @@ class __$$TransactionOtherErrorImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? reason = freezed,
+    Object? code = freezed,
+    Object? data = freezed,
+    Object? message = freezed,
   }) {
     return _then(_$TransactionOtherErrorImpl(
-      reason: freezed == reason
-          ? _value.reason
-          : reason // ignore: cast_nullable_to_non_nullable
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int?,
+      data: freezed == data ? _value.data : data,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -2221,14 +2228,19 @@ class __$$TransactionOtherErrorImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$TransactionOtherErrorImpl extends _TransactionOtherError {
-  const _$TransactionOtherErrorImpl({this.reason}) : super._();
+  const _$TransactionOtherErrorImpl({this.code, this.data, this.message})
+      : super._();
 
   @override
-  final String? reason;
+  final int? code;
+  @override
+  final Object? data;
+  @override
+  final String? message;
 
   @override
   String toString() {
-    return 'TransactionError.other(reason: $reason)';
+    return 'TransactionError.other(code: $code, data: $data, message: $message)';
   }
 
   @override
@@ -2236,11 +2248,14 @@ class _$TransactionOtherErrorImpl extends _TransactionOtherError {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionOtherErrorImpl &&
-            (identical(other.reason, reason) || other.reason == reason));
+            (identical(other.code, code) || other.code == code) &&
+            const DeepCollectionEquality().equals(other.data, data) &&
+            (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, reason);
+  int get hashCode => Object.hash(
+      runtimeType, code, const DeepCollectionEquality().hash(data), message);
 
   @JsonKey(ignore: true)
   @override
@@ -2263,9 +2278,9 @@ class _$TransactionOtherErrorImpl extends _TransactionOtherError {
     required TResult Function() userRejected,
     required TResult Function(String accountName) unknownAccount,
     required TResult Function(int code, String message, Object? data) rpcError,
-    required TResult Function(String? reason) other,
+    required TResult Function(int? code, Object? data, String? message) other,
   }) {
-    return other(reason);
+    return other(code, data, message);
   }
 
   @override
@@ -2282,9 +2297,9 @@ class _$TransactionOtherErrorImpl extends _TransactionOtherError {
     TResult? Function()? userRejected,
     TResult? Function(String accountName)? unknownAccount,
     TResult? Function(int code, String message, Object? data)? rpcError,
-    TResult? Function(String? reason)? other,
+    TResult? Function(int? code, Object? data, String? message)? other,
   }) {
-    return other?.call(reason);
+    return other?.call(code, data, message);
   }
 
   @override
@@ -2301,11 +2316,11 @@ class _$TransactionOtherErrorImpl extends _TransactionOtherError {
     TResult Function()? userRejected,
     TResult Function(String accountName)? unknownAccount,
     TResult Function(int code, String message, Object? data)? rpcError,
-    TResult Function(String? reason)? other,
+    TResult Function(int? code, Object? data, String? message)? other,
     required TResult orElse(),
   }) {
     if (other != null) {
-      return other(reason);
+      return other(code, data, message);
     }
     return orElse();
   }
@@ -2384,11 +2399,15 @@ class _$TransactionOtherErrorImpl extends _TransactionOtherError {
 }
 
 abstract class _TransactionOtherError extends TransactionError {
-  const factory _TransactionOtherError({final String? reason}) =
-      _$TransactionOtherErrorImpl;
+  const factory _TransactionOtherError(
+      {final int? code,
+      final Object? data,
+      final String? message}) = _$TransactionOtherErrorImpl;
   const _TransactionOtherError._() : super._();
 
-  String? get reason;
+  int? get code;
+  Object? get data;
+  String? get message;
   @JsonKey(ignore: true)
   _$$TransactionOtherErrorImplCopyWith<_$TransactionOtherErrorImpl>
       get copyWith => throw _privateConstructorUsedError;

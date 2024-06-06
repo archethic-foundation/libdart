@@ -2,6 +2,9 @@ Changelog
 =========
 =========
 
+#### Version 3.4.0
+* BREAKING CHANGES: Handle custom errors codes/messages
+
 #### Version 3.3.18
 * Add sc_call_function_params.dart in archethic_lib_dart.dart
 
