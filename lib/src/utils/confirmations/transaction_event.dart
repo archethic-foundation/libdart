@@ -1,3 +1,4 @@
+import 'package:archethic_lib_dart/src/utils/transaction_error_util.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'transaction_event.freezed.dart';
@@ -28,10 +29,12 @@ class TransactionError with _$TransactionError implements Exception {
     Object? data,
   }) = _TransactionRPCError;
   const factory TransactionError.other({
-    String? reason,
+    int? code,
+    Object? data,
+    String? message,
   }) = _TransactionOtherError;
 
-  String get message => map(
+  String get messageLabel => map(
         timeout: (_) => 'connection timeout',
         connectivity: (_) => 'connectivity issue',
         consensusNotReached: (_) => 'consensus not reached',
@@ -43,7 +46,17 @@ class TransactionError with _$TransactionError implements Exception {
         userRejected: (_) => 'user rejected',
         unknownAccount: (_) => 'unknown account',
         rpcError: (_) => 'JSON RPC error',
-        other: (other) => other.reason ?? 'other reason',
+        other: (other) {
+          if (other.data != null && other.data is Map<String, dynamic>) {
+            final detailedMessage = extractTransactionErrorMessages(
+              other.data! as Map<String, dynamic>,
+            );
+            if (detailedMessage.isNotEmpty) {
+              return '${other.message}$detailedMessage';
+            }
+          }
+          return other.message ?? 'other error';
+        },
       );
 }
 

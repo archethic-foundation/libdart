@@ -159,13 +159,13 @@ class ArchethicTransactionSender
     TransactionErrorHandler onError,
   ) {
     _transactionErrorSubscription = _subscribe<TransactionError>(
-      'subscription { transactionError(address: "$address") { context, reason} }',
+      'subscription { transactionError(address: "$address") { context, error { code, data, message } } }',
     ).listen(
       (result) {
         close();
         final transactionError = _errorDtoToModel(result.data);
         log(
-          '>>> Transaction KO $address <<< (${transactionError.message})',
+          '>>> Transaction KO $address <<< (${transactionError.messageLabel})',
         );
         onError(
           transactionError,
@@ -211,23 +211,26 @@ mixin ArchethicTransactionParser {
   TransactionError _errorDtoToModel(Map<String, dynamic>? data) {
     try {
       final transactionError = data?['transactionError'];
-      final reason = transactionError?['reason'];
+      if (transactionError['error'] != null) {
+        final error = transactionError?['error'];
+        final code = error['code'] as int;
+        switch (code) {
+          case -31000:
+            return const TransactionError.insufficientFunds();
+          case -31501:
+            return const TransactionError.consensusNotReached();
+          case -31502:
+            return const TransactionError.timeout();
+          default:
+        }
 
-      if (reason == 'Insufficient funds') {
-        return const TransactionError.insufficientFunds();
+        return TransactionError.other(
+          code: error['code'] as int,
+          data: error['data'],
+          message: error['message'],
+        );
       }
-
-      if (reason == 'consensus not reached') {
-        return const TransactionError.consensusNotReached();
-      }
-
-      if (reason == 'timeout' || reason == 'connection timeout') {
-        return const TransactionError.timeout();
-      }
-
-      // TODO(reddwarf03): Handle other error types.
-
-      return TransactionError.other(reason: reason);
+      return const TransactionError.other();
     } catch (e) {
       return const TransactionError.other();
     }
