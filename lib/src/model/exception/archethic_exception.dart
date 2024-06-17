@@ -20,3 +20,8 @@ class ArchethicRequestException implements ArchethicException {
   const ArchethicRequestException(this.errors);
   final List<Error> errors;
 }
+
+@immutable
+class ArchethicTooManyRequestsException implements ArchethicException {
+  const ArchethicTooManyRequestsException();
+}

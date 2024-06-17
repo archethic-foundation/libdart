@@ -2,6 +2,9 @@ Changelog
 =========
 =========
 
+#### Version 3.4.1
+* Fix Too many request error in grapqhQL requests
+
 #### Version 3.4.0
 * BREAKING CHANGES: Handle custom errors codes/messages
 

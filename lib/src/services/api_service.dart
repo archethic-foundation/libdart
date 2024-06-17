@@ -155,11 +155,7 @@ class ApiService with JsonRPCUtil {
           ),
         );
 
-    if (result.exception?.linkException != null) {
-      throw ArchethicConnectionException(
-        result.exception!.linkException.toString(),
-      );
-    }
+    manageLinkException(result);
 
     return result.parsedData ?? {};
   }
@@ -199,11 +195,7 @@ class ApiService with JsonRPCUtil {
           ),
         );
 
-    if (result.exception?.linkException != null) {
-      throw ArchethicConnectionException(
-        result.exception!.linkException.toString(),
-      );
-    }
+    manageLinkException(result);
     return result.parsedData!.storageNoncePublicKey ?? '';
   }
 
@@ -246,11 +238,7 @@ class ApiService with JsonRPCUtil {
             },
           ),
         );
-    if (result.exception?.linkException != null) {
-      throw ArchethicConnectionException(
-        result.exception!.linkException.toString(),
-      );
-    }
+    manageLinkException(result);
 
     return result.parsedData ?? {};
   }
@@ -347,11 +335,7 @@ class ApiService with JsonRPCUtil {
           ),
         );
 
-    if (result.exception?.linkException != null) {
-      throw ArchethicConnectionException(
-        result.exception!.linkException.toString(),
-      );
-    }
+    manageLinkException(result);
 
     return result.parsedData ?? {};
   }
@@ -373,12 +357,7 @@ class ApiService with JsonRPCUtil {
             parserFn: (json) => NodesResponseData.fromJson(json).nodes!,
           ),
         );
-
-    if (result.exception?.linkException != null) {
-      throw ArchethicConnectionException(
-        result.exception!.linkException.toString(),
-      );
-    }
+    manageLinkException(result);
 
     return result.parsedData ?? [];
   }
@@ -410,12 +389,7 @@ class ApiService with JsonRPCUtil {
             },
           ),
         );
-
-    if (result.exception?.linkException != null) {
-      throw ArchethicConnectionException(
-        result.exception!.linkException.toString(),
-      );
-    }
+    manageLinkException(result);
 
     return result.parsedData ?? [];
   }
@@ -478,12 +452,7 @@ class ApiService with JsonRPCUtil {
           ),
         );
 
-    if (result.exception?.linkException != null) {
-      throw ArchethicConnectionException(
-        result.exception!.linkException.toString(),
-      );
-    }
-
+    manageLinkException(result);
     return result.parsedData ?? {};
   }
 
@@ -527,11 +496,7 @@ class ApiService with JsonRPCUtil {
           ),
         );
 
-    if (result.exception?.linkException != null) {
-      throw ArchethicConnectionException(
-        result.exception!.linkException.toString(),
-      );
-    }
+    manageLinkException(result);
 
     return result.parsedData ?? {};
   }
@@ -855,12 +820,7 @@ class ApiService with JsonRPCUtil {
             },
           ),
         );
-
-    if (result.exception?.linkException != null) {
-      throw ArchethicConnectionException(
-        result.exception!.linkException.toString(),
-      );
-    }
+    manageLinkException(result);
 
     return result.parsedData ?? {};
   }
@@ -882,12 +842,7 @@ class ApiService with JsonRPCUtil {
                 NearestEndpointsResponseData.fromJson(json).endpoints,
           ),
         );
-
-    if (result.exception?.linkException != null) {
-      throw ArchethicConnectionException(
-        result.exception!.linkException.toString(),
-      );
-    }
+    manageLinkException(result);
 
     return result.parsedData ?? [];
   }
@@ -909,13 +864,7 @@ class ApiService with JsonRPCUtil {
                 GenesisAddressResponseData.fromJson(json).address,
           ),
         );
-
-    if (result.exception?.linkException != null) {
-      throw ArchethicConnectionException(
-        result.exception!.linkException.toString(),
-      );
-    }
-
+    manageLinkException(result);
     return result.parsedData ?? const Address(address: '');
   }
 
@@ -1030,15 +979,27 @@ class ApiService with JsonRPCUtil {
           ),
         );
 
-    if (result.exception?.linkException != null) {
-      throw ArchethicConnectionException(
-        result.exception!.linkException.toString(),
-      );
-    }
+    manageLinkException(result);
 
     return result.parsedData ??
         const BlockchainVersionModel(
           version: BlockchainVersion(protocol: '', transaction: ''),
         );
+  }
+
+  void manageLinkException(QueryResult result) {
+    if (result.exception?.linkException != null) {
+      if (result.exception!.linkException is HttpLinkParserException) {
+        final httpLinkServerException =
+            result.exception!.linkException! as HttpLinkParserException;
+        if (httpLinkServerException.response.statusCode == 429) {
+          throw const ArchethicTooManyRequestsException();
+        }
+      }
+
+      throw ArchethicConnectionException(
+        result.exception!.linkException.toString(),
+      );
+    }
   }
 }
