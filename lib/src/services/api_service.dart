@@ -988,18 +988,17 @@ class ApiService with JsonRPCUtil {
   }
 
   void manageLinkException(QueryResult result) {
-    if (result.exception?.linkException != null) {
-      if (result.exception!.linkException is HttpLinkParserException) {
-        final httpLinkServerException =
-            result.exception!.linkException! as HttpLinkParserException;
-        if (httpLinkServerException.response.statusCode == 429) {
-          throw const ArchethicTooManyRequestsException();
-        }
-      }
+    final exception = result.exception?.linkException;
+    if (exception == null) return;
 
-      throw ArchethicConnectionException(
-        result.exception!.linkException.toString(),
-      );
+    if (exception is HttpLinkParserException) {
+      if (exception.response.statusCode == 429) {
+        throw const ArchethicTooManyRequestsException();
+      }
     }
+
+    throw ArchethicConnectionException(
+      exception.toString(),
+    );
   }
 }
