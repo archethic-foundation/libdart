@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:graphql/client.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
@@ -15,14 +16,23 @@ class ArchethicOracle {
 
   PhoenixChannel? _channel;
   GraphQLClient? _client;
+  HttpLink? _phoenixHttpLink;
+  PhoenixLink? _phoenixLink;
 
   StreamSubscription? _oracleUpdatesSubscription;
   Timer? _timer;
 
   void close() {
     _timer?.cancel();
+    _timer = null;
+    _phoenixHttpLink?.dispose();
+    _phoenixHttpLink = null;
+    _phoenixLink?.dispose();
+    _phoenixLink = null;
     _channel?.close();
+    _channel = null;
     _oracleUpdatesSubscription?.cancel();
+    _oracleUpdatesSubscription = null;
   }
 
   /// Subscribe to oracle updates
@@ -48,21 +58,18 @@ class ArchethicOracle {
       'Connection already established. That instance of [SubscriptionChannel] must not be reused.',
     );
 
-    final phoenixHttpLink = HttpLink(
+    _phoenixHttpLink = HttpLink(
       phoenixHttpEndpoint,
     );
 
-    _channel = await PhoenixLink.createChannel(
-      websocketUri: websocketEndpoint,
-    );
-    final phoenixLink = PhoenixLink(
-      channel: _channel!,
+    _phoenixLink = await PhoenixLink.fromWebsocketUri(
+      uri: websocketEndpoint,
     );
 
     final link = Link.split(
       (request) => request.isSubscription,
-      phoenixLink,
-      phoenixHttpLink,
+      _phoenixLink!,
+      _phoenixHttpLink!,
     );
     _client = GraphQLClient(
       link: link,
@@ -86,6 +93,10 @@ class ArchethicOracle {
   void _listenOracleUpdates(
     Function(OracleUcoPrice?) onUpdate,
   ) {
+    assert(
+      _oracleUpdatesSubscription == null,
+      'Subscription to oracle updates already created with that client.',
+    );
     _oracleUpdatesSubscription = _subscribe<OracleUcoPrice>(
       'subscription { oracleUpdate { timestamp, services { uco { eur, usd } } } }',
     ).listen(

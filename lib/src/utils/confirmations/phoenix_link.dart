@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:graphql/client.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
@@ -9,11 +10,14 @@ class PhoenixLink extends Link {
   /// You can use the static [createChannel] method to create a [PhoenixChannel]
   /// from a websocket URI and optional parameters (e.g. for authentication)
   PhoenixLink({
+    required this.socket,
     required this.channel,
     ResponseParser parser = const ResponseParser(),
     RequestSerializer serializer = const RequestSerializer(),
   })  : _serializer = serializer,
         _parser = parser;
+
+  final PhoenixSocket socket;
 
   /// the underlying phoenix channel
   final PhoenixChannel channel;
@@ -23,12 +27,12 @@ class PhoenixLink extends Link {
 
   /// create a new phoenix socket from the given websocketUri,
   /// connect to it, and create a channel, and join it
-  static Future<PhoenixChannel> createChannel({
-    required String websocketUri,
+  static Future<PhoenixLink> fromWebsocketUri({
+    required String uri,
     Map<String, String>? params,
   }) async {
     final socket = PhoenixSocket(
-      websocketUri,
+      uri,
       socketOptions: PhoenixSocketOptions(params: params),
     );
     await socket.connect();
@@ -37,7 +41,14 @@ class PhoenixLink extends Link {
     final push = channel.join();
     await push.future;
 
-    return channel;
+    return PhoenixLink(socket: socket, channel: channel);
+  }
+
+  @override
+  Future<void> dispose() {
+    channel.close();
+    socket.close();
+    return super.dispose();
   }
 
   @override

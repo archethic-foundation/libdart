@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:graphql/client.dart';
-import 'package:phoenix_socket/phoenix_socket.dart';
 
 /// [TransactionSenderInterface] which talks to the Phoenix API.
 class ArchethicTransactionSender
@@ -18,7 +18,8 @@ class ArchethicTransactionSender
   final String websocketEndpoint;
   final ApiService apiService;
 
-  PhoenixChannel? _channel;
+  PhoenixLink? _phoenixLink;
+  HttpLink? _phoenixHttpLink;
   GraphQLClient? _client;
 
   StreamSubscription? _transactionConfirmedSubscription;
@@ -28,7 +29,8 @@ class ArchethicTransactionSender
   @override
   void close() {
     _timer?.cancel();
-    _channel?.close();
+    _phoenixLink?.dispose();
+    _phoenixHttpLink?.dispose();
     _transactionConfirmedSubscription?.cancel();
     _transactionErrorSubscription?.cancel();
   }
@@ -84,21 +86,18 @@ class ArchethicTransactionSender
       'Connection already established. That instance of [SubscriptionChannel] must not be reused.',
     );
 
-    final phoenixHttpLink = HttpLink(
+    _phoenixHttpLink = HttpLink(
       phoenixHttpEndpoint,
     );
 
-    _channel = await PhoenixLink.createChannel(
-      websocketUri: websocketEndpoint,
-    );
-    final phoenixLink = PhoenixLink(
-      channel: _channel!,
+    _phoenixLink = await PhoenixLink.fromWebsocketUri(
+      uri: websocketEndpoint,
     );
 
     final link = Link.split(
       (request) => request.isSubscription,
-      phoenixLink,
-      phoenixHttpLink,
+      _phoenixLink!,
+      _phoenixHttpLink!,
     );
     _client = GraphQLClient(
       link: link,
