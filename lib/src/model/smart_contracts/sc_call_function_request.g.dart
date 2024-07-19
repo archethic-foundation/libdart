@@ -11,7 +11,7 @@ _$SCCallFunctionRequestImpl _$$SCCallFunctionRequestImplFromJson(
     _$SCCallFunctionRequestImpl(
       jsonrpc: json['jsonrpc'] as String? ?? '2.0',
       method: json['method'] as String,
-      id: json['id'] as int? ?? 1,
+      id: (json['id'] as num?)?.toInt() ?? 1,
       params:
           SCCallFunctionParams.fromJson(json['params'] as Map<String, dynamic>),
     );

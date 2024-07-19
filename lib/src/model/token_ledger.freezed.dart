@@ -22,8 +22,12 @@ TokenLedger _$TokenLedgerFromJson(Map<String, dynamic> json) {
 mixin _$TokenLedger {
   List<TokenTransfer> get transfers => throw _privateConstructorUsedError;
 
+  /// Serializes this TokenLedger to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TokenLedger
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TokenLedgerCopyWith<TokenLedger> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,6 +51,8 @@ class _$TokenLedgerCopyWithImpl<$Res, $Val extends TokenLedger>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TokenLedger
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,6 +86,8 @@ class __$$TokenLedgerImplCopyWithImpl<$Res>
       _$TokenLedgerImpl _value, $Res Function(_$TokenLedgerImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TokenLedger
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,12 +127,14 @@ class _$TokenLedgerImpl extends _TokenLedger {
             const DeepCollectionEquality().equals(other.transfers, transfers));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(transfers));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TokenLedger
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenLedgerImplCopyWith<_$TokenLedgerImpl> get copyWith =>
@@ -148,8 +158,11 @@ abstract class _TokenLedger extends TokenLedger {
 
   @override
   List<TokenTransfer> get transfers;
+
+  /// Create a copy of TokenLedger
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TokenLedgerImplCopyWith<_$TokenLedgerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -62,8 +62,12 @@ mixin _$Transaction {
   /// - Version: version of the transaction (used for backward compatiblity)
   int get version => throw _privateConstructorUsedError;
 
+  /// Serializes this Transaction to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TransactionCopyWith<Transaction> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -106,6 +110,8 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -179,6 +185,8 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
     ) as $Val);
   }
 
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AddressCopyWith<$Res>? get address {
@@ -191,6 +199,8 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
     });
   }
 
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BalanceCopyWith<$Res>? get balance {
@@ -203,6 +213,8 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
     });
   }
 
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DataCopyWith<$Res>? get data {
@@ -215,6 +227,8 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
     });
   }
 
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AddressCopyWith<$Res>? get previousAddress {
@@ -227,6 +241,8 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
     });
   }
 
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ValidationStampCopyWith<$Res>? get validationStamp {
@@ -283,6 +299,8 @@ class __$$TransactionImplCopyWithImpl<$Res>
       _$TransactionImpl _value, $Res Function(_$TransactionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -485,7 +503,7 @@ class _$TransactionImpl extends _Transaction {
             (identical(other.version, version) || other.version == version));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -503,7 +521,9 @@ class _$TransactionImpl extends _Transaction {
       validationStamp,
       version);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionImplCopyWith<_$TransactionImpl> get copyWith =>
@@ -537,62 +557,64 @@ abstract class _Transaction extends Transaction {
   factory _Transaction.fromJson(Map<String, dynamic> json) =
       _$TransactionImpl.fromJson;
 
-  @override
-
   ///  - Address: hash of the new generated public key for the given transaction
+  @override
   @AddressJsonConverter()
   Address? get address;
-  @override
 
   /// - [Balance] represents a ledger balance
-  Balance? get balance;
   @override
+  Balance? get balance;
 
   /// - Length of the chain
-  int? get chainLength;
   @override
+  int? get chainLength;
 
   /// - Cross validation stamps: endorsements of the validation stamp from the coordinator
-  List<CrossValidationStamp> get crossValidationStamps;
   @override
+  List<CrossValidationStamp> get crossValidationStamps;
 
   /// - [Data]: transaction data zone (identity, keychain, smart contract, etc.)
-  Data? get data;
   @override
+  Data? get data;
 
   /// - [TransactionInput] represents the inputs from the transaction
-  List<TransactionInput> get inputs;
   @override
+  List<TransactionInput> get inputs;
 
   /// - Origin signature: signature from the device which originated the transaction (used in the Proof of work)
-  String? get originSignature;
   @override
+  String? get originSignature;
 
   /// - Previous address
+  @override
   @AddressJsonConverter()
   Address? get previousAddress;
-  @override
 
   /// - Previous public key: previous generated public key matching the previous signature
-  String? get previousPublicKey;
   @override
+  String? get previousPublicKey;
 
   /// - Previous signature: signature from the previous public key
-  String? get previousSignature;
   @override
+  String? get previousSignature;
 
   /// - Type: transaction type
-  String? get type;
   @override
+  String? get type;
 
   /// - [ValidationStamp]: coordinator work result
-  ValidationStamp? get validationStamp;
   @override
+  ValidationStamp? get validationStamp;
 
   /// - Version: version of the transaction (used for backward compatiblity)
-  int get version;
   @override
-  @JsonKey(ignore: true)
+  int get version;
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionImplCopyWith<_$TransactionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

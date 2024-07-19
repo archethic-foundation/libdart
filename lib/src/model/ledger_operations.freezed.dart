@@ -33,8 +33,12 @@ mixin _$LedgerOperations {
   /// Unspent outputs: remaining unspent outputs
   List<ConsumedInputs> get consumedInputs => throw _privateConstructorUsedError;
 
+  /// Serializes this LedgerOperations to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LedgerOperations
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LedgerOperationsCopyWith<LedgerOperations> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -62,6 +66,8 @@ class _$LedgerOperationsCopyWithImpl<$Res, $Val extends LedgerOperations>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LedgerOperations
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -114,6 +120,8 @@ class __$$LedgerOperationsImplCopyWithImpl<$Res>
       $Res Function(_$LedgerOperationsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LedgerOperations
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -219,7 +227,7 @@ class _$LedgerOperationsImpl extends _LedgerOperations {
                 .equals(other._consumedInputs, _consumedInputs));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -228,7 +236,9 @@ class _$LedgerOperationsImpl extends _LedgerOperations {
       const DeepCollectionEquality().hash(_unspentOutputs),
       const DeepCollectionEquality().hash(_consumedInputs));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LedgerOperations
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LedgerOperationsImplCopyWith<_$LedgerOperationsImpl> get copyWith =>
@@ -254,24 +264,26 @@ abstract class _LedgerOperations extends LedgerOperations {
   factory _LedgerOperations.fromJson(Map<String, dynamic> json) =
       _$LedgerOperationsImpl.fromJson;
 
-  @override
-
   /// Fee: transaction fee (distributed over the node rewards)
-  int? get fee;
   @override
+  int? get fee;
 
   /// Transaction movements: assets transfers
+  @override
   List<TransactionMovement> get transactionMovements;
-  @override
 
   /// Unspent outputs: remaining unspent outputs
+  @override
   List<UnspentOutputs> get unspentOutputs;
-  @override
 
   /// Unspent outputs: remaining unspent outputs
-  List<ConsumedInputs> get consumedInputs;
   @override
-  @JsonKey(ignore: true)
+  List<ConsumedInputs> get consumedInputs;
+
+  /// Create a copy of LedgerOperations
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LedgerOperationsImplCopyWith<_$LedgerOperationsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

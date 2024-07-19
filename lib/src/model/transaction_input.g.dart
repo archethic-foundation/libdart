@@ -9,13 +9,13 @@ part of 'transaction_input.dart';
 _$TransactionInputImpl _$$TransactionInputImplFromJson(
         Map<String, dynamic> json) =>
     _$TransactionInputImpl(
-      amount: json['amount'] as int?,
+      amount: (json['amount'] as num?)?.toInt(),
       from: json['from'] as String?,
       tokenAddress: json['tokenAddress'] as String?,
       spent: json['spent'] as bool?,
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
       type: json['type'] as String?,
-      tokenId: json['tokenId'] as int?,
+      tokenId: (json['tokenId'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$TransactionInputImplToJson(

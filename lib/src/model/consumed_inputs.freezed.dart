@@ -44,8 +44,12 @@ mixin _$ConsumedInputs {
   /// State: It is the state of a smart contract
   String? get state => throw _privateConstructorUsedError;
 
+  /// Serializes this ConsumedInputs to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ConsumedInputs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ConsumedInputsCopyWith<ConsumedInputs> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -77,6 +81,8 @@ class _$ConsumedInputsCopyWithImpl<$Res, $Val extends ConsumedInputs>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ConsumedInputs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -153,6 +159,8 @@ class __$$ConsumedInputsImplCopyWithImpl<$Res>
       _$ConsumedInputsImpl _value, $Res Function(_$ConsumedInputsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ConsumedInputs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -274,12 +282,14 @@ class _$ConsumedInputsImpl extends _ConsumedInputs {
             (identical(other.state, state) || other.state == state));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, amount, from, tokenAddress,
       timestamp, type, tokenId, protocolVersion, state);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ConsumedInputs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ConsumedInputsImplCopyWith<_$ConsumedInputsImpl> get copyWith =>
@@ -309,40 +319,42 @@ abstract class _ConsumedInputs extends ConsumedInputs {
   factory _ConsumedInputs.fromJson(Map<String, dynamic> json) =
       _$ConsumedInputsImpl.fromJson;
 
-  @override
-
   /// Amount: asset amount
-  int? get amount;
   @override
+  int? get amount;
 
   /// From: transaction which send the amount of assets
-  String? get from;
   @override
+  String? get from;
 
   /// token address: address of the token if the type is token
-  String? get tokenAddress;
   @override
+  String? get tokenAddress;
 
   /// Timestamp: Date time when the UTXO created/manipulated
-  int? get timestamp;
   @override
+  int? get timestamp;
 
   /// Type: UCO/token/state/call
-  String? get type;
   @override
+  String? get type;
 
   /// Token id: It is the id for a token which is allocated when the token is minted.
-  int? get tokenId;
   @override
+  int? get tokenId;
 
   /// Protocol Version: Version of the UTXO data structure
-  int? get protocolVersion;
   @override
+  int? get protocolVersion;
 
   /// State: It is the state of a smart contract
-  String? get state;
   @override
-  @JsonKey(ignore: true)
+  String? get state;
+
+  /// Create a copy of ConsumedInputs
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ConsumedInputsImplCopyWith<_$ConsumedInputsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

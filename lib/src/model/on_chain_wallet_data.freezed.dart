@@ -23,8 +23,12 @@ mixin _$OnChainWalletData {
   String? get encodedWalletKey => throw _privateConstructorUsedError;
   String? get encryptedWallet => throw _privateConstructorUsedError;
 
+  /// Serializes this OnChainWalletData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of OnChainWalletData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $OnChainWalletDataCopyWith<OnChainWalletData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$OnChainWalletDataCopyWithImpl<$Res, $Val extends OnChainWalletData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of OnChainWalletData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +92,8 @@ class __$$OnChainWalletDataImplCopyWithImpl<$Res>
       $Res Function(_$OnChainWalletDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of OnChainWalletData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -135,12 +143,14 @@ class _$OnChainWalletDataImpl extends _OnChainWalletData {
                 other.encryptedWallet == encryptedWallet));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, encodedWalletKey, encryptedWallet);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OnChainWalletData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$OnChainWalletDataImplCopyWith<_$OnChainWalletDataImpl> get copyWith =>
@@ -168,8 +178,11 @@ abstract class _OnChainWalletData extends OnChainWalletData {
   String? get encodedWalletKey;
   @override
   String? get encryptedWallet;
+
+  /// Create a copy of OnChainWalletData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$OnChainWalletDataImplCopyWith<_$OnChainWalletDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

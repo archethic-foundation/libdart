@@ -9,7 +9,7 @@ part of 'endpoint.dart';
 _$EndpointImpl _$$EndpointImplFromJson(Map<String, dynamic> json) =>
     _$EndpointImpl(
       ip: json['ip'] as String? ?? '',
-      port: json['port'] as int? ?? 0,
+      port: (json['port'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$EndpointImplToJson(_$EndpointImpl instance) =>

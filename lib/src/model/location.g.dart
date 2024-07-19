@@ -8,8 +8,8 @@ part of 'location.dart';
 
 _$LocationImpl _$$LocationImplFromJson(Map<String, dynamic> json) =>
     _$LocationImpl(
-      column: json['column'] as int?,
-      line: json['line'] as int?,
+      column: (json['column'] as num?)?.toInt(),
+      line: (json['line'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$LocationImplToJson(_$LocationImpl instance) =>

@@ -21,7 +21,9 @@ mixin _$Secret {
   @Uint8ListConverter()
   Uint8List? get aesKey => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Secret
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SecretCopyWith<Secret> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -45,6 +47,8 @@ class _$SecretCopyWithImpl<$Res, $Val extends Secret>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Secret
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -84,6 +88,8 @@ class __$$SecretImplCopyWithImpl<$Res>
       _$SecretImpl _value, $Res Function(_$SecretImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Secret
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -137,7 +143,9 @@ class _$SecretImpl extends _Secret {
       const DeepCollectionEquality().hash(iv),
       const DeepCollectionEquality().hash(aesKey));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Secret
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SecretImplCopyWith<_$SecretImpl> get copyWith =>
@@ -156,8 +164,11 @@ abstract class _Secret extends Secret {
   @override
   @Uint8ListConverter()
   Uint8List? get aesKey;
+
+  /// Create a copy of Secret
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SecretImplCopyWith<_$SecretImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

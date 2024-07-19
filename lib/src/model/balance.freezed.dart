@@ -26,8 +26,12 @@ mixin _$Balance {
   /// UCO: uco balance
   int get uco => throw _privateConstructorUsedError;
 
+  /// Serializes this Balance to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Balance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BalanceCopyWith<Balance> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -49,6 +53,8 @@ class _$BalanceCopyWithImpl<$Res, $Val extends Balance>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Balance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +92,8 @@ class __$$BalanceImplCopyWithImpl<$Res>
       _$BalanceImpl _value, $Res Function(_$BalanceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Balance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -146,12 +154,14 @@ class _$BalanceImpl extends _Balance {
             (identical(other.uco, uco) || other.uco == uco));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_token), uco);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Balance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BalanceImplCopyWith<_$BalanceImpl> get copyWith =>
@@ -172,16 +182,18 @@ abstract class _Balance extends Balance {
 
   factory _Balance.fromJson(Map<String, dynamic> json) = _$BalanceImpl.fromJson;
 
-  @override
-
   /// Token: Token balances
-  List<TokenBalance> get token;
   @override
+  List<TokenBalance> get token;
 
   /// UCO: uco balance
-  int get uco;
   @override
-  @JsonKey(ignore: true)
+  int get uco;
+
+  /// Create a copy of Balance
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BalanceImplCopyWith<_$BalanceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

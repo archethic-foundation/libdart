@@ -11,16 +11,18 @@ _$TokenImpl _$$TokenImplFromJson(Map<String, dynamic> json) => _$TokenImpl(
       genesis: json['genesis'] as String?,
       name: json['name'] as String?,
       id: json['id'] as String?,
-      supply: json['supply'] as int?,
+      supply: (json['supply'] as num?)?.toInt(),
       type: json['type'] as String?,
-      decimals: json['decimals'] as int?,
+      decimals: (json['decimals'] as num?)?.toInt(),
       symbol: json['symbol'] as String?,
       properties: json['properties'] as Map<String, dynamic>? ?? const {},
       collection: (json['collection'] as List<dynamic>?)
               ?.map((e) => e as Map<String, dynamic>)
               .toList() ??
           const [],
-      aeip: (json['aeip'] as List<dynamic>?)?.map((e) => e as int).toList() ??
+      aeip: (json['aeip'] as List<dynamic>?)
+              ?.map((e) => (e as num).toInt())
+              .toList() ??
           const [],
       ownerships: (json['ownerships'] as List<dynamic>?)
               ?.map((e) => Ownership.fromJson(e as Map<String, dynamic>))

@@ -35,8 +35,12 @@ mixin _$TransactionMovement {
   /// Token id: It is the id for a token which is allocated when the token is minted.
   int? get tokenId => throw _privateConstructorUsedError;
 
+  /// Serializes this TransactionMovement to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TransactionMovement
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TransactionMovementCopyWith<TransactionMovement> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -65,6 +69,8 @@ class _$TransactionMovementCopyWithImpl<$Res, $Val extends TransactionMovement>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TransactionMovement
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -123,6 +129,8 @@ class __$$TransactionMovementImplCopyWithImpl<$Res>
       $Res Function(_$TransactionMovementImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransactionMovement
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -205,12 +213,14 @@ class _$TransactionMovementImpl extends _TransactionMovement {
             (identical(other.tokenId, tokenId) || other.tokenId == tokenId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, amount, tokenAddress, to, type, tokenId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionMovement
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionMovementImplCopyWith<_$TransactionMovementImpl> get copyWith =>
@@ -237,28 +247,30 @@ abstract class _TransactionMovement extends TransactionMovement {
   factory _TransactionMovement.fromJson(Map<String, dynamic> json) =
       _$TransactionMovementImpl.fromJson;
 
-  @override
-
   /// Amount: asset amount
-  int? get amount;
   @override
+  int? get amount;
 
   /// Token address: address of the token if the type is token
-  String? get tokenAddress;
   @override
+  String? get tokenAddress;
 
   /// To: asset transfer recipient
-  String? get to;
   @override
+  String? get to;
 
   /// Type: UCO/Token
-  String? get type;
   @override
+  String? get type;
 
   /// Token id: It is the id for a token which is allocated when the token is minted.
-  int? get tokenId;
   @override
-  @JsonKey(ignore: true)
+  int? get tokenId;
+
+  /// Create a copy of TransactionMovement
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionMovementImplCopyWith<_$TransactionMovementImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

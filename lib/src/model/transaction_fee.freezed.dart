@@ -24,8 +24,12 @@ mixin _$TransactionFee {
   Rates? get rates => throw _privateConstructorUsedError;
   TransactionFeeErrors? get errors => throw _privateConstructorUsedError;
 
+  /// Serializes this TransactionFee to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TransactionFee
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TransactionFeeCopyWith<TransactionFee> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -52,6 +56,8 @@ class _$TransactionFeeCopyWithImpl<$Res, $Val extends TransactionFee>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TransactionFee
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -75,6 +81,8 @@ class _$TransactionFeeCopyWithImpl<$Res, $Val extends TransactionFee>
     ) as $Val);
   }
 
+  /// Create a copy of TransactionFee
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RatesCopyWith<$Res>? get rates {
@@ -87,6 +95,8 @@ class _$TransactionFeeCopyWithImpl<$Res, $Val extends TransactionFee>
     });
   }
 
+  /// Create a copy of TransactionFee
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionFeeErrorsCopyWith<$Res>? get errors {
@@ -124,6 +134,8 @@ class __$$TransactionFeeImplCopyWithImpl<$Res>
       _$TransactionFeeImpl _value, $Res Function(_$TransactionFeeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransactionFee
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -178,11 +190,13 @@ class _$TransactionFeeImpl extends _TransactionFee {
             (identical(other.errors, errors) || other.errors == errors));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, fee, rates, errors);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionFee
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionFeeImplCopyWith<_$TransactionFeeImpl> get copyWith =>
@@ -213,8 +227,11 @@ abstract class _TransactionFee extends TransactionFee {
   Rates? get rates;
   @override
   TransactionFeeErrors? get errors;
+
+  /// Create a copy of TransactionFee
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionFeeImplCopyWith<_$TransactionFeeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -229,8 +246,12 @@ mixin _$Rates {
   double? get usd => throw _privateConstructorUsedError;
   TransactionFeeErrors? get errors => throw _privateConstructorUsedError;
 
+  /// Serializes this Rates to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Rates
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RatesCopyWith<Rates> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -254,6 +275,8 @@ class _$RatesCopyWithImpl<$Res, $Val extends Rates>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Rates
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -277,6 +300,8 @@ class _$RatesCopyWithImpl<$Res, $Val extends Rates>
     ) as $Val);
   }
 
+  /// Create a copy of Rates
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionFeeErrorsCopyWith<$Res>? get errors {
@@ -311,6 +336,8 @@ class __$$RatesImplCopyWithImpl<$Res>
       _$RatesImpl _value, $Res Function(_$RatesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Rates
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -365,11 +392,13 @@ class _$RatesImpl extends _Rates {
             (identical(other.errors, errors) || other.errors == errors));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, eur, usd, errors);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Rates
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RatesImplCopyWith<_$RatesImpl> get copyWith =>
@@ -398,8 +427,11 @@ abstract class _Rates extends Rates {
   double? get usd;
   @override
   TransactionFeeErrors? get errors;
+
+  /// Create a copy of Rates
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RatesImplCopyWith<_$RatesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -413,8 +445,12 @@ mixin _$TransactionFeeErrors {
   Data? get data => throw _privateConstructorUsedError;
   TransactionFeeErrors? get errors => throw _privateConstructorUsedError;
 
+  /// Serializes this TransactionFeeErrors to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TransactionFeeErrors
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TransactionFeeErrorsCopyWith<TransactionFeeErrors> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -442,6 +478,8 @@ class _$TransactionFeeErrorsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TransactionFeeErrors
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -460,6 +498,8 @@ class _$TransactionFeeErrorsCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of TransactionFeeErrors
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DataCopyWith<$Res>? get data {
@@ -472,6 +512,8 @@ class _$TransactionFeeErrorsCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of TransactionFeeErrors
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionFeeErrorsCopyWith<$Res>? get errors {
@@ -509,6 +551,8 @@ class __$$TransactionFeeErrorsImplCopyWithImpl<$Res>
       $Res Function(_$TransactionFeeErrorsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransactionFeeErrors
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -555,11 +599,13 @@ class _$TransactionFeeErrorsImpl extends _TransactionFeeErrors {
             (identical(other.errors, errors) || other.errors == errors));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, data, errors);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionFeeErrors
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionFeeErrorsImplCopyWith<_$TransactionFeeErrorsImpl>
@@ -588,8 +634,11 @@ abstract class _TransactionFeeErrors extends TransactionFeeErrors {
   Data? get data;
   @override
   TransactionFeeErrors? get errors;
+
+  /// Create a copy of TransactionFeeErrors
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionFeeErrorsImplCopyWith<_$TransactionFeeErrorsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

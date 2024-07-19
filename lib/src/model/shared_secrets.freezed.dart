@@ -24,8 +24,12 @@ mixin _$SharedSecrets {
   /// so they will be able to decrypt it (mostly for smart contract authorized key)
   String? get storageNoncePublicKey => throw _privateConstructorUsedError;
 
+  /// Serializes this SharedSecrets to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SharedSecrets
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SharedSecretsCopyWith<SharedSecrets> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49,6 +53,8 @@ class _$SharedSecretsCopyWithImpl<$Res, $Val extends SharedSecrets>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SharedSecrets
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -82,6 +88,8 @@ class __$$SharedSecretsImplCopyWithImpl<$Res>
       _$SharedSecretsImpl _value, $Res Function(_$SharedSecretsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SharedSecrets
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -123,11 +131,13 @@ class _$SharedSecretsImpl extends _SharedSecrets {
                 other.storageNoncePublicKey == storageNoncePublicKey));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, storageNoncePublicKey);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SharedSecrets
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SharedSecretsImplCopyWith<_$SharedSecretsImpl> get copyWith =>
@@ -149,13 +159,15 @@ abstract class _SharedSecrets extends SharedSecrets {
   factory _SharedSecrets.fromJson(Map<String, dynamic> json) =
       _$SharedSecretsImpl.fromJson;
 
-  @override
-
   /// The storage nonce public key: Public Key to encrypt data for the node,
   /// so they will be able to decrypt it (mostly for smart contract authorized key)
-  String? get storageNoncePublicKey;
   @override
-  @JsonKey(ignore: true)
+  String? get storageNoncePublicKey;
+
+  /// Create a copy of SharedSecrets
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SharedSecretsImplCopyWith<_$SharedSecretsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

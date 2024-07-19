@@ -41,8 +41,12 @@ mixin _$TransactionInput {
   /// Token id: It is the id for a token which is allocated when the token is minted.
   int? get tokenId => throw _privateConstructorUsedError;
 
+  /// Serializes this TransactionInput to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TransactionInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TransactionInputCopyWith<TransactionInput> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -73,6 +77,8 @@ class _$TransactionInputCopyWithImpl<$Res, $Val extends TransactionInput>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TransactionInput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -143,6 +149,8 @@ class __$$TransactionInputImplCopyWithImpl<$Res>
       $Res Function(_$TransactionInputImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransactionInput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -252,12 +260,14 @@ class _$TransactionInputImpl extends _TransactionInput {
             (identical(other.tokenId, tokenId) || other.tokenId == tokenId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, amount, from, tokenAddress, spent, timestamp, type, tokenId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionInputImplCopyWith<_$TransactionInputImpl> get copyWith =>
@@ -286,36 +296,38 @@ abstract class _TransactionInput extends TransactionInput {
   factory _TransactionInput.fromJson(Map<String, dynamic> json) =
       _$TransactionInputImpl.fromJson;
 
-  @override
-
   /// Amount: asset amount
-  int? get amount;
   @override
+  int? get amount;
 
   /// From: transaction which send the amount of assets
-  String? get from;
   @override
+  String? get from;
 
   /// token address: address of the token if the type is token
-  String? get tokenAddress;
   @override
+  String? get tokenAddress;
 
   /// Spent: determines if the input has been spent
-  bool? get spent;
   @override
+  bool? get spent;
 
   /// Timestamp: Date time when the inputs was generated
-  int? get timestamp;
   @override
+  int? get timestamp;
 
   /// Type: UCO/Token/Call
-  String? get type;
   @override
+  String? get type;
 
   /// Token id: It is the id for a token which is allocated when the token is minted.
-  int? get tokenId;
   @override
-  @JsonKey(ignore: true)
+  int? get tokenId;
+
+  /// Create a copy of TransactionInput
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionInputImplCopyWith<_$TransactionInputImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

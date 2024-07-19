@@ -8,7 +8,7 @@ part of 'transaction_fee.dart';
 
 _$TransactionFeeImpl _$$TransactionFeeImplFromJson(Map<String, dynamic> json) =>
     _$TransactionFeeImpl(
-      fee: json['fee'] as int?,
+      fee: (json['fee'] as num?)?.toInt(),
       rates: json['rates'] == null
           ? null
           : Rates.fromJson(json['rates'] as Map<String, dynamic>),

@@ -41,8 +41,12 @@ mixin _$UnspentOutputs {
   /// State: It is the state of a smart contract
   Map<String, dynamic>? get state => throw _privateConstructorUsedError;
 
+  /// Serializes this UnspentOutputs to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UnspentOutputs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UnspentOutputsCopyWith<UnspentOutputs> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -73,6 +77,8 @@ class _$UnspentOutputsCopyWithImpl<$Res, $Val extends UnspentOutputs>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UnspentOutputs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -143,6 +149,8 @@ class __$$UnspentOutputsImplCopyWithImpl<$Res>
       _$UnspentOutputsImpl _value, $Res Function(_$UnspentOutputsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UnspentOutputs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -262,12 +270,14 @@ class _$UnspentOutputsImpl extends _UnspentOutputs {
             const DeepCollectionEquality().equals(other._state, _state));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, amount, tokenAddress, type, from,
       tokenId, timestamp, const DeepCollectionEquality().hash(_state));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UnspentOutputs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UnspentOutputsImplCopyWith<_$UnspentOutputsImpl> get copyWith =>
@@ -296,36 +306,38 @@ abstract class _UnspentOutputs extends UnspentOutputs {
   factory _UnspentOutputs.fromJson(Map<String, dynamic> json) =
       _$UnspentOutputsImpl.fromJson;
 
-  @override
-
   /// Amount: asset amount
-  int? get amount;
   @override
+  int? get amount;
 
   /// Token address: address of the token if the type is token
-  String? get tokenAddress;
   @override
+  String? get tokenAddress;
 
   /// Type: UCO/Token
-  String? get type;
   @override
+  String? get type;
 
   /// From: transaction which send the amount of assets
-  String? get from;
   @override
+  String? get from;
 
   /// Token id: It is the id for a token which is allocated when the token is minted.
-  int? get tokenId;
   @override
+  int? get tokenId;
 
   /// Date time when the UTXO created/manipulated
-  int? get timestamp;
   @override
+  int? get timestamp;
 
   /// State: It is the state of a smart contract
-  Map<String, dynamic>? get state;
   @override
-  @JsonKey(ignore: true)
+  Map<String, dynamic>? get state;
+
+  /// Create a copy of UnspentOutputs
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UnspentOutputsImplCopyWith<_$UnspentOutputsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

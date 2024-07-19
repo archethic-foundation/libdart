@@ -29,8 +29,12 @@ mixin _$TokenBalance {
   /// Token ID: ID of the token
   int? get tokenId => throw _privateConstructorUsedError;
 
+  /// Serializes this TokenBalance to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TokenBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TokenBalanceCopyWith<TokenBalance> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +58,8 @@ class _$TokenBalanceCopyWithImpl<$Res, $Val extends TokenBalance>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TokenBalance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -97,6 +103,8 @@ class __$$TokenBalanceImplCopyWithImpl<$Res>
       _$TokenBalanceImpl _value, $Res Function(_$TokenBalanceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TokenBalance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -157,11 +165,13 @@ class _$TokenBalanceImpl extends _TokenBalance {
             (identical(other.tokenId, tokenId) || other.tokenId == tokenId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, address, amount, tokenId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TokenBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenBalanceImplCopyWith<_$TokenBalanceImpl> get copyWith =>
@@ -185,20 +195,22 @@ abstract class _TokenBalance extends TokenBalance {
   factory _TokenBalance.fromJson(Map<String, dynamic> json) =
       _$TokenBalanceImpl.fromJson;
 
-  @override
-
   /// token: address of the token
-  String? get address;
   @override
+  String? get address;
 
   /// Amount: amount of token
-  int? get amount;
   @override
+  int? get amount;
 
   /// Token ID: ID of the token
-  int? get tokenId;
   @override
-  @JsonKey(ignore: true)
+  int? get tokenId;
+
+  /// Create a copy of TokenBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TokenBalanceImplCopyWith<_$TokenBalanceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

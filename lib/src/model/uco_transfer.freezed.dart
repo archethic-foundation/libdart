@@ -23,8 +23,12 @@ mixin _$UCOTransfer {
   int? get amount => throw _privateConstructorUsedError;
   String? get to => throw _privateConstructorUsedError;
 
+  /// Serializes this UCOTransfer to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UCOTransfer
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UCOTransferCopyWith<UCOTransfer> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$UCOTransferCopyWithImpl<$Res, $Val extends UCOTransfer>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UCOTransfer
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +92,8 @@ class __$$UCOTransferImplCopyWithImpl<$Res>
       _$UCOTransferImpl _value, $Res Function(_$UCOTransferImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UCOTransfer
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -132,11 +140,13 @@ class _$UCOTransferImpl extends _UCOTransfer {
             (identical(other.to, to) || other.to == to));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, amount, to);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UCOTransfer
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UCOTransferImplCopyWith<_$UCOTransferImpl> get copyWith =>
@@ -162,8 +172,11 @@ abstract class _UCOTransfer extends UCOTransfer {
   int? get amount;
   @override
   String? get to;
+
+  /// Create a copy of UCOTransfer
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UCOTransferImplCopyWith<_$UCOTransferImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

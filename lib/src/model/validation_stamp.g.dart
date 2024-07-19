@@ -16,8 +16,8 @@ _$ValidationStampImpl _$$ValidationStampImplFromJson(
       proofOfIntegrity: json['proofOfIntegrity'] as String?,
       proofOfWork: json['proofOfWork'] as String?,
       signature: json['signature'] as String?,
-      timestamp: json['timestamp'] as int?,
-      protocolVersion: json['protocolVersion'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
+      protocolVersion: (json['protocolVersion'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$ValidationStampImplToJson(

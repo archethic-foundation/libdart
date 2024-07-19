@@ -24,8 +24,12 @@ mixin _$Ownership {
       throw _privateConstructorUsedError;
   String? get secret => throw _privateConstructorUsedError;
 
+  /// Serializes this Ownership to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Ownership
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $OwnershipCopyWith<Ownership> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$OwnershipCopyWithImpl<$Res, $Val extends Ownership>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Ownership
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +92,8 @@ class __$$OwnershipImplCopyWithImpl<$Res>
       _$OwnershipImpl _value, $Res Function(_$OwnershipImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Ownership
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -144,12 +152,14 @@ class _$OwnershipImpl extends _Ownership {
             (identical(other.secret, secret) || other.secret == secret));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_authorizedPublicKeys), secret);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Ownership
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$OwnershipImplCopyWith<_$OwnershipImpl> get copyWith =>
@@ -176,8 +186,11 @@ abstract class _Ownership extends Ownership {
   List<AuthorizedKey> get authorizedPublicKeys;
   @override
   String? get secret;
+
+  /// Create a copy of Ownership
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$OwnershipImplCopyWith<_$OwnershipImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

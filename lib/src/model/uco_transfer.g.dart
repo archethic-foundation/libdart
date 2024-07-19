@@ -8,7 +8,7 @@ part of 'uco_transfer.dart';
 
 _$UCOTransferImpl _$$UCOTransferImplFromJson(Map<String, dynamic> json) =>
     _$UCOTransferImpl(
-      amount: json['amount'] as int?,
+      amount: (json['amount'] as num?)?.toInt(),
       to: json['to'] as String?,
     );
 

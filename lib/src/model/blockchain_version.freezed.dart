@@ -23,8 +23,12 @@ BlockchainVersionModel _$BlockchainVersionModelFromJson(
 mixin _$BlockchainVersionModel {
   BlockchainVersion get version => throw _privateConstructorUsedError;
 
+  /// Serializes this BlockchainVersionModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BlockchainVersionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BlockchainVersionModelCopyWith<BlockchainVersionModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +55,8 @@ class _$BlockchainVersionModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BlockchainVersionModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -64,6 +70,8 @@ class _$BlockchainVersionModelCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of BlockchainVersionModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BlockchainVersionCopyWith<$Res> get version {
@@ -98,6 +106,8 @@ class __$$BlockchainVersionModelImplCopyWithImpl<$Res>
       $Res Function(_$BlockchainVersionModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BlockchainVersionModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -136,11 +146,13 @@ class _$BlockchainVersionModelImpl implements _BlockchainVersionModel {
             (identical(other.version, version) || other.version == version));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, version);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BlockchainVersionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BlockchainVersionModelImplCopyWith<_$BlockchainVersionModelImpl>
@@ -165,8 +177,11 @@ abstract class _BlockchainVersionModel implements BlockchainVersionModel {
 
   @override
   BlockchainVersion get version;
+
+  /// Create a copy of BlockchainVersionModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BlockchainVersionModelImplCopyWith<_$BlockchainVersionModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -181,8 +196,12 @@ mixin _$BlockchainVersion {
   String get protocol => throw _privateConstructorUsedError;
   String get transaction => throw _privateConstructorUsedError;
 
+  /// Serializes this BlockchainVersion to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BlockchainVersion
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BlockchainVersionCopyWith<BlockchainVersion> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -206,6 +225,8 @@ class _$BlockchainVersionCopyWithImpl<$Res, $Val extends BlockchainVersion>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BlockchainVersion
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -249,6 +270,8 @@ class __$$BlockchainVersionImplCopyWithImpl<$Res>
       $Res Function(_$BlockchainVersionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BlockchainVersion
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -306,11 +329,13 @@ class _$BlockchainVersionImpl implements _BlockchainVersion {
                 other.transaction == transaction));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, code, protocol, transaction);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BlockchainVersion
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BlockchainVersionImplCopyWith<_$BlockchainVersionImpl> get copyWith =>
@@ -340,8 +365,11 @@ abstract class _BlockchainVersion implements BlockchainVersion {
   String get protocol;
   @override
   String get transaction;
+
+  /// Create a copy of BlockchainVersion
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BlockchainVersionImplCopyWith<_$BlockchainVersionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

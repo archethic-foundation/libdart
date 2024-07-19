@@ -38,8 +38,12 @@ mixin _$Data {
   /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
   List<Recipient> get actionRecipients => throw _privateConstructorUsedError;
 
+  /// Serializes this Data to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Data
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DataCopyWith<Data> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -69,6 +73,8 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Data
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -107,6 +113,8 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
     ) as $Val);
   }
 
+  /// Create a copy of Data
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LedgerCopyWith<$Res>? get ledger {
@@ -146,6 +154,8 @@ class __$$DataImplCopyWithImpl<$Res>
   __$$DataImplCopyWithImpl(_$DataImpl _value, $Res Function(_$DataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Data
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -248,7 +258,7 @@ class _$DataImpl extends _Data {
                 .equals(other.actionRecipients, actionRecipients));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -259,7 +269,9 @@ class _$DataImpl extends _Data {
       const DeepCollectionEquality().hash(recipients),
       const DeepCollectionEquality().hash(actionRecipients));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Data
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DataImplCopyWith<_$DataImpl> get copyWith =>
@@ -285,32 +297,34 @@ abstract class _Data extends Data {
 
   factory _Data.fromJson(Map<String, dynamic> json) = _$DataImpl.fromJson;
 
-  @override
-
   /// Code: smart contract code (hexadecimal),
-  String? get code;
   @override
+  String? get code;
 
   /// Content: free zone for data hosting (string or hexadecimal)
-  String? get content;
   @override
+  String? get content;
 
   /// Ownership: authorization/delegations containing list of secrets and their authorized public keys to proof the ownership
-  List<Ownership> get ownerships;
   @override
+  List<Ownership> get ownerships;
 
   /// Ledger: asset transfers
+  @override
   Ledger? get ledger;
-  @override
 
   /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
+  @override
   List<String> get recipients;
-  @override
 
   /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
-  List<Recipient> get actionRecipients;
   @override
-  @JsonKey(ignore: true)
+  List<Recipient> get actionRecipients;
+
+  /// Create a copy of Data
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DataImplCopyWith<_$DataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

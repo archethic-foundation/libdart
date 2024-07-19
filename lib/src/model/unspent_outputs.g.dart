@@ -8,12 +8,12 @@ part of 'unspent_outputs.dart';
 
 _$UnspentOutputsImpl _$$UnspentOutputsImplFromJson(Map<String, dynamic> json) =>
     _$UnspentOutputsImpl(
-      amount: json['amount'] as int?,
+      amount: (json['amount'] as num?)?.toInt(),
       tokenAddress: json['tokenAddress'] as String?,
       type: json['type'] as String?,
       from: json['from'] as String?,
-      tokenId: json['tokenId'] as int?,
-      timestamp: json['timestamp'] as int?,
+      tokenId: (json['tokenId'] as num?)?.toInt(),
+      timestamp: (json['timestamp'] as num?)?.toInt(),
       state: json['state'] as Map<String, dynamic>?,
     );
 

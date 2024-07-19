@@ -26,8 +26,12 @@ mixin _$HostingRefContentMetaData {
   String get encoding => throw _privateConstructorUsedError;
   List<String> get addresses => throw _privateConstructorUsedError;
 
+  /// Serializes this HostingRefContentMetaData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HostingRefContentMetaData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HostingRefContentMetaDataCopyWith<HostingRefContentMetaData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -52,6 +56,8 @@ class _$HostingRefContentMetaDataCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HostingRefContentMetaData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -103,6 +109,8 @@ class __$$HostingRefContentMetaDataImplCopyWithImpl<$Res>
       $Res Function(_$HostingRefContentMetaDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HostingRefContentMetaData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -182,12 +190,14 @@ class _$HostingRefContentMetaDataImpl extends _HostingRefContentMetaData {
                 .equals(other._addresses, _addresses));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, hash, size, encoding,
       const DeepCollectionEquality().hash(_addresses));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HostingRefContentMetaData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HostingRefContentMetaDataImplCopyWith<_$HostingRefContentMetaDataImpl>
@@ -221,8 +231,11 @@ abstract class _HostingRefContentMetaData extends HostingRefContentMetaData {
   String get encoding;
   @override
   List<String> get addresses;
+
+  /// Create a copy of HostingRefContentMetaData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HostingRefContentMetaDataImplCopyWith<_$HostingRefContentMetaDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

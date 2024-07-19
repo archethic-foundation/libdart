@@ -23,8 +23,12 @@ mixin _$AuthorizedKey {
   String? get publicKey => throw _privateConstructorUsedError;
   String? get encryptedSecretKey => throw _privateConstructorUsedError;
 
+  /// Serializes this AuthorizedKey to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AuthorizedKey
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AuthorizedKeyCopyWith<AuthorizedKey> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$AuthorizedKeyCopyWithImpl<$Res, $Val extends AuthorizedKey>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AuthorizedKey
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +92,8 @@ class __$$AuthorizedKeyImplCopyWithImpl<$Res>
       _$AuthorizedKeyImpl _value, $Res Function(_$AuthorizedKeyImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AuthorizedKey
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -135,11 +143,13 @@ class _$AuthorizedKeyImpl extends _AuthorizedKey {
                 other.encryptedSecretKey == encryptedSecretKey));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, publicKey, encryptedSecretKey);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AuthorizedKey
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AuthorizedKeyImplCopyWith<_$AuthorizedKeyImpl> get copyWith =>
@@ -166,8 +176,11 @@ abstract class _AuthorizedKey extends AuthorizedKey {
   String? get publicKey;
   @override
   String? get encryptedSecretKey;
+
+  /// Create a copy of AuthorizedKey
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AuthorizedKeyImplCopyWith<_$AuthorizedKeyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

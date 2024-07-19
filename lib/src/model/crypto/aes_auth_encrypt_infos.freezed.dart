@@ -21,7 +21,9 @@ mixin _$AesAuthEncryptInfos {
   @Uint8ListConverter()
   Uint8List? get encrypted => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AesAuthEncryptInfos
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AesAuthEncryptInfosCopyWith<AesAuthEncryptInfos> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,6 +49,8 @@ class _$AesAuthEncryptInfosCopyWithImpl<$Res, $Val extends AesAuthEncryptInfos>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AesAuthEncryptInfos
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -87,6 +91,8 @@ class __$$AesAuthEncryptInfosImplCopyWithImpl<$Res>
       $Res Function(_$AesAuthEncryptInfosImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AesAuthEncryptInfos
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -140,7 +146,9 @@ class _$AesAuthEncryptInfosImpl extends _AesAuthEncryptInfos {
       const DeepCollectionEquality().hash(tag),
       const DeepCollectionEquality().hash(encrypted));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AesAuthEncryptInfos
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AesAuthEncryptInfosImplCopyWith<_$AesAuthEncryptInfosImpl> get copyWith =>
@@ -161,8 +169,11 @@ abstract class _AesAuthEncryptInfos extends AesAuthEncryptInfos {
   @override
   @Uint8ListConverter()
   Uint8List? get encrypted;
+
+  /// Create a copy of AesAuthEncryptInfos
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AesAuthEncryptInfosImplCopyWith<_$AesAuthEncryptInfosImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

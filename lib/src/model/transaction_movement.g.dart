@@ -9,11 +9,11 @@ part of 'transaction_movement.dart';
 _$TransactionMovementImpl _$$TransactionMovementImplFromJson(
         Map<String, dynamic> json) =>
     _$TransactionMovementImpl(
-      amount: json['amount'] as int?,
+      amount: (json['amount'] as num?)?.toInt(),
       tokenAddress: json['tokenAddress'] as String?,
       to: json['to'] as String?,
       type: json['type'] as String?,
-      tokenId: json['tokenId'] as int?,
+      tokenId: (json['tokenId'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$TransactionMovementImplToJson(

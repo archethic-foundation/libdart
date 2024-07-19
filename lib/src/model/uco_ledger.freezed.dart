@@ -22,8 +22,12 @@ UCOLedger _$UCOLedgerFromJson(Map<String, dynamic> json) {
 mixin _$UCOLedger {
   List<UCOTransfer> get transfers => throw _privateConstructorUsedError;
 
+  /// Serializes this UCOLedger to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UCOLedger
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UCOLedgerCopyWith<UCOLedger> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46,6 +50,8 @@ class _$UCOLedgerCopyWithImpl<$Res, $Val extends UCOLedger>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UCOLedger
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -79,6 +85,8 @@ class __$$UCOLedgerImplCopyWithImpl<$Res>
       _$UCOLedgerImpl _value, $Res Function(_$UCOLedgerImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UCOLedger
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -118,12 +126,14 @@ class _$UCOLedgerImpl extends _UCOLedger {
             const DeepCollectionEquality().equals(other.transfers, transfers));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(transfers));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UCOLedger
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UCOLedgerImplCopyWith<_$UCOLedgerImpl> get copyWith =>
@@ -147,8 +157,11 @@ abstract class _UCOLedger extends UCOLedger {
 
   @override
   List<UCOTransfer> get transfers;
+
+  /// Create a copy of UCOLedger
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UCOLedgerImplCopyWith<_$UCOLedgerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
