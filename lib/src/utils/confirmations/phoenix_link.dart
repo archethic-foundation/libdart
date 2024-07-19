@@ -7,7 +7,7 @@ import 'package:phoenix_socket/phoenix_socket.dart';
 /// a link for subscriptions (or also mutations/queries) over phoenix channels
 class PhoenixLink extends Link {
   /// create a new [PhoenixLink] using an established PhoenixChannel [channel].
-  /// You can use the static [createChannel] method to create a [PhoenixChannel]
+  /// You can use the static createChannel method to create a [PhoenixChannel]
   /// from a websocket URI and optional parameters (e.g. for authentication)
   PhoenixLink({
     required this.socket,
