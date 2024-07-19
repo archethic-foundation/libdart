@@ -2,6 +2,10 @@ Changelog
 =========
 =========
 
+#### Version 3.4.2
+* 🐛 Websocket connections are disposed by TransactionSender and PhoenixLink.
+* ⬆️ Migrate to flutter 3.22
+
 #### Version 3.4.1
 * Fix Too many request error in grapqhQL requests
 
