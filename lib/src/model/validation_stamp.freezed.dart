@@ -38,8 +38,12 @@ mixin _$ValidationStamp {
   /// Protocol version: Version of the transaction validation protocol
   int? get protocolVersion => throw _privateConstructorUsedError;
 
+  /// Serializes this ValidationStamp to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ValidationStamp
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ValidationStampCopyWith<ValidationStamp> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -71,6 +75,8 @@ class _$ValidationStampCopyWithImpl<$Res, $Val extends ValidationStamp>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ValidationStamp
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -109,6 +115,8 @@ class _$ValidationStampCopyWithImpl<$Res, $Val extends ValidationStamp>
     ) as $Val);
   }
 
+  /// Create a copy of ValidationStamp
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LedgerOperationsCopyWith<$Res>? get ledgerOperations {
@@ -150,6 +158,8 @@ class __$$ValidationStampImplCopyWithImpl<$Res>
       _$ValidationStampImpl _value, $Res Function(_$ValidationStampImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ValidationStamp
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -252,12 +262,14 @@ class _$ValidationStampImpl extends _ValidationStamp {
                 other.protocolVersion == protocolVersion));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, ledgerOperations,
       proofOfIntegrity, proofOfWork, signature, timestamp, protocolVersion);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ValidationStamp
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ValidationStampImplCopyWith<_$ValidationStampImpl> get copyWith =>
@@ -285,32 +297,34 @@ abstract class _ValidationStamp extends ValidationStamp {
   factory _ValidationStamp.fromJson(Map<String, dynamic> json) =
       _$ValidationStampImpl.fromJson;
 
-  @override
-
   /// Ledger operations: All the operations performed by the transaction
-  LedgerOperations? get ledgerOperations;
   @override
+  LedgerOperations? get ledgerOperations;
 
   /// Proof of integrity: Hash of the previous proof of integrity and the transaction
-  String? get proofOfIntegrity;
   @override
+  String? get proofOfIntegrity;
 
   /// Proof of work: Public key matching the origin signature
-  String? get proofOfWork;
   @override
+  String? get proofOfWork;
 
   /// Signature: Coordinator signature of the stamp
-  String? get signature;
   @override
+  String? get signature;
 
   /// Timestamp
-  int? get timestamp;
   @override
+  int? get timestamp;
 
   /// Protocol version: Version of the transaction validation protocol
-  int? get protocolVersion;
   @override
-  @JsonKey(ignore: true)
+  int? get protocolVersion;
+
+  /// Create a copy of ValidationStamp
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ValidationStampImplCopyWith<_$ValidationStampImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

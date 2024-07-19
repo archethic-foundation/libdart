@@ -26,8 +26,12 @@ mixin _$SCCallFunctionParams {
   @JsonKey(name: 'resolve_last')
   bool get resolveLast => throw _privateConstructorUsedError;
 
+  /// Serializes this SCCallFunctionParams to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SCCallFunctionParams
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SCCallFunctionParamsCopyWith<SCCallFunctionParams> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -56,6 +60,8 @@ class _$SCCallFunctionParamsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SCCallFunctionParams
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -108,6 +114,8 @@ class __$$SCCallFunctionParamsImplCopyWithImpl<$Res>
       $Res Function(_$SCCallFunctionParamsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SCCallFunctionParams
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -185,12 +193,14 @@ class _$SCCallFunctionParamsImpl implements _SCCallFunctionParams {
                 other.resolveLast == resolveLast));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, contract, function,
       const DeepCollectionEquality().hash(_args), resolveLast);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SCCallFunctionParams
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SCCallFunctionParamsImplCopyWith<_$SCCallFunctionParamsImpl>
@@ -226,8 +236,11 @@ abstract class _SCCallFunctionParams implements SCCallFunctionParams {
   @override
   @JsonKey(name: 'resolve_last')
   bool get resolveLast;
+
+  /// Create a copy of SCCallFunctionParams
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SCCallFunctionParamsImplCopyWith<_$SCCallFunctionParamsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

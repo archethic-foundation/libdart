@@ -22,8 +22,12 @@ TransactionStatus _$TransactionStatusFromJson(Map<String, dynamic> json) {
 mixin _$TransactionStatus {
   String? get status => throw _privateConstructorUsedError;
 
+  /// Serializes this TransactionStatus to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TransactionStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TransactionStatusCopyWith<TransactionStatus> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,6 +51,8 @@ class _$TransactionStatusCopyWithImpl<$Res, $Val extends TransactionStatus>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TransactionStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,6 +86,8 @@ class __$$TransactionStatusImplCopyWithImpl<$Res>
       $Res Function(_$TransactionStatusImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransactionStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -118,11 +126,13 @@ class _$TransactionStatusImpl extends _TransactionStatus {
             (identical(other.status, status) || other.status == status));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, status);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionStatusImplCopyWith<_$TransactionStatusImpl> get copyWith =>
@@ -147,8 +157,11 @@ abstract class _TransactionStatus extends TransactionStatus {
 
   @override
   String? get status;
+
+  /// Create a copy of TransactionStatus
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionStatusImplCopyWith<_$TransactionStatusImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

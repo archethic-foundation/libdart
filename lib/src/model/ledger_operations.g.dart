@@ -9,7 +9,7 @@ part of 'ledger_operations.dart';
 _$LedgerOperationsImpl _$$LedgerOperationsImplFromJson(
         Map<String, dynamic> json) =>
     _$LedgerOperationsImpl(
-      fee: json['fee'] as int?,
+      fee: (json['fee'] as num?)?.toInt(),
       transactionMovements: (json['transactionMovements'] as List<dynamic>?)
               ?.map((e) =>
                   TransactionMovement.fromJson(e as Map<String, dynamic>))

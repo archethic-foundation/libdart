@@ -23,8 +23,12 @@ mixin _$Uco {
   double? get eur => throw _privateConstructorUsedError;
   double? get usd => throw _privateConstructorUsedError;
 
+  /// Serializes this Uco to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Uco
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UcoCopyWith<Uco> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -45,6 +49,8 @@ class _$UcoCopyWithImpl<$Res, $Val extends Uco> implements $UcoCopyWith<$Res> {
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Uco
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -79,6 +85,8 @@ class __$$UcoImplCopyWithImpl<$Res> extends _$UcoCopyWithImpl<$Res, _$UcoImpl>
   __$$UcoImplCopyWithImpl(_$UcoImpl _value, $Res Function(_$UcoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Uco
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -125,11 +133,13 @@ class _$UcoImpl extends _Uco {
             (identical(other.usd, usd) || other.usd == usd));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, eur, usd);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Uco
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UcoImplCopyWith<_$UcoImpl> get copyWith =>
@@ -153,8 +163,11 @@ abstract class _Uco extends Uco {
   double? get eur;
   @override
   double? get usd;
+
+  /// Create a copy of Uco
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UcoImplCopyWith<_$UcoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

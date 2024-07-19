@@ -19,7 +19,9 @@ mixin _$TransactionNotification {
   String get notificationRecipientAddress => throw _privateConstructorUsedError;
   List<String> get listenAddresses => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionNotification
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TransactionNotificationCopyWith<TransactionNotification> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,6 +47,8 @@ class _$TransactionNotificationCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TransactionNotification
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -87,6 +91,8 @@ class __$$TransactionNotificationImplCopyWithImpl<$Res>
       $Res Function(_$TransactionNotificationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransactionNotification
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -147,7 +153,9 @@ class _$TransactionNotificationImpl extends _TransactionNotification {
   int get hashCode => Object.hash(runtimeType, notificationRecipientAddress,
       const DeepCollectionEquality().hash(_listenAddresses));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionNotification
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionNotificationImplCopyWith<_$TransactionNotificationImpl>
@@ -166,8 +174,11 @@ abstract class _TransactionNotification extends TransactionNotification {
   String get notificationRecipientAddress;
   @override
   List<String> get listenAddresses;
+
+  /// Create a copy of TransactionNotification
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionNotificationImplCopyWith<_$TransactionNotificationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -181,8 +192,12 @@ mixin _$PushNotification {
   String? get title => throw _privateConstructorUsedError;
   String? get body => throw _privateConstructorUsedError;
 
+  /// Serializes this PushNotification to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PushNotification
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PushNotificationCopyWith<PushNotification> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -206,6 +221,8 @@ class _$PushNotificationCopyWithImpl<$Res, $Val extends PushNotification>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PushNotification
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -244,6 +261,8 @@ class __$$PushNotificationImplCopyWithImpl<$Res>
       $Res Function(_$PushNotificationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PushNotification
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -290,11 +309,13 @@ class _$PushNotificationImpl extends _PushNotification {
             (identical(other.body, body) || other.body == body));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, title, body);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PushNotification
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PushNotificationImplCopyWith<_$PushNotificationImpl> get copyWith =>
@@ -321,8 +342,11 @@ abstract class _PushNotification extends PushNotification {
   String? get title;
   @override
   String? get body;
+
+  /// Create a copy of PushNotification
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PushNotificationImplCopyWith<_$PushNotificationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

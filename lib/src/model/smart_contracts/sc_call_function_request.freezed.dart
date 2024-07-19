@@ -26,8 +26,12 @@ mixin _$SCCallFunctionRequest {
   int get id => throw _privateConstructorUsedError;
   SCCallFunctionParams get params => throw _privateConstructorUsedError;
 
+  /// Serializes this SCCallFunctionRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SCCallFunctionRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SCCallFunctionRequestCopyWith<SCCallFunctionRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,6 +59,8 @@ class _$SCCallFunctionRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SCCallFunctionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -83,6 +89,8 @@ class _$SCCallFunctionRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of SCCallFunctionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SCCallFunctionParamsCopyWith<$Res> get params {
@@ -117,6 +125,8 @@ class __$$SCCallFunctionRequestImplCopyWithImpl<$Res>
       $Res Function(_$SCCallFunctionRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SCCallFunctionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -185,11 +195,13 @@ class _$SCCallFunctionRequestImpl implements _SCCallFunctionRequest {
             (identical(other.params, params) || other.params == params));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, jsonrpc, method, id, params);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SCCallFunctionRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SCCallFunctionRequestImplCopyWith<_$SCCallFunctionRequestImpl>
@@ -223,8 +235,11 @@ abstract class _SCCallFunctionRequest implements SCCallFunctionRequest {
   int get id;
   @override
   SCCallFunctionParams get params;
+
+  /// Create a copy of SCCallFunctionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SCCallFunctionRequestImplCopyWith<_$SCCallFunctionRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -13,7 +13,7 @@ _$TransactionImpl _$$TransactionImplFromJson(Map<String, dynamic> json) =>
       balance: json['balance'] == null
           ? null
           : Balance.fromJson(json['balance'] as Map<String, dynamic>),
-      chainLength: json['chainLength'] as int?,
+      chainLength: (json['chainLength'] as num?)?.toInt(),
       crossValidationStamps: (json['crossValidationStamps'] as List<dynamic>?)
               ?.map((e) =>
                   CrossValidationStamp.fromJson(e as Map<String, dynamic>))
@@ -36,7 +36,7 @@ _$TransactionImpl _$$TransactionImplFromJson(Map<String, dynamic> json) =>
           ? null
           : ValidationStamp.fromJson(
               json['validationStamp'] as Map<String, dynamic>),
-      version: json['version'] as int? ?? cVersion,
+      version: (json['version'] as num?)?.toInt() ?? cVersion,
     );
 
 Map<String, dynamic> _$$TransactionImplToJson(_$TransactionImpl instance) =>

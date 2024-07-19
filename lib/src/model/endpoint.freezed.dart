@@ -23,8 +23,12 @@ mixin _$Endpoint {
   String get ip => throw _privateConstructorUsedError;
   int get port => throw _privateConstructorUsedError;
 
+  /// Serializes this Endpoint to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Endpoint
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EndpointCopyWith<Endpoint> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,6 +51,8 @@ class _$EndpointCopyWithImpl<$Res, $Val extends Endpoint>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Endpoint
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -85,6 +91,8 @@ class __$$EndpointImplCopyWithImpl<$Res>
       _$EndpointImpl _value, $Res Function(_$EndpointImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Endpoint
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -133,11 +141,13 @@ class _$EndpointImpl extends _Endpoint {
             (identical(other.port, port) || other.port == port));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, ip, port);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Endpoint
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EndpointImplCopyWith<_$EndpointImpl> get copyWith =>
@@ -162,8 +172,11 @@ abstract class _Endpoint extends Endpoint {
   String get ip;
   @override
   int get port;
+
+  /// Create a copy of Endpoint
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EndpointImplCopyWith<_$EndpointImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

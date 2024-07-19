@@ -8,7 +8,7 @@ part of 'hosting_ref.dart';
 
 _$HostingRefImpl _$$HostingRefImplFromJson(Map<String, dynamic> json) =>
     _$HostingRefImpl(
-      aewebVersion: json['aewebVersion'] as int? ?? 1,
+      aewebVersion: (json['aewebVersion'] as num?)?.toInt() ?? 1,
       hashFunction: json['hashFunction'] as String? ?? 'sha1',
       metaData: (json['metaData'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(k,

@@ -8,10 +8,10 @@ part of 'token_transfer.dart';
 
 _$TokenTransferImpl _$$TokenTransferImplFromJson(Map<String, dynamic> json) =>
     _$TokenTransferImpl(
-      amount: json['amount'] as int?,
+      amount: (json['amount'] as num?)?.toInt(),
       to: json['to'] as String?,
       tokenAddress: json['tokenAddress'] as String?,
-      tokenId: json['tokenId'] as int?,
+      tokenId: (json['tokenId'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$TokenTransferImplToJson(_$TokenTransferImpl instance) =>

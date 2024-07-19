@@ -143,6 +143,9 @@ class _$TransactionErrorCopyWithImpl<$Res, $Val extends TransactionError>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -159,6 +162,9 @@ class __$$TransactionTimeoutImplCopyWithImpl<$Res>
   __$$TransactionTimeoutImplCopyWithImpl(_$TransactionTimeoutImpl _value,
       $Res Function(_$TransactionTimeoutImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -336,6 +342,9 @@ class __$$TransactionConnectionErrorImplCopyWithImpl<$Res>
       _$TransactionConnectionErrorImpl _value,
       $Res Function(_$TransactionConnectionErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -515,6 +524,9 @@ class __$$TransactionConsensusNotReachedErrorImplCopyWithImpl<$Res>
       _$TransactionConsensusNotReachedErrorImpl _value,
       $Res Function(_$TransactionConsensusNotReachedErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -692,6 +704,9 @@ class __$$TransactionInvalidImplCopyWithImpl<$Res>
   __$$TransactionInvalidImplCopyWithImpl(_$TransactionInvalidImpl _value,
       $Res Function(_$TransactionInvalidImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -869,6 +884,9 @@ class __$$TransactionInvalidConfirmationImplCopyWithImpl<$Res>
       _$TransactionInvalidConfirmationImpl _value,
       $Res Function(_$TransactionInvalidConfirmationImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1049,6 +1067,9 @@ class __$$TransactionInsufficientFundsImplCopyWithImpl<$Res>
       _$TransactionInsufficientFundsImpl _value,
       $Res Function(_$TransactionInsufficientFundsImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1228,6 +1249,9 @@ class __$$TransactionServiceNotFoundImplCopyWithImpl<$Res>
       _$TransactionServiceNotFoundImpl _value,
       $Res Function(_$TransactionServiceNotFoundImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1407,6 +1431,9 @@ class __$$TransactionServiceAlreadyExistsImplCopyWithImpl<$Res>
       _$TransactionServiceAlreadyExistsImpl _value,
       $Res Function(_$TransactionServiceAlreadyExistsImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1586,6 +1613,9 @@ class __$$TransactionUserRejectedImplCopyWithImpl<$Res>
       _$TransactionUserRejectedImpl _value,
       $Res Function(_$TransactionUserRejectedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1767,6 +1797,8 @@ class __$$TransactionUnknownAccountImplCopyWithImpl<$Res>
       $Res Function(_$TransactionUnknownAccountImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1807,7 +1839,9 @@ class _$TransactionUnknownAccountImpl extends _TransactionUnknownAccount {
   @override
   int get hashCode => Object.hash(runtimeType, accountName);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionUnknownAccountImplCopyWith<_$TransactionUnknownAccountImpl>
@@ -1954,7 +1988,10 @@ abstract class _TransactionUnknownAccount extends TransactionError {
   const _TransactionUnknownAccount._() : super._();
 
   String get accountName;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionUnknownAccountImplCopyWith<_$TransactionUnknownAccountImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1976,6 +2013,8 @@ class __$$TransactionRPCErrorImplCopyWithImpl<$Res>
       $Res Function(_$TransactionRPCErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2030,7 +2069,9 @@ class _$TransactionRPCErrorImpl extends _TransactionRPCError {
   int get hashCode => Object.hash(
       runtimeType, code, message, const DeepCollectionEquality().hash(data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionRPCErrorImplCopyWith<_$TransactionRPCErrorImpl> get copyWith =>
@@ -2181,7 +2222,10 @@ abstract class _TransactionRPCError extends TransactionError {
   int get code;
   String get message;
   Object? get data;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionRPCErrorImplCopyWith<_$TransactionRPCErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2204,6 +2248,8 @@ class __$$TransactionOtherErrorImplCopyWithImpl<$Res>
       $Res Function(_$TransactionOtherErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2257,7 +2303,9 @@ class _$TransactionOtherErrorImpl extends _TransactionOtherError {
   int get hashCode => Object.hash(
       runtimeType, code, const DeepCollectionEquality().hash(data), message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionOtherErrorImplCopyWith<_$TransactionOtherErrorImpl>
@@ -2408,7 +2456,10 @@ abstract class _TransactionOtherError extends TransactionError {
   int? get code;
   Object? get data;
   String? get message;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TransactionError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionOtherErrorImplCopyWith<_$TransactionOtherErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2421,7 +2472,9 @@ mixin _$TransactionConfirmation {
   double get ratio => throw _privateConstructorUsedError;
   bool get ratioEqualIncluded => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionConfirmation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TransactionConfirmationCopyWith<TransactionConfirmation> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2451,6 +2504,8 @@ class _$TransactionConfirmationCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TransactionConfirmation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2512,6 +2567,8 @@ class __$$TransactionConfirmationImplCopyWithImpl<$Res>
       $Res Function(_$TransactionConfirmationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransactionConfirmation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2597,7 +2654,9 @@ class _$TransactionConfirmationImpl extends _TransactionConfirmation {
   int get hashCode => Object.hash(runtimeType, transactionAddress,
       nbConfirmations, maxConfirmations, ratio, ratioEqualIncluded);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionConfirmation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionConfirmationImplCopyWith<_$TransactionConfirmationImpl>
@@ -2624,8 +2683,11 @@ abstract class _TransactionConfirmation extends TransactionConfirmation {
   double get ratio;
   @override
   bool get ratioEqualIncluded;
+
+  /// Create a copy of TransactionConfirmation
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionConfirmationImplCopyWith<_$TransactionConfirmationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

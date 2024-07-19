@@ -23,8 +23,12 @@ mixin _$Ledger {
   TokenLedger? get token => throw _privateConstructorUsedError;
   UCOLedger? get uco => throw _privateConstructorUsedError;
 
+  /// Serializes this Ledger to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Ledger
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LedgerCopyWith<Ledger> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -49,6 +53,8 @@ class _$LedgerCopyWithImpl<$Res, $Val extends Ledger>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Ledger
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -67,6 +73,8 @@ class _$LedgerCopyWithImpl<$Res, $Val extends Ledger>
     ) as $Val);
   }
 
+  /// Create a copy of Ledger
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenLedgerCopyWith<$Res>? get token {
@@ -79,6 +87,8 @@ class _$LedgerCopyWithImpl<$Res, $Val extends Ledger>
     });
   }
 
+  /// Create a copy of Ledger
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UCOLedgerCopyWith<$Res>? get uco {
@@ -115,6 +125,8 @@ class __$$LedgerImplCopyWithImpl<$Res>
       _$LedgerImpl _value, $Res Function(_$LedgerImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Ledger
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -161,11 +173,13 @@ class _$LedgerImpl extends _Ledger {
             (identical(other.uco, uco) || other.uco == uco));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, token, uco);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Ledger
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LedgerImplCopyWith<_$LedgerImpl> get copyWith =>
@@ -190,8 +204,11 @@ abstract class _Ledger extends Ledger {
   TokenLedger? get token;
   @override
   UCOLedger? get uco;
+
+  /// Create a copy of Ledger
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LedgerImplCopyWith<_$LedgerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

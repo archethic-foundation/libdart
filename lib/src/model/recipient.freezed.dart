@@ -29,8 +29,12 @@ mixin _$Recipient {
   /// List of arguments for the action (must contain only JSON valid data)
   List<Object>? get args => throw _privateConstructorUsedError;
 
+  /// Serializes this Recipient to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Recipient
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RecipientCopyWith<Recipient> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -53,6 +57,8 @@ class _$RecipientCopyWithImpl<$Res, $Val extends Recipient>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Recipient
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -96,6 +102,8 @@ class __$$RecipientImplCopyWithImpl<$Res>
       _$RecipientImpl _value, $Res Function(_$RecipientImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Recipient
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -166,12 +174,14 @@ class _$RecipientImpl extends _Recipient {
             const DeepCollectionEquality().equals(other._args, _args));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, action, address, const DeepCollectionEquality().hash(_args));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Recipient
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RecipientImplCopyWith<_$RecipientImpl> get copyWith =>
@@ -195,20 +205,22 @@ abstract class _Recipient extends Recipient {
   factory _Recipient.fromJson(Map<String, dynamic> json) =
       _$RecipientImpl.fromJson;
 
-  @override
-
   /// Name of the action
-  String? get action;
   @override
+  String? get action;
 
   /// Contract's address
-  String? get address;
   @override
+  String? get address;
 
   /// List of arguments for the action (must contain only JSON valid data)
-  List<Object>? get args;
   @override
-  @JsonKey(ignore: true)
+  List<Object>? get args;
+
+  /// Create a copy of Recipient
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RecipientImplCopyWith<_$RecipientImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

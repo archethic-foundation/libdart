@@ -24,8 +24,12 @@ mixin _$Service {
   String get curve => throw _privateConstructorUsedError;
   String get hashAlgo => throw _privateConstructorUsedError;
 
+  /// Serializes this Service to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Service
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ServiceCopyWith<Service> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -47,6 +51,8 @@ class _$ServiceCopyWithImpl<$Res, $Val extends Service>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Service
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -89,6 +95,8 @@ class __$$ServiceImplCopyWithImpl<$Res>
       _$ServiceImpl _value, $Res Function(_$ServiceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Service
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -151,11 +159,13 @@ class _$ServiceImpl extends _Service {
                 other.hashAlgo == hashAlgo));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, derivationPath, curve, hashAlgo);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Service
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ServiceImplCopyWith<_$ServiceImpl> get copyWith =>
@@ -184,8 +194,11 @@ abstract class _Service extends Service {
   String get curve;
   @override
   String get hashAlgo;
+
+  /// Create a copy of Service
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ServiceImplCopyWith<_$ServiceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -15,10 +15,10 @@ _$NodeImpl _$$NodeImplFromJson(Map<String, dynamic> json) => _$NodeImpl(
       ip: json['ip'] as String?,
       lastPublicKey: json['lastPublicKey'] as String?,
       networkPatch: json['networkPatch'] as String?,
-      port: json['port'] as int?,
+      port: (json['port'] as num?)?.toInt(),
       rewardAddress: json['rewardAddress'] as String?,
-      enrollmentDate: json['enrollmentDate'] as int?,
-      authorizationDate: json['authorizationDate'] as int?,
+      enrollmentDate: (json['enrollmentDate'] as num?)?.toInt(),
+      authorizationDate: (json['authorizationDate'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$NodeImplToJson(_$NodeImpl instance) =>

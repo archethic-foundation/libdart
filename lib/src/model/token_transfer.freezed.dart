@@ -25,8 +25,12 @@ mixin _$TokenTransfer {
   String? get tokenAddress => throw _privateConstructorUsedError;
   int? get tokenId => throw _privateConstructorUsedError;
 
+  /// Serializes this TokenTransfer to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TokenTransfer
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TokenTransferCopyWith<TokenTransfer> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$TokenTransferCopyWithImpl<$Res, $Val extends TokenTransfer>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TokenTransfer
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -98,6 +104,8 @@ class __$$TokenTransferImplCopyWithImpl<$Res>
       _$TokenTransferImpl _value, $Res Function(_$TokenTransferImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TokenTransfer
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -163,12 +171,14 @@ class _$TokenTransferImpl extends _TokenTransfer {
             (identical(other.tokenId, tokenId) || other.tokenId == tokenId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, amount, to, tokenAddress, tokenId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TokenTransfer
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenTransferImplCopyWith<_$TokenTransferImpl> get copyWith =>
@@ -201,8 +211,11 @@ abstract class _TokenTransfer extends TokenTransfer {
   String? get tokenAddress;
   @override
   int? get tokenId;
+
+  /// Create a copy of TokenTransfer
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TokenTransferImplCopyWith<_$TokenTransferImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

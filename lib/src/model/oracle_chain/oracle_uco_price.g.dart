@@ -11,7 +11,7 @@ _$OracleUcoPriceImpl _$$OracleUcoPriceImplFromJson(Map<String, dynamic> json) =>
       uco: json['uco'] == null
           ? null
           : Uco.fromJson(json['uco'] as Map<String, dynamic>),
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$OracleUcoPriceImplToJson(

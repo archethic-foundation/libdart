@@ -12,7 +12,7 @@ _$BalanceImpl _$$BalanceImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => TokenBalance.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      uco: json['uco'] as int? ?? 0,
+      uco: (json['uco'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$BalanceImplToJson(_$BalanceImpl instance) =>

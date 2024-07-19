@@ -8,13 +8,13 @@ part of 'consumed_inputs.dart';
 
 _$ConsumedInputsImpl _$$ConsumedInputsImplFromJson(Map<String, dynamic> json) =>
     _$ConsumedInputsImpl(
-      amount: json['amount'] as int?,
+      amount: (json['amount'] as num?)?.toInt(),
       from: json['from'] as String?,
       tokenAddress: json['tokenAddress'] as String?,
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
       type: json['type'] as String?,
-      tokenId: json['tokenId'] as int?,
-      protocolVersion: json['protocolVersion'] as int?,
+      tokenId: (json['tokenId'] as num?)?.toInt(),
+      protocolVersion: (json['protocolVersion'] as num?)?.toInt(),
       state: json['state'] as String?,
     );
 

@@ -10,7 +10,7 @@ _$HostingRefContentMetaDataImpl _$$HostingRefContentMetaDataImplFromJson(
         Map<String, dynamic> json) =>
     _$HostingRefContentMetaDataImpl(
       hash: json['hash'] as String? ?? '',
-      size: json['size'] as int? ?? 0,
+      size: (json['size'] as num?)?.toInt() ?? 0,
       encoding: json['encoding'] as String? ?? '',
       addresses: (json['addresses'] as List<dynamic>?)
               ?.map((e) => e as String)

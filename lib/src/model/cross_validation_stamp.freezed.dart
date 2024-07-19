@@ -26,8 +26,12 @@ mixin _$CrossValidationStamp {
   /// Signature: signature of the validation stamp
   String? get signature => throw _privateConstructorUsedError;
 
+  /// Serializes this CrossValidationStamp to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CrossValidationStamp
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CrossValidationStampCopyWith<CrossValidationStamp> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -52,6 +56,8 @@ class _$CrossValidationStampCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CrossValidationStamp
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -90,6 +96,8 @@ class __$$CrossValidationStampImplCopyWithImpl<$Res>
       $Res Function(_$CrossValidationStampImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CrossValidationStamp
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -142,11 +150,13 @@ class _$CrossValidationStampImpl extends _CrossValidationStamp {
                 other.signature == signature));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, nodePublicKey, signature);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CrossValidationStamp
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CrossValidationStampImplCopyWith<_$CrossValidationStampImpl>
@@ -171,16 +181,18 @@ abstract class _CrossValidationStamp extends CrossValidationStamp {
   factory _CrossValidationStamp.fromJson(Map<String, dynamic> json) =
       _$CrossValidationStampImpl.fromJson;
 
-  @override
-
   /// Node: node public key
-  String? get nodePublicKey;
   @override
+  String? get nodePublicKey;
 
   /// Signature: signature of the validation stamp
-  String? get signature;
   @override
-  @JsonKey(ignore: true)
+  String? get signature;
+
+  /// Create a copy of CrossValidationStamp
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CrossValidationStampImplCopyWith<_$CrossValidationStampImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
