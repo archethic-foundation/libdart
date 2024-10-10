@@ -39,6 +39,9 @@ dependencies:
   # JWK (JSON Web Key) encoding and decoding
   jwk: ^0.2.3
 
+  # Provides APIs for debugging and error logging, similar to loggers in other languages, such as the Closure JS Logger and java.util.logging.Logger.
+  logging: ^1.2.0
+
   # PhoenixSocket provides a feature-complete implementation of Phoenix Sockets, using a single API based on StreamChannels compatible with any deployment of Flutter
   phoenix_socket: ^0.7.4
 

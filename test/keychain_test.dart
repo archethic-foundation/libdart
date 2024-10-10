@@ -1,6 +1,7 @@
 library test.keychain_test;
 
 import 'dart:convert';
+import 'dart:developer' as dev;
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -9,7 +10,6 @@ import 'package:archethic_lib_dart/src/model/keychain.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
-import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:crypto/crypto.dart' as crypto_lib show Hmac, sha512;
 import 'package:pointycastle/api.dart';
@@ -167,18 +167,18 @@ void main() {
             List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
           ),
         );
-        log('keychainSeed: $keychainSeed');
+        dev.log('keychainSeed: $keychainSeed');
 
         /// Default service for wallet
         const kServiceName = 'main-uco';
         const kDerivationPathWithoutIndex = "m/650'/$kServiceName/";
         const index = '0';
         const kDerivationPath = '$kDerivationPathWithoutIndex$index';
-        log('kDerivationPath: $kDerivationPath');
+        dev.log('kDerivationPath: $kDerivationPath');
 
         final originPrivateKey =
             ApiService('https://mainnet.archethic.net').getOriginKey();
-        log('originPrivateKey: $originPrivateKey');
+        dev.log('originPrivateKey: $originPrivateKey');
 
         final blockchainTxVersion = int.parse(
           (await ApiService('https://mainnet.archethic.net')
@@ -201,7 +201,7 @@ void main() {
           serviceName: kServiceName,
           derivationPath: kDerivationPath,
         );
-        log('keychainTransaction: ${keychainTransaction.convertToJSON()}');
+        dev.log('keychainTransaction: ${keychainTransaction.convertToJSON()}');
 
         /// Create Keychain Access for wallet
         final accessKeychainTx = ApiService('https://mainnet.archethic.net')
@@ -213,7 +213,7 @@ void main() {
           Uint8List.fromList(hexToUint8List(originPrivateKey)),
           blockchainTxVersion,
         );
-        log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
+        dev.log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
 
         // ignore: unused_local_variable
         final transactionStatusKeychain =
@@ -234,7 +234,9 @@ void main() {
         final keychainToUpdate =
             await ApiService('https://mainnet.archethic.net')
                 .getKeychain(walletSeed);
-        log('keychain seed (add Account) : ${uint8ListToHex(keychainToUpdate.seed!)}');
+        dev.log(
+          'keychain seed (add Account) : ${uint8ListToHex(keychainToUpdate.seed!)}',
+        );
 
         final genesisAddressKeychain =
             crypto.deriveAddress(uint8ListToHex(keychainToUpdate.seed!), 0);
@@ -314,18 +316,18 @@ void main() {
             List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
           ),
         );
-        log('keychainSeed: $keychainSeed');
+        dev.log('keychainSeed: $keychainSeed');
 
         /// Default service for wallet
         const kServiceName = 'main-uco';
         const kDerivationPathWithoutIndex = "m/650'/$kServiceName/";
         const index = '0';
         const kDerivationPath = '$kDerivationPathWithoutIndex$index';
-        log('kDerivationPath: $kDerivationPath');
+        dev.log('kDerivationPath: $kDerivationPath');
 
         final originPrivateKey =
             ApiService('https://mainnet.archethic.net').getOriginKey();
-        log('originPrivateKey: $originPrivateKey');
+        dev.log('originPrivateKey: $originPrivateKey');
 
         final blockchainTxVersion = int.parse(
           (await ApiService('https://mainnet.archethic.net')
@@ -348,7 +350,7 @@ void main() {
           serviceName: kServiceName,
           derivationPath: kDerivationPath,
         );
-        log('keychainTransaction: ${keychainTransaction.convertToJSON()}');
+        dev.log('keychainTransaction: ${keychainTransaction.convertToJSON()}');
 
         /// Create Keychain Access for wallet
         final accessKeychainTx = ApiService('https://mainnet.archethic.net')
@@ -360,7 +362,7 @@ void main() {
           Uint8List.fromList(hexToUint8List(originPrivateKey)),
           blockchainTxVersion,
         );
-        log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
+        dev.log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
 
         // ignore: unused_local_variable
         final transactionStatusKeychain =
