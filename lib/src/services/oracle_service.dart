@@ -4,18 +4,17 @@ import 'dart:async';
 import 'package:archethic_lib_dart/src/model/oracle_chain/oracle_uco_price.dart';
 import 'package:archethic_lib_dart/src/model/response/oracle_data_response.dart';
 import 'package:archethic_lib_dart/src/model/uco.dart';
-import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:archethic_lib_dart/src/utils/oracle/archethic_oracle.dart';
 import 'package:http/http.dart' as http show post;
+import 'package:logging/logging.dart';
 
 class OracleService {
-  OracleService(this.endpoint, {this.logsActivation = true});
+  OracleService(this.endpoint);
 
   /// [endpoint] is the HTTP URL to a Archethic node (acting as welcome node)
   String? endpoint;
 
-  /// [logsActivation] manage log activation
-  final bool logsActivation;
+  final _logger = Logger('OracleService');
 
   /// return a value of Oracle Uco_Price in {OracleUcoPrice} from a timestamp
   /// if timestamp = 0 or not precised, the last price is returned
@@ -38,19 +37,13 @@ class OracleService {
             '{"query": "query { oracleData(timestamp: $timestamp) { timestamp services { uco { eur, usd } } } }"}';
       }
 
-      log(
-        'getOracleData: requestHttp.body=$body',
-        logsActivation: logsActivation,
-      );
+      _logger.fine('getOracleData: requestHttp.body=$body');
       final responseHttp = await http.post(
         Uri.parse('${endpoint!}/api'),
         body: body,
         headers: requestHeaders,
       );
-      log(
-        'getOracleData: responseHttp.body=${responseHttp.body}',
-        logsActivation: logsActivation,
-      );
+      _logger.fine('getOracleData: responseHttp.body=${responseHttp.body}');
       if (responseHttp.statusCode == 200) {
         final oracleDataResponse =
             oracleDataResponseFromJson(responseHttp.body);
@@ -67,10 +60,11 @@ class OracleService {
           );
         }
       }
-    } catch (e) {
-      log(
-        'getOracleData: error=$e',
-        logsActivation: logsActivation,
+    } catch (e, stack) {
+      _logger.severe(
+        'getOracleData failed',
+        e,
+        stack,
       );
     }
 

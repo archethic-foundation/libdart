@@ -7,15 +7,11 @@ import 'package:archethic_lib_dart/src/utils/utils.dart';
 
 class AddressService {
   AddressService(
-    this.endpoint, {
-    this.logsActivation = true,
-  });
+    this.endpoint,
+  );
 
   /// [endpoint] is the HTTP URL to a Archethic node (acting as welcome node)
   String? endpoint;
-
-  /// [logsActivation] manage log activation
-  final bool logsActivation;
 
   /// Get the last address from seed
   /// @param {String} seed TransactionChain seed
@@ -37,7 +33,6 @@ class AddressService {
 
     final transactionMap = await ApiService(
       endpoint!,
-      logsActivation: logsActivation,
     ).getLastTransaction(addresses, request: ' address ');
 
     final lastAddressMap = <String, String>{};

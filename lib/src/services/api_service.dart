@@ -29,16 +29,15 @@ import 'package:archethic_lib_dart/src/services/graph_ql_client_logger.dart';
 import 'package:archethic_lib_dart/src/utils/collection_utils.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart';
 import 'package:archethic_lib_dart/src/utils/json_rpc_util.dart';
-import 'package:archethic_lib_dart/src/utils/logs.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:graphql/client.dart';
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 
 class ApiService with JsonRPCUtil {
   ApiService(
-    this.endpoint, {
-    this.logsActivation = true,
-  }) : _client = GraphQLClient(
+    this.endpoint,
+  ) : _client = GraphQLClient(
           link: HttpLink('$endpoint/api'),
           cache: GraphQLCache(),
           defaultPolicies: DefaultPolicies(
@@ -56,13 +55,12 @@ class ApiService with JsonRPCUtil {
 
   static const _responseKeysToIgnore = ['__typename'];
 
+  final _logger = Logger('ApiService');
+
   final GraphQLClient _client;
 
   /// [endpoint] is the HTTP URL to a Archethic node (acting as welcome node)
   final String endpoint;
-
-  /// [logsActivation] manage log activation
-  final bool logsActivation;
 
   /// Send a transaction to the network
   /// @param {Object} tx Transaction to send
@@ -81,9 +79,8 @@ class ApiService with JsonRPCUtil {
         },
       );
 
-      log(
+      _logger.fine(
         'sendTx: (${transaction.address}) requestHttp.body=$jsonRPCRequest',
-        logsActivation: logsActivation,
       );
 
       final responseHttp = await http.post(
@@ -91,9 +88,8 @@ class ApiService with JsonRPCUtil {
         body: jsonRPCRequest,
         headers: kRequestHeaders,
       );
-      log(
+      _logger.fine(
         'sendTx: (${transaction.address}) responseHttp.body=${responseHttp.body}',
-        logsActivation: logsActivation,
       );
 
       final result = getJsonRPCResult(responseHttp.body);
@@ -104,10 +100,11 @@ class ApiService with JsonRPCUtil {
       );
 
       completer.complete(transactionStatus);
-    } catch (e) {
-      log(
-        'sendTx: (${transaction.address}) $e',
-        logsActivation: logsActivation,
+    } catch (e, stack) {
+      _logger.severe(
+        'sendTx: (${transaction.address}) failed',
+        e,
+        stack,
       );
       rethrow;
     }
@@ -136,7 +133,6 @@ class ApiService with JsonRPCUtil {
     final result = await _client
         .withLogger(
           'getLastTransaction',
-          logsActivation: logsActivation,
         )
         .query(
           QueryOptions(
@@ -178,15 +174,11 @@ class ApiService with JsonRPCUtil {
 
   Future<String> getStorageNoncePublicKey() async {
     const body = 'query {sharedSecrets {storageNoncePublicKey}}';
-    log(
-      'getStorageNoncePublicKey: requestHttp.body=$body',
-      logsActivation: logsActivation,
-    );
+    _logger.fine('getStorageNoncePublicKey: requestHttp.body=$body');
 
     final result = await _client
         .withLogger(
           'getStorageNoncePublicKey',
-          logsActivation: logsActivation,
         )
         .query(
           QueryOptions(
@@ -220,7 +212,6 @@ class ApiService with JsonRPCUtil {
     final result = await _client
         .withLogger(
           'fetchBalance',
-          logsActivation: logsActivation,
         )
         .query(
           QueryOptions(
@@ -271,10 +262,11 @@ class ApiService with JsonRPCUtil {
       });
 
       return removeAliasPrefix<String>(contentMap) ?? {};
-    } catch (e) {
-      log(
-        'getTransactionContent: error=$e',
-        logsActivation: logsActivation,
+    } catch (e, stack) {
+      _logger.severe(
+        'getTransactionContent failed',
+        e,
+        stack,
       );
       rethrow;
     }
@@ -314,7 +306,6 @@ class ApiService with JsonRPCUtil {
     final result = await _client
         .withLogger(
           'getTransactionChain',
-          logsActivation: logsActivation,
         )
         .query(
           QueryOptions(
@@ -349,7 +340,6 @@ class ApiService with JsonRPCUtil {
     final result = await _client
         .withLogger(
           'getNodeList',
-          logsActivation: logsActivation,
         )
         .query(
           QueryOptions(
@@ -378,7 +368,6 @@ class ApiService with JsonRPCUtil {
     final result = await _client
         .withLogger(
           'networkTransactions',
-          logsActivation: logsActivation,
         )
         .query(
           QueryOptions(
@@ -428,7 +417,6 @@ class ApiService with JsonRPCUtil {
     final result = await _client
         .withLogger(
           'getTransactionInputs',
-          logsActivation: logsActivation,
         )
         .query(
           QueryOptions(
@@ -477,7 +465,6 @@ class ApiService with JsonRPCUtil {
     final result = await _client
         .withLogger(
           'getTransaction',
-          logsActivation: logsActivation,
         )
         .query(
           QueryOptions(
@@ -513,20 +500,14 @@ class ApiService with JsonRPCUtil {
       },
     );
 
-    log(
-      'getTransactionFee: requestHttp.body=$jsonRPCRequest',
-      logsActivation: logsActivation,
-    );
+    _logger.fine('getTransactionFee: requestHttp.body=$jsonRPCRequest');
 
     final responseHttp = await http.post(
       Uri.parse('$endpoint/api/rpc'),
       body: jsonRPCRequest,
       headers: kRequestHeaders,
     );
-    log(
-      'getTransactionFee: responseHttp.body=${responseHttp.body}',
-      logsActivation: logsActivation,
-    );
+    _logger.fine('getTransactionFee: responseHttp.body=${responseHttp.body}');
     final result = getJsonRPCResult(responseHttp.body);
 
     return TransactionFee.fromJson(
@@ -561,10 +542,11 @@ class ApiService with JsonRPCUtil {
       );
 
       return removeAliasPrefix<List<Ownership>>(ownershipsMap) ?? {};
-    } catch (e) {
-      log(
-        'getTransactionOwnerships: error=$e',
-        logsActivation: logsActivation,
+    } catch (e, stack) {
+      _logger.severe(
+        'getTransactionOwnerships failed',
+        e,
+        stack,
       );
     }
 
@@ -690,9 +672,8 @@ class ApiService with JsonRPCUtil {
       final aesKey =
           ecDecrypt(authorizedPublicKey.encryptedSecretKey, keypair.privateKey);
       final keychainAddress = aesDecrypt(ownership.secret, aesKey);
-      log(
+      _logger.fine(
         'keychainAddress (getKeychain): ${uint8ListToHex(keychainAddress)}',
-        logsActivation: logsActivation,
       );
 
       final lastTransactionKeychainMap = await getLastTransaction(
@@ -725,7 +706,13 @@ class ApiService with JsonRPCUtil {
       );
       final keychain = aesDecrypt(ownership2.secret, aesKey2);
       return decodeKeychain(keychain);
-    } catch (e) {
+    } catch (e, stack) {
+      _logger.severe(
+        'getkeychain failed',
+        e,
+        stack,
+      );
+
       if (e.toString() == "Keychain doesn't exists") {
         throw Exception(e.toString());
       } else {
@@ -755,9 +742,8 @@ class ApiService with JsonRPCUtil {
       'id': 1,
     };
 
-    log(
+    _logger.fine(
       'addOriginKey: requestHttp.body=${json.encode(jsonRPCRequest)}',
-      logsActivation: logsActivation,
     );
 
     final responseHttp = await http.post(
@@ -766,10 +752,7 @@ class ApiService with JsonRPCUtil {
       headers: kRequestHeaders,
     );
 
-    log(
-      'addOriginKey: responseHttp.body=${responseHttp.body}',
-      logsActivation: logsActivation,
-    );
+    _logger.fine('addOriginKey: responseHttp.body=${responseHttp.body}');
 
     final result = getJsonRPCResult(responseHttp.body);
 
@@ -802,7 +785,6 @@ class ApiService with JsonRPCUtil {
     final result = await _client
         .withLogger(
           'getToken',
-          logsActivation: logsActivation,
         )
         .query(
           QueryOptions(
@@ -833,7 +815,6 @@ class ApiService with JsonRPCUtil {
     final result = await _client
         .withLogger(
           'getNearestEndpoints',
-          logsActivation: logsActivation,
         )
         .query(
           QueryOptions(
@@ -855,7 +836,6 @@ class ApiService with JsonRPCUtil {
     final result = await _client
         .withLogger(
           'getGenesisAddress',
-          logsActivation: logsActivation,
         )
         .query(
           QueryOptions(
@@ -875,9 +855,8 @@ class ApiService with JsonRPCUtil {
   }) async {
     final completer = Completer<List<dynamic>>();
     try {
-      log(
+      _logger.fine(
         'callSCFunction: requestHttp.body=${json.encode(jsonRPCRequests)}',
-        logsActivation: logsActivation,
       );
 
       final responseHttp = await http.post(
@@ -886,10 +865,7 @@ class ApiService with JsonRPCUtil {
         headers: kRequestHeaders,
       );
 
-      log(
-        'callSCFunction: responseHttp.body=${responseHttp.body}',
-        logsActivation: logsActivation,
-      );
+      _logger.fine('callSCFunction: responseHttp.body=${responseHttp.body}');
 
       if (responseHttp.statusCode == 200) {
         final jsonResponse = json.decode(responseHttp.body);
@@ -906,10 +882,11 @@ class ApiService with JsonRPCUtil {
           }
         }
       }
-    } catch (e) {
-      log(
-        'callSCFunction: error=$e',
-        logsActivation: logsActivation,
+    } catch (e, stack) {
+      _logger.severe(
+        'callSCFunction failed',
+        e,
+        stack,
       );
       rethrow;
     }
@@ -925,9 +902,8 @@ class ApiService with JsonRPCUtil {
   }) async {
     final completer = Completer<Object>();
     try {
-      log(
+      _logger.fine(
         'callSCFunction: requestHttp.body=${json.encode(jsonRPCRequest)}',
-        logsActivation: logsActivation,
       );
 
       final responseHttp = await http.post(
@@ -936,10 +912,7 @@ class ApiService with JsonRPCUtil {
         headers: kRequestHeaders,
       );
 
-      log(
-        'callSCFunction: responseHttp.body=${responseHttp.body}',
-        logsActivation: logsActivation,
-      );
+      _logger.fine('callSCFunction: responseHttp.body=${responseHttp.body}');
 
       if (responseHttp.statusCode == 200) {
         if (resultMap) {
@@ -952,10 +925,11 @@ class ApiService with JsonRPCUtil {
           );
         }
       }
-    } catch (e) {
-      log(
-        'callSCFunction: error=$e',
-        logsActivation: logsActivation,
+    } catch (e, stack) {
+      _logger.severe(
+        'callSCFunction failed',
+        e,
+        stack,
       );
       rethrow;
     }
@@ -970,7 +944,6 @@ class ApiService with JsonRPCUtil {
     final result = await _client
         .withLogger(
           'getBlockchainVersion',
-          logsActivation: logsActivation,
         )
         .query(
           QueryOptions(
