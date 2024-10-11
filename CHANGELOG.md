@@ -1,3 +1,8 @@
+# 4.0.0
+
+* Use of `logging` library
+* **Breaking changes :** Remove `ApiService.logsActivation`, `AddressService.logsActivation`, `OracleService.logsActivation` 
+
 # 3.4.2
 
 * 🐛 Websocket connections are disposed by TransactionSender and PhoenixLink.
