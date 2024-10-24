@@ -90,10 +90,10 @@ packages:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "644dc98a0f179b872f612d3eb627924b578897c629788e858157fa5e704ca0c7"
+      sha256: "028819cfb90051c6b5440c7e574d1896f8037e3c96cf17aaeb054c9311cfbf4d"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.11"
+    version: "2.4.13"
   build_runner_core:
     dependency: transitive
     description:
@@ -170,10 +170,10 @@ packages:
     dependency: "direct main"
     description:
       name: crypto
-      sha256: ff625774173754681d66daaf4a448684fb04b78f902da9cb3d308c19cc5e8bab
+      sha256: "1e445881f28f22d6140f181e07737b22f1e099a5e1ff94b0af2f9e4a463f4855"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.3"
+    version: "3.0.6"
   cryptography:
     dependency: transitive
     description:
@@ -202,26 +202,26 @@ packages:
     dependency: "direct dev"
     description:
       name: dependency_validator
-      sha256: "16906f2137a312d0ffe754aee156436563a63d6ab7faaded83d401b5385d5d35"
+      sha256: "81b5dc4cc34a1c05d2fa24aa8d658cb8f048ca23e63d5aaec420200190f1c4b0"
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.0"
+    version: "4.1.1"
   ecdsa:
     dependency: "direct main"
     description:
       name: ecdsa
-      sha256: b71687a843151255fced9fead63b09816cc59e9ae7b954e6a852bdc344ae1aca
+      sha256: "13b4e01ac140575cf88ef5e5268f92b8dd0a67a26c60a1b74e67d146068dc246"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.2"
   elliptic:
     dependency: "direct main"
     description:
       name: elliptic
-      sha256: "98e2fa89a714c649174553c823db2612dc9581814477fe1264a499d448237b6b"
+      sha256: "0c303d810603953a65dc39c4c542fb7538defd9e212403c54c266140819523b6"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.10"
+    version: "0.3.11"
   ffi:
     dependency: transitive
     description:
@@ -434,10 +434,10 @@ packages:
     dependency: "direct main"
     description:
       name: logging
-      sha256: "623a88c9594aa774443aa3eb2d41807a48486b5613e67599fb4c41c0ad47c340"
+      sha256: c8245ada5f1717ed44271ed1c26b8ce85ca3228fd2ffdb75468ab01979309d61
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.3.0"
   macros:
     dependency: transitive
     description:
@@ -562,10 +562,10 @@ packages:
     dependency: "direct main"
     description:
       name: quiver
-      sha256: b1c1ac5ce6688d77f65f3375a9abb9319b3cb32486bdc7a1e0fdf004d7ba4e47
+      sha256: ea0b925899e64ecdfbf9c7becb60d5b50e706ade44a85b2363be2a22d88117d2
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.1"
+    version: "3.2.2"
   rational:
     dependency: transitive
     description:
@@ -807,4 +807,4 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.4.0 <4.0.0"
+  dart: ">=3.5.0 <4.0.0"
