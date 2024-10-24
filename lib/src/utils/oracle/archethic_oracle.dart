@@ -20,11 +20,8 @@ class ArchethicOracle {
   PhoenixLink? _phoenixLink;
 
   StreamSubscription? _oracleUpdatesSubscription;
-  Timer? _timer;
 
   void close() {
-    _timer?.cancel();
-    _timer = null;
     _phoenixHttpLink?.dispose();
     _phoenixHttpLink = null;
     _phoenixLink?.dispose();
