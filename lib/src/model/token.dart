@@ -8,8 +8,23 @@ part 'token.g.dart';
 
 @freezed
 class Token with _$Token {
-  const factory Token({
-    String? address,
+  const Token._();
+
+  const factory Token.uco({
+    @Default('Archethic Universal Coin') String name,
+    @Default(8) int decimals,
+    @Default('UCO') symbol,
+    // Unused properties but necessary to union class
+    @Default(null) int? supply,
+    @Default(null) String? type,
+    @Default({}) Map<String, dynamic> properties,
+    @Default([]) List<Map<String, dynamic>> collection,
+    @Default(null) List<int>? aeip,
+    @Default(null) List<Ownership>? ownerships,
+  }) = UcoToken;
+
+  const factory Token.withAddress({
+    required String address,
     String? genesis,
     String? name,
     String? id,
@@ -17,14 +32,16 @@ class Token with _$Token {
     String? type,
     int? decimals,
     String? symbol,
-    @Default({}) final Map<String, dynamic> properties,
-    @Default([]) final List<Map<String, dynamic>> collection,
-    @Default([]) final List<int>? aeip,
-    @Default([]) final List<Ownership>? ownerships,
-  }) = _Token;
-  const Token._();
+    @Default({}) Map<String, dynamic> properties,
+    @Default([]) List<Map<String, dynamic>> collection,
+    @Default([]) List<int>? aeip,
+    @Default([]) List<Ownership>? ownerships,
+  }) = TokenWithAddress;
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
+
+  bool get isFungibleType => type != null && type == 'fungible';
+  bool get isNonFungibleType => type != null && type == 'non-fungible';
 
   String tokenToJsonForTxDataContent() {
     return jsonEncode(toJsonForTxDataContent());
@@ -33,19 +50,17 @@ class Token with _$Token {
   Map<String, dynamic> toJsonForTxDataContent() {
     final json = <String, dynamic>{
       'name': name,
-      'supply': supply,
-      'type': type,
+      if (supply != null) 'supply': supply,
+      if (type != null) 'type': type,
       if (decimals != null) 'decimals': decimals,
-      'symbol': symbol,
-      'properties': properties,
+      if (symbol != null) 'symbol': symbol,
+      if (properties.isNotEmpty) 'properties': properties,
       if (collection.isNotEmpty) 'collection': collection,
-      'aeip': aeip,
+      if (aeip != null && aeip!.isNotEmpty) 'aeip': aeip,
     };
 
     if (ownerships != null && ownerships!.isNotEmpty) {
-      json['ownerships'] = List<dynamic>.from(
-        ownerships!.map((Ownership x) => x.toJson()),
-      );
+      json['ownerships'] = ownerships!.map((x) => x.toJson()).toList();
     }
 
     return json;
