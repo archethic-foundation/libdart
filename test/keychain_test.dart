@@ -152,297 +152,309 @@ void main() {
     });
   });
 
-  group('buildTransaction', () {
-    test(
-      'should add service in a keychain',
-      () async {
-        /// Create keychain
-        const walletSeed =
-            '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA6';
-        final walletKeyPair = crypto.deriveKeyPair(walletSeed, 0);
+  group(
+    'buildTransaction',
+    tags: <String>['noCI'],
+    () {
+      test(
+        'should add service in a keychain',
+        () async {
+          /// Create keychain
+          const walletSeed =
+              '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA6';
+          final walletKeyPair = crypto.deriveKeyPair(walletSeed, 0);
 
-        /// Generate keyChain Seed from random value
-        final keychainSeed = uint8ListToHex(
-          Uint8List.fromList(
-            List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
-          ),
-        );
-        dev.log('keychainSeed: $keychainSeed');
-
-        /// Default service for wallet
-        const kServiceName = 'main-uco';
-        const kDerivationPathWithoutIndex = "m/650'/$kServiceName/";
-        const index = '0';
-        const kDerivationPath = '$kDerivationPathWithoutIndex$index';
-        dev.log('kDerivationPath: $kDerivationPath');
-
-        final originPrivateKey =
-            ApiService('https://mainnet.archethic.net').getOriginKey();
-        dev.log('originPrivateKey: $originPrivateKey');
-
-        final blockchainTxVersion = int.parse(
-          (await ApiService('https://mainnet.archethic.net')
-                  .getBlockchainVersion())
-              .version
-              .transaction,
-        );
-
-        /// Create Keychain from keyChain seed and wallet public key to encrypt secret
-        final keychainTransaction =
-            ApiService('https://mainnet.archethic.net').newKeychainTransaction(
-          keychainSeed,
-          <String>[
-            uint8ListToHex(
-              Uint8List.fromList(walletKeyPair.publicKey!),
-            ),
-          ],
-          Uint8List.fromList(hexToUint8List(originPrivateKey)),
-          blockchainTxVersion,
-          serviceName: kServiceName,
-          derivationPath: kDerivationPath,
-        );
-        dev.log('keychainTransaction: ${keychainTransaction.convertToJSON()}');
-
-        /// Create Keychain Access for wallet
-        final accessKeychainTx = ApiService('https://mainnet.archethic.net')
-            .newAccessKeychainTransaction(
-          walletSeed,
-          Uint8List.fromList(
-            hexToUint8List(keychainTransaction.address!.address!),
-          ),
-          Uint8List.fromList(hexToUint8List(originPrivateKey)),
-          blockchainTxVersion,
-        );
-        dev.log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
-
-        // ignore: unused_local_variable
-        final transactionStatusKeychain =
-            await ApiService('https://mainnet.archethic.net')
-                .sendTx(keychainTransaction);
-
-        await Future<void>.delayed(const Duration(seconds: 2));
-
-        // ignore: unused_local_variable
-        final transactionStatusKeychainAccess =
-            await ApiService('https://mainnet.archethic.net')
-                .sendTx(accessKeychainTx);
-
-        await Future<void>.delayed(const Duration(seconds: 2));
-
-        /// Add service in keychain
-
-        final keychainToUpdate =
-            await ApiService('https://mainnet.archethic.net')
-                .getKeychain(walletSeed);
-        dev.log(
-          'keychain seed (add Account) : ${uint8ListToHex(keychainToUpdate.seed!)}',
-        );
-
-        final genesisAddressKeychain =
-            crypto.deriveAddress(uint8ListToHex(keychainToUpdate.seed!), 0);
-
-        const kServiceName2 = 'second-uco';
-        const kDerivationPathWithoutIndex2 = "m/650'/$kServiceName2/";
-        const index2 = '0';
-        const kDerivationPath2 = '$kDerivationPathWithoutIndex2$index2';
-        keychainToUpdate.copyWithService(kServiceName2, kDerivationPath2);
-
-        final lastTransactionKeychainMap =
-            await ApiService('https://mainnet.archethic.net')
-                .getLastTransaction([genesisAddressKeychain]);
-
-        final aesKey = uint8ListToHex(
-          Uint8List.fromList(
-            List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
-          ),
-        );
-
-        final keychainTransaction2 =
-            Transaction(type: 'keychain', data: Transaction.initData())
-                .setContent(jsonEncode(keychainToUpdate.toDID()));
-
-        final authorizedKeys = List<AuthorizedKey>.empty(growable: true);
-        final la = lastTransactionKeychainMap[genesisAddressKeychain]!
-            .data!
-            .ownerships[0]
-            .authorizedPublicKeys;
-        for (final ak in la) {
-          authorizedKeys.add(
-            AuthorizedKey(
-              encryptedSecretKey:
-                  uint8ListToHex(crypto.ecEncrypt(aesKey, ak.publicKey)),
-              publicKey: ak.publicKey,
+          /// Generate keyChain Seed from random value
+          final keychainSeed = uint8ListToHex(
+            Uint8List.fromList(
+              List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
             ),
           );
-        }
+          dev.log('keychainSeed: $keychainSeed');
 
-        keychainTransaction2.addOwnership(
-          uint8ListToHex(crypto.aesEncrypt(keychainToUpdate.encode(), aesKey)),
-          authorizedKeys,
-        );
+          /// Default service for wallet
+          const kServiceName = 'main-uco';
+          const kDerivationPathWithoutIndex = "m/650'/$kServiceName/";
+          const index = '0';
+          const kDerivationPath = '$kDerivationPathWithoutIndex$index';
+          dev.log('kDerivationPath: $kDerivationPath');
 
-        keychainTransaction2
-            .build(
-              uint8ListToHex(keychainToUpdate.seed!),
-              lastTransactionKeychainMap[genesisAddressKeychain]!.chainLength!,
-            )
-            .transaction
-            .originSign(originPrivateKey);
+          final originPrivateKey =
+              ApiService('https://mainnet.archethic.net').getOriginKey();
+          dev.log('originPrivateKey: $originPrivateKey');
 
-        // ignore: unused_local_variable
-        final transactionStatusKeychain2 =
-            await ApiService('https://mainnet.archethic.net')
-                .sendTx(keychainTransaction2);
+          final blockchainTxVersion = int.parse(
+            (await ApiService('https://mainnet.archethic.net')
+                    .getBlockchainVersion())
+                .version
+                .transaction,
+          );
 
-        await Future<void>.delayed(const Duration(seconds: 2));
-        await ApiService('https://mainnet.archethic.net')
-            .getKeychain(walletSeed);
+          /// Create Keychain from keyChain seed and wallet public key to encrypt secret
+          final keychainTransaction =
+              ApiService('https://mainnet.archethic.net')
+                  .newKeychainTransaction(
+            keychainSeed,
+            <String>[
+              uint8ListToHex(
+                Uint8List.fromList(walletKeyPair.publicKey!),
+              ),
+            ],
+            Uint8List.fromList(hexToUint8List(originPrivateKey)),
+            blockchainTxVersion,
+            serviceName: kServiceName,
+            derivationPath: kDerivationPath,
+          );
+          dev.log(
+            'keychainTransaction: ${keychainTransaction.convertToJSON()}',
+          );
 
-        expect(transactionStatusKeychain2.status, 'pending');
-      },
-      tags: <String>['noCI'],
-    );
-
-    test(
-      'should create a keychain',
-      () async {
-        const walletSeed =
-            '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA1';
-        final walletKeyPair = crypto.deriveKeyPair(walletSeed, 0);
-
-        /// Generate keyChain Seed from random value
-        final keychainSeed = uint8ListToHex(
-          Uint8List.fromList(
-            List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
-          ),
-        );
-        dev.log('keychainSeed: $keychainSeed');
-
-        /// Default service for wallet
-        const kServiceName = 'main-uco';
-        const kDerivationPathWithoutIndex = "m/650'/$kServiceName/";
-        const index = '0';
-        const kDerivationPath = '$kDerivationPathWithoutIndex$index';
-        dev.log('kDerivationPath: $kDerivationPath');
-
-        final originPrivateKey =
-            ApiService('https://mainnet.archethic.net').getOriginKey();
-        dev.log('originPrivateKey: $originPrivateKey');
-
-        final blockchainTxVersion = int.parse(
-          (await ApiService('https://mainnet.archethic.net')
-                  .getBlockchainVersion())
-              .version
-              .transaction,
-        );
-
-        /// Create Keychain from keyChain seed and wallet public key to encrypt secret
-        final keychainTransaction =
-            ApiService('https://mainnet.archethic.net').newKeychainTransaction(
-          keychainSeed,
-          <String>[
-            uint8ListToHex(
-              Uint8List.fromList(walletKeyPair.publicKey!),
+          /// Create Keychain Access for wallet
+          final accessKeychainTx = ApiService('https://mainnet.archethic.net')
+              .newAccessKeychainTransaction(
+            walletSeed,
+            Uint8List.fromList(
+              hexToUint8List(keychainTransaction.address!.address!),
             ),
-          ],
-          Uint8List.fromList(hexToUint8List(originPrivateKey)),
-          blockchainTxVersion,
-          serviceName: kServiceName,
-          derivationPath: kDerivationPath,
-        );
-        dev.log('keychainTransaction: ${keychainTransaction.convertToJSON()}');
+            Uint8List.fromList(hexToUint8List(originPrivateKey)),
+            blockchainTxVersion,
+          );
+          dev.log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
 
-        /// Create Keychain Access for wallet
-        final accessKeychainTx = ApiService('https://mainnet.archethic.net')
-            .newAccessKeychainTransaction(
-          walletSeed,
-          Uint8List.fromList(
-            hexToUint8List(keychainTransaction.address!.address!),
-          ),
-          Uint8List.fromList(hexToUint8List(originPrivateKey)),
-          blockchainTxVersion,
-        );
-        dev.log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
+          // ignore: unused_local_variable
+          final transactionStatusKeychain =
+              await ApiService('https://mainnet.archethic.net')
+                  .sendTx(keychainTransaction);
 
-        // ignore: unused_local_variable
-        final transactionStatusKeychain =
-            await ApiService('https://mainnet.archethic.net')
-                .sendTx(keychainTransaction);
+          await Future<void>.delayed(const Duration(seconds: 2));
 
-        await Future<void>.delayed(const Duration(seconds: 2));
+          // ignore: unused_local_variable
+          final transactionStatusKeychainAccess =
+              await ApiService('https://mainnet.archethic.net')
+                  .sendTx(accessKeychainTx);
 
-        // ignore: unused_local_variable
-        final transactionStatusKeychainAccess =
-            await ApiService('https://mainnet.archethic.net')
-                .sendTx(accessKeychainTx);
+          await Future<void>.delayed(const Duration(seconds: 2));
 
-        /// Get KeyChain Wallet
-        final keychain = await ApiService('https://mainnet.archethic.net')
-            .getKeychain(walletSeed);
+          /// Add service in keychain
 
-        expect(keychain.services.keys.elementAt(0), 'main-uco');
-      },
-      tags: <String>['noCI'],
-    );
+          final keychainToUpdate =
+              await ApiService('https://mainnet.archethic.net')
+                  .getKeychain(walletSeed);
+          dev.log(
+            'keychain seed (add Account) : ${uint8ListToHex(keychainToUpdate.seed!)}',
+          );
 
-    test('should build the transaction and the related signature', () {
-      final seed = Uint8List.fromList(utf8.encode('seed'));
+          final genesisAddressKeychain =
+              crypto.deriveAddress(uint8ListToHex(keychainToUpdate.seed!), 0);
 
-      final keychain =
-          Keychain(seed: seed).copyWithService('uco', "m/650'/0/0");
-      final tx = Transaction(type: 'transfer', data: Transaction.initData())
-          .addUCOTransfer(
-        '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-        toBigInt(10.0),
+          const kServiceName2 = 'second-uco';
+          const kDerivationPathWithoutIndex2 = "m/650'/$kServiceName2/";
+          const index2 = '0';
+          const kDerivationPath2 = '$kDerivationPathWithoutIndex2$index2';
+          keychainToUpdate.copyWithService(kServiceName2, kDerivationPath2);
+
+          final lastTransactionKeychainMap =
+              await ApiService('https://mainnet.archethic.net')
+                  .getLastTransaction([genesisAddressKeychain]);
+
+          final aesKey = uint8ListToHex(
+            Uint8List.fromList(
+              List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
+            ),
+          );
+
+          final keychainTransaction2 =
+              Transaction(type: 'keychain', data: Transaction.initData())
+                  .setContent(jsonEncode(keychainToUpdate.toDID()));
+
+          final authorizedKeys = List<AuthorizedKey>.empty(growable: true);
+          final la = lastTransactionKeychainMap[genesisAddressKeychain]!
+              .data!
+              .ownerships[0]
+              .authorizedPublicKeys;
+          for (final ak in la) {
+            authorizedKeys.add(
+              AuthorizedKey(
+                encryptedSecretKey:
+                    uint8ListToHex(crypto.ecEncrypt(aesKey, ak.publicKey)),
+                publicKey: ak.publicKey,
+              ),
+            );
+          }
+
+          keychainTransaction2.addOwnership(
+            uint8ListToHex(
+              crypto.aesEncrypt(keychainToUpdate.encode(), aesKey),
+            ),
+            authorizedKeys,
+          );
+
+          keychainTransaction2
+              .build(
+                uint8ListToHex(keychainToUpdate.seed!),
+                lastTransactionKeychainMap[genesisAddressKeychain]!
+                    .chainLength!,
+              )
+              .transaction
+              .originSign(originPrivateKey);
+
+          // ignore: unused_local_variable
+          final transactionStatusKeychain2 =
+              await ApiService('https://mainnet.archethic.net')
+                  .sendTx(keychainTransaction2);
+
+          await Future<void>.delayed(const Duration(seconds: 2));
+          await ApiService('https://mainnet.archethic.net')
+              .getKeychain(walletSeed);
+
+          expect(transactionStatusKeychain2.status, 'pending');
+        },
       );
 
-      final txBuilt = keychain.buildTransaction(tx, 'uco', 0).transaction;
+      test(
+        'should create a keychain',
+        tags: <String>['noCI'],
+        () async {
+          const walletSeed =
+              '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA1';
+          final walletKeyPair = crypto.deriveKeyPair(walletSeed, 0);
 
-      final keypair = keychain.deriveKeypair('uco');
-      final address = keychain.deriveAddress('uco', index: 1);
-      expect(txBuilt.address!.address, uint8ListToHex(address));
-      expect(
-        txBuilt.previousPublicKey,
-        uint8ListToHex(Uint8List.fromList(keypair.publicKey!)),
+          /// Generate keyChain Seed from random value
+          final keychainSeed = uint8ListToHex(
+            Uint8List.fromList(
+              List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
+            ),
+          );
+          dev.log('keychainSeed: $keychainSeed');
+
+          /// Default service for wallet
+          const kServiceName = 'main-uco';
+          const kDerivationPathWithoutIndex = "m/650'/$kServiceName/";
+          const index = '0';
+          const kDerivationPath = '$kDerivationPathWithoutIndex$index';
+          dev.log('kDerivationPath: $kDerivationPath');
+
+          final originPrivateKey =
+              ApiService('https://mainnet.archethic.net').getOriginKey();
+          dev.log('originPrivateKey: $originPrivateKey');
+
+          final blockchainTxVersion = int.parse(
+            (await ApiService('https://mainnet.archethic.net')
+                    .getBlockchainVersion())
+                .version
+                .transaction,
+          );
+
+          /// Create Keychain from keyChain seed and wallet public key to encrypt secret
+          final keychainTransaction =
+              ApiService('https://mainnet.archethic.net')
+                  .newKeychainTransaction(
+            keychainSeed,
+            <String>[
+              uint8ListToHex(
+                Uint8List.fromList(walletKeyPair.publicKey!),
+              ),
+            ],
+            Uint8List.fromList(hexToUint8List(originPrivateKey)),
+            blockchainTxVersion,
+            serviceName: kServiceName,
+            derivationPath: kDerivationPath,
+          );
+          dev.log(
+            'keychainTransaction: ${keychainTransaction.convertToJSON()}',
+          );
+
+          /// Create Keychain Access for wallet
+          final accessKeychainTx = ApiService('https://mainnet.archethic.net')
+              .newAccessKeychainTransaction(
+            walletSeed,
+            Uint8List.fromList(
+              hexToUint8List(keychainTransaction.address!.address!),
+            ),
+            Uint8List.fromList(hexToUint8List(originPrivateKey)),
+            blockchainTxVersion,
+          );
+          dev.log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
+
+          // ignore: unused_local_variable
+          final transactionStatusKeychain =
+              await ApiService('https://mainnet.archethic.net')
+                  .sendTx(keychainTransaction);
+
+          await Future<void>.delayed(const Duration(seconds: 2));
+
+          // ignore: unused_local_variable
+          final transactionStatusKeychainAccess =
+              await ApiService('https://mainnet.archethic.net')
+                  .sendTx(accessKeychainTx);
+
+          /// Get KeyChain Wallet
+          final keychain = await ApiService('https://mainnet.archethic.net')
+              .getKeychain(walletSeed);
+
+          expect(keychain.services.keys.elementAt(0), 'main-uco');
+        },
       );
 
-      expect(
-        crypto.verify(
-          txBuilt.previousSignature,
-          txBuilt.previousSignaturePayload(),
+      test('should build the transaction and the related signature', () {
+        final seed = Uint8List.fromList(utf8.encode('seed'));
+
+        final keychain =
+            Keychain(seed: seed).copyWithService('uco', "m/650'/0/0");
+        final tx = Transaction(type: 'transfer', data: Transaction.initData())
+            .addUCOTransfer(
+          '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+          toBigInt(10.0),
+        );
+
+        final txBuilt = keychain.buildTransaction(tx, 'uco', 0).transaction;
+
+        final keypair = keychain.deriveKeypair('uco');
+        final address = keychain.deriveAddress('uco', index: 1);
+        expect(txBuilt.address!.address, uint8ListToHex(address));
+        expect(
           txBuilt.previousPublicKey,
-        ),
-        true,
-      );
-    });
+          uint8ListToHex(Uint8List.fromList(keypair.publicKey!)),
+        );
 
-    test('should decode keychain from a binary', () {
-      final binary = concatUint8List(<Uint8List>[
-        Uint8List.fromList(<int>[0, 0, 0, 1]), // Version
-        Uint8List.fromList(<int>[6]), // Seed size
-        Uint8List.fromList(utf8.encode('myseed')),
-        Uint8List.fromList(<int>[1]), // Nb of services
-        Uint8List.fromList(<int>[3]), // Service name length: "UCO",
-        Uint8List.fromList(utf8.encode('uco')),
-        Uint8List.fromList(<int>[10]), // Derivation path length,
-        Uint8List.fromList(utf8.encode("m/650'/0/0")),
-        Uint8List.fromList(<int>[0]), // Ed25519 curve
-        Uint8List.fromList(<int>[0]), // SHA256 hash algo
-      ]);
+        expect(
+          crypto.verify(
+            txBuilt.previousSignature,
+            txBuilt.previousSignaturePayload(),
+            txBuilt.previousPublicKey,
+          ),
+          true,
+        );
+      });
 
-      final keychain = decodeKeychain(binary);
+      test('should decode keychain from a binary', () {
+        final binary = concatUint8List(<Uint8List>[
+          Uint8List.fromList(<int>[0, 0, 0, 1]), // Version
+          Uint8List.fromList(<int>[6]), // Seed size
+          Uint8List.fromList(utf8.encode('myseed')),
+          Uint8List.fromList(<int>[1]), // Nb of services
+          Uint8List.fromList(<int>[3]), // Service name length: "UCO",
+          Uint8List.fromList(utf8.encode('uco')),
+          Uint8List.fromList(<int>[10]), // Derivation path length,
+          Uint8List.fromList(utf8.encode("m/650'/0/0")),
+          Uint8List.fromList(<int>[0]), // Ed25519 curve
+          Uint8List.fromList(<int>[0]), // SHA256 hash algo
+        ]);
 
-      expect(Uint8List.fromList(utf8.encode('myseed')), keychain.seed);
-      expect(
-        json.encode({
-          'uco': {
-            'derivationPath': "m/650'/0/0",
-            'curve': 'ed25519',
-            'hashAlgo': 'sha256',
-          },
-        }),
-        json.encode(keychain.services),
-      );
-    });
-  });
+        final keychain = decodeKeychain(binary);
+
+        expect(Uint8List.fromList(utf8.encode('myseed')), keychain.seed);
+        expect(
+          json.encode({
+            'uco': {
+              'derivationPath': "m/650'/0/0",
+              'curve': 'ed25519',
+              'hashAlgo': 'sha256',
+            },
+          }),
+          json.encode(keychain.services),
+        );
+      });
+    },
+  );
 }

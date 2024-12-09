@@ -14,6 +14,7 @@ import 'package:test/test.dart';
 void main() {
   group(
     'api',
+    tags: <String>['noCI'],
     () {
       test('getTransactionIndex', () async {
         final transaction = await ApiService('https://mainnet.archethic.net')
@@ -568,6 +569,5 @@ void main() {
         }
       });
     },
-    tags: <String>['noCI'],
   );
 }

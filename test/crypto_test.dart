@@ -2,6 +2,7 @@ library test.crypto_test;
 
 import 'dart:math';
 import 'dart:typed_data';
+
 import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
@@ -236,6 +237,7 @@ void main() {
 
   group(
     'onchainWalletGenerator',
+    tags: <String>['noCI'],
     () {
       test('should control the Onchain Wallet', () {
         final onChainWalletData = walletEncoder(
@@ -247,7 +249,6 @@ void main() {
         );
       });
     },
-    tags: <String>['noCI'],
   );
 
   group('Address', () {
@@ -399,6 +400,7 @@ void main() {
 
   group(
     'onchainWalletGeneratorTest',
+    tags: <String>['noCI'],
     () {
       test('should control the Onchain Wallet (Test)', () {
         final onChainWalletData = walletEncoderTest(
@@ -410,6 +412,5 @@ void main() {
         );
       });
     },
-    tags: <String>['noCI'],
   );
 }

@@ -11,6 +11,7 @@ import 'package:test/test.dart';
 void main() {
   group(
     'oracle',
+    tags: <String>['noCI'],
     () {
       test('getLastOracleUcoPrice', () async {
         final oracleUcoPrice =
@@ -49,6 +50,5 @@ void main() {
         });
       });
     },
-    tags: <String>['noCI'],
   );
 }
