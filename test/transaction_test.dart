@@ -738,6 +738,7 @@ condition inherit: [
 
   group(
     'send tx',
+    tags: <String>['noCI'],
     () {
       test('should send transaction with special characters', () async {
         const seed =
@@ -765,6 +766,5 @@ condition inherit: [
         expect(true, true);
       });
     },
-    tags: <String>['noCI'],
   );
 }

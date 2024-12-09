@@ -1,0 +1,3 @@
+tags:
+  noCI:
+    timeout: 2.5x
