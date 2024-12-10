@@ -52,7 +52,7 @@ void main() {
                 ])
             .build('seed', 0, curve: 'P256', isSeedHexa: false)
             .transaction;
-        final dynamic parsedTx = json.decode(tx.convertToJSON());
+        final dynamic parsedTx = json.decode(tx.toNodeRPC());
         expect(
             parsedTx['data']['ownerships'][0]['authorizedKeys'],
             <Map<String, String>>[
@@ -694,7 +694,7 @@ condition inherit: [
               uint8ListToHex(Uint8List.fromList(originKeypair.privateKey!)),
             );
 
-        final Map<String, dynamic> parsedTx = json.decode(tx.convertToJSON());
+        final Map<String, dynamic> parsedTx = json.decode(tx.toNodeRPC());
 
         final previousSig = crypto.sign(
           tx.previousSignaturePayload(),

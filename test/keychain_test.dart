@@ -200,7 +200,7 @@ void main() {
             derivationPath: kDerivationPath,
           );
           dev.log(
-            'keychainTransaction: ${keychainTransaction.convertToJSON()}',
+            'keychainTransaction: ${keychainTransaction.toNodeRPC()}',
           );
 
           /// Create Keychain Access for wallet
@@ -212,7 +212,7 @@ void main() {
             Uint8List.fromList(hexToUint8List(originPrivateKey)),
             blockchainTxVersion,
           );
-          dev.log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
+          dev.log('accessKeychainTx: ${accessKeychainTx.toNodeRPC()}');
 
           await ArchethicTransactionSender(
             apiService: apiService,
@@ -341,7 +341,7 @@ void main() {
             derivationPath: kDerivationPath,
           );
           dev.log(
-            'keychainTransaction: ${keychainTransaction.convertToJSON()}',
+            'keychainTransaction: ${keychainTransaction.toNodeRPC()}',
           );
 
           /// Create Keychain Access for wallet
@@ -353,7 +353,7 @@ void main() {
             Uint8List.fromList(hexToUint8List(originPrivateKey)),
             blockchainTxVersion,
           );
-          dev.log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
+          dev.log('accessKeychainTx: ${accessKeychainTx.toNodeRPC()}');
 
           await ArchethicTransactionSender(
             apiService: apiService,

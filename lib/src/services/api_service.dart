@@ -74,7 +74,7 @@ class ApiService with JsonRPCUtil {
         'send_transaction',
         {
           'transaction': jsonDecode(
-            transaction.convertToJSON(),
+            transaction.toNodeRPC(),
           ),
         },
       );
@@ -491,7 +491,7 @@ class ApiService with JsonRPCUtil {
       'estimate_transaction_fee',
       {
         'transaction': jsonDecode(
-          transaction.convertToJSON(),
+          transaction.toNodeRPC(),
         ),
       },
     );
