@@ -1,17 +1,16 @@
 library test.transaction_test;
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:archethic_lib_dart/src/model/address.dart';
-import 'package:archethic_lib_dart/src/model/authorized_key.dart';
-import 'package:archethic_lib_dart/src/model/transaction.dart';
-import 'package:archethic_lib_dart/src/services/api_service.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/typed_encoding.dart'
     as typed_encoding;
-import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:test/test.dart';
+
+import 'utils.dart';
 
 const version = 3;
 void main() {
@@ -738,13 +737,20 @@ condition inherit: [
 
   group(
     'send tx',
-    tags: <String>['noCI'],
+    tags: <String>[TestTags.integration],
     () {
       test('should send transaction with special characters', () async {
-        const seed =
-            '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA1';
-        final originPrivateKey =
-            ApiService('http://localhost:4000').getOriginKey();
+        final apiService = ApiService('https://testnet.archethic.net');
+        final seed = uint8ListToHex(
+          Uint8List.fromList('test-sendtransaction'.codeUnits),
+        );
+        const originAdress =
+            '0000dbc03e5d06b2cb1b15ab2fd08f89dd5389ca380a01e5f3b13e5b89fec1b30aba';
+        final originPrivateKey = apiService.getOriginKey();
+
+        final txIndex = (await apiService
+                .getTransactionIndex([originAdress]))[originAdress] ??
+            0;
 
         const text = 'Hello👋';
         final tx = Transaction(type: 'transfer', data: Transaction.initData())
@@ -753,17 +759,42 @@ condition inherit: [
               '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
               toBigInt(0.00000001),
             )
-            .build(seed, 0)
+            .build(seed, txIndex)
             .transaction
             .originSign(originPrivateKey);
 
-        await ApiService('http://localhost:4000').sendTx(tx);
-        await Future<void>.delayed(const Duration(seconds: 2));
-        await ApiService('http://localhost:4000').getTransactionContent({
-          '000057cb7d188385325a30fddf5bca487ee1db525b7a3dc31a595d6f3425c06c93ce':
-              '',
+        final txSender = ArchethicTransactionSender(
+          phoenixHttpEndpoint: 'https://testnet.archethic.net/socket/websocket',
+          websocketEndpoint: 'wss://testnet.archethic.net/socket/websocket',
+          apiService: apiService,
+        );
+
+        final completer = Completer();
+        await txSender.send(
+          transaction: tx,
+          onConfirmation: (confirmation) async {
+            if (confirmation.isFullyConfirmed) {
+              completer.complete();
+            }
+          },
+          onError: (error) async {
+            completer.completeError(error);
+          },
+        );
+
+        await completer.future;
+
+        final txAddress = tx.address!.address!;
+        final content = await apiService.getTransactionContent({
+          txAddress: '',
         });
-        expect(true, true);
+
+        final decodedContent = String.fromCharCodes(
+          hexToUint8List(
+            content[txAddress]!,
+          ),
+        );
+        expect(decodedContent, 'Hello👋');
       });
     },
   );

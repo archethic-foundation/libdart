@@ -15,6 +15,8 @@ import 'package:crypto/crypto.dart' as crypto_lib show Hmac, sha512;
 import 'package:pointycastle/api.dart';
 import 'package:test/test.dart';
 
+import 'utils.dart';
+
 void main() {
   group('keychain to DID', () {
     test('should encode the key material metadata', () {
@@ -154,7 +156,7 @@ void main() {
 
   group(
     'buildTransaction',
-    tags: <String>['noCI'],
+    tags: <String>[TestTags.integration],
     () {
       test(
         'should add service in a keychain',
@@ -313,7 +315,7 @@ void main() {
 
       test(
         'should create a keychain',
-        tags: <String>['noCI'],
+        tags: <String>[TestTags.integration],
         () async {
           const walletSeed =
               '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA1';

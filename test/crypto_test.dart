@@ -237,7 +237,6 @@ void main() {
 
   group(
     'onchainWalletGenerator',
-    tags: <String>['noCI'],
     () {
       test('should control the Onchain Wallet', () {
         final onChainWalletData = walletEncoder(
@@ -400,7 +399,6 @@ void main() {
 
   group(
     'onchainWalletGeneratorTest',
-    tags: <String>['noCI'],
     () {
       test('should control the Onchain Wallet (Test)', () {
         final onChainWalletData = walletEncoderTest(
