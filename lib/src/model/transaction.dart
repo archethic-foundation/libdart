@@ -495,7 +495,7 @@ class Transaction with _$Transaction {
   }
 
   /// Convert the transaction in JSON
-  String convertToJSON() {
+  String toNodeRPC() {
     final json = jsonEncode(<String, Object?>{
       'version': version,
       'address': address == null ? '' : address!.address,

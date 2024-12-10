@@ -21,7 +21,7 @@ void main(List<String> args) {
       )
       .build('mysuperpassphraseorseed', 0, curve: 'P256')
       .transaction
-    ..convertToJSON();
+    ..toNodeRPC();
 
   /// Sign the transaction with an origin device private key
   final originKeypair = deriveKeyPair('origin_seed', 0, isSeedHexa: false);
@@ -39,7 +39,7 @@ void main(List<String> args) {
         uint8ListToHex(
           Uint8List.fromList(originKeypair.privateKey!),
         ),
-      )..convertToJSON();
+      )..toNodeRPC();
 
   /// Export the transaction generated into JSON
   final transaction3 = Transaction(
@@ -52,5 +52,5 @@ void main(List<String> args) {
       )
       .build('mysuperpassphraseorseed', 0, curve: 'P256')
       .transaction
-    ..convertToJSON();
+    ..toNodeRPC();
 }
