@@ -8,10 +8,12 @@ import 'package:archethic_lib_dart/src/services/oracle_service.dart';
 // Package imports:
 import 'package:test/test.dart';
 
+import 'utils.dart';
+
 void main() {
   group(
     'oracle',
-    tags: <String>['noCI'],
+    tags: <String>[TestTags.noCI],
     () {
       test('getLastOracleUcoPrice', () async {
         final oracleUcoPrice =

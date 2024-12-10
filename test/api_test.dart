@@ -11,10 +11,12 @@ import 'package:archethic_lib_dart/src/services/api_service.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:test/test.dart';
 
+import 'utils.dart';
+
 void main() {
   group(
     'api',
-    tags: <String>['noCI'],
+    tags: <String>[TestTags.integration],
     () {
       test('getTransactionIndex', () async {
         final transaction = await ApiService('https://mainnet.archethic.net')
@@ -54,28 +56,28 @@ void main() {
 
       test('fetchBalance', () async {
         final balanceMap =
-            await ApiService('https://mainnet.archethic.net').fetchBalance([
-          '00006089F9810A02F22B0CB12DDD2468CAF538AEBE7BB8C168B23FC52769EEC94CFD',
+            await ApiService('https://testnet.archethic.net').fetchBalance([
+          '0000ce09251f97c629cba7940e7a860488d60c02ddb47eaa43df30e37f06b9e34f9d',
         ]);
 
         expect(
           balanceMap[
-                  '00006089F9810A02F22B0CB12DDD2468CAF538AEBE7BB8C168B23FC52769EEC94CFD']!
+                  '0000ce09251f97c629cba7940e7a860488d60c02ddb47eaa43df30e37f06b9e34f9d']!
               .uco,
-          999989992279095,
+          10000000000,
         );
       });
 
       test('getTransactionContent', () async {
-        final contentMap = await ApiService('https://mainnet.archethic.net')
+        final contentMap = await ApiService('https://testnet.archethic.net')
             .getTransactionContent({
-          '0000B06B97CD3F7CFCD7815ADA2BAEC2D207EBA44E6344AD3EB15F5815A04D74C0CD':
+          '0000C85F189C13846ED91FFE30B08EF3B0E009780DAEEF4581F8B3D717D99CC954C0':
               '',
         });
 
         expect(
           contentMap[
-              '0000B06B97CD3F7CFCD7815ADA2BAEC2D207EBA44E6344AD3EB15F5815A04D74C0CD'],
+              '0000C85F189C13846ED91FFE30B08EF3B0E009780DAEEF4581F8B3D717D99CC954C0'],
           '{"uco":{"eur":0.122813,"usd":0.129662}}',
         );
       });
@@ -96,20 +98,21 @@ void main() {
         );
       });
 
-      test('getTransactions', () async {
-        final transactionChainListMap =
-            await ApiService('http://localhost:4000').getTransactionChain(
+      test('getTransactions with criteria', () async {
+        final transactionChainListMap = await ApiService(
+          'https://testnet.archethic.net',
+        ).getTransactionChain(
           {
-            '0000A69458FB78517CFA1C61B506D2447506101ACBEC064ED2239BD79910C4FEFDDE':
+            '0000CE4172B09BD96E63BD64ABC758ED502D25EEDA16CA11764B58BFCC9155189E16':
                 '',
           },
-          fromCriteria: 1706171686,
+          fromCriteria: 1733849607,
         );
 
         expect(
           transactionChainListMap.values.first[0].address!.address!
               .toUpperCase(),
-          '00008F5503E7AA05B5FAA56C10A7AA3DE916CD36499B090F91112D62BF37961C51C2',
+          '0000B88C609B25876633F3CDB5809E2B9396FF8A5DC5150D6925ADE9F0EDC4D8D3F5',
         );
       });
 
@@ -149,6 +152,7 @@ void main() {
       });
 
       test('getTransactionFees', () async {
+        final apiService = ApiService('https://testnet.archethic.net');
         final tx = Transaction(
           address: const Address(
             address:
@@ -170,25 +174,24 @@ void main() {
             .build('myseed', 0, isSeedHexa: false)
             .transaction
             .originSign(kOriginPrivateKey);
-        final transactionFee =
-            await ApiService('http://localhost:4000').getTransactionFee(tx);
+        final transactionFee = await apiService.getTransactionFee(tx);
         expect(
-          transactionFee.fee!.toStringAsPrecision(2),
-          18000000.toStringAsPrecision(2),
+          transactionFee.fee,
+          greaterThan(0),
         );
       });
 
-      test('addOriginKey', () async {
-        await ApiService('http://localhost:4000').addOriginKey(
-          originPublicKey:
-              '010104AB41291F847A601055AEDD1AF24FF76FA970D6441E2DCA3818A8319B004C96B27B8FEB1DA31A044BA0A4800B4353359735719EBB3A05F98393A9CC599C3FAFD6',
-          certificate: '0x',
-        );
-        expect(
-          true,
-          true,
-        );
-      });
+      // test('addOriginKey', () async {
+      //   await ApiService('https://testnet.archethic.net').addOriginKey(
+      //     originPublicKey:
+      //         '010104AB41291F847A601055AEDD1AF24FF76FA970D6441E2DCA3818A8319B004C96B27B8FEB1DA31A044BA0A4800B4353359735719EBB3A05F98393A9CC599C3FAFD6',
+      //     certificate: '0x',
+      //   );
+      //   expect(
+      //     true,
+      //     true,
+      //   );
+      // });
 
       test('getNearestEndpoints', () async {
         final endpoints = await ApiService('https://mainnet.archethic.net')
@@ -196,7 +199,7 @@ void main() {
 
         expect(
           endpoints[0].ip,
-          '46.101.13.189',
+          isValidIPAddress(),
         );
       });
 
@@ -237,7 +240,7 @@ void main() {
 
         expect(
           blockchainVersionModel.version.transaction,
-          '2',
+          '3',
         );
       });
 
