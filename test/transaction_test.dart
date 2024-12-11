@@ -744,12 +744,12 @@ condition inherit: [
         final seed = uint8ListToHex(
           Uint8List.fromList('test-sendtransaction'.codeUnits),
         );
-        const originAdress =
+        const originAddress =
             '0000dbc03e5d06b2cb1b15ab2fd08f89dd5389ca380a01e5f3b13e5b89fec1b30aba';
         final originPrivateKey = apiService.getOriginKey();
 
         final txIndex = (await apiService
-                .getTransactionIndex([originAdress]))[originAdress] ??
+                .getTransactionIndex([originAddress]))[originAddress] ??
             0;
 
         const text = 'Hello👋';
