@@ -1,5 +1,6 @@
 library test.keychain_test;
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:math';
@@ -9,6 +10,7 @@ import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/keychain.dart';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/services/api_service.dart';
+import 'package:archethic_lib_dart/src/utils/confirmations/archethic_transaction_sender.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:crypto/crypto.dart' as crypto_lib show Hmac, sha512;
@@ -317,8 +319,9 @@ void main() {
         'should create a keychain',
         tags: <String>[TestTags.integration],
         () async {
-          const walletSeed =
-              '60A6418E261C715D9C5E897EC8E018B8BD6C022DE214201177DEBEFE6DE1ECA1';
+          final walletSeed = generateRandomSeed();
+          const endpoint = 'https://testnet.archethic.net';
+          final apiService = ApiService(endpoint);
           final walletKeyPair = crypto.deriveKeyPair(walletSeed, 0);
 
           /// Generate keyChain Seed from random value
@@ -336,21 +339,15 @@ void main() {
           const kDerivationPath = '$kDerivationPathWithoutIndex$index';
           dev.log('kDerivationPath: $kDerivationPath');
 
-          final originPrivateKey =
-              ApiService('https://mainnet.archethic.net').getOriginKey();
+          final originPrivateKey = apiService.getOriginKey();
           dev.log('originPrivateKey: $originPrivateKey');
 
           final blockchainTxVersion = int.parse(
-            (await ApiService('https://mainnet.archethic.net')
-                    .getBlockchainVersion())
-                .version
-                .transaction,
+            (await apiService.getBlockchainVersion()).version.transaction,
           );
 
           /// Create Keychain from keyChain seed and wallet public key to encrypt secret
-          final keychainTransaction =
-              ApiService('https://mainnet.archethic.net')
-                  .newKeychainTransaction(
+          final keychainTransaction = apiService.newKeychainTransaction(
             keychainSeed,
             <String>[
               uint8ListToHex(
@@ -367,8 +364,7 @@ void main() {
           );
 
           /// Create Keychain Access for wallet
-          final accessKeychainTx = ApiService('https://mainnet.archethic.net')
-              .newAccessKeychainTransaction(
+          final accessKeychainTx = apiService.newAccessKeychainTransaction(
             walletSeed,
             Uint8List.fromList(
               hexToUint8List(keychainTransaction.address!.address!),
@@ -378,21 +374,50 @@ void main() {
           );
           dev.log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
 
-          // ignore: unused_local_variable
-          final transactionStatusKeychain =
-              await ApiService('https://mainnet.archethic.net')
-                  .sendTx(keychainTransaction);
+          final txSenderKeychainTransaction = ArchethicTransactionSender(
+            phoenixHttpEndpoint: '$endpoint/socket/websocket',
+            websocketEndpoint:
+                "${endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'wss:')}/socket/websocket",
+            apiService: apiService,
+          );
+          final completerKeychainTransaction = Completer();
+          await txSenderKeychainTransaction.send(
+            transaction: keychainTransaction,
+            onConfirmation: (confirmation) async {
+              if (confirmation.isFullyConfirmed) {
+                completerKeychainTransaction.complete();
+              }
+            },
+            onError: (error) async {
+              completerKeychainTransaction.completeError(error);
+            },
+          );
+          await completerKeychainTransaction.future;
 
-          await Future<void>.delayed(const Duration(seconds: 2));
+          final txSenderAccessKeychainTx = ArchethicTransactionSender(
+            phoenixHttpEndpoint: '$endpoint/socket/websocket',
+            websocketEndpoint:
+                "${endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'wss:')}/socket/websocket",
+            apiService: apiService,
+          );
+          final completerAccessKeychainTx = Completer();
+          await txSenderAccessKeychainTx.send(
+            transaction: accessKeychainTx,
+            onConfirmation: (confirmation) async {
+              if (confirmation.isFullyConfirmed) {
+                txSenderAccessKeychainTx.close();
+                completerAccessKeychainTx.complete();
+              }
+            },
+            onError: (error) async {
+              completerAccessKeychainTx.completeError(error);
+            },
+          );
 
-          // ignore: unused_local_variable
-          final transactionStatusKeychainAccess =
-              await ApiService('https://mainnet.archethic.net')
-                  .sendTx(accessKeychainTx);
+          await completerAccessKeychainTx.future;
 
           /// Get KeyChain Wallet
-          final keychain = await ApiService('https://mainnet.archethic.net')
-              .getKeychain(walletSeed);
+          final keychain = await apiService.getKeychain(walletSeed);
 
           expect(keychain.services.keys.elementAt(0), 'main-uco');
         },
