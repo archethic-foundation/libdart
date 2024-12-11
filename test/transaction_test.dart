@@ -778,4 +778,90 @@ condition inherit: [
       });
     },
   );
+
+  group(
+    'send tx with recipient',
+    tags: <String>['noCI'],
+    () {
+      final seed = uint8ListToHex(
+        Uint8List.fromList(
+          'integrationtests-0001'.codeUnits,
+        ),
+      );
+
+      test('sending Tx with named recipient action should work', () async {
+        final apiService = ApiService('https://testnet.archethic.net');
+
+        const txChainAddress =
+            '00009a4e6ef5a1358db5e3406b825848b396c43ef1bde2bb0a7cc32ac9ff9512aa09';
+        final originPrivateKey = apiService.getOriginKey();
+        final lastTx = (await apiService
+                .getTransactionIndex([txChainAddress]))[txChainAddress] ??
+            0;
+        const text = 'Test trigger HelloWorld 001';
+        final tx = Transaction(
+          type: 'data',
+          data: Data.fromJson(<String, dynamic>{
+            'code': '',
+            'ownerships': <Map<String, dynamic>>[],
+            'ledger': {
+              'uco': {'transfers': []},
+              'token': {'transfers': []},
+            },
+          }),
+        )
+            .addRecipient(
+              '00000E7C4C2EB7A16DA0A15811317FA828D162122AD79E1356550E5ED19CF559BF3F',
+            )
+            .setContent(text)
+            .build(seed, lastTx)
+            .transaction
+            .originSign(originPrivateKey);
+
+        await ArchethicTransactionSender(
+          apiService: apiService,
+        ).send(
+          transaction: tx,
+        );
+      });
+
+      test('sending Tx with unnamed recipient action should work', () async {
+        final apiService = ApiService('https://testnet.archethic.net');
+
+        const txChainAddress =
+            '00009a4e6ef5a1358db5e3406b825848b396c43ef1bde2bb0a7cc32ac9ff9512aa09';
+        final originPrivateKey = apiService.getOriginKey();
+        final lastTx = (await apiService
+                .getTransactionIndex([txChainAddress]))[txChainAddress] ??
+            0;
+        const text = 'Test trigger HelloWorld 001';
+        final tx = Transaction(
+          type: 'data',
+          data: Data.fromJson(<String, dynamic>{
+            'code': '',
+            'ownerships': <Map<String, dynamic>>[],
+            'ledger': {
+              'uco': {'transfers': []},
+              'token': {'transfers': []},
+            },
+          }),
+        )
+            .addRecipient(
+              '000066E515A27E40AC5E668284449566ACE127D9D70E06F84A6E07FBBED3F4BAB2F6',
+              action: 'hello_world',
+              args: [],
+            )
+            .setContent(text)
+            .build(seed, lastTx)
+            .transaction
+            .originSign(originPrivateKey);
+
+        await ArchethicTransactionSender(
+          apiService: apiService,
+        ).send(
+          transaction: tx,
+        );
+      });
+    },
+  );
 }

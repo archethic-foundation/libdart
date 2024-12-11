@@ -2,13 +2,7 @@ library test.api_test;
 
 import 'dart:developer';
 
-import 'package:archethic_lib_dart/src/model/address.dart';
-import 'package:archethic_lib_dart/src/model/exception/archethic_json_rpc_exception.dart';
-import 'package:archethic_lib_dart/src/model/smart_contracts/sc_call_function_params.dart';
-import 'package:archethic_lib_dart/src/model/smart_contracts/sc_call_function_request.dart';
-import 'package:archethic_lib_dart/src/model/transaction.dart';
-import 'package:archethic_lib_dart/src/services/api_service.dart';
-import 'package:archethic_lib_dart/src/utils/utils.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:test/test.dart';
 
 import 'utils.dart';
@@ -27,6 +21,50 @@ void main() {
           transaction[
               '000022372EFF37915F6CAE040A4DE3C8BB37863CB9531F314F404CB61B6C17CB7CD6'],
           1,
+        );
+      });
+
+      test(
+          'getTransaction with unnamed recipient action should retrieve recipients addresses',
+          () async {
+        const txAddress =
+            '0000C1ECB1CA7DDBD9786034ABCB4D379CAD267083078299B624FBB4C36D67812F57';
+        final transaction =
+            await ApiService('https://testnet.archethic.net').getTransaction([
+          txAddress,
+        ]);
+        final tx = transaction[txAddress];
+        expect(
+          tx?.data?.actionRecipients,
+          [
+            const Recipient(
+              address:
+                  '00000E7C4C2EB7A16DA0A15811317FA828D162122AD79E1356550E5ED19CF559BF3F',
+            ),
+          ],
+        );
+      });
+
+      test(
+          'getTransaction with named recipient action should retrieve recipients addresses, action and args',
+          () async {
+        const txAddress =
+            '0000DD96605B92999936E6407FC450BA782F25A3DF027151191643E042C9E5E2E5B9';
+        final transaction =
+            await ApiService('https://testnet.archethic.net').getTransaction([
+          txAddress,
+        ]);
+        final tx = transaction[txAddress];
+        expect(
+          tx?.data?.actionRecipients,
+          [
+            const Recipient(
+              address:
+                  '000066E515A27E40AC5E668284449566ACE127D9D70E06F84A6E07FBBED3F4BAB2F6',
+              action: 'hello_world',
+              args: [],
+            ),
+          ],
         );
       });
 
