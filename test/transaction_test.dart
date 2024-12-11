@@ -765,20 +765,14 @@ condition inherit: [
         );
 
         final txAddress = tx.address!.address!;
-        final transaction = await apiService.getTransaction(
+        final transactions = await apiService.getTransactionContent(
           [txAddress],
         );
+        final rawContent = transactions[txAddress];
 
-        String? decodedContent;
-        if (transaction[txAddress] != null &&
-            transaction[txAddress]!.data != null &&
-            transaction[txAddress]!.data!.content != null) {
-          final content = transaction[txAddress]!.data!.content;
-
-          decodedContent = utf8.decode(
-            hexToUint8List(content!),
-          );
-        }
+        final decodedContent = utf8.decode(
+          hexToUint8List(rawContent!),
+        );
 
         expect(decodedContent, 'Hello👋');
       });
