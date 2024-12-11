@@ -70,10 +70,11 @@ void main() {
 
       test('getTransactionContent', () async {
         final contentMap = await ApiService('https://testnet.archethic.net')
-            .getTransactionContent({
-          '0000C85F189C13846ED91FFE30B08EF3B0E009780DAEEF4581F8B3D717D99CC954C0':
-              '',
-        });
+            .getTransactionContent(
+          [
+            '0000C85F189C13846ED91FFE30B08EF3B0E009780DAEEF4581F8B3D717D99CC954C0',
+          ],
+        );
 
         expect(
           contentMap[

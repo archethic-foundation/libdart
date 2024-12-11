@@ -785,9 +785,9 @@ condition inherit: [
         await completer.future;
 
         final txAddress = tx.address!.address!;
-        final content = await apiService.getTransactionContent({
-          txAddress: '',
-        });
+        final content = await apiService.getTransactionContent(
+          [txAddress],
+        );
 
         final decodedContent = String.fromCharCodes(
           hexToUint8List(
