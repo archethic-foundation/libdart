@@ -1,6 +1,5 @@
 library test.keychain_test;
 
-import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:math';
@@ -215,47 +214,17 @@ void main() {
           );
           dev.log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
 
-          final txSenderKeychainTransaction = ArchethicTransactionSender(
-            phoenixHttpEndpoint: '$endpoint/socket/websocket',
-            websocketEndpoint:
-                "${endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'wss:')}/socket/websocket",
+          await ArchethicTransactionSender(
             apiService: apiService,
-          );
-          final completerKeychainTransaction = Completer();
-          await txSenderKeychainTransaction.send(
+          ).send(
             transaction: keychainTransaction,
-            onConfirmation: (confirmation) async {
-              if (confirmation.isFullyConfirmed) {
-                completerKeychainTransaction.complete();
-              }
-            },
-            onError: (error) async {
-              completerKeychainTransaction.completeError(error);
-            },
           );
-          await completerKeychainTransaction.future;
 
-          final txSenderAccessKeychainTx = ArchethicTransactionSender(
-            phoenixHttpEndpoint: '$endpoint/socket/websocket',
-            websocketEndpoint:
-                "${endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'wss:')}/socket/websocket",
+          await ArchethicTransactionSender(
             apiService: apiService,
-          );
-          final completerAccessKeychainTx = Completer();
-          await txSenderAccessKeychainTx.send(
+          ).send(
             transaction: accessKeychainTx,
-            onConfirmation: (confirmation) async {
-              if (confirmation.isFullyConfirmed) {
-                txSenderAccessKeychainTx.close();
-                completerAccessKeychainTx.complete();
-              }
-            },
-            onError: (error) async {
-              completerAccessKeychainTx.completeError(error);
-            },
           );
-
-          await completerAccessKeychainTx.future;
 
           /// Add service in keychain
           var keychainToUpdate = await apiService.getKeychain(walletSeed);
@@ -308,14 +277,9 @@ void main() {
             authorizedKeys,
           );
 
-          final txSenderKeychainTransaction2 = ArchethicTransactionSender(
-            phoenixHttpEndpoint: '$endpoint/socket/websocket',
-            websocketEndpoint:
-                "${endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'wss:')}/socket/websocket",
+          await ArchethicTransactionSender(
             apiService: apiService,
-          );
-          final completerKeychainTransaction2 = Completer();
-          await txSenderKeychainTransaction2.send(
+          ).send(
             transaction: keychainTransaction2
                 .build(
                   uint8ListToHex(keychainToUpdate.seed!),
@@ -324,16 +288,7 @@ void main() {
                 )
                 .transaction
                 .originSign(originPrivateKey),
-            onConfirmation: (confirmation) async {
-              if (confirmation.isFullyConfirmed) {
-                completerKeychainTransaction2.complete();
-              }
-            },
-            onError: (error) async {
-              completerKeychainTransaction2.completeError(error);
-            },
           );
-          await completerKeychainTransaction2.future;
 
           final keychain = await apiService.getKeychain(walletSeed);
 
@@ -400,47 +355,17 @@ void main() {
           );
           dev.log('accessKeychainTx: ${accessKeychainTx.convertToJSON()}');
 
-          final txSenderKeychainTransaction = ArchethicTransactionSender(
-            phoenixHttpEndpoint: '$endpoint/socket/websocket',
-            websocketEndpoint:
-                "${endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'wss:')}/socket/websocket",
+          await ArchethicTransactionSender(
             apiService: apiService,
-          );
-          final completerKeychainTransaction = Completer();
-          await txSenderKeychainTransaction.send(
+          ).send(
             transaction: keychainTransaction,
-            onConfirmation: (confirmation) async {
-              if (confirmation.isFullyConfirmed) {
-                completerKeychainTransaction.complete();
-              }
-            },
-            onError: (error) async {
-              completerKeychainTransaction.completeError(error);
-            },
           );
-          await completerKeychainTransaction.future;
 
-          final txSenderAccessKeychainTx = ArchethicTransactionSender(
-            phoenixHttpEndpoint: '$endpoint/socket/websocket',
-            websocketEndpoint:
-                "${endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'wss:')}/socket/websocket",
+          await ArchethicTransactionSender(
             apiService: apiService,
-          );
-          final completerAccessKeychainTx = Completer();
-          await txSenderAccessKeychainTx.send(
+          ).send(
             transaction: accessKeychainTx,
-            onConfirmation: (confirmation) async {
-              if (confirmation.isFullyConfirmed) {
-                txSenderAccessKeychainTx.close();
-                completerAccessKeychainTx.complete();
-              }
-            },
-            onError: (error) async {
-              completerAccessKeychainTx.completeError(error);
-            },
           );
-
-          await completerAccessKeychainTx.future;
 
           /// Get KeyChain Wallet
           final keychain = await apiService.getKeychain(walletSeed);
