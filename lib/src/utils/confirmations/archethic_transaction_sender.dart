@@ -4,18 +4,23 @@ import 'dart:developer';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:graphql/client.dart';
 
+bool _defaultIsEnoughConfirmation(TransactionConfirmation confirmation) =>
+    confirmation.isEnoughConfirmed;
+
 /// [TransactionSenderInterface] which talks to the Phoenix API.
 class ArchethicTransactionSender
     with ArchethicTransactionParser
     implements TransactionSenderInterface {
   ArchethicTransactionSender({
-    required this.phoenixHttpEndpoint,
-    required this.websocketEndpoint,
     required this.apiService,
-  });
+  }) {
+    phoenixHttpEndpoint = '${apiService.endpoint}/socket/websocket';
+    websocketEndpoint =
+        "${apiService.endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'ws:')}/socket/websocket";
+  }
 
-  final String phoenixHttpEndpoint;
-  final String websocketEndpoint;
+  late final String phoenixHttpEndpoint;
+  late final String websocketEndpoint;
   final ApiService apiService;
 
   PhoenixLink? _phoenixLink;
@@ -25,56 +30,123 @@ class ArchethicTransactionSender
   StreamSubscription? _transactionConfirmedSubscription;
   StreamSubscription? _transactionErrorSubscription;
   Timer? _timer;
+  Completer<TransactionConfirmation?>? _completer;
 
   @override
   void close() {
-    _timer?.cancel();
-    _phoenixLink?.dispose();
-    _phoenixHttpLink?.dispose();
-    _transactionConfirmedSubscription?.cancel();
-    _transactionErrorSubscription?.cancel();
+    if (_completer?.isCompleted == false) {
+      _completer!.complete(null);
+    }
+    _reset();
   }
 
-  /// Sends a transaction and listens to confirmations.
-  ///
-  /// Sender auto-closes in the following situations :
-  ///     - when transaction is fully confirmed
-  ///     - when timeout is reached
-  ///     - when transaction fails
   @override
-  Future<void> send({
+  Future<TransactionConfirmation?> send({
     required Transaction transaction,
-    Duration timeout = const Duration(seconds: 60),
-    required TransactionConfirmationHandler onConfirmation,
-    required TransactionErrorHandler onError,
+    bool Function(TransactionConfirmation) isEnoughConfirmations =
+        _defaultIsEnoughConfirmation,
+    Duration timeout = const Duration(seconds: 30),
+    TransactionConfirmationHandler? onConfirmation,
   }) async {
+    assert(
+      _completer == null,
+      'ArchethicTransactionSender already in use. Call [close()] or create a new one.',
+    );
+    _completer = Completer<TransactionConfirmation?>();
+
     _timer = Timer(
       timeout,
       () {
-        onError(const TransactionError.timeout());
-        close();
+        _onError(const TransactionError.timeout());
       },
     );
 
-    await _connect(
-      phoenixHttpEndpoint,
-      websocketEndpoint,
+    unawaited(
+      _send(
+        transaction: transaction,
+        isEnoughConfirmations: isEnoughConfirmations,
+        onConfirmation: onConfirmation,
+      ),
     );
+    return _completer!.future;
+  }
 
-    _listenTransactionConfirmed(
-      transaction.address!.address!,
-      onConfirmation,
-      onError,
-    );
-    _listenTransactionError(
-      transaction.address!.address!,
-      onError,
-    );
+  Future<void> _send({
+    required Transaction transaction,
+    bool Function(TransactionConfirmation) isEnoughConfirmations =
+        _defaultIsEnoughConfirmation,
+    TransactionConfirmationHandler? onConfirmation,
+  }) async {
+    try {
+      await _connect(
+        phoenixHttpEndpoint,
+        websocketEndpoint,
+      );
 
-    await _sendTransaction(
-      transaction: transaction,
-      onError: onError,
-    );
+      _listenTransactionConfirmed(
+        transaction.address!.address!,
+        (confirmation) async {
+          if (onConfirmation != null) {
+            unawaited(onConfirmation(confirmation));
+          }
+          if (isEnoughConfirmations(confirmation)) {
+            _onComplete(confirmation);
+          }
+        },
+        _onError,
+      );
+      _listenTransactionError(
+        transaction.address!.address!,
+        _onError,
+      );
+
+      await _sendTransaction(
+        transaction: transaction,
+        onError: _onError,
+      );
+    } on ArchethicConnectionException {
+      await _onError(
+        const TransactionError.connectivity(),
+      );
+    } on ArchethicJsonRPCException catch (e) {
+      await _onError(
+        TransactionError.rpcError(
+          code: e.code,
+          message: e.message,
+          data: e.data,
+        ),
+      );
+    } on Exception catch (e) {
+      await _onError(
+        TransactionError.other(message: e.toString()),
+      );
+    }
+  }
+
+  void _onComplete(TransactionConfirmation confirmation) {
+    _completer?.complete(confirmation);
+    _reset();
+  }
+
+  Future<void> _onError(TransactionError error) async {
+    _completer?.completeError(error);
+    _reset();
+  }
+
+  void _reset() {
+    _timer?.cancel();
+    _timer = null;
+    _phoenixLink?.dispose();
+    _phoenixLink = null;
+    _phoenixHttpLink?.dispose();
+    _phoenixHttpLink = null;
+    _transactionConfirmedSubscription?.cancel();
+    _transactionConfirmedSubscription = null;
+    _transactionErrorSubscription?.cancel();
+    _transactionErrorSubscription = null;
+    _client = null;
+
+    _completer = null;
   }
 
   Future<void> _connect(
@@ -122,33 +194,11 @@ class ArchethicTransactionSender
     required Transaction transaction,
     required TransactionErrorHandler onError,
   }) async {
-    try {
-      final transactionStatus = await apiService.sendTx(transaction);
+    final transactionStatus = await apiService.sendTx(transaction);
 
-      if (transactionStatus.status == 'invalid') {
-        close();
-        await onError(
-          const TransactionError.invalidTransaction(),
-        );
-      }
-    } on ArchethicConnectionException {
-      close();
+    if (transactionStatus.status == 'invalid') {
       await onError(
-        const TransactionError.connectivity(),
-      );
-    } on ArchethicJsonRPCException catch (e) {
-      close();
-      await onError(
-        TransactionError.rpcError(
-          code: e.code,
-          message: e.message,
-          data: e.data,
-        ),
-      );
-    } on Exception {
-      close();
-      await onError(
-        const TransactionError.other(),
+        const TransactionError.invalidTransaction(),
       );
     }
   }
@@ -157,11 +207,15 @@ class ArchethicTransactionSender
     String address,
     TransactionErrorHandler onError,
   ) {
+    assert(
+      _transactionErrorSubscription == null,
+      'Already listening to transaction errors.',
+    );
+
     _transactionErrorSubscription = _subscribe<TransactionError>(
       'subscription { transactionError(address: "$address") { context, error { code, data, message } } }',
     ).listen(
       (result) {
-        close();
         final transactionError = _errorDtoToModel(result.data);
         log(
           '>>> Transaction KO $address <<< (${transactionError.messageLabel})',
@@ -178,6 +232,11 @@ class ArchethicTransactionSender
     TransactionConfirmationHandler onConfirmation,
     TransactionErrorHandler onError,
   ) {
+    assert(
+      _transactionConfirmedSubscription == null,
+      'Already listening to transaction confirmations.',
+    );
+
     _transactionConfirmedSubscription = _subscribe(
       'subscription { transactionConfirmed(address: "$address") { nbConfirmations, maxConfirmations } }',
     ).listen(
@@ -194,12 +253,7 @@ class ArchethicTransactionSender
         log(
           '>>> Transaction confirmed $address <<< ${transactionEvent.nbConfirmations} / ${transactionEvent.maxConfirmations}',
         );
-
-        if (transactionEvent.isFullyConfirmed) close();
-
-        await onConfirmation(
-          transactionEvent,
-        );
+        await onConfirmation(transactionEvent);
       },
     );
   }

@@ -1,6 +1,5 @@
 library test.transaction_test;
 
-import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -763,26 +762,11 @@ condition inherit: [
             .transaction
             .originSign(originPrivateKey);
 
-        final txSender = ArchethicTransactionSender(
-          phoenixHttpEndpoint: 'https://testnet.archethic.net/socket/websocket',
-          websocketEndpoint: 'wss://testnet.archethic.net/socket/websocket',
+        await ArchethicTransactionSender(
           apiService: apiService,
-        );
-
-        final completer = Completer();
-        await txSender.send(
+        ).send(
           transaction: tx,
-          onConfirmation: (confirmation) async {
-            if (confirmation.isFullyConfirmed) {
-              completer.complete();
-            }
-          },
-          onError: (error) async {
-            completer.completeError(error);
-          },
         );
-
-        await completer.future;
 
         final txAddress = tx.address!.address!;
         final content = await apiService.getTransactionContent(
