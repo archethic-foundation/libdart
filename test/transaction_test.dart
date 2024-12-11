@@ -754,7 +754,7 @@ condition inherit: [
 
         const text = 'Hello👋';
         final tx = Transaction(type: 'transfer', data: Transaction.initData())
-            .setContent(uint8ListToHex(Uint8List.fromList(text.codeUnits)))
+            .setContent(uint8ListToHex(utf8.encode(text)))
             .addUCOTransfer(
               '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
               toBigInt(0.00000001),
@@ -789,7 +789,7 @@ condition inherit: [
           [txAddress],
         );
 
-        final decodedContent = String.fromCharCodes(
+        final decodedContent = utf8.decode(
           hexToUint8List(
             content[txAddress]!,
           ),
