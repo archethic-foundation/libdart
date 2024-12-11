@@ -250,12 +250,10 @@ class ApiService with JsonRPCUtil {
 
       final contentMap = <String, String>{};
 
-      transactionChainMap.forEach((key, value) {
-        final transaction = transactionChainMap[key];
-        if (transaction != null) {
-          if (transaction.data != null && transaction.data!.content != null) {
-            contentMap[key] = transaction.data!.content!;
-          }
+      transactionChainMap.forEach((key, transaction) {
+        final content = transaction.data?.content;
+        if (content != null) {
+          contentMap[key] = content;
         }
       });
 
