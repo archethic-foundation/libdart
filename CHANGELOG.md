@@ -266,7 +266,7 @@
 
 # 1.0.17 (2022-06-09)
 
-* Use lastAdress from address store in keychainAccess to get a keychain
+* Use lastAddress from address store in keychainAccess to get a keychain
 
 
 # 1.0.16 (2022-06-09)
