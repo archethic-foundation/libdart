@@ -236,14 +236,14 @@ class ApiService with JsonRPCUtil {
 
   /// Query the network to find a transaction from a list of addresses
   Future<Map<String, String>> getTransactionContent(
-    Map<String, String> addresses,
+    List<String> addresses,
   ) async {
     if (addresses.isEmpty) {
       return {};
     }
 
     try {
-      final transactionChainMap = await getTransactionChain(
+      final transactionChainMap = await getTransaction(
         addresses,
         request: 'data { content }',
       );
@@ -251,12 +251,10 @@ class ApiService with JsonRPCUtil {
       final contentMap = <String, String>{};
 
       transactionChainMap.forEach((key, value) {
-        final transactionList = transactionChainMap[key];
-        if (transactionList != null) {
-          for (final element in transactionList) {
-            if (element.data != null && element.data!.content != null) {
-              contentMap[key] = element.data!.content!;
-            }
+        final transaction = transactionChainMap[key];
+        if (transaction != null) {
+          if (transaction.data != null && transaction.data!.content != null) {
+            contentMap[key] = transaction.data!.content!;
           }
         }
       });
