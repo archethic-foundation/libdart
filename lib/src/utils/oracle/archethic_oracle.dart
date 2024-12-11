@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/src/model/oracle_chain/oracle_uco_price.dart';
+import 'package:archethic_lib_dart/src/model/uco.dart';
+import 'package:archethic_lib_dart/src/utils/confirmations/phoenix_link.dart';
 import 'package:graphql/client.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
