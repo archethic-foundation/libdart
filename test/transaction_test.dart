@@ -752,12 +752,8 @@ condition inherit: [
             0;
 
         const text = 'Hello👋';
-        final tx = Transaction(type: 'transfer', data: Transaction.initData())
+        final tx = Transaction(type: 'data', data: Transaction.initData())
             .setContent(uint8ListToHex(utf8.encode(text)))
-            .addUCOTransfer(
-              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
-              toBigInt(0.00000001),
-            )
             .build(seed, txIndex)
             .transaction
             .originSign(originPrivateKey);
@@ -769,15 +765,21 @@ condition inherit: [
         );
 
         final txAddress = tx.address!.address!;
-        final content = await apiService.getTransactionContent(
+        final transaction = await apiService.getTransaction(
           [txAddress],
         );
 
-        final decodedContent = utf8.decode(
-          hexToUint8List(
-            content[txAddress]!,
-          ),
-        );
+        String? decodedContent;
+        if (transaction[txAddress] != null &&
+            transaction[txAddress]!.data != null &&
+            transaction[txAddress]!.data!.content != null) {
+          final content = transaction[txAddress]!.data!.content;
+
+          decodedContent = utf8.decode(
+            hexToUint8List(content!),
+          );
+        }
+
         expect(decodedContent, 'Hello👋');
       });
     },
