@@ -1,4 +1,4 @@
-[![CI](https://github.com/archethic-foundation/libdart/actions/workflows/ci.yaml/badge.svg)](https://github.com/archethic-foundation/libdart/actions/workflows/ci.yaml) [![Pub](https://img.shields.io/pub/v/archethic_lib_dart.svg)](https://pub.dartlang.org/packages/archethic_lib_dart) [![Platform](https://img.shields.io/badge/Platform-Flutter-02569B?logo=flutter)](https://flutter.dev) [![CodeFactor](https://www.codefactor.io/repository/github/archethic-foundation/libdart/badge)](https://www.codefactor.io/repository/github/archethic-foundation/libdart)
+[![CI](https://github.com/archethic-foundation/libdart/actions/workflows/test.yaml/badge.svg)](https://github.com/archethic-foundation/libdart/actions/workflows/test.yaml) [![Pub](https://img.shields.io/pub/v/archethic_lib_dart.svg)](https://pub.dartlang.org/packages/archethic_lib_dart) [![Platform](https://img.shields.io/badge/Platform-Flutter-02569B?logo=flutter)](https://flutter.dev) [![CodeFactor](https://www.codefactor.io/repository/github/archethic-foundation/libdart/badge)](https://www.codefactor.io/repository/github/archethic-foundation/libdart)
 
 # Archethic's lib_dart
 
