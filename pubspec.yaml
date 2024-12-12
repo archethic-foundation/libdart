@@ -6,41 +6,41 @@ homepage: https://github.com/archethic-foundation/libdart
 version: 4.0.0
 
 environment:
-  sdk: ">=3.3.0 <4.0.0"
+  sdk: ">=3.5.3 <4.0.0"
 
 dependencies:
   # Collections and utilities functions and classes related to collections.
-  collection: ^1.18.0
+  collection: ^1.19.1
 
   # Implementations of SHA, MD5, and HMAC cryptographic functions
-  crypto: ^3.0.3
+  crypto: ^3.0.6
 
   # The decimal package allows you to deal with decimal numbers without losing precision
-  decimal: ^3.0.2
+  decimal: ^3.1.0
 
   # Package ecdsa implements the Elliptic Curve Digital Signature Algorithm, as defined in FIPS 186-3
-  ecdsa: ^0.1.0
+  ecdsa: ^0.1.2
 
   # basic elliptic curves
-  elliptic: ^0.3.10
+  elliptic: ^0.3.11
 
   # Annotations for the freezed code-generator. This package does nothing without freezed too
-  freezed_annotation: ^2.4.1
+  freezed_annotation: ^2.4.4
 
   # GraphQL tools for parsing, transforming and printing GraphQL documents.
-  gql: ^1.0.0+1
+  gql: ^1.0.1-alpha+1730759315362
 
   # A stand-alone GraphQL client for Dart, bringing all the features from a modern GraphQL client to one easy to use package.
-  graphql: ^5.1.3
+  graphql: ^5.2.0-beta.9
 
   # A composable, multi-platform, Future-based API for HTTP requests
-  http: ^1.2.1
+  http: ^1.2.2
 
   # JWK (JSON Web Key) encoding and decoding
   jwk: ^0.2.3
 
   # Provides APIs for debugging and error logging, similar to loggers in other languages, such as the Closure JS Logger and java.util.logging.Logger.
-  logging: ^1.2.0
+  logging: ^1.3.0
 
   # PhoenixSocket provides a feature-complete implementation of Phoenix Sockets, using a single API based on StreamChannels compatible with any deployment of Flutter
   phoenix_socket: ^0.7.4
@@ -52,28 +52,28 @@ dependencies:
   pointycastle: ^3.9.1
 
   # Quiver is a set of utility libraries for Dart that makes using many Dart libraries easier and more convenient, or adds additional functionality.
-  quiver: ^3.2.1
+  quiver: ^3.2.2
 
   # Dart port of Curve25519
   x25519: ^0.1.1
 
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.
-  build_runner: ^2.4.11
+  build_runner: ^2.4.13
 
   # A tool to help you find missing, under-promoted, over-promoted, and unused dependencies.
-  dependency_validator: ^4.1.0
+  dependency_validator: ^4.1.2
 
   # Code generation for immutable classes that has a simple syntax/API without compromising on the features
-  freezed: ^2.4.7
+  freezed: ^2.5.7
 
   # Defines the annotations used by json_serializable to create code for JSON serialization and deserialization.
   json_annotation: ^4.9.0
 
   # Automatically generate code for converting to and from JSON by annotating Dart classes.
-  json_serializable: ^6.8.0
+  json_serializable: ^6.9.0
 
   lints: ^5.0.0
   
   # A full featured library for writing and running Dart tests across platforms.
-  test: ^1.25.8
+  test: ^1.25.12
