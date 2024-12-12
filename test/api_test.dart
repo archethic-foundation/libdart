@@ -35,7 +35,7 @@ void main() {
         ]);
         final tx = transaction[txAddress];
         expect(
-          tx?.data?.actionRecipients,
+          tx?.data?.recipients,
           [
             const Recipient(
               address:
@@ -56,7 +56,7 @@ void main() {
         ]);
         final tx = transaction[txAddress];
         expect(
-          tx?.data?.actionRecipients,
+          tx?.data?.recipients,
           [
             const Recipient(
               address:

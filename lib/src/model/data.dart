@@ -27,10 +27,7 @@ class Data with _$Data {
     Ledger? ledger,
 
     /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
-    @Default([]) final List<String> recipients,
-
-    /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
-    @Default([]) final List<Recipient> actionRecipients,
+    @Default([]) final List<Recipient> recipients,
   }) = _Data;
   const Data._();
 

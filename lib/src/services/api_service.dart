@@ -141,7 +141,9 @@ class ApiService with JsonRPCUtil {
               final transactions = data.mapValues(
                 (value) {
                   if (value != null) {
-                    return Transaction.fromJson(value as Map<String, dynamic>);
+                    return Transaction.fromNodeRPC(
+                      value as Map<String, dynamic>,
+                    );
                   }
                 },
                 keysToIgnore: _responseKeysToIgnore,
@@ -310,7 +312,7 @@ class ApiService with JsonRPCUtil {
               final transactions = object.mapValues(
                 (transactions) => (transactions as List<dynamic>)
                     .map(
-                      (transaction) => Transaction.fromJson(
+                      (transaction) => Transaction.fromNodeRPC(
                         transaction as Map<String, dynamic>,
                       ),
                     )
@@ -469,7 +471,9 @@ class ApiService with JsonRPCUtil {
               final transactions = json.mapValues(
                 (value) {
                   if (value != null) {
-                    return Transaction.fromJson(value as Map<String, dynamic>);
+                    return Transaction.fromNodeRPC(
+                      value as Map<String, dynamic>,
+                    );
                   }
                 },
                 keysToIgnore: _responseKeysToIgnore,
