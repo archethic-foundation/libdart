@@ -14,6 +14,7 @@ import 'package:archethic_lib_dart/src/model/token_transfer.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/uco_transfer.dart';
 import 'package:archethic_lib_dart/src/model/validation_stamp.dart';
+import 'package:archethic_lib_dart/src/utils/collection_utils.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto
     show deriveKeyPair, sign, deriveAddress;
 import 'package:archethic_lib_dart/src/utils/typed_encoding.dart'
@@ -100,6 +101,73 @@ class Transaction with _$Transaction {
 
   factory Transaction.fromJson(Map<String, dynamic> json) =>
       _$TransactionFromJson(json);
+
+  factory Transaction.fromNodeRPC(Map<String, dynamic> json) {
+    final data = json['data'] as Map<String, dynamic>?;
+    data?.renameKey('actionRecipients', 'recipients');
+
+    return Transaction.fromJson(json);
+  }
+
+  /// Convert the transaction in JSON
+  String toNodeRPC() {
+    final json = jsonEncode(<String, Object?>{
+      'version': version,
+      'address': address == null ? '' : address!.address,
+      'type': type,
+      'data': {
+        'content': data!.content!,
+        'code': data == null || data!.code == null ? '' : data!.code!,
+        'ownerships': List<dynamic>.from(
+          data!.ownerships.map((Ownership x) {
+            return <String, Object?>{
+              'secret': x.secret == null ? '' : x.secret!,
+              'authorizedKeys': x.authorizedPublicKeys,
+            };
+          }),
+        ),
+        'ledger': {
+          'uco': {
+            'transfers': List<dynamic>.from(
+              data!.ledger!.uco!.transfers.map((UCOTransfer x) {
+                return {
+                  'to': x.to == null ? '' : x.to!,
+                  'amount': x.amount == null ? 0 : x.amount!,
+                };
+              }),
+            ),
+          },
+          'token': {
+            'transfers': List<dynamic>.from(
+              data!.ledger!.token!.transfers.map((TokenTransfer x) {
+                return {
+                  'to': x.to == null ? '' : x.to!,
+                  'amount': x.amount == null ? 0 : x.amount!,
+                  'tokenAddress': x.tokenAddress,
+                  'tokenId': x.tokenId,
+                };
+              }),
+            ),
+          },
+        },
+        'recipients': List<dynamic>.from(
+          data!.recipients.map(
+            (Recipient x) {
+              return {
+                'address': x.address == null ? '' : x.address!,
+                'action': x.action,
+                'args': x.args,
+              };
+            },
+          ),
+        ),
+      },
+      'previousPublicKey': previousPublicKey == null ? '' : previousPublicKey!,
+      'previousSignature': previousSignature == null ? '' : previousSignature!,
+      'originSignature': originSignature == null ? '' : originSignature!,
+    });
+    return json;
+  }
 
   /// Generate the transaction address, keys and signatures
   /// @param {String} seed Transaction chain seed (hexadecimal or binary buffer)
@@ -277,10 +345,10 @@ class Transaction with _$Transaction {
       throw const FormatException("'to' must be an hexadecimal string");
     }
 
-    final newRecipient = data!.actionRecipients.toList()
+    final newRecipient = data!.recipients.toList()
       ..add(Recipient(address: to, action: action, args: args));
     return copyWith.data!(
-      actionRecipients: newRecipient,
+      recipients: newRecipient,
     );
   }
 
@@ -433,8 +501,8 @@ class Transaction with _$Transaction {
 
     var recipientsBuffers = Uint8List(0);
 
-    if (data!.actionRecipients.isNotEmpty) {
-      for (final recipient in data!.actionRecipients) {
+    if (data!.recipients.isNotEmpty) {
+      for (final recipient in data!.recipients) {
         if (recipient.action == null && recipient.args == null) {
           recipientsBuffers = concatUint8List(<Uint8List>[
             recipientsBuffers,
@@ -469,7 +537,7 @@ class Transaction with _$Transaction {
     final bufTokenTransferLength =
         Uint8List.fromList(toByteArray(data!.ledger!.token!.transfers.length));
     final bufRecipientLength =
-        Uint8List.fromList(toByteArray(data!.actionRecipients.length));
+        Uint8List.fromList(toByteArray(data!.recipients.length));
 
     return concatUint8List(<Uint8List>[
       toByteArray(version, length: 4),
@@ -492,66 +560,6 @@ class Transaction with _$Transaction {
       bufRecipientLength,
       recipientsBuffers,
     ]);
-  }
-
-  /// Convert the transaction in JSON
-  String toNodeRPC() {
-    final json = jsonEncode(<String, Object?>{
-      'version': version,
-      'address': address == null ? '' : address!.address,
-      'type': type,
-      'data': {
-        'content': data!.content!,
-        'code': data == null || data!.code == null ? '' : data!.code!,
-        'ownerships': List<dynamic>.from(
-          data!.ownerships.map((Ownership x) {
-            return <String, Object?>{
-              'secret': x.secret == null ? '' : x.secret!,
-              'authorizedKeys': x.authorizedPublicKeys,
-            };
-          }),
-        ),
-        'ledger': {
-          'uco': {
-            'transfers': List<dynamic>.from(
-              data!.ledger!.uco!.transfers.map((UCOTransfer x) {
-                return {
-                  'to': x.to == null ? '' : x.to!,
-                  'amount': x.amount == null ? 0 : x.amount!,
-                };
-              }),
-            ),
-          },
-          'token': {
-            'transfers': List<dynamic>.from(
-              data!.ledger!.token!.transfers.map((TokenTransfer x) {
-                return {
-                  'to': x.to == null ? '' : x.to!,
-                  'amount': x.amount == null ? 0 : x.amount!,
-                  'tokenAddress': x.tokenAddress,
-                  'tokenId': x.tokenId,
-                };
-              }),
-            ),
-          },
-        },
-        'recipients': List<dynamic>.from(
-          data!.actionRecipients.map(
-            (Recipient x) {
-              return {
-                'address': x.address == null ? '' : x.address!,
-                'action': x.action,
-                'args': x.args,
-              };
-            },
-          ),
-        ),
-      },
-      'previousPublicKey': previousPublicKey == null ? '' : previousPublicKey!,
-      'previousSignature': previousSignature == null ? '' : previousSignature!,
-      'originSignature': originSignature == null ? '' : originSignature!,
-    });
-    return json;
   }
 
   static Data initData() {

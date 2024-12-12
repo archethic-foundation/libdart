@@ -1,4 +1,4 @@
-# next
+# 5.0.0
 
 - BREAKING CHANGES: `ArchethicTransactionSender` usage is simplified
   - `phoenixHttpEndpoint` is auto-determinated (parameter not available anymore)
@@ -7,6 +7,7 @@
     - awaits until transaction is confirmed
     - `onError` parameter removed : a `TransactionError` will be thrown when an error occurs
     - `onConfirmation` parameter purpose changed : It is optional and can be used to get the transaction confirmation status updates on the fly.
+- BREAKING CHANGES: `Transaction.actionRecipients` renamed to `Transaction.recipients`.
 
 # 4.0.0
 

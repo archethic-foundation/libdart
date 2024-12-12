@@ -33,10 +33,7 @@ mixin _$Data {
   Ledger? get ledger => throw _privateConstructorUsedError;
 
   /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
-  List<String> get recipients => throw _privateConstructorUsedError;
-
-  /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
-  List<Recipient> get actionRecipients => throw _privateConstructorUsedError;
+  List<Recipient> get recipients => throw _privateConstructorUsedError;
 
   /// Serializes this Data to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -57,8 +54,7 @@ abstract class $DataCopyWith<$Res> {
       String? content,
       List<Ownership> ownerships,
       Ledger? ledger,
-      List<String> recipients,
-      List<Recipient> actionRecipients});
+      List<Recipient> recipients});
 
   $LedgerCopyWith<$Res>? get ledger;
 }
@@ -83,7 +79,6 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
     Object? ownerships = null,
     Object? ledger = freezed,
     Object? recipients = null,
-    Object? actionRecipients = null,
   }) {
     return _then(_value.copyWith(
       code: freezed == code
@@ -105,10 +100,6 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
       recipients: null == recipients
           ? _value.recipients
           : recipients // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      actionRecipients: null == actionRecipients
-          ? _value.actionRecipients
-          : actionRecipients // ignore: cast_nullable_to_non_nullable
               as List<Recipient>,
     ) as $Val);
   }
@@ -140,8 +131,7 @@ abstract class _$$DataImplCopyWith<$Res> implements $DataCopyWith<$Res> {
       String? content,
       List<Ownership> ownerships,
       Ledger? ledger,
-      List<String> recipients,
-      List<Recipient> actionRecipients});
+      List<Recipient> recipients});
 
   @override
   $LedgerCopyWith<$Res>? get ledger;
@@ -164,7 +154,6 @@ class __$$DataImplCopyWithImpl<$Res>
     Object? ownerships = null,
     Object? ledger = freezed,
     Object? recipients = null,
-    Object? actionRecipients = null,
   }) {
     return _then(_$DataImpl(
       code: freezed == code
@@ -186,10 +175,6 @@ class __$$DataImplCopyWithImpl<$Res>
       recipients: null == recipients
           ? _value.recipients
           : recipients // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      actionRecipients: null == actionRecipients
-          ? _value.actionRecipients
-          : actionRecipients // ignore: cast_nullable_to_non_nullable
               as List<Recipient>,
     ));
   }
@@ -203,8 +188,7 @@ class _$DataImpl extends _Data {
       this.content,
       this.ownerships = const [],
       this.ledger,
-      this.recipients = const [],
-      this.actionRecipients = const []})
+      this.recipients = const []})
       : super._();
 
   factory _$DataImpl.fromJson(Map<String, dynamic> json) =>
@@ -230,16 +214,11 @@ class _$DataImpl extends _Data {
   /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
   @override
   @JsonKey()
-  final List<String> recipients;
-
-  /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
-  @override
-  @JsonKey()
-  final List<Recipient> actionRecipients;
+  final List<Recipient> recipients;
 
   @override
   String toString() {
-    return 'Data(code: $code, content: $content, ownerships: $ownerships, ledger: $ledger, recipients: $recipients, actionRecipients: $actionRecipients)';
+    return 'Data(code: $code, content: $content, ownerships: $ownerships, ledger: $ledger, recipients: $recipients)';
   }
 
   @override
@@ -253,9 +232,7 @@ class _$DataImpl extends _Data {
                 .equals(other.ownerships, ownerships) &&
             (identical(other.ledger, ledger) || other.ledger == ledger) &&
             const DeepCollectionEquality()
-                .equals(other.recipients, recipients) &&
-            const DeepCollectionEquality()
-                .equals(other.actionRecipients, actionRecipients));
+                .equals(other.recipients, recipients));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -266,8 +243,7 @@ class _$DataImpl extends _Data {
       content,
       const DeepCollectionEquality().hash(ownerships),
       ledger,
-      const DeepCollectionEquality().hash(recipients),
-      const DeepCollectionEquality().hash(actionRecipients));
+      const DeepCollectionEquality().hash(recipients));
 
   /// Create a copy of Data
   /// with the given fields replaced by the non-null parameter values.
@@ -291,8 +267,7 @@ abstract class _Data extends Data {
       final String? content,
       final List<Ownership> ownerships,
       final Ledger? ledger,
-      final List<String> recipients,
-      final List<Recipient> actionRecipients}) = _$DataImpl;
+      final List<Recipient> recipients}) = _$DataImpl;
   const _Data._() : super._();
 
   factory _Data.fromJson(Map<String, dynamic> json) = _$DataImpl.fromJson;
@@ -315,11 +290,7 @@ abstract class _Data extends Data {
 
   /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
   @override
-  List<String> get recipients;
-
-  /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
-  @override
-  List<Recipient> get actionRecipients;
+  List<Recipient> get recipients;
 
   /// Create a copy of Data
   /// with the given fields replaced by the non-null parameter values.
