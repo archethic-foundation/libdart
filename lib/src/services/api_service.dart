@@ -40,6 +40,7 @@ class ApiService with JsonRPCUtil {
   ) : _client = GraphQLClient(
           link: HttpLink('$endpoint/api'),
           cache: GraphQLCache(),
+          queryRequestTimeout: const Duration(seconds: 10),
           defaultPolicies: DefaultPolicies(
             query: Policies(
               fetch: FetchPolicy.noCache,
