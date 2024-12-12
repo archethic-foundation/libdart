@@ -113,15 +113,15 @@ class Transaction with _$Transaction {
   String toNodeRPC() {
     final json = jsonEncode(<String, Object?>{
       'version': version,
-      'address': address == null ? '' : address!.address,
+      'address': address?.address ?? '',
       'type': type,
       'data': {
         'content': data!.content!,
-        'code': data == null || data!.code == null ? '' : data!.code!,
+        'code': data?.code ?? '',
         'ownerships': List<dynamic>.from(
           data!.ownerships.map((Ownership x) {
             return <String, Object?>{
-              'secret': x.secret == null ? '' : x.secret!,
+              'secret': x.secret ?? '',
               'authorizedKeys': x.authorizedPublicKeys,
             };
           }),
@@ -131,8 +131,8 @@ class Transaction with _$Transaction {
             'transfers': List<dynamic>.from(
               data!.ledger!.uco!.transfers.map((UCOTransfer x) {
                 return {
-                  'to': x.to == null ? '' : x.to!,
-                  'amount': x.amount == null ? 0 : x.amount!,
+                  'to': x.to ?? '',
+                  'amount': x.amount ?? 0,
                 };
               }),
             ),
@@ -141,8 +141,8 @@ class Transaction with _$Transaction {
             'transfers': List<dynamic>.from(
               data!.ledger!.token!.transfers.map((TokenTransfer x) {
                 return {
-                  'to': x.to == null ? '' : x.to!,
-                  'amount': x.amount == null ? 0 : x.amount!,
+                  'to': x.to ?? '',
+                  'amount': x.amount ?? 0,
                   'tokenAddress': x.tokenAddress,
                   'tokenId': x.tokenId,
                 };
@@ -154,7 +154,7 @@ class Transaction with _$Transaction {
           data!.recipients.map(
             (Recipient x) {
               return {
-                'address': x.address == null ? '' : x.address!,
+                'address': x.address ?? '',
                 'action': x.action,
                 'args': x.args,
               };
@@ -162,9 +162,9 @@ class Transaction with _$Transaction {
           ),
         ),
       },
-      'previousPublicKey': previousPublicKey == null ? '' : previousPublicKey!,
-      'previousSignature': previousSignature == null ? '' : previousSignature!,
-      'originSignature': originSignature == null ? '' : originSignature!,
+      'previousPublicKey': previousPublicKey ?? '',
+      'previousSignature': previousSignature ?? '',
+      'originSignature': originSignature ?? '',
     });
     return json;
   }
