@@ -20,28 +20,28 @@ ConsumedInputs _$ConsumedInputsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ConsumedInputs {
-  /// Amount: asset amount
+  /// Asset amount
   int? get amount => throw _privateConstructorUsedError;
 
-  /// From: transaction which send the amount of assets
+  /// Transaction which send the amount of assets
   String? get from => throw _privateConstructorUsedError;
 
-  /// token address: address of the token if the type is token
+  /// Address of the token if the type is token
   String? get tokenAddress => throw _privateConstructorUsedError;
 
-  /// Timestamp: Date time when the UTXO created/manipulated
+  /// Date time when the UTXO created/manipulated
   int? get timestamp => throw _privateConstructorUsedError;
 
-  /// Type: UCO/token/state/call
+  /// Type of input : UCO/token/state/call
   String? get type => throw _privateConstructorUsedError;
 
-  /// Token id: It is the id for a token which is allocated when the token is minted.
+  /// Id for a token which is allocated when the token is minted.
   int? get tokenId => throw _privateConstructorUsedError;
 
-  /// Protocol Version: Version of the UTXO data structure
+  /// Version of the UTXO data structure
   int? get protocolVersion => throw _privateConstructorUsedError;
 
-  /// State: It is the state of a smart contract
+  /// State of a smart contract
   String? get state => throw _privateConstructorUsedError;
 
   /// Serializes this ConsumedInputs to a JSON map.
@@ -227,35 +227,35 @@ class _$ConsumedInputsImpl extends _ConsumedInputs {
   factory _$ConsumedInputsImpl.fromJson(Map<String, dynamic> json) =>
       _$$ConsumedInputsImplFromJson(json);
 
-  /// Amount: asset amount
+  /// Asset amount
   @override
   final int? amount;
 
-  /// From: transaction which send the amount of assets
+  /// Transaction which send the amount of assets
   @override
   final String? from;
 
-  /// token address: address of the token if the type is token
+  /// Address of the token if the type is token
   @override
   final String? tokenAddress;
 
-  /// Timestamp: Date time when the UTXO created/manipulated
+  /// Date time when the UTXO created/manipulated
   @override
   final int? timestamp;
 
-  /// Type: UCO/token/state/call
+  /// Type of input : UCO/token/state/call
   @override
   final String? type;
 
-  /// Token id: It is the id for a token which is allocated when the token is minted.
+  /// Id for a token which is allocated when the token is minted.
   @override
   final int? tokenId;
 
-  /// Protocol Version: Version of the UTXO data structure
+  /// Version of the UTXO data structure
   @override
   final int? protocolVersion;
 
-  /// State: It is the state of a smart contract
+  /// State of a smart contract
   @override
   final String? state;
 
@@ -319,35 +319,35 @@ abstract class _ConsumedInputs extends ConsumedInputs {
   factory _ConsumedInputs.fromJson(Map<String, dynamic> json) =
       _$ConsumedInputsImpl.fromJson;
 
-  /// Amount: asset amount
+  /// Asset amount
   @override
   int? get amount;
 
-  /// From: transaction which send the amount of assets
+  /// Transaction which send the amount of assets
   @override
   String? get from;
 
-  /// token address: address of the token if the type is token
+  /// Address of the token if the type is token
   @override
   String? get tokenAddress;
 
-  /// Timestamp: Date time when the UTXO created/manipulated
+  /// Date time when the UTXO created/manipulated
   @override
   int? get timestamp;
 
-  /// Type: UCO/token/state/call
+  /// Type of input : UCO/token/state/call
   @override
   String? get type;
 
-  /// Token id: It is the id for a token which is allocated when the token is minted.
+  /// Id for a token which is allocated when the token is minted.
   @override
   int? get tokenId;
 
-  /// Protocol Version: Version of the UTXO data structure
+  /// Version of the UTXO data structure
   @override
   int? get protocolVersion;
 
-  /// State: It is the state of a smart contract
+  /// State of a smart contract
   @override
   String? get state;
 

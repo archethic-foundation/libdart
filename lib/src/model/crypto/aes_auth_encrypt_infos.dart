@@ -1,11 +1,11 @@
 import 'dart:typed_data';
+
 import 'package:archethic_lib_dart/src/utils/uint8List_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-/// Holds a key pair (private and public key)
-
 part 'aes_auth_encrypt_infos.freezed.dart';
 
+/// Holds a key pair (private and public key)
 @freezed
 class AesAuthEncryptInfos with _$AesAuthEncryptInfos {
   const factory AesAuthEncryptInfos({

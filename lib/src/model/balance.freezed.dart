@@ -20,10 +20,10 @@ Balance _$BalanceFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Balance {
-  /// Token: Token balances
+  /// Token balances
   List<TokenBalance> get token => throw _privateConstructorUsedError;
 
-  /// UCO: uco balance
+  /// UCO balance
   int get uco => throw _privateConstructorUsedError;
 
   /// Serializes this Balance to a JSON map.
@@ -123,10 +123,10 @@ class _$BalanceImpl extends _Balance {
   factory _$BalanceImpl.fromJson(Map<String, dynamic> json) =>
       _$$BalanceImplFromJson(json);
 
-  /// Token: Token balances
+  /// Token balances
   final List<TokenBalance> _token;
 
-  /// Token: Token balances
+  /// Token balances
   @override
   @JsonKey()
   List<TokenBalance> get token {
@@ -135,7 +135,7 @@ class _$BalanceImpl extends _Balance {
     return EqualUnmodifiableListView(_token);
   }
 
-  /// UCO: uco balance
+  /// UCO balance
   @override
   @JsonKey()
   final int uco;
@@ -182,11 +182,11 @@ abstract class _Balance extends Balance {
 
   factory _Balance.fromJson(Map<String, dynamic> json) = _$BalanceImpl.fromJson;
 
-  /// Token: Token balances
+  /// Token balances
   @override
   List<TokenBalance> get token;
 
-  /// UCO: uco balance
+  /// UCO balance
   @override
   int get uco;
 

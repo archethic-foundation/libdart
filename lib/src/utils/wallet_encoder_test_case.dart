@@ -1,11 +1,9 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:developer' as dev;
 import 'dart:typed_data';
 
-// Project imports:
 import 'package:archethic_lib_dart/src/model/on_chain_wallet_data.dart';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
-// Package imports:
 import 'package:elliptic/ecdh.dart' as ecdh show computeSecret;
 import 'package:elliptic/elliptic.dart' as elliptic
     show getSecp256k1, PrivateKey, PublicKey;
@@ -21,6 +19,7 @@ import 'package:pointycastle/export.dart' as pc
         HMac;
 
 /// Archethic Onchain Wallet Generator and Encoder, using V1 specifications
+///
 /// https://archethic-foundation.github.io/archethic-docs/build/clients/wallet-spec
 OnChainWalletData walletEncoderTest(String originPublicKey) {
   final sha256 = pc.Digest('SHA-256');

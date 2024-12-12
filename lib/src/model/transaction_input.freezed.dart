@@ -20,25 +20,25 @@ TransactionInput _$TransactionInputFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TransactionInput {
-  /// Amount: asset amount
+  /// Asset amount
   int? get amount => throw _privateConstructorUsedError;
 
-  /// From: transaction which send the amount of assets
+  /// Transaction which send the amount of assets
   String? get from => throw _privateConstructorUsedError;
 
-  /// token address: address of the token if the type is token
+  /// Address of the token if the type is token
   String? get tokenAddress => throw _privateConstructorUsedError;
 
-  /// Spent: determines if the input has been spent
+  /// Determines if the input has been spent
   bool? get spent => throw _privateConstructorUsedError;
 
-  /// Timestamp: Date time when the inputs was generated
+  /// Date time when the inputs was generated
   int? get timestamp => throw _privateConstructorUsedError;
 
-  /// Type: UCO/Token/Call
+  /// Type of the input: UCO/Token/Call
   String? get type => throw _privateConstructorUsedError;
 
-  /// Token id: It is the id for a token which is allocated when the token is minted.
+  /// Id for a token which is allocated when the token is minted.
   int? get tokenId => throw _privateConstructorUsedError;
 
   /// Serializes this TransactionInput to a JSON map.
@@ -211,31 +211,31 @@ class _$TransactionInputImpl extends _TransactionInput {
   factory _$TransactionInputImpl.fromJson(Map<String, dynamic> json) =>
       _$$TransactionInputImplFromJson(json);
 
-  /// Amount: asset amount
+  /// Asset amount
   @override
   final int? amount;
 
-  /// From: transaction which send the amount of assets
+  /// Transaction which send the amount of assets
   @override
   final String? from;
 
-  /// token address: address of the token if the type is token
+  /// Address of the token if the type is token
   @override
   final String? tokenAddress;
 
-  /// Spent: determines if the input has been spent
+  /// Determines if the input has been spent
   @override
   final bool? spent;
 
-  /// Timestamp: Date time when the inputs was generated
+  /// Date time when the inputs was generated
   @override
   final int? timestamp;
 
-  /// Type: UCO/Token/Call
+  /// Type of the input: UCO/Token/Call
   @override
   final String? type;
 
-  /// Token id: It is the id for a token which is allocated when the token is minted.
+  /// Id for a token which is allocated when the token is minted.
   @override
   final int? tokenId;
 
@@ -296,31 +296,31 @@ abstract class _TransactionInput extends TransactionInput {
   factory _TransactionInput.fromJson(Map<String, dynamic> json) =
       _$TransactionInputImpl.fromJson;
 
-  /// Amount: asset amount
+  /// Asset amount
   @override
   int? get amount;
 
-  /// From: transaction which send the amount of assets
+  /// Transaction which send the amount of assets
   @override
   String? get from;
 
-  /// token address: address of the token if the type is token
+  /// Address of the token if the type is token
   @override
   String? get tokenAddress;
 
-  /// Spent: determines if the input has been spent
+  /// Determines if the input has been spent
   @override
   bool? get spent;
 
-  /// Timestamp: Date time when the inputs was generated
+  /// Date time when the inputs was generated
   @override
   int? get timestamp;
 
-  /// Type: UCO/Token/Call
+  /// Type of the input: UCO/Token/Call
   @override
   String? get type;
 
-  /// Token id: It is the id for a token which is allocated when the token is minted.
+  /// Id for a token which is allocated when the token is minted.
   @override
   int? get tokenId;
 

@@ -20,17 +20,17 @@ LedgerOperations _$LedgerOperationsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LedgerOperations {
-  /// Fee: transaction fee (distributed over the node rewards)
+  /// Transaction fee (distributed over the node rewards)
   int? get fee => throw _privateConstructorUsedError;
 
-  /// Transaction movements: assets transfers
+  /// Assets transfers
   List<TransactionMovement> get transactionMovements =>
       throw _privateConstructorUsedError;
 
-  /// Unspent outputs: remaining unspent outputs
+  /// Remaining unspent outputs
   List<UnspentOutputs> get unspentOutputs => throw _privateConstructorUsedError;
 
-  /// Unspent outputs: remaining unspent outputs
+  /// Remaining unspent outputs
   List<ConsumedInputs> get consumedInputs => throw _privateConstructorUsedError;
 
   /// Serializes this LedgerOperations to a JSON map.
@@ -167,14 +167,14 @@ class _$LedgerOperationsImpl extends _LedgerOperations {
   factory _$LedgerOperationsImpl.fromJson(Map<String, dynamic> json) =>
       _$$LedgerOperationsImplFromJson(json);
 
-  /// Fee: transaction fee (distributed over the node rewards)
+  /// Transaction fee (distributed over the node rewards)
   @override
   final int? fee;
 
-  /// Transaction movements: assets transfers
+  /// Assets transfers
   final List<TransactionMovement> _transactionMovements;
 
-  /// Transaction movements: assets transfers
+  /// Assets transfers
   @override
   @JsonKey()
   List<TransactionMovement> get transactionMovements {
@@ -184,10 +184,10 @@ class _$LedgerOperationsImpl extends _LedgerOperations {
     return EqualUnmodifiableListView(_transactionMovements);
   }
 
-  /// Unspent outputs: remaining unspent outputs
+  /// Remaining unspent outputs
   final List<UnspentOutputs> _unspentOutputs;
 
-  /// Unspent outputs: remaining unspent outputs
+  /// Remaining unspent outputs
   @override
   @JsonKey()
   List<UnspentOutputs> get unspentOutputs {
@@ -196,10 +196,10 @@ class _$LedgerOperationsImpl extends _LedgerOperations {
     return EqualUnmodifiableListView(_unspentOutputs);
   }
 
-  /// Unspent outputs: remaining unspent outputs
+  /// Remaining unspent outputs
   final List<ConsumedInputs> _consumedInputs;
 
-  /// Unspent outputs: remaining unspent outputs
+  /// Remaining unspent outputs
   @override
   @JsonKey()
   List<ConsumedInputs> get consumedInputs {
@@ -264,19 +264,19 @@ abstract class _LedgerOperations extends LedgerOperations {
   factory _LedgerOperations.fromJson(Map<String, dynamic> json) =
       _$LedgerOperationsImpl.fromJson;
 
-  /// Fee: transaction fee (distributed over the node rewards)
+  /// Transaction fee (distributed over the node rewards)
   @override
   int? get fee;
 
-  /// Transaction movements: assets transfers
+  /// Assets transfers
   @override
   List<TransactionMovement> get transactionMovements;
 
-  /// Unspent outputs: remaining unspent outputs
+  /// Remaining unspent outputs
   @override
   List<UnspentOutputs> get unspentOutputs;
 
-  /// Unspent outputs: remaining unspent outputs
+  /// Remaining unspent outputs
   @override
   List<ConsumedInputs> get consumedInputs;
 

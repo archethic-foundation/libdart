@@ -4,9 +4,10 @@ import 'dart:developer';
 import 'package:graphql/client.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
-/// a link for subscriptions (or also mutations/queries) over phoenix channels
+/// A link for subscriptions (or also mutations/queries) over phoenix channels
 class PhoenixLink extends Link {
-  /// create a new [PhoenixLink] using an established PhoenixChannel [channel].
+  /// Creates a new [PhoenixLink] using an established PhoenixChannel [channel].
+  ///
   /// You can use the static createChannel method to create a [PhoenixChannel]
   /// from a websocket URI and optional parameters (e.g. for authentication)
   PhoenixLink({
@@ -19,14 +20,14 @@ class PhoenixLink extends Link {
 
   final PhoenixSocket socket;
 
-  /// the underlying phoenix channel
+  /// The underlying phoenix channel
   final PhoenixChannel channel;
 
   final RequestSerializer _serializer;
   final ResponseParser _parser;
 
-  /// create a new phoenix socket from the given websocketUri,
-  /// connect to it, and create a channel, and join it
+  /// Creates a new phoenix socket from the given websocketUri,
+  /// connects to it, and create a channel, and join it
   static Future<PhoenixLink> fromWebsocketUri({
     required String uri,
     Map<String, String>? params,

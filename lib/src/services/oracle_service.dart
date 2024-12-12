@@ -1,4 +1,4 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
 import 'package:archethic_lib_dart/src/model/oracle_chain/oracle_uco_price.dart';
@@ -16,9 +16,9 @@ class OracleService {
 
   final _logger = Logger('OracleService');
 
-  /// return a value of Oracle Uco_Price in {OracleUcoPrice} from a timestamp
-  /// if timestamp = 0 or not precised, the last price is returned
-  /// @param {int} timestamp
+  /// Returns a value of Oracle Uco_Price in {OracleUcoPrice} from a timestamp.
+  ///
+  /// if [timestamp] = 0 or not precised, the last price is returned.
   Future<OracleUcoPrice> getOracleData({int timestamp = 0}) async {
     final completer = Completer<OracleUcoPrice>();
     var oracleUcoPrice = const OracleUcoPrice(uco: Uco(eur: 0, usd: 0));
@@ -72,7 +72,7 @@ class OracleService {
     return completer.future;
   }
 
-  /// Subscribe to be notified when a new oracle data is stored
+  /// Subscribe to notifications when a new oracle data is stored.
   Future<ArchethicOracle> subscribeToOracleUpdates(
     Function(OracleUcoPrice?) onUpdate,
   ) async {
@@ -101,7 +101,7 @@ class OracleService {
     return oracleRepository;
   }
 
-  /// Close the subscription
+  /// Close the subscription.
   void closeOracleUpdatesSubscription(ArchethicOracle archethicOracle) {
     archethicOracle.close();
   }

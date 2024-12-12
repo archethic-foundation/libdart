@@ -1,4 +1,5 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 abstract class ArchethicException implements Exception {}
@@ -15,6 +16,7 @@ class ArchethicInvalidResponseException implements ArchethicException {
   final String cause;
 }
 
+// TODO(reddwarf03): this is not used anywhere.
 @immutable
 class ArchethicRequestException implements ArchethicException {
   const ArchethicRequestException(this.errors);

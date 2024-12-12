@@ -1,0 +1,3 @@
+dartdoc:
+  nodoc: 
+    - 'lib/crypto_keys/**.dart'
