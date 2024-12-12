@@ -1,22 +1,21 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-/// [TokenBalance] represents a token ledger balance.
 
 part 'token_balance.freezed.dart';
 part 'token_balance.g.dart';
 
+/// [TokenBalance] represents a token ledger balance.
 @freezed
 class TokenBalance with _$TokenBalance {
   const factory TokenBalance({
-    /// token: address of the token
+    /// Address of the token
     String? address,
 
-    /// Amount: amount of token
+    /// Amount of token
     int? amount,
 
-    /// Token ID: ID of the token
+    /// ID of the token
     int? tokenId,
   }) = _TokenBalance;
   const TokenBalance._();

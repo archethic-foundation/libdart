@@ -1,4 +1,4 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
@@ -59,11 +59,10 @@ class ApiService with JsonRPCUtil {
 
   final GraphQLClient _client;
 
-  /// [endpoint] is the HTTP URL to a Archethic node (acting as welcome node)
+  /// HTTP URL to a Archethic node (acting as welcome node)
   final String endpoint;
 
   /// Send a transaction to the network
-  /// @param {Object} tx Transaction to send
   Future<TransactionStatus> sendTx(Transaction transaction) async {
     final completer = Completer<TransactionStatus>();
 
@@ -112,7 +111,7 @@ class ApiService with JsonRPCUtil {
     return completer.future;
   }
 
-  /// Query the network to find the last transaction from a liste of addresses
+  /// Query the network to find the last transaction from a list of addresses
   Future<Map<String, Transaction>> getLastTransaction(
     List<String> addresses, {
     String request = Transaction.kTransactionQueryAllFields,
@@ -271,6 +270,7 @@ class ApiService with JsonRPCUtil {
   }
 
   /// Query the network to find transaction chains from a map of addresses and pagingAddress
+  ///
   /// Returns the content scalar type represents transaction content [List<Transaction>]. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
   Future<Map<String, List<Transaction>>> getTransactionChain(
     Map<String, String> addresses, {
@@ -330,6 +330,7 @@ class ApiService with JsonRPCUtil {
   }
 
   /// Query the node infos
+  ///
   /// Returns a [List<Node>] with infos
   Future<List<Node>> getNodeList() async {
     const body =
@@ -350,10 +351,12 @@ class ApiService with JsonRPCUtil {
     return result.parsedData ?? [];
   }
 
-  /// Query the network to list the transaction on the type
-  /// @param {String} The type of transaction
-  /// @param {int} The page
-  /// @param {String} request List of informations to retrieve in the GraphQL Query
+  /// Query the network to list the transaction on the type.
+  ///
+  /// - [type] : The type of transaction
+  /// - [page] : The page
+  /// - [request] : List of informations to retrieve in the GraphQL Query
+  ///
   /// Returns the content scalar type represents transaction content [List<Transaction>]. Depending if the content can displayed it will be rendered as plain text otherwise in hexadecimal
   Future<List<Transaction>> networkTransactions(
     String type,
@@ -442,7 +445,8 @@ class ApiService with JsonRPCUtil {
     return result.parsedData ?? {};
   }
 
-  /// Query the network to find a transaction
+  /// Query the network to find a transaction.
+  ///
   /// Returns all informations represent transaction content.
   Future<Map<String, Transaction>> getTransaction(
     List<String> addresses, {
@@ -489,7 +493,6 @@ class ApiService with JsonRPCUtil {
   }
 
   /// Get transaction fees
-  /// @param {Object} tx Transaction to estimate fees
   Future<TransactionFee> getTransactionFee(Transaction transaction) async {
     final jsonRPCRequest = setJsonRPCRequest(
       'estimate_transaction_fee',
@@ -516,7 +519,6 @@ class ApiService with JsonRPCUtil {
   }
 
   /// getTransactionOwnerships
-  /// @param {List<String>} addresses
   Future<Map<String, List<Ownership>>> getTransactionOwnerships(
     List<String> addresses,
   ) async {
@@ -554,11 +556,10 @@ class ApiService with JsonRPCUtil {
   }
 
   /// Create a new keychain and build a transaction
-  /// @param {String} seed Keychain's seed
-  /// @param {List<AuthorizedKey>} authorizedPublicKeys List of authorized public keys able to decrypt the keychain
-  /// @param {Uint8List} originPrivateKey Origin private key to attest the transaction
-  /// @param {String} service name
-  /// @param {String} derivation path associated to service name
+  /// - [seed] : Keychain's seed
+  /// - [authorizedPublicKeys] : Authorized public keys able to decrypt the keychain
+  /// - [originPrivateKey] : Origin private key to attest the transaction
+  /// - [derivationPath] : derivation path associated to service name
   Transaction newKeychainTransaction(
     String seed,
     List<String> authorizedPublicKeys,
@@ -604,9 +605,10 @@ class ApiService with JsonRPCUtil {
   }
 
   /// Create a new access keychain and build a transaction
-  /// @param {String} seed Access keychain's seed
-  /// @param {Uint8List} keychainAddress Keychain's transaction address
-  /// @param {Uint8List} originPrivateKey Origin private key to attest the transaction
+  ///
+  /// - [seed] : Access keychain's seed
+  /// - [keychainAddress] : Keychain's transaction address
+  /// - [originPrivateKey] : Origin private key to attest the transaction
   Transaction newAccessKeychainTransaction(
     String seed,
     Uint8List keychainAddress,
@@ -647,7 +649,6 @@ class ApiService with JsonRPCUtil {
   }
 
   /// Retrieve a keychain by using keychain access seed
-  /// @param {String} seed Keychain's access seed
   Future<Keychain> getKeychain(String seed) async {
     final keypair = deriveKeyPair(seed, 0);
     final accessKeychainAddress = deriveAddress(seed, 1);
@@ -726,8 +727,9 @@ class ApiService with JsonRPCUtil {
   }
 
   /// Add a new origin key
-  /// @param {String} originPublicKey origin public key to be added
-  /// @param {String} certificate certificate of the origin public key
+  ///
+  /// - [originPublicKey] : origin public key to be added
+  /// - [certificate] : certificate of the origin public key
   Future<String> addOriginKey({
     String? originPublicKey,
     String? certificate,
@@ -808,7 +810,6 @@ class ApiService with JsonRPCUtil {
   }
 
   /// List the nearest endpoints nodes from the client's IP
-  /// Returns a [List<Endpoint>] with infos
   Future<List<Endpoint>> getNearestEndpoints() async {
     const body = 'query { nearestEndpoints { ip, port } }';
 
@@ -829,7 +830,6 @@ class ApiService with JsonRPCUtil {
   }
 
   /// Query the network to find the genesis address of a transaction
-  /// Returns a [Address] with genesisAddress
   Future<Address> getGenesisAddress(String address) async {
     final body = 'query { genesisAddress (address:"$address") }';
 
@@ -849,7 +849,6 @@ class ApiService with JsonRPCUtil {
   }
 
   /// Call a smart contract's function
-  /// @param {List<SCCallFunctionRequest>} RPC Requests
   Future<List<dynamic>> callSCFunctionMulti({
     required List<SCCallFunctionRequest> jsonRPCRequests,
   }) async {
@@ -893,9 +892,9 @@ class ApiService with JsonRPCUtil {
     return completer.future;
   }
 
-  /// Call a smart contract's function
-  /// @param {SCCallFunctionRequest} RPC Request
-  /// @param {bool} Format of the response (true=Map, false=String)
+  /// Call a smart contract's function.
+  ///
+  /// [resultMap] controls the response format (true=Map, false=String).
   Future<Object> callSCFunction({
     required SCCallFunctionRequest jsonRPCRequest,
     bool resultMap = false,
@@ -937,7 +936,6 @@ class ApiService with JsonRPCUtil {
   }
 
   /// Query the network to find the protocol, transaction and code versions
-  /// Returns a [BlockchainVersionModel] with blockchain's versions information
   Future<BlockchainVersionModel> getBlockchainVersion() async {
     const body = 'query { version {code protocol transaction} }';
 

@@ -1,10 +1,10 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-/// [TokenTransfer] represents the an asset transfer
 part 'token_transfer.freezed.dart';
 part 'token_transfer.g.dart';
 
+/// [TokenTransfer] represents the an asset transfer
 @freezed
 class TokenTransfer with _$TokenTransfer {
   const factory TokenTransfer({

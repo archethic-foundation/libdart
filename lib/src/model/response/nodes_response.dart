@@ -1,6 +1,5 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
-// Project imports:
 import 'package:archethic_lib_dart/src/model/node.dart';
 
 class NodesResponseData {
@@ -13,7 +12,8 @@ class NodesResponseData {
         nodes: json['nodes'] == null
             ? null
             : List<Node>.from(
-                json['nodes'].map((dynamic x) => Node.fromJson(x)),),
+                json['nodes'].map((dynamic x) => Node.fromJson(x)),
+              ),
       );
 
   List<Node>? nodes;

@@ -20,19 +20,19 @@ TransactionMovement _$TransactionMovementFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TransactionMovement {
-  /// Amount: asset amount
+  /// Asset amount
   int? get amount => throw _privateConstructorUsedError;
 
-  /// Token address: address of the token if the type is token
+  /// Address of the token if the type is token
   String? get tokenAddress => throw _privateConstructorUsedError;
 
-  /// To: asset transfer recipient
+  /// Asset transfer recipient
   String? get to => throw _privateConstructorUsedError;
 
-  /// Type: UCO/Token
+  /// Type of the asset: UCO/Token
   String? get type => throw _privateConstructorUsedError;
 
-  /// Token id: It is the id for a token which is allocated when the token is minted.
+  /// Id for a token which is allocated when the token is minted.
   int? get tokenId => throw _privateConstructorUsedError;
 
   /// Serializes this TransactionMovement to a JSON map.
@@ -175,23 +175,23 @@ class _$TransactionMovementImpl extends _TransactionMovement {
   factory _$TransactionMovementImpl.fromJson(Map<String, dynamic> json) =>
       _$$TransactionMovementImplFromJson(json);
 
-  /// Amount: asset amount
+  /// Asset amount
   @override
   final int? amount;
 
-  /// Token address: address of the token if the type is token
+  /// Address of the token if the type is token
   @override
   final String? tokenAddress;
 
-  /// To: asset transfer recipient
+  /// Asset transfer recipient
   @override
   final String? to;
 
-  /// Type: UCO/Token
+  /// Type of the asset: UCO/Token
   @override
   final String? type;
 
-  /// Token id: It is the id for a token which is allocated when the token is minted.
+  /// Id for a token which is allocated when the token is minted.
   @override
   final int? tokenId;
 
@@ -247,23 +247,23 @@ abstract class _TransactionMovement extends TransactionMovement {
   factory _TransactionMovement.fromJson(Map<String, dynamic> json) =
       _$TransactionMovementImpl.fromJson;
 
-  /// Amount: asset amount
+  /// Asset amount
   @override
   int? get amount;
 
-  /// Token address: address of the token if the type is token
+  /// Address of the token if the type is token
   @override
   String? get tokenAddress;
 
-  /// To: asset transfer recipient
+  /// Asset transfer recipient
   @override
   String? get to;
 
-  /// Type: UCO/Token
+  /// Type of the asset: UCO/Token
   @override
   String? get type;
 
-  /// Token id: It is the id for a token which is allocated when the token is minted.
+  /// Id for a token which is allocated when the token is minted.
   @override
   int? get tokenId;
 

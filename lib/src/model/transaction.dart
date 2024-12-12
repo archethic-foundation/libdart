@@ -1,4 +1,4 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -22,7 +22,6 @@ import 'package:archethic_lib_dart/src/utils/typed_encoding.dart'
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-/// [Transaction] represents a unitary transaction in the Archethic network.
 part 'transaction.freezed.dart';
 part 'transaction.g.dart';
 
@@ -55,46 +54,47 @@ String? addressToJson(Address? address) => address?.address;
 
 Address addressFromJson(String json) => Address(address: json);
 
+/// [Transaction] represents a unitary transaction in the Archethic network.
 @freezed
 class Transaction with _$Transaction {
   const factory Transaction({
-    ///  - Address: hash of the new generated public key for the given transaction
+    ///  hash of the new generated public key for the given transaction
     @AddressJsonConverter() Address? address,
 
-    /// - [Balance] represents a ledger balance
+    /// [Balance] represents a ledger balance
     Balance? balance,
 
-    /// - Length of the chain
+    /// Length of the chain
     int? chainLength,
 
-    /// - Cross validation stamps: endorsements of the validation stamp from the coordinator
+    /// Cross validation stamps: endorsements of the validation stamp from the coordinator
     @Default([]) final List<CrossValidationStamp> crossValidationStamps,
 
-    /// - [Data]: transaction data zone (identity, keychain, smart contract, etc.)
+    /// Transaction data zone (identity, keychain, smart contract, etc.)
     Data? data,
 
-    /// - [TransactionInput] represents the inputs from the transaction
+    /// Represents the inputs from the transaction
     @Default([]) final List<TransactionInput> inputs,
 
-    /// - Origin signature: signature from the device which originated the transaction (used in the Proof of work)
+    /// Signature from the device which originated the transaction (used in the Proof of work)
     String? originSignature,
 
-    /// - Previous address
+    /// Previous address
     @AddressJsonConverter() Address? previousAddress,
 
-    /// - Previous public key: previous generated public key matching the previous signature
+    /// Previous generated public key matching the previous signature
     String? previousPublicKey,
 
-    /// - Previous signature: signature from the previous public key
+    /// Signature from the previous public key
     String? previousSignature,
 
-    /// - Type: transaction type
+    /// Transaction type
     String? type,
 
-    /// - [ValidationStamp]: coordinator work result
+    /// Coordinator work result
     ValidationStamp? validationStamp,
 
-    /// - Version: version of the transaction (used for backward compatiblity)
+    /// Version of the transaction (used for backward compatiblity)
     @Default(cVersion) int version,
   }) = _Transaction;
   const Transaction._();
@@ -170,10 +170,11 @@ class Transaction with _$Transaction {
   }
 
   /// Generate the transaction address, keys and signatures
-  /// @param {String} seed Transaction chain seed (hexadecimal or binary buffer)
-  /// @param {int} index Number of transaction on the chain
-  /// @param {String} curve Elliptic curve to use for the key generation
-  /// @param {String} hashAlgo Hash algorithm to use for the address generation
+  ///
+  /// - [seed] : Transaction chain seed (hexadecimal or binary buffer)
+  /// - [index] : Number of transaction on the chain
+  /// - [curve] : Elliptic curve to use for the key generation
+  /// - [hashAlgo] : Hash algorithm to use for the address generation
   ({Transaction transaction, KeyPair keyPair}) build(
     String seed,
     int index, {
@@ -217,7 +218,8 @@ class Transaction with _$Transaction {
   }
 
   /// Add smart contract code to the transaction
-  /// @param {String} code Smart contract code
+  ///
+  /// - [code] : Smart contract code
   Transaction setCode(String code) {
     return copyWith.data!(
       code: code,
@@ -225,7 +227,8 @@ class Transaction with _$Transaction {
   }
 
   /// Add a content to the transaction
-  /// @param {String} content Hosted content
+  ///
+  /// - [content] : Hosted content
   Transaction setContent(String content) {
     return copyWith.data!(
       content: content,
@@ -233,8 +236,9 @@ class Transaction with _$Transaction {
   }
 
   /// Add an ownership with a secret and its authorized public keys
-  /// @param {String} secret Secret encrypted (hexadecimal)
-  /// @param {List<AuthorizedKey>} authorizedKeys
+  ///
+  /// - [secret] : Secret encrypted (hexadecimal)
+  /// - [authorizedKeys] : List of authorizedKeys
   Transaction addOwnership(String secret, List<AuthorizedKey> authorizedKeys) {
     if (!isHex(secret)) {
       throw const FormatException("'Secret' must be an hexadecimal string");
@@ -280,8 +284,9 @@ class Transaction with _$Transaction {
   }
 
   /// Add a UCO transfer to the transaction
-  /// @param {String} to Address of the recipient (hexadecimal)
-  /// @param {int} amount Amount of UCO to transfer
+  ///
+  /// - [to] : Address of the recipient (hexadecimal)
+  /// - [amount] : Amount of UCO to transfer
   Transaction addUCOTransfer(String to, int amount) {
     if (!isHex(to)) {
       throw const FormatException("'to' must be an hexadecimal string");
@@ -295,10 +300,11 @@ class Transaction with _$Transaction {
   }
 
   /// Add a token transfer to the transaction
-  /// @param {String} to Address of the recipient (hexadecimal)
-  /// @param {int} amount Amount of token to transfer
-  /// @param {String} tokenAddress Address of token to spend (hexadecimal)
-  /// @param {int} tokenId ID of the token to use (default to 0)
+  ///
+  /// - [to] : Address of the recipient (hexadecimal)
+  /// - [amount] : Amount of token to transfer
+  /// - [tokenAddress] : Address of token to spend (hexadecimal)
+  /// - [tokenId] : ID of the token to use (default to 0)
   Transaction addTokenTransfer(
     String to,
     int amount,
@@ -333,9 +339,10 @@ class Transaction with _$Transaction {
   }
 
   /// Add recipient to the transaction (with a named action)
-  /// @param {String} to Recipient address (hexadecimal)
-  /// @param {string} action The named action
-  /// @param {List<Object>} args The arguments list for the named action (can only contain JSON valid data)
+  ///
+  /// - [to] : Recipient address (hexadecimal)
+  /// - [action] : The named action
+  /// - [args] : The arguments list for the named action (can only contain JSON valid data)
   Transaction addRecipient(
     String to, {
     String? action,
@@ -353,8 +360,6 @@ class Transaction with _$Transaction {
   }
 
   /// Set the transaction builder with Previous Publickey and Previous Signature
-  /// @param {String} to Previous Signature (hexadecimal)
-  /// @param {String} to Previous PublicKey (hexadecimal)
   Transaction setPreviousSignatureAndPreviousPublicKey(
     String prevSign,
     String prevPubKey,
@@ -370,7 +375,6 @@ class Transaction with _$Transaction {
   }
 
   /// Set the transaction builder with address (required for originSign)
-  /// @param {Address} to Address
   Transaction setAddress(Address address) {
     if (!address.isValid()) {
       throw const FormatException(
@@ -381,7 +385,6 @@ class Transaction with _$Transaction {
   }
 
   /// Set the the transaction with an origin private key
-  /// @param {String} to originSignature
   Transaction setOriginSignature(String originSignature) {
     if (!isHex(originSignature)) {
       throw const FormatException(
@@ -392,7 +395,6 @@ class Transaction with _$Transaction {
   }
 
   /// Sign the transaction with an origin private key
-  /// @param {String} originPv Origin Private Key (hexadecimal)
   Transaction originSign(String privateKey) {
     if (!isHex(privateKey)) {
       throw const FormatException("'privateKey' must be an hexadecimal string");

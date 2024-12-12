@@ -1,34 +1,33 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-/// [TransactionInput] represents the inputs from the transaction.
 
 part 'transaction_input.freezed.dart';
 part 'transaction_input.g.dart';
 
+/// [TransactionInput] represents the inputs from the transaction.
 @freezed
 class TransactionInput with _$TransactionInput {
   const factory TransactionInput({
-    /// Amount: asset amount
+    /// Asset amount
     int? amount,
 
-    /// From: transaction which send the amount of assets
+    /// Transaction which send the amount of assets
     String? from,
 
-    /// token address: address of the token if the type is token
+    /// Address of the token if the type is token
     String? tokenAddress,
 
-    /// Spent: determines if the input has been spent
+    /// Determines if the input has been spent
     bool? spent,
 
-    /// Timestamp: Date time when the inputs was generated
+    /// Date time when the inputs was generated
     int? timestamp,
 
-    /// Type: UCO/Token/Call
+    /// Type of the input: UCO/Token/Call
     String? type,
 
-    /// Token id: It is the id for a token which is allocated when the token is minted.
+    /// Id for a token which is allocated when the token is minted.
     int? tokenId,
   }) = _TransactionInput;
   const TransactionInput._();

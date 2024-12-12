@@ -20,25 +20,25 @@ UnspentOutputs _$UnspentOutputsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UnspentOutputs {
-  /// Amount: asset amount
+  /// Asset amount
   int? get amount => throw _privateConstructorUsedError;
 
-  /// Token address: address of the token if the type is token
+  /// Address of the token if the type is token
   String? get tokenAddress => throw _privateConstructorUsedError;
 
-  /// Type: UCO/Token
+  /// Type of the token: UCO/Token
   String? get type => throw _privateConstructorUsedError;
 
-  /// From: transaction which send the amount of assets
+  /// Transaction which send the amount of assets
   String? get from => throw _privateConstructorUsedError;
 
-  /// Token id: It is the id for a token which is allocated when the token is minted.
+  /// Id for a token which is allocated when the token is minted.
   int? get tokenId => throw _privateConstructorUsedError;
 
   /// Date time when the UTXO created/manipulated
   int? get timestamp => throw _privateConstructorUsedError;
 
-  /// State: It is the state of a smart contract
+  /// State of a smart contract
   Map<String, dynamic>? get state => throw _privateConstructorUsedError;
 
   /// Serializes this UnspentOutputs to a JSON map.
@@ -212,23 +212,23 @@ class _$UnspentOutputsImpl extends _UnspentOutputs {
   factory _$UnspentOutputsImpl.fromJson(Map<String, dynamic> json) =>
       _$$UnspentOutputsImplFromJson(json);
 
-  /// Amount: asset amount
+  /// Asset amount
   @override
   final int? amount;
 
-  /// Token address: address of the token if the type is token
+  /// Address of the token if the type is token
   @override
   final String? tokenAddress;
 
-  /// Type: UCO/Token
+  /// Type of the token: UCO/Token
   @override
   final String? type;
 
-  /// From: transaction which send the amount of assets
+  /// Transaction which send the amount of assets
   @override
   final String? from;
 
-  /// Token id: It is the id for a token which is allocated when the token is minted.
+  /// Id for a token which is allocated when the token is minted.
   @override
   final int? tokenId;
 
@@ -236,10 +236,10 @@ class _$UnspentOutputsImpl extends _UnspentOutputs {
   @override
   final int? timestamp;
 
-  /// State: It is the state of a smart contract
+  /// State of a smart contract
   final Map<String, dynamic>? _state;
 
-  /// State: It is the state of a smart contract
+  /// State of a smart contract
   @override
   Map<String, dynamic>? get state {
     final value = _state;
@@ -306,23 +306,23 @@ abstract class _UnspentOutputs extends UnspentOutputs {
   factory _UnspentOutputs.fromJson(Map<String, dynamic> json) =
       _$UnspentOutputsImpl.fromJson;
 
-  /// Amount: asset amount
+  /// Asset amount
   @override
   int? get amount;
 
-  /// Token address: address of the token if the type is token
+  /// Address of the token if the type is token
   @override
   String? get tokenAddress;
 
-  /// Type: UCO/Token
+  /// Type of the token: UCO/Token
   @override
   String? get type;
 
-  /// From: transaction which send the amount of assets
+  /// Transaction which send the amount of assets
   @override
   String? get from;
 
-  /// Token id: It is the id for a token which is allocated when the token is minted.
+  /// Id for a token which is allocated when the token is minted.
   @override
   int? get tokenId;
 
@@ -330,7 +330,7 @@ abstract class _UnspentOutputs extends UnspentOutputs {
   @override
   int? get timestamp;
 
-  /// State: It is the state of a smart contract
+  /// State of a smart contract
   @override
   Map<String, dynamic>? get state;
 

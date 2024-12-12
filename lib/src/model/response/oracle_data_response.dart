@@ -1,9 +1,7 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
-// Dart imports:
 import 'dart:convert';
 
-// Project imports:
 import 'package:archethic_lib_dart/src/model/uco.dart';
 
 OracleDataResponse oracleDataResponseFromJson(String str) =>

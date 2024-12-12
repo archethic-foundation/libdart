@@ -20,10 +20,10 @@ CrossValidationStamp _$CrossValidationStampFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CrossValidationStamp {
-  /// Node: node public key
+  /// Node public key
   String? get nodePublicKey => throw _privateConstructorUsedError;
 
-  /// Signature: signature of the validation stamp
+  /// Signature of the validation stamp
   String? get signature => throw _privateConstructorUsedError;
 
   /// Serializes this CrossValidationStamp to a JSON map.
@@ -126,11 +126,11 @@ class _$CrossValidationStampImpl extends _CrossValidationStamp {
   factory _$CrossValidationStampImpl.fromJson(Map<String, dynamic> json) =>
       _$$CrossValidationStampImplFromJson(json);
 
-  /// Node: node public key
+  /// Node public key
   @override
   final String? nodePublicKey;
 
-  /// Signature: signature of the validation stamp
+  /// Signature of the validation stamp
   @override
   final String? signature;
 
@@ -181,11 +181,11 @@ abstract class _CrossValidationStamp extends CrossValidationStamp {
   factory _CrossValidationStamp.fromJson(Map<String, dynamic> json) =
       _$CrossValidationStampImpl.fromJson;
 
-  /// Node: node public key
+  /// Node public key
   @override
   String? get nodePublicKey;
 
-  /// Signature: signature of the validation stamp
+  /// Signature of the validation stamp
   @override
   String? get signature;
 

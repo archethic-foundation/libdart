@@ -1,32 +1,32 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-/// UnspentOutput represents the remaining unspent output of the transaction.
 part 'unspent_outputs.freezed.dart';
 part 'unspent_outputs.g.dart';
 
+/// [UnspentOutputs] represents the remaining unspent output of the transaction.
 @freezed
 class UnspentOutputs with _$UnspentOutputs {
   const factory UnspentOutputs({
-    /// Amount: asset amount
+    /// Asset amount
     int? amount,
 
-    /// Token address: address of the token if the type is token
+    /// Address of the token if the type is token
     String? tokenAddress,
 
-    /// Type: UCO/Token
+    /// Type of the token: UCO/Token
     String? type,
 
-    /// From: transaction which send the amount of assets
+    /// Transaction which send the amount of assets
     String? from,
 
-    /// Token id: It is the id for a token which is allocated when the token is minted.
+    /// Id for a token which is allocated when the token is minted.
     int? tokenId,
 
     /// Date time when the UTXO created/manipulated
     int? timestamp,
 
-    /// State: It is the state of a smart contract
+    /// State of a smart contract
     Map<String, dynamic>? state,
   }) = _UnspentOutputs;
   const UnspentOutputs._();

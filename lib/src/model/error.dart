@@ -1,10 +1,12 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import 'package:archethic_lib_dart/src/model/location.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'error.freezed.dart';
 part 'error.g.dart';
 
+// TODO(reddwarf03): This is not used anywhere.
 @freezed
 class Error with _$Error {
   const factory Error({

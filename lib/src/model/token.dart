@@ -1,5 +1,6 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
+
 import 'package:archethic_lib_dart/src/model/ownership.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

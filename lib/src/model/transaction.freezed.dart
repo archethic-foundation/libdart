@@ -20,46 +20,46 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Transaction {
-  ///  - Address: hash of the new generated public key for the given transaction
+  ///  hash of the new generated public key for the given transaction
   @AddressJsonConverter()
   Address? get address => throw _privateConstructorUsedError;
 
-  /// - [Balance] represents a ledger balance
+  /// [Balance] represents a ledger balance
   Balance? get balance => throw _privateConstructorUsedError;
 
-  /// - Length of the chain
+  /// Length of the chain
   int? get chainLength => throw _privateConstructorUsedError;
 
-  /// - Cross validation stamps: endorsements of the validation stamp from the coordinator
+  /// Cross validation stamps: endorsements of the validation stamp from the coordinator
   List<CrossValidationStamp> get crossValidationStamps =>
       throw _privateConstructorUsedError;
 
-  /// - [Data]: transaction data zone (identity, keychain, smart contract, etc.)
+  /// Transaction data zone (identity, keychain, smart contract, etc.)
   Data? get data => throw _privateConstructorUsedError;
 
-  /// - [TransactionInput] represents the inputs from the transaction
+  /// Represents the inputs from the transaction
   List<TransactionInput> get inputs => throw _privateConstructorUsedError;
 
-  /// - Origin signature: signature from the device which originated the transaction (used in the Proof of work)
+  /// Signature from the device which originated the transaction (used in the Proof of work)
   String? get originSignature => throw _privateConstructorUsedError;
 
-  /// - Previous address
+  /// Previous address
   @AddressJsonConverter()
   Address? get previousAddress => throw _privateConstructorUsedError;
 
-  /// - Previous public key: previous generated public key matching the previous signature
+  /// Previous generated public key matching the previous signature
   String? get previousPublicKey => throw _privateConstructorUsedError;
 
-  /// - Previous signature: signature from the previous public key
+  /// Signature from the previous public key
   String? get previousSignature => throw _privateConstructorUsedError;
 
-  /// - Type: transaction type
+  /// Transaction type
   String? get type => throw _privateConstructorUsedError;
 
-  /// - [ValidationStamp]: coordinator work result
+  /// Coordinator work result
   ValidationStamp? get validationStamp => throw _privateConstructorUsedError;
 
-  /// - Version: version of the transaction (used for backward compatiblity)
+  /// Version of the transaction (used for backward compatiblity)
   int get version => throw _privateConstructorUsedError;
 
   /// Serializes this Transaction to a JSON map.
@@ -399,23 +399,23 @@ class _$TransactionImpl extends _Transaction {
   factory _$TransactionImpl.fromJson(Map<String, dynamic> json) =>
       _$$TransactionImplFromJson(json);
 
-  ///  - Address: hash of the new generated public key for the given transaction
+  ///  hash of the new generated public key for the given transaction
   @override
   @AddressJsonConverter()
   final Address? address;
 
-  /// - [Balance] represents a ledger balance
+  /// [Balance] represents a ledger balance
   @override
   final Balance? balance;
 
-  /// - Length of the chain
+  /// Length of the chain
   @override
   final int? chainLength;
 
-  /// - Cross validation stamps: endorsements of the validation stamp from the coordinator
+  /// Cross validation stamps: endorsements of the validation stamp from the coordinator
   final List<CrossValidationStamp> _crossValidationStamps;
 
-  /// - Cross validation stamps: endorsements of the validation stamp from the coordinator
+  /// Cross validation stamps: endorsements of the validation stamp from the coordinator
   @override
   @JsonKey()
   List<CrossValidationStamp> get crossValidationStamps {
@@ -425,14 +425,14 @@ class _$TransactionImpl extends _Transaction {
     return EqualUnmodifiableListView(_crossValidationStamps);
   }
 
-  /// - [Data]: transaction data zone (identity, keychain, smart contract, etc.)
+  /// Transaction data zone (identity, keychain, smart contract, etc.)
   @override
   final Data? data;
 
-  /// - [TransactionInput] represents the inputs from the transaction
+  /// Represents the inputs from the transaction
   final List<TransactionInput> _inputs;
 
-  /// - [TransactionInput] represents the inputs from the transaction
+  /// Represents the inputs from the transaction
   @override
   @JsonKey()
   List<TransactionInput> get inputs {
@@ -441,32 +441,32 @@ class _$TransactionImpl extends _Transaction {
     return EqualUnmodifiableListView(_inputs);
   }
 
-  /// - Origin signature: signature from the device which originated the transaction (used in the Proof of work)
+  /// Signature from the device which originated the transaction (used in the Proof of work)
   @override
   final String? originSignature;
 
-  /// - Previous address
+  /// Previous address
   @override
   @AddressJsonConverter()
   final Address? previousAddress;
 
-  /// - Previous public key: previous generated public key matching the previous signature
+  /// Previous generated public key matching the previous signature
   @override
   final String? previousPublicKey;
 
-  /// - Previous signature: signature from the previous public key
+  /// Signature from the previous public key
   @override
   final String? previousSignature;
 
-  /// - Type: transaction type
+  /// Transaction type
   @override
   final String? type;
 
-  /// - [ValidationStamp]: coordinator work result
+  /// Coordinator work result
   @override
   final ValidationStamp? validationStamp;
 
-  /// - Version: version of the transaction (used for backward compatiblity)
+  /// Version of the transaction (used for backward compatiblity)
   @override
   @JsonKey()
   final int version;
@@ -557,57 +557,57 @@ abstract class _Transaction extends Transaction {
   factory _Transaction.fromJson(Map<String, dynamic> json) =
       _$TransactionImpl.fromJson;
 
-  ///  - Address: hash of the new generated public key for the given transaction
+  ///  hash of the new generated public key for the given transaction
   @override
   @AddressJsonConverter()
   Address? get address;
 
-  /// - [Balance] represents a ledger balance
+  /// [Balance] represents a ledger balance
   @override
   Balance? get balance;
 
-  /// - Length of the chain
+  /// Length of the chain
   @override
   int? get chainLength;
 
-  /// - Cross validation stamps: endorsements of the validation stamp from the coordinator
+  /// Cross validation stamps: endorsements of the validation stamp from the coordinator
   @override
   List<CrossValidationStamp> get crossValidationStamps;
 
-  /// - [Data]: transaction data zone (identity, keychain, smart contract, etc.)
+  /// Transaction data zone (identity, keychain, smart contract, etc.)
   @override
   Data? get data;
 
-  /// - [TransactionInput] represents the inputs from the transaction
+  /// Represents the inputs from the transaction
   @override
   List<TransactionInput> get inputs;
 
-  /// - Origin signature: signature from the device which originated the transaction (used in the Proof of work)
+  /// Signature from the device which originated the transaction (used in the Proof of work)
   @override
   String? get originSignature;
 
-  /// - Previous address
+  /// Previous address
   @override
   @AddressJsonConverter()
   Address? get previousAddress;
 
-  /// - Previous public key: previous generated public key matching the previous signature
+  /// Previous generated public key matching the previous signature
   @override
   String? get previousPublicKey;
 
-  /// - Previous signature: signature from the previous public key
+  /// Signature from the previous public key
   @override
   String? get previousSignature;
 
-  /// - Type: transaction type
+  /// Transaction type
   @override
   String? get type;
 
-  /// - [ValidationStamp]: coordinator work result
+  /// Coordinator work result
   @override
   ValidationStamp? get validationStamp;
 
-  /// - Version: version of the transaction (used for backward compatiblity)
+  /// Version of the transaction (used for backward compatiblity)
   @override
   int get version;
 

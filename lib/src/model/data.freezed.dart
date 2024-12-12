@@ -20,19 +20,19 @@ Data _$DataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Data {
-  /// Code: smart contract code (hexadecimal),
+  /// Smart contract code (hexadecimal),
   String? get code => throw _privateConstructorUsedError;
 
-  /// Content: free zone for data hosting (string or hexadecimal)
+  /// Rree zone for data hosting (string or hexadecimal)
   String? get content => throw _privateConstructorUsedError;
 
-  /// Ownership: authorization/delegations containing list of secrets and their authorized public keys to proof the ownership
+  /// Authorization/Delegations containing list of secrets and their authorized public keys to proof the ownership
   List<Ownership> get ownerships => throw _privateConstructorUsedError;
 
-  /// Ledger: asset transfers
+  /// Asset transfers
   Ledger? get ledger => throw _privateConstructorUsedError;
 
-  /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
+  /// For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
   List<Recipient> get recipients => throw _privateConstructorUsedError;
 
   /// Serializes this Data to a JSON map.
@@ -194,24 +194,24 @@ class _$DataImpl extends _Data {
   factory _$DataImpl.fromJson(Map<String, dynamic> json) =>
       _$$DataImplFromJson(json);
 
-  /// Code: smart contract code (hexadecimal),
+  /// Smart contract code (hexadecimal),
   @override
   final String? code;
 
-  /// Content: free zone for data hosting (string or hexadecimal)
+  /// Rree zone for data hosting (string or hexadecimal)
   @override
   final String? content;
 
-  /// Ownership: authorization/delegations containing list of secrets and their authorized public keys to proof the ownership
+  /// Authorization/Delegations containing list of secrets and their authorized public keys to proof the ownership
   @override
   @JsonKey()
   final List<Ownership> ownerships;
 
-  /// Ledger: asset transfers
+  /// Asset transfers
   @override
   final Ledger? ledger;
 
-  /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
+  /// For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
   @override
   @JsonKey()
   final List<Recipient> recipients;
@@ -272,23 +272,23 @@ abstract class _Data extends Data {
 
   factory _Data.fromJson(Map<String, dynamic> json) = _$DataImpl.fromJson;
 
-  /// Code: smart contract code (hexadecimal),
+  /// Smart contract code (hexadecimal),
   @override
   String? get code;
 
-  /// Content: free zone for data hosting (string or hexadecimal)
+  /// Rree zone for data hosting (string or hexadecimal)
   @override
   String? get content;
 
-  /// Ownership: authorization/delegations containing list of secrets and their authorized public keys to proof the ownership
+  /// Authorization/Delegations containing list of secrets and their authorized public keys to proof the ownership
   @override
   List<Ownership> get ownerships;
 
-  /// Ledger: asset transfers
+  /// Asset transfers
   @override
   Ledger? get ledger;
 
-  /// Recipients: For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
+  /// For non asset transfers, the list of recipients of the transaction (e.g Smart contract interactions)
   @override
   List<Recipient> get recipients;
 

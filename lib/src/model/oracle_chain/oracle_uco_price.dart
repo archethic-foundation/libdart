@@ -1,11 +1,7 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-
-/// To parse this JSON data, do
-///
-///    final oracleUcoPrice = oracleUcoPriceFromJson(jsonString);
-/// Example : Content={"1642347300":{"uco":{"eur":0.150324,"usd":0.1716}}
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'dart:convert';
+
 import 'package:archethic_lib_dart/src/model/uco.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -17,6 +13,10 @@ OracleUcoPrice oracleUcoPriceFromJson(String str) =>
 
 String oracleUcoPriceToJson(OracleUcoPrice data) => json.encode(data.toJson());
 
+/// To parse this JSON data, do
+///
+///    final oracleUcoPrice = oracleUcoPriceFromJson(jsonString);
+/// Example : Content={"1642347300":{"uco":{"eur":0.150324,"usd":0.1716}}
 @freezed
 class OracleUcoPrice with _$OracleUcoPrice {
   const factory OracleUcoPrice({

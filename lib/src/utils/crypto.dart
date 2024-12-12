@@ -1,4 +1,4 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert' show utf8;
 import 'dart:math' show Random;
 
@@ -23,8 +23,7 @@ import 'package:x25519/x25519.dart' as x25519 show generateKeyPair, X25519;
 
 const int softwareId = 1;
 
-/// Get the ID of a given hash algorithm
-/// @params {String} hashAlgo Hash algorithm
+/// Get the ID of a given hash algorithm.
 int hashAlgoToID(String hashAlgo) {
   switch (hashAlgo) {
     case 'sha256':
@@ -42,8 +41,7 @@ int hashAlgoToID(String hashAlgo) {
   }
 }
 
-/// Get the hash algo name from the hash algorithm ID
-/// @param {int} ID Hash algorithm's ID
+/// Get the hash algo name from the hash algorithm ID.
 String idToHashAlgo(int id) {
   switch (id) {
     case 0:
@@ -61,8 +59,7 @@ String idToHashAlgo(int id) {
   }
 }
 
-/// Get the ID of a given Elliptic curve
-///@params {String} curve Elliptic curve
+/// Get the ID of a given Elliptic curve.
 int curveToID(String curve) {
   switch (curve) {
     case 'ed25519':
@@ -76,8 +73,7 @@ int curveToID(String curve) {
   }
 }
 
-/// Get the curve name from the curve ID
-/// @param {int} ID Curve's ID
+/// Get the curve name from the curve ID.
 String idToCurve(int id) {
   switch (id) {
     case 0:
@@ -91,11 +87,12 @@ String idToCurve(int id) {
   }
 }
 
-/// Create a hash digest from the data with an hash algorithm identification prepending the digest
-/// @param {String} seed Keypair derivation seed
-/// @param {int} index Number to identify the order of keys to generate
-/// @param {String} curve Elliptic curve to use ("ed25519", "P256", "secp256k1")
-/// @param {String} hashAlgo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
+/// Create a hash digest from the data with an hash algorithm identification prepending the digest.
+///
+/// - [seed] : Keypair derivation seed
+/// - [index] : Number to identify the order of keys to generate
+/// - [curve] : Elliptic curve to use ("ed25519", "P256", "secp256k1")
+/// - [hashAlgo] : Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
 String deriveAddress(
   String seed,
   int index, {
@@ -117,8 +114,9 @@ String deriveAddress(
 }
 
 /// Create a hash digest from the data with an hash algorithm identification prepending the digest
-/// @param {String | Uint8List} content Data to hash (string or buffer)
-/// @param {String} algo Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
+///
+/// - [content] : Data to hash (string or buffer)
+/// - [algo] : Hash algorithm ("sha256", "sha512", "sha3-256", "sha3-512", "blake2b")
 Uint8List hash(
   dynamic content, {
   String algo = 'sha256',
@@ -172,10 +170,11 @@ Uint8List getHashDigest(dynamic content, dynamic algo) {
 }
 
 /// Generate a keypair using a derivation function with a seed and an index. Each keys is prepending with a curve identification.
-/// @param {String} seed Keypair derivation seed
-/// @param {int} index Number to identify the order of keys to generate
-/// @param {String} curve Elliptic curve to use ("P256", "secp256k1", "ed25519")
-/// @param {int} originId Origin id of the public key (0, 1, 2) = ("on chain wallet", "software", "tpm")
+///
+/// - [seed] : Keypair derivation seed
+/// - [index] : Number to identify the order of keys to generate
+/// - [curve] : Elliptic curve to use ("P256", "secp256k1", "ed25519")
+/// - [originId] : Origin id of the public key (0, 1, 2) = ("on chain wallet", "software", "tpm")
 KeyPair deriveKeyPair(
   String seed,
   int index, {
@@ -191,10 +190,11 @@ KeyPair deriveKeyPair(
   return generateDeterministicKeyPair(pvBuf, curve, originId);
 }
 
-/// Generate a new keypair deterministically with a given private key, curve and origin id
-/// @params {Uint8List} privateKey Private key
-/// @params {String} curve Elliptic curve
-/// @params {int} originID Origin identification
+/// Generate a new keypair deterministically with a given private key, curve and origin id.
+///
+/// - [pvKey] : Private key
+/// - [curve] : Elliptic curve
+/// - [originID] : Origin identification
 KeyPair generateDeterministicKeyPair(
   Uint8List pvKey,
   String curve,
@@ -243,9 +243,7 @@ KeyPair getKeypair(Uint8List pvKey, String curve) {
   }
 }
 
-/// Sign the data
-/// @param {String | Uint8List} data Data to sign
-/// @param {String | Uint8List} privateKey Private key to use to sign the data
+/// Sign the data.
 Uint8List sign(
   dynamic data,
   dynamic privateKey, {
@@ -400,8 +398,6 @@ bool verify(
 }
 
 /// Encrypt a data for a given public key using ECIES algorithm
-/// @param {String | Uint8List} data Data to encrypt
-/// @param {String | Uint8List} publicKey Public key for the shared secret encryption
 Uint8List ecEncrypt(
   dynamic data,
   dynamic publicKey, {
@@ -515,8 +511,6 @@ Uint8List ecEncrypt(
 }
 
 /// Decrypt a ciphertext for a given private key using ECIES algorithm
-/// @param {String | Uint8List} ciphertext Ciphertext to decrypt
-/// @param {String | Uint8List} privateKey Private key for the shared secret encryption
 Uint8List ecDecrypt(
   dynamic cipherText,
   dynamic privateKey, {
@@ -626,9 +620,7 @@ Uint8List ecDecrypt(
   }
 }
 
-/// Encrypt a data for a given public key using AES algorithm
-/// @param {String | Uint8List} data Data to encrypt
-/// @param {String | Uint8List} key Symmetric key
+/// Encrypt a data for a given public key using AES algorithm.
 Uint8List aesEncrypt(
   dynamic data,
   dynamic key, {

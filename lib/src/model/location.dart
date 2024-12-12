@@ -1,11 +1,11 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-/// [Location] of an error
 part 'location.freezed.dart';
 part 'location.g.dart';
 
+/// [Location] of an error
 @freezed
 class Location with _$Location {
   const factory Location({

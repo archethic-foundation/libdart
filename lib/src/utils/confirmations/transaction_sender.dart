@@ -1,11 +1,10 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import 'dart:async';
 
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/utils/confirmations/transaction_event.dart';
 import 'package:archethic_lib_dart/src/utils/confirmations/transaction_remote.dart';
-
-// Project imports:
 
 abstract class TransactionSenderInterface {
   const TransactionSenderInterface();

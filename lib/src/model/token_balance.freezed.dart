@@ -20,13 +20,13 @@ TokenBalance _$TokenBalanceFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TokenBalance {
-  /// token: address of the token
+  /// Address of the token
   String? get address => throw _privateConstructorUsedError;
 
-  /// Amount: amount of token
+  /// Amount of token
   int? get amount => throw _privateConstructorUsedError;
 
-  /// Token ID: ID of the token
+  /// ID of the token
   int? get tokenId => throw _privateConstructorUsedError;
 
   /// Serializes this TokenBalance to a JSON map.
@@ -138,15 +138,15 @@ class _$TokenBalanceImpl extends _TokenBalance {
   factory _$TokenBalanceImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenBalanceImplFromJson(json);
 
-  /// token: address of the token
+  /// Address of the token
   @override
   final String? address;
 
-  /// Amount: amount of token
+  /// Amount of token
   @override
   final int? amount;
 
-  /// Token ID: ID of the token
+  /// ID of the token
   @override
   final int? tokenId;
 
@@ -195,15 +195,15 @@ abstract class _TokenBalance extends TokenBalance {
   factory _TokenBalance.fromJson(Map<String, dynamic> json) =
       _$TokenBalanceImpl.fromJson;
 
-  /// token: address of the token
+  /// Address of the token
   @override
   String? get address;
 
-  /// Amount: amount of token
+  /// Amount of token
   @override
   int? get amount;
 
-  /// Token ID: ID of the token
+  /// ID of the token
   @override
   int? get tokenId;
 

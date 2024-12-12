@@ -73,5 +73,7 @@ dev_dependencies:
   # Automatically generate code for converting to and from JSON by annotating Dart classes.
   json_serializable: ^6.8.0
 
+  lints: ^5.0.0
+  
   # A full featured library for writing and running Dart tests across platforms.
   test: ^1.25.8

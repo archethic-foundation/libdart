@@ -1,11 +1,11 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:freezed_annotation/freezed_annotation.dart';
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
-/// Recipient represents a Smart Contract call.
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'recipient.freezed.dart';
 part 'recipient.g.dart';
 
+/// [Recipient] represents a Smart Contract call.
 @freezed
 class Recipient with _$Recipient {
   const factory Recipient({

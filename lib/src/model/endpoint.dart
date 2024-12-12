@@ -1,11 +1,11 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:freezed_annotation/freezed_annotation.dart';
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
-/// [Endpoint] represents a network node's endpoint
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'endpoint.freezed.dart';
 part 'endpoint.g.dart';
 
+/// [Endpoint] represents a network node's endpoint
 @freezed
 class Endpoint with _$Endpoint {
   const factory Endpoint({

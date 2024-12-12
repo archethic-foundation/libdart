@@ -1,27 +1,27 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import 'package:archethic_lib_dart/src/model/consumed_inputs.dart';
 import 'package:archethic_lib_dart/src/model/transaction_movement.dart';
 import 'package:archethic_lib_dart/src/model/unspent_outputs.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-/// [LedgerOperations] represents the ledger operations performed by the transaction.
-
 part 'ledger_operations.freezed.dart';
 part 'ledger_operations.g.dart';
 
+/// [LedgerOperations] represents the ledger operations performed by the transaction.
 @freezed
 class LedgerOperations with _$LedgerOperations {
   const factory LedgerOperations({
-    /// Fee: transaction fee (distributed over the node rewards)
+    /// Transaction fee (distributed over the node rewards)
     int? fee,
 
-    /// Transaction movements: assets transfers
+    /// Assets transfers
     @Default([]) final List<TransactionMovement> transactionMovements,
 
-    /// Unspent outputs: remaining unspent outputs
+    /// Remaining unspent outputs
     @Default([]) final List<UnspentOutputs> unspentOutputs,
 
-    /// Unspent outputs: remaining unspent outputs
+    /// Remaining unspent outputs
     @Default([]) final List<ConsumedInputs> consumedInputs,
   }) = _LedgerOperations;
   const LedgerOperations._();

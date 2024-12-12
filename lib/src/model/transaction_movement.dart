@@ -1,27 +1,27 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-/// [TransactionMovement] represents ledger transaction movement.
 part 'transaction_movement.freezed.dart';
 part 'transaction_movement.g.dart';
 
+/// [TransactionMovement] represents ledger transaction movement.
 @freezed
 class TransactionMovement with _$TransactionMovement {
   const factory TransactionMovement({
-    /// Amount: asset amount
+    /// Asset amount
     int? amount,
 
-    /// Token address: address of the token if the type is token
+    /// Address of the token if the type is token
     String? tokenAddress,
 
-    /// To: asset transfer recipient
+    /// Asset transfer recipient
     String? to,
 
-    /// Type: UCO/Token
+    /// Type of the asset: UCO/Token
     String? type,
 
-    /// Token id: It is the id for a token which is allocated when the token is minted.
+    /// Id for a token which is allocated when the token is minted.
     int? tokenId,
   }) = _TransactionMovement;
   const TransactionMovement._();

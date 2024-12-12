@@ -20,22 +20,22 @@ ValidationStamp _$ValidationStampFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ValidationStamp {
-  /// Ledger operations: All the operations performed by the transaction
+  /// All the operations performed by the transaction
   LedgerOperations? get ledgerOperations => throw _privateConstructorUsedError;
 
-  /// Proof of integrity: Hash of the previous proof of integrity and the transaction
+  /// Hash of the previous proof of integrity and the transaction
   String? get proofOfIntegrity => throw _privateConstructorUsedError;
 
-  /// Proof of work: Public key matching the origin signature
+  /// Public key matching the origin signature
   String? get proofOfWork => throw _privateConstructorUsedError;
 
-  /// Signature: Coordinator signature of the stamp
+  /// Coordinator signature of the stamp
   String? get signature => throw _privateConstructorUsedError;
 
   /// Timestamp
   int? get timestamp => throw _privateConstructorUsedError;
 
-  /// Protocol version: Version of the transaction validation protocol
+  /// Version of the transaction validation protocol
   int? get protocolVersion => throw _privateConstructorUsedError;
 
   /// Serializes this ValidationStamp to a JSON map.
@@ -214,19 +214,19 @@ class _$ValidationStampImpl extends _ValidationStamp {
   factory _$ValidationStampImpl.fromJson(Map<String, dynamic> json) =>
       _$$ValidationStampImplFromJson(json);
 
-  /// Ledger operations: All the operations performed by the transaction
+  /// All the operations performed by the transaction
   @override
   final LedgerOperations? ledgerOperations;
 
-  /// Proof of integrity: Hash of the previous proof of integrity and the transaction
+  /// Hash of the previous proof of integrity and the transaction
   @override
   final String? proofOfIntegrity;
 
-  /// Proof of work: Public key matching the origin signature
+  /// Public key matching the origin signature
   @override
   final String? proofOfWork;
 
-  /// Signature: Coordinator signature of the stamp
+  /// Coordinator signature of the stamp
   @override
   final String? signature;
 
@@ -234,7 +234,7 @@ class _$ValidationStampImpl extends _ValidationStamp {
   @override
   final int? timestamp;
 
-  /// Protocol version: Version of the transaction validation protocol
+  /// Version of the transaction validation protocol
   @override
   final int? protocolVersion;
 
@@ -297,19 +297,19 @@ abstract class _ValidationStamp extends ValidationStamp {
   factory _ValidationStamp.fromJson(Map<String, dynamic> json) =
       _$ValidationStampImpl.fromJson;
 
-  /// Ledger operations: All the operations performed by the transaction
+  /// All the operations performed by the transaction
   @override
   LedgerOperations? get ledgerOperations;
 
-  /// Proof of integrity: Hash of the previous proof of integrity and the transaction
+  /// Hash of the previous proof of integrity and the transaction
   @override
   String? get proofOfIntegrity;
 
-  /// Proof of work: Public key matching the origin signature
+  /// Public key matching the origin signature
   @override
   String? get proofOfWork;
 
-  /// Signature: Coordinator signature of the stamp
+  /// Coordinator signature of the stamp
   @override
   String? get signature;
 
@@ -317,7 +317,7 @@ abstract class _ValidationStamp extends ValidationStamp {
   @override
   int? get timestamp;
 
-  /// Protocol version: Version of the transaction validation protocol
+  /// Version of the transaction validation protocol
   @override
   int? get protocolVersion;
 
