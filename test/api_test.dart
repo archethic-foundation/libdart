@@ -167,7 +167,7 @@ void main() {
 
       test('networkTransactions', () async {
         final transactionsList =
-            await ApiService('https://mainnet.archethic.net')
+            await ApiService('https://testnet.archethic.net')
                 .networkTransactions('oracle_summary', 1);
 
         expect(
