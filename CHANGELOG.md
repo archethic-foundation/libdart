@@ -1,3 +1,6 @@
+# 5.0.2
+- Downgrade `decimal` dependency
+
 # 5.0.1
 - Downgrade `collection` dependency
 

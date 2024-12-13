@@ -3,7 +3,7 @@ name: archethic_lib_dart
 description: Archethic dart library for Flutter for Node and Browser. This library aims to provide a easy way to create Archethic transaction and to send them over the network
 homepage: https://github.com/archethic-foundation/libdart
 
-version: 5.0.1
+version: 5.0.2
 
 environment:
   sdk: ">=3.5.3 <4.0.0"
@@ -16,7 +16,7 @@ dependencies:
   crypto: ^3.0.6
 
   # The decimal package allows you to deal with decimal numbers without losing precision
-  decimal: ^3.1.0
+  decimal: ^3.0.2
 
   # Package ecdsa implements the Elliptic Curve Digital Signature Algorithm, as defined in FIPS 186-3
   ecdsa: ^0.1.2
