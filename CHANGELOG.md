@@ -1,3 +1,6 @@
+# 5.0.1
+- Downgrade `collection` dependency
+
 # 5.0.0
 
 - BREAKING CHANGES: `ArchethicTransactionSender` usage is simplified
