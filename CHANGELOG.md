@@ -8,6 +8,9 @@
     - `onError` parameter removed : a `TransactionError` will be thrown when an error occurs
     - `onConfirmation` parameter purpose changed : It is optional and can be used to get the transaction confirmation status updates on the fly.
 - BREAKING CHANGES: `Transaction.actionRecipients` renamed to `Transaction.recipients`.
+- Improve lib score. 
+- 🐛 Fix getTransactionContent method 
+- ✅ Fix tests.
 
 # 4.0.0
 
