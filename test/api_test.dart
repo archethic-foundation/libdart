@@ -1,5 +1,3 @@
-library test.api_test;
-
 import 'dart:developer';
 
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -584,7 +582,7 @@ void main() {
 
       test('callSCFunctionError', () async {
         try {
-          await ApiService('http://127.0.0.1:4000').callSCFunction(
+          await ApiService('https://testnet.archethic.net').callSCFunction(
             jsonRPCRequest: SCCallFunctionRequest(
               method: 'contract_fun',
               params: SCCallFunctionParams(
@@ -601,13 +599,14 @@ void main() {
               ),
             ),
           );
+          fail('Should send an ArchethicJsonRPCException with code 252');
         } catch (e) {
-          if (e is ArchethicJsonRPCException) {
-            expect(
-              e.code,
-              252,
-            );
-          }
+          expect(e, isA<ArchethicJsonRPCException>());
+          e as ArchethicJsonRPCException;
+          expect(
+            e.code,
+            252,
+          );
         }
       });
     },
