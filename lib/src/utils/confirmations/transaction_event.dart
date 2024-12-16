@@ -76,7 +76,7 @@ class TransactionConfirmation with _$TransactionConfirmation {
   bool get isEnoughConfirmed => isEnoughConfirmations(
         nbConfirmations,
         maxConfirmations,
-        ratio,
+        0.5,
         ratioEqualIncluded: ratioEqualIncluded,
       );
 
