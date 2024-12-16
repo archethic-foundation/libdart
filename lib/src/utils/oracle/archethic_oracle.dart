@@ -1,115 +1,91 @@
 import 'dart:async';
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:archethic_lib_dart/src/model/oracle_chain/oracle_uco_price.dart';
+import 'package:archethic_lib_dart/src/model/response/oracle_data_response.dart';
 import 'package:archethic_lib_dart/src/model/uco.dart';
 import 'package:archethic_lib_dart/src/utils/confirmations/phoenix_link.dart';
 import 'package:graphql/client.dart';
-import 'package:phoenix_socket/phoenix_socket.dart';
+import 'package:http/http.dart' as http show post;
 
 class ArchethicOracle {
   ArchethicOracle({
-    required this.phoenixHttpEndpoint,
-    required this.websocketEndpoint,
-  });
+    required this.endpoint,
+  }) {
+    websocketEndpoint =
+        "${endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'wss:')}/socket/websocket";
 
-  final String phoenixHttpEndpoint;
-  final String websocketEndpoint;
-
-  PhoenixChannel? _channel;
-  GraphQLClient? _client;
-  HttpLink? _phoenixHttpLink;
-  PhoenixLink? _phoenixLink;
-
-  StreamSubscription? _oracleUpdatesSubscription;
-
-  void close() {
-    _phoenixHttpLink?.dispose();
-    _phoenixHttpLink = null;
-    _phoenixLink?.dispose();
-    _phoenixLink = null;
-    _channel?.close();
-    _channel = null;
-    _oracleUpdatesSubscription?.cancel();
-    _oracleUpdatesSubscription = null;
+    phoenixHttpEndpoint = '$endpoint/socket/websocket';
   }
 
-  /// Subscribe to oracle updates
-  Future<void> subscribeToOracleUpdates({
-    Function(OracleUcoPrice?)? onUpdate,
-  }) async {
-    await _connect(
-      phoenixHttpEndpoint,
-      websocketEndpoint,
-    );
+  final String endpoint;
+  late final String phoenixHttpEndpoint;
+  late final String websocketEndpoint;
 
-    _listenOracleUpdates(
-      onUpdate!,
-    );
-  }
-
-  Future<void> _connect(
-    String phoenixHttpEndpoint,
-    String websocketEndpoint,
-  ) async {
-    assert(
-      _client == null,
-      'Connection already established. That instance of [SubscriptionChannel] must not be reused.',
-    );
-
-    _phoenixHttpLink = HttpLink(
+  Future<Stream<OracleUcoPrice>> subscribe() async {
+    final phoenixHttpLink = HttpLink(
       phoenixHttpEndpoint,
     );
 
-    _phoenixLink = await PhoenixLink.fromWebsocketUri(
+    final phoenixLink = await PhoenixLink.fromWebsocketUri(
       uri: websocketEndpoint,
     );
 
     final link = Link.split(
       (request) => request.isSubscription,
-      _phoenixLink!,
-      _phoenixHttpLink!,
+      phoenixLink,
+      phoenixHttpLink,
     );
-    _client = GraphQLClient(
+    final client = GraphQLClient(
       link: link,
       cache: GraphQLCache(),
     );
-  }
 
-  Stream<QueryResult<T>> _subscribe<T>(String operation) async* {
-    assert(
-      _client != null,
-      'You must call [connect] before [subscribing].',
-    );
-    final subscriptionDocument = gql(operation);
-    yield* _client!.subscribe(
-      SubscriptionOptions(
-        document: subscriptionDocument,
-      ),
-    );
-  }
-
-  void _listenOracleUpdates(
-    Function(OracleUcoPrice?) onUpdate,
-  ) {
-    assert(
-      _oracleUpdatesSubscription == null,
-      'Subscription to oracle updates already created with that client.',
-    );
-    _oracleUpdatesSubscription = _subscribe<OracleUcoPrice>(
+    final subscriptionDocument = gql(
       'subscription { oracleUpdate { timestamp, services { uco { eur, usd } } } }',
-    ).listen(
-      (result) async {
-        log('Oracle value: ${result.timestamp}');
-        final oracleUcoPrice = _oracleUcoPriceDtoToModel(data: result.data);
+    );
+    return client
+        .subscribe(
+          SubscriptionOptions(
+            document: subscriptionDocument,
+          ),
+        )
+        .map((result) => _oracleUcoPriceDtoToModel(data: result.data))
+        .where((valueOrNull) => valueOrNull != null)
+        .cast();
+  }
 
-        log(
-          '>>> Oracle update <<< ($oracleUcoPrice)',
-        );
-        await onUpdate(
-          oracleUcoPrice,
-        );
-      },
+  Future<OracleUcoPrice> getOracleData({int timestamp = 0}) async {
+    final requestHeaders = <String, String>{
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final body = timestamp == 0
+        ? '{"query": "query { oracleData { timestamp services { uco { eur, usd } } } }"}'
+        : '{"query": "query { oracleData(timestamp: $timestamp) { timestamp services { uco { eur, usd } } } }"}';
+
+    final responseHttp = await http.post(
+      Uri.parse('$endpoint/api'),
+      body: body,
+      headers: requestHeaders,
+    );
+
+    if (responseHttp.statusCode != 200) {
+      throw HttpException(responseHttp.toString());
+    }
+
+    final oracleDataResponse = oracleDataResponseFromJson(
+      responseHttp.body,
+    );
+    final uco = oracleDataResponse.data?.oracleData?.services?.uco;
+
+    return OracleUcoPrice(
+      timestamp: oracleDataResponse.data?.oracleData?.timestamp,
+      uco: Uco(
+        eur: uco!.eur,
+        usd: uco.usd,
+      ),
     );
   }
 
