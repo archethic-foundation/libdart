@@ -420,6 +420,13 @@ It supports the Archethic Cryptography rules which are:
   - `seed` Keychain's seed
   - `authorizedPublicKeys` List of authorized public keys able to decrypt the wallet
   - `originPrivateKey` Key to make the origin signature of the transaction
+  - `blockchainTxVersion` The blockchain transaction version to be used.
+  - `servicesMap` (Optional) A map where:
+    - Keys are service names (as `String`),
+    - Values are derivation paths (as `String`) associated with the respective services.
+    
+    If provided, the keychain will include these services with their respective derivation paths.
+
 
   #### newAccessKeychainTransaction(String seed, Uint8List keychainAddress, Uint8List originPrivateKey)
   Creates a new keychain access transaction to allow a seed and its key to access a keychain
