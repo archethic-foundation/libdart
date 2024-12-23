@@ -1,6 +1,7 @@
 # 7.0.0-beta
 
 - BREAKING CHANGES: Add param to `newKeychainTransaction` method to allow many services instead of only one
+- BREAKING CHANGES: Add `ArchethicKeychainNotExistsException` to catch error when no keychain exists (impact on `getKeychain` method)
 
 # 6.0.0-beta
 
