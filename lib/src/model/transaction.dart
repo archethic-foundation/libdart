@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:archethic_lib_dart/src/model/address.dart';
 import 'package:archethic_lib_dart/src/model/authorized_key.dart';
 import 'package:archethic_lib_dart/src/model/balance.dart';
+import 'package:archethic_lib_dart/src/model/contract.dart';
 import 'package:archethic_lib_dart/src/model/cross_validation_stamp.dart';
 import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/data.dart';
@@ -40,14 +41,13 @@ const Map<String, int> txTypes = <String, int>{
   /// Network based transaction types
   'node': 0,
   'node_shared_secrets': 1,
-  'origin_shared_secrets': 2,
-  'beacon': 3,
-  'beacon_summary': 4,
-  'oracle': 5,
-  'oracle_summary': 6,
-  'code_proposal': 7,
-  'code_approval': 8,
-  'node_rewards': 9,
+  'origin': 2,
+  'oracle': 3,
+  'oracle_summary': 4,
+  'code_proposal': 5,
+  'code_approval': 6,
+  'node_rewards': 7,
+  'mint_rewards': 8,
 };
 
 String? addressToJson(Address? address) => address?.address;
@@ -111,62 +111,128 @@ class Transaction with _$Transaction {
 
   /// Convert the transaction in JSON
   String toNodeRPC() {
-    final json = jsonEncode(<String, Object?>{
-      'version': kVersion,
-      'address': address?.address ?? '',
-      'type': type,
-      'data': {
-        'content': data!.content!,
-        'code': data?.code ?? '',
-        'ownerships': List<dynamic>.from(
-          data!.ownerships.map((Ownership x) {
-            return <String, Object?>{
-              'secret': x.secret ?? '',
-              'authorizedKeys': x.authorizedPublicKeys,
-            };
-          }),
-        ),
-        'ledger': {
-          'uco': {
-            'transfers': List<dynamic>.from(
-              data!.ledger!.uco!.transfers.map((UCOTransfer x) {
-                return {
-                  'to': x.to ?? '',
-                  'amount': x.amount ?? 0,
+    switch (version) {
+      case 3:
+        return jsonEncode(<String, Object?>{
+          'version': version,
+          'address': address?.address ?? '',
+          'type': type,
+          'data': {
+            'content': data?.content ?? '',
+            'code': data?.code ?? '',
+            'ownerships': List<dynamic>.from(
+              data!.ownerships.map((Ownership x) {
+                return <String, Object?>{
+                  'secret': x.secret ?? '',
+                  'authorizedKeys': x.authorizedPublicKeys,
                 };
               }),
             ),
-          },
-          'token': {
-            'transfers': List<dynamic>.from(
-              data!.ledger!.token!.transfers.map((TokenTransfer x) {
-                return {
-                  'to': x.to ?? '',
-                  'amount': x.amount ?? 0,
-                  'tokenAddress': x.tokenAddress,
-                  'tokenId': x.tokenId,
-                };
-              }),
-            ),
-          },
-        },
-        'recipients': List<dynamic>.from(
-          data!.recipients.map(
-            (Recipient x) {
-              return {
-                'address': x.address ?? '',
-                'action': x.action,
-                'args': x.args,
-              };
+            'ledger': {
+              'uco': {
+                'transfers': List<dynamic>.from(
+                  data!.ledger!.uco!.transfers.map((UCOTransfer x) {
+                    return {
+                      'to': x.to ?? '',
+                      'amount': x.amount ?? 0,
+                    };
+                  }),
+                ),
+              },
+              'token': {
+                'transfers': List<dynamic>.from(
+                  data!.ledger!.token!.transfers.map((TokenTransfer x) {
+                    return {
+                      'to': x.to ?? '',
+                      'amount': x.amount ?? 0,
+                      'tokenAddress': x.tokenAddress,
+                      'tokenId': x.tokenId,
+                    };
+                  }),
+                ),
+              },
             },
-          ),
-        ),
-      },
-      'previousPublicKey': previousPublicKey ?? '',
-      'previousSignature': previousSignature ?? '',
-      'originSignature': originSignature ?? '',
-    });
-    return json;
+            'recipients': List<dynamic>.from(
+              data!.recipients.map(
+                (Recipient x) {
+                  return {
+                    'address': x.address ?? '',
+                    'action': x.action,
+                    'args': x.args,
+                  };
+                },
+              ),
+            ),
+          },
+          'previousPublicKey': previousPublicKey ?? '',
+          'previousSignature': previousSignature ?? '',
+          'originSignature': originSignature ?? '',
+        });
+
+      default:
+        return jsonEncode(<String, Object?>{
+          'version': version,
+          'address': address?.address ?? '',
+          'type': type,
+          'data': {
+            'content': data?.content ?? '',
+            'contract': data?.contract != null
+                ? {
+                    'bytecode': uint8ListToHex(
+                      Uint8List.fromList(data!.contract!.bytecode!),
+                    ),
+                    'manifest': data!.contract!.manifest,
+                  }
+                : null,
+            'ownerships': List<dynamic>.from(
+              data!.ownerships.map((Ownership x) {
+                return <String, Object?>{
+                  'secret': x.secret ?? '',
+                  'authorizedKeys': x.authorizedPublicKeys,
+                };
+              }),
+            ),
+            'ledger': {
+              'uco': {
+                'transfers': List<dynamic>.from(
+                  data!.ledger!.uco!.transfers.map((UCOTransfer x) {
+                    return {
+                      'to': x.to ?? '',
+                      'amount': x.amount ?? 0,
+                    };
+                  }),
+                ),
+              },
+              'token': {
+                'transfers': List<dynamic>.from(
+                  data!.ledger!.token!.transfers.map((TokenTransfer x) {
+                    return {
+                      'to': x.to ?? '',
+                      'amount': x.amount ?? 0,
+                      'tokenAddress': x.tokenAddress,
+                      'tokenId': x.tokenId,
+                    };
+                  }),
+                ),
+              },
+            },
+            'recipients': List<dynamic>.from(
+              data!.recipients.map(
+                (Recipient x) {
+                  return {
+                    'address': x.address ?? '',
+                    'action': x.action,
+                    'args': x.args,
+                  };
+                },
+              ),
+            ),
+          },
+          'previousPublicKey': previousPublicKey ?? '',
+          'previousSignature': previousSignature ?? '',
+          'originSignature': originSignature ?? '',
+        });
+    }
   }
 
   /// Generate the transaction address, keys and signatures
@@ -220,9 +286,21 @@ class Transaction with _$Transaction {
   /// Add smart contract code to the transaction
   ///
   /// - [code] : Smart contract code
+  @Deprecated(
+    'Use with transaction version 3 or use setContract instead with version >= 4',
+  )
   Transaction setCode(String code) {
     return copyWith.data!(
       code: code,
+    );
+  }
+
+  /// Add smart contract's definition to the transaction
+  ///
+  /// - [Contract] : Smart contract code
+  Transaction setContract(Contract contract) {
+    return copyWith.data!(
+      contract: contract,
     );
   }
 
@@ -419,7 +497,24 @@ class Transaction with _$Transaction {
 
   /// Generate the payload for the previous signature by encoding address, type and data
   Uint8List previousSignaturePayload() {
-    final bufCodeSize = toByteArray(data!.code!.length, length: 4);
+    late Uint8List bufCodeSize;
+    late Uint8List bufContract;
+    switch (version) {
+      case 3:
+        bufCodeSize = toByteArray(data!.code!.length, length: 4);
+        break;
+      default:
+        bufContract = toByteArray(0, length: 4);
+        if (data?.contract?.bytecode != null) {
+          final contract = data!.contract!;
+          bufContract = concatUint8List([
+            toByteArray(contract.bytecode!.length, length: 4),
+            Uint8List.fromList(contract.bytecode!),
+            typed_encoding.serialize(contract.manifest),
+          ]);
+        }
+    }
+
     // ignore: prefer_final_locals
     var contentSize = utf8.encode(data!.content!).length;
     final bufContentSize = toByteArray(contentSize, length: 4);
@@ -541,12 +636,39 @@ class Transaction with _$Transaction {
     final bufRecipientLength =
         Uint8List.fromList(toByteArray(data!.recipients.length));
 
+    switch (version) {
+      case 3:
+        concatUint8List(<Uint8List>[
+          toByteArray(version, length: 4),
+          Uint8List.fromList(hexToUint8List(address!.address!)),
+          Uint8List.fromList(<int>[txTypes[type]!]),
+          bufCodeSize,
+          Uint8List.fromList(utf8.encode(data!.code!)),
+          bufContentSize,
+          Uint8List.fromList(utf8.encode(data!.content!)),
+          Uint8List.fromList(<int>[bufOwnershipLength.length]),
+          bufOwnershipLength,
+          ownershipsBuffers,
+          Uint8List.fromList(<int>[bufUCOTransferLength.length]),
+          bufUCOTransferLength,
+          ucoTransfersBuffers,
+          Uint8List.fromList(<int>[bufTokenTransferLength.length]),
+          bufTokenTransferLength,
+          tokenTransfersBuffers,
+          Uint8List.fromList(<int>[bufRecipientLength.length]),
+          bufRecipientLength,
+          recipientsBuffers,
+        ]);
+        break;
+      default:
+    }
+
     return concatUint8List(<Uint8List>[
       toByteArray(kVersion, length: 4),
       Uint8List.fromList(hexToUint8List(address!.address!)),
       Uint8List.fromList(<int>[txTypes[type]!]),
-      bufCodeSize,
-      Uint8List.fromList(utf8.encode(data!.code!)),
+      toByteArray(0, length: 4), // Default code size
+      bufContract,
       bufContentSize,
       Uint8List.fromList(utf8.encode(data!.content!)),
       Uint8List.fromList(<int>[bufOwnershipLength.length]),
