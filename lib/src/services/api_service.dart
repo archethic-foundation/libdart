@@ -665,7 +665,7 @@ class ApiService with JsonRPCUtil {
           await getTransactionOwnerships([accessKeychainAddress]);
       if (ownershipsMap[accessKeychainAddress] == null ||
           ownershipsMap[accessKeychainAddress]!.isEmpty) {
-        throw "Keychain doesn't exists";
+        throw ArchethicKeychainNotExistsException;
       }
 
       final ownership = ownershipsMap[accessKeychainAddress]![0];
@@ -722,7 +722,7 @@ class ApiService with JsonRPCUtil {
       );
 
       if (e.toString() == "Keychain doesn't exists") {
-        throw Exception(e.toString());
+        throw const ArchethicKeychainNotExistsException();
       } else {
         throw ArchethicConnectionException(e.toString());
       }
