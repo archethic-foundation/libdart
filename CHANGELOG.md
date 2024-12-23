@@ -1,3 +1,7 @@
+# 7.0.0-beta
+
+- BREAKING CHANGES: Add param to `newKeychainTransaction` method to allow many services instead of only one
+
 # 6.0.0-beta
 
 - fix: :technologist: Fix default transaction confirmation ratio to 0.5.

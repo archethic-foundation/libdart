@@ -560,18 +560,24 @@ class ApiService with JsonRPCUtil {
   /// - [seed] : Keychain's seed
   /// - [authorizedPublicKeys] : Authorized public keys able to decrypt the keychain
   /// - [originPrivateKey] : Origin private key to attest the transaction
-  /// - [derivationPath] : derivation path associated to service name
+  /// - [blockchainTxVersion]: The blockchain transaction version to be used.
+  /// - [servicesMap]: (Optional) A map where:
+  ///     - Keys are service names (as `String`),
+  ///     - Values are derivation paths (as `String`) associated with the respective services.
+  ///     If provided, the keychain will include these services with their respective derivation paths.
+  ///
   Transaction newKeychainTransaction(
     String seed,
     List<String> authorizedPublicKeys,
     Uint8List originPrivateKey,
     int blockchainTxVersion, {
-    String? serviceName,
-    String? derivationPath,
+    Map<String, String>? servicesMap,
   }) {
     var keychain = Keychain(seed: hexToUint8List(seed));
-    if (serviceName!.isNotEmpty && derivationPath!.isNotEmpty) {
-      keychain = keychain.copyWithService(serviceName, derivationPath);
+    if (servicesMap!.isNotEmpty) {
+      servicesMap.forEach((serviceName, derivationPath) {
+        keychain = keychain.copyWithService(serviceName, derivationPath);
+      });
     }
 
     final aesKey = uint8ListToHex(
