@@ -721,8 +721,8 @@ class ApiService with JsonRPCUtil {
         stack,
       );
 
-      if (e.toString() == "Keychain doesn't exists") {
-        throw const ArchethicKeychainNotExistsException();
+      if (e is ArchethicKeychainNotExistsException) {
+        rethrow;
       } else {
         throw ArchethicConnectionException(e.toString());
       }
