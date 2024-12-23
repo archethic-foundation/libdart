@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:archethic_lib_dart/src/model/contract.dart';
 import 'package:archethic_lib_dart/src/model/ledger.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';
 import 'package:archethic_lib_dart/src/model/recipient.dart';
@@ -15,7 +16,10 @@ class Data with _$Data {
     /// Smart contract code (hexadecimal),
     String? code,
 
-    /// Rree zone for data hosting (string or hexadecimal)
+    /// Smart contract
+    Contract? contract,
+
+    /// Free zone for data hosting (string or hexadecimal)
     String? content,
 
     /// Authorization/Delegations containing list of secrets and their authorized public keys to proof the ownership
