@@ -158,15 +158,11 @@ It supports the Archethic Cryptography rules which are:
   - `tokenAddress` is hexadecimal encoding or Uint8List representing the token address to spend
   - `tokenId` is the ID of the token to use (default to 0)
 
-  #### addRecipient(to)
-  Add a recipient to call the smart contract's "transaction" action.
-  - `to` is the contract's address in hexadecimal or Uint8Array
-
-  #### addRecipientWithNamedAction(to, action, args)
+  #### addRecipient(to, action, args)
   Add a recipient to call a specific smart contract's action.
   - `to` is the contract's address in hexadecimal or Uint8Array
   - `action` is the name of the action
-  - `args` is the list of arguments for the action (must contain only JSON valid data)
+  - `args` is the list of arguments for the action (must contain only JSON valid data) or object
   
   #### build(seed, index, curve, hashAlgo, isSeedHexa)
   Generate `address`, `timestamp`, `previousPublicKey`, `previousSignature` of the transaction and 

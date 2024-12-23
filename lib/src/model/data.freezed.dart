@@ -23,7 +23,10 @@ mixin _$Data {
   /// Smart contract code (hexadecimal),
   String? get code => throw _privateConstructorUsedError;
 
-  /// Rree zone for data hosting (string or hexadecimal)
+  /// Smart contract
+  Contract? get contract => throw _privateConstructorUsedError;
+
+  /// Free zone for data hosting (string or hexadecimal)
   String? get content => throw _privateConstructorUsedError;
 
   /// Authorization/Delegations containing list of secrets and their authorized public keys to proof the ownership
@@ -51,11 +54,13 @@ abstract class $DataCopyWith<$Res> {
   @useResult
   $Res call(
       {String? code,
+      Contract? contract,
       String? content,
       List<Ownership> ownerships,
       Ledger? ledger,
       List<Recipient> recipients});
 
+  $ContractCopyWith<$Res>? get contract;
   $LedgerCopyWith<$Res>? get ledger;
 }
 
@@ -75,6 +80,7 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
   @override
   $Res call({
     Object? code = freezed,
+    Object? contract = freezed,
     Object? content = freezed,
     Object? ownerships = null,
     Object? ledger = freezed,
@@ -85,6 +91,10 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
+      contract: freezed == contract
+          ? _value.contract
+          : contract // ignore: cast_nullable_to_non_nullable
+              as Contract?,
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -102,6 +112,20 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
           : recipients // ignore: cast_nullable_to_non_nullable
               as List<Recipient>,
     ) as $Val);
+  }
+
+  /// Create a copy of Data
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ContractCopyWith<$Res>? get contract {
+    if (_value.contract == null) {
+      return null;
+    }
+
+    return $ContractCopyWith<$Res>(_value.contract!, (value) {
+      return _then(_value.copyWith(contract: value) as $Val);
+    });
   }
 
   /// Create a copy of Data
@@ -128,11 +152,14 @@ abstract class _$$DataImplCopyWith<$Res> implements $DataCopyWith<$Res> {
   @useResult
   $Res call(
       {String? code,
+      Contract? contract,
       String? content,
       List<Ownership> ownerships,
       Ledger? ledger,
       List<Recipient> recipients});
 
+  @override
+  $ContractCopyWith<$Res>? get contract;
   @override
   $LedgerCopyWith<$Res>? get ledger;
 }
@@ -150,6 +177,7 @@ class __$$DataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? code = freezed,
+    Object? contract = freezed,
     Object? content = freezed,
     Object? ownerships = null,
     Object? ledger = freezed,
@@ -160,6 +188,10 @@ class __$$DataImplCopyWithImpl<$Res>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
+      contract: freezed == contract
+          ? _value.contract
+          : contract // ignore: cast_nullable_to_non_nullable
+              as Contract?,
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -185,6 +217,7 @@ class __$$DataImplCopyWithImpl<$Res>
 class _$DataImpl extends _Data {
   const _$DataImpl(
       {this.code,
+      this.contract,
       this.content,
       this.ownerships = const [],
       this.ledger,
@@ -198,7 +231,11 @@ class _$DataImpl extends _Data {
   @override
   final String? code;
 
-  /// Rree zone for data hosting (string or hexadecimal)
+  /// Smart contract
+  @override
+  final Contract? contract;
+
+  /// Free zone for data hosting (string or hexadecimal)
   @override
   final String? content;
 
@@ -218,7 +255,7 @@ class _$DataImpl extends _Data {
 
   @override
   String toString() {
-    return 'Data(code: $code, content: $content, ownerships: $ownerships, ledger: $ledger, recipients: $recipients)';
+    return 'Data(code: $code, contract: $contract, content: $content, ownerships: $ownerships, ledger: $ledger, recipients: $recipients)';
   }
 
   @override
@@ -227,6 +264,8 @@ class _$DataImpl extends _Data {
         (other.runtimeType == runtimeType &&
             other is _$DataImpl &&
             (identical(other.code, code) || other.code == code) &&
+            (identical(other.contract, contract) ||
+                other.contract == contract) &&
             (identical(other.content, content) || other.content == content) &&
             const DeepCollectionEquality()
                 .equals(other.ownerships, ownerships) &&
@@ -240,6 +279,7 @@ class _$DataImpl extends _Data {
   int get hashCode => Object.hash(
       runtimeType,
       code,
+      contract,
       content,
       const DeepCollectionEquality().hash(ownerships),
       ledger,
@@ -264,6 +304,7 @@ class _$DataImpl extends _Data {
 abstract class _Data extends Data {
   const factory _Data(
       {final String? code,
+      final Contract? contract,
       final String? content,
       final List<Ownership> ownerships,
       final Ledger? ledger,
@@ -276,7 +317,11 @@ abstract class _Data extends Data {
   @override
   String? get code;
 
-  /// Rree zone for data hosting (string or hexadecimal)
+  /// Smart contract
+  @override
+  Contract? get contract;
+
+  /// Free zone for data hosting (string or hexadecimal)
   @override
   String? get content;
 
