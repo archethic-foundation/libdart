@@ -1,5 +1,3 @@
-library test.transaction_test;
-
 import 'dart:convert';
 import 'dart:typed_data';
 
