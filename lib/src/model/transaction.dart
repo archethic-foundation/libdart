@@ -25,7 +25,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'transaction.freezed.dart';
 part 'transaction.g.dart';
 
-const int cVersion = 3;
+const int kVersion = 3;
 
 const Map<String, int> txTypes = <String, int>{
   /// User based transaction types
@@ -95,7 +95,7 @@ class Transaction with _$Transaction {
     ValidationStamp? validationStamp,
 
     /// Version of the transaction (used for backward compatiblity)
-    @Default(cVersion) int version,
+    @Default(kVersion) int version,
   }) = _Transaction;
   const Transaction._();
 
@@ -112,7 +112,7 @@ class Transaction with _$Transaction {
   /// Convert the transaction in JSON
   String toNodeRPC() {
     final json = jsonEncode(<String, Object?>{
-      'version': version,
+      'version': kVersion,
       'address': address?.address ?? '',
       'type': type,
       'data': {
@@ -542,7 +542,7 @@ class Transaction with _$Transaction {
         Uint8List.fromList(toByteArray(data!.recipients.length));
 
     return concatUint8List(<Uint8List>[
-      toByteArray(version, length: 4),
+      toByteArray(kVersion, length: 4),
       Uint8List.fromList(hexToUint8List(address!.address!)),
       Uint8List.fromList(<int>[txTypes[type]!]),
       bufCodeSize,

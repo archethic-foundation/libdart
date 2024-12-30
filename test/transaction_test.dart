@@ -860,6 +860,46 @@ condition inherit: [
           transaction: tx,
         );
       });
+
+      test(
+          'sending Tx with named recipient action should work (version 4 forced)',
+          () async {
+        final apiService = ApiService('https://testnet.archethic.net');
+
+        const txChainAddress =
+            '00009a4e6ef5a1358db5e3406b825848b396c43ef1bde2bb0a7cc32ac9ff9512aa09';
+        final originPrivateKey = apiService.getOriginKey();
+        final lastTx = (await apiService
+                .getTransactionIndex([txChainAddress]))[txChainAddress] ??
+            0;
+        const text = 'Test trigger HelloWorld 001';
+        final tx = Transaction(
+          // Version 4 forced
+          version: 4,
+          type: 'data',
+          data: Data.fromJson(<String, dynamic>{
+            'code': '',
+            'ownerships': <Map<String, dynamic>>[],
+            'ledger': {
+              'uco': {'transfers': []},
+              'token': {'transfers': []},
+            },
+          }),
+        )
+            .addRecipient(
+              '00000E7C4C2EB7A16DA0A15811317FA828D162122AD79E1356550E5ED19CF559BF3F',
+            )
+            .setContent(text)
+            .build(seed, lastTx)
+            .transaction
+            .originSign(originPrivateKey);
+
+        await ArchethicTransactionSender(
+          apiService: apiService,
+        ).send(
+          transaction: tx,
+        );
+      });
     },
   );
 }

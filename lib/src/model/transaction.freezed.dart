@@ -391,7 +391,7 @@ class _$TransactionImpl extends _Transaction {
       this.previousSignature,
       this.type,
       this.validationStamp,
-      this.version = cVersion})
+      this.version = kVersion})
       : _crossValidationStamps = crossValidationStamps,
         _inputs = inputs,
         super._();

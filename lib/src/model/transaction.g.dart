@@ -36,7 +36,7 @@ _$TransactionImpl _$$TransactionImplFromJson(Map<String, dynamic> json) =>
           ? null
           : ValidationStamp.fromJson(
               json['validationStamp'] as Map<String, dynamic>),
-      version: (json['version'] as num?)?.toInt() ?? cVersion,
+      version: (json['version'] as num?)?.toInt() ?? kVersion,
     );
 
 Map<String, dynamic> _$$TransactionImplToJson(_$TransactionImpl instance) =>

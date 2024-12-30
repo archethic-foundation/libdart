@@ -9,7 +9,7 @@ part of 'keychain.dart';
 _$KeychainImpl _$$KeychainImplFromJson(Map<String, dynamic> json) =>
     _$KeychainImpl(
       seed: const Uint8ListConverter().fromJson(json['seed'] as List<int>?),
-      version: (json['version'] as num?)?.toInt() ?? 1,
+      version: (json['version'] as num?)?.toInt() ?? kVersion3,
       services: (json['services'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(k, Service.fromJson(e as Map<String, dynamic>)),
           ) ??

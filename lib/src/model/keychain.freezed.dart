@@ -135,7 +135,7 @@ class __$$KeychainImplCopyWithImpl<$Res>
 class _$KeychainImpl extends _Keychain {
   const _$KeychainImpl(
       {@Uint8ListConverter() this.seed,
-      this.version = 1,
+      this.version = kVersion3,
       final Map<String, Service> services = const {}})
       : _services = services,
         super._();
