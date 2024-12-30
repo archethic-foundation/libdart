@@ -20,12 +20,13 @@ part 'keychain.freezed.dart';
 part 'keychain.g.dart';
 
 const int keychainOriginId = 0;
+const kVersion3 = 3;
 
 @freezed
 class Keychain with _$Keychain {
   const factory Keychain({
     @Uint8ListConverter() Uint8List? seed,
-    @Default(1) final int version,
+    @Default(kVersion3) final int version,
     @Default({}) final Map<String, Service> services,
   }) = _Keychain;
   const Keychain._();
@@ -66,7 +67,7 @@ class Keychain with _$Keychain {
     });
 
     return concatUint8List(<Uint8List>[
-      toByteArray(version, length: 4),
+      toByteArray(kVersion3, length: 4),
       Uint8List.fromList(<int>[seed!.length]),
       seed!,
       Uint8List.fromList(<int>[services.length]),
