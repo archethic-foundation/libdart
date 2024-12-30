@@ -16,13 +16,6 @@ class ArchethicInvalidResponseException implements ArchethicException {
   final String cause;
 }
 
-// TODO(reddwarf03): this is not used anywhere.
-@immutable
-class ArchethicRequestException implements ArchethicException {
-  const ArchethicRequestException(this.errors);
-  final List<Error> errors;
-}
-
 @immutable
 class ArchethicTooManyRequestsException implements ArchethicException {
   const ArchethicTooManyRequestsException();
