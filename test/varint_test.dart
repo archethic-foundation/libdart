@@ -1,5 +1,3 @@
-library test.varint_test;
-
 import 'package:archethic_lib_dart/src/utils/varint.dart' as varint;
 import 'package:test/test.dart';
 

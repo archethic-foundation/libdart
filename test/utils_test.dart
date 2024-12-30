@@ -1,5 +1,3 @@
-library test.utils_test;
-
 import 'dart:typed_data';
 import 'package:archethic_lib_dart/src/utils/utils.dart';
 import 'package:test/test.dart';

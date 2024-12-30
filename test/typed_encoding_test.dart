@@ -1,5 +1,3 @@
-library test.typed_encoding;
-
 import 'package:archethic_lib_dart/src/utils/typed_encoding.dart'
     as typed_encoding;
 import 'package:test/test.dart';
