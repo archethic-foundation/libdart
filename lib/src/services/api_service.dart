@@ -969,6 +969,12 @@ class ApiService with JsonRPCUtil {
     final exception = result.exception?.linkException;
     if (exception == null) return;
 
+    if (exception is UnknownException) {
+      if (exception.originalException is TimeoutException) {
+        throw TimeoutException(exception.message);
+      }
+    }
+
     if (exception is HttpLinkParserException) {
       if (exception.response.statusCode == 429) {
         throw const ArchethicTooManyRequestsException();
