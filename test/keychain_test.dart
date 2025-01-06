@@ -108,7 +108,7 @@ void main() {
           Keychain(seed: seed).copyWithService('uco', "m/650'/0/0");
 
       final expectedBinary = concatUint8List(<Uint8List>[
-        Uint8List.fromList(<int>[0, 0, 0, 1]), // Version
+        Uint8List.fromList(<int>[0, 0, 0, 3]), // Version
         Uint8List.fromList(<int>[6]), // Seed size
         Uint8List.fromList(utf8.encode('myseed')),
         Uint8List.fromList(<int>[1]), // Nb of services
@@ -125,7 +125,7 @@ void main() {
 
     test('should decode keychain from a binary', () {
       final binary = concatUint8List(<Uint8List>[
-        Uint8List.fromList(<int>[0, 0, 0, 1]), // Version
+        Uint8List.fromList(<int>[0, 0, 0, 3]), // Version
         Uint8List.fromList(<int>[6]), // Seed size
         Uint8List.fromList(utf8.encode('myseed')),
         Uint8List.fromList(<int>[1]), // Nb of services

@@ -1,8 +1,9 @@
-# 7.0.0-beta
+# 7.0.0
 
 - BREAKING CHANGES: Add param to `newKeychainTransaction` method to allow many services instead of only one
 - BREAKING CHANGES: Add `ArchethicKeychainNotExistsException` to catch error when no keychain exists (impact on `getKeychain` method)
 - Force transaction version 3
+- Get `TimeoutException` on graphql Request
 
 # 6.0.0-beta
 
