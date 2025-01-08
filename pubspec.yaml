@@ -9,6 +9,9 @@ environment:
   sdk: ">=3.5.3 <4.0.0"
 
 dependencies:
+  # Compression
+  archive: ^4.0.2
+
   # Collections and utilities functions and classes related to collections.
   collection: ^1.18.0
 

@@ -102,4 +102,45 @@ extension ContractUtils on Contract {
     const Transaction(type: 'transfer')
         .addRecipient(contractAddress, action: 'upgrade', args: [this]);
   }
+
+  List<ContractAction> extractActionsFromContract(String code) {
+    final actions = <ContractAction>[];
+
+    final regex = RegExp(
+      r'actions\s+triggered_by:\s+transaction,\s+on:\s+([\w\s.,()]+?)\s+do',
+    );
+    final regexActionName = RegExp(r'(\w+)\((.*?)\)');
+
+    for (final match in regex.allMatches(code)) {
+      final fullAction = match.group(1) ?? '';
+
+      for (final actionMatch in regexActionName.allMatches(fullAction)) {
+        final name = actionMatch.group(1) ?? '';
+        final parameters = (actionMatch.group(2) ?? '').isNotEmpty
+            ? actionMatch
+                .group(2)!
+                .split(',')
+                .map((param) => param.trim())
+                .toList()
+            : <String>[];
+        actions.add(
+          ContractAction(
+            name: name,
+            parameters: parameters,
+          ),
+        );
+      }
+    }
+    return actions;
+  }
+
+  dynamic parseTypedArgument(dynamic input) {
+    if (input is Map) {
+      return input;
+    } else if (input is num || num.tryParse(input.toString()) != null) {
+      return double.tryParse(input.toString()) ?? input;
+    } else {
+      return input;
+    }
+  }
 }

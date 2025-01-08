@@ -133,6 +133,7 @@ It supports the Archethic Cryptography rules which are:
   #### setCode(code)
   Add the code in the `data.code` section of the transaction
   `code` is a string defining the smart contract
+  This method is available for transaction version <= 3
   
   #### setContent(content)
   Add the content in the `data.content` section of the transaction
