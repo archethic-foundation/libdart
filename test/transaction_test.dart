@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/src/model/contract.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/typed_encoding.dart'
     as typed_encoding;
@@ -18,10 +19,66 @@ void main() {
     });
 
     group('setCode', () {
-      test('should insert the code into the transaction data', () {
-        final tx = Transaction(type: 'transfer', data: Transaction.initData())
-            .setCode('my smart contract code');
-        expect(tx.data!.code, 'my smart contract code');
+      group('setCode with assertions', () {
+        test('should throw an AssertionError if version > 3', () {
+          expect(
+            () => Transaction(
+              type: 'transfer',
+              data: Transaction.initData(),
+              version: 4,
+            ).setCode('my smart contract code'),
+            throwsA(isA<AssertionError>()),
+          );
+        });
+
+        test('should insert the code into the transaction data if version <= 3',
+            () {
+          final tx = Transaction(
+            type: 'transfer',
+            data: Transaction.initData(),
+          ).setCode('my smart contract code');
+          expect(tx.data!.code, 'my smart contract code');
+        });
+      });
+    });
+
+    group('setContract', () {
+      group('setContract with assertions', () {
+        test('should throw an AssertionError if version <= 3', () {
+          expect(
+            () => Transaction(
+              type: 'transfer',
+              data: Transaction.initData(),
+            ).setContract(
+              Contract(
+                bytecode: Uint8List.fromList([0]),
+                manifest: const ContractManifest(
+                  abi: WasmABI(state: {}, functions: {}),
+                ),
+              ),
+            ),
+            throwsA(isA<AssertionError>()),
+          );
+        });
+
+        test(
+            'should insert the contract into the transaction data if version > 3',
+            () {
+          final tx = Transaction(
+            type: 'transfer',
+            data: Transaction.initData(),
+            version: 4,
+          ).setContract(
+            Contract(
+              bytecode: Uint8List.fromList([0]),
+              manifest: const ContractManifest(
+                abi: WasmABI(state: {'test': 'test'}, functions: {}),
+              ),
+            ),
+          );
+          expect(tx.data!.contract!.bytecode, Uint8List.fromList([0]));
+          expect(tx.data!.contract!.manifest.abi.state['test'], 'test');
+        });
       });
     });
 

@@ -8,6 +8,7 @@ library archethic;
 export 'src/model/address.dart';
 export 'src/model/authorized_key.dart';
 export 'src/model/balance.dart';
+export 'src/model/contract.dart';
 export 'src/model/cross_validation_stamp.dart';
 export 'src/model/crypto/aes_auth_encrypt_infos.dart';
 export 'src/model/crypto/key_pair.dart';
