@@ -6,21 +6,6 @@ part of 'contract.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$CodeWithManifestImpl _$$CodeWithManifestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CodeWithManifestImpl(
-      bytecode: json['bytecode'] as String,
-      manifest:
-          ContractManifest.fromJson(json['manifest'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$$CodeWithManifestImplToJson(
-        _$CodeWithManifestImpl instance) =>
-    <String, dynamic>{
-      'bytecode': instance.bytecode,
-      'manifest': instance.manifest,
-    };
-
 _$ContractManifestImpl _$$ContractManifestImplFromJson(
         Map<String, dynamic> json) =>
     _$ContractManifestImpl(
@@ -87,12 +72,12 @@ _$ContractImpl _$$ContractImplFromJson(Map<String, dynamic> json) =>
           const Uint8ListConverter().fromJson(json['bytecode'] as List<int>?),
       manifest:
           ContractManifest.fromJson(json['manifest'] as Map<String, dynamic>),
-      compress: json['compress'] as bool? ?? true,
+      compressed: json['compressed'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$$ContractImplToJson(_$ContractImpl instance) =>
     <String, dynamic>{
       'bytecode': const Uint8ListConverter().toJson(instance.bytecode),
       'manifest': instance.manifest,
-      'compress': instance.compress,
+      'compressed': instance.compressed,
     };

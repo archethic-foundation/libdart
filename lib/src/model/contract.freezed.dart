@@ -14,192 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-CodeWithManifest _$CodeWithManifestFromJson(Map<String, dynamic> json) {
-  return _CodeWithManifest.fromJson(json);
-}
-
-/// @nodoc
-mixin _$CodeWithManifest {
-  String get bytecode => throw _privateConstructorUsedError;
-  ContractManifest get manifest => throw _privateConstructorUsedError;
-
-  /// Serializes this CodeWithManifest to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of CodeWithManifest
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $CodeWithManifestCopyWith<CodeWithManifest> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $CodeWithManifestCopyWith<$Res> {
-  factory $CodeWithManifestCopyWith(
-          CodeWithManifest value, $Res Function(CodeWithManifest) then) =
-      _$CodeWithManifestCopyWithImpl<$Res, CodeWithManifest>;
-  @useResult
-  $Res call({String bytecode, ContractManifest manifest});
-
-  $ContractManifestCopyWith<$Res> get manifest;
-}
-
-/// @nodoc
-class _$CodeWithManifestCopyWithImpl<$Res, $Val extends CodeWithManifest>
-    implements $CodeWithManifestCopyWith<$Res> {
-  _$CodeWithManifestCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of CodeWithManifest
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? bytecode = null,
-    Object? manifest = null,
-  }) {
-    return _then(_value.copyWith(
-      bytecode: null == bytecode
-          ? _value.bytecode
-          : bytecode // ignore: cast_nullable_to_non_nullable
-              as String,
-      manifest: null == manifest
-          ? _value.manifest
-          : manifest // ignore: cast_nullable_to_non_nullable
-              as ContractManifest,
-    ) as $Val);
-  }
-
-  /// Create a copy of CodeWithManifest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ContractManifestCopyWith<$Res> get manifest {
-    return $ContractManifestCopyWith<$Res>(_value.manifest, (value) {
-      return _then(_value.copyWith(manifest: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$CodeWithManifestImplCopyWith<$Res>
-    implements $CodeWithManifestCopyWith<$Res> {
-  factory _$$CodeWithManifestImplCopyWith(_$CodeWithManifestImpl value,
-          $Res Function(_$CodeWithManifestImpl) then) =
-      __$$CodeWithManifestImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String bytecode, ContractManifest manifest});
-
-  @override
-  $ContractManifestCopyWith<$Res> get manifest;
-}
-
-/// @nodoc
-class __$$CodeWithManifestImplCopyWithImpl<$Res>
-    extends _$CodeWithManifestCopyWithImpl<$Res, _$CodeWithManifestImpl>
-    implements _$$CodeWithManifestImplCopyWith<$Res> {
-  __$$CodeWithManifestImplCopyWithImpl(_$CodeWithManifestImpl _value,
-      $Res Function(_$CodeWithManifestImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of CodeWithManifest
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? bytecode = null,
-    Object? manifest = null,
-  }) {
-    return _then(_$CodeWithManifestImpl(
-      bytecode: null == bytecode
-          ? _value.bytecode
-          : bytecode // ignore: cast_nullable_to_non_nullable
-              as String,
-      manifest: null == manifest
-          ? _value.manifest
-          : manifest // ignore: cast_nullable_to_non_nullable
-              as ContractManifest,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$CodeWithManifestImpl implements _CodeWithManifest {
-  const _$CodeWithManifestImpl(
-      {required this.bytecode, required this.manifest});
-
-  factory _$CodeWithManifestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CodeWithManifestImplFromJson(json);
-
-  @override
-  final String bytecode;
-  @override
-  final ContractManifest manifest;
-
-  @override
-  String toString() {
-    return 'CodeWithManifest(bytecode: $bytecode, manifest: $manifest)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CodeWithManifestImpl &&
-            (identical(other.bytecode, bytecode) ||
-                other.bytecode == bytecode) &&
-            (identical(other.manifest, manifest) ||
-                other.manifest == manifest));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, bytecode, manifest);
-
-  /// Create a copy of CodeWithManifest
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$CodeWithManifestImplCopyWith<_$CodeWithManifestImpl> get copyWith =>
-      __$$CodeWithManifestImplCopyWithImpl<_$CodeWithManifestImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$CodeWithManifestImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _CodeWithManifest implements CodeWithManifest {
-  const factory _CodeWithManifest(
-      {required final String bytecode,
-      required final ContractManifest manifest}) = _$CodeWithManifestImpl;
-
-  factory _CodeWithManifest.fromJson(Map<String, dynamic> json) =
-      _$CodeWithManifestImpl.fromJson;
-
-  @override
-  String get bytecode;
-  @override
-  ContractManifest get manifest;
-
-  /// Create a copy of CodeWithManifest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CodeWithManifestImplCopyWith<_$CodeWithManifestImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
 ContractManifest _$ContractManifestFromJson(Map<String, dynamic> json) {
   return _ContractManifest.fromJson(json);
 }
@@ -959,7 +773,7 @@ mixin _$Contract {
   @Uint8ListConverter()
   Uint8List? get bytecode => throw _privateConstructorUsedError;
   ContractManifest get manifest => throw _privateConstructorUsedError;
-  bool get compress => throw _privateConstructorUsedError;
+  bool get compressed => throw _privateConstructorUsedError;
 
   /// Serializes this Contract to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -979,7 +793,7 @@ abstract class $ContractCopyWith<$Res> {
   $Res call(
       {@Uint8ListConverter() Uint8List? bytecode,
       ContractManifest manifest,
-      bool compress});
+      bool compressed});
 
   $ContractManifestCopyWith<$Res> get manifest;
 }
@@ -1001,7 +815,7 @@ class _$ContractCopyWithImpl<$Res, $Val extends Contract>
   $Res call({
     Object? bytecode = freezed,
     Object? manifest = null,
-    Object? compress = null,
+    Object? compressed = null,
   }) {
     return _then(_value.copyWith(
       bytecode: freezed == bytecode
@@ -1012,9 +826,9 @@ class _$ContractCopyWithImpl<$Res, $Val extends Contract>
           ? _value.manifest
           : manifest // ignore: cast_nullable_to_non_nullable
               as ContractManifest,
-      compress: null == compress
-          ? _value.compress
-          : compress // ignore: cast_nullable_to_non_nullable
+      compressed: null == compressed
+          ? _value.compressed
+          : compressed // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -1041,7 +855,7 @@ abstract class _$$ContractImplCopyWith<$Res>
   $Res call(
       {@Uint8ListConverter() Uint8List? bytecode,
       ContractManifest manifest,
-      bool compress});
+      bool compressed});
 
   @override
   $ContractManifestCopyWith<$Res> get manifest;
@@ -1062,7 +876,7 @@ class __$$ContractImplCopyWithImpl<$Res>
   $Res call({
     Object? bytecode = freezed,
     Object? manifest = null,
-    Object? compress = null,
+    Object? compressed = null,
   }) {
     return _then(_$ContractImpl(
       bytecode: freezed == bytecode
@@ -1073,9 +887,9 @@ class __$$ContractImplCopyWithImpl<$Res>
           ? _value.manifest
           : manifest // ignore: cast_nullable_to_non_nullable
               as ContractManifest,
-      compress: null == compress
-          ? _value.compress
-          : compress // ignore: cast_nullable_to_non_nullable
+      compressed: null == compressed
+          ? _value.compressed
+          : compressed // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -1087,7 +901,7 @@ class _$ContractImpl extends _Contract {
   const _$ContractImpl(
       {@Uint8ListConverter() required this.bytecode,
       required this.manifest,
-      this.compress = true})
+      this.compressed = true})
       : super._();
 
   factory _$ContractImpl.fromJson(Map<String, dynamic> json) =>
@@ -1100,11 +914,11 @@ class _$ContractImpl extends _Contract {
   final ContractManifest manifest;
   @override
   @JsonKey()
-  final bool compress;
+  final bool compressed;
 
   @override
   String toString() {
-    return 'Contract(bytecode: $bytecode, manifest: $manifest, compress: $compress)';
+    return 'Contract(bytecode: $bytecode, manifest: $manifest, compressed: $compressed)';
   }
 
   @override
@@ -1115,14 +929,14 @@ class _$ContractImpl extends _Contract {
             const DeepCollectionEquality().equals(other.bytecode, bytecode) &&
             (identical(other.manifest, manifest) ||
                 other.manifest == manifest) &&
-            (identical(other.compress, compress) ||
-                other.compress == compress));
+            (identical(other.compressed, compressed) ||
+                other.compressed == compressed));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(bytecode), manifest, compress);
+      const DeepCollectionEquality().hash(bytecode), manifest, compressed);
 
   /// Create a copy of Contract
   /// with the given fields replaced by the non-null parameter values.
@@ -1144,7 +958,7 @@ abstract class _Contract extends Contract {
   const factory _Contract(
       {@Uint8ListConverter() required final Uint8List? bytecode,
       required final ContractManifest manifest,
-      final bool compress}) = _$ContractImpl;
+      final bool compressed}) = _$ContractImpl;
   const _Contract._() : super._();
 
   factory _Contract.fromJson(Map<String, dynamic> json) =
@@ -1156,7 +970,7 @@ abstract class _Contract extends Contract {
   @override
   ContractManifest get manifest;
   @override
-  bool get compress;
+  bool get compressed;
 
   /// Create a copy of Contract
   /// with the given fields replaced by the non-null parameter values.

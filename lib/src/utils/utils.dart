@@ -154,3 +154,29 @@ dynamic sortObjectKeysAsc(dynamic term) {
     return term;
   }
 }
+
+Map<String, dynamic> removeNullValues(Map<String, dynamic> json) {
+  return json
+      .map((key, value) {
+        if (value is Map<String, dynamic>) {
+          return MapEntry(key, removeNullValues(value));
+        } else if (value is List) {
+          return MapEntry(
+            key,
+            value
+                .map((e) => e is Map<String, dynamic> ? removeNullValues(e) : e)
+                .where((e) => e != null)
+                .toList(),
+          );
+        } else {
+          return MapEntry(key, value);
+        }
+      })
+      .entries
+      .where((e) => e.value != null)
+      .toMap();
+}
+
+extension MapExtension<K, V> on Iterable<MapEntry<K, V>> {
+  Map<K, V> toMap() => {for (final entry in this) entry.key: entry.value};
+}
