@@ -1,21 +1,11 @@
 import 'dart:typed_data';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/utils/uint8List_converter.dart';
+import 'package:archive/archive.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'contract.freezed.dart';
 part 'contract.g.dart';
-
-@freezed
-class CodeWithManifest with _$CodeWithManifest {
-  const factory CodeWithManifest({
-    required String bytecode,
-    required ContractManifest manifest,
-  }) = _CodeWithManifest;
-
-  factory CodeWithManifest.fromJson(Map<String, dynamic> json) =>
-      _$CodeWithManifestFromJson(json);
-}
 
 @freezed
 class ContractManifest with _$ContractManifest {
@@ -67,17 +57,38 @@ class Contract with _$Contract {
   const factory Contract({
     @Uint8ListConverter() required Uint8List? bytecode,
     required ContractManifest manifest,
-    @Default(true) bool compress,
+    @Default(true) bool compressed,
   }) = _Contract;
 
   factory Contract.fromJson(Map<String, dynamic> json) =>
       _$ContractFromJson(json);
 
+  factory Contract.withUncompressedBytecode({
+    required Uint8List? bytecode,
+    required ContractManifest manifest,
+  }) {
+    if (bytecode == null) {
+      throw ArgumentError('Bytecode cannot be null');
+    }
+
+    final compressedBytecode = Uint8List.fromList(
+      const ZLibEncoderWeb().encodeBytes(bytecode, raw: true),
+    );
+
+    return Contract(
+      bytecode: compressedBytecode,
+      manifest: manifest,
+    );
+  }
+
   const Contract._();
 
   Uint8List? getCompressedBytecode() {
-    // TODO(rddwarf03): PAKO en Dart ?)
-    return compress ? Uint8List.fromList(bytecode!) : bytecode;
+    return compressed
+        ? bytecode
+        : Uint8List.fromList(
+            const ZLibEncoderWeb().encodeBytes(bytecode!, raw: true),
+          );
   }
 
   List<ContractAction> getActions() {

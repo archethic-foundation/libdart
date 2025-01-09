@@ -82,6 +82,20 @@ Uint8List doSerializeV1(dynamic data) {
         ...serializedKeyValues,
       ],
     );
+  } else if (data is Object) {
+    final serializedKeyValues = data.tryToJson().entries.expand((entry) {
+      final key = entry.key;
+      final value = entry.value;
+      return [doSerializeV1(key), doSerializeV1(value)];
+    });
+
+    return concatUint8List(
+      [
+        Uint8List.fromList([DataType.typeMap.index]),
+        varint.serialize(data.tryToJson().length),
+        ...serializedKeyValues,
+      ],
+    );
   } else {
     throw Exception('Unhandled data type');
   }
@@ -137,4 +151,22 @@ dynamic doDeserializeV1(Iterator<MapEntry<int, int>> iter) {
 
 int byteSize(String str) {
   return utf8.encode(str).length;
+}
+
+extension TryToJsonExtension on Object? {
+  dynamic tryToJson() {
+    if (this == null) return null;
+
+    if (this is Map) return this;
+    if (this is List) return this;
+
+    try {
+      final dynamic result = (this as dynamic).toJson();
+      return result;
+    } catch (e) {
+      throw Exception(
+        'Object of type $runtimeType does not implement toJson',
+      );
+    }
+  }
 }

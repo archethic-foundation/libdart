@@ -130,11 +130,18 @@ It supports the Archethic Cryptography rules which are:
   
   The transaction instance contains the following methods:
   
-  #### setCode(code)
+  #### setCode(code) (before transaction version 4)
   Add the code in the `data.code` section of the transaction
   `code` is a string defining the smart contract
   This method is available for transaction version <= 3
   
+  #### setContract(contract) (after transaction version 4)
+  Add the contract in the `data.contract` section of the transaction
+
+  `contract` is an object with following keys:
+  - `bytecode` `Uint8List` of the compiled wasm code compressed using zip
+  - `manifest` the manifest of the contrat containing actions and functions spec
+ 
   #### setContent(content)
   Add the content in the `data.content` section of the transaction
   `content` is a string defining the smart contract

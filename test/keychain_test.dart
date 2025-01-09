@@ -16,6 +16,8 @@ import 'package:test/test.dart';
 
 import 'utils.dart';
 
+const kEndpoint = 'http://localhost:4000';
+
 void main() {
   group('keychain to DID', () {
     test('should encode the key material metadata', () {
@@ -162,8 +164,7 @@ void main() {
         () async {
           /// Create keychain
           final walletSeed = generateRandomSeed();
-          const endpoint = 'https://testnet.archethic.net';
-          final apiService = ApiService(endpoint);
+          final apiService = ApiService(kEndpoint);
           final walletKeyPair = crypto.deriveKeyPair(walletSeed, 0);
 
           /// Generate keyChain Seed from random value
@@ -298,8 +299,7 @@ void main() {
         tags: <String>[TestTags.integration],
         () async {
           final walletSeed = generateRandomSeed();
-          const endpoint = 'https://testnet.archethic.net';
-          final apiService = ApiService(endpoint);
+          final apiService = ApiService(kEndpoint);
           final walletKeyPair = crypto.deriveKeyPair(walletSeed, 0);
 
           /// Generate keyChain Seed from random value
@@ -375,8 +375,7 @@ void main() {
         tags: <String>[TestTags.integration],
         () async {
           final walletSeed = generateRandomSeed();
-          const endpoint = 'https://testnet.archethic.net';
-          final apiService = ApiService(endpoint);
+          final apiService = ApiService(kEndpoint);
           final walletKeyPair = crypto.deriveKeyPair(walletSeed, 0);
 
           /// Generate keyChain Seed from random value
@@ -530,8 +529,7 @@ void main() {
     tags: <String>[TestTags.integration],
     () async {
       final walletSeed = generateRandomSeed();
-      const endpoint = 'https://testnet.archethic.net';
-      final apiService = ApiService(endpoint);
+      final apiService = ApiService(kEndpoint);
       final walletKeyPair = crypto.deriveKeyPair(walletSeed, 0);
 
       /// Generate keyChain Seed from random value

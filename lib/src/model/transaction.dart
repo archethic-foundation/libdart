@@ -111,8 +111,9 @@ class Transaction with _$Transaction {
 
   /// Convert the transaction in JSON
   String toNodeRPC() {
+    var dataJson = <String, Object?>{};
     if (version <= 3) {
-      return jsonEncode(<String, Object?>{
+      dataJson = {
         'version': version,
         'address': address?.address ?? '',
         'type': type,
@@ -166,71 +167,73 @@ class Transaction with _$Transaction {
         'previousPublicKey': previousPublicKey ?? '',
         'previousSignature': previousSignature ?? '',
         'originSignature': originSignature ?? '',
-      });
+      };
+    } else {
+      dataJson = {
+        'version': version,
+        'address': address?.address ?? '',
+        'type': type,
+        'data': {
+          'content': data?.content ?? '',
+          'contract': data?.contract != null
+              ? {
+                  'bytecode': uint8ListToHex(
+                    Uint8List.fromList(data!.contract!.bytecode!),
+                  ),
+                  'manifest': data!.contract!.manifest,
+                }
+              : null,
+          'ownerships': List<dynamic>.from(
+            data!.ownerships.map((Ownership x) {
+              return <String, Object?>{
+                'secret': x.secret ?? '',
+                'authorizedKeys': x.authorizedPublicKeys,
+              };
+            }),
+          ),
+          'ledger': {
+            'uco': {
+              'transfers': List<dynamic>.from(
+                data!.ledger!.uco!.transfers.map((UCOTransfer x) {
+                  return {
+                    'to': x.to ?? '',
+                    'amount': x.amount ?? 0,
+                  };
+                }),
+              ),
+            },
+            'token': {
+              'transfers': List<dynamic>.from(
+                data!.ledger!.token!.transfers.map((TokenTransfer x) {
+                  return {
+                    'to': x.to ?? '',
+                    'amount': x.amount ?? 0,
+                    'tokenAddress': x.tokenAddress,
+                    'tokenId': x.tokenId,
+                  };
+                }),
+              ),
+            },
+          },
+          'recipients': List<dynamic>.from(
+            data!.recipients.map(
+              (Recipient x) {
+                return {
+                  'address': x.address ?? '',
+                  'action': x.action,
+                  'args': x.args,
+                };
+              },
+            ),
+          ),
+        },
+        'previousPublicKey': previousPublicKey ?? '',
+        'previousSignature': previousSignature ?? '',
+        'originSignature': originSignature ?? '',
+      };
     }
 
-    return jsonEncode(<String, Object?>{
-      'version': version,
-      'address': address?.address ?? '',
-      'type': type,
-      'data': {
-        'content': data?.content ?? '',
-        'contract': data?.contract != null
-            ? {
-                'bytecode': uint8ListToHex(
-                  Uint8List.fromList(data!.contract!.bytecode!),
-                ),
-                'manifest': data!.contract!.manifest,
-              }
-            : null,
-        'ownerships': List<dynamic>.from(
-          data!.ownerships.map((Ownership x) {
-            return <String, Object?>{
-              'secret': x.secret ?? '',
-              'authorizedKeys': x.authorizedPublicKeys,
-            };
-          }),
-        ),
-        'ledger': {
-          'uco': {
-            'transfers': List<dynamic>.from(
-              data!.ledger!.uco!.transfers.map((UCOTransfer x) {
-                return {
-                  'to': x.to ?? '',
-                  'amount': x.amount ?? 0,
-                };
-              }),
-            ),
-          },
-          'token': {
-            'transfers': List<dynamic>.from(
-              data!.ledger!.token!.transfers.map((TokenTransfer x) {
-                return {
-                  'to': x.to ?? '',
-                  'amount': x.amount ?? 0,
-                  'tokenAddress': x.tokenAddress,
-                  'tokenId': x.tokenId,
-                };
-              }),
-            ),
-          },
-        },
-        'recipients': List<dynamic>.from(
-          data!.recipients.map(
-            (Recipient x) {
-              return {
-                'address': x.address ?? '',
-                'action': x.action,
-                'args': x.args,
-              };
-            },
-          ),
-        ),
-      },
-      'previousPublicKey': previousPublicKey ?? '',
-      'previousSignature': previousSignature ?? '',
-      'originSignature': originSignature ?? '',
-    });
+    return jsonEncode(removeNullValues(dataJson));
   }
 
   /// Generate the transaction address, keys and signatures
@@ -658,7 +661,7 @@ class Transaction with _$Transaction {
     }
 
     return concatUint8List(<Uint8List>[
-      toByteArray(kVersion, length: 4),
+      toByteArray(version, length: 4),
       Uint8List.fromList(hexToUint8List(address!.address!)),
       Uint8List.fromList(<int>[txTypes[type]!]),
       bufContract,
@@ -681,8 +684,8 @@ class Transaction with _$Transaction {
 
   static Data initData() {
     return Data.fromJson(<String, dynamic>{
-      'content': '',
       'code': '',
+      'content': '',
       'ownerships': <Map<String, dynamic>>[],
       'ledger': {
         'uco': {'transfers': []},
@@ -700,4 +703,7 @@ class Transaction with _$Transaction {
 
   static const String kBalanceQueryAllFields =
       ' token { address, amount, tokenId }, uco ';
+
+  static const String kContractQueryAllFields =
+      ' data { code,  contract { bytecode, manifest { abi { functions, state } } } } ';
 }

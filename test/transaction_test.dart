@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:archethic_lib_dart/src/model/contract.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/typed_encoding.dart'
     as typed_encoding;
@@ -11,6 +10,8 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 const version = 3;
+const kEndpoint = 'https://testnet.archethic.net';
+
 void main() {
   group('Transaction', () {
     test('should assign type when create a new transaction instance', () {
@@ -50,7 +51,7 @@ void main() {
               type: 'transfer',
               data: Transaction.initData(),
             ).setContract(
-              Contract(
+              Contract.withUncompressedBytecode(
                 bytecode: Uint8List.fromList([0]),
                 manifest: const ContractManifest(
                   abi: WasmABI(state: {}, functions: {}),
@@ -69,14 +70,17 @@ void main() {
             data: Transaction.initData(),
             version: 4,
           ).setContract(
-            Contract(
-              bytecode: Uint8List.fromList([0]),
+            Contract.withUncompressedBytecode(
+              bytecode: Uint8List(0),
               manifest: const ContractManifest(
                 abi: WasmABI(state: {'test': 'test'}, functions: {}),
               ),
             ),
           );
-          expect(tx.data!.contract!.bytecode, Uint8List.fromList([0]));
+          expect(
+            tx.data!.contract!.bytecode,
+            Uint8List.fromList([3, 0]),
+          );
           expect(tx.data!.contract!.manifest.abi.state['test'], 'test');
         });
       });
@@ -176,8 +180,9 @@ void main() {
       });
     });
 
-    group('previousSignaturePayload', () {
-      test('should generate binary encoding of the transaction before signing',
+    group('previousSignaturePayload - version 3', () {
+      test(
+          'should generate binary encoding of the transaction before signing - version 3',
           () {
         const code = '''
               condition inherit: [
@@ -235,6 +240,145 @@ void main() {
           //Code size
           toByteArray(code.length, length: 4),
           Uint8List.fromList(utf8.encode(code)),
+          //Content size
+          toByteArray(content.length, length: 4),
+          Uint8List.fromList(utf8.encode(content)),
+          //Nb of bytes to encode nb of ownerships
+          Uint8List.fromList(<int>[1]),
+          //Nb of ownerships
+          Uint8List.fromList(<int>[1]),
+          //Secret size
+          toByteArray(
+            Uint8List.fromList(hexToUint8List(secret)).lengthInBytes,
+            length: 4,
+          ),
+          Uint8List.fromList(Uint8List.fromList(hexToUint8List(secret))),
+          // Nb of byte to encode nb of authorized keys
+          Uint8List.fromList(<int>[1]),
+          // Nb of authorized keys
+          Uint8List.fromList(<int>[1]),
+          // Authorized keys encoding
+          concatUint8List(<Uint8List>[
+            Uint8List.fromList(
+              hexToUint8List(
+                '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              ),
+            ),
+            Uint8List.fromList(
+              hexToUint8List(
+                '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+              ),
+            ),
+          ]),
+          // Nb of bytes to encode nb of uco transfers
+          Uint8List.fromList(<int>[1]),
+          // Nb of uco transfers
+          Uint8List.fromList(<int>[1]),
+          concatUint8List(<Uint8List>[
+            Uint8List.fromList(
+              hexToUint8List(
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              ),
+            ),
+            toByteArray(toBigInt(0.2020), length: 8),
+          ]),
+          // Nb of byte to encode nb of Token transfers
+          Uint8List.fromList(<int>[1]),
+          // Nb of token transfers
+          Uint8List.fromList(<int>[1]),
+          concatUint8List(<Uint8List>[
+            Uint8List.fromList(
+              hexToUint8List(
+                '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+              ),
+            ),
+            Uint8List.fromList(
+              hexToUint8List(
+                '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              ),
+            ),
+            toByteArray(toBigInt(100), length: 8),
+            Uint8List.fromList(<int>[1]),
+            Uint8List.fromList(<int>[0]),
+          ]),
+          // Nb of byte to encode nb of recipients
+          Uint8List.fromList(<int>[1]),
+          // Nb of recipients
+          Uint8List.fromList(<int>[1]),
+          // 0 = unnamed recipient
+          Uint8List.fromList(<int>[0]),
+          Uint8List.fromList(
+            hexToUint8List(
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+            ),
+          ),
+        ]);
+        expect(payload, expectedBinary);
+      });
+
+      test(
+          'should generate binary encoding of the transaction before signing - version 4',
+          () {
+        final contract = Contract.withUncompressedBytecode(
+          bytecode: Uint8List.fromList([5]),
+          manifest: const ContractManifest(
+            abi: WasmABI(
+              state: {'value': 'u32'},
+              functions: {},
+            ),
+          ),
+        );
+
+        const content =
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
+        final secret = uint8ListToHex(Uint8List.fromList('mysecret'.codeUnits));
+        final keypair = crypto.deriveKeyPair('seed', 0, isSeedHexa: false);
+        final nextKeypair = crypto.deriveKeyPair('seed', 1, isSeedHexa: false);
+        final address = crypto.hash(nextKeypair.publicKey);
+
+        final tx = Transaction(
+          type: 'transfer',
+          version: 4,
+          data: Transaction.initData(),
+          address: Address(address: uint8ListToHex(address)),
+          previousPublicKey:
+              uint8ListToHex(Uint8List.fromList(keypair.publicKey!)),
+        )
+            .addOwnership(secret, <AuthorizedKey>[
+              const AuthorizedKey(
+                publicKey:
+                    '0001b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+                encryptedSecretKey:
+                    '00501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+              ),
+            ])
+            .addUCOTransfer(
+              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              toBigInt(0.2020),
+            )
+            .addTokenTransfer(
+              '0000b1d3750edb9381c96b1a975a55b5b4e4fb37bfab104c10b0b6c9a00433ec4646',
+              toBigInt(100),
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+            )
+            .setContract(contract)
+            .setContent(content)
+            .addRecipient(
+              '0000501fa2db78bcf8ceca129e6139d7e38bf0d61eb905441056b9ebe6f1d1feaf88',
+            );
+
+        final payload = tx.previousSignaturePayload();
+        final expectedBinary = concatUint8List(<Uint8List>[
+          // Version
+          toByteArray(4, length: 4),
+          Uint8List.fromList(hexToUint8List(tx.address!.address!)),
+          Uint8List.fromList(<int>[253]),
+          //Contract is filled
+          Uint8List.fromList(<int>[1]),
+          //Contract bytecode size
+          toByteArray(contract.bytecode!.length, length: 4),
+          contract.bytecode!,
+          typed_encoding.serialize(contract.manifest),
           //Content size
           toByteArray(content.length, length: 4),
           Uint8List.fromList(utf8.encode(content)),
@@ -370,7 +514,8 @@ void main() {
     });
 
     group('originSignaturePayload', () {
-      test('should generate binary encoding of the transaction before signing',
+      test(
+          'should generate binary encoding of the transaction before signing - version 3',
           () {
         const code = '''
 condition inherit: [
@@ -794,7 +939,7 @@ condition inherit: [
     tags: <String>[TestTags.integration],
     () {
       test('should send transaction with special characters', () async {
-        final apiService = ApiService('https://testnet.archethic.net');
+        final apiService = ApiService(kEndpoint);
         final seed = uint8ListToHex(
           Uint8List.fromList('test-sendtransaction'.codeUnits),
         );
@@ -845,7 +990,7 @@ condition inherit: [
       );
 
       test('sending Tx with named recipient action should work', () async {
-        final apiService = ApiService('https://testnet.archethic.net');
+        final apiService = ApiService(kEndpoint);
 
         const txChainAddress =
             '00009a4e6ef5a1358db5e3406b825848b396c43ef1bde2bb0a7cc32ac9ff9512aa09';
@@ -881,7 +1026,7 @@ condition inherit: [
       });
 
       test('sending Tx with unnamed recipient action should work', () async {
-        final apiService = ApiService('https://testnet.archethic.net');
+        final apiService = ApiService(kEndpoint);
 
         const txChainAddress =
             '00009a4e6ef5a1358db5e3406b825848b396c43ef1bde2bb0a7cc32ac9ff9512aa09';
@@ -921,7 +1066,7 @@ condition inherit: [
       test(
           'sending Tx with named recipient action should work (version 4 forced)',
           () async {
-        final apiService = ApiService('https://testnet.archethic.net');
+        final apiService = ApiService(kEndpoint);
 
         const txChainAddress =
             '00009a4e6ef5a1358db5e3406b825848b396c43ef1bde2bb0a7cc32ac9ff9512aa09';
@@ -934,14 +1079,7 @@ condition inherit: [
           // Version 4 forced
           version: 4,
           type: 'data',
-          data: Data.fromJson(<String, dynamic>{
-            'code': '',
-            'ownerships': <Map<String, dynamic>>[],
-            'ledger': {
-              'uco': {'transfers': []},
-              'token': {'transfers': []},
-            },
-          }),
+          data: Transaction.initData(),
         )
             .addRecipient(
               '00000E7C4C2EB7A16DA0A15811317FA828D162122AD79E1356550E5ED19CF559BF3F',
