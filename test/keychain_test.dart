@@ -16,7 +16,7 @@ import 'package:test/test.dart';
 
 import 'utils.dart';
 
-const kEndpoint = 'http://localhost:4000';
+const kEndpoint = 'https://testnet.archethic.net';
 
 void main() {
   group('keychain to DID', () {
