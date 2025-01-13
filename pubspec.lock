@@ -206,14 +206,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"
-  dependency_validator:
-    dependency: "direct dev"
-    description:
-      name: dependency_validator
-      sha256: d27143159d8c2e83bf33e794e3e642c14fd888e2da8f512e6ad38bc854bbf3ec
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.1.2"
   ecdsa:
     dependency: "direct main"
     description:

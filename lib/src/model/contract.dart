@@ -1,6 +1,5 @@
-import 'dart:typed_data';
+import 'dart:convert';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
-import 'package:archethic_lib_dart/src/utils/uint8List_converter.dart';
 import 'package:archive/archive.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -33,7 +32,6 @@ class WASMFunctionABI with _$WASMFunctionABI {
   const factory WASMFunctionABI({
     required String type,
     String? triggerType,
-    required String name,
     required Map<String, dynamic> input,
   }) = _WASMFunctionABI;
 
@@ -55,7 +53,7 @@ class ContractAction with _$ContractAction {
 @freezed
 class Contract with _$Contract {
   const factory Contract({
-    @Uint8ListConverter() required Uint8List? bytecode,
+    required String? bytecode,
     required ContractManifest manifest,
     @Default(true) bool compressed,
   }) = _Contract;
@@ -64,30 +62,30 @@ class Contract with _$Contract {
       _$ContractFromJson(json);
 
   factory Contract.withUncompressedBytecode({
-    required Uint8List? bytecode,
+    required String? bytecode,
     required ContractManifest manifest,
   }) {
     if (bytecode == null) {
       throw ArgumentError('Bytecode cannot be null');
     }
 
-    final compressedBytecode = Uint8List.fromList(
-      const ZLibEncoderWeb().encodeBytes(bytecode, raw: true),
-    );
+    final compressedBytecode =
+        const ZLibEncoderWeb().encodeBytes(utf8.encode(bytecode), raw: true);
 
     return Contract(
-      bytecode: compressedBytecode,
+      bytecode: utf8.decode(compressedBytecode),
       manifest: manifest,
     );
   }
 
   const Contract._();
 
-  Uint8List? getCompressedBytecode() {
+  String? getCompressedBytecode() {
     return compressed
         ? bytecode
-        : Uint8List.fromList(
-            const ZLibEncoderWeb().encodeBytes(bytecode!, raw: true),
+        : utf8.decode(
+            const ZLibEncoderWeb()
+                .encodeBytes(utf8.encode(bytecode!), raw: true),
           );
   }
 

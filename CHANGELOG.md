@@ -1,3 +1,6 @@
+# 7.1.0
+- Integrate Transaction Version 4 features
+
 # 7.0.0
 
 - BREAKING CHANGES: Add param to `newKeychainTransaction` method to allow many services instead of only one
