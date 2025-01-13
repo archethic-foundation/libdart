@@ -5,7 +5,6 @@ import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/typed_encoding.dart'
     as typed_encoding;
-import 'package:archive/archive.dart';
 import 'package:test/test.dart';
 
 import 'utils.dart';
@@ -52,9 +51,9 @@ void main() {
               type: 'transfer',
               data: Transaction.initData(),
             ).setContract(
-              Contract.withUncompressedBytecode(
+              const Contract(
                 bytecode: '',
-                manifest: const ContractManifest(
+                manifest: ContractManifest(
                   abi: WasmABI(state: {}, functions: {}),
                 ),
               ),
@@ -71,20 +70,16 @@ void main() {
             data: Transaction.initData(),
             version: 4,
           ).setContract(
-            Contract.withUncompressedBytecode(
+            const Contract(
               bytecode: '',
-              manifest: const ContractManifest(
+              manifest: ContractManifest(
                 abi: WasmABI(state: {'test': 'test'}, functions: {}),
               ),
             ),
           );
-          final decompressedBytecode = const ZLibDecoder().decodeBytes(
-            utf8.encode(tx.data!.contract!.bytecode!),
-            raw: true,
-          );
 
           expect(
-            utf8.decode(decompressedBytecode),
+            tx.data!.contract!.bytecode,
             '',
           );
           expect(tx.data!.contract!.manifest.abi.state['test'], 'test');
@@ -325,7 +320,7 @@ void main() {
       test(
           'should generate binary encoding of the transaction before signing - version 4',
           () {
-        final contract = Contract.withUncompressedBytecode(
+        final contract = Contract(
           bytecode: utf8.decode(Uint8List.fromList([5])),
           manifest: const ContractManifest(
             abi: WasmABI(

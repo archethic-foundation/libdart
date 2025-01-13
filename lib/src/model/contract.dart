@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:archethic_lib_dart/src/model/transaction.dart';
-import 'package:archive/archive.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'contract.freezed.dart';
@@ -55,39 +53,12 @@ class Contract with _$Contract {
   const factory Contract({
     required String? bytecode,
     required ContractManifest manifest,
-    @Default(true) bool compressed,
   }) = _Contract;
 
   factory Contract.fromJson(Map<String, dynamic> json) =>
       _$ContractFromJson(json);
 
-  factory Contract.withUncompressedBytecode({
-    required String? bytecode,
-    required ContractManifest manifest,
-  }) {
-    if (bytecode == null) {
-      throw ArgumentError('Bytecode cannot be null');
-    }
-
-    final compressedBytecode =
-        const ZLibEncoderWeb().encodeBytes(utf8.encode(bytecode), raw: true);
-
-    return Contract(
-      bytecode: utf8.decode(compressedBytecode),
-      manifest: manifest,
-    );
-  }
-
   const Contract._();
-
-  String? getCompressedBytecode() {
-    return compressed
-        ? bytecode
-        : utf8.decode(
-            const ZLibEncoderWeb()
-                .encodeBytes(utf8.encode(bytecode!), raw: true),
-          );
-  }
 
   List<ContractAction> getActions() {
     final actions = <ContractAction>[];
