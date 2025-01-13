@@ -38,7 +38,6 @@ _$WASMFunctionABIImpl _$$WASMFunctionABIImplFromJson(
     _$WASMFunctionABIImpl(
       type: json['type'] as String,
       triggerType: json['triggerType'] as String?,
-      name: json['name'] as String,
       input: json['input'] as Map<String, dynamic>,
     );
 
@@ -47,7 +46,6 @@ Map<String, dynamic> _$$WASMFunctionABIImplToJson(
     <String, dynamic>{
       'type': instance.type,
       'triggerType': instance.triggerType,
-      'name': instance.name,
       'input': instance.input,
     };
 
@@ -68,8 +66,7 @@ Map<String, dynamic> _$$ContractActionImplToJson(
 
 _$ContractImpl _$$ContractImplFromJson(Map<String, dynamic> json) =>
     _$ContractImpl(
-      bytecode:
-          const Uint8ListConverter().fromJson(json['bytecode'] as List<int>?),
+      bytecode: json['bytecode'] as String?,
       manifest:
           ContractManifest.fromJson(json['manifest'] as Map<String, dynamic>),
       compressed: json['compressed'] as bool? ?? true,
@@ -77,7 +74,7 @@ _$ContractImpl _$$ContractImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$ContractImplToJson(_$ContractImpl instance) =>
     <String, dynamic>{
-      'bytecode': const Uint8ListConverter().toJson(instance.bytecode),
+      'bytecode': instance.bytecode,
       'manifest': instance.manifest,
       'compressed': instance.compressed,
     };

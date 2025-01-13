@@ -373,7 +373,6 @@ WASMFunctionABI _$WASMFunctionABIFromJson(Map<String, dynamic> json) {
 mixin _$WASMFunctionABI {
   String get type => throw _privateConstructorUsedError;
   String? get triggerType => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
   Map<String, dynamic> get input => throw _privateConstructorUsedError;
 
   /// Serializes this WASMFunctionABI to a JSON map.
@@ -392,11 +391,7 @@ abstract class $WASMFunctionABICopyWith<$Res> {
           WASMFunctionABI value, $Res Function(WASMFunctionABI) then) =
       _$WASMFunctionABICopyWithImpl<$Res, WASMFunctionABI>;
   @useResult
-  $Res call(
-      {String type,
-      String? triggerType,
-      String name,
-      Map<String, dynamic> input});
+  $Res call({String type, String? triggerType, Map<String, dynamic> input});
 }
 
 /// @nodoc
@@ -416,7 +411,6 @@ class _$WASMFunctionABICopyWithImpl<$Res, $Val extends WASMFunctionABI>
   $Res call({
     Object? type = null,
     Object? triggerType = freezed,
-    Object? name = null,
     Object? input = null,
   }) {
     return _then(_value.copyWith(
@@ -428,10 +422,6 @@ class _$WASMFunctionABICopyWithImpl<$Res, $Val extends WASMFunctionABI>
           ? _value.triggerType
           : triggerType // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       input: null == input
           ? _value.input
           : input // ignore: cast_nullable_to_non_nullable
@@ -448,11 +438,7 @@ abstract class _$$WASMFunctionABIImplCopyWith<$Res>
       __$$WASMFunctionABIImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String type,
-      String? triggerType,
-      String name,
-      Map<String, dynamic> input});
+  $Res call({String type, String? triggerType, Map<String, dynamic> input});
 }
 
 /// @nodoc
@@ -470,7 +456,6 @@ class __$$WASMFunctionABIImplCopyWithImpl<$Res>
   $Res call({
     Object? type = null,
     Object? triggerType = freezed,
-    Object? name = null,
     Object? input = null,
   }) {
     return _then(_$WASMFunctionABIImpl(
@@ -482,10 +467,6 @@ class __$$WASMFunctionABIImplCopyWithImpl<$Res>
           ? _value.triggerType
           : triggerType // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       input: null == input
           ? _value._input
           : input // ignore: cast_nullable_to_non_nullable
@@ -500,7 +481,6 @@ class _$WASMFunctionABIImpl implements _WASMFunctionABI {
   const _$WASMFunctionABIImpl(
       {required this.type,
       this.triggerType,
-      required this.name,
       required final Map<String, dynamic> input})
       : _input = input;
 
@@ -511,8 +491,6 @@ class _$WASMFunctionABIImpl implements _WASMFunctionABI {
   final String type;
   @override
   final String? triggerType;
-  @override
-  final String name;
   final Map<String, dynamic> _input;
   @override
   Map<String, dynamic> get input {
@@ -523,7 +501,7 @@ class _$WASMFunctionABIImpl implements _WASMFunctionABI {
 
   @override
   String toString() {
-    return 'WASMFunctionABI(type: $type, triggerType: $triggerType, name: $name, input: $input)';
+    return 'WASMFunctionABI(type: $type, triggerType: $triggerType, input: $input)';
   }
 
   @override
@@ -534,13 +512,12 @@ class _$WASMFunctionABIImpl implements _WASMFunctionABI {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.triggerType, triggerType) ||
                 other.triggerType == triggerType) &&
-            (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._input, _input));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, type, triggerType, name,
+  int get hashCode => Object.hash(runtimeType, type, triggerType,
       const DeepCollectionEquality().hash(_input));
 
   /// Create a copy of WASMFunctionABI
@@ -564,7 +541,6 @@ abstract class _WASMFunctionABI implements WASMFunctionABI {
   const factory _WASMFunctionABI(
       {required final String type,
       final String? triggerType,
-      required final String name,
       required final Map<String, dynamic> input}) = _$WASMFunctionABIImpl;
 
   factory _WASMFunctionABI.fromJson(Map<String, dynamic> json) =
@@ -574,8 +550,6 @@ abstract class _WASMFunctionABI implements WASMFunctionABI {
   String get type;
   @override
   String? get triggerType;
-  @override
-  String get name;
   @override
   Map<String, dynamic> get input;
 
@@ -770,8 +744,7 @@ Contract _$ContractFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Contract {
-  @Uint8ListConverter()
-  Uint8List? get bytecode => throw _privateConstructorUsedError;
+  String? get bytecode => throw _privateConstructorUsedError;
   ContractManifest get manifest => throw _privateConstructorUsedError;
   bool get compressed => throw _privateConstructorUsedError;
 
@@ -790,10 +763,7 @@ abstract class $ContractCopyWith<$Res> {
   factory $ContractCopyWith(Contract value, $Res Function(Contract) then) =
       _$ContractCopyWithImpl<$Res, Contract>;
   @useResult
-  $Res call(
-      {@Uint8ListConverter() Uint8List? bytecode,
-      ContractManifest manifest,
-      bool compressed});
+  $Res call({String? bytecode, ContractManifest manifest, bool compressed});
 
   $ContractManifestCopyWith<$Res> get manifest;
 }
@@ -821,7 +791,7 @@ class _$ContractCopyWithImpl<$Res, $Val extends Contract>
       bytecode: freezed == bytecode
           ? _value.bytecode
           : bytecode // ignore: cast_nullable_to_non_nullable
-              as Uint8List?,
+              as String?,
       manifest: null == manifest
           ? _value.manifest
           : manifest // ignore: cast_nullable_to_non_nullable
@@ -852,10 +822,7 @@ abstract class _$$ContractImplCopyWith<$Res>
       __$$ContractImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@Uint8ListConverter() Uint8List? bytecode,
-      ContractManifest manifest,
-      bool compressed});
+  $Res call({String? bytecode, ContractManifest manifest, bool compressed});
 
   @override
   $ContractManifestCopyWith<$Res> get manifest;
@@ -882,7 +849,7 @@ class __$$ContractImplCopyWithImpl<$Res>
       bytecode: freezed == bytecode
           ? _value.bytecode
           : bytecode // ignore: cast_nullable_to_non_nullable
-              as Uint8List?,
+              as String?,
       manifest: null == manifest
           ? _value.manifest
           : manifest // ignore: cast_nullable_to_non_nullable
@@ -899,17 +866,14 @@ class __$$ContractImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ContractImpl extends _Contract {
   const _$ContractImpl(
-      {@Uint8ListConverter() required this.bytecode,
-      required this.manifest,
-      this.compressed = true})
+      {required this.bytecode, required this.manifest, this.compressed = true})
       : super._();
 
   factory _$ContractImpl.fromJson(Map<String, dynamic> json) =>
       _$$ContractImplFromJson(json);
 
   @override
-  @Uint8ListConverter()
-  final Uint8List? bytecode;
+  final String? bytecode;
   @override
   final ContractManifest manifest;
   @override
@@ -926,7 +890,8 @@ class _$ContractImpl extends _Contract {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ContractImpl &&
-            const DeepCollectionEquality().equals(other.bytecode, bytecode) &&
+            (identical(other.bytecode, bytecode) ||
+                other.bytecode == bytecode) &&
             (identical(other.manifest, manifest) ||
                 other.manifest == manifest) &&
             (identical(other.compressed, compressed) ||
@@ -935,8 +900,7 @@ class _$ContractImpl extends _Contract {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(bytecode), manifest, compressed);
+  int get hashCode => Object.hash(runtimeType, bytecode, manifest, compressed);
 
   /// Create a copy of Contract
   /// with the given fields replaced by the non-null parameter values.
@@ -956,7 +920,7 @@ class _$ContractImpl extends _Contract {
 
 abstract class _Contract extends Contract {
   const factory _Contract(
-      {@Uint8ListConverter() required final Uint8List? bytecode,
+      {required final String? bytecode,
       required final ContractManifest manifest,
       final bool compressed}) = _$ContractImpl;
   const _Contract._() : super._();
@@ -965,8 +929,7 @@ abstract class _Contract extends Contract {
       _$ContractImpl.fromJson;
 
   @override
-  @Uint8ListConverter()
-  Uint8List? get bytecode;
+  String? get bytecode;
   @override
   ContractManifest get manifest;
   @override

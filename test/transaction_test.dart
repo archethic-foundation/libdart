@@ -5,6 +5,7 @@ import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/typed_encoding.dart'
     as typed_encoding;
+import 'package:archive/archive.dart';
 import 'package:test/test.dart';
 
 import 'utils.dart';
@@ -52,7 +53,7 @@ void main() {
               data: Transaction.initData(),
             ).setContract(
               Contract.withUncompressedBytecode(
-                bytecode: Uint8List.fromList([0]),
+                bytecode: '',
                 manifest: const ContractManifest(
                   abi: WasmABI(state: {}, functions: {}),
                 ),
@@ -71,15 +72,20 @@ void main() {
             version: 4,
           ).setContract(
             Contract.withUncompressedBytecode(
-              bytecode: Uint8List(0),
+              bytecode: '',
               manifest: const ContractManifest(
                 abi: WasmABI(state: {'test': 'test'}, functions: {}),
               ),
             ),
           );
+          final decompressedBytecode = const ZLibDecoder().decodeBytes(
+            utf8.encode(tx.data!.contract!.bytecode!),
+            raw: true,
+          );
+
           expect(
-            tx.data!.contract!.bytecode,
-            Uint8List.fromList([3, 0]),
+            utf8.decode(decompressedBytecode),
+            '',
           );
           expect(tx.data!.contract!.manifest.abi.state['test'], 'test');
         });
@@ -320,7 +326,7 @@ void main() {
           'should generate binary encoding of the transaction before signing - version 4',
           () {
         final contract = Contract.withUncompressedBytecode(
-          bytecode: Uint8List.fromList([5]),
+          bytecode: utf8.decode(Uint8List.fromList([5])),
           manifest: const ContractManifest(
             abi: WasmABI(
               state: {'value': 'u32'},
@@ -377,7 +383,11 @@ void main() {
           Uint8List.fromList(<int>[1]),
           //Contract bytecode size
           toByteArray(contract.bytecode!.length, length: 4),
-          contract.bytecode!,
+          Uint8List.fromList(
+            utf8.encode(
+              contract.bytecode!,
+            ),
+          ),
           typed_encoding.serialize(contract.manifest),
           //Content size
           toByteArray(content.length, length: 4),
@@ -391,7 +401,7 @@ void main() {
             Uint8List.fromList(hexToUint8List(secret)).lengthInBytes,
             length: 4,
           ),
-          Uint8List.fromList(Uint8List.fromList(hexToUint8List(secret))),
+          Uint8List.fromList(hexToUint8List(secret)),
           // Nb of byte to encode nb of authorized keys
           Uint8List.fromList(<int>[1]),
           // Nb of authorized keys
@@ -1097,4 +1107,24 @@ condition inherit: [
       });
     },
   );
+
+  group('contract WASM', () {
+    test('should load a contract', () async {
+      final apiService = ApiService(kEndpoint);
+      final txMap = await apiService.getTransaction(
+        [
+          '000033bc3e99a23dc01378ceeb8364c70c04522d1b551c20c6fd0ebd58cbeaacc7b6',
+        ],
+        request:
+            ' address type data { contract { bytecode manifest { abi { functions state } upgradeOpts { from } } } }',
+      );
+      final tx = txMap[
+          '000033bc3e99a23dc01378ceeb8364c70c04522d1b551c20c6fd0ebd58cbeaacc7b6'];
+
+      expect(
+        tx?.address?.address,
+        '000033BC3E99A23DC01378CEEB8364C70C04522D1B551C20C6FD0EBD58CBEAACC7B6',
+      );
+    });
+  });
 }

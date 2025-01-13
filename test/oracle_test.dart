@@ -35,7 +35,7 @@ void main() {
           ).subscribe();
 
           final data = await oracleStream.first.timeout(
-            const Duration(minutes: 1),
+            const Duration(minutes: 2),
           );
           log('Oracle value: ${data.timestamp} - ${data.uco!.usd} USD');
         },

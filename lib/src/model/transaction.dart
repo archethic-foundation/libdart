@@ -177,9 +177,7 @@ class Transaction with _$Transaction {
           'content': data?.content ?? '',
           'contract': data?.contract != null
               ? {
-                  'bytecode': uint8ListToHex(
-                    Uint8List.fromList(data!.contract!.bytecode!),
-                  ),
+                  'bytecode': data!.contract!.bytecode!,
                   'manifest': data!.contract!.manifest,
                 }
               : null,
@@ -655,7 +653,7 @@ class Transaction with _$Transaction {
       bufContract = concatUint8List([
         toByteArray(1),
         toByteArray(contract.bytecode!.length, length: 4),
-        contract.bytecode!,
+        Uint8List.fromList(utf8.encode(contract.bytecode!)),
         typed_encoding.serialize(contract.manifest),
       ]);
     }
