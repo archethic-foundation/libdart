@@ -25,6 +25,7 @@ import 'package:archethic_lib_dart/src/model/transaction.dart';
 import 'package:archethic_lib_dart/src/model/transaction_fee.dart';
 import 'package:archethic_lib_dart/src/model/transaction_input.dart';
 import 'package:archethic_lib_dart/src/model/transaction_status.dart';
+import 'package:archethic_lib_dart/src/model/unspent_outputs.dart';
 import 'package:archethic_lib_dart/src/services/graph_ql_client_logger.dart';
 import 'package:archethic_lib_dart/src/utils/collection_utils.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart';
@@ -984,5 +985,68 @@ class ApiService with JsonRPCUtil {
     throw ArchethicConnectionException(
       exception.toString(),
     );
+  }
+
+  /// Query the network to retrieve the unspent output of a chain (address should be the genesis address of the chain)
+  Future<Map<String, List<UnspentOutputs>>> chainUnspentOutputs(
+    List<String> genesisAddresses, {
+    String request = Transaction.kUnspentOutputQueryFieldsWithoutState,
+    int limit = 0,
+    // pagingOffset should be a Sha256Hash
+    String pagingOffset = '',
+  }) async {
+    if (genesisAddresses.isEmpty) {
+      return {};
+    }
+
+    final fragment = 'fragment fields on UnspentOutput { $request }';
+    final body = StringBuffer()..write('query { ');
+    for (final genesisAddress in genesisAddresses) {
+      body.write(
+        ' _$genesisAddress: chainUnspentOutputs(address:"$genesisAddress" ',
+      );
+      if (limit > 0) {
+        body.write(
+          ' limit:$limit ',
+        );
+      }
+      if (pagingOffset.isNotEmpty) {
+        body.write(
+          ' pagingOffset:$pagingOffset ',
+        );
+      }
+      body.write(
+        '  ) { ...fields } ',
+      );
+    }
+    body.write(' } $fragment');
+
+    final result = await _client
+        .withLogger(
+          'chainUnspentOutputs',
+        )
+        .query(
+          QueryOptions(
+            document: gql(body.toString()),
+            parserFn: (json) {
+              final unspentOutputs = json.mapValues(
+                (unspentOutputs) => (unspentOutputs as List<dynamic>)
+                    .map(
+                      (unspentOutput) => UnspentOutputs.fromJson(
+                        unspentOutput as Map<String, dynamic>,
+                      ),
+                    )
+                    .toList(),
+                keysToIgnore: _responseKeysToIgnore,
+              );
+              return removeAliasPrefix<List<UnspentOutputs>>(
+                    unspentOutputs,
+                  ) ??
+                  {};
+            },
+          ),
+        );
+    manageLinkException(result);
+    return result.parsedData ?? {};
   }
 }

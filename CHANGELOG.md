@@ -1,3 +1,6 @@
+# 7.2.0
+- Implementation of GraphQL method: `chainUnspentOutputs`
+
 # 7.1.0
 - Integrate Transaction Version 4 features
 
