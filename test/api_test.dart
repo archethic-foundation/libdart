@@ -611,4 +611,27 @@ void main() {
       });
     },
   );
+
+  test('chainUnspentOutputs', () async {
+    final chainUnspentOutputsList =
+        await ApiService('https://testnet.archethic.net').chainUnspentOutputs([
+      '00000bc0eba2dbce4455b46f5e51afaaba6eb4c7fba1d4e2e6dabd55dc70f9a04d6f',
+      '00003eeab3636e4017e961285f6f51c62db39a5ceb52dc5f1f8741b0b3b63ba00fd5',
+    ]);
+
+    expect(
+      chainUnspentOutputsList.keys.first.length,
+      greaterThan(0),
+    );
+
+    expect(
+      chainUnspentOutputsList.keys.last.length,
+      greaterThan(0),
+    );
+
+    expect(
+      chainUnspentOutputsList.length,
+      2,
+    );
+  });
 }

@@ -704,4 +704,7 @@ class Transaction with _$Transaction {
 
   static const String kContractQueryAllFields =
       ' data { code,  contract { bytecode, manifest { abi { functions, state } } } } ';
+
+  static const String kUnspentOutputQueryFieldsWithoutState =
+      '  amount, from, timestamp, tokenAddress, tokenId, type';
 }
