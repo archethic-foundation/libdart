@@ -208,4 +208,63 @@ void main() {
       expect(obj['a']['b'][0]['b'].keys, equals(['a', 'b', 'c']));
     });
   });
+
+  group('verifyPubKey', () {
+    test('should return true for a valid pubKey with curve 0', () {
+      const pubKey =
+          '00017EB361D06C3CB2A0102F664422542E9AB6E88C9867A4EAE082C86274B83AD041';
+      final result = verifyArchethicKey(pubKey);
+      expect(result, true);
+    });
+
+    test('should return true for a valid pubKey with curve 3', () {
+      const pubKey =
+          '0301A7BB0712AFBCB6345B4C5282F82538F979D9E88FB4F3B3DE7A708D224DA18ACDD53F3DFFB9D597A9D8537A85119B0123';
+      final result = verifyArchethicKey(pubKey);
+      expect(result, true);
+    });
+
+    test(
+        'should return false for an invalid pubKey with incorrect length for curve 0',
+        () {
+      const pubKey =
+          '00017EB361D06C3CB2A0102F664422542E9AB6E88C9867A4EAE082C86274B83AD0413433'; // Too long
+      final result = verifyArchethicKey(pubKey);
+      expect(result, false);
+    });
+
+    test('should return false for an invalid pubKey with unknown curve', () {
+      const pubKey =
+          '0401A7BB0712AFBCB6345B4C5282F82538F979D9E88FB4F3B3DE7A708D224DA18ACDD53F3DFFB9D597A9D8537A85119B0123'; // Curve 4 does not exist
+      final result = verifyArchethicKey(pubKey);
+      expect(result, false);
+    });
+
+    test('should return false for an invalid pubKey with invalid origin', () {
+      const pubKey =
+          '00047EB361D06C3CB2A0102F664422542E9AB6E88C9867A4EAE082C86274B83AD041'; // Origin 2 is invalid
+      final result = verifyArchethicKey(pubKey);
+      expect(result, false);
+    });
+
+    test('should return false for an invalid pubKey with insufficient length',
+        () {
+      const pubKey = '0001'; // Too short to contain a valid public key
+      final result = verifyArchethicKey(pubKey);
+      expect(result, false);
+    });
+
+    test('should return false for an empty pubKey', () {
+      const pubKey = '';
+      final result = verifyArchethicKey(pubKey);
+      expect(result, false);
+    });
+
+    test('should return false for a pubKey with non-hex characters', () {
+      const pubKey =
+          '00017EB361D06C3CB2A0102F664422542E9AB6E88C9867A4EAE082C86274B83AD0ZZ'; // Contains non-hex characters
+      final result = verifyArchethicKey(pubKey);
+      expect(result, false);
+    });
+  });
 }

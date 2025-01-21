@@ -177,6 +177,52 @@ Map<String, dynamic> removeNullValues(Map<String, dynamic> json) {
       .toMap();
 }
 
+bool verifyArchethicKey(String key) {
+  if (!isHex(key)) {
+    return false;
+  }
+
+  // Convert the hexadecimal public key to a byte list
+  final pubKeyBytes = hexToUint8List(key);
+
+  // Check that the total length of the public key is sufficient to contain curve and origin information
+  if (pubKeyBytes.length < 2) {
+    return false;
+  }
+
+  final pubKeyBuf = pubKeyBytes.sublist(2, pubKeyBytes.length);
+
+  // Determine the expected length of the public key based on the curve
+  int lengthBytes;
+  switch (pubKeyBytes[0]) {
+    case 0:
+      lengthBytes = 32;
+      break;
+    case 1:
+    case 2:
+      lengthBytes = 65;
+      break;
+    case 3:
+      lengthBytes = 48;
+      break;
+    default:
+      lengthBytes = -1;
+  }
+
+  // Check that the length of the public key matches the expected length
+  if (lengthBytes == -1 || pubKeyBuf.lengthInBytes != lengthBytes) {
+    return false;
+  }
+
+  // Check that the origin is either 0 or 1
+  if (pubKeyBytes[1] != 0 && pubKeyBytes[1] != 1) {
+    return false;
+  }
+
+  // If all checks pass, the public key is valid
+  return true;
+}
+
 extension MapExtension<K, V> on Iterable<MapEntry<K, V>> {
   Map<K, V> toMap() => {for (final entry in this) entry.key: entry.value};
 }
