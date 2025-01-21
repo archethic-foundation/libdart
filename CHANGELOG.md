@@ -1,3 +1,6 @@
+# 7.3.0
+- Add a method to verify archethic keys
+
 # 7.2.0
 - Implementation of GraphQL method: `chainUnspentOutputs`
 
