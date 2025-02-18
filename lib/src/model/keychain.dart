@@ -394,3 +394,34 @@ Jwk keyToJWK(Uint8List publicKey, String keyId) {
       throw Exception('Curve not supported');
   }
 }
+
+Uint8List jwkToKey(Map<String, dynamic> jwk) {
+  String normalizeBase64(String base64) {
+    final buffer = StringBuffer(base64);
+    while (buffer.length % 4 != 0) {
+      buffer.write('=');
+    }
+    return buffer.toString();
+  }
+
+  final String kty = jwk['kty'];
+  final String crv = jwk['crv'];
+  final String xBase64 = jwk['x'];
+  final x = base64Url.decode(normalizeBase64(xBase64));
+
+  if (kty == 'OKP' && crv == 'Ed25519') {
+    // Ed25519 format (Curve ID = 0)
+    return Uint8List.fromList([0, 0] + x);
+  } else if (kty == 'EC' && (crv == 'P-256' || crv == 'secp256k1')) {
+    // Extract x and y coordinates for EC keys
+    final String yBase64 = jwk['y'];
+    final y = base64Url.decode(normalizeBase64(yBase64));
+
+    final curveID = (crv == 'P-256') ? 1 : 2;
+
+    // Format: [CurveID, 0] + X + Y
+    return Uint8List.fromList([curveID, 0] + x + y);
+  } else {
+    throw Exception('Unsupported JWK format');
+  }
+}
