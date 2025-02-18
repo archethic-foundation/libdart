@@ -1,3 +1,6 @@
+# 7.4.1
+- Upgrade `graphql 5.2.0-beta.11` dependency
+ 
 # 7.4.0
 - Add a method to verify the existence of a keychain using a public key.
 - Add a method to retrieve the genesis address of services in a keychain using a public key.
