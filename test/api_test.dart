@@ -277,7 +277,7 @@ void main() {
 
         expect(
           blockchainVersionModel.version.transaction,
-          '3',
+          '4',
         );
       });
 
