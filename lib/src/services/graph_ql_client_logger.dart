@@ -54,6 +54,7 @@ class GraphQLClientLogger implements GraphQLClient {
     GraphQLCache? cache,
     DefaultPolicies? defaultPolicies,
     bool? alwaysRebroadcast,
+    Duration? queryRequestTimeout,
   }) =>
       GraphQLClientLogger(
         logName: logName ?? this.logName,
@@ -62,6 +63,7 @@ class GraphQLClientLogger implements GraphQLClient {
           cache: cache,
           defaultPolicies: defaultPolicies,
           alwaysRebroadcast: alwaysRebroadcast,
+          queryRequestTimeout: queryRequestTimeout,
         ),
       );
 
