@@ -567,6 +567,32 @@ It supports the Archethic Cryptography rules which are:
    <br/>
 </details>
 
+## Utils
+
+### Keychain Utilities
+
+The `KeychainUtil` mixin provides utility methods for handling keychain transactions on the Archethic network.
+
+#### Methods
+
+- `Future<bool> checkKeychain(String endpoint, Uint8List pubkey)`
+  - Checks if a keychain exists for the given public key on the specified network endpoint.
+  - Returns `true` if a keychain is found, `false` otherwise.
+
+- `Future<List<String>> keychainAddresses(String endpoint, Uint8List pubkey)`
+
+  - Retrieves the list of keychain addresses associated with the given public key.
+  - Returns a list of strings representing the addresses.
+
+- `Future<String?> _findKeychainGenesisAddress(String endpoint, Uint8List pubkey) (private method)`
+  - Computes the genesis address of the keychain for the given public key.
+  - Returns the genesis address if found, null otherwise.
+
+- `Future<Transaction?> _searchKeychain(String endpoint, String genesisAddress) (private method)`
+  - Searches for the keychain transaction associated with the genesis address.
+  - Returns the transaction if found, null otherwise.
+
+
 ## Running the tests
 
 ```bash

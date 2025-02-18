@@ -58,6 +58,7 @@ export 'src/utils/confirmations/transaction_event.dart';
 export 'src/utils/confirmations/transaction_remote.dart';
 export 'src/utils/confirmations/transaction_sender.dart';
 export 'src/utils/crypto.dart';
+export 'src/utils/keychain_util.dart';
 export 'src/utils/notification_util.dart';
 export 'src/utils/oracle/archethic_oracle.dart';
 export 'src/utils/transaction_error_util.dart';

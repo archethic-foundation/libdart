@@ -1,3 +1,7 @@
+# 7.4.0
+- Add a method to verify the existence of a keychain using a public key.
+- Add a method to retrieve the genesis address of services in a keychain using a public key.
+
 # 7.3.0
 - Add a method to verify archethic keys
 
