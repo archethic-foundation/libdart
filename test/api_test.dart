@@ -634,4 +634,26 @@ void main() {
       2,
     );
   });
+
+  group('api - performance', tags: <String>[TestTags.integration], () {
+    test('should handle 40 parallel calls with simulated errors', () async {
+      const nbIteration = 40;
+      final apiService = ApiService('https://mainnet.archethic.net');
+      const address =
+          '0000457EACA7FBAA96DB4A8D506A0B69684F546166FBF3C55391B1461907EFA58EAF';
+
+      final futures = List.generate(nbIteration, (index) {
+        return apiService.getToken([address]);
+      });
+      final results = await Future.wait(futures);
+
+      var count = 0;
+      for (final result in results) {
+        result.forEach((key, value) {
+          count = count + result.length;
+        });
+      }
+      expect(nbIteration, count);
+    });
+  });
 }

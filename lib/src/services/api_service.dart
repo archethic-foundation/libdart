@@ -35,10 +35,23 @@ import 'package:graphql/client.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 
+/// A service class for interacting with the Archethic API.
+///
+/// This class provides methods to interact with the Archethic blockchain,
+/// including querying tokens, managing exceptions, and handling retries.
 class ApiService with JsonRPCUtil {
+  /// Creates an instance of [ApiService].
+  ///
+  /// - [endpoint]: The HTTP URL to an Archethic node.
+  /// - [maxRetries]: The maximum number of retries for failed requests.
+  ///   Defaults to `5`.
+  /// - [retryDelay]: A function that calculates the delay between retries.
+  ///   Defaults to [_defaultRetryDelay].
   ApiService(
-    this.endpoint,
-  ) : _client = GraphQLClient(
+    this.endpoint, {
+    this.maxRetries = 5,
+    this.retryDelay = _defaultRetryDelay,
+  }) : _client = GraphQLClient(
           link: HttpLink('$endpoint/api'),
           cache: GraphQLCache(),
           queryRequestTimeout: const Duration(seconds: 30),
@@ -49,6 +62,28 @@ class ApiService with JsonRPCUtil {
             ),
           ),
         );
+
+  /// The maximum number of retries for failed requests.
+  final int maxRetries;
+
+  /// A function that calculates the delay between retries.
+  ///
+  /// The function takes the current retry count as input and returns a [Duration].
+  final Duration Function(int retryCount) retryDelay;
+
+  /// Default retry delay computation function.
+  ///
+  /// The delay increases exponentially with each retry:
+  /// - 1st retry: ~2 seconds
+  /// - 2nd retry: ~5 seconds
+  /// - 3rd retry: ~10 seconds
+  /// - etc.
+  ///
+  /// The formula used is: `(3 * pow(retryCount, 1.5)).round()`.
+  static Duration _defaultRetryDelay(int retryCount) {
+    final delayInSeconds = (3 * pow(retryCount, 1.5)).round();
+    return Duration(seconds: delayInSeconds);
+  }
 
   static const Map<String, String> kRequestHeaders = <String, String>{
     'Content-type': 'application/json',
@@ -779,42 +814,48 @@ class ApiService with JsonRPCUtil {
     String request =
         'genesis, name, id, supply, symbol, type, properties, decimals, collection, ownerships { authorizedPublicKeys { encryptedSecretKey,  publicKey }, secret }',
   }) async {
-    if (addresses.isEmpty) {
-      return {};
-    }
+    return withRetry(
+      action: () async {
+        if (addresses.isEmpty) {
+          return {};
+        }
 
-    final fragment = 'fragment fields on Token { $request }';
-    final body = StringBuffer()..write('query { ');
-    for (final address in addresses) {
-      body.write(
-        ' _$address: token(address:"$address") { ...fields }',
-      );
-    }
-    body.write(' } $fragment');
+        final fragment = 'fragment fields on Token { $request }';
+        final body = StringBuffer()..write('query { ');
+        for (final address in addresses) {
+          body.write(
+            ' _$address: token(address:"$address") { ...fields }',
+          );
+        }
+        body.write(' } $fragment');
 
-    final result = await _client
-        .withLogger(
-          'getToken',
-        )
-        .query(
-          QueryOptions(
-            document: gql(body.toString()),
-            parserFn: (json) {
-              final tokens = json.mapValues(
-                (value) {
-                  if (value != null) {
-                    return Token.fromJson(value as Map<String, dynamic>);
-                  }
+        final result = await _client
+            .withLogger(
+              'getToken',
+            )
+            .query(
+              QueryOptions(
+                document: gql(body.toString()),
+                parserFn: (json) {
+                  final tokens = json.mapValues(
+                    (value) {
+                      if (value != null) {
+                        return Token.fromJson(value as Map<String, dynamic>);
+                      }
+                    },
+                    keysToIgnore: _responseKeysToIgnore,
+                  );
+                  return removeAliasPrefix<Token>(tokens) ?? {};
                 },
-                keysToIgnore: _responseKeysToIgnore,
-              );
-              return removeAliasPrefix<Token>(tokens) ?? {};
-            },
-          ),
-        );
-    manageLinkException(result);
+              ),
+            );
+        manageLinkException(result);
 
-    return result.parsedData ?? {};
+        return result.parsedData ?? {};
+      },
+      maxRetries: maxRetries,
+      retryDelay: retryDelay,
+    );
   }
 
   /// List the nearest endpoints nodes from the client's IP
@@ -966,27 +1007,6 @@ class ApiService with JsonRPCUtil {
         );
   }
 
-  void manageLinkException(QueryResult result) {
-    final exception = result.exception?.linkException;
-    if (exception == null) return;
-
-    if (exception is UnknownException) {
-      if (exception.originalException is TimeoutException) {
-        throw TimeoutException(exception.message);
-      }
-    }
-
-    if (exception is HttpLinkParserException) {
-      if (exception.response.statusCode == 429) {
-        throw const ArchethicTooManyRequestsException();
-      }
-    }
-
-    throw ArchethicConnectionException(
-      exception.toString(),
-    );
-  }
-
   /// Query the network to retrieve the unspent output of a chain (address should be the genesis address of the chain)
   Future<Map<String, List<UnspentOutputs>>> chainUnspentOutputs(
     List<String> genesisAddresses, {
@@ -1048,5 +1068,88 @@ class ApiService with JsonRPCUtil {
         );
     manageLinkException(result);
     return result.parsedData ?? {};
+  }
+
+  /// Handles exceptions from a [QueryResult].
+  ///
+  /// This method checks the exception in the [QueryResult] and throws an appropriate
+  /// exception based on the type of error:
+  /// - If the exception is a [TimeoutException], it rethrows it.
+  /// - If the exception is an [HttpLinkParserException] with status code `429`or `503`,
+  ///   it throws an [ArchethicTooManyRequestsException].
+  /// - For other exceptions, it throws an [ArchethicConnectionException].
+  ///
+  /// - [result]: The [QueryResult] to check for exceptions.
+  void manageLinkException(QueryResult result) {
+    final exception = result.exception?.linkException;
+    if (exception == null) return;
+
+    if (exception is UnknownException) {
+      if (exception.originalException is TimeoutException) {
+        throw TimeoutException(exception.message);
+      }
+    }
+
+    if (exception is HttpLinkParserException) {
+      if (exception.response.statusCode == 429) {
+        throw const ArchethicTooManyRequestsException();
+      }
+
+      if (exception.response.statusCode == 503) {
+        throw const ArchethicServiceUnavailableException();
+      }
+    }
+
+    throw ArchethicConnectionException(exception.toString());
+  }
+
+  /// Executes an action with retry logic.
+  ///
+  /// This method attempts to execute the provided [action] and retries if it fails
+  /// with an [ArchethicTooManyRequestsException]. The delay between retries is
+  /// calculated using the [retryDelay] function.
+  ///
+  /// - [action]: The asynchronous function to execute.
+  /// - [maxRetries]: The maximum number of retries. Defaults to `5`.
+  /// - [retryDelay]: A function that calculates the delay between retries.
+  ///   Defaults to [_defaultRetryDelay].
+  ///
+  /// Returns the result of the [action] if successful.
+  ///
+  /// Throws:
+  /// - The original exception if it is not an [ArchethicTooManyRequestsException].
+  /// - An [Exception] with the message "Max retries exceeded" if the maximum number
+  ///   of retries is reached.
+  Future<T> withRetry<T>({
+    required Future<T> Function() action,
+    int maxRetries = 5,
+    Duration Function(int retryCount) retryDelay = _defaultRetryDelay,
+  }) async {
+    var retryCount = 0;
+
+    while (retryCount < maxRetries) {
+      try {
+        return await action();
+      } catch (e) {
+        if (e is ArchethicTooManyRequestsException ||
+            e is ArchethicServiceUnavailableException) {
+          retryCount++;
+          if (retryCount >= maxRetries) {
+            _logger.severe('Max retries reached');
+            rethrow;
+          }
+
+          final delay = retryDelay(retryCount);
+
+          _logger
+              .warning('Retrying in $delay (attempt $retryCount/$maxRetries)');
+          await Future.delayed(delay);
+        } else {
+          rethrow;
+        }
+      }
+    }
+
+    throw Exception('Max retries exceeded');
   }
 }
