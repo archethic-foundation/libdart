@@ -649,9 +649,7 @@ void main() {
 
       var count = 0;
       for (final result in results) {
-        result.forEach((key, value) {
-          count = count + result.length;
-        });
+        count = count + result.length;
       }
       expect(nbIteration, count);
     });
