@@ -1,3 +1,7 @@
+# 7.5.1
+- Upgrade dependencies
+- Add actionName in auto-retry Mechanism logs
+  
 # 7.5.0
 - Implement Auto-Retry Mechanism for 429 Too Many Requests Error
 

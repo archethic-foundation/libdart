@@ -153,7 +153,9 @@ class ApiService with JsonRPCUtil {
     List<String> addresses, {
     String request = Transaction.kTransactionQueryAllFields,
   }) async {
+    const methodName = 'getLastTransaction';
     return withRetry(
+      actionName: methodName,
       action: () async {
         if (addresses.isEmpty) {
           return {};
@@ -170,7 +172,7 @@ class ApiService with JsonRPCUtil {
 
         final result = await _client
             .withLogger(
-              'getLastTransaction',
+              methodName,
             )
             .query(
               QueryOptions(
@@ -217,14 +219,16 @@ class ApiService with JsonRPCUtil {
   }
 
   Future<String> getStorageNoncePublicKey() async {
+    const methodName = 'getStorageNoncePublicKey';
     return withRetry(
+      actionName: methodName,
       action: () async {
         const body = 'query {sharedSecrets {storageNoncePublicKey}}';
         _logger.fine('getStorageNoncePublicKey: requestHttp.body=$body');
 
         final result = await _client
             .withLogger(
-              'getStorageNoncePublicKey',
+              methodName,
             )
             .query(
               QueryOptions(
@@ -246,7 +250,9 @@ class ApiService with JsonRPCUtil {
     List<String> addresses, {
     String request = Transaction.kBalanceQueryAllFields,
   }) async {
+    const methodName = 'fetchBalance';
     return withRetry(
+      actionName: methodName,
       action: () async {
         if (addresses.isEmpty) {
           return {};
@@ -263,7 +269,7 @@ class ApiService with JsonRPCUtil {
 
         final result = await _client
             .withLogger(
-              'fetchBalance',
+              methodName,
             )
             .query(
               QueryOptions(
@@ -333,7 +339,9 @@ class ApiService with JsonRPCUtil {
     bool orderAsc = true,
     int? fromCriteria,
   }) async {
+    const methodName = 'getTransactionChain';
     return withRetry(
+      actionName: methodName,
       action: () async {
         if (addresses.isEmpty) {
           return {};
@@ -360,7 +368,7 @@ class ApiService with JsonRPCUtil {
 
         final result = await _client
             .withLogger(
-              'getTransactionChain',
+              methodName,
             )
             .query(
               QueryOptions(
@@ -395,14 +403,16 @@ class ApiService with JsonRPCUtil {
   ///
   /// Returns a [List<Node>] with infos
   Future<List<Node>> getNodeList() async {
+    const methodName = 'getNodeList';
     return withRetry(
+      actionName: methodName,
       action: () async {
         const body =
             'query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress authorizationDate enrollmentDate}}';
 
         final result = await _client
             .withLogger(
-              'getNodeList',
+              methodName,
             )
             .query(
               QueryOptions(
@@ -431,14 +441,16 @@ class ApiService with JsonRPCUtil {
     int page, {
     String request = Transaction.kTransactionQueryAllFields,
   }) async {
+    const methodName = 'networkTransactions';
     return withRetry(
+      actionName: methodName,
       action: () async {
         final body =
             'query { networkTransactions(type: "$type", page: $page) { $request } }';
 
         final result = await _client
             .withLogger(
-              'networkTransactions',
+              methodName,
             )
             .query(
               QueryOptions(
@@ -465,7 +477,9 @@ class ApiService with JsonRPCUtil {
     int limit = 0,
     int pagingOffset = 0,
   }) async {
+    const methodName = 'getTransactionInputs';
     return withRetry(
+      actionName: methodName,
       action: () async {
         if (addresses.isEmpty) {
           return {};
@@ -493,7 +507,7 @@ class ApiService with JsonRPCUtil {
 
         final result = await _client
             .withLogger(
-              'getTransactionInputs',
+              methodName,
             )
             .query(
               QueryOptions(
@@ -532,7 +546,9 @@ class ApiService with JsonRPCUtil {
     List<String> addresses, {
     String request = Transaction.kTransactionQueryAllFields,
   }) async {
+    const methodName = 'getTransaction';
     return withRetry(
+      actionName: methodName,
       action: () async {
         if (addresses.isEmpty) {
           return {};
@@ -548,7 +564,7 @@ class ApiService with JsonRPCUtil {
         body.write('} $fragment');
         final result = await _client
             .withLogger(
-              'getTransaction',
+              methodName,
             )
             .query(
               QueryOptions(
@@ -863,7 +879,9 @@ class ApiService with JsonRPCUtil {
     String request =
         'genesis, name, id, supply, symbol, type, properties, decimals, collection, ownerships { authorizedPublicKeys { encryptedSecretKey,  publicKey }, secret }',
   }) async {
+    const methodName = 'getToken';
     return withRetry(
+      actionName: methodName,
       action: () async {
         if (addresses.isEmpty) {
           return {};
@@ -880,7 +898,7 @@ class ApiService with JsonRPCUtil {
 
         final result = await _client
             .withLogger(
-              'getToken',
+              methodName,
             )
             .query(
               QueryOptions(
@@ -909,13 +927,15 @@ class ApiService with JsonRPCUtil {
 
   /// List the nearest endpoints nodes from the client's IP
   Future<List<Endpoint>> getNearestEndpoints() async {
+    const methodName = 'getNearestEndpoints';
     return withRetry(
+      actionName: methodName,
       action: () async {
         const body = 'query { nearestEndpoints { ip, port } }';
 
         final result = await _client
             .withLogger(
-              'getNearestEndpoints',
+              methodName,
             )
             .query(
               QueryOptions(
@@ -935,13 +955,15 @@ class ApiService with JsonRPCUtil {
 
   /// Query the network to find the genesis address of a transaction
   Future<Address> getGenesisAddress(String address) async {
+    const methodName = 'getGenesisAddress';
     return withRetry(
+      actionName: methodName,
       action: () async {
         final body = 'query { genesisAddress (address:"$address") }';
 
         final result = await _client
             .withLogger(
-              'getGenesisAddress',
+              methodName,
             )
             .query(
               QueryOptions(
@@ -1047,13 +1069,15 @@ class ApiService with JsonRPCUtil {
 
   /// Query the network to find the protocol, transaction and code versions
   Future<BlockchainVersionModel> getBlockchainVersion() async {
+    const methodName = 'getBlockchainVersion';
     return withRetry(
+      actionName: methodName,
       action: () async {
         const body = 'query { version {code protocol transaction} }';
 
         final result = await _client
             .withLogger(
-              'getBlockchainVersion',
+              methodName,
             )
             .query(
               QueryOptions(
@@ -1082,7 +1106,9 @@ class ApiService with JsonRPCUtil {
     // pagingOffset should be a Sha256Hash
     String pagingOffset = '',
   }) async {
+    const methodName = 'chainUnspentOutputs';
     return withRetry(
+      actionName: methodName,
       action: () async {
         if (genesisAddresses.isEmpty) {
           return {};
@@ -1112,7 +1138,7 @@ class ApiService with JsonRPCUtil {
 
         final result = await _client
             .withLogger(
-              'chainUnspentOutputs',
+              methodName,
             )
             .query(
               QueryOptions(
@@ -1195,6 +1221,7 @@ class ApiService with JsonRPCUtil {
   ///   of retries is reached.
   Future<T> withRetry<T>({
     required Future<T> Function() action,
+    required String actionName,
     int maxRetries = 5,
     Duration Function(int retryCount) retryDelay = _defaultRetryDelay,
   }) async {
@@ -1208,14 +1235,15 @@ class ApiService with JsonRPCUtil {
             e is ArchethicServiceUnavailableException) {
           retryCount++;
           if (retryCount >= maxRetries) {
-            _logger.severe('Max retries reached');
+            _logger.severe('Max retries reached for action: $actionName');
             rethrow;
           }
 
           final delay = retryDelay(retryCount);
 
-          _logger
-              .warning('Retrying in $delay (attempt $retryCount/$maxRetries)');
+          _logger.warning(
+            'Retrying action "$actionName" in $delay (attempt $retryCount/$maxRetries)',
+          );
           await Future.delayed(delay);
         } else {
           rethrow;
@@ -1223,6 +1251,6 @@ class ApiService with JsonRPCUtil {
       }
     }
 
-    throw Exception('Max retries exceeded');
+    throw Exception('Max retries exceeded for action: $actionName');
   }
 }
