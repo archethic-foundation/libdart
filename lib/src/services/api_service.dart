@@ -153,45 +153,51 @@ class ApiService with JsonRPCUtil {
     List<String> addresses, {
     String request = Transaction.kTransactionQueryAllFields,
   }) async {
-    if (addresses.isEmpty) {
-      return {};
-    }
+    return withRetry(
+      action: () async {
+        if (addresses.isEmpty) {
+          return {};
+        }
 
-    final fragment = 'fragment fields on Transaction { $request }';
-    final body = StringBuffer()..write('query { ');
-    for (final address in addresses) {
-      body.write(
-        ' _$address: lastTransaction(address:"$address") { ...fields }',
-      );
-    }
-    body.write(' } $fragment');
+        final fragment = 'fragment fields on Transaction { $request }';
+        final body = StringBuffer()..write('query { ');
+        for (final address in addresses) {
+          body.write(
+            ' _$address: lastTransaction(address:"$address") { ...fields }',
+          );
+        }
+        body.write(' } $fragment');
 
-    final result = await _client
-        .withLogger(
-          'getLastTransaction',
-        )
-        .query(
-          QueryOptions(
-            document: gql(body.toString()),
-            parserFn: (data) {
-              final transactions = data.mapValues(
-                (value) {
-                  if (value != null) {
-                    return Transaction.fromNodeRPC(
-                      value as Map<String, dynamic>,
-                    );
-                  }
+        final result = await _client
+            .withLogger(
+              'getLastTransaction',
+            )
+            .query(
+              QueryOptions(
+                document: gql(body.toString()),
+                parserFn: (data) {
+                  final transactions = data.mapValues(
+                    (value) {
+                      if (value != null) {
+                        return Transaction.fromNodeRPC(
+                          value as Map<String, dynamic>,
+                        );
+                      }
+                    },
+                    keysToIgnore: _responseKeysToIgnore,
+                  );
+                  return removeAliasPrefix(transactions) ?? {};
                 },
-                keysToIgnore: _responseKeysToIgnore,
-              );
-              return removeAliasPrefix(transactions) ?? {};
-            },
-          ),
-        );
+              ),
+            );
 
-    manageLinkException(result);
+        manageLinkException(result);
 
-    return result.parsedData ?? {};
+        return result.parsedData ?? {};
+      },
+      maxRetries: maxRetries,
+      retryDelay: retryDelay,
+    );
   }
 
   Future<Map<String, int>> getTransactionIndex(List<String> addresses) async {
@@ -211,22 +217,28 @@ class ApiService with JsonRPCUtil {
   }
 
   Future<String> getStorageNoncePublicKey() async {
-    const body = 'query {sharedSecrets {storageNoncePublicKey}}';
-    _logger.fine('getStorageNoncePublicKey: requestHttp.body=$body');
+    return withRetry(
+      action: () async {
+        const body = 'query {sharedSecrets {storageNoncePublicKey}}';
+        _logger.fine('getStorageNoncePublicKey: requestHttp.body=$body');
 
-    final result = await _client
-        .withLogger(
-          'getStorageNoncePublicKey',
-        )
-        .query(
-          QueryOptions(
-            document: gql(body),
-            parserFn: (object) => SharedSecrets.fromJson(object),
-          ),
-        );
+        final result = await _client
+            .withLogger(
+              'getStorageNoncePublicKey',
+            )
+            .query(
+              QueryOptions(
+                document: gql(body),
+                parserFn: (object) => SharedSecrets.fromJson(object),
+              ),
+            );
 
-    manageLinkException(result);
-    return result.parsedData!.storageNoncePublicKey ?? '';
+        manageLinkException(result);
+        return result.parsedData!.storageNoncePublicKey ?? '';
+      },
+      maxRetries: maxRetries,
+      retryDelay: retryDelay,
+    );
   }
 
   /// Query the network to find a balance from a list of addresses
@@ -234,42 +246,48 @@ class ApiService with JsonRPCUtil {
     List<String> addresses, {
     String request = Transaction.kBalanceQueryAllFields,
   }) async {
-    if (addresses.isEmpty) {
-      return {};
-    }
+    return withRetry(
+      action: () async {
+        if (addresses.isEmpty) {
+          return {};
+        }
 
-    final fragment = 'fragment fields on Balance { $request }';
-    final body = StringBuffer()..write('query { ');
-    for (final address in addresses) {
-      body.write(
-        ' _$address: balance(address:"$address") { ...fields }',
-      );
-    }
-    body.write(' } $fragment');
+        final fragment = 'fragment fields on Balance { $request }';
+        final body = StringBuffer()..write('query { ');
+        for (final address in addresses) {
+          body.write(
+            ' _$address: balance(address:"$address") { ...fields }',
+          );
+        }
+        body.write(' } $fragment');
 
-    final result = await _client
-        .withLogger(
-          'fetchBalance',
-        )
-        .query(
-          QueryOptions(
-            document: gql(body.toString()),
-            parserFn: (object) {
-              final balances = object.mapValues(
-                (value) {
-                  if (value != null) {
-                    return Balance.fromJson(value as Map<String, dynamic>);
-                  }
+        final result = await _client
+            .withLogger(
+              'fetchBalance',
+            )
+            .query(
+              QueryOptions(
+                document: gql(body.toString()),
+                parserFn: (object) {
+                  final balances = object.mapValues(
+                    (value) {
+                      if (value != null) {
+                        return Balance.fromJson(value as Map<String, dynamic>);
+                      }
+                    },
+                    keysToIgnore: _responseKeysToIgnore,
+                  );
+                  return removeAliasPrefix(balances) ?? {};
                 },
-                keysToIgnore: _responseKeysToIgnore,
-              );
-              return removeAliasPrefix(balances) ?? {};
-            },
-          ),
-        );
-    manageLinkException(result);
+              ),
+            );
+        manageLinkException(result);
 
-    return result.parsedData ?? {};
+        return result.parsedData ?? {};
+      },
+      maxRetries: maxRetries,
+      retryDelay: retryDelay,
+    );
   }
 
   /// Query the network to find a transaction from a list of addresses
@@ -315,77 +333,90 @@ class ApiService with JsonRPCUtil {
     bool orderAsc = true,
     int? fromCriteria,
   }) async {
-    if (addresses.isEmpty) {
-      return {};
-    }
+    return withRetry(
+      action: () async {
+        if (addresses.isEmpty) {
+          return {};
+        }
 
-    final order = orderAsc == true ? 'ASC ' : 'DESC';
+        final order = orderAsc == true ? 'ASC ' : 'DESC';
 
-    final fragment = 'fragment fields on Transaction { $request }';
-    final body = StringBuffer()..write('query { ');
-    // TODO(reddwarf03): Not good the '_' system to define alias but address format is not accepted by graphQL
-    addresses.forEach((key, value) {
-      body.write(' _$key: transactionChain(address:"$key" ');
-      body.write(' order: $order ');
-      if (value.isNotEmpty) {
-        body.write(' pagingAddress:"$value"');
-      }
-      if (fromCriteria != null) {
-        body.write(' from:$fromCriteria');
-      }
+        final fragment = 'fragment fields on Transaction { $request }';
+        final body = StringBuffer()..write('query { ');
+        // TODO(reddwarf03): Not good the '_' system to define alias but address format is not accepted by graphQL
+        addresses.forEach((key, value) {
+          body.write(' _$key: transactionChain(address:"$key" ');
+          body.write(' order: $order ');
+          if (value.isNotEmpty) {
+            body.write(' pagingAddress:"$value"');
+          }
+          if (fromCriteria != null) {
+            body.write(' from:$fromCriteria');
+          }
 
-      body.write(') { ...fields }');
-    });
-    body.write('} $fragment');
+          body.write(') { ...fields }');
+        });
+        body.write('} $fragment');
 
-    final result = await _client
-        .withLogger(
-          'getTransactionChain',
-        )
-        .query(
-          QueryOptions(
-            document: gql(body.toString()),
-            parserFn: (object) {
-              final transactions = object.mapValues(
-                (transactions) => (transactions as List<dynamic>)
-                    .map(
-                      (transaction) => Transaction.fromNodeRPC(
-                        transaction as Map<String, dynamic>,
-                      ),
-                    )
-                    .toList(),
-                keysToIgnore: _responseKeysToIgnore,
-              );
-              return removeAliasPrefix<List<Transaction>>(transactions) ?? {};
-            },
-          ),
-        );
+        final result = await _client
+            .withLogger(
+              'getTransactionChain',
+            )
+            .query(
+              QueryOptions(
+                document: gql(body.toString()),
+                parserFn: (object) {
+                  final transactions = object.mapValues(
+                    (transactions) => (transactions as List<dynamic>)
+                        .map(
+                          (transaction) => Transaction.fromNodeRPC(
+                            transaction as Map<String, dynamic>,
+                          ),
+                        )
+                        .toList(),
+                    keysToIgnore: _responseKeysToIgnore,
+                  );
+                  return removeAliasPrefix<List<Transaction>>(transactions) ??
+                      {};
+                },
+              ),
+            );
 
-    manageLinkException(result);
+        manageLinkException(result);
 
-    return result.parsedData ?? {};
+        return result.parsedData ?? {};
+      },
+      maxRetries: maxRetries,
+      retryDelay: retryDelay,
+    );
   }
 
   /// Query the node infos
   ///
   /// Returns a [List<Node>] with infos
   Future<List<Node>> getNodeList() async {
-    const body =
-        'query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress authorizationDate enrollmentDate}}';
+    return withRetry(
+      action: () async {
+        const body =
+            'query {nodes {authorized available averageAvailability firstPublicKey geoPatch ip lastPublicKey networkPatch port rewardAddress authorizationDate enrollmentDate}}';
 
-    final result = await _client
-        .withLogger(
-          'getNodeList',
-        )
-        .query(
-          QueryOptions(
-            document: gql(body),
-            parserFn: (json) => NodesResponseData.fromJson(json).nodes!,
-          ),
-        );
-    manageLinkException(result);
+        final result = await _client
+            .withLogger(
+              'getNodeList',
+            )
+            .query(
+              QueryOptions(
+                document: gql(body),
+                parserFn: (json) => NodesResponseData.fromJson(json).nodes!,
+              ),
+            );
+        manageLinkException(result);
 
-    return result.parsedData ?? [];
+        return result.parsedData ?? [];
+      },
+      maxRetries: maxRetries,
+      retryDelay: retryDelay,
+    );
   }
 
   /// Query the network to list the transaction on the type.
@@ -400,25 +431,31 @@ class ApiService with JsonRPCUtil {
     int page, {
     String request = Transaction.kTransactionQueryAllFields,
   }) async {
-    final body =
-        'query { networkTransactions(type: "$type", page: $page) { $request } }';
+    return withRetry(
+      action: () async {
+        final body =
+            'query { networkTransactions(type: "$type", page: $page) { $request } }';
 
-    final result = await _client
-        .withLogger(
-          'networkTransactions',
-        )
-        .query(
-          QueryOptions(
-            document: gql(body),
-            parserFn: (json) {
-              return TransactionsResponseData.fromJson(json)
-                  .networkTransactions!;
-            },
-          ),
-        );
-    manageLinkException(result);
+        final result = await _client
+            .withLogger(
+              'networkTransactions',
+            )
+            .query(
+              QueryOptions(
+                document: gql(body),
+                parserFn: (json) {
+                  return TransactionsResponseData.fromJson(json)
+                      .networkTransactions!;
+                },
+              ),
+            );
+        manageLinkException(result);
 
-    return result.parsedData ?? [];
+        return result.parsedData ?? [];
+      },
+      maxRetries: maxRetries,
+      retryDelay: retryDelay,
+    );
   }
 
   /// Query the network to list the transaction inputs from a list of addresses
@@ -428,58 +465,64 @@ class ApiService with JsonRPCUtil {
     int limit = 0,
     int pagingOffset = 0,
   }) async {
-    if (addresses.isEmpty) {
-      return {};
-    }
+    return withRetry(
+      action: () async {
+        if (addresses.isEmpty) {
+          return {};
+        }
 
-    final fragment = 'fragment fields on TransactionInput { $request }';
-    final body = StringBuffer()..write('query { ');
-    for (final address in addresses) {
-      body.write(' _$address: transactionInputs(address:"$address" ');
-      if (limit > 0) {
-        body.write(
-          ' limit:$limit ',
-        );
-      }
-      if (pagingOffset > 0) {
-        body.write(
-          ' pagingOffset:$pagingOffset ',
-        );
-      }
-      body.write(
-        '  ) { ...fields } ',
-      );
-    }
-    body.write(' } $fragment');
+        final fragment = 'fragment fields on TransactionInput { $request }';
+        final body = StringBuffer()..write('query { ');
+        for (final address in addresses) {
+          body.write(' _$address: transactionInputs(address:"$address" ');
+          if (limit > 0) {
+            body.write(
+              ' limit:$limit ',
+            );
+          }
+          if (pagingOffset > 0) {
+            body.write(
+              ' pagingOffset:$pagingOffset ',
+            );
+          }
+          body.write(
+            '  ) { ...fields } ',
+          );
+        }
+        body.write(' } $fragment');
 
-    final result = await _client
-        .withLogger(
-          'getTransactionInputs',
-        )
-        .query(
-          QueryOptions(
-            document: gql(body.toString()),
-            parserFn: (json) {
-              final transactionInputs = json.mapValues(
-                (transactionInputs) => (transactionInputs as List<dynamic>)
-                    .map(
-                      (transactionInput) => TransactionInput.fromJson(
-                        transactionInput as Map<String, dynamic>,
-                      ),
-                    )
-                    .toList(),
-                keysToIgnore: _responseKeysToIgnore,
-              );
-              return removeAliasPrefix<List<TransactionInput>>(
-                    transactionInputs,
-                  ) ??
-                  {};
-            },
-          ),
-        );
+        final result = await _client
+            .withLogger(
+              'getTransactionInputs',
+            )
+            .query(
+              QueryOptions(
+                document: gql(body.toString()),
+                parserFn: (json) {
+                  final transactionInputs = json.mapValues(
+                    (transactionInputs) => (transactionInputs as List<dynamic>)
+                        .map(
+                          (transactionInput) => TransactionInput.fromJson(
+                            transactionInput as Map<String, dynamic>,
+                          ),
+                        )
+                        .toList(),
+                    keysToIgnore: _responseKeysToIgnore,
+                  );
+                  return removeAliasPrefix<List<TransactionInput>>(
+                        transactionInputs,
+                      ) ??
+                      {};
+                },
+              ),
+            );
 
-    manageLinkException(result);
-    return result.parsedData ?? {};
+        manageLinkException(result);
+        return result.parsedData ?? {};
+      },
+      maxRetries: maxRetries,
+      retryDelay: retryDelay,
+    );
   }
 
   /// Query the network to find a transaction.
@@ -489,44 +532,50 @@ class ApiService with JsonRPCUtil {
     List<String> addresses, {
     String request = Transaction.kTransactionQueryAllFields,
   }) async {
-    if (addresses.isEmpty) {
-      return {};
-    }
+    return withRetry(
+      action: () async {
+        if (addresses.isEmpty) {
+          return {};
+        }
 
-    final fragment = 'fragment fields on Transaction { $request }';
-    final body = StringBuffer()..write('query { ');
-    for (final address in addresses) {
-      body.write(
-        ' _$address: transaction(address:"$address") { ...fields }',
-      );
-    }
-    body.write('} $fragment');
-    final result = await _client
-        .withLogger(
-          'getTransaction',
-        )
-        .query(
-          QueryOptions(
-            document: gql(body.toString()),
-            parserFn: (json) {
-              final transactions = json.mapValues(
-                (value) {
-                  if (value != null) {
-                    return Transaction.fromNodeRPC(
-                      value as Map<String, dynamic>,
-                    );
-                  }
+        final fragment = 'fragment fields on Transaction { $request }';
+        final body = StringBuffer()..write('query { ');
+        for (final address in addresses) {
+          body.write(
+            ' _$address: transaction(address:"$address") { ...fields }',
+          );
+        }
+        body.write('} $fragment');
+        final result = await _client
+            .withLogger(
+              'getTransaction',
+            )
+            .query(
+              QueryOptions(
+                document: gql(body.toString()),
+                parserFn: (json) {
+                  final transactions = json.mapValues(
+                    (value) {
+                      if (value != null) {
+                        return Transaction.fromNodeRPC(
+                          value as Map<String, dynamic>,
+                        );
+                      }
+                    },
+                    keysToIgnore: _responseKeysToIgnore,
+                  );
+                  return removeAliasPrefix<Transaction>(transactions) ?? {};
                 },
-                keysToIgnore: _responseKeysToIgnore,
-              );
-              return removeAliasPrefix<Transaction>(transactions) ?? {};
-            },
-          ),
-        );
+              ),
+            );
 
-    manageLinkException(result);
+        manageLinkException(result);
 
-    return result.parsedData ?? {};
+        return result.parsedData ?? {};
+      },
+      maxRetries: maxRetries,
+      retryDelay: retryDelay,
+    );
   }
 
   /// Get transaction fees
@@ -860,41 +909,53 @@ class ApiService with JsonRPCUtil {
 
   /// List the nearest endpoints nodes from the client's IP
   Future<List<Endpoint>> getNearestEndpoints() async {
-    const body = 'query { nearestEndpoints { ip, port } }';
+    return withRetry(
+      action: () async {
+        const body = 'query { nearestEndpoints { ip, port } }';
 
-    final result = await _client
-        .withLogger(
-          'getNearestEndpoints',
-        )
-        .query(
-          QueryOptions(
-            document: gql(body),
-            parserFn: (json) =>
-                NearestEndpointsResponseData.fromJson(json).endpoints,
-          ),
-        );
-    manageLinkException(result);
+        final result = await _client
+            .withLogger(
+              'getNearestEndpoints',
+            )
+            .query(
+              QueryOptions(
+                document: gql(body),
+                parserFn: (json) =>
+                    NearestEndpointsResponseData.fromJson(json).endpoints,
+              ),
+            );
+        manageLinkException(result);
 
-    return result.parsedData ?? [];
+        return result.parsedData ?? [];
+      },
+      maxRetries: maxRetries,
+      retryDelay: retryDelay,
+    );
   }
 
   /// Query the network to find the genesis address of a transaction
   Future<Address> getGenesisAddress(String address) async {
-    final body = 'query { genesisAddress (address:"$address") }';
+    return withRetry(
+      action: () async {
+        final body = 'query { genesisAddress (address:"$address") }';
 
-    final result = await _client
-        .withLogger(
-          'getGenesisAddress',
-        )
-        .query(
-          QueryOptions(
-            document: gql(body),
-            parserFn: (json) =>
-                GenesisAddressResponseData.fromJson(json).address,
-          ),
-        );
-    manageLinkException(result);
-    return result.parsedData ?? const Address(address: '');
+        final result = await _client
+            .withLogger(
+              'getGenesisAddress',
+            )
+            .query(
+              QueryOptions(
+                document: gql(body),
+                parserFn: (json) =>
+                    GenesisAddressResponseData.fromJson(json).address,
+              ),
+            );
+        manageLinkException(result);
+        return result.parsedData ?? const Address(address: '');
+      },
+      maxRetries: maxRetries,
+      retryDelay: retryDelay,
+    );
   }
 
   /// Call a smart contract's function
@@ -986,25 +1047,31 @@ class ApiService with JsonRPCUtil {
 
   /// Query the network to find the protocol, transaction and code versions
   Future<BlockchainVersionModel> getBlockchainVersion() async {
-    const body = 'query { version {code protocol transaction} }';
+    return withRetry(
+      action: () async {
+        const body = 'query { version {code protocol transaction} }';
 
-    final result = await _client
-        .withLogger(
-          'getBlockchainVersion',
-        )
-        .query(
-          QueryOptions(
-            document: gql(body),
-            parserFn: (json) => BlockchainVersionModel.fromJson(json),
-          ),
-        );
+        final result = await _client
+            .withLogger(
+              'getBlockchainVersion',
+            )
+            .query(
+              QueryOptions(
+                document: gql(body),
+                parserFn: (json) => BlockchainVersionModel.fromJson(json),
+              ),
+            );
 
-    manageLinkException(result);
+        manageLinkException(result);
 
-    return result.parsedData ??
-        const BlockchainVersionModel(
-          version: BlockchainVersion(protocol: '', transaction: ''),
-        );
+        return result.parsedData ??
+            const BlockchainVersionModel(
+              version: BlockchainVersion(protocol: '', transaction: ''),
+            );
+      },
+      maxRetries: maxRetries,
+      retryDelay: retryDelay,
+    );
   }
 
   /// Query the network to retrieve the unspent output of a chain (address should be the genesis address of the chain)
@@ -1015,59 +1082,65 @@ class ApiService with JsonRPCUtil {
     // pagingOffset should be a Sha256Hash
     String pagingOffset = '',
   }) async {
-    if (genesisAddresses.isEmpty) {
-      return {};
-    }
+    return withRetry(
+      action: () async {
+        if (genesisAddresses.isEmpty) {
+          return {};
+        }
 
-    final fragment = 'fragment fields on UnspentOutput { $request }';
-    final body = StringBuffer()..write('query { ');
-    for (final genesisAddress in genesisAddresses) {
-      body.write(
-        ' _$genesisAddress: chainUnspentOutputs(address:"$genesisAddress" ',
-      );
-      if (limit > 0) {
-        body.write(
-          ' limit:$limit ',
-        );
-      }
-      if (pagingOffset.isNotEmpty) {
-        body.write(
-          ' pagingOffset:$pagingOffset ',
-        );
-      }
-      body.write(
-        '  ) { ...fields } ',
-      );
-    }
-    body.write(' } $fragment');
+        final fragment = 'fragment fields on UnspentOutput { $request }';
+        final body = StringBuffer()..write('query { ');
+        for (final genesisAddress in genesisAddresses) {
+          body.write(
+            ' _$genesisAddress: chainUnspentOutputs(address:"$genesisAddress" ',
+          );
+          if (limit > 0) {
+            body.write(
+              ' limit:$limit ',
+            );
+          }
+          if (pagingOffset.isNotEmpty) {
+            body.write(
+              ' pagingOffset:$pagingOffset ',
+            );
+          }
+          body.write(
+            '  ) { ...fields } ',
+          );
+        }
+        body.write(' } $fragment');
 
-    final result = await _client
-        .withLogger(
-          'chainUnspentOutputs',
-        )
-        .query(
-          QueryOptions(
-            document: gql(body.toString()),
-            parserFn: (json) {
-              final unspentOutputs = json.mapValues(
-                (unspentOutputs) => (unspentOutputs as List<dynamic>)
-                    .map(
-                      (unspentOutput) => UnspentOutputs.fromJson(
-                        unspentOutput as Map<String, dynamic>,
-                      ),
-                    )
-                    .toList(),
-                keysToIgnore: _responseKeysToIgnore,
-              );
-              return removeAliasPrefix<List<UnspentOutputs>>(
-                    unspentOutputs,
-                  ) ??
-                  {};
-            },
-          ),
-        );
-    manageLinkException(result);
-    return result.parsedData ?? {};
+        final result = await _client
+            .withLogger(
+              'chainUnspentOutputs',
+            )
+            .query(
+              QueryOptions(
+                document: gql(body.toString()),
+                parserFn: (json) {
+                  final unspentOutputs = json.mapValues(
+                    (unspentOutputs) => (unspentOutputs as List<dynamic>)
+                        .map(
+                          (unspentOutput) => UnspentOutputs.fromJson(
+                            unspentOutput as Map<String, dynamic>,
+                          ),
+                        )
+                        .toList(),
+                    keysToIgnore: _responseKeysToIgnore,
+                  );
+                  return removeAliasPrefix<List<UnspentOutputs>>(
+                        unspentOutputs,
+                      ) ??
+                      {};
+                },
+              ),
+            );
+        manageLinkException(result);
+        return result.parsedData ?? {};
+      },
+      maxRetries: maxRetries,
+      retryDelay: retryDelay,
+    );
   }
 
   /// Handles exceptions from a [QueryResult].
