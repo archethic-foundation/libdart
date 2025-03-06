@@ -22,6 +22,11 @@ class ArchethicTooManyRequestsException implements ArchethicException {
 }
 
 @immutable
+class ArchethicServiceUnavailableException implements ArchethicException {
+  const ArchethicServiceUnavailableException();
+}
+
+@immutable
 class ArchethicKeychainNotExistsException implements ArchethicException {
   const ArchethicKeychainNotExistsException();
 }

@@ -1,3 +1,6 @@
+# 7.5.0
+- Implement Auto-Retry Mechanism for 429 Too Many Requests Error
+
 # 7.4.1
 - Upgrade `graphql 5.2.0-beta.11` dependency
  
