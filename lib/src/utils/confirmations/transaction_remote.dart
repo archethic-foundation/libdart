@@ -13,7 +13,7 @@ abstract class TransactionRemoteRepositoryInterface {
 
   Future<void> send({
     required Transaction transaction,
-    Duration timeout = const Duration(seconds: 10),
+    Duration timeout = const Duration(seconds: 70),
     required TransactionConfirmationHandler onConfirmation,
     required TransactionErrorHandler onError,
   });

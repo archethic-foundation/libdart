@@ -52,7 +52,7 @@ class ArchethicTransactionSender
     required Transaction transaction,
     bool Function(TransactionConfirmation) isEnoughConfirmations =
         _defaultIsEnoughConfirmation,
-    Duration timeout = const Duration(seconds: 30),
+    Duration timeout = const Duration(minutes: 70),
     TransactionConfirmationHandler? onConfirmation,
   }) async {
     assert(

@@ -1,3 +1,6 @@
+# 7.6.0
+- Increase blockchain's call timeout duration
+
 # 7.5.1
 - Upgrade dependencies
 - Add actionName in auto-retry Mechanism logs
