@@ -20,7 +20,7 @@ abstract class TransactionSenderInterface {
   Future<TransactionConfirmation?> send({
     required Transaction transaction,
     bool Function(TransactionConfirmation) isEnoughConfirmations,
-    Duration timeout = const Duration(seconds: 10),
+    Duration timeout = const Duration(seconds: 70),
     TransactionConfirmationHandler? onConfirmation,
   });
 
