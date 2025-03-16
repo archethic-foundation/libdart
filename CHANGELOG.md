@@ -1,3 +1,7 @@
+# 7.7.0
+- Upgrade `phoenix_socket` dependency
+- Upgrade flutter version to 3.27 
+ 
 # 7.6.0
 - Increase blockchain's call timeout duration
 
