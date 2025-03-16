@@ -12,16 +12,14 @@ jobs:
   workflow:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: dart-lang/setup-dart@v1
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          sdk: stable
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: stable
-
+          channel: "stable"
+          flutter-version: "3.27.4"
       - name: Install dependencies
         run: flutter pub get
-
       - name: Tests
         run: dart test --exclude-tags noCI
