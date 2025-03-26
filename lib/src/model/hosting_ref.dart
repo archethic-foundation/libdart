@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 import 'package:archethic_lib_dart/src/model/hosting_ref_content_metadata.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

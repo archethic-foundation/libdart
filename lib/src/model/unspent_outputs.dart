@@ -1,4 +1,3 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'unspent_outputs.freezed.dart';

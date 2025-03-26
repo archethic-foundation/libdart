@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 import 'package:archethic_lib_dart/src/model/contract.dart';
 import 'package:archethic_lib_dart/src/model/ledger.dart';
 import 'package:archethic_lib_dart/src/model/ownership.dart';

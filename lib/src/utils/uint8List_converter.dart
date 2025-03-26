@@ -1,4 +1,3 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
 // ignore_for_file: file_names
 
 import 'dart:typed_data' show Uint8List;

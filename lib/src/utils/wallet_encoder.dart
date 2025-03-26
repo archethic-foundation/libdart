@@ -1,4 +1,3 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:developer' as dev;
 import 'dart:math';
 import 'dart:typed_data';
