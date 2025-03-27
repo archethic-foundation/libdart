@@ -1,3 +1,6 @@
+# 7.7.1
+- License MIT
+
 # 7.7.0
 - Upgrade `phoenix_socket` dependency
 - Upgrade flutter version to 3.27 
