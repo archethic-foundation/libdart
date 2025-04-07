@@ -325,10 +325,10 @@ packages:
     dependency: "direct main"
     description:
       name: graphql
-      sha256: e15f0cb6299baacff816b844ca103ea0f3e85da30109ea6a0b7c3d58eaafc6ef
+      sha256: b67471ddb954fd538c5930f989c5072e038a9fc910afc85a8a926a7f9b8c56d3
       url: "https://pub.dev"
     source: hosted
-    version: "5.2.0-beta.11"
+    version: "5.2.0"
   graphs:
     dependency: transitive
     description:
@@ -501,10 +501,10 @@ packages:
     dependency: "direct main"
     description:
       name: phoenix_socket
-      sha256: "5a7853170dfa4b9312fadd6797cc2bd54dc8ab7f222b640cbc36216e67a92796"
+      sha256: befa09b9861b69f922e8b4854de3e40bf9601e381a89460dacdd1198799ca28a
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.7"
+    version: "0.8.0"
   pinenacl:
     dependency: "direct main"
     description:
@@ -517,10 +517,10 @@ packages:
     dependency: "direct main"
     description:
       name: pointycastle
-      sha256: "4be0097fcf3fd3e8449e53730c631200ebc7b88016acecab2b0da2f0149222fe"
+      sha256: "92aa3841d083cc4b0f4709b5c74fd6409a3e6ba833ffc7dc6a8fee096366acf5"
       url: "https://pub.dev"
     source: hosted
-    version: "3.9.1"
+    version: "4.0.0"
   pool:
     dependency: transitive
     description:

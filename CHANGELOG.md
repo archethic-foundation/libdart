@@ -1,3 +1,6 @@
+# 7.7.2
+- Upgrade dependencies
+
 # 7.7.1
 - License MIT
 

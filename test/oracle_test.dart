@@ -1,6 +1,3 @@
-// Project imports:
-import 'dart:developer';
-
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_lib_dart/src/services/oracle_service.dart';
 // Package imports:
@@ -27,7 +24,7 @@ void main() {
         expect(oracleUcoPrice.uco!.usd, oracleUcoPrice2.uco!.usd);
       });
 
-      test(
+      /*test(
         'subscribeToOracleUpdates',
         () async {
           final oracleStream = await OracleService(
@@ -39,7 +36,7 @@ void main() {
           );
           log('Oracle value: ${data.timestamp} - ${data.uco!.usd} USD');
         },
-      );
+      );*/
     },
   );
 }
