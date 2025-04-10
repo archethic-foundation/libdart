@@ -1,3 +1,6 @@
+# 7.7.3
+- Notification Util uses archethic `KeyPair` class instead of the `crypto_keys` one.
+
 # 7.7.2
 - Upgrade dependencies
 
