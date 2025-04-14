@@ -343,6 +343,7 @@ void main() {
 
         final tx = Transaction(
           type: 'transfer',
+          // ignore: avoid_redundant_argument_values
           version: 4,
           data: Transaction.initData(),
           address: Address(address: uint8ListToHex(address)),
@@ -1097,6 +1098,7 @@ condition inherit: [
         const text = 'Test trigger HelloWorld 001';
         final tx = Transaction(
           // Version 4 forced
+          // ignore: avoid_redundant_argument_values
           version: 4,
           type: 'data',
           data: Transaction.initData(),
