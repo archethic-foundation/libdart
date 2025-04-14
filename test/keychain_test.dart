@@ -107,10 +107,11 @@ void main() {
       final seed = Uint8List.fromList(utf8.encode('myseed'));
 
       final keychain =
-          Keychain(seed: seed).copyWithService('uco', "m/650'/0/0");
+          // ignore: avoid_redundant_argument_values
+          Keychain(seed: seed, version: 4).copyWithService('uco', "m/650'/0/0");
 
       final expectedBinary = concatUint8List(<Uint8List>[
-        Uint8List.fromList(<int>[0, 0, 0, 3]), // Version
+        Uint8List.fromList(<int>[0, 0, 0, 4]), // Version
         Uint8List.fromList(<int>[6]), // Seed size
         Uint8List.fromList(utf8.encode('myseed')),
         Uint8List.fromList(<int>[1]), // Nb of services
