@@ -69,12 +69,10 @@ _$ContractImpl _$$ContractImplFromJson(Map<String, dynamic> json) =>
       bytecode: json['bytecode'] as String?,
       manifest:
           ContractManifest.fromJson(json['manifest'] as Map<String, dynamic>),
-      compressed: json['compressed'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$$ContractImplToJson(_$ContractImpl instance) =>
     <String, dynamic>{
       'bytecode': instance.bytecode,
       'manifest': instance.manifest,
-      'compressed': instance.compressed,
     };

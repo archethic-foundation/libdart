@@ -1,3 +1,6 @@
+# 7.8.1
+- Fix tests
+
 # 7.8.0
 - WASM Activation in mainnet network
 

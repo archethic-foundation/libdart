@@ -746,7 +746,6 @@ Contract _$ContractFromJson(Map<String, dynamic> json) {
 mixin _$Contract {
   String? get bytecode => throw _privateConstructorUsedError;
   ContractManifest get manifest => throw _privateConstructorUsedError;
-  bool get compressed => throw _privateConstructorUsedError;
 
   /// Serializes this Contract to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -763,7 +762,7 @@ abstract class $ContractCopyWith<$Res> {
   factory $ContractCopyWith(Contract value, $Res Function(Contract) then) =
       _$ContractCopyWithImpl<$Res, Contract>;
   @useResult
-  $Res call({String? bytecode, ContractManifest manifest, bool compressed});
+  $Res call({String? bytecode, ContractManifest manifest});
 
   $ContractManifestCopyWith<$Res> get manifest;
 }
@@ -785,7 +784,6 @@ class _$ContractCopyWithImpl<$Res, $Val extends Contract>
   $Res call({
     Object? bytecode = freezed,
     Object? manifest = null,
-    Object? compressed = null,
   }) {
     return _then(_value.copyWith(
       bytecode: freezed == bytecode
@@ -796,10 +794,6 @@ class _$ContractCopyWithImpl<$Res, $Val extends Contract>
           ? _value.manifest
           : manifest // ignore: cast_nullable_to_non_nullable
               as ContractManifest,
-      compressed: null == compressed
-          ? _value.compressed
-          : compressed // ignore: cast_nullable_to_non_nullable
-              as bool,
     ) as $Val);
   }
 
@@ -822,7 +816,7 @@ abstract class _$$ContractImplCopyWith<$Res>
       __$$ContractImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? bytecode, ContractManifest manifest, bool compressed});
+  $Res call({String? bytecode, ContractManifest manifest});
 
   @override
   $ContractManifestCopyWith<$Res> get manifest;
@@ -843,7 +837,6 @@ class __$$ContractImplCopyWithImpl<$Res>
   $Res call({
     Object? bytecode = freezed,
     Object? manifest = null,
-    Object? compressed = null,
   }) {
     return _then(_$ContractImpl(
       bytecode: freezed == bytecode
@@ -854,10 +847,6 @@ class __$$ContractImplCopyWithImpl<$Res>
           ? _value.manifest
           : manifest // ignore: cast_nullable_to_non_nullable
               as ContractManifest,
-      compressed: null == compressed
-          ? _value.compressed
-          : compressed // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -865,8 +854,7 @@ class __$$ContractImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ContractImpl extends _Contract {
-  const _$ContractImpl(
-      {required this.bytecode, required this.manifest, this.compressed = true})
+  const _$ContractImpl({required this.bytecode, required this.manifest})
       : super._();
 
   factory _$ContractImpl.fromJson(Map<String, dynamic> json) =>
@@ -876,13 +864,10 @@ class _$ContractImpl extends _Contract {
   final String? bytecode;
   @override
   final ContractManifest manifest;
-  @override
-  @JsonKey()
-  final bool compressed;
 
   @override
   String toString() {
-    return 'Contract(bytecode: $bytecode, manifest: $manifest, compressed: $compressed)';
+    return 'Contract(bytecode: $bytecode, manifest: $manifest)';
   }
 
   @override
@@ -893,14 +878,12 @@ class _$ContractImpl extends _Contract {
             (identical(other.bytecode, bytecode) ||
                 other.bytecode == bytecode) &&
             (identical(other.manifest, manifest) ||
-                other.manifest == manifest) &&
-            (identical(other.compressed, compressed) ||
-                other.compressed == compressed));
+                other.manifest == manifest));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, bytecode, manifest, compressed);
+  int get hashCode => Object.hash(runtimeType, bytecode, manifest);
 
   /// Create a copy of Contract
   /// with the given fields replaced by the non-null parameter values.
@@ -921,8 +904,7 @@ class _$ContractImpl extends _Contract {
 abstract class _Contract extends Contract {
   const factory _Contract(
       {required final String? bytecode,
-      required final ContractManifest manifest,
-      final bool compressed}) = _$ContractImpl;
+      required final ContractManifest manifest}) = _$ContractImpl;
   const _Contract._() : super._();
 
   factory _Contract.fromJson(Map<String, dynamic> json) =
@@ -932,8 +914,6 @@ abstract class _Contract extends Contract {
   String? get bytecode;
   @override
   ContractManifest get manifest;
-  @override
-  bool get compressed;
 
   /// Create a copy of Contract
   /// with the given fields replaced by the non-null parameter values.
