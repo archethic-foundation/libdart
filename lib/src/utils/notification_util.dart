@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 
-import 'package:archethic_lib_dart/crypto_keys/crypto_keys.dart';
+import 'package:archethic_lib_dart/src/model/crypto/key_pair.dart';
 import 'package:archethic_lib_dart/src/model/transaction_notification.dart';
 import 'package:archethic_lib_dart/src/utils/crypto.dart' as crypto;
 import 'package:archethic_lib_dart/src/utils/utils.dart';
