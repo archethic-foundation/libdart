@@ -9,7 +9,6 @@ import 'package:test/test.dart';
 
 import 'utils.dart';
 
-const version = 3;
 const kEndpoint = 'https://testnet.archethic.net';
 
 void main() {
@@ -26,6 +25,7 @@ void main() {
             () => Transaction(
               type: 'transfer',
               data: Transaction.initData(),
+              // ignore: avoid_redundant_argument_values
               version: 4,
             ).setCode('my smart contract code'),
             throwsA(isA<AssertionError>()),
@@ -37,6 +37,7 @@ void main() {
           final tx = Transaction(
             type: 'transfer',
             data: Transaction.initData(),
+            version: 3,
           ).setCode('my smart contract code');
           expect(tx.data!.code, 'my smart contract code');
         });
@@ -49,6 +50,7 @@ void main() {
           expect(
             () => Transaction(
               type: 'transfer',
+              version: 3,
               data: Transaction.initData(),
             ).setContract(
               const Contract(
@@ -68,6 +70,7 @@ void main() {
           final tx = Transaction(
             type: 'transfer',
             data: Transaction.initData(),
+            // ignore: avoid_redundant_argument_values
             version: 4,
           ).setContract(
             const Contract(
@@ -204,6 +207,7 @@ void main() {
 
         final tx = Transaction(
           type: 'transfer',
+          version: 3,
           data: Transaction.initData(),
           address: Address(address: uint8ListToHex(address)),
           previousPublicKey:
@@ -235,7 +239,7 @@ void main() {
         final payload = tx.previousSignaturePayload();
         final expectedBinary = concatUint8List(<Uint8List>[
           // Version
-          toByteArray(version, length: 4),
+          toByteArray(3, length: 4),
           Uint8List.fromList(hexToUint8List(tx.address!.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
@@ -535,7 +539,11 @@ condition inherit: [
         const content =
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
         final secret = uint8ListToHex(Uint8List.fromList('mysecret'.codeUnits));
-        final tx = Transaction(type: 'transfer', data: Transaction.initData())
+        final tx = Transaction(
+          type: 'transfer',
+          data: Transaction.initData(),
+          version: 3,
+        )
             .addOwnership(secret, <AuthorizedKey>[
               const AuthorizedKey(
                 publicKey:
@@ -570,7 +578,7 @@ condition inherit: [
         final payload = tx.originSignaturePayload();
         final expectedBinary = concatUint8List(<Uint8List>[
           // Version
-          toByteArray(version, length: 4),
+          toByteArray(3, length: 4),
           Uint8List.fromList(hexToUint8List(tx.address!.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
@@ -671,7 +679,11 @@ condition inherit: [
         const content =
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet leo egestas, lobortis lectus a, dignissim orci.';
         final secret = uint8ListToHex(Uint8List.fromList('mysecret'.codeUnits));
-        final tx = Transaction(type: 'transfer', data: Transaction.initData())
+        final tx = Transaction(
+          type: 'transfer',
+          data: Transaction.initData(),
+          version: 3,
+        )
             .addOwnership(secret, <AuthorizedKey>[
               const AuthorizedKey(
                 publicKey:
@@ -702,7 +714,7 @@ condition inherit: [
         final payload = tx.previousSignaturePayload();
         final expectedBinary = concatUint8List(<Uint8List>[
           // Version
-          toByteArray(version, length: 4),
+          toByteArray(3, length: 4),
           Uint8List.fromList(hexToUint8List(tx.address!.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
@@ -793,6 +805,8 @@ condition inherit: [
         final keypair = crypto.deriveKeyPair('seed', 0, isSeedHexa: false);
         final tx = Transaction(
           type: 'transfer',
+          // ignore: avoid_redundant_argument_values
+          version: 3,
           data: Transaction.initData(),
           address: Address(
             address: crypto.deriveAddress('seed', 1, isSeedHexa: false),
@@ -810,7 +824,7 @@ condition inherit: [
         final payload = tx.previousSignaturePayload();
         final expectedBinary = concatUint8List(<Uint8List>[
           // Version
-          toByteArray(version, length: 4),
+          toByteArray(3, length: 4),
           Uint8List.fromList(hexToUint8List(tx.address!.address!)),
           Uint8List.fromList(<int>[253]),
           //Code size
@@ -1042,6 +1056,7 @@ condition inherit: [
         const text = 'Test trigger HelloWorld 001';
         final tx = Transaction(
           type: 'data',
+          version: 3,
           data: Data.fromJson(<String, dynamic>{
             'code': '',
             'ownerships': <Map<String, dynamic>>[],

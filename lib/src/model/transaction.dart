@@ -25,7 +25,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'transaction.freezed.dart';
 part 'transaction.g.dart';
 
-const int kVersion = 3;
+const int kVersion = 4;
 
 const Map<String, int> txTypes = <String, int>{
   /// User based transaction types

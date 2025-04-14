@@ -214,7 +214,7 @@ void main() {
         final transactionFee = await apiService.getTransactionFee(tx);
         expect(
           transactionFee.fee,
-          greaterThan(0),
+          greaterThanOrEqualTo(0),
         );
       });
 

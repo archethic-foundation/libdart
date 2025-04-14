@@ -18,7 +18,7 @@ part 'keychain.freezed.dart';
 part 'keychain.g.dart';
 
 const int keychainOriginId = 0;
-const kVersion3 = 3;
+const kVersion3 = 4;
 
 @freezed
 class Keychain with _$Keychain {
