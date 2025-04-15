@@ -1,3 +1,6 @@
+# 7.9.0
+- Remove Messaging related code.
+
 # 7.8.1
 - Fix tests
 
