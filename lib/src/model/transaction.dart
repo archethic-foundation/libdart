@@ -593,21 +593,38 @@ class Transaction with _$Transaction {
             hexToUint8List(recipient.address!),
           ]);
         } else {
-          final serializedArgs = recipient.args!
-              .map((arg) => typed_encoding.serialize(arg))
-              .toList();
-          recipientsBuffers = concatUint8List(
-            <Uint8List>[
-              recipientsBuffers,
-              // 1 = named action
-              Uint8List.fromList([1]),
-              hexToUint8List(recipient.address!),
-              toByteArray(recipient.action!.length),
-              Uint8List.fromList(utf8.encode(recipient.action!)),
-              Uint8List.fromList([serializedArgs.length]),
-              ...serializedArgs,
-            ],
-          );
+          if (version <= 3) {
+            final _args = recipient.args! as List<dynamic>;
+            final serializedArgs =
+                _args.map((arg) => typed_encoding.serialize(arg)).toList();
+            recipientsBuffers = concatUint8List(
+              <Uint8List>[
+                recipientsBuffers,
+                // 1 = named action
+                Uint8List.fromList([1]),
+                hexToUint8List(recipient.address!),
+                toByteArray(recipient.action!.length),
+                Uint8List.fromList(utf8.encode(recipient.action!)),
+                Uint8List.fromList([serializedArgs.length]),
+                ...serializedArgs,
+              ],
+            );
+          } else {
+            final _args = recipient.args! as Map<String, dynamic>;
+            final serializedArgs = typed_encoding.serialize(_args);
+            recipientsBuffers = concatUint8List(
+              <Uint8List>[
+                recipientsBuffers,
+                // 1 = named action
+                Uint8List.fromList([1]),
+                hexToUint8List(recipient.address!),
+                toByteArray(recipient.action!.length),
+                Uint8List.fromList(utf8.encode(recipient.action!)),
+                Uint8List.fromList([serializedArgs.length]),
+                serializedArgs,
+              ],
+            );
+          }
         }
       }
     }

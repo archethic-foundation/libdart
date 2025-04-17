@@ -27,7 +27,7 @@ mixin _$Recipient {
   String? get address => throw _privateConstructorUsedError;
 
   /// List of arguments for the action (must contain only JSON valid data)
-  List<Object>? get args => throw _privateConstructorUsedError;
+  dynamic get args => throw _privateConstructorUsedError;
 
   /// Serializes this Recipient to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $RecipientCopyWith<$Res> {
   factory $RecipientCopyWith(Recipient value, $Res Function(Recipient) then) =
       _$RecipientCopyWithImpl<$Res, Recipient>;
   @useResult
-  $Res call({String? action, String? address, List<Object>? args});
+  $Res call({String? action, String? address, dynamic args});
 }
 
 /// @nodoc
@@ -78,7 +78,7 @@ class _$RecipientCopyWithImpl<$Res, $Val extends Recipient>
       args: freezed == args
           ? _value.args
           : args // ignore: cast_nullable_to_non_nullable
-              as List<Object>?,
+              as dynamic,
     ) as $Val);
   }
 }
@@ -91,7 +91,7 @@ abstract class _$$RecipientImplCopyWith<$Res>
       __$$RecipientImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? action, String? address, List<Object>? args});
+  $Res call({String? action, String? address, dynamic args});
 }
 
 /// @nodoc
@@ -121,9 +121,9 @@ class __$$RecipientImplCopyWithImpl<$Res>
           : address // ignore: cast_nullable_to_non_nullable
               as String?,
       args: freezed == args
-          ? _value._args
+          ? _value.args
           : args // ignore: cast_nullable_to_non_nullable
-              as List<Object>?,
+              as dynamic,
     ));
   }
 }
@@ -131,9 +131,7 @@ class __$$RecipientImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$RecipientImpl extends _Recipient {
-  const _$RecipientImpl({this.action, this.address, final List<Object>? args})
-      : _args = args,
-        super._();
+  const _$RecipientImpl({this.action, this.address, this.args}) : super._();
 
   factory _$RecipientImpl.fromJson(Map<String, dynamic> json) =>
       _$$RecipientImplFromJson(json);
@@ -147,17 +145,8 @@ class _$RecipientImpl extends _Recipient {
   final String? address;
 
   /// List of arguments for the action (must contain only JSON valid data)
-  final List<Object>? _args;
-
-  /// List of arguments for the action (must contain only JSON valid data)
   @override
-  List<Object>? get args {
-    final value = _args;
-    if (value == null) return null;
-    if (_args is EqualUnmodifiableListView) return _args;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+  final dynamic args;
 
   @override
   String toString() {
@@ -171,13 +160,13 @@ class _$RecipientImpl extends _Recipient {
             other is _$RecipientImpl &&
             (identical(other.action, action) || other.action == action) &&
             (identical(other.address, address) || other.address == address) &&
-            const DeepCollectionEquality().equals(other._args, _args));
+            const DeepCollectionEquality().equals(other.args, args));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, action, address, const DeepCollectionEquality().hash(_args));
+      runtimeType, action, address, const DeepCollectionEquality().hash(args));
 
   /// Create a copy of Recipient
   /// with the given fields replaced by the non-null parameter values.
@@ -199,7 +188,7 @@ abstract class _Recipient extends Recipient {
   const factory _Recipient(
       {final String? action,
       final String? address,
-      final List<Object>? args}) = _$RecipientImpl;
+      final dynamic args}) = _$RecipientImpl;
   const _Recipient._() : super._();
 
   factory _Recipient.fromJson(Map<String, dynamic> json) =
@@ -215,7 +204,7 @@ abstract class _Recipient extends Recipient {
 
   /// List of arguments for the action (must contain only JSON valid data)
   @override
-  List<Object>? get args;
+  dynamic get args;
 
   /// Create a copy of Recipient
   /// with the given fields replaced by the non-null parameter values.

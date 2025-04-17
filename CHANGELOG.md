@@ -1,3 +1,6 @@
+# 7.9.1
+- Transaction v4 - Fix args' recipients type
+
 # 7.9.0
 - Remove Messaging related code.
 
