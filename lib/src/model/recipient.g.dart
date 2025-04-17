@@ -10,7 +10,7 @@ _$RecipientImpl _$$RecipientImplFromJson(Map<String, dynamic> json) =>
     _$RecipientImpl(
       action: json['action'] as String?,
       address: json['address'] as String?,
-      args: (json['args'] as List<dynamic>?)?.map((e) => e as Object).toList(),
+      args: json['args'],
     );
 
 Map<String, dynamic> _$$RecipientImplToJson(_$RecipientImpl instance) =>

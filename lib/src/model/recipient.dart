@@ -14,7 +14,7 @@ class Recipient with _$Recipient {
     String? address,
 
     /// List of arguments for the action (must contain only JSON valid data)
-    List<Object>? args,
+    dynamic args,
   }) = _Recipient;
   const Recipient._();
 
