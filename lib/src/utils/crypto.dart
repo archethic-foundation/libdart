@@ -35,6 +35,8 @@ int hashAlgoToID(String hashAlgo) {
       return 3;
     case 'blake2b':
       return 4;
+    case 'keccak256':
+      return 5;
     default:
       throw 'Hash algorithm not supported';
   }
@@ -53,6 +55,8 @@ String idToHashAlgo(int id) {
       return 'sha3-512';
     case 4:
       return 'blake2b';
+    case 5:
+      return 'keccak256';
     default:
       throw 'Hash algorithm ID not supported';
   }
