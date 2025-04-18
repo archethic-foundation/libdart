@@ -169,33 +169,45 @@ class Keychain with _$Keychain {
     final authentications = List<String>.empty(growable: true);
 
     services.forEach((String serviceName, Service service) {
-      final purpose = service.derivationPath
-          .split('/')
-          .map((String e) => e.replaceAll("'", ''))
-          .elementAt(1);
+      try {
+        final purpose = service.derivationPath
+            .split('/')
+            .map((String e) => e.replaceAll("'", ''))
+            .elementAt(1);
 
-      // Only support of archethic derivation scheme for now
-      if (purpose == '650') {
-        final keyPair = deriveArchethicKeypair(
-          seed,
-          service.derivationPath,
-          0,
-          curve: service.curve,
-        );
+        // Only support of archethic derivation scheme for now
+        if (purpose == '650') {
+          final keyPair = deriveArchethicKeypair(
+            seed,
+            service.derivationPath,
+            0,
+            curve: service.curve,
+          );
 
-        verificationMethods.add(<String, dynamic>{
-          'id': 'did:archethic:$address#$serviceName',
-          'type': 'JsonWebKey2020',
-          'publicKeyJwk':
-              keyToJWK(Uint8List.fromList(keyPair.publicKey!), serviceName)
-                  .toJson(),
-          'controller': 'did:archethic:$address',
-        });
+          verificationMethods.add(<String, dynamic>{
+            'id': 'did:archethic:$address#$serviceName',
+            'type': 'JsonWebKey2020',
+            'publicKeyJwk':
+                keyToJWK(Uint8List.fromList(keyPair.publicKey!), serviceName)
+                    .toJson(),
+            'controller': 'did:archethic:$address',
+          });
 
-        authentications.add('did:archethic:$address#$serviceName');
-      } else {
-        throw Exception("Purpose '$purpose' is not yet supported");
-      }
+          authentications.add('did:archethic:$address#$serviceName');
+
+          // else if (purpose == '44') {
+          //   // >>> DO NOT ADD FOR NOW <<<
+          //   // BIP44/EVM key derivation is not implemented here.
+          //   // We simply ignore these services for DID generation.
+          //   // print("Ignoring purpose '44' for DID generation: $serviceName");
+          // }
+          // else {
+          //   // Silently ignore other unknown 'purpose' values instead of crashing
+          //   print("Ignoring unknown purpose '$purpose' for DID generation: $serviceName");
+          // }
+        }
+        // ignore: empty_catches
+      } catch (e) {}
     });
 
     return <String, dynamic>{
@@ -203,8 +215,9 @@ class Keychain with _$Keychain {
         'https://www.w3.org/ns/did/v1',
       ],
       'id': 'did:archethic:$address',
-      'authentication': authentications,
-      'verificationMethod': verificationMethods,
+      'authentication': authentications, // Will only contain the '650' keys
+      'verificationMethod':
+          verificationMethods, // Will only contain the '650' keys
     };
   }
 
