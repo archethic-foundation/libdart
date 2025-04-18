@@ -1,3 +1,6 @@
+# 7.9.2
+- Transaction v4 - Fix previous Signature Payload generation
+
 # 7.9.1
 - Transaction v4 - Fix args' recipients type
 

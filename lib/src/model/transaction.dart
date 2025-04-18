@@ -620,7 +620,6 @@ class Transaction with _$Transaction {
                 hexToUint8List(recipient.address!),
                 toByteArray(recipient.action!.length),
                 Uint8List.fromList(utf8.encode(recipient.action!)),
-                Uint8List.fromList([serializedArgs.length]),
                 serializedArgs,
               ],
             );
